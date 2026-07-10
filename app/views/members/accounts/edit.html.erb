@@ -17,7 +17,11 @@
       <%= f.input :phones, as: :string, required: true %>
     </div>
 
-    <div data-controller="visibility" class="my-6" aria-label="Billing">
+    <div
+      data-controller="visibility"
+      class="my-6"
+      aria-label="<%= t("active_admin.resource.show.billing") %>"
+    >
       <%= f.input :different_billing_info, as: :boolean, input_html: { data: { action: "visibility#toggle" } } %>
 
       <div

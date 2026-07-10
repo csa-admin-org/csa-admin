@@ -127,7 +127,7 @@ _:
           Lo storico delle tue fatture può essere visualizzato in qualsiasi momento sulla tua pagina utente.
         _nl: |-
           Verschil tussen alle bestaande facturen en alle betalingen op het moment van uitgifte van deze factuur.
-          De geschiedenis van uw facturen is altijd te bekijken op uw ledenpagina.
+          De geschiedenis van je facturen is altijd te bekijken op je ledenpagina.
       extra_credit:
         _en: Remaining credit
         _fr: Avoir restant
@@ -149,7 +149,7 @@ _:
       missed_activity_participation/basket_preparation:
         _en: Missed basket preparation (%{year})
         _fr: Mise en panier non-effectuée (%{year})
-        _de: Nicht geleistete Taschen befüllung (%{year})
+        _de: Nicht geleistete Taschenbefüllung (%{year})
         _it: Preparazione ceste non effettuata (%{year})
         _nl: Gemiste pakketvoorbereiding (%{year})
       missed_activity_participation/day_work:
@@ -160,20 +160,20 @@ _:
         _nl: Gemiste werkdag (%{year})
       missed_activity_participation/halfday_work:
         _en: Missed half-day (%{year})
-        _fr: "½ journée non-effectuée (%{year})"
-        _de: nicht geleisteter ½ Tag (%{year})
+        _fr: "½ journée non effectuée (%{year})"
+        _de: Nicht geleisteter ½ Tag (%{year})
         _it: "½ giornata non effettuata (%{year})"
         _nl: Gemiste halve dag (%{year})
       missed_activity_participation/hour_work:
         _en: Missed hour of work (%{year})
-        _fr: Heure de travail non-effectuée (%{year})
-        _de: nicht geleisteter Arbeitsstunde (%{year})
+        _fr: Heure de travail non effectuée (%{year})
+        _de: Nicht geleistete Arbeitsstunde (%{year})
         _it: Ora di lavoro non effettuata (%{year})
         _nl: Gemist uur werk (%{year})
       missed_activity_participation_with_date/basket_preparation:
         _en: Missed basket preparation on %{date}
         _fr: Mise en panier du %{date} non-effectuée
-        _de: Nicht geleistete Taschen befüllung vom %{date}
+        _de: Nicht geleistete Taschenbefüllung vom %{date}
         _it: Preparazione ceste del %{date} non effettuata
         _nl: Gemiste pakketvoorbereiding op %{date}
       missed_activity_participation_with_date/day_work:
@@ -184,27 +184,27 @@ _:
         _nl: Gemiste werkdag op %{date}
       missed_activity_participation_with_date/halfday_work:
         _en: Missed half-day on %{date}
-        _fr: "½ journée du %{date} non-effectuée"
-        _de: nicht geleisteter ½ Tag vom %{date}
+        _fr: "½ journée du %{date} non effectuée"
+        _de: Nicht geleisteter ½ Tag vom %{date}
         _it: "½ giornata del %{date} non effettuata"
         _nl: Gemiste halve dag op %{date}
       missed_activity_participation_with_date/hour_work:
         _en: Missed hour of work on %{date}
-        _fr: Heure de travail du %{date} non-effectuée
-        _de: nicht geleisteter Arbeitsstunde vom %{date}
+        _fr: Heure de travail du %{date} non effectuée
+        _de: Nicht geleistete Arbeitsstunde vom %{date}
         _it: Ora di lavoro del %{date} non effettuata
         _nl: Gemist uur werk op %{date}
       missed_activity_participations/basket_preparation:
         _en: "%{count} missed basket preparations (%{year})"
         _fr: "%{count} mises en panier non effectuées (%{year})"
-        _de: "%{count} nicht geleistete Taschen befüllung (%{year})"
+        _de: "%{count} nicht geleistete Taschenbefüllung (%{year})"
         _it: "%{count} preparazioni ceste non effettuate (%{year})"
         _nl: "%{count} gemiste pakketvoorbereidingen (%{year})"
       missed_activity_participations/day_work:
         _en: "%{count} missed workdays (%{year})"
         _fr: "%{count} journées de travail non effectuées (%{year})"
         _de: "%{count} nicht geleistete Arbeitstage (%{year})"
-        _it: "%{count} giorni di lavoro non effettuato (%{year})"
+        _it: "%{count} giorni di lavoro non effettuati (%{year})"
         _nl: "%{count} gemiste werkdagen (%{year})"
       missed_activity_participations/halfday_work:
         _en: "%{count} missed half-days (%{year})"
@@ -214,7 +214,7 @@ _:
         _nl: "%{count} gemiste halve dagen (%{year})"
       missed_activity_participations/hour_work:
         _en: "%{count} missed hours of work (%{year})"
-        _fr: "%{count} heure de travail non effectuées (%{year})"
+        _fr: "%{count} heures de travail non effectuées (%{year})"
         _de: "%{count} nicht geleistete Arbeitsstunden (%{year})"
         _it: "%{count} ore di lavoro non effettuate (%{year})"
         _nl: "%{count} gemiste werkuren (%{year})"
@@ -224,6 +224,12 @@ _:
         _de: Zu begleichen
         _it: Da pagare
         _nl: Te betalen
+      numbered:
+        _en: "%{label} No."
+        _fr: "%{label} n°"
+        _de: "%{label} Nr."
+        _it: "%{label} n."
+        _nl: "%{label} nr."
       paid_memberships_amount:
         _en: Already invoiced
         _fr: Déjà facturé
@@ -422,10 +428,10 @@ _:
           _fr: Échec de l'envoi de l'ordre de paiement SEPA
           _de: SEPA Lastschriftauftrag konnte nicht hochgeladen werden
           _it: Impossibile caricare l'ordine di pagamento SEPA
-          _nl: SEPA-direct-debet-order kon niet geüpload worden
+          _nl: SEPA-incasso-opdracht kon niet worden geüpload
         notice:
           _en: SEPA direct debit order uploaded successfully
           _fr: Ordre de paiement SEPA envoyé avec succès
           _de: SEPA Lastschriftauftrag erfolgreich hochgeladen
           _it: Ordine di pagamento SEPA caricato correttamente
-          _nl: SEPA-direct-debet-order succesvol geüpload
+          _nl: SEPA-incasso-opdracht is succesvol geüpload

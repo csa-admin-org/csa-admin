@@ -8,7 +8,7 @@ Email templates are organized by category:
 
 - **Member**: Sent when a member's status changes (validated, activated).
 - **<%= Basket.model_name.human %>**: Sent at key moments of the membership (first <%= Basket.model_name.human.downcase %>, last <%= Basket.model_name.human.downcase %>, trial period, ...).
-- **Invoice**: Sent when invoices are created, cancelled, or overdue.
+- **Invoice**: Sent when invoices are created, canceled, or overdue.
 <% if Current.org.feature?("absence") %>
 - **Absence**: Sent when an absence is confirmed or when <%= Basket.model_name.human(count: 2).downcase %> are shifted.
 <% end %>

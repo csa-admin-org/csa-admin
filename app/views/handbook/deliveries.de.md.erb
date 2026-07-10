@@ -14,14 +14,14 @@ Einige Organisationen bieten verschiedene Lieferoptionen an, zum Beispiel:
 - Lieferungen jede Woche oder jede zweite Woche.
 - Lieferungen nur im Winter oder im Sommer.
 
-[Die Lieferzyklen](/delivery_cycles) ermöglichen es, bestehende Lieferungen eines Geschäftsjahres dynamisch nach Deinen Bedürfnissen zu gruppieren und bieten Dir so große Flexibilität bei der Verwaltung Deiner Lieferungen. Jedes Abonnement ist mit einem Lieferzyklus verbunden, der die Lieferdaten und die Anzahl der <%= Basket.model_name.human(count: 2) %> bestimmt.
+[Die Lieferzyklen](/delivery_cycles) ermöglichen es, bestehende Lieferungen eines Geschäftsjahres dynamisch nach Deinen Bedürfnissen zu gruppieren und bieten Dir so grosse Flexibilität bei der Verwaltung Deiner Lieferungen. Jedes Abonnement ist mit einem Lieferzyklus verbunden, der die Lieferdaten und die Anzahl der <%= Basket.model_name.human(count: 2) %> bestimmt.
 
 ### Einstellungen {#settings}
 
 Einstellungen definieren die erste Auswahl der Lieferungen für diesen Zyklus. Diese Filter werden zuerst angewendet:
 
 - **Tage**: Wähle, welche Wochentage eingeschlossen sind (z.B. nur Montage).
-- **Ab Woche / Bis Woche**: Beschränke Lieferungen auf einen bestimmten Bereich von Wochennummern. Nützlich für saisonale Zyklen (z.B. Woche 18 bis Woche 42 für eine Sommersaison). Wenn beide Grenzen gesetzt sind, wird eine Option **"Wochenbereich ausschließen"** verfügbar, um die Logik umzukehren—Lieferungen innerhalb des Bereichs werden ausgeschlossen statt außerhalb (z.B. um eine Ferienzeit zu überspringen).
+- **Ab Woche / Bis Woche**: Beschränke Lieferungen auf einen bestimmten Bereich von Wochennummern. Nützlich für saisonale Zyklen (z.B. Woche 18 bis Woche 42 für eine Sommersaison). Wenn beide Grenzen gesetzt sind, wird eine Option **"Wochenbereich ausschliessen"** verfügbar, um die Logik umzukehren—Lieferungen innerhalb des Bereichs werden ausgeschlossen statt ausserhalb (z.B. um eine Ferienzeit zu überspringen).
 
 ### Zeiträume {#periods}
 
@@ -46,16 +46,16 @@ Die Auswahl eines Lieferzyklus im Anmeldeformular hängt von der Konfiguration s
 
 ### Gleichmässige Verteilung (jede zweite Woche) {#even-odd-distribution}
 
-Wenn Lieferungen jede zweite Woche angeboten werden, sollen die Mitglieder wahrscheinlich gleichmässig auf gerade und ungerade Wochen verteilt werden. Ein einzelner Zyklus „jede zweite Woche" würde jedoch allen Mitgliedern dieselben Wochen zuweisen.
+Wenn Lieferungen jede zweite Woche angeboten werden, sollen die Mitglieder wahrscheinlich gleichmässig auf gerade und ungerade Wochen verteilt werden. Ein einzelner Zyklus "jede zweite Woche" würde jedoch allen Mitgliedern dieselben Wochen zuweisen.
 
-Die Lösung besteht darin, **zwei separate Zyklen** zu erstellen, einen mit der Lieferungsauswahl „Gerade" und den anderen mit „Ungerade", und den Mitgliedern **nur einen davon anzuzeigen**:
+Die Lösung besteht darin, **zwei separate Zyklen** zu erstellen, einen mit der Lieferungsauswahl "Gerade" und den anderen mit "Ungerade", und den Mitgliedern **nur einen davon anzuzeigen**:
 
-1. Zwei Zyklen erstellen, jeweils mit einem Zeitraum über das ganze Jahr: einen mit der Lieferungsauswahl „Gerade", den anderen mit „Ungerade".
-2. Beiden den **gleichen Namen** geben, z.B. „Jede zweite Woche", aber **unterschiedliche interne Namen**, z.B. „Jede zweite Woche (gerade)" und „Jede zweite Woche (ungerade)".
+1. Zwei Zyklen erstellen, jeweils mit einem Zeitraum über das ganze Jahr: einen mit der Lieferungsauswahl "Gerade", den anderen mit "Ungerade".
+2. Beiden den **gleichen Namen** geben, z.B. "Jede zweite Woche", aber **unterschiedliche interne Namen**, z.B. "Jede zweite Woche (gerade)" und "Jede zweite Woche (ungerade)".
 3. **Nur einen** der beiden Zyklen im Anmeldeformular sichtbar machen (über die Depotverfügbarkeit).
 4. Bei der Erstellung der Abonnements die Mitglieder manuell auf die beiden Zyklen verteilen, um die Lieferungen auszugleichen.
 
-So sehen die Mitglieder bei der Anmeldung nur eine einzige Option „Jede zweite Woche", während die Verteilung intern gesteuert wird.
+So sehen die Mitglieder bei der Anmeldung nur eine einzige Option "Jede zweite Woche", während die Verteilung intern gesteuert wird.
 
 ### Abrechnung
 
@@ -63,19 +63,19 @@ Jeder Lieferzyklus kann eigene Abrechnungsoptionen haben:
 
 - **Preis (pro Lieferung)**: Ein Zuschlag für die Verwaltung und/oder Lieferung mit diesem Zyklus.
 - **Name (Rechnung)**: Ein benutzerdefinierter Name, der auf Rechnungen anstelle des Standard-Lieferzyklusnamens angezeigt wird.
-- **Jährlich enthaltene Abwesenheiten**: Automatisch eine bestimmte Anzahl von Lieferungen ausschließen, damit Mitglieder eine begrenzte Anzahl nicht berechneter Abwesenheiten planen können. Siehe [Enthaltene Abwesenheiten](/handbook/absence#absence-included) für weitere Details.
+- **Jährlich enthaltene Abwesenheiten**: Automatisch eine bestimmte Anzahl von Lieferungen ausschliessen, damit Mitglieder eine begrenzte Anzahl nicht berechneter Abwesenheiten planen können. Siehe [Enthaltene Abwesenheiten](/handbook/absence#absence-included) für weitere Details.
 
 ## Alternatives Depot {#alternate-depot}
 
 Manche Mitglieder müssen ihre <%= Basket.model_name.human(count: 2) %> je nach Woche an verschiedenen Depots abholen — zum Beispiel, weil das Lieferfahrzeug ein bestimmtes Depot nur jede zweite Woche anfährt. CSA Admin unterstützt dies über die Konfiguration eines **alternativen Depots** auf der Mitgliedschaftsebene.
 
-Diese Konfiguration ist nur für Administratoren verfügbar (nicht für Mitglieder) und befindet sich im Bearbeitungsformular einer Mitgliedschaft, im aufklappbaren Bereich „Alternatives Depot" unter den Lieferungseinstellungen. Drei Felder müssen zusammen gesetzt werden:
+Diese Konfiguration ist nur für Administratoren verfügbar (nicht für Mitglieder) und befindet sich im Bearbeitungsformular einer Mitgliedschaft, im aufklappbaren Bereich "Alternatives Depot" unter den Lieferungseinstellungen. Drei Felder müssen zusammen gesetzt werden:
 
 - **Alternatives Depot**: Das zweite Abholort.
-- **Preis alternatives Depot**: Der Depotpreis für Lieferungen am alternativen Depot (wird standardmäßig vom Depotpreis übernommen).
+- **Preis alternatives Depot**: Der Depotpreis für Lieferungen am alternativen Depot (wird standardmässig vom Depotpreis übernommen).
 - **Alternativer Lieferzyklus**: Bestimmt, welche Lieferungen zum alternativen Depot gehen. Alle anderen Lieferungen gehen zum Hauptdepot.
 
-> **Beispiel**: Eine Mitgliedschaft nutzt den Zyklus „Jede Woche". Das Lieferfahrzeug fährt das Bäckerei-Depot nur jede zweite Woche an (gerade Wochen), daher holt das Mitglied in den anderen Wochen auf dem Hof ab. Das Hauptdepot ist „Bäckerei", das alternative Depot ist „Hof" und der alternative Lieferzyklus ist „Ungerade Wochen". Ergebnis: <%= Basket.model_name.human(count: 2) %> der geraden Wochen gehen zur Bäckerei, die der ungeraden Wochen zum Hof.
+> **Beispiel**: Eine Mitgliedschaft nutzt den Zyklus "Jede Woche". Das Lieferfahrzeug fährt das Bäckerei-Depot nur jede zweite Woche an (gerade Wochen), daher holt das Mitglied in den anderen Wochen auf dem Hof ab. Das Hauptdepot ist "Bäckerei", das alternative Depot ist "Hof" und der alternative Lieferzyklus ist "Ungerade Wochen". Ergebnis: <%= Basket.model_name.human(count: 2) %> der geraden Wochen gehen zur Bäckerei, die der ungeraden Wochen zum Hof.
 
 Einige wichtige Punkte:
 
@@ -88,7 +88,7 @@ Einige wichtige Punkte:
 
 Jede <%= Basket.model_name.human %> einer Mitgliedschaft kann individuell bearbeitet werden, um von der Mitgliedschaftskonfiguration abzuweichen: ein anderes Depot, eine andere <%= BasketSize.model_name.human.downcase %>, eine angepasste Menge, personalisierte <%= BasketComplement.model_name.human(count: 2).downcase %> oder sogar eine Verschiebung auf ein anderes Lieferdatum (im Rahmen eines anderen Lieferzyklus). Diese individuellen Änderungen bleiben **erhalten**, wenn die Konfiguration der Mitgliedschaft später geändert wird (zum Beispiel, wenn die <%= BasketSize.model_name.human.downcase %> oder das Depot ab einem bestimmten Datum aktualisiert wird).
 
-Auf der Mitgliedschaftsseite zeigt jede <%= Basket.model_name.human.downcase %>, die von der Mitgliedschaftskonfiguration abweicht, ein kleines **Verlaufssymbol** neben ihrem Status an. Wenn Du mit der Maus über das Symbol fährst, siehst Du, wer die Änderung vorgenommen hat (Name des Admins oder „durch das Mitglied") und wann, sowie die Liste der geänderten Felder. Von dort aus stellt eine Schaltfläche **„Rückgängig"** die <%= Basket.model_name.human.downcase %> auf die Standardwerte der Mitgliedschaft zurück.
+Auf der Mitgliedschaftsseite zeigt jede <%= Basket.model_name.human.downcase %>, die von der Mitgliedschaftskonfiguration abweicht, ein kleines **Verlaufssymbol** neben ihrem Status an. Wenn Du mit der Maus über das Symbol fährst, siehst Du, wer die Änderung vorgenommen hat (Name des Admins oder "durch das Mitglied") und wann, sowie die Liste der geänderten Felder. Von dort aus stellt eine Schaltfläche **"Rückgängig"** die <%= Basket.model_name.human.downcase %> auf die Standardwerte der Mitgliedschaft zurück.
 
 Einige wichtige Punkte:
 
@@ -108,7 +108,7 @@ Für jede Lieferung generiert CSA Admin PDF-Lieferscheine, die Du ausdrucken und
 
 Jedes Depot kann einen von zwei Blattmodi verwenden (konfigurierbar in den Depot-Einstellungen):
 
-- **Unterschriftenblatt** (Standard): Eine Checkliste, bei der Mitglieder bei der Abholung neben ihrem Namen unterschreiben. Mitglieder sind alphabetisch aufgelistet, mit einer Spalte «Unterschrift» rechts.
+- **Unterschriftenblatt** (Standard): Eine Checkliste, bei der Mitglieder bei der Abholung neben ihrem Namen unterschreiben. Mitglieder sind alphabetisch aufgelistet, mit einer Spalte "Unterschrift" rechts.
 - **Hauslieferungsblatt**: Für Lieferfahrer konzipiert. Enthält die vollständige Adresse jedes Mitglieds und seine Liefernotiz (falls vorhanden) in der letzten Spalte. Die Reihenfolge der Mitglieder kann in den Depot-Einstellungen manuell per Drag & Drop geändert werden.
 
 ### Mitgliederinformationen auf den Blättern {#member-info}
@@ -134,9 +134,9 @@ Enthält ein Name mehrere Personen, die durch ein Komma oder eine Konjunktion (*
 
 > Diese Einstellung gilt nicht für Hauszustellungsdepots, wo der vollständige Name immer angezeigt wird.
 
-### Fußzeile {#delivery-pdf-footer}
+### Fusszeile {#delivery-pdf-footer}
 
-Ein benutzerdefinierter Fußzeilentext kann über die [Einstellung für die Lieferungs-PDF-Fußzeile](/settings#delivery_sheets) zu allen Lieferscheinen hinzugefügt werden. Nützlich für eine Erinnerung, eine Dankesnachricht oder praktische Informationen.
+Ein benutzerdefinierter Fusszeilentext kann über die [Einstellung für die Lieferungs-PDF-Fusszeile](/settings#delivery_sheets) zu allen Lieferscheinen hinzugefügt werden. Nützlich für eine Erinnerung, eine Dankesnachricht oder praktische Informationen.
 
 ### Ankündigungen {#announcements}
 
@@ -148,8 +148,8 @@ Wenn die [<%= BasketContent.model_name.human.downcase %>-Funktion](/handbook/bas
 
 Wenn aktiviert, erscheinen zwei zusätzliche Tabellen auf den Lieferscheinen:
 
-- **Zusammenfassungsseite**: Eine Tabelle mit der Gesamtmenge jedes Produkts pro Depot (z.B. «4.5kg» Karotten für das Depot Hof).
-- **Depot-Seiten**: Eine Tabelle mit jedem Produkt und seiner Menge pro <%= BasketSize.model_name.human.downcase %> (z.B. «250g» pro kleinem <%= Basket.model_name.human.downcase %>, «400g» pro grossem).
+- **Zusammenfassungsseite**: Eine Tabelle mit der Gesamtmenge jedes Produkts pro Depot (z.B. "4.5kg" Karotten für das Depot Hof).
+- **Depot-Seiten**: Eine Tabelle mit jedem Produkt und seiner Menge pro <%= BasketSize.model_name.human.downcase %> (z.B. "250g" pro kleinem <%= Basket.model_name.human.downcase %>, "400g" pro grossem).
 
 Wenn die Produkttabelle nicht auf dieselbe Seite wie die bestehende Mitgliedertabelle passt, erscheint sie automatisch auf einer separaten Seite.
 
@@ -159,10 +159,10 @@ CSA Admin kann automatisch E-Mail-Benachrichtigungen zu Lieferungen versenden:
 
 ### Depot-Lieferliste {#depot-delivery-list-notifications}
 
-Du kannst jedes Depot mit E-Mail-Adressen konfigurieren (im Abschnitt „Benachrichtigungen" des Depots). Vor jeder Lieferung erhalten diese Adressen eine E-Mail mit der Liste der Mitglieder und ihrer <%= Basket.model_name.human(count: 2).downcase %>, einschließlich PDF- und XLSX-Anhängen der Lieferscheine. Standardmäßig wird die E-Mail am Tag zuvor gesendet, dies kann aber pro Depot angepasst werden (0 für den gleichen Tag, 2 für zwei Tage vorher, usw.).
+Du kannst jedes Depot mit E-Mail-Adressen konfigurieren (im Abschnitt "Benachrichtigungen" des Depots). Vor jeder Lieferung erhalten diese Adressen eine E-Mail mit der Liste der Mitglieder und ihrer <%= Basket.model_name.human(count: 2).downcase %>, einschliesslich PDF- und XLSX-Anhängen der Lieferscheine. Standardmässig wird die E-Mail am Tag zuvor gesendet, dies kann aber pro Depot angepasst werden (0 für den gleichen Tag, 2 für zwei Tage vorher, usw.).
 
 ### Wöchentliche Zusammenfassung der <%= BasketComplement.model_name.human(count: 2) %> {#complement-notifications}
 
-Für jede <%= BasketComplement.model_name.human %> kannst Du E-Mail-Adressen konfigurieren (im Abschnitt „Benachrichtigungen"). Jeden Sonntagmorgen erhalten diese Adressen eine E-Mail mit einer Zusammenfassung der Gesamtmenge dieser Ergänzung, die für jede Lieferung der kommenden Woche benötigt wird.
+Für jede <%= BasketComplement.model_name.human %> kannst Du E-Mail-Adressen konfigurieren (im Abschnitt "Benachrichtigungen"). Jeden Sonntagmorgen erhalten diese Adressen eine E-Mail mit einer Zusammenfassung der Gesamtmenge dieser Ergänzung, die für jede Lieferung der kommenden Woche benötigt wird.
 
 > Dies ist nützlich für externe Lieferanten (z. B. ein Bäcker, ein Käsehersteller), die wissen müssen, wie viel sie für die kommende Woche vorbereiten müssen.

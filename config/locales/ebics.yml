@@ -68,6 +68,12 @@ _:
           _de: Version
           _it: Versione
           _nl: Versie
+      page_footer:
+        _en: Page <page> / %{pages}
+        _fr: Page <page> / %{pages}
+        _de: Seite <page> / %{pages}
+        _it: Pagina <page> / %{pages}
+        _nl: Pagina <page> / %{pages}
       sections:
         authentication:
           _en: Initialization letter for AUTHENTICATION certificate (%{version})

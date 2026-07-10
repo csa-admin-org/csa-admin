@@ -17,7 +17,7 @@ _:
       _en: Local auto-save recovered, don't forget to save your draft!
       _fr: Sauvegarde automatique locale récupérée, n'oubliez pas de sauver votre brouillon!
       _de: Lokale automatische Sicherung wiederhergestellt, nicht vergessen, den Entwurf zu speichern!
-      _it: Backup automatico locale recuperato, non dimenticare di salvare la tua bozza!
+      _it: Bozza locale recuperata automaticamente. Non dimenticate di salvarla.
       _nl: Lokale automatische opslag hersteld, niet vergeten het concept op te slaan!
     member_state:
       all:
@@ -29,7 +29,7 @@ _:
       not_inactive:
         _en: All except inactive
         _fr: Tous sauf inactifs
-        _de: Alle außer inaktiv
+        _de: Alle ausser inaktiv
         _it: Tutti tranne inattivi
         _nl: Alle behalve inactief
     segment:
@@ -40,17 +40,17 @@ _:
         _it: Criteri
         _nl: Criteria
       criterias_explanation_html:
-        _en: Use the Members section to target any members (including inactive ones). Use the Memberships section to target members who have a membership. You can combine criteria from both sections, but some exclusive combinations may return no results (for example when pairing certain member states with restrictive membership filters).
-        _fr: Utilisez la section Membres pour cibler n'importe quels membres (y compris les inactifs). Utilisez la section Abonnements pour cibler les membres qui ont un abonnement. Vous pouvez combiner des critères des deux sections, mais certaines combinaisons exclusives peuvent ne renvoyer aucun résultat (par exemple en associant certains états de membre à des filtres d'abonnement restrictifs).
-        _de: Verwenden Sie den Bereich Mitglieder, um beliebige Mitglieder anzusprechen (auch inaktive). Verwenden Sie den Bereich Abonnements, um Mitglieder mit einem Abonnement anzusprechen. Sie können Kriterien aus beiden Bereichen kombinieren, aber manche exklusiven Kombinationen können zu keinem Ergebnis führen (zum Beispiel bei der Kombination bestimmter Mitglieder-Status mit restriktiven Abonnementfiltern).
-        _it: Usa la sezione Soci per selezionare qualsiasi socio (inclusi quelli inattivi). Usa la sezione Abbonamenti per selezionare soci che hanno un abbonamento. Puoi combinare criteri da entrambe le sezioni, ma alcune combinazioni esclusive potrebbero non restituire risultati (ad esempio associando determinati stati del socio a filtri di abbonamento restrittivi).
-        _nl: Gebruik het gedeelte Leden om alle leden te targeten (inclusief inactieve). Gebruik het gedeelte Lidmaatschappen om leden met een lidmaatschap te targeten. Je kunt criteria uit beide gedeelten combineren, maar sommige exclusieve combinaties kunnen tot geen resultaten leiden (bijvoorbeeld bij het combineren van bepaalde ledenstatussen met restrictieve abonnementsfilters).
+        _en: Use the Members section to select any members, including inactive ones. Use the Memberships section to select members with a membership. Criteria from both sections can be combined, but some mutually exclusive combinations may return no results, for example when pairing certain member states with restrictive membership filters.
+        _fr: Utilisez la section Membres pour sélectionner tous les membres, y compris les inactifs. Utilisez la section Abonnements pour sélectionner les membres ayant un abonnement. Vous pouvez combiner les critères des deux sections, mais certaines combinaisons exclusives peuvent ne renvoyer aucun résultat, par exemple en associant certains états de membre à des filtres d'abonnement restrictifs.
+        _de: Der Bereich Mitglieder dient dazu, beliebige Mitglieder einschliesslich inaktiver Mitglieder auszuwählen. Der Bereich Abonnements dient dazu, Mitglieder mit einem Abonnement auszuwählen. Kriterien aus beiden Bereichen können kombiniert werden; manche ausschliesslichen Kombinationen liefern jedoch keine Ergebnisse, etwa bestimmte Mitgliederstatus zusammen mit einschränkenden Abonnementfiltern.
+        _it: La sezione Soci consente di selezionare qualsiasi socio, inclusi quelli inattivi. La sezione Abbonamenti consente di selezionare i soci con un abbonamento. I criteri delle due sezioni possono essere combinati, ma alcune combinazioni esclusive potrebbero non restituire risultati, ad esempio associando determinati stati del socio a filtri di abbonamento restrittivi.
+        _nl: Via de sectie Leden kunnen alle leden, ook inactieve, worden geselecteerd. Via de sectie Lidmaatschappen kunnen leden met een lidmaatschap worden geselecteerd. Criteria uit beide secties kunnen worden gecombineerd, maar sommige uitsluitende combinaties leveren geen resultaten op, bijvoorbeeld bij een combinatie van bepaalde ledenstatussen met beperkende lidmaatschapsfilters.
       info_html:
-        _en: Audience segments let you define reusable targeting rules for your newsletters. Use them when the standard audience options are not precise enough — for example to target members in a specific city, with a particular billing interval, or a custom list of members.
-        _fr: Les segments d'audience vous permettent de définir des règles de ciblage réutilisables pour vos newsletters. Utilisez-les lorsque les options d'audience standards ne sont pas assez précises, par exemple pour cibler des membres d'une ville spécifique, avec un intervalle de facturation particulier, ou une liste personnalisée de membres.
-        _de: Mit Audienzsegmenten lassen sich wiederverwendbare Zielgruppenregeln für Ihre Newsletter definieren. Nutzen Sie sie, wenn die Standard-Audience-Optionen nicht präzise genug sind — zum Beispiel um Mitglieder einer bestimmten Stadt, mit einem bestimmten Abrechnungsintervall oder einer benutzerdefinierten Mitgliederliste anzusprechen.
-        _it: I segmenti di pubblico ti permettono di definire regole di targeting riutilizzabili per le tue newsletter. Usali quando le opzioni di audience standard non sono abbastanza precise — ad esempio per raggiungere soci di una città specifica, con un particolare intervallo di fatturazione o un elenco personalizzato di soci.
-        _nl: Met segmenten kun je herbruikbare targetingregels voor je nieuwsbrieven definiëren. Gebruik ze wanneer de standaard audience-opties niet precies genoeg zijn — bijvoorbeeld om leden uit een specifieke stad, met een bepaald factureringsinterval of een aangepaste ledenlijst te bereiken.
+        _en: Audience segments let you define reusable recipient rules for your newsletters. Use them when the standard audience options are not precise enough—for example, to reach members in a specific city, with a particular billing interval, or on a custom list.
+        _fr: Les segments de destinataires vous permettent de définir des règles de sélection réutilisables pour vos newsletters. Utilisez-les lorsque les options standard ne sont pas assez précises, par exemple pour atteindre les membres d'une ville donnée, ayant un intervalle de facturation particulier ou figurant sur une liste personnalisée.
+        _de: Mit Zielgruppensegmenten lassen sich wiederverwendbare Empfängerregeln für Newsletter definieren. Sie kommen zum Einsatz, wenn die Standardoptionen nicht präzise genug sind, etwa für Mitglieder einer bestimmten Stadt, mit einem bestimmten Abrechnungsintervall oder auf einer benutzerdefinierten Liste.
+        _it: I segmenti di destinatari consentono di definire regole di selezione riutilizzabili per le newsletter. Sono utili quando le opzioni standard non sono abbastanza precise, ad esempio per raggiungere soci di una città specifica, con un particolare intervallo di fatturazione o presenti in un elenco personalizzato.
+        _nl: Met doelgroepssegmenten kunnen herbruikbare selectiecriteria voor nieuwsbrieven worden ingesteld. Ze zijn nuttig wanneer de standaardopties niet precies genoeg zijn, bijvoorbeeld voor leden uit een specifieke stad, met een bepaald factureringsinterval of op een aangepaste lijst.
       members_tab:
         _en: Members
         _fr: Membres
@@ -126,6 +126,6 @@ _:
       subject:
         _en: Newsletter title
         _fr: Titre de la Newsletter
-        _de: Titel der Newsletter
-        _it: Titolo della Newsletter
+        _de: Newsletter-Titel
+        _it: Titolo della newsletter
         _nl: Titel van de nieuwsbrief

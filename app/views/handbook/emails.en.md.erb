@@ -43,7 +43,7 @@ You can use `and`, `or`, as well as `{% elsif %}` and `{% else %}` to combine co
 {% if membership.trial_baskets_count > 0 %}
   <p>You are still in your trial period ({{ membership.trial_baskets_count }} <%= Basket.model_name.human(count: 2).downcase %> remaining).</p>
 {% elsif membership.activity_participations_missing_count > 0 %}
-  <p>You still have {{ membership.activity_participations_missing_count }} activity(s) to complete.</p>
+  <p>You still have {{ membership.activity_participations_missing_count }} participations to complete.</p>
 {% else %}
   <p>Everything is up to date, thank you!</p>
 {% endif %}

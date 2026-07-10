@@ -2,7 +2,7 @@
 
 Der Online-Hofladen ermöglicht es Deinen Mitgliedern, einige Tage vor der Lieferung ihrer nächsten <%= Basket.model_name.human(count: 2) %> zusätzliche Produkte von ihrem Konto aus zu bestellen.
 
-Um Dir zu ermöglichen, den Inhalt Deines Hofladens in Ruhe vorzubereiten, erscheint der Hofladen standardmäßig **nicht** im Menü des Mitgliedskontos. Nur Administratoren, die auf das Konto eines Mitglieds zugreifen können (über die Schaltfläche "Konto" auf der Administratorseite eines Mitglieds), können den Hofladen sehen. So kannst Du sicherstellen, dass alle Produkte gut präsentiert sind. Sobald alles eingerichtet ist, kann diese Einschränkung in [den Einstellungen](/settings#shop) deaktiviert werden.
+Um Dir zu ermöglichen, den Inhalt Deines Hofladens in Ruhe vorzubereiten, erscheint der Hofladen standardmässig **nicht** im Menü des Mitgliedskontos. Nur Administratoren, die auf das Konto eines Mitglieds zugreifen können (über die Schaltfläche "Konto" auf der Administratorseite eines Mitglieds), können den Hofladen sehen. So kannst Du sicherstellen, dass alle Produkte gut präsentiert sind. Sobald alles eingerichtet ist, kann diese Einschränkung in [den Einstellungen](/settings#shop) deaktiviert werden.
 
 ## Produzenten {#producers}
 
@@ -18,7 +18,7 @@ Viele Optionen werden angeboten, um die Produkte Deines Hofladens bestmöglich z
 
 ### Varianten
 
-Jedes Produkt ist in einer oder mehreren Varianten erhältlich. Varianten ermöglichen es, verschiedene Eigenschaften (Gewicht, Größe, Typ) dieses Produkts zu definieren.
+Jedes Produkt ist in einer oder mehreren Varianten erhältlich. Varianten ermöglichen es, verschiedene Eigenschaften (Gewicht, Grösse, Typ) dieses Produkts zu definieren.
 
 Jede Variante hat ihren eigenen Namen, Preis, Gewicht (optional) und Bestand (optional).
 
@@ -38,7 +38,7 @@ Dieses Produkt wird auch nur an den Liefertagen der Ergänzung verfügbar sein.
 
 Um Dir Zeit zu geben, die vor der Lieferung aufgegebenen Bestellungen zu bearbeiten und zu berechnen, kann eine Frist (Tage und Stunden), bis zu der Bestellungen möglich sind, in [den Hofladeneinstellungen](/settings#shop) festgelegt werden. Nach dieser Frist können Mitglieder ihre Bestellung für die bevorstehende Lieferung nicht mehr erstellen oder ändern.
 
-Es ist auch möglich, einen Mindestbestellbetrag sowie ein maximales Gewicht festzulegen, wenn diese Information für jede Produktvariante ordnungsgemäß eingegeben wurde.
+Es ist auch möglich, einen Mindestbestellbetrag sowie ein maximales Gewicht festzulegen, wenn diese Information für jede Produktvariante ordnungsgemäss eingegeben wurde.
 
 Sobald eine Bestellung aufgegeben wurde, erscheint sie mit dem Status "vorzubereiten" in [der Bestellliste](/shop_orders?scope=pending). Diese Bestellungen können von den Mitgliedern bis zur konfigurierten Frist jederzeit geändert werden. Ein Administrator kann sie jederzeit ändern.
 
@@ -46,7 +46,7 @@ Ein Lieferschein (PDF), der den Preis der Produkte nicht enthält, ist für jede
 
 ### Abrechnung {#billing}
 
-Standardmäßig müssen die Bestellungen, sobald sie vorbereitet sind, **manuell** in Rechnung gestellt werden (Möglichkeit, alle auf einmal über eine Gruppenmaßnahme in Rechnung zu stellen). Die Rechnung wird dann automatisch per E-Mail an das Mitglied gesendet.
+Standardmässig müssen die Bestellungen, sobald sie vorbereitet sind, **manuell** in Rechnung gestellt werden (Möglichkeit, alle auf einmal über eine Gruppenmassnahme in Rechnung zu stellen). Die Rechnung wird dann automatisch per E-Mail an das Mitglied gesendet.
 
 Es ist auch möglich, die **automatische Abrechnung** der Bestellungen in [den Hofladeneinstellungen](/settings#shop) zu konfigurieren, nach oder vor einer bestimmten Anzahl von Tagen nach oder vor dem Lieferdatum.
 
@@ -67,7 +67,7 @@ Es ist möglich, einen spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"]
 
 Wenn Du Mitgliedern ermöglichen möchtest, den Preis ihrer Bestellungen freiwillig anzupassen (als Solidarbeitrag oder als Rabatt), kannst Du eine Liste von Prozentsätzen in [den Hofladeneinstellungen](/settings#shop) definieren. Zum Beispiel: `-10, -5, 5, 10`.
 
-Wenn Prozentsätze konfiguriert sind, sehen Mitglieder ein Dropdown-Menü auf der Bestellseite, in dem sie eine Anpassung vornehmen können (z.B. «Unterstützung +10%» oder «Rabatt -5%»). Diese Anpassung wird auf den Gesamtbestellbetrag angewendet. Wenn die Liste nur positive Werte enthält, wird dies als Solidarbeitrag angezeigt; wenn nur negative, als Rabatt.
+Wenn Prozentsätze konfiguriert sind, sehen Mitglieder ein Dropdown-Menü auf der Bestellseite, in dem sie eine Anpassung vornehmen können (z.B. "Unterstützung +10%" oder "Rabatt -5%"). Diese Anpassung wird auf den Gesamtbestellbetrag angewendet. Wenn die Liste nur positive Werte enthält, wird dies als Solidarbeitrag angezeigt; wenn nur negative, als Rabatt.
 
 ## Verkaufsbedingungen {#terms-of-sale}
 
@@ -75,7 +75,7 @@ Ein Link zu Deinen Verkaufsbedingungen kann pro Sprache in [den Hofladeneinstell
 
 ## Zugang für Mitglieder ohne Mitgliedschaft {#access-without-membership}
 
-Standardmäßig und außerhalb [von Sonderlieferungen](#special-deliveries) ist der Zugang zum Hofladen auf aktive Mitglieder mit einer Mitgliedschaft beschränkt. Es ist jedoch möglich, ein Depot durch Ändern des Profils eines inaktiven Mitglieds als "Hofladendepot" zu definieren, um ihm Zugang zum Hofladen zu geben. Die Bestellungen dieser Mitglieder werden dann in den Blättern (PDF) der entsprechenden Depots erscheinen.
+Standardmässig und ausserhalb [von Sonderlieferungen](#special-deliveries) ist der Zugang zum Hofladen auf aktive Mitglieder mit einer Mitgliedschaft beschränkt. Es ist jedoch möglich, ein Depot durch Ändern des Profils eines inaktiven Mitglieds als "Hofladendepot" zu definieren, um ihm Zugang zum Hofladen zu geben. Die Bestellungen dieser Mitglieder werden dann in den Blättern (PDF) der entsprechenden Depots erscheinen.
 
 Ein Lieferzyklus kann ebenfalls zugewiesen werden, um die im Hofladen zugänglichen Lieferungen für diese Mitglieder einzuschränken. Ohne Lieferzyklus sind alle Lieferungen verfügbar, bei denen der Hofladen für das zugewiesene Depot geöffnet ist.
 
@@ -83,22 +83,22 @@ Ein Lieferzyklus kann ebenfalls zugewiesen werden, um die im Hofladen zugänglic
 
 Ein häufiger Anwendungsfall ist es, Restaurants oder anderen professionellen Käufern ohne Mitgliedschaft Zugang zum Hofladen zu geben. So richtest Du das ein:
 
-1. **Ein verstecktes Depot erstellen**, das speziell für diese Mitglieder vorgesehen ist (z.B. «Restaurants»). Da es für reguläre Mitglieder nicht sichtbar ist, wird es die Depotliste bei der Anmeldung nicht überladen.
-2. **Dieses Depot als «Hofladendepot»** im Profil jedes Restaurant-Mitglieds zuweisen.
-3. **Produktsichtbarkeit über die Depotverfügbarkeit einschränken**: Indem bestimmte Produkte für alle Depots _außer_ diesem Restaurant-Depot als nicht verfügbar markiert werden, kannst Du einen Katalog ausschließlich für diese professionellen Käufer anbieten (z.B. Großgebinde, Mengenpreise). Reguläre Mitglieder mit einer Mitgliedschaft werden diese Produkte nicht sehen.
+1. **Ein verstecktes Depot erstellen**, das speziell für diese Mitglieder vorgesehen ist (z.B. "Restaurants"). Da es für reguläre Mitglieder nicht sichtbar ist, wird es die Depotliste bei der Anmeldung nicht überladen.
+2. **Dieses Depot als "Hofladendepot"** im Profil jedes Restaurant-Mitglieds zuweisen.
+3. **Produktsichtbarkeit über die Depotverfügbarkeit einschränken**: Indem bestimmte Produkte für alle Depots _ausser_ diesem Restaurant-Depot als nicht verfügbar markiert werden, kannst Du einen Katalog ausschliesslich für diese professionellen Käufer anbieten (z.B. Grossgebinde, Mengenpreise). Reguläre Mitglieder mit einer Mitgliedschaft werden diese Produkte nicht sehen.
 4. **Hofladenöffnung pro Depot steuern**: Beim Öffnen des Hofladens für eine Lieferung kannst Du nur das Restaurant-Depot auswählen. So bleibt der Hofladen für Mitglieder mit einer Mitgliedschaft bei dieser Lieferung geschlossen, während er für Restaurants geöffnet ist. Umgekehrt kannst Du den Hofladen für alle Depots öffnen, wenn alle Zugang haben sollen.
 5. **Einen Lieferzyklus zuweisen** (optional): Wenn Restaurants nur an bestimmten Lieferterminen bestellen sollen, weise einen passenden Lieferzyklus zu, um ihre verfügbaren Lieferungen weiter einzuschränken.
 
-> Diese Mitglieder legst Du am besten manuell über das [Mitgliedererstellungsformular](/members/new) an, da das Anmeldeformular auf Standardmitglieder ausgerichtet ist, die auch eine Mitgliedschaft abschließen.
+> Diese Mitglieder legst Du am besten manuell über das [Mitgliedererstellungsformular](/members/new) an, da das Anmeldeformular auf Standardmitglieder ausgerichtet ist, die auch eine Mitgliedschaft abschliessen.
 
 ## Sonderlieferungen {#special-deliveries}
 
-Sonderlieferungen ermöglichen es Dir, Deinen Mitgliedern zusätzliche Produkte außerhalb der üblichen Lieferungen von <%= Basket.model_name.human(count: 2) %> über den Online-Hofladen anzubieten.
+Sonderlieferungen ermöglichen es Dir, Deinen Mitgliedern zusätzliche Produkte ausserhalb der üblichen Lieferungen von <%= Basket.model_name.human(count: 2) %> über den Online-Hofladen anzubieten.
 
 Verfügbare Produkte können separat für jede Sonderlieferung definiert werden, die individuelle Einstellung der Verfügbarkeit jedes Produkts wird ignoriert. Die Verfügbarkeit der Varianten sowie der Zustand ihres Bestands werden jedoch immer respektiert.
 
-> Da Sonderlieferungen außerhalb der Lieferungen von <%= Basket.model_name.human(count: 2) %> geliefert werden, sind sie für alle Deine Mitglieder, aktiv oder nicht, zugänglich.
+> Da Sonderlieferungen ausserhalb der Lieferungen von <%= Basket.model_name.human(count: 2) %> geliefert werden, sind sie für alle Deine Mitglieder, aktiv oder nicht, zugänglich.
 
 ## Hofladen öffnen {#opening}
 
-Bevor Mitglieder Bestellungen aufgeben können, muss der Hofladen für die gewünschten Lieferungen **geöffnet** werden über [die Lieferungsseite](/deliveries). Dies kann über die Gruppenaktion « Hofladen öffnen » im Stapel oder einzeln durch Bearbeiten einer Lieferung (wo auch bestimmte Depots ausgewählt werden können) erfolgen. Der Hofladen kann bei Bedarf auf die gleiche Weise wieder geschlossen werden.
+Bevor Mitglieder Bestellungen aufgeben können, muss der Hofladen für die gewünschten Lieferungen **geöffnet** werden über [die Lieferungsseite](/deliveries). Dies kann über die Gruppenaktion " Hofladen öffnen " im Stapel oder einzeln durch Bearbeiten einer Lieferung (wo auch bestimmte Depots ausgewählt werden können) erfolgen. Der Hofladen kann bei Bedarf auf die gleiche Weise wieder geschlossen werden.

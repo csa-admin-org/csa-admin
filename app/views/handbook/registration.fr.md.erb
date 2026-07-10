@@ -8,9 +8,9 @@ Votre formulaire d'inscription est la porte d'entrée pour les nouveaux membres.
 
 Chaque soumission du formulaire d'inscription public doit être revue par un administrateur. Cela vaut autant pour les personnes qui s'inscrivent pour la première fois que pour celles déjà présentes dans CSA Admin.
 
-Si l'e-mail saisi correspond à un seul membre existant inactif ou support, sa fiche est mise à jour au lieu de créer un doublon. La validation précédente est effacée et le membre repasse au [statut « À valider »](/handbook/members#to-validate) et dans [la liste des membres à valider](/members?scope=pending), afin que vous puissiez vérifier les nouvelles coordonnées et la demande d'abonnement.
+Si l'e-mail saisi correspond à un seul membre existant inactif ou support, sa fiche est mise à jour au lieu de créer un doublon. La validation précédente est effacée et le membre repasse au [statut " À valider "](/handbook/members#to-validate) et dans [la liste des membres à valider](/members?scope=pending), afin que vous puissiez vérifier les nouvelles coordonnées et la demande d'abonnement.
 
-Les données précédentes restent disponibles dans l'« Historique » de la fiche membre si vous devez les consulter plus tard.
+Les données précédentes restent disponibles dans l'" Historique " de la fiche membre si vous devez les consulter plus tard.
 
 Une réinscription sans demande d'abonnement supprime les choix d'abonnement liés à la liste d'attente (panier, dépôt, cycle de livraison, compléments, options de facturation, etc.). Le membre devient support lors de sa validation.
 
@@ -46,7 +46,7 @@ Vous remarquerez un indicateur de nombre de mots dans l'éditeur des paramètres
 
 Les [<%= BasketSize.model_name.human(count: 2).downcase %>](/basket_sizes) sont le cœur de votre formulaire d'inscription. Chaque taille visible apparaît comme un choix pour les nouveaux membres.
 
-- **Nom**: Ce que les membres voient (ex. « Petit », « Familial »). Un nom explicite aide: « Petit (1–2 personnes) » est plus clair que simplement « Petit ».
+- **Nom**: Ce que les membres voient (ex. " Petit ", " Familial "). Un nom explicite aide: " Petit (1–2 personnes) " est plus clair que simplement " Petit ".
 - **Description**: Remplace le texte auto-généré (prix × livraisons). Utile quand le texte par défaut ne correspond pas tout à fait à vos besoins.
 - **Visibilité**: Rendez une <%= BasketSize.model_name.human.downcase %> invisible si elle est réservée aux admins (ex. tarif spécial). Les tailles invisibles n'apparaîtront pas dans le formulaire.
 - **Ordre d'affichage**: Contrôlé par le [réglage du mode d'ordre](/settings#registration), par nom, par prix ou par priorité personnalisée.
@@ -88,7 +88,7 @@ Si la fonctionnalité cartes est activée, vous pouvez aussi afficher une carte 
 
 Si votre organisation a beaucoup de dépôts (8 ou plus), les [groupes de dépôts](/depot_groups) font une vraie différence. Ils organisent les dépôts en sections logiques pour que les membres puissent rapidement trouver leur zone.
 
-- **Exemples de groupes**: « Retrait à la ferme », « Points relais en ville », « Livraison à domicile »
+- **Exemples de groupes**: " Retrait à la ferme ", " Points relais en ville ", " Livraison à domicile "
 - **Texte d'information**: Texte optionnel affiché au-dessus des dépôts du groupe. Un bon endroit pour des infos partagées comme les horaires de retrait ou des instructions générales. Une phrase suffit généralement.
 - **Priorité d'ordre**: Contrôle quel groupe apparaît en premier.
 
@@ -98,7 +98,7 @@ Sans groupes, une liste plate de 15+ dépôts peut sembler décourageante. Les g
 
 Si vous utilisez plusieurs [cycles de livraisons](/delivery_cycles) (hebdomadaire, bimensuel, saisonnier), les membres en choisissent un lors de l'inscription. Consultez la [page du manuel sur les cycles de livraisons](/handbook/deliveries#delivery-cycles) pour la configuration détaillée.
 
-- **Label personnalisé**: Remplacez le titre par défaut « Livraisons » avec le [réglage du label de cycle de livraisons](/settings#registration).
+- **Label personnalisé**: Remplacez le titre par défaut " Livraisons " avec le [réglage du label de cycle de livraisons](/settings#registration).
 - **Ordre d'affichage**: Contrôlé par le [réglage du mode d'ordre](/settings#registration).
 - **Association avec les dépôts**: Les cycles peuvent être liés à des dépôts spécifiques. Le formulaire filtre alors automatiquement les cycles disponibles en fonction du dépôt sélectionné.
 
@@ -122,12 +122,12 @@ Deux réglages contrôlent le texte d'explication dans la section abonnement:
 
 Le texte auto-généré couvre déjà l'essentiel, donc le texte supplémentaire est idéal pour ce qui est spécifique à votre organisation. Si vous vous retrouvez à écrire plus d'un court paragraphe, envisagez plutôt de renvoyer vers votre site web.
 
-## Champs « Informations supplémentaires » {#more-info}
+## Champs " Informations supplémentaires " {#more-info}
 
 Deux champs optionnels peuvent être affichés dans le formulaire:
 
 - **Profession**: Caché par défaut. Activez-le dans les [paramètres](/settings#registration) si c'est utile pour votre organisation.
-- **« Comment nous avez-vous connu? »** (« Venu par »): Utile pour comprendre comment les gens vous trouvent. C'est une question légère pour les membres et ça vous donne des données intéressantes au fil du temps.
+- **" Comment nous avez-vous connu? "** (" Venu par "): Utile pour comprendre comment les gens vous trouvent. C'est une question légère pour les membres et ça vous donne des données intéressantes au fil du temps.
 
 Les deux champs peuvent être configurés comme cachés, visibles ou obligatoires.
 
@@ -153,7 +153,7 @@ Plusieurs éléments du formulaire peuvent être réordonnés:
 | Dépôts | [Mode d'ordre](/settings#registration) | Nom, prix (asc/desc), priorité |
 | Cycles de livraisons | [Mode d'ordre](/settings#registration) | Nom, priorité |
 
-En mode « priorité », définissez le champ « Priorité d'ordre » sur chaque élément. Les valeurs les plus basses apparaissent en premier.
+En mode " priorité ", définissez le champ " Priorité d'ordre " sur chaque élément. Les valeurs les plus basses apparaissent en premier.
 
 ## Quelques conseils {#tips}
 

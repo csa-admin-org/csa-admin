@@ -127,7 +127,7 @@ module PDF
     end
 
     def page_footer
-      number_pages "Page <page> / #{SECTIONS.size}",
+      number_pages I18n.t("ebics.initialization_letter.page_footer", pages: SECTIONS.size),
         at: [ 18.mm, 9.mm ],
         width: bounds.width - 36.mm,
         align: :center,

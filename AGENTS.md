@@ -78,7 +78,7 @@ See `DESIGN.md` for icon and panel conventions.
 
 See `TRANSLATIONS.md` for locale file conventions, scoped translation variants, the two-phase workflow, and voice & tone rules per language.
 
-`I18n::Backend::ScopedLookup` (`lib/i18n/backend/scoped_lookup.rb`) automatically tries `/scope` key variants from `Current.org` basket and activity terminology, then falls back to the base key. Request the base key in application code, keep an unscoped fallback, and place scopes before `_html` (for example, `description/bag_html`).
+`I18n::Backend::ScopedLookup` (`lib/i18n/backend/scoped_lookup.rb`) automatically tries `/scope` key variants from `Current.org` basket and activity terminology, then falls back to the base key. Request the base key in application code and place scopes before `_html` (for example, `description/bag_html`). A scoped leaf needs an unscoped fallback unless it has every valid basket or activity scope; `locales:structure` enforces the matrix. Source-default changes must not overwrite customized tenant mail or newsletter content.
 
 ## GDPR & Member Privacy
 

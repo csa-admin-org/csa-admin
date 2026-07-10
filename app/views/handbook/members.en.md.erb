@@ -54,12 +54,12 @@ When the [waiting list](/settings#waiting_list) feature is enabled, edit an inac
 
 The "<%= Member.human_attribute_name(:salary_basket) %>" option on a member's profile indicates that this member receives their <%= Basket.model_name.human.downcase %> as part of their salary (e.g. farm employees). When enabled:
 
-- All membership prices are set to zero, including basket complements (the membership still exists for delivery tracking, but nothing is billed).
+- All membership prices are set to zero, including <%= BasketComplement.model_name.human(count: 2).downcase %> (the membership still exists for delivery tracking, but nothing is billed).
 - The member is excluded from billing reports and previsional invoicing.
 - The default number of requested <%= activities_human_name.downcase %> is set to 0.
 - The member is excluded from [bidding rounds](/handbook/bidding_round).
 
-> If complements should still be billed, do not enable this option. Instead, set the membership basket size/depot prices to zero manually with custom membership prices.
+> If complements should still be billed, do not enable this option. Instead, use custom membership prices to set the <%= BasketSize.model_name.human.downcase %> and depot prices to zero manually.
 
 If this option is changed on an existing member, their current and future memberships are automatically recalculated.
 
@@ -98,11 +98,11 @@ From their account, members can:
 
 ### Membership updates {#membership-updates}
 
-When membership updates are enabled in [the settings](/settings#membership_updates), members can change their depot and/or basket complements from their account. These changes apply only when the membership has compatible depots or visible complements available for the upcoming baskets.
+When membership updates are enabled in [the settings](/settings#membership_updates), members can change their depot and/or <%= BasketComplement.model_name.human(count: 2).downcase %> from their account. These changes apply only when compatible depots or visible <%= BasketComplement.model_name.human(count: 2).downcase %> are available for the upcoming <%= Basket.model_name.human(count: 2).downcase %>.
 
-The update deadline is controlled by the basket update limit setting. You can also add an explanation text in the settings; it appears above the member-facing update forms.
+The <%= Basket.model_name.human.downcase %> update limit setting controls the deadline. You can also add explanatory text in the settings; it appears above the member-facing update forms.
 
-Changes made by members are saved as individual basket modifications, just like admin changes. They are preserved and reapplied when the membership configuration changes later.
+Changes made by members are saved as individual <%= Basket.model_name.human.downcase %> modifications, just like admin changes. They are preserved and reapplied when the membership configuration changes later.
 
 ### Information page {#information-page}
 

@@ -134,7 +134,7 @@ ActiveAdmin.register Shop::Order do
       column do
         panel Shop::Product.model_name.human(count: 2), icon: "shopping-basket", count: order.items.size do
           table_for order.items.includes(:product, :product_variant), class: "table-auto" do
-            column(:product) { |i| auto_link i.product, "#{i.product.name}, #{i.product_variant.name}", aria: { label: "show" } }
+            column(:product) { |i| auto_link i.product, "#{i.product.name}, #{i.product_variant.name}" }
             column(:item_price, class: "text-right") { |i| cur(i.item_price) }
             column(:quantity, class: "text-right")
             column(:amount, class: "text-right") { |i| cur(i.amount) }

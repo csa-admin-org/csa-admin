@@ -84,7 +84,7 @@ ActiveAdmin.register Absence do
         panel Basket.model_name.human(count: 2), icon: "shopping-bag", count: absence.baskets.count do
           table_for absence.baskets.includes(:membership, :delivery), class: "table-auto" do
             column(:delivery) { |b| auto_link b.delivery }
-            column(:membership, class: "text-right") { |b| auto_link b.membership, b.membership.id, aria: { label: "show" } }
+            column(:membership, class: "text-right") { |b| auto_link b.membership, b.membership.id }
           end
         end
         if absence.note?

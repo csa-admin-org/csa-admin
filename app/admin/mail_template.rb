@@ -81,7 +81,7 @@ ActiveAdmin.register MailTemplate do
             end
           else
             table_for DeliveryCycle.kept.ordered, class: "table-auto" do
-              column DeliveryCycle.model_name.human, ->(dc) { auto_link dc, aria: { label: "show" } }
+              column DeliveryCycle.model_name.human, ->(dc) { auto_link dc }
               column MailTemplate.human_attribute_name(:active), ->(dc) {
                 aligned_status_tag(dc.id.in?(mail_template.delivery_cycle_ids))
               }, class: "text-right"

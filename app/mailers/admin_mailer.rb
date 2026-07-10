@@ -272,6 +272,7 @@ class AdminMailer < ApplicationMailer
         "admin" => Liquid::AdminDrop.new(@admin),
         "pending_memberships" => params[:pending_memberships].map { |m| Liquid::AdminMembershipDrop.new(m) },
         "opened_memberships" => params[:opened_memberships].map { |m| Liquid::AdminMembershipDrop.new(m) },
+        "handbook_url" => handbook_page_url(:membership_renewal, host: Current.org.admin_url),
         "pending_action_url" => params[:pending_action_url],
         "opened_action_url" => params[:opened_action_url],
         "action_url" => params[:action_url])

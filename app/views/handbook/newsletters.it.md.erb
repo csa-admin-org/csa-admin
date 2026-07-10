@@ -4,11 +4,11 @@ In aggiunta alle [email automatiche](/mail_templates) inviate durante eventi spe
 
 Queste newsletters possono essere indirizzate a tutti i tuoi soci o a un [pubblico](#audience) specifico (stato, <%= BasketSize.model_name.human.downcase %>, punto di ritiro, ...).
 
-> A differenza delle [email automatiche](/mail_templates), le newsletters includono un link di disiscrizione (obbligatorio) nel loro piè di pagina.
+> A differenza delle [email automatiche](/mail_templates), le newsletter includono un collegamento obbligatorio per la disiscrizione nel piè di pagina.
 
 ## Pubblico {#audience}
 
-Durante la creazione di una newsletter, scegliete il pubblico di destinazione. Diversi filtri sono disponibili:
+Durante la creazione di una newsletter, scegli il pubblico di destinazione. Sono disponibili diversi filtri:
 
 - **Stato del socio**: Attivo, supporto, inattivo, in attesa (quando disponibile) o tutti i soci.
 - **Stato dell'abbonamento**: In prova, in corso, futuro o passato.
@@ -26,14 +26,14 @@ Se i filtri di pubblico standard sopra non coprono le tue esigenze, puoi creare 
 
 I segmenti salvati possono filtrare per <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, deposito, ciclo di consegne, stato del rinnovo, intervallo di fatturazione, città e altro. Appaiono accanto alle altre opzioni di pubblico durante la creazione di una newsletter.
 
-## Templates {#templates}
+## Modelli {#templates}
 
-Per facilitare la creazione delle tue newsletters, CSA Admin offre un sofisticato sistema di [templates](/newsletter_templates). Questi templates sono modelli di email con blocchi di contenuto predefiniti che puoi creare e modificare secondo le tue necessità.
+Per facilitare la creazione delle tue newsletter, CSA Admin offre un sistema di [modelli](/newsletter_templates). Questi modelli di email contengono blocchi di contenuto predefiniti che puoi creare e modificare secondo le tue necessità.
 
-Di default, sono disponibili [2 templates](/newsletter_templates):
+Per impostazione predefinita, sono disponibili [due modelli](/newsletter_templates):
 
-- <strong>Testo libero</strong>: un template semplice con un singolo blocco di contenuto senza titolo.
-- <strong>Prossima consegna</strong>: un template più complesso con diversi blocchi di contenuto, nonché informazioni dinamiche ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [prossima attività](/handbook/activity), ...).
+- <strong>Testo libero</strong>: un modello semplice con un solo blocco di contenuto senza titolo.
+- <strong>Prossima consegna</strong>: un modello più completo con più blocchi di contenuto e informazioni dinamiche ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [prossima attività](/handbook/activity), ...).
 
 Sentiti libero di duplicarli e modificarli come desideri o [crearne di nuovi](/newsletter_templates/new).
 
@@ -41,7 +41,7 @@ Sentiti libero di duplicarli e modificarli come desideri o [crearne di nuovi](/n
 
 ### Blocchi di contenuto
 
-Ogni template deve contenere almeno un blocco di contenuto. Si tratta di un blocco di testo libero che può essere modificato durante la creazione di una newsletter. Un blocco il cui contenuto viene lasciato vuoto durante la modifica di una newsletter sarà semplicemente ignorato.
+Ogni modello deve contenere almeno un blocco di contenuto. Si tratta di un blocco di testo libero che puoi modificare durante la creazione di una newsletter. Un blocco lasciato vuoto durante la modifica viene semplicemente ignorato.
 
 Ogni blocco è definito con un identificatore unico (`id`) e opzionalmente un titolo (`title`) così come un contenuto predefinito.
 
@@ -59,15 +59,15 @@ Esempio di un blocco vuoto (da compilare durante la creazione di una newsletter)
 {% content id: "text" %}{% endcontent %}
 ~~~
 
-### Linguaggio dei template e formattazione {#liquid}
+### Linguaggio dei modelli e formattazione {#liquid}
 
-I template utilizzano il linguaggio di template Liquid per inserire dati dinamici specifici per ogni socio (nome, dettagli della <%= Basket.model_name.human.downcase %>, informazioni sull'abbonamento, ...) e logica condizionale. Per dettagli sulla sintassi Liquid, i tag di formattazione e il pannello di anteprima dei dati, consulta la [pagina Emails del manuale](/handbook/emails).
+I modelli utilizzano il linguaggio Liquid per inserire dati dinamici specifici per ogni socio (nome, dettagli della <%= Basket.model_name.human.downcase %>, informazioni sull'abbonamento, ...) e logica condizionale. Per dettagli sulla sintassi Liquid, i tag di formattazione e il pannello di anteprima dei dati, consulta la [pagina Email del manuale](/handbook/emails).
 
 ## Allegati {#attachments}
 
 Puoi aggiungere allegati alle tue newsletters, ma il peso totale di questi allegati non deve superare i 5 MB.
 
-Se desideri inviare allegati più pesanti, puoi utilizzare un servizio esterno come [SwissTransfer](https://www.swisstransfer.com) o ospitarli sul tuo sito e semplicemente aggiungere un link a questi file nella tua newsletter.
+Se desideri inviare allegati più pesanti, puoi utilizzare un servizio esterno come [SwissTransfer](https://www.swisstransfer.com) oppure ospitarli sul tuo sito e aggiungere un collegamento ai file nella newsletter.
 
 ## Tracciamento delle consegne {#delivery-tracking}
 
@@ -93,10 +93,10 @@ Per programmare l'invio automatico di una newsletter, specifica una data futura 
 
 ## Disiscrizione {#unsubscription}
 
-Tutti i soci sono iscritti di default alle newsletters. Ogni socio può disiscriversi in qualsiasi momento cliccando sul link di disiscrizione obbligatorio presente nel piè di pagina di ogni newsletter.
+Tutti i soci sono iscritti alle newsletter per impostazione predefinita. Ogni socio può disiscriversi in qualsiasi momento usando il collegamento obbligatorio nel piè di pagina di ogni newsletter.
 
 ## Reiscrizione {#subscribe}
 
 I soci che si sono disiscritti possono facilmente iscriversi nuovamente dal [loro account](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) nella sezione "Newsletters".
 
-> Si prega di notare che il link di reiscrizione alle newsletters appare nell'account del socio solo se questi si è collegato personalmente, e non quando un amministratore ha effettuato l'accesso al suo account per suo conto.
+> Nota che il collegamento per reiscriversi alle newsletter appare nell'account del socio solo dopo che il socio vi ha effettuato personalmente l'accesso, non quando un amministratore accede per suo conto.

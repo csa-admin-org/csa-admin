@@ -5,7 +5,7 @@ CSA Admin utilizza due tipi di email per comunicare con i tuoi soci:
 - [**Email automatiche**](/mail_templates): inviate automaticamente durante eventi specifici (nuova fattura, rinnovo, promemoria attività, ...). Puoi personalizzarne il contenuto e attivarle/disattivarle.
 - [**Newsletters**](/newsletters): email di gruppo che componi e invii manualmente (o programmi) a tutti o parte dei tuoi soci.
 
-Entrambi i tipi utilizzano lo stesso linguaggio di template e le stesse opzioni di formattazione descritte di seguito.
+Entrambi i tipi utilizzano lo stesso linguaggio dei modelli e le stesse opzioni di formattazione descritte di seguito.
 
 ## Impostazioni email {#email-settings}
 
@@ -13,9 +13,9 @@ Le impostazioni email definiscono l'indirizzo mittente predefinito, la firma e i
 
 Firme e piè di pagina sono tradotti per ogni lingua dell'organizzazione. La firma viene aggiunta dopo il contenuto dell'email, mentre il piè di pagina appare in fondo all'email.
 
-## Linguaggio di template Liquid {#liquid}
+## Linguaggio dei modelli Liquid {#liquid}
 
-I template di email utilizzano il linguaggio di template [Liquid](https://shopify.github.io/liquid), che permette di inserire dati dinamici specifici per ogni socio e aggiungere logica condizionale. Nonostante un invio "di gruppo", il contenuto di ogni email viene generato individualmente in base alle informazioni di ciascun socio (nome, lingua, abbonamento, ...).
+I modelli di email utilizzano il linguaggio [Liquid](https://shopify.github.io/liquid), che permette di inserire dati dinamici specifici per ogni socio e aggiungere logica condizionale. Nonostante un invio "di gruppo", il contenuto di ogni email viene generato individualmente in base alle informazioni di ciascun socio (nome, lingua, abbonamento, ...).
 
 ### Visualizzare i dati
 
@@ -93,15 +93,15 @@ Oltre all'HTML standard, sono disponibili diversi tag speciali di formattazione:
 
 ## Anteprima dei dati {#data-preview}
 
-Durante la modifica di un template di email o di un template di newsletter, un pannello di anteprima viene visualizzato sotto l'editor di codice. Questa anteprima mostra il tuo template renderizzato con dati di esempio per ogni lingua.
+Durante la modifica di un modello di email o di newsletter, sotto l'editor di codice viene visualizzato un pannello di anteprima. Questa anteprima mostra il tuo modello con dati di esempio per ogni lingua.
 
-Sotto ogni anteprima, un pannello di dati mostra la struttura esatta dei dati disponibili per il tuo template. Questi dati vengono generati in modo semi-casuale a partire dai dati reali della tua organizzazione. Puoi modificare i valori in questo pannello per testare come il tuo template viene renderizzato con diversi scenari (ad es. <%= BasketContent.model_name.human.downcase %> vuoto, zero attività mancanti, ecc.).
+Sotto ogni anteprima, un pannello di dati mostra la struttura esatta dei dati disponibili per il tuo modello. Questi dati vengono generati in modo semi-casuale a partire dai dati reali della tua organizzazione. Puoi modificarli per testare il modello con diversi scenari, ad esempio un <%= BasketContent.model_name.human.downcase %> vuoto o nessuna attività mancante.
 
-> L'anteprima dei dati è il modo migliore per scoprire tutte le variabili disponibili e testare il tuo template. Ogni tipo di template di email ha il proprio set di dati disponibili — consulta sempre il pannello di anteprima per vedere cosa è disponibile.
+> L'anteprima dei dati è il modo migliore per scoprire tutte le variabili disponibili e testare il tuo modello. Ogni tipo di modello di email ha il proprio insieme di dati: consulta sempre il pannello di anteprima per verificare le variabili disponibili.
 
 ## Variabili Liquid comuni {#variables}
 
-Ecco un riferimento rapido delle variabili più comunemente utilizzate nei template di email. Non tutte le variabili sono disponibili in ogni template — consulta sempre l'[anteprima dei dati](#data-preview) per il template specifico che stai modificando.
+Ecco un riferimento rapido alle variabili più comuni nei modelli di email. Non tutte le variabili sono disponibili in ogni modello: consulta sempre l'[anteprima dei dati](#data-preview) del modello che stai modificando.
 
 ### `member`
 
@@ -110,12 +110,12 @@ Ecco un riferimento rapido delle variabili più comunemente utilizzate nei templ
 | `member.name` | Nome completo |
 | `member.balance` | Saldo del conto corrente (formattato) |
 | `member.annual_fee` | Importo della quota annuale (formattato) |
-| `member.page_url` | Link alla pagina dell'account del socio |
-| `member.billing_url` | Link alla pagina di fatturazione del socio |
-| `member.deliveries_url` | Link alla pagina delle consegne del socio |
-| `member.activities_url` | Link alla pagina delle attività del socio |
-| `member.absences_url` | Link alla pagina delle assenze del socio |
-| `member.membership_renewal_url` | Link alla pagina di rinnovo |
+| `member.page_url` | Collegamento alla pagina dell'account del socio |
+| `member.billing_url` | Collegamento alla pagina di fatturazione del socio |
+| `member.deliveries_url` | Collegamento alla pagina delle consegne del socio |
+| `member.activities_url` | Collegamento alla pagina delle attività del socio |
+| `member.absences_url` | Collegamento alla pagina delle assenze del socio |
+| `member.membership_renewal_url` | Collegamento alla pagina di rinnovo |
 
 ### `membership`
 
@@ -153,7 +153,7 @@ Ecco un riferimento rapido delle variabili più comunemente utilizzate nei templ
 |-----------|-------------|
 | `invoice.number` | Numero di fattura |
 | `invoice.date` | Data della fattura (localizzata) |
-| `invoice.entity_type` | Tipo di fattura (es. «Membership», «Shop::Order») |
+| `invoice.entity_type` | Tipo di fattura (es. "Membership", "Shop::Order") |
 | `invoice.amount` | Importo totale (formattato) |
 | `invoice.missing_amount` | Importo non pagato rimanente (formattato) |
 | `invoice.overdue_notices_count` | Numero di promemoria inviati |

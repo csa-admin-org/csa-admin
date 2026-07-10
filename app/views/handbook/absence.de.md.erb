@@ -8,15 +8,15 @@ Sobald diese zusätzliche Funktion in [Deinen Einstellungen](/settings) aktivier
 
 ## Abrechnung {#billing}
 
-Standardmäßig werden als abwesend markierte und nicht gelieferte <%= Basket.model_name.human(count: 2) %> in Rechnung gestellt, und den Mitgliedern wird empfohlen, einen Bekannten zu finden, der ihre <%= Basket.model_name.human %> an ihrer Stelle abholt. In [den Einstellungen](/settings#absence) kannst Du auch wählen, sie nicht in Rechnung zu stellen. Das System wird dann automatisch [die Abrechnung des Abonnements anpassen](/handbook/billing#price-change).
+Standardmässig werden als abwesend markierte und nicht gelieferte <%= Basket.model_name.human(count: 2) %> in Rechnung gestellt, und den Mitgliedern wird empfohlen, einen Bekannten zu finden, der ihre <%= Basket.model_name.human %> an ihrer Stelle abholt. In [den Einstellungen](/settings#absence) kannst Du auch wählen, sie nicht in Rechnung zu stellen. Das System wird dann automatisch [die Abrechnung des Abonnements anpassen](/handbook/billing#price-change).
 
 ## Verschiebung von <%= Basket.model_name.human(count: 2) %> {#basket-shift}
 
 Es ist möglich, die Lieferung einer <%= Basket.model_name.human %> während einer Abwesenheit auf eine andere Lieferung zu verschieben. Dies ermöglicht es den Mitgliedern, ihre Abwesenheiten zu kompensieren, ohne die Anzahl der in Rechnung gestellten <%= Basket.model_name.human(count: 2) %> zu ändern.
 
-Auf der Admin-Seite reicht es aus, eine als abwesend markierte <%= Basket.model_name.human %> von der Abonnementseite aus zu bearbeiten und ein anderes Lieferdatum zu wählen. Der Inhalt der <%= Basket.model_name.human %> (einschließlich Ergänzungen) wird dann automatisch auf die gewählte <%= Basket.model_name.human %> verschoben.
+Auf der Admin-Seite reicht es aus, eine als abwesend markierte <%= Basket.model_name.human %> von der Abonnementseite aus zu bearbeiten und ein anderes Lieferdatum zu wählen. Der Inhalt der <%= Basket.model_name.human %> (einschliesslich Ergänzungen) wird dann automatisch auf die gewählte <%= Basket.model_name.human %> verschoben.
 
-Auf der Mitgliederseite ist die Verschiebung von <%= Basket.model_name.human(count: 2) %> standardmäßig nicht möglich. Um diese Funktion zu aktivieren, hast Du die Möglichkeit, [die folgenden Einstellungen zu ändern](/settings#absence):
+Auf der Mitgliederseite ist die Verschiebung von <%= Basket.model_name.human(count: 2) %> standardmässig nicht möglich. Um diese Funktion zu aktivieren, hast Du die Möglichkeit, [die folgenden Einstellungen zu ändern](/settings#absence):
 
 - **Anzahl der zulässigen Verschiebungen**: um, falls gewünscht, die Anzahl der von den Mitgliedern möglichen Verschiebungen zu begrenzen.
 - **Frist für Verschiebungen**: um, falls gewünscht, die zeitlich möglichen Verschiebungen zu begrenzen.
@@ -46,7 +46,7 @@ Wenn eine <%= Basket.model_name.human %> Verschiebungen erhalten hat, kannst Du 
 
 ## Inbegriffene Abwesenheiten {#absence-included}
 
-Es ist möglich, eine Anzahl von Abwesenheiten zu konfigurieren, die im Abonnement enthalten sind. Diese Abwesenheiten werden dann automatisch abgezogen und nicht in Rechnung gestellt, sobald das Abonnement beginnt. Das System wird vorübergehend die letzten Lieferungen des Abonnements als abwesend markieren, während darauf gewartet wird, dass das Mitglied diese Abwesenheiten auf bestimmte Daten festlegt. Zusätzliche Abwesenheiten werden gemäß dem in [Deinen Einstellungen](/settings#absence) gewählten Modus in Rechnung gestellt oder nicht.
+Es ist möglich, eine Anzahl von Abwesenheiten zu konfigurieren, die im Abonnement enthalten sind. Diese Abwesenheiten werden dann automatisch abgezogen und nicht in Rechnung gestellt, sobald das Abonnement beginnt. Das System wird vorübergehend die letzten Lieferungen des Abonnements als abwesend markieren, während darauf gewartet wird, dass das Mitglied diese Abwesenheiten auf bestimmte Daten festlegt. Zusätzliche Abwesenheiten werden gemäss dem in [Deinen Einstellungen](/settings#absence) gewählten Modus in Rechnung gestellt oder nicht.
 
 > Die Anzahl der inbegriffenen Abwesenheiten wird auf der Ebene eines [Lieferzyklus](/handbook/deliveries#delivery-cycles) eingestellt, um Abonnements mit einer Anzahl von inbegriffenen Abwesenheiten (und damit Lieferungen) auf [Deinem Anmeldeformular](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) anzubieten.
 
@@ -58,13 +58,13 @@ Wenn Mitglieder nicht alle ihre inbegriffenen Abwesenheiten bis zum Ende ihres A
 
 Dies ist der Standardmodus. Vorläufige Abwesenheiten werden nicht geliefert. Die Mitglieder erhalten eine Erinnerungs-E-Mail und können dann eine Lieferung von ihrem Konto aus erzwingen, wenn sie <%= Basket.model_name.human(count: 2) %> erhalten möchten, die als vorläufig abwesend markiert waren.
 
-Dieser Modus ist nützlich, wenn Du bevorzugst, dass ungenutzte Abwesenheiten standardmäßig als Abwesenheiten verbleiben und den Mitgliedern die Möglichkeit geben, bei Bedarf eine Lieferung anzufordern.
+Dieser Modus ist nützlich, wenn Du bevorzugst, dass ungenutzte Abwesenheiten standardmässig als Abwesenheiten verbleiben und den Mitgliedern die Möglichkeit geben, bei Bedarf eine Lieferung anzufordern.
 
 **Lieferung der verbleibenden Abwesenheiten**
 
 In diesem Modus werden ungenutzte inbegriffene Abwesenheiten bei der Erinnerung erzwungen geliefert und in Rechnung gestellt. Die Mitglieder erhalten eine Erinnerungs-E-Mail und können eine Abwesenheit melden, um sich abzumelden, bevor die Lieferung stattfindet und in Rechnung gestellt wird.
 
-Dieser Modus ist nützlich, wenn Du bevorzugst, dass Mitglieder ihre <%= Basket.model_name.human(count: 2) %> standardmäßig erhalten, um Verwirrung zu vermeiden, wenn Mitglieder erscheinen und eine <%= Basket.model_name.human %> erwarten, die nicht vorbereitet wurde.
+Dieser Modus ist nützlich, wenn Du bevorzugst, dass Mitglieder ihre <%= Basket.model_name.human(count: 2) %> standardmässig erhalten, um Verwirrung zu vermeiden, wenn Mitglieder erscheinen und eine <%= Basket.model_name.human %> erwarten, die nicht vorbereitet wurde.
 
 ### Erinnerungs-E-Mail {#absence-included-reminder}
 

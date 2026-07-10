@@ -1,11 +1,11 @@
-# Weergave van pakketinhoud voor leden
+# Weergave van <%= BasketContent.model_name.human.downcase %> voor leden
 
-De pakketinhoud kan nu direct op de leveringspagina van uw leden worden weergegeven. Wanneer ingeschakeld, zien zij de lijst met producten in hun volgende pakket, op basis van hun pakketgrootte en depot.
+De <%= BasketContent.model_name.human.downcase %> kan nu direct op de leveringspagina van je leden worden weergegeven. Wanneer ingeschakeld, zien zij een productlijst voor hun volgende levering, afgestemd op <%= BasketSize.model_name.human.downcase %> en depot.
 
-Dit kan worden geactiveerd en aangepast in [de instellingen voor pakketinhoud](/settings#basket_content):
+Dit kan worden geactiveerd en aangepast in [de instellingen voor <%= BasketContent.model_name.human.downcase %>](/settings#basket_content):
 
 - **Zichtbaarheidsvenster**: Bepaal wanneer de inhoud zichtbaar wordt door het aantal uren voor de leveringsdag in te stellen.
 - **Titel en opmerking**: Pas de koptekst aan en voeg een optionele opmerking toe (bijv. om te vermelden dat de inhoud nog kan veranderen).
 - **Hoeveelheid weergeven**: Toon optioneel de hoeveelheid naast elke productnaam.
 
-Ter herinnering: de pakketinhoud kan ook worden opgenomen in uw nieuwsbrieven met behulp van Liquid-sjablonen. Voor meer details, zie de nieuwe handleidingpagina [Pakketinhoud](/handbook/basket_content).
+Ter herinnering: de <%= BasketContent.model_name.human.downcase %> kan ook worden opgenomen in je nieuwsbrieven met Liquid-sjablonen. Meer details vind je op de nieuwe handleidingpagina [<%= BasketContent.model_name.human %>](/handbook/basket_content).

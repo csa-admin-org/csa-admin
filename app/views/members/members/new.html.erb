@@ -23,11 +23,19 @@
     </div>
   <% end %>
 
-  <%= simple_form_for @member, url: members_member_path, data: { turbo: false, controller: "form-pricing form-section-nav", "form-pricing-url-value" => new_members_member_url } do |f| %>
+  <%= simple_form_for @member,
+    url: members_member_path,
+    data: {
+      turbo: false,
+      controller: "form-pricing form-section-nav",
+      "form-pricing-url-value": new_members_member_url,
+      "form-section-nav-navigation-label-value": t("accessibility.members.form_section_navigation"),
+      "form-section-nav-section-label-value": t("accessibility.members.form_section_number", number: "%{number}")
+    } do |f| %>
     <div class="space-y-12">
       <div
         class="print:break-after-page"
-        aria-label="Contact"
+        aria-label="<%= Member.human_attribute_name(:contact) %>"
         data-form-section-nav-target="section"
       >
         <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">

@@ -268,7 +268,7 @@ class Organization < ApplicationRecord
   def only_one_organization
     return if Organization.count.zero?
 
-    errors.add(:base, "Only one organization is allowed")
+    errors.add(:base, :only_one_organization_allowed)
   end
 
   def set_defaults

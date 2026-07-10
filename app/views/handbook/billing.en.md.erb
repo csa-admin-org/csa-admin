@@ -50,7 +50,7 @@ Recurring billing is the mechanism that handles membership invoicing. It must be
 
 In [the settings (Automatic billing)](/settings#billing), choose the **day of the week** on which the system should run. Every week on that day, the system reviews all members and creates invoices when due. Invoices created this way are **automatically sent** by email.
 
-By default, invoices that are already considered paid/closed when created are not sent automatically. You can change this with the “Send closed invoices” setting.
+By default, invoices that are already considered paid/closed when created are not sent automatically. You can change this with the "Send closed invoices" setting.
 
 > It is advisable to choose a day other than the delivery day. This way, any membership or basket changes made on the delivery day are reflected in the invoice generated in the following days, rather than being invoiced prematurely the same day or waiting a full week.
 
@@ -114,13 +114,13 @@ If a membership configuration (dates, <%= BasketSize.model_name.human.downcase %
 - A future invoice still needs to be sent (it's the middle of the year and the member is billed each quarter); in this case, the price change (positive or negative) will simply be applied to the next invoice.
 - The last invoice has already been sent (it's the end of the year or the member is billed once), there are then 2 possibilities:
   - The price change is positive, a new invoice (with a higher amount) will simply be created on the next billing day to bill the missing amount.
-  - The price change is negative, the last invoice(s) of the membership will then be automatically cancelled and a new invoice (with a lower amount) will be recreated on the next billing day. If the old cancelled invoice was already paid, then the new invoice will be automatically closed and the member will end up with a positive balance. If needed, you can reflect a refund of the member's balance by [creating a negative payment](/payments/new) for them.
+  - If the price change is negative, the membership's most recent invoice or invoices are automatically canceled. A new invoice with the lower amount is created on the next billing day. If a canceled invoice was already paid, the new invoice is automatically closed and the member has a positive balance. To record a refund, [create a negative payment](/payments/new).
 
 Shortening a membership end date, including with the **Stop** action, follows the same rule: future deliveries are removed, the membership amount is recalculated, and the difference is handled on the next billing day.
 
 ### Annual fee {#annual-fee}
 
-When the annual fee feature is enabled, the organization's default annual fee is defined in [the annual fee settings](/settings#annual_fee). Each member inherits this default when created, but it can be overridden individually from their profile (edit page, "Billing" section). If the “support members only” setting is enabled, active members do not automatically inherit the organization default annual fee; the default remains intended for support members unless set manually.
+When the annual fee feature is enabled, the organization's default annual fee is defined in [the annual fee settings](/settings#annual_fee). Each member inherits this default when created, but it can be overridden individually from their profile (edit page, "Billing" section). If the "support members only" setting is enabled, active members do not automatically inherit the organization default annual fee; the default remains intended for support members unless set manually.
 
 When enabled, the annual fee is automatically included in the **first invoice** of the membership. If the member doesn't have a membership ([support](/handbook/members#statuses)), a specific annual fee invoice is automatically created at the beginning of the fiscal year.
 
@@ -154,7 +154,7 @@ Three share-related fields are available on a member's profile (edit page, "Bill
 
 ### Refund {#share-refund}
 
-To refund already billed share capital, go to the invoice page and click on the "Refund" button at the top right, you can then easily create a negative share capital invoice. Make sure that the member no longer needs share capital, otherwise they will be automatically created again on the next billing day.
+To refund billed share capital, open the invoice and click "Refund" in the top-right corner. Then create a negative share-capital invoice. Make sure the member no longer needs those shares; otherwise, they will be invoiced again on the next billing day.
 
 > From a member's page, you can see in the "Billing" section (right column) the number of share capital that will be or are already billed with a link to the corresponding invoices.
 
@@ -165,8 +165,7 @@ CSA Admin allows you to bill uncompleted <%= activities_human_name.downcase %> i
 
 ### Defining members to bill
 
-The total of uncompleted <%= activities_human_name.downcase %> is displayed on [the dashboard](/dashboard). For more details, you can export the CSV [of memberships](/memberships) for the concerned fiscal year. The "<%= activities_human_name %> missing" column is available specifically for this.
-By opening the CSV with Excel, it's easy to determine the members to bill by sorting them using this column. If necessary, you can then adjust the number of <%= activities_human_name.downcase %> requested for each member by directly modifying their membership (field: "<%= activities_human_name %> (full year)").
+The dashboard displays the total number of uncompleted <%= activities_human_name.downcase %>. For more detail, export the membership CSV for the relevant fiscal year from [the memberships page](/memberships). Use the "<%= activities_human_name %> missing" column to identify members to bill, then adjust the number requested for each member in their membership if necessary (field: "<%= activities_human_name %> (full year)").
 
 ### Individual billing
 
@@ -195,9 +194,9 @@ It's possible to add specific text in the ["New invoice" email template](/mail_t
 
 ## Manual invoice (Other) {#manual-invoice}
 
-CSA Admin offers the possibility to manually bill various items or services (for example, purchase of fabric bags for new subscribers). To do this, simply [create a new invoice](/invoices/new) and enter the items under the "Other" tab. After checking the PDF, you can manually send the invoice using the "Send" button on its page.
+Use a manual invoice to bill miscellaneous items or services, such as fabric bags for new members. [Create a new invoice](/invoices/new), then add the items under the "Other" tab. After reviewing the PDF, send the invoice from its page.
 
-> Attention, "Other" type invoices should not be used to bill memberships, share capital or <%= activities_human_name.downcase %>, as the system will not take them into account.
+> Note: Do not use "Other" invoices for memberships, share capital, or <%= activities_human_name.downcase %>; the system does not include them in those calculations.
 
 ## VAT {#vat}
 
@@ -209,7 +208,7 @@ VAT is calculated as an inclusive tax (the invoice total already includes VAT). 
 
 ## Payments {#payments}
 
-Each time a payment is created (automatically or manually) or an invoice is created or cancelled, the system will distribute the amount of all payments to existing invoices in the following priority order:
+Whenever a payment or invoice is created, or an invoice is canceled, the system distributes payments to existing invoices in this priority order:
 
 1. Payment with reference number, redistribution until the referenced invoice is closed.
 2. Redistribution of payments without reference number and excess amounts to invoices that were previously already marked as closed in chronological order.
@@ -258,7 +257,7 @@ The connection with [Alternative Bank Switzerland (ABS)](https://www.abs.ch/en) 
 
 When automatic import via [EBICS](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) is not yet configured, you can easily import payments of invoices with reference numbers from your members by downloading a file in camt.053, camt.054, or mt940 format from your e-banking and uploading it to CSA Admin from [the payments page](/payments), "Import" section in the right column. Don't forget to repeat the operation regularly (every week) until the automatic import is in place.
 
-For payments without a reference number (cash or direct deposit), you simply need to [create a new payment manually](/payments/new). Its amount will be automatically redistributed to existing open invoices.
+For payments without a reference number, such as cash or direct deposits, [create a payment manually](/payments/new). Its amount is automatically redistributed to open invoices.
 
 > Please try to only stick to a single format when importing payments, doing otherwise may lead to double payments creation.
 

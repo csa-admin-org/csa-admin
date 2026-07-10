@@ -191,14 +191,14 @@ class InvoiceMailerTest < ActionMailer::TestCase
       invoice: invoice,
     ).cancelled_email
 
-    assert_equal "Cancelled invoice ##{invoice.id}", mail.subject
+    assert_equal "Canceled invoice ##{invoice.id}", mail.subject
     assert_equal [ "support@annual.com" ], mail.to
     assert_equal "invoice-cancelled", mail.tag
     assert_equal "Acme <info@acme.test>", mail[:from].decoded
     assert_equal "outbound", mail[:message_stream].to_s
 
     body = mail.body.to_s
-    assert_includes body, "Your invoice ##{invoice.id} from #{I18n.l(invoice.date)} has been cancelled."
+    assert_includes body, "Your invoice ##{invoice.id} from #{I18n.l(invoice.date)} has been canceled."
     assert_includes body, "Access my member page"
     assert_includes body, "https://members.acme.test/billing"
 

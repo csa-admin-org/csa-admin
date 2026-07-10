@@ -51,7 +51,7 @@ Wenn das Mitglied sich für die Erneuerung seines Abonnements entscheidet, wird 
 
 Die folgenden Optionen sind je nach Konfiguration ebenfalls auf der Erneuerungsseite verfügbar:
 
-- **Depot**: Mitglieder können ihr Depot wechseln, wenn die Option «Depotwechsel bei Erneuerung erlauben» in [den Einstellungen](/settings#membership_renewal) aktiviert ist.
+- **Depot**: Mitglieder können ihr Depot wechseln, wenn die Option "Depotwechsel bei Erneuerung erlauben" in [den Einstellungen](/settings#membership_renewal) aktiviert ist.
 - **Preis Extra-<%= Basket.model_name.human %>**: Mitglieder können ihren [Preis Extra](/handbook/basket_price_extra)-Beitrag anpassen.
 - **<%= activities_human_name %>**: Wenn eine Mindest- und/oder Höchstanzahl an Teilnahmen in [den Einstellungen](/settings#activity) konfiguriert ist, können Mitglieder die Anzahl der angeforderten Teilnahmen innerhalb dieser Grenzen anpassen.
 
@@ -61,7 +61,7 @@ Nach der Bestätigung wird sein Abonnement für das folgende Geschäftsjahr auto
 
 Wenn ein Abonnement erneuert wird (durch das Mitglied oder durch einen Admin), werden bestimmte Konfigurationen des aktuellen Abonnements in das neue übernommen. Die Kernkonfigurationen — <%= BasketSize.model_name.human %>, <%= BasketComplement.model_name.human(count: 2) %>, Depot, Lieferzyklus, Zahlungsintervall und Preis Extra-<%= Basket.model_name.human %> — werden immer übernommen.
 
-Zusätzliche Konfigurationen können optional übernommen werden, gesteuert durch die Checkboxen «Übernommene Konfigurationen» in [den Einstellungen](/settings#membership_renewal):
+Zusätzliche Konfigurationen können optional übernommen werden, gesteuert durch die Checkboxen "Übernommene Konfigurationen" in [den Einstellungen](/settings#membership_renewal):
 
 - **Preisanpassung der <%= Basket.model_name.human(count: 2) %>**: Die benutzerdefinierte Preisanpassung der <%= Basket.model_name.human(count: 2) %>.
 - **Preisanpassung der <%= BasketComplement.model_name.human(count: 2) %>**: Die benutzerdefinierte Preisanpassung der Ergänzungen.

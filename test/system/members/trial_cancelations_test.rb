@@ -24,10 +24,10 @@ class Members::TrialCancelationsTest < ApplicationSystemTestCase
 
     click_on "Cancel my trial membership"
 
-    assert_text "Trial cancelation"
-    fill_in "Cancelation note(s)", with: "Not the right fit for our family"
+    assert_text "Trial cancellation"
+    fill_in "Cancellation note(s)", with: "Not the right fit for our family"
     check "I support you and will pay the annual membership fee. CHF\u00A030"
-    click_on "Confirm cancelation"
+    click_on "Confirm cancellation"
 
     assert_selector ".flash", text: "Your trial membership has been canceled."
 
@@ -51,7 +51,7 @@ class Members::TrialCancelationsTest < ApplicationSystemTestCase
     click_on "Membership"
     click_on "Cancel my trial membership"
 
-    click_on "Confirm cancelation"
+    click_on "Confirm cancellation"
 
     assert_selector ".flash", text: "Your trial membership has been canceled."
 

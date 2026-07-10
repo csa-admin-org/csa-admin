@@ -9,13 +9,13 @@ Les montants proposés sont encadrés par des bornes (min/max) configurables.
 - Les abonnements pour la nouvelle saison doivent être créés et la première livraison doit être dans le futur.
 - Un seul tour d'engagement peut être ouvert à la fois.
 
-> Les membres marqués comme «<%= Member.human_attribute_name(:salary_basket) %>» sont automatiquement exclus des tours d'engagement, puisque le prix de leur abonnement est mis à zéro.
+> Les membres marqués comme "<%= Member.human_attribute_name(:salary_basket) %>" sont automatiquement exclus des tours d'engagement, puisque le prix de leur abonnement est mis à zéro.
 
 Avant d'ouvrir un tour d'engagement, vérifiez les paramètres suivants dans les [réglages](/settings#bidding_round):
 
 - Prix minimum de la <%= BasketSize.model_name.human.downcase %> (0–100 %) — définit le pourcentage minimal autorisé.
 - Prix maximum de la <%= BasketSize.model_name.human.downcase %> (0–X %) — définit le pourcentage maximal autorisé.
-- Rappel automatique pour un tour d'engagement ouvert — « Envoyer un rappel après (en jours) ».
+- Rappel automatique pour un tour d'engagement ouvert — " Envoyer un rappel après (en jours) ".
 
 Ces paramètres garantissent un cadre cohérent pour les montants proposés et permettent d'automatiser les relances pendant la période d'ouverture.
 
@@ -36,7 +36,7 @@ Ces paramètres garantissent un cadre cohérent pour les montants proposés et p
 
 ### Rappel
 
-Un rappel peut être envoyé automatiquement tant que le tour d'engagement est ouvert. Le délai est défini par le paramètre « Envoyer un rappel après (en jours) ».
+Un rappel peut être envoyé automatiquement tant que le tour d'engagement est ouvert. Le délai est défini par le paramètre " Envoyer un rappel après (en jours) ".
 
 ## Terminer (succès) {#finish}
 

@@ -1,0 +1,115 @@
+_:
+  accessibility:
+    active_admin:
+      actions:
+        view_model:
+          _en: View %{model}
+          _fr: Voir %{model}
+          _de: "%{model} ansehen"
+          _it: Visualizzare %{model}
+          _nl: "%{model} bekijken"
+      breadcrumb:
+        _en: Breadcrumb
+        _fr: Fil d’Ariane
+        _de: Brotkrümelnavigation
+        _it: Percorso di navigazione
+        _nl: Kruimelpad
+      close:
+        _en: Close
+        _fr: Fermer
+        _de: Schliessen
+        _it: Chiudere
+        _nl: Sluiten
+      flash:
+        alert:
+          _en: Alert message
+          _fr: Message d’alerte
+          _de: Warnmeldung
+          _it: Messaggio di avviso
+          _nl: Waarschuwingsbericht
+        error:
+          _en: Error message
+          _fr: Message d’erreur
+          _de: Fehlermeldung
+          _it: Messaggio di errore
+          _nl: Foutmelding
+        notice:
+          _en: Notice message
+          _fr: Message d’information
+          _de: Hinweismeldung
+          _it: Messaggio informativo
+          _nl: Informatiebericht
+      open_main_menu:
+        _en: Open main menu
+        _fr: Ouvrir le menu principal
+        _de: Hauptmenü öffnen
+        _it: Aprire il menu principale
+        _nl: Hoofdmenu openen
+    members:
+      decrease_quantity:
+        _en: Decrease quantity of %{product}
+        _fr: Diminuer la quantité de %{product}
+        _de: Menge von %{product} verringern
+        _it: Riduci la quantità di %{product}
+        _nl: Verminder de hoeveelheid van %{product}
+      form_section_navigation:
+        _en: Form sections
+        _fr: Sections du formulaire
+        _de: Formularabschnitte
+        _it: Sezioni del modulo
+        _nl: Formuliersecties
+      form_section_number:
+        _en: Section %{number}
+        _fr: Section %{number}
+        _de: Abschnitt %{number}
+        _it: Sezione %{number}
+        _nl: Sectie %{number}
+      hide_menu:
+        _en: Hide menu
+        _fr: Masquer le menu
+        _de: Menü ausblenden
+        _it: Nascondi menu
+        _nl: Menu verbergen
+      increase_quantity:
+        _en: Increase quantity of %{product}
+        _fr: Augmenter la quantité de %{product}
+        _de: Menge von %{product} erhöhen
+        _it: Aumenta la quantità di %{product}
+        _nl: Verhoog de hoeveelheid van %{product}
+      logo:
+        _en: "%{organization} logo"
+        _fr: Logo de %{organization}
+        _de: "%{organization}-Logo"
+        _it: Logo di %{organization}
+        _nl: Logo van %{organization}
+      mail_preview:
+        _en: Email preview
+        _fr: Aperçu de l’e-mail
+        _de: E-Mail-Vorschau
+        _it: Anteprima dell’e-mail
+        _nl: E-mailvoorbeeld
+      shop_menu:
+        _en: Shop menu
+        _fr: Menu de l’épicerie
+        _de: Hofladen-Menü
+        _it: Menu del negozio
+        _nl: Winkelmenu
+      show_menu:
+        _en: Show menu
+        _fr: Afficher le menu
+        _de: Menü anzeigen
+        _it: Mostra menu
+        _nl: Menu tonen
+    trix:
+      file_too_large:
+        _en: Only images smaller than 5 MB are allowed.
+        _fr: Seules les images de moins de 5 Mo sont autorisées.
+        _de: Nur Bilder unter 5 MB sind erlaubt.
+        _it: Sono consentite solo immagini inferiori a 5 MB.
+        _nl: Alleen afbeeldingen kleiner dan 5 MB zijn toegestaan.
+      invalid_file:
+        _en: Only images are allowed.
+        _fr: Seules les images sont autorisées.
+        _de: Nur Bilder sind erlaubt.
+        _it: Sono consentite solo immagini.
+        _nl: Alleen afbeeldingen zijn toegestaan.

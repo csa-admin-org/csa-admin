@@ -66,7 +66,7 @@
 
             <%= ff.input :quantity, as: :numeric, label: false, wrapper_html: { class: "ml-2 flex-none flex flex-row h-8 items-center rounded-lg relative bg-gray-200 dark:bg-gray-800", data: { controller: "form-number-controls" } } do %>
               <button
-                aria-label="Minus"
+                aria-label="<%= t("accessibility.members.decrease_quantity", product: [ ff.object.product.name, ff.object.product_variant.name ].join(", ")) %>"
                 class="
                   z-0 cursor-pointer rounded-l bg-gray-200 text-gray-400
                   outline-hidden hover:bg-transparent hover:text-gray-600
@@ -89,7 +89,7 @@
               <% hover_class = (!ff.object.product_variant.stock || ff.object.quantity < ff.object.product_variant.stock.to_i) ? "hover:text-gray-600 dark:hover:text-gray-200 hover:bg-transparent" : "" %>
 
               <%= tag.button(
-                "aria-label": "Plus",
+                "aria-label": t("accessibility.members.increase_quantity", product: [ ff.object.product.name, ff.object.product_variant.name ].join(", ")),
                 class: "outline-hidden cursor-pointer rounded-r bg-gray-200 text-gray-400 disabled:cursor-not-allowed disabled:text-gray-300 dark:bg-gray-800 dark:text-gray-400 disabled:dark:text-gray-600 #{hover_class}",
                 "data-action": "form-number-controls#increment",
                 disabled: disabled
@@ -157,7 +157,7 @@
     </div>
   </div>
 
-  <%= f.button :submit, t(".submit_order"), class: "hidden", aria: { label: "update_order" } %>
+  <%= f.button :submit, t(".submit_order"), class: "hidden", data: { test_update_order: true } %>
 <% end %>
 
 <% if order.errors[:base].any? %>
@@ -177,7 +177,7 @@
   </div>
 
   <div class="order-1 flex w-full items-center md:order-2 md:ml-2 md:w-auto">
-    <%= button_to confirm_members_shop_order_path(order), disabled: submit_disabled, form: { data: { turbo: false }, class: "w-full" }, aria: { label: "confirm_order" } do %>
+    <%= button_to confirm_members_shop_order_path(order), disabled: submit_disabled, form: { data: { turbo: false }, class: "w-full" }, data: { test_confirm_order: true } do %>
       <%= icon "check", class: "size-5" %>
       <span><%= t(".submit_order") %></span>
     <% end %>

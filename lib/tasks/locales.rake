@@ -2,6 +2,7 @@
 
 require "uri"
 require "cgi"
+require "locales/structure"
 
 namespace :locales do
   desc "Automatically format the locale files"
@@ -12,12 +13,27 @@ namespace :locales do
   desc "Check that locales format is correct and that no keys are missing"
   task check: :environment do
     Rake::Task["locales:missing"].invoke
+    Rake::Task["locales:structure"].invoke
     Rake::Task["locales:verify"].invoke
+  end
+
+  desc "Check locale interpolation, scoped keys, and markup"
+  task structure: :environment do
+    locale_files = Locales::Structure.locale_files
+    violations = Locales::Structure.duplicate_leaf_violations(locale_files) +
+      Locales::Structure.violations(Locales::Structure.load_translations(locale_files)) +
+      Locales::Structure.typographic_quote_violations(Locales::Structure.view_files)
+
+    if violations.any?
+      puts "Locales did not pass structure verification."
+      violations.each { |violation| puts "  #{violation}" }
+      exit 1
+    end
   end
 
   desc "Verify that locale files adhere to the automatic format"
   task verify: :environment do
-    locale_files = Dir["config/locales/**/*.yml"].sort
+    locale_files = Locales::Structure.locale_files
     before = locale_files.to_h { |f| [ f, File.read(f) ] }
     convert_and_write_to_config(load_translations_from_config)
     changed = locale_files.select { |f| File.read(f) != before[f] }
@@ -37,9 +53,9 @@ namespace :locales do
     raise "URL is required" unless url
     locales = used_locales
     locales.each do |locale|
-      uri = URI.parse(URI::DEFAULT_PARSER.escape(url)) # Encode the URL before parsing
+      uri = URI.parse(URI::DEFAULT_PARSER.escape(url)) # Encode URL before parsing
       params = CGI.parse(uri.query || "")
-      params["locale"] = [ locale ] # Add or update the locale parameter
+      params["locale"] = [ locale ] # Add or update locale parameter
       uri.query = URI.encode_www_form(params)
       full_url = uri.to_s
       system("open -a 'Safari' '#{full_url}'") # This will open the URL in Safari
@@ -85,10 +101,7 @@ namespace :locales do
   end
 
   def load_translations_from_config
-    translations = {}
-    Dir["config/locales/**/*.yml"].each do |file|
-      translations.deep_merge!(YAML.load_file(file))
-    end
+    translations = Locales::Structure.load_translations(Locales::Structure.locale_files)
     used_locales.each_with_object({}) do |locale, h|
       h.deep_merge!(convert_to_standard(translations, locale.to_s))
     end
@@ -96,7 +109,7 @@ namespace :locales do
 
   def load_translations_from_tmp
     translations = {}
-    Dir["tmp/locales/*.yml"].each do |file|
+    Dir["tmp/locales/*.{yml,yaml}"].each do |file|
       translations.deep_merge!(YAML.load_file(file))
     end
     translations

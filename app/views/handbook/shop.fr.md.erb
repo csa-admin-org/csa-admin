@@ -2,7 +2,7 @@
 
 L'épicerie en ligne permet à vos membres de commander des produits supplémentaires depuis leur compte quelques jours avant la livraison de leurs prochains <%= Basket.model_name.human(count: 2).downcase %>.
 
-Pour vous permettre de préparer le contenu de votre épicerie tranquillement, par défaut, l'épicerie **n'apparaît pas** dans le menu du compte membre. Seuls les admins pouvant accéder au compte d'un membre (depuis le bouton "Compte" de la page admin d'un membre) peuvent voir l'épicerie. Vous pouvez ainsi vous assurer que tous les produits sont bien présentés. Une fois tout en place, cette limitation peut être désactivée depuis [les paramètres](/settings#shop).
+Pour vous laisser le temps de préparer tranquillement le contenu de votre épicerie, celle-ci **n'apparaît pas** par défaut dans le menu du compte membre. Seuls les admins pouvant accéder au compte d'un membre depuis le bouton "Compte" de sa page admin peuvent voir l'épicerie. Vous pouvez ainsi vous assurer que tous les produits sont bien présentés. Une fois tout en place, désactivez cette limitation dans [les paramètres](/settings#shop).
 
 ## Producteurs {#producers}
 
@@ -36,7 +36,7 @@ Ce produit ne sera également disponible que les jours de livraison du compléme
 
 ## Commandes {#orders}
 
-Afin vous laisser le temps de traiter et facturer les commandes passées avant la livraison, un délai (jours et heures) jusqu'auquel les commandes sont possibles, peut être défini depuis [les paramètres de l'épicerie](/settings#shop). Passé ce délai, les membres ne pourront plus créer ou modifier leur commande pour la livraison à venir.
+Afin de vous laisser le temps de traiter et de facturer les commandes passées avant la livraison, vous pouvez définir un délai, en jours et heures, dans [les paramètres de l'épicerie](/settings#shop). Passé ce délai, les membres ne pourront plus créer ou modifier leur commande pour la livraison à venir.
 
 Il est également possible de paramétrer un montant minimal de commande ainsi qu'un poids maximal, si cette information a bien été renseignée pour chaque variante des produits.
 
@@ -52,7 +52,7 @@ Il est également possible de configurer la **facturation automatique** des comm
 
 > Si une commande déjà facturée est modifiée, la facture existante est automatiquement annulée et une nouvelle facture devra être générée et envoyée.
 
-Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle facture"](/mail_templates/invoice_created) à l'aide de [la syntaxe Liquid](https://shopify.github.io/liquid) suivante:
+Vous pouvez ajouter un texte spécifique dans le [modèle d'e-mail "Nouvelle facture"](/mail_templates/invoice_created) à l'aide de la [syntaxe Liquid](https://shopify.github.io/liquid) suivante:
 
 ~~~ liquid
 {% case invoice.entity_type %}
@@ -67,7 +67,7 @@ Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle
 
 Si vous souhaitez permettre aux membres d'ajuster volontairement le prix de leurs commandes (comme contribution solidaire ou comme réduction), vous pouvez définir une liste de pourcentages dans [les paramètres de l'épicerie](/settings#shop). Par exemple: `-10, -5, 5, 10`.
 
-Lorsque des pourcentages sont configurés, les membres voient un menu déroulant sur la page de commande où ils peuvent appliquer un ajustement (par exemple « Soutien +10% » ou « Réduction -5% »). Cet ajustement s'applique au montant total de la commande. Si la liste ne contient que des valeurs positives, le libellé indique une contribution de soutien; si seulement des valeurs négatives, une réduction.
+Lorsque des pourcentages sont configurés, les membres voient un menu déroulant sur la page de commande où ils peuvent appliquer un ajustement (par exemple " Soutien +10% " ou " Réduction -5% "). Cet ajustement s'applique au montant total de la commande. Si la liste ne contient que des valeurs positives, le libellé indique une contribution de soutien; si seulement des valeurs négatives, une réduction.
 
 ## Conditions de vente {#terms-of-sale}
 
@@ -75,7 +75,7 @@ Un lien vers vos conditions de vente peut être configuré par langue dans [les 
 
 ## Accès aux membres sans abonnement {#access-without-membership}
 
-Par défaut, et en dehors [des livraisons spéciales](#special-deliveries), l'accès à l'épicerie est limité aux membres actifs avec un abonnement. Il est cependant possible de définir un dépôt, en modifiant le profil d'un membre inactif, comme étant un "dépôt d'épicerie" afin de lui donner accès à l'épicerie. Les commandes de ces membres se retrouveront alors dans les fiches (PDF) des dépôts correspondants.
+Par défaut, et en dehors [des livraisons spéciales](#special-deliveries), l'accès à l'épicerie est limité aux membres actifs avec un abonnement. Vous pouvez toutefois définir un dépôt comme "dépôt d'épicerie" en modifiant le profil d'un membre inactif afin de lui donner accès à l'épicerie. Les commandes de ces membres se retrouveront alors dans les fiches PDF des dépôts correspondants.
 
 Un cycle de livraisons peut également être assigné pour limiter les livraisons accessibles dans l'épicerie pour ces membres. Sans cycle de livraisons, toutes les livraisons où l'épicerie est ouverte pour le dépôt assigné seront disponibles.
 
@@ -83,8 +83,8 @@ Un cycle de livraisons peut également être assigné pour limiter les livraison
 
 Un cas d'utilisation courant est de donner accès à l'épicerie à des restaurants ou autres acheteurs professionnels qui n'ont pas d'abonnement. Voici comment configurer cela:
 
-1. **Créer un dépôt caché** spécifiquement pour ces membres (par ex. « Restaurants »). Comme il n'est pas visible pour les membres réguliers, il n'encombrera pas la liste des dépôts lors de l'inscription.
-2. **Assigner ce dépôt comme « dépôt d'épicerie »** sur le profil de chaque membre restaurant.
+1. **Créer un dépôt caché** spécifiquement pour ces membres (par ex. " Restaurants "). Comme il n'est pas visible pour les membres réguliers, il n'encombrera pas la liste des dépôts lors de l'inscription.
+2. **Assigner ce dépôt comme " dépôt d'épicerie "** sur le profil de chaque membre restaurant.
 3. **Limiter la visibilité des produits via la disponibilité par dépôt**: en rendant certains produits indisponibles pour tous les dépôts _sauf_ ce dépôt restaurant, vous pouvez offrir un catalogue exclusivement réservé à ces acheteurs professionnels (par ex. grands formats, tarifs en gros). Les membres réguliers avec un abonnement ne verront pas ces produits.
 4. **Contrôler l'ouverture de l'épicerie par dépôt**: lors de l'ouverture de l'épicerie sur une livraison, vous pouvez sélectionner uniquement le dépôt restaurant. Ainsi, l'épicerie reste fermée pour les membres avec un abonnement sur cette livraison tout en étant ouverte pour les restaurants. Inversement, vous pouvez ouvrir l'épicerie pour tous les dépôts lorsque tout le monde doit y avoir accès.
 5. **Assigner un cycle de livraisons** (optionnel): si les restaurants ne doivent commander qu'à certaines dates de livraison, assignez un cycle de livraisons correspondant pour restreindre davantage leurs livraisons disponibles.
@@ -101,4 +101,4 @@ Les produits disponibles peuvent être définis séparément pour chaque livrais
 
 ## Ouverture de l'épicerie {#opening}
 
-Avant que les membres puissent passer des commandes, l'épicerie doit être **ouverte pour les livraisons souhaitées** depuis [la page des livraisons](/deliveries). Cela peut être fait par lot avec l'action groupée « Ouvrir l'épicerie », ou individuellement en éditant une livraison (où vous pouvez également sélectionner des dépôts spécifiques). L'épicerie peut être refermée de la même manière au besoin.
+Avant que les membres puissent passer des commandes, l'épicerie doit être **ouverte pour les livraisons souhaitées** depuis [la page des livraisons](/deliveries). Cela peut être fait par lot avec l'action groupée " Ouvrir l'épicerie ", ou individuellement en éditant une livraison (où vous pouvez également sélectionner des dépôts spécifiques). L'épicerie peut être refermée de la même manière au besoin.

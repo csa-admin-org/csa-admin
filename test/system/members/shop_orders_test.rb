@@ -28,11 +28,11 @@ class Members::ShopOrdersTest < ApplicationSystemTestCase
     assert_equal "/shop/orders/#{order.id}", current_path
 
     fill_in "shop_order_items_attributes_1_quantity", with: 4
-    find('input[aria-label="update_order"]').click
+    find("input[data-test-update-order]").click
     assert_text "must be less than or equal to 3"
 
     fill_in "shop_order_items_attributes_1_quantity", with: 3
-    find('input[aria-label="update_order"]').click
+    find("input[data-test-update-order]").click
 
     assert_equal [
       [ shop_product_variants(:oil_500).id, 3 ],
@@ -61,7 +61,7 @@ class Members::ShopOrdersTest < ApplicationSystemTestCase
 
     fill_in "shop_order_items_attributes_0_quantity", with: 3
     fill_in "shop_order_items_attributes_1_quantity", with: 0
-    find('input[aria-label="update_order"]', visible: false).click
+    find("input[data-test-update-order]", visible: false).click
 
     assert_equal [
       [ shop_product_variants(:oil_1000).id, 3 ]
@@ -80,7 +80,7 @@ class Members::ShopOrdersTest < ApplicationSystemTestCase
       assert_text "unavailable"
     end
 
-    button = find('button[aria-label="confirm_order"]')
+    button = find("button[data-test-confirm-order]")
     assert button.disabled?
   end
 
@@ -114,7 +114,7 @@ class Members::ShopOrdersTest < ApplicationSystemTestCase
     assert_text "Total CHF 6.00"
 
     select "Support +10%"
-    find('input[aria-label="update_order"]').click
+    find("input[data-test-update-order]").click
 
     assert_text "Total CHF 6.60"
   end

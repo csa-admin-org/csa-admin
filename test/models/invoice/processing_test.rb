@@ -167,8 +167,8 @@ class Invoice::ProcessingTest < ActiveSupport::TestCase
     end
 
     mail = InvoiceMailer.deliveries.last
-    assert_equal "Cancelled invoice ##{invoice.id}", mail.subject
-    assert_includes mail.html_part.body.to_s, "Your invoice ##{invoice.id} from #{I18n.l(invoice.date)} has been cancelled."
+    assert_equal "Canceled invoice ##{invoice.id}", mail.subject
+    assert_includes mail.html_part.body.to_s, "Your invoice ##{invoice.id} from #{I18n.l(invoice.date)} has been canceled."
   end
 
   test "does not send invoice_cancelled email when member has no billing emails" do

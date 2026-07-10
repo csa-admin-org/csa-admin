@@ -63,7 +63,7 @@ Il <%= BasketContent.model_name.human.downcase %> può essere incluso anche sull
 
 ## Integrazione newsletter {#newsletter-integration}
 
-Il <%= BasketContent.model_name.human.downcase %> è anche disponibile nei template delle newsletter utilizzando [la sintassi Liquid](https://shopify.github.io/liquid). Il [template di newsletter "Prossima consegna"](/newsletter_templates) predefinito include già una sezione <%= BasketContent.model_name.human.downcase %>. Se il tuo template non la include, o se desideri personalizzarla, puoi utilizzare il seguente codice:
+Il <%= BasketContent.model_name.human.downcase %> è disponibile anche nei modelli di newsletter utilizzando [la sintassi Liquid](https://shopify.github.io/liquid). Il [modello di newsletter "Prossima consegna"](/newsletter_templates) predefinito include già una sezione <%= BasketContent.model_name.human.downcase %>. Se il tuo modello non la include o desideri personalizzarla, puoi utilizzare il seguente codice:
 
 ~~~ liquid
 {% if basket.contents.size > 0 and basket.quantity > 0 %}

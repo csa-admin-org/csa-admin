@@ -1,18 +1,18 @@
 # Vernieuwing
 
-Elk lidmaatschap stopt noodzakelijkerwijs aan het einde van zijn boekjaar; het is daarom noodzakelijk om lidmaatschappen te vernieuwen voor het volgende boekjaar.
+Elk lidmaatschap eindigt aan het einde van het boekjaar. Vernieuw lidmaatschappen voor het volgende boekjaar.
 
-Alle lidmaatschappen kunnen handmatig worden vernieuwd door een beheerder; ofwel vanaf een lidmaatschappagina, of vanaf [de lidmaatschappenpagina](/memberships) (sectie "Vernieuwingen" onder de filters). Het is ook mogelijk om een vernieuwingsverzoek per e-mail naar alle leden te sturen die vervolgens hun lidmaatschap kunnen vernieuwen of beëindigen vanaf een formulier op hun ledenpagina.
+Beheerders kunnen lidmaatschappen handmatig vernieuwen vanaf de lidmaatschapspagina of vanaf de sectie "Vernieuwingen" onder de filters op [de lidmaatschappenpagina](/memberships). Je kunt ook per e-mail een vernieuwingsverzoek naar alle leden sturen. Zij kunnen hun lidmaatschap vervolgens vanuit een formulier in hun ledenaccount vernieuwen of beëindigen.
 
 ## Vereisten {#prerequisites}
 
-Om lidmaatschappen te kunnen vernieuwen, is het eerst nodig om alle [leveringen](/deliveries/new) voor het nieuwe boekjaar aan te maken (zie [Leveringen](/handbook/deliveries)) en, indien nodig, de prijzen (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human.downcase %>, depot...) voor het volgende jaar aan te passen. Inderdaad, het vernieuwen van een lidmaatschap bestaat uit het aanmaken van een nieuw lidmaatschap met dezelfde informatie als het huidige, maar voor het volgende boekjaar.
+Maak vóór je lidmaatschappen vernieuwt alle [leveringen](/deliveries/new) voor het nieuwe boekjaar aan (zie [Leveringen](/handbook/deliveries)). Pas indien nodig de prijzen voor het volgende jaar aan, zoals die van de <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human.downcase %> en het depot. Bij een vernieuwing wordt een nieuw lidmaatschap met de gegevens van het huidige lidmaatschap voor het volgende boekjaar aangemaakt.
 
 Zodra de leveringen zijn aangemaakt, kunnen beheerders lidmaatschappen handmatig vernieuwen, op het moment van hun keuze. Let op: als een lidmaatschap wordt vernieuwd na de eerste levering van het nieuwe boekjaar, wordt die levering alsnog opgenomen in het vernieuwde lidmaatschap.
 
 ## Verzenden van verzoeken {#sending-requests}
 
-Sectie "Vernieuwingen" onder de filters van [de lidmaatschappenpagina](/memberships) zodra aan de onderstaande vereisten is voldaan:
+Zodra aan de onderstaande vereisten is voldaan, gebruik je de sectie "Vernieuwingen" onder de filters op [de lidmaatschappenpagina](/memberships):
 ![lidmaatschappen sectie](<%= image_url("handbook/membership_renewal/section.en.png") %>){:class="small"}
 
 > Het is belangrijk om te weten dat het systeem niet automatisch vernieuwingsverzoeken naar leden stuurt; het is daarom aan jou om het juiste moment te kiezen om ze te verzenden volgens je statuten of reglementen. <br/><br/>
@@ -23,45 +23,45 @@ Sectie "Vernieuwingen" onder de filters van [de lidmaatschappenpagina](/membersh
 Om vernieuwingsverzoeken te kunnen verzenden, moet je eerst de volgende elementen instellen:
 
 - Maak alle [leveringen](/deliveries/new) aan voor het nieuwe boekjaar.
-- Bewerk en activeer [de "Lidmaatschapsvernieuwing" e-mailsjabloon](/mail_templates/membership_renewal).
-- Bewerk en activeer [de "Lidmaatschapsvernieuwing (Herinnering)" e-mailsjabloon](/mail_templates/membership_renewal_reminder) (optioneel).
-- Bewerk [de instellingen](/settings#membership_renewal), zoals de uitlegtekst weergegeven op de ledenpagina (vereist "maximale" toestemming).
+- Bewerk en activeer [de e-mailsjabloon "Lidmaatschapsvernieuwing"](/mail_templates/membership_renewal).
+- Bewerk en activeer [de e-mailsjabloon "Lidmaatschapsvernieuwing (Herinnering)"](/mail_templates/membership_renewal_reminder) (optioneel).
+- Bewerk [de instellingen](/settings#membership_renewal), waaronder de uitlegtekst op de ledenpagina (vereist toestemming "maximaal").
 
 ### Test verzending van een verzoek
 
-Zodra aan de vereisten is voldaan, is het mogelijk om een vernieuwingsverzoek per e-mail voor een enkel lid (bijvoorbeeld jezelf) te verzenden vanaf hun lidmaatschappagina. Dit stelt je in staat om ervoor te zorgen dat alles correct werkt.
+Zodra aan de vereisten is voldaan, kun je vanaf de lidmaatschapspagina van één lid, bijvoorbeeld jezelf, een vernieuwingsverzoek per e-mail versturen. Zo kun je controleren of alles correct werkt.
 
 ### Herinneringse-mail
 
-Indien geconfigureerd, veld "Verstuur een herinnering na (in dagen)" in [de instellingen](/settings#membership_renewal), stuurt het systeem automatisch een herinneringse-mail naar elk lid dat hun lidmaatschap nog niet heeft vernieuwd of beëindigd X dagen na het verzenden van het vernieuwingsverzoek.
+Wanneer je in [de instellingen](/settings#membership_renewal) het veld "Verstuur een herinnering na (in dagen)" invult, stuurt het systeem X dagen na het vernieuwingsverzoek automatisch een herinneringse-mail naar elk lid dat het lidmaatschap nog niet heeft vernieuwd of beëindigd.
 
-[De "Lidmaatschapsvernieuwing (Herinnering)" e-mailsjabloon](/mail_templates/membership_renewal_reminder) moet ook vooraf zijn bewerkt en geactiveerd.
+[De e-mailsjabloon "Lidmaatschapsvernieuwing (Herinnering)"](/mail_templates/membership_renewal_reminder) moet vooraf zijn bewerkt en geactiveerd.
 
 > Omdat het vernieuwen of beëindigen van lidmaatschappen alleen zinvol is vóór de eerste levering van het nieuwe boekjaar, zorg ervoor dat er altijd genoeg tijd is tussen het verzenden van de herinnering en deze deadline.
 
 ## Vernieuwingsformulier {#renewal-form}
 
-Zodra het vernieuwingsverzoek is verzonden, heeft het lid toegang tot een formulier op hun lidmaatschappagina, dat hen zal aanbieden om hun lidmaatschap te vernieuwen of te beëindigen:
+Zodra het vernieuwingsverzoek is verzonden, kan het lid op de lidmaatschapspagina een formulier gebruiken om het lidmaatschap te vernieuwen of te beëindigen:
 
 ![lidmaatschappen sectie](<%= image_url("handbook/membership_renewal/form.en.png") %>)
 
 ### Vernieuwing
 
-Als het lid ervoor kiest om hun lidmaatschap te vernieuwen, worden ze doorverwezen naar de vernieuwingspagina die hen in staat stelt om hun <%= BasketSize.model_name.human.downcase %>, hun <%= BasketComplement.model_name.human(count: 2).downcase %> (indien beschikbaar), het betalingsinterval te wijzigen, evenals een vrije opmerking achter te laten.
+Als het lid het lidmaatschap vernieuwt, wordt het doorgestuurd naar de vernieuwingspagina. Daar kan het de <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %> (indien beschikbaar) en het betalingsinterval wijzigen, en een vrije opmerking achterlaten.
 
 De volgende opties zijn ook beschikbaar op de vernieuwingspagina afhankelijk van je configuratie:
 
-- **Depot**: Leden kunnen van depot wisselen als de optie «Depotwijziging bij vernieuwing toestaan» is ingeschakeld in [de instellingen](/settings#membership_renewal).
+- **Depot**: Leden kunnen van depot wisselen als de optie "Depotwijziging bij vernieuwing toestaan" is ingeschakeld in [de instellingen](/settings#membership_renewal).
 - **<%= Basket.model_name.human %> extra prijs**: Leden kunnen hun [extra prijs](/handbook/basket_price_extra)-bijdrage aanpassen.
 - **<%= activities_human_name %>**: Als een minimum en/of maximum aantal deelnames is geconfigureerd in [de instellingen](/settings#activity), kunnen leden het aantal gevraagde deelnames binnen deze grenzen aanpassen.
 
-Eenmaal bevestigd, wordt hun lidmaatschap voor het volgende boekjaar automatisch aangemaakt en kan het worden geraadpleegd en gewijzigd vanaf de beheerinterface zoals elk ander lidmaatschap. In geval van een fout kan het lidmaatschap eenvoudig worden verwijderd, wat de vernieuwing zal annuleren.
+Na bevestiging wordt het lidmaatschap voor het volgende boekjaar automatisch aangemaakt. Het kan in de beheerinterface worden geraadpleegd en gewijzigd zoals elk ander lidmaatschap. Bij een fout kun je het lidmaatschap verwijderen; daarmee annuleer je de vernieuwing.
 
 ### Overgenomen configuraties {#carried-over}
 
 Wanneer een lidmaatschap wordt vernieuwd (door het lid of door een admin), worden bepaalde configuraties van het huidige lidmaatschap overgenomen in het nieuwe. De kernconfiguraties — <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, leveringscyclus, betalingsinterval en <%= Basket.model_name.human.downcase %> extra prijs — worden altijd overgenomen.
 
-Aanvullende configuraties kunnen optioneel worden overgenomen, gestuurd door de selectievakjes «Overgenomen configuraties» in [de instellingen](/settings#membership_renewal):
+Aanvullende configuraties kunnen optioneel worden overgenomen, gestuurd door de selectievakjes "Overgenomen configuraties" in [de instellingen](/settings#membership_renewal):
 
 - **Prijsaanpassing van <%= Basket.model_name.human(count: 2) %>**: De aangepaste prijsaanpassing op <%= Basket.model_name.human(count: 2).downcase %>.
 - **Prijsaanpassing van <%= BasketComplement.model_name.human(count: 2) %>**: De aangepaste prijsaanpassing op aanvullingen.
@@ -72,13 +72,13 @@ Als een attribuut niet is geselecteerd, wordt het gereset naar de standaardwaard
 
 ### Beëindiging
 
-Als het lid ervoor kiest om hun lidmaatschap te beëindigen, worden ze vervolgens doorverwezen naar de beëindigingspagina die hen in staat stelt om een vrije opmerking achter te laten evenals te kiezen om de vereniging te blijven steunen als ondersteunend lid door de jaarlijkse bijdrage te betalen (indien van toepassing).
+Als het lid het lidmaatschap beëindigt, wordt het doorgestuurd naar de beëindigingspagina. Daar kan het een vrije opmerking achterlaten en, indien van toepassing, kiezen de vereniging als ondersteunend lid te blijven steunen door de jaarlijkse bijdrage te betalen.
 
-Voor beheerders scheidt de lidmaatschappagina verschillende acties:
+De lidmaatschapspagina biedt beheerders verschillende acties:
 
 - **Opzeggen**: houdt het lidmaatschap actief tot het einde van het boekjaar, maar sluit het uit van het vernieuwingsproces.
 - **Opzeggen (ondersteuning)**: doet hetzelfde en houdt het lid daarna als ondersteunend lid.
 - **Stoppen**: beëindigt het lidmaatschap vandaag; gebruik in plaats daarvan het bewerkingsformulier als het op een specifieke datum moet eindigen.
 - **Verwijderen**: gebruik dit alleen om een fout te corrigeren, omdat het lidmaatschap wordt verwijderd en de bijbehorende facturen worden verwijderd of geannuleerd.
 
-Indien nodig kan de beëindiging van het lidmaatschap door een beheerder worden geannuleerd vanaf de lidmaatschappagina.
+Indien nodig kan een beheerder de beëindiging van het lidmaatschap op de lidmaatschapspagina annuleren.

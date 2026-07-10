@@ -5,7 +5,7 @@ CSA Admin utilise deux types d'emails pour communiquer avec vos membres:
 - [**Emails automatiques**](/mail_templates): envoyés automatiquement lors d'événements spécifiques (nouvelle facture, renouvellement, rappel d'activité, ...). Vous pouvez personnaliser leur contenu et les activer/désactiver.
 - [**Newsletters**](/newsletters): emails groupés que vous composez et envoyez manuellement (ou planifiez) à tout ou partie de vos membres.
 
-Les deux types utilisent le même langage de template et les mêmes options de mise en forme décrites ci-dessous.
+Les deux types utilisent le même langage de modèles et les mêmes options de mise en forme décrites ci-dessous.
 
 ## Paramètres d'e-mail {#email-settings}
 
@@ -13,9 +13,9 @@ Les paramètres d'e-mail définissent l'adresse d'expéditeur par défaut, la si
 
 Les signatures et pieds de page sont traduits pour chaque langue de l'organisation. La signature est ajoutée après le contenu de l'e-mail, et le pied de page apparaît tout en bas de l'e-mail.
 
-## Langage de template Liquid {#liquid}
+## Langage des modèles Liquid {#liquid}
 
-Les templates d'email utilisent le langage de template [Liquid](https://shopify.github.io/liquid), qui permet d'insérer des données dynamiques propres à chaque membre et d'ajouter de la logique conditionnelle. Malgré un envoi "groupé", le contenu de chaque email est généré individuellement en fonction des informations de chaque membre (nom, langue, abonnement, ...).
+Les modèles d'e-mail utilisent le langage [Liquid](https://shopify.github.io/liquid), qui permet d'insérer des données dynamiques propres à chaque membre et d'ajouter de la logique conditionnelle. Malgré un envoi "groupé", le contenu de chaque e-mail est généré individuellement selon les informations de chaque membre (nom, langue, abonnement, ...).
 
 ### Afficher des données
 
@@ -43,7 +43,7 @@ Vous pouvez utiliser `and`, `or`, ainsi que `{% elsif %}` et `{% else %}` pour c
 {% if membership.trial_baskets_count > 0 %}
   <p>Vous êtes encore en période d'essai ({{ membership.trial_baskets_count }} <%= Basket.model_name.human(count: 2).downcase %> restants).</p>
 {% elsif membership.activity_participations_missing_count > 0 %}
-  <p>Il vous reste encore {{ membership.activity_participations_missing_count }} activité(s) à effectuer.</p>
+  <p>Il vous reste encore {{ membership.activity_participations_missing_count }} participations à effectuer.</p>
 {% else %}
   <p>Tout est à jour, merci!</p>
 {% endif %}
@@ -93,15 +93,15 @@ En plus du HTML standard, plusieurs balises spéciales de mise en forme sont dis
 
 ## Prévisualisation des données {#data-preview}
 
-Lors de l'édition d'un template d'email ou d'un template de newsletter, un panneau de prévisualisation est affiché sous l'éditeur de code. Cette prévisualisation montre votre template rendu avec des données d'exemple pour chaque langue.
+Lors de l'édition d'un modèle d'e-mail ou de newsletter, un panneau de prévisualisation s'affiche sous l'éditeur de code. Cette prévisualisation montre votre modèle avec des données d'exemple pour chaque langue.
 
-Sous chaque prévisualisation, un panneau de données montre la structure exacte des données disponibles pour votre template. Ces données sont générées semi-aléatoirement à partir des données réelles de votre organisation. Vous pouvez modifier les valeurs dans ce panneau pour tester le rendu de votre template avec différents scénarios (p.ex. <%= BasketContent.model_name.human.downcase %> vide, zéro activités manquantes, etc.).
+Sous chaque prévisualisation, un panneau de données montre la structure exacte des données disponibles pour votre modèle. Ces données sont générées de façon semi-aléatoire à partir des données réelles de votre organisation. Vous pouvez modifier les valeurs dans ce panneau pour tester le rendu de votre modèle avec différents scénarios (par ex.: <%= BasketContent.model_name.human.downcase %> vide ou aucune activité manquante).
 
-> La prévisualisation des données est le meilleur moyen de découvrir toutes les variables disponibles et de tester votre template. Chaque type de template d'email a son propre jeu de données disponibles — consultez toujours le panneau de prévisualisation pour voir ce qui est disponible.
+> La prévisualisation des données est le meilleur moyen de découvrir toutes les variables disponibles et de tester votre modèle. Chaque type de modèle d'e-mail a son propre jeu de données — consultez toujours le panneau de prévisualisation pour vérifier les variables disponibles.
 
 ## Variables Liquid courantes {#variables}
 
-Voici une référence rapide des variables les plus couramment utilisées dans les templates d'email. Toutes les variables ne sont pas disponibles dans chaque template — consultez toujours la [prévisualisation des données](#data-preview) pour le template spécifique que vous éditez.
+Voici une référence rapide des variables les plus couramment utilisées dans les modèles d'e-mail. Toutes les variables ne sont pas disponibles dans chaque modèle — consultez toujours la [prévisualisation des données](#data-preview) du modèle que vous éditez.
 
 ### `member`
 
@@ -153,7 +153,7 @@ Voici une référence rapide des variables les plus couramment utilisées dans l
 |----------|-------------|
 | `invoice.number` | Numéro de facture |
 | `invoice.date` | Date de la facture (localisée) |
-| `invoice.entity_type` | Type de facture (ex. « Membership », « Shop::Order ») |
+| `invoice.entity_type` | Type de facture (ex. " Membership ", " Shop::Order ") |
 | `invoice.amount` | Montant total (formaté) |
 | `invoice.missing_amount` | Montant impayé restant (formaté) |
 | `invoice.overdue_notices_count` | Nombre de rappels envoyés |

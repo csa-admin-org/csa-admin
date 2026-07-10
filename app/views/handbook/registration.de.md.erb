@@ -8,9 +8,9 @@ Dein Anmeldeformular ist der Weg, über den neue Mitglieder Deiner Organisation 
 
 Jede über das öffentliche Anmeldeformular eingereichte Anmeldung muss von einem Administrator geprüft werden. Das gilt sowohl für ganz neue Mitglieder als auch für Personen, die bereits in CSA Admin erfasst sind.
 
-Wenn die eingegebene E-Mail-Adresse einem einzigen bestehenden inaktiven oder Support-Mitglied entspricht, wird der bestehende Mitgliedsdatensatz aktualisiert, statt ein Duplikat zu erstellen. Die vorherige Bestätigung wird zurückgesetzt und das Mitglied wechselt zurück in den [Status «Zu bestätigen»](/handbook/members#to-validate) und in [die Liste der zu bestätigenden Mitglieder](/members?scope=pending), damit Du die neuen Kontaktdaten und die Abonnementsanfrage prüfen kannst.
+Wenn die eingegebene E-Mail-Adresse einem einzigen bestehenden inaktiven oder Support-Mitglied entspricht, wird der bestehende Mitgliedsdatensatz aktualisiert, statt ein Duplikat zu erstellen. Die vorherige Bestätigung wird zurückgesetzt und das Mitglied wechselt zurück in den [Status "Zu bestätigen"](/handbook/members#to-validate) und in [die Liste der zu bestätigenden Mitglieder](/members?scope=pending), damit Du die neuen Kontaktdaten und die Abonnementsanfrage prüfen kannst.
 
-Frühere Daten bleiben im «Verlauf» des Mitgliedsdatensatzes verfügbar, falls Du sie später prüfen musst.
+Frühere Daten bleiben im "Verlauf" des Mitgliedsdatensatzes verfügbar, falls Du sie später prüfen musst.
 
 Eine erneute Anmeldung ohne Abonnementsanfrage entfernt alle Angaben zum Wartelisten-Abonnement (Korb, Depot, Lieferzyklus, Zusätze, Abrechnungsoptionen usw.). Das Mitglied wird beim Bestätigen zu einem Support-Mitglied.
 
@@ -46,7 +46,7 @@ Im Einstellungseditor erscheint ein Wortzähler, wenn der Text lang wird. Das is
 
 [<%= BasketSize.model_name.human(count: 2) %>](/basket_sizes) sind das Herzstück Deines Anmeldeformulars. Jede sichtbare <%= BasketSize.model_name.human %> erscheint als Auswahl für neue Mitglieder.
 
-- **Name**: Was die Mitglieder sehen (z.B. „Klein", „Familie"). Ein selbsterklärender Name hilft: „Klein (1–2 Personen)" ist klarer als nur „Klein".
+- **Name**: Was die Mitglieder sehen (z.B. "Klein", "Familie"). Ein selbsterklärender Name hilft: "Klein (1–2 Personen)" ist klarer als nur "Klein".
 - **Beschreibung**: Ersetzt den automatisch generierten Text (Preis × Lieferungen). Nützlich, wenn der Standardtext nicht ganz passt.
 - **Sichtbarkeit**: Setze eine <%= BasketSize.model_name.human %> auf unsichtbar, wenn sie nur für Admins gedacht ist (z.B. ein Spezialtarif). Unsichtbare Grössen erscheinen nicht im Formular.
 - **Anzeigereihenfolge**: Gesteuert durch die [Einstellung des Sortiermodus](/settings#registration), entweder nach Name, nach Preis oder nach benutzerdefinierter Priorität.
@@ -88,7 +88,7 @@ Wenn die Kartenfunktion aktiv ist, kannst Du auch eine interaktive Depotkarte im
 
 Wenn Deine Organisation viele Depots hat (8 oder mehr), machen [Depot-Gruppen](/depot_groups) einen grossen Unterschied. Sie organisieren Depots in logische Abschnitte, damit Mitglieder schnell ihre Zone finden können.
 
-- **Beispielgruppen**: „Abholung am Hof", „Stadtrelais", „Hauslieferung"
+- **Beispielgruppen**: "Abholung am Hof", "Stadtrelais", "Hauslieferung"
 - **Informationstext**: Optionaler Text, der über den Depots der Gruppe angezeigt wird. Ein guter Ort für gemeinsame Infos wie Abholzeiten oder allgemeine Anweisungen. Ein Satz reicht normalerweise aus.
 - **Anzeigepriorität**: Steuert, welche Gruppe zuerst erscheint.
 
@@ -98,7 +98,7 @@ Ohne Gruppen kann eine flache Liste von 15+ Depots überwältigend wirken. Grupp
 
 Wenn Du mehrere [Lieferzyklen](/delivery_cycles) verwendest (wöchentlich, zweiwöchentlich, saisonal), wählen die Mitglieder bei der Anmeldung einen aus. Weitere Details zur Konfiguration findest Du auf der [Handbuchseite zu Lieferzyklen](/handbook/deliveries#delivery-cycles).
 
-- **Benutzerdefiniertes Label**: Ersetze die Standard-Überschrift „Lieferungen" mit der [Einstellung für das Lieferzyklus-Label](/settings#registration).
+- **Benutzerdefiniertes Label**: Ersetze die Standard-Überschrift "Lieferungen" mit der [Einstellung für das Lieferzyklus-Label](/settings#registration).
 - **Anzeigereihenfolge**: Gesteuert durch die [Einstellung des Sortiermodus](/settings#registration).
 - **Depot-Zuordnung**: Zyklen können mit bestimmten Depots verknüpft werden. Das Formular filtert dann automatisch die verfügbaren Zyklen basierend auf dem ausgewählten Depot.
 
@@ -122,12 +122,12 @@ Zwei Einstellungen steuern den Erklärungstext im Abonnementbereich:
 
 Der automatisch generierte Text deckt bereits das Wesentliche ab, daher eignet sich der Zusatztext am besten für das, was spezifisch für Deine Organisation ist. Wenn Du mehr als einen kurzen Absatz schreibst, verlinke lieber auf Deine Website.
 
-## Felder „Weitere Informationen" {#more-info}
+## Felder "Weitere Informationen" {#more-info}
 
 Zwei optionale Felder können im Formular angezeigt werden:
 
 - **Beruf**: Standardmässig ausgeblendet. Aktiviere es in den [Einstellungen](/settings#registration), wenn es für Deine Organisation nützlich ist.
-- **„Wie wurde von uns erfahren?"** („Gekommen von"): Hilfreich, um zu verstehen, wie die Leute Dich finden. Eine unkomplizierte Frage für Mitglieder, die Dir im Laufe der Zeit interessante Daten liefert.
+- **"Wie wurde von uns erfahren?"** ("Gekommen von"): Hilfreich, um zu verstehen, wie die Leute Dich finden. Eine unkomplizierte Frage für Mitglieder, die Dir im Laufe der Zeit interessante Daten liefert.
 
 Beide Felder können als ausgeblendet, sichtbar oder obligatorisch konfiguriert werden.
 
@@ -153,7 +153,7 @@ Mehrere Elemente im Formular können umsortiert werden:
 | Depots | [Sortiermodus](/settings#registration) | Name, Preis (auf-/absteigend), Priorität |
 | Lieferzyklen | [Sortiermodus](/settings#registration) | Name, Priorität |
 
-Im Modus „Priorität" setzt Du das Feld „Anzeigepriorität" bei jedem Element. Niedrigere Werte erscheinen zuerst.
+Im Modus "Priorität" setzt Du das Feld "Anzeigepriorität" bei jedem Element. Niedrigere Werte erscheinen zuerst.
 
 ## Einige Tipps {#tips}
 

@@ -4,7 +4,7 @@ Wanneer je een individuele <%= Basket.model_name.human.downcase %> wijzigt zodat
 
 Tot nu toe werden bij het wijzigen van de configuratie van een lidmaatschap (<%= BasketSize.model_name.human.downcase %>, depot, leveringscyclus, <%= BasketComplement.model_name.human(count: 2).downcase %>, ...) alle toekomstige <%= Basket.model_name.human(count: 2).downcase %> vernietigd en opnieuw aangemaakt, waarbij alle individuele aanpassingen stilzwijgend werden gewist. Dat is nu niet meer het geval.
 
-Op de pagina van het lidmaatschap toont elk(e) <%= Basket.model_name.human.downcase %> die afwijkt van de configuratie van het lidmaatschap een klein **geschiedenispictogram** naast de status. Wanneer je met de muis over het pictogram beweegt, zie je wie de wijziging heeft aangebracht en wanneer, evenals de lijst met gewijzigde velden. Van daaruit herstelt een knop **« Ongedaan maken »** de <%= Basket.model_name.human.downcase %> naar de standaardwaarden van het lidmaatschap.
+Op de pagina van het lidmaatschap toont elk(e) <%= Basket.model_name.human.downcase %> die afwijkt van de configuratie van het lidmaatschap een klein **geschiedenispictogram** naast de status. Wanneer je met de muis over het pictogram beweegt, zie je wie de wijziging heeft aangebracht en wanneer, evenals de lijst met gewijzigde velden. Van daaruit herstelt een knop **" Ongedaan maken "** de <%= Basket.model_name.human.downcase %> naar de standaardwaarden van het lidmaatschap.
 
 Enkele punten om in gedachten te houden:
 

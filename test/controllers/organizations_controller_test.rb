@@ -1226,10 +1226,12 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     get edit_organization_path(:billing)
 
     assert_response :success
-    assert_select "nav[aria-label='Breadcrumb'] a[href='#{organization_path}']",
-      text: I18n.t("active_admin.resources.organization.edit_model", locale: admins(:super).language)
-    assert_select "h2[aria-label='Page Title']",
-      text: I18n.t("active_admin.resource.form.billing", locale: admins(:super).language)
+    locale = admins(:super).language
+    breadcrumb = I18n.t("accessibility.active_admin.breadcrumb", locale: locale)
+    assert_select "nav[aria-label='#{breadcrumb}'] a[href='#{organization_path}']",
+      text: I18n.t("active_admin.resources.organization.edit_model", locale: locale)
+    assert_select "h2",
+      text: I18n.t("active_admin.resource.form.billing", locale: locale)
     assert_select "fieldset.inputs legend",
       text: /#{I18n.t("active_admin.resources.organization.edit_model", locale: admins(:super).language)}/
     assert_select "fieldset.inputs legend",

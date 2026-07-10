@@ -43,7 +43,7 @@ _:
         _fr: Recevoir une notification lorsque le 3ᵉ rappel d'une facture est envoyée à un membre.
         _de: Erhalte eine Benachrichtigung, wenn die 3. Mahnung einer Rechnung an ein Mitglied gesendet wird.
         _it: Ricevi una notifica quando il 3° richiamo di una fattura viene inviato ad un socio.
-        _nl: Ontvang een melding wanneer de 3e herinnering van een factuur naar un lid is verzonden.
+        _nl: Ontvang een melding wanneer de 3e herinnering van een factuur naar een lid is verzonden.
       membership_trial_cancelation:
         _en: Trial membership canceled
         _fr: Abonnement d'essai annulé

@@ -5,7 +5,7 @@ _:
         too_large:
           _en: Attachments must not exceed 5 MB
           _fr: Les pièces jointes ne doivent pas dépasser 5 Mo
-          _de: Die Anhänge dürfen nicht größer als 5 MB sein
+          _de: Die Anhänge dürfen nicht grösser als 5 MB sein
           _it: Gli allegati non devono superare i 5 MB
           _nl: Bijlagen mogen niet groter zijn dan 5 MB
         zero_bytes:
@@ -121,13 +121,13 @@ _:
       greater_than:
         _en: must be greater than %{count}
         _fr: doit être supérieur à %{count}
-        _de: muss größer als %{count} sein
+        _de: muss grösser als %{count} sein
         _it: deve essere superiore a %{count}
         _nl: moet groter zijn dan %{count}
       greater_than_or_equal_to:
         _en: must be greater than or equal to %{count}
         _fr: doit être supérieur ou égal à %{count}
-        _de: muss größer oder gleich %{count} sein
+        _de: muss grösser oder gleich %{count} sein
         _it: deve essere superiore o uguale a %{count}
         _nl: moet groter dan of gelijk zijn aan %{count}
       inclusion:
@@ -169,13 +169,13 @@ _:
       logo_too_heavy:
         _en: must be less than 400 KB
         _fr: doit faire moins de 400 Ko
-        _de: darf nicht größer als 400 KB sein
+        _de: darf nicht grösser als 400 KB sein
         _it: deve essere inferiore a 400 KB
         _nl: mag niet groter zijn dan 400 KB
       logo_too_small:
         _en: must be at least 512×512 pixels
         _fr: doit faire au moins 512×512 pixels
-        _de: muss mindestens 512×512 Pixel groß sein
+        _de: muss mindestens 512×512 Pixel gross sein
         _it: deve essere di almeno 512×512 pixel
         _nl: moet minstens 512×512 pixels zijn
       missing_iban:
@@ -193,7 +193,7 @@ _:
       no_deliveries:
         _en: The start/end period must include at least one delivery.
         _fr: La période de début/fin doit inclure au moins une livraison.
-        _de: Der Start-/Endzeitraum muss mindestens eine Lieferung einschließen.
+        _de: Der Start-/Endzeitraum muss mindestens eine Lieferung einschliessen.
         _it: La data di inizio/deinizio deve includere almeno una consegna.
         _nl: De start/eindperiode moet minstens één levering bevatten.
       no_upcoming_delivery:

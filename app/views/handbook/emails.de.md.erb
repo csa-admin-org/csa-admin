@@ -70,7 +70,7 @@ Zusätzlich zu Standard-HTML stehen mehrere spezielle Formatierungstags zur Verf
 ~~~ liquid
 {% highlight %}
   <p><strong>📣 Wichtig!</strong></p>
-  <p>Deine <%= Basket.model_name.human %> wird diese Woche extra groß sein.</p>
+  <p>Deine <%= Basket.model_name.human %> wird diese Woche extra gross sein.</p>
 {% endhighlight %}
 ~~~
 
@@ -153,7 +153,7 @@ Hier ist eine Kurzreferenz der am häufigsten verwendeten Variablen in E-Mail-Vo
 |----------|-------------|
 | `invoice.number` | Rechnungsnummer |
 | `invoice.date` | Rechnungsdatum (lokalisiert) |
-| `invoice.entity_type` | Rechnungstyp (z.B. «Membership», «Shop::Order») |
+| `invoice.entity_type` | Rechnungstyp (z.B. "Membership", "Shop::Order") |
 | `invoice.amount` | Gesamtbetrag (formatiert) |
 | `invoice.missing_amount` | Verbleibender unbezahlter Betrag (formatiert) |
 | `invoice.overdue_notices_count` | Anzahl versandter Mahnungen |

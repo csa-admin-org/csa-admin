@@ -249,7 +249,7 @@ ActiveAdmin.register Member do
             div(class: "missing-data") { t(".no_memberships") }
           else
             table_for(memberships.limit(3), class: "table-auto") do
-              column(:id) { |m| auto_link m, m.id, aria: { label: "show" } }
+              column(:id) { |m| auto_link m, m.id }
               column(:period, class: "whitespace-nowrap") { |m| display_period(m.date_range, format: :number) }
               if feature?("activity")
                 column(activities_human_name, class: "text-right whitespace-nowrap") { |m|
@@ -290,7 +290,7 @@ ActiveAdmin.register Member do
               end
             else
               table_for(orders.limit(3), class: "table-auto") do
-                column(:id) { |o| auto_link o, o.id, aria: { label: "show" } }
+                column(:id) { |o| auto_link o, o.id }
                 column(:date) { |o| l(o.date, format: :number) }
                 column(:delivery) { |o| link_to o.delivery.display_name(format: :number), o.delivery }
                 column(:amount, class: "text-right") { |o| cur(o.amount) }
@@ -317,7 +317,7 @@ ActiveAdmin.register Member do
               table_for(activity_participations.limit(6), class: "table-auto") do
                 column(Activity.model_name.human) { |ap|
                   with_note_icon ap.note, reply: ap.note_reply_args do
-                    auto_link ap, ap.activity.name, aria: { label: "show" }
+                    auto_link ap, ap.activity.name
                   end
                 }
                 column(:participants_short, class: "text-right") { |ap| ap.participants_count }
@@ -338,7 +338,7 @@ ActiveAdmin.register Member do
             div(class: "missing-data") { t(".no_invoices") }
           else
             table_for(invoices.limit(10), class: "table-auto", row_html: ->(invoice) { { class: invoice.canceled? ? "text-gray-400 dark:text-gray-600" : "" } }) do
-              column(:id, class: "") { |i| auto_link i, i.id, aria: { label: "show" } }
+              column(:id, class: "") { |i| auto_link i, i.id }
               column(:date, class: "text-right") { |i| l(i.date, format: :number) }
               column(:amount, class: "text-right") { |i|
                 content_tag(:span, class: "flex justify-end items-center gap-1") do
@@ -364,7 +364,7 @@ ActiveAdmin.register Member do
             div(class: "missing-data") { t(".no_payments") }
           else
             table_for(payments.limit(10), class: "table-auto") do
-              column(:id) { |p| auto_link p, p.id, aria: { label: "show" } }
+              column(:id) { |p| auto_link p, p.id }
               column(:date, class: "text-right") { |p| l(p.date, format: :number) }
               column(:invoice_id, class: "text-right") { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }
               column(:amount, class: "text-right") { |p| ccur(p, :amount, unit: false) }
@@ -385,7 +385,7 @@ ActiveAdmin.register Member do
               div(class: "missing-data") { t(".no_absences") }
             else
               table_for(absences.limit(3).includes(baskets: :membership), class: "table-auto") do
-                column(:id) { |a| auto_link a, a.id, aria: { label: "show" } }
+                column(:id) { |a| auto_link a, a.id }
                 column(:period, class: "whitespace-nowrap") { |a|
                   with_note_icon a.note, reply: a.note_reply_args do
                     display_period(a.date_range, format: :default)
@@ -410,7 +410,7 @@ ActiveAdmin.register Member do
           panel link_to(t(".email_deliveries"), all_mail_deliveries_path), icon: "mails", count: mail_deliveries_count do
             table_for(mail_deliveries.limit(6), class: "table-auto table-mail-deliveries") do
               column(:subject, sortable: false) { |d|
-                auto_link d, (d.subject || d.source&.display_name), aria: { label: "show" }
+                auto_link d, (d.subject || d.source&.display_name)
               }
               column(:created_at, class: "text-right whitespace-nowrap") { |d| l(d.created_at, format: :short) }
               column(:state, class: "text-right") { |d| aligned_status_tag(d.state) }
@@ -785,7 +785,7 @@ ActiveAdmin.register Member do
     end
 
     if f.object.new_record? && MailTemplate.active_template(:member_validated).present?
-      f.inputs "Notifications", icon: "mail-check" do
+      f.inputs Admin.human_attribute_name(:notifications), icon: "mail-check" do
         f.input :send_validation_email,
           as: :boolean,
           label: t(".send_validation_email"),

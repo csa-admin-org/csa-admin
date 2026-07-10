@@ -11,50 +11,50 @@ _:
         _en: 'Your bag shifts during your absence have been successfully registered:'
         _fr: 'Les déplacements de vos sacs durant votre absence ont bien été enregistrés:'
         _de: 'Die Verschiebungen Deiner Taschen während Deiner Abwesenheit wurden erfolgreich registriert:'
-        _it: 'Gli spostamenti delle vostre borse durante la vostra assenza sono stati registrati con successo:'
+        _it: 'Gli spostamenti delle tue borse durante la tua assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je tassen tijdens je afwezigheid zijn succesvol geregistreerd:'
       shifts_registered_paragraph/basket:
         _en: 'Your basket shifts during your absence have been successfully registered:'
         _fr: 'Les déplacements de vos paniers durant votre absence ont bien été enregistrés:'
         _de: 'Die Verschiebungen Deiner Körbe während Deiner Abwesenheit wurden erfolgreich registriert:'
-        _it: 'Gli spostamenti delle vostre ceste durante la vostra assenza sono stati registrati con successo:'
+        _it: 'Gli spostamenti delle tue ceste durante la tua assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je manden tijdens je afwezigheid zijn succesvol geregistreerd:'
       shifts_registered_paragraph/cone:
         _en: 'Your cone shifts during your absence have been successfully registered:'
         _fr: 'Les déplacements de vos cornets durant votre absence ont bien été enregistrés:'
         _de: 'Die Verschiebungen Deiner Tüten während Deiner Abwesenheit wurden erfolgreich registriert:'
-        _it: 'Gli spostamenti dei vostri coni durante la vostra assenza sono stati registrati con successo:'
+        _it: 'Gli spostamenti dei tuoi coni durante la tua assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je zakken tijdens je afwezigheid zijn succesvol geregistreerd:'
       shifts_registered_paragraph/crate:
         _en: 'Your crate shifts during your absence have been successfully registered:'
         _fr: 'Les déplacements de vos cagettes durant votre absence ont bien été enregistrés:'
         _de: 'Die Verschiebungen Deiner Kisten während Deiner Abwesenheit wurden erfolgreich registriert:'
-        _it: 'Gli spostamenti delle vostre cassette durante la vostra assenza sono stati registrati con successo:'
+        _it: 'Gli spostamenti delle tue cassette durante la tua assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je kratten tijdens je afwezigheid zijn succesvol geregistreerd:'
       shifts_registered_paragraph/package:
         _en: 'Your package shifts during your absence have been successfully registered:'
         _fr: 'Les déplacements de vos colis durant votre absence ont bien été enregistrés:'
         _de: 'Die Verschiebungen Deiner Pakete während Deiner Abwesenheit wurden erfolgreich registriert:'
-        _it: 'Gli spostamenti dei vostri pacchi durante la vostra assenza sono stati registrati con successo:'
+        _it: 'Gli spostamenti dei tuoi pacchi durante la tua assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je pakketten tijdens je afwezigheid zijn succesvol geregistreerd:'
       shifts_registered_paragraph/share:
         _en: 'Your share shifts during your absence have been successfully registered:'
         _fr: 'Les déplacements de vos parts durant votre absence ont bien été enregistrés:'
         _de: 'Die Verschiebungen Deiner Anteile während Deiner Abwesenheit wurden erfolgreich registriert:'
-        _it: 'Gli spostamenti delle vostre parti durante la vostra assenza sono stati registrati con successo:'
+        _it: 'Gli spostamenti delle tue parti durante la tua assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je delen tijdens je afwezigheid zijn succesvol geregistreerd:'
       view_deliveries_paragraph:
         _en: You can view your deliveries at any time from your member page.
         _fr: Vous pouvez consulter à tout moment vos livraisons depuis votre page de membre.
         _de: Du kannst Deine Lieferungen jederzeit über Deine Mitgliederseite einsehen.
-        _it: Può consultare le sue consegne in qualsiasi momento dalla sua pagina socio.
+        _it: Puoi consultare le tue consegne in qualsiasi momento dalla tua pagina socio.
         _nl: Je kunt je leveringen op elk moment bekijken vanaf je ledenpagina.
     absence_created:
       absence_registered_paragraph:
         _en: 'Your absence has been successfully registered:'
         _fr: 'Votre absence a bien été enregistrée:'
         _de: 'Deine Abwesenheit wurde erfolgreich registriert:'
-        _it: 'La sua assenza è stata registrata con successo:'
+        _it: 'La tua assenza è stata registrata con successo:'
         _nl: 'Je afwezigheid is succesvol geregistreerd:'
       affected_deliveries_label:
         _en: 'Affected deliveries:'
@@ -84,14 +84,14 @@ _:
         _en: You can view your absences at any time from your member page.
         _fr: Vous pouvez consulter à tout moment vos absences depuis votre page de membre.
         _de: Du kannst Deine Abwesenheiten jederzeit über Deine Mitgliederseite einsehen.
-        _it: Può consultare le sue assenze in qualsiasi momento dalla sua pagina socio.
+        _it: Puoi consultare le tue assenze in qualsiasi momento dalla tua pagina socio.
         _nl: Je kunt je afwezigheden op elk moment bekijken vanaf je ledenpagina.
     absence_included_reminder:
       absences_included_paragraph:
         _en: Your membership includes {{ membership.absences_included }} absences, and you still have {{ membership.absences_remaining }} unused.
         _fr: Votre abonnement inclut {{ membership.absences_included }} absences, et il vous en reste {{ membership.absences_remaining }} non utilisée(s).
         _de: Dein Abonnement umfasst {{ membership.absences_included }} Abwesenheiten, und Du hast noch {{ membership.absences_remaining }} ungenutzt.
-        _it: Il vostro abbonamento include {{ membership.absences_included }} assenze, e ve ne restano ancora {{ membership.absences_remaining }} non utilizzate.
+        _it: Il tuo abbonamento include {{ membership.absences_included }} assenze e te ne restano ancora {{ membership.absences_remaining }} non utilizzate.
         _nl: Je lidmaatschap omvat {{ membership.absences_included }} afwezigheden, en je hebt er nog {{ membership.absences_remaining }} ongebruikt.
       manage_absences_button:
         _en: Manage my absences
@@ -103,55 +103,55 @@ _:
         _en: These bags will <strong>not be delivered</strong> unless you request them. If you would like to receive any of these deliveries, you can do so from your account.
         _fr: Ces sacs <strong>ne seront pas livrés</strong> sauf si vous en faites la demande. Si vous souhaitez recevoir certaines de ces livraisons, vous pouvez le faire depuis votre compte.
         _de: Diese Taschen werden <strong>nicht geliefert</strong>, es sei denn, Du forderst sie an. Wenn Du eine dieser Lieferungen erhalten möchtest, kannst Du dies über Dein Konto tun.
-        _it: Queste borse <strong>non saranno consegnate</strong> a meno che non le richiediate. Se desiderate ricevere alcune di queste consegne, potete farlo dal vostro account.
+        _it: Queste borse <strong>non saranno consegnate</strong> a meno che non le richieda. Se desideri ricevere alcune di queste consegne, puoi farlo dal tuo account.
         _nl: Deze tassen worden <strong>niet geleverd</strong> tenzij je ze aanvraagt. Als je een van deze leveringen wilt ontvangen, kun je dit doen via je account.
       provisional_absence_baskets_paragraph/basket:
         _en: These baskets will <strong>not be delivered</strong> unless you request them. If you would like to receive any of these deliveries, you can do so from your account.
         _fr: Ces paniers <strong>ne seront pas livrés</strong> sauf si vous en faites la demande. Si vous souhaitez recevoir certaines de ces livraisons, vous pouvez le faire depuis votre compte.
         _de: Diese Körbe werden <strong>nicht geliefert</strong>, es sei denn, Du forderst sie an. Wenn Du eine dieser Lieferungen erhalten möchtest, kannst Du dies über Dein Konto tun.
-        _it: Queste ceste <strong>non saranno consegnate</strong> a meno che non le richiediate. Se desiderate ricevere alcune di queste consegne, potete farlo dal vostro account.
+        _it: Queste ceste <strong>non saranno consegnate</strong> a meno che non le richieda. Se desideri ricevere alcune di queste consegne, puoi farlo dal tuo account.
         _nl: Deze manden worden <strong>niet geleverd</strong> tenzij je ze aanvraagt. Als je een van deze leveringen wilt ontvangen, kun je dit doen via je account.
       provisional_absence_baskets_paragraph/cone:
         _en: These cones will <strong>not be delivered</strong> unless you request them. If you would like to receive any of these deliveries, you can do so from your account.
         _fr: Ces cornets <strong>ne seront pas livrés</strong> sauf si vous en faites la demande. Si vous souhaitez recevoir certaines de ces livraisons, vous pouvez le faire depuis votre compte.
         _de: Diese Tüten werden <strong>nicht geliefert</strong>, es sei denn, Du forderst sie an. Wenn Du eine dieser Lieferungen erhalten möchtest, kannst Du dies über Dein Konto tun.
-        _it: Questi coni <strong>non saranno consegnati</strong> a meno che non li richiediate. Se desiderate ricevere alcune di queste consegne, potete farlo dal vostro account.
+        _it: Questi coni <strong>non saranno consegnati</strong> a meno che non li richieda. Se desideri ricevere alcune di queste consegne, puoi farlo dal tuo account.
         _nl: Deze zakken worden <strong>niet geleverd</strong> tenzij je ze aanvraagt. Als je een van deze leveringen wilt ontvangen, kun je dit doen via je account.
       provisional_absence_baskets_paragraph/crate:
         _en: These crates will <strong>not be delivered</strong> unless you request them. If you would like to receive any of these deliveries, you can do so from your account.
         _fr: Ces cagettes <strong>ne seront pas livrées</strong> sauf si vous en faites la demande. Si vous souhaitez recevoir certaines de ces livraisons, vous pouvez le faire depuis votre compte.
         _de: Diese Kisten werden <strong>nicht geliefert</strong>, es sei denn, Du forderst sie an. Wenn Du eine dieser Lieferungen erhalten möchtest, kannst Du dies über Dein Konto tun.
-        _it: Queste cassette <strong>non saranno consegnate</strong> a meno che non le richiediate. Se desiderate ricevere alcune di queste consegne, potete farlo dal vostro account.
+        _it: Queste cassette <strong>non saranno consegnate</strong> a meno che non le richieda. Se desideri ricevere alcune di queste consegne, puoi farlo dal tuo account.
         _nl: Deze kratten worden <strong>niet geleverd</strong> tenzij je ze aanvraagt. Als je een van deze leveringen wilt ontvangen, kun je dit doen via je account.
       provisional_absence_baskets_paragraph/package:
         _en: These packages will <strong>not be delivered</strong> unless you request them. If you would like to receive any of these deliveries, you can do so from your account.
         _fr: Ces colis <strong>ne seront pas livrés</strong> sauf si vous en faites la demande. Si vous souhaitez recevoir certaines de ces livraisons, vous pouvez le faire depuis votre compte.
         _de: Diese Pakete werden <strong>nicht geliefert</strong>, es sei denn, Du forderst sie an. Wenn Du eine dieser Lieferungen erhalten möchtest, kannst Du dies über Dein Konto tun.
-        _it: Questi pacchi <strong>non saranno consegnati</strong> a meno che non li richiediate. Se desiderate ricevere alcune di queste consegne, potete farlo dal vostro account.
+        _it: Questi pacchi <strong>non saranno consegnati</strong> a meno che non li richieda. Se desideri ricevere alcune di queste consegne, puoi farlo dal tuo account.
         _nl: Deze pakketten worden <strong>niet geleverd</strong> tenzij je ze aanvraagt. Als je een van deze leveringen wilt ontvangen, kun je dit doen via je account.
       provisional_absence_baskets_paragraph/share:
         _en: These shares will <strong>not be delivered</strong> unless you request them. If you would like to receive any of these deliveries, you can do so from your account.
         _fr: Ces parts <strong>ne seront pas livrées</strong> sauf si vous en faites la demande. Si vous souhaitez recevoir certaines de ces livraisons, vous pouvez le faire depuis votre compte.
         _de: Diese Anteile werden <strong>nicht geliefert</strong>, es sei denn, Du forderst sie an. Wenn Du eine dieser Lieferungen erhalten möchtest, kannst Du dies über Dein Konto tun.
-        _it: Queste parti <strong>non saranno consegnate</strong> a meno che non le richiediate. Se desiderate ricevere alcune di queste consegne, potete farlo dal vostro account.
+        _it: Queste parti <strong>non saranno consegnate</strong> a meno che non le richieda. Se desideri ricevere alcune di queste consegne, puoi farlo dal tuo account.
         _nl: Deze delen worden <strong>niet geleverd</strong> tenzij je ze aanvraagt. Als je een van deze leveringen wilt ontvangen, kun je dit doen via je account.
       provisional_absence_paragraph:
         _en: 'Since you haven''t used all your absences, the following deliveries will be skipped:'
         _fr: 'Comme vous n''avez pas utilisé toutes vos absences, les livraisons suivantes seront ignorées:'
         _de: 'Da Du nicht alle Deine Abwesenheiten genutzt hast, werden die folgenden Lieferungen übersprungen:'
-        _it: 'Poiché non avete utilizzato tutte le vostre assenze, le seguenti consegne saranno saltate:'
+        _it: 'Poiché non hai utilizzato tutte le tue assenze, le seguenti consegne saranno saltate:'
         _nl: 'Aangezien je niet al je afwezigheden hebt gebruikt, worden de volgende leveringen overgeslagen:'
       provisional_delivery_absence_paragraph:
         _en: If you do not wish to receive some of these deliveries, you can still report an absence from your account.
         _fr: Si vous ne souhaitez pas recevoir certaines de ces livraisons, vous pouvez encore signaler une absence depuis votre compte.
         _de: Wenn Du einige dieser Lieferungen nicht erhalten möchtest, kannst Du über Dein Konto noch eine Abwesenheit melden.
-        _it: Se non desiderate ricevere alcune di queste consegne, potete ancora segnalare un'assenza dal vostro account.
+        _it: Se non desideri ricevere alcune di queste consegne, puoi ancora segnalare un'assenza dal tuo account.
         _nl: Als je sommige van deze leveringen niet wilt ontvangen, kun je nog steeds een afwezigheid melden via je account.
       provisional_delivery_paragraph:
         _en: 'Since you haven''t used all your absences, the following deliveries will now <strong>be delivered and billed</strong>:'
         _fr: 'Comme vous n''avez pas utilisé toutes vos absences, les livraisons suivantes seront désormais <strong>livrées et facturées</strong>:'
         _de: 'Da Du nicht alle Deine Abwesenheiten genutzt hast, werden die folgenden Lieferungen nun <strong>geliefert und berechnet</strong>:'
-        _it: 'Poiché non avete utilizzato tutte le vostre assenze, le seguenti consegne saranno ora <strong>consegnate e fatturate</strong>:'
+        _it: 'Poiché non hai utilizzato tutte le tue assenze, le seguenti consegne saranno ora <strong>consegnate e fatturate</strong>:'
         _nl: 'Aangezien je niet al je afwezigheden hebt gebruikt, zullen de volgende leveringen nu <strong>geleverd en gefactureerd</strong> worden:'
       view_deliveries_button:
         _en: View my deliveries
@@ -200,13 +200,13 @@ _:
         _en: If you have any questions, please contact us at <strong>{{ organization.activity_phone }}</strong> or reply to this email.
         _fr: Si vous avez des questions, vous pouvez nous contacter au <strong>{{ organization.activity_phone }}</strong> ou répondre à cet email.
         _de: Bei Fragen kannst Du uns unter <strong>{{ organization.activity_phone }}</strong> erreichen oder einfach auf diese E-Mail antworten.
-        _it: Per qualsiasi domanda, potete contattarci al <strong>{{ organization.activity_phone }}</strong> o rispondere a questa email.
+        _it: Per qualsiasi domanda, contattaci al <strong>{{ organization.activity_phone }}</strong> o rispondi a questa e-mail.
         _nl: Als je vragen hebt, kun je contact met ons opnemen via <strong>{{ organization.activity_phone }}</strong> of reageren op deze e-mail.
       rejection_paragraph:
         _en: 'Your participation in the following activity could not be validated:'
         _fr: 'Votre participation à l''activité suivante n''a pas pu être validée:'
         _de: 'Deine Teilnahme an der folgenden Aktivität konnte nicht bestätigt werden:'
-        _it: 'La vostra partecipazione alla seguente attività non ha potuto essere convalidata:'
+        _it: 'La tua partecipazione alla seguente attività non ha potuto essere convalidata:'
         _nl: 'Je deelname aan de volgende activiteit kon niet worden gevalideerd:'
       schedule_label:
         _en: 'Schedule:'
@@ -218,7 +218,7 @@ _:
         _en: You can sign up for other activities from your member page.
         _fr: Vous pouvez vous inscrire à d'autres activités depuis votre page de membre.
         _de: Du kannst Dich auf Deiner Mitgliederseite für andere Aktivitäten anmelden.
-        _it: Potete iscrivervi ad altre attività dalla vostra pagina di socio.
+        _it: Puoi iscriverti ad altre attività dalla tua pagina socio.
         _nl: Je kunt je inschrijven voor andere activiteiten vanaf je ledenpagina.
     activity_participation_reminder:
       activity_label:
@@ -231,7 +231,7 @@ _:
         _en: 'Carpooling, the following members are traveling by car, feel free to get in touch with them:'
         _fr: 'Covoiturage, les membres suivants se déplacent en voiture, n''hésitez pas à prendre contact avec eux:'
         _de: 'Fahrgemeinschaften: folgende Mitglieder fahren mit dem Auto. Nimm ungeniert Kontakt mit ihnen auf:'
-        _it: 'Condivisione auto: i soci seguenti si spostano in automobile, non esitate a contattarli per un passaggio:'
+        _it: 'Condivisione auto: i soci seguenti si spostano in automobile, non esitare a contattarli per un passaggio:'
         _nl: 'Carpooling, de volgende leden reizen per auto, neem gerust contact met ze op:'
       date_label:
         _en: 'Date:'
@@ -261,7 +261,7 @@ _:
         _en: You can modify your registrations at any time from your member page.
         _fr: Vous pouvez modifier vos inscriptions à tout moment depuis votre page de membre.
         _de: Du kannst Deine Anmeldungen auf Deiner Mitgliederseite jederzeit bearbeiten.
-        _it: In qualsiasi momento dalla vostra pagina di socio potete modificare l'iscrizione all'attività.
+        _it: Puoi modificare la tua iscrizione all'attività in qualsiasi momento dalla tua pagina socio.
         _nl: Je kunt je registraties op elk moment wijzigen vanaf je ledenpagina.
       participants_label:
         _en: 'Participants:'
@@ -273,13 +273,13 @@ _:
         _en: Any questions? You can contact us at <strong>{{ organization.activity_phone }}</strong> or simply reply to this email.
         _fr: Une question? Vous pouvez nous contacter au <strong>{{ organization.activity_phone }}</strong> ou en répondant simplement à cet email.
         _de: Eine Frage? Du kannst uns gerne anrufen <strong>{{ organization.activity_phone }}</strong> oder einfach auf diese Email antworten.
-        _it: Avete una domanda? Potete contattarci al <strong>{{ organization.activity_phone }}</strong> o rispondere semplicemente a questo e-mail.
+        _it: Hai domande? Puoi contattarci al <strong>{{ organization.activity_phone }}</strong> o rispondere semplicemente a questa e-mail.
         _nl: Heb je vragen? Je kunt contact met ons opnemen via <strong>{{ organization.activity_phone }}</strong> of gewoon reageren op deze e-mail.
       reminder_paragraph:
         _en: 'A quick email to remind you of your registration for an activity:'
         _fr: 'Un petit email pour vous rappeler votre inscription à une activité:'
-        _de: 'Ein kleines E-mail, um Dich an Deine Anmeldung an folgende Aktivität zu erinnern:'
-        _it: 'Un breve messaggio per ricordarvi la vostra iscrizione ad un''attività:'
+        _de: 'Eine kurze E-Mail, um Dich an Deine Anmeldung für die folgende Aktivität zu erinnern:'
+        _it: 'Un breve messaggio per ricordarti la tua iscrizione a un''attività:'
         _nl: 'Een korte e-mail om je te herinneren aan je registratie voor een activiteit:'
       schedule_label:
         _en: 'Schedule:'
@@ -327,8 +327,8 @@ _:
       questions_paragraph:
         _en: Any questions? You can contact us at <strong>{{ organization.activity_phone }}</strong> or simply reply to this email.
         _fr: Une question? Vous pouvez nous contacter au <strong>{{ organization.activity_phone }}</strong> ou en répondant simplement à cet email.
-        _de: Eine Frage? Du kannst uns gerne anrufen <strong>{{ organization.activity_phone }}</strong> oder einfach auf diese Email antworten.
-        _it: Avete una domanda? Potete contattarci al <strong>{{ organization.activity_phone }}</strong> o rispondere semplicemente a questa e-mail.
+        _de: Eine Frage? Du kannst uns gerne unter <strong>{{ organization.activity_phone }}</strong> anrufen oder einfach auf diese E-Mail antworten.
+        _it: Hai domande? Puoi contattarci al <strong>{{ organization.activity_phone }}</strong> o rispondere semplicemente a questa e-mail.
         _nl: Heb je vragen? Je kunt contact met ons opnemen via <strong>{{ organization.activity_phone }}</strong> of gewoon reageren op deze e-mail.
       schedule_label:
         _en: 'Schedule:'
@@ -340,50 +340,50 @@ _:
         _en: Sign up for other activities from your member page.
         _fr: Vous pouvez vous inscrire à d'autres activités depuis votre page de membre.
         _de: Du kannst Dich auf Deiner Mitgliederseite für andere Aktivitäten anmelden.
-        _it: Potete iscrivervi ad altre attività dalla vostra pagina di socio.
+        _it: Puoi iscriverti ad altre attività dalla tua pagina socio.
         _nl: Je kunt je inschrijven voor andere activiteiten vanaf je ledenpagina.
       thank_you_paragraph:
         _en: Thank you for your participation in the following activity, it has just been validated!
         _fr: Nous vous remercions pour votre participation à l'activité suivante, elle vient d'être validée!
         _de: Besten Dank für Deine Teilnahme an der folgenden Aktivität, sie wurde soeben bestätigt!
-        _it: Vi ringraziamo per la partecipazione alla seguente attività che è stata confermata!
+        _it: Grazie per la tua partecipazione alla seguente attività, appena confermata!
         _nl: Bedankt voor je deelname aan de volgende activiteit, deze is zojuist gevalideerd!
     basket_final:
       final_basket_paragraph/bag:
         _en: Today is the delivery day of your final bag.
         _fr: C'est le jour de livraison de votre tout dernier sac.
         _de: Heute ist der Liefertag Deiner letzten Tasche.
-        _it: Oggi è il giorno di consegna della vostra ultima borsa.
+        _it: Oggi è il giorno di consegna della tua ultima borsa.
         _nl: Vandaag is de leveringsdag van je laatste tas.
       final_basket_paragraph/basket:
         _en: Today is the delivery day of your final basket.
         _fr: C'est le jour de livraison de votre tout dernier panier.
         _de: Heute ist der Liefertag Deines letzten Korbs.
-        _it: Oggi è il giorno di consegna della vostra ultima cesta.
+        _it: Oggi è il giorno di consegna della tua ultima cesta.
         _nl: Vandaag is de leveringsdag van je laatste mand.
       final_basket_paragraph/cone:
         _en: Today is the delivery day of your final cone.
         _fr: C'est le jour de livraison de votre tout dernier cornet.
         _de: Heute ist der Liefertag Deiner letzten Tüte.
-        _it: Oggi è il giorno di consegna del vostro ultimo cono.
+        _it: Oggi è il giorno di consegna del tuo ultimo cono.
         _nl: Vandaag is de leveringsdag van je laatste zak.
       final_basket_paragraph/crate:
         _en: Today is the delivery day of your final crate.
         _fr: C'est le jour de livraison de votre toute dernière cagette.
         _de: Heute ist der Liefertag Deiner letzten Kiste.
-        _it: Oggi è il giorno di consegna della vostra ultima cassetta.
+        _it: Oggi è il giorno di consegna della tua ultima cassetta.
         _nl: Vandaag is de leveringsdag van je laatste krat.
       final_basket_paragraph/package:
         _en: Today is the delivery day of your final package.
         _fr: C'est le jour de livraison de votre tout dernier colis.
         _de: Heute ist der Liefertag Deines letzten Pakets.
-        _it: Oggi è il giorno di consegna del vostro ultimo pacco.
+        _it: Oggi è il giorno di consegna del tuo ultimo pacco.
         _nl: Vandaag is de leveringsdag van je laatste pakket.
       final_basket_paragraph/share:
         _en: Today is the delivery day of your final share.
         _fr: C'est le jour de livraison de votre toute dernière part.
         _de: Heute ist der Liefertag Deines letzten Anteils.
-        _it: Oggi è il giorno di consegna della vostra ultima parte.
+        _it: Oggi è il giorno di consegna della tua ultima parte.
         _nl: Vandaag is de leveringsdag van je laatste deel.
       member_page_button:
         _en: Access my member page
@@ -395,50 +395,50 @@ _:
         _en: If you ever wish to subscribe again in the future, don't hesitate to get in touch.
         _fr: Si vous souhaitez vous réabonner à l'avenir, n'hésitez pas à nous contacter.
         _de: Solltest Du in Zukunft erneut abonnieren wollen, kannst Du Dich gerne bei uns melden.
-        _it: Se in futuro desiderate abbonarvi nuovamente, non esitate a contattarci.
+        _it: Se in futuro desideri abbonarti nuovamente, non esitare a contattarci.
         _nl: Mocht je je in de toekomst opnieuw willen abonneren, neem dan gerust contact met ons op.
       thank_you_paragraph:
         _en: We wanted to thank you for having been a member. We hope your experience was a positive one.
         _fr: Nous tenons à vous remercier d'avoir été membre. Nous espérons que votre expérience a été positive.
         _de: Wir möchten uns herzlich bei Dir für Deine Mitgliedschaft bedanken. Wir hoffen, dass Deine Erfahrung positiv war.
-        _it: Desideriamo ringraziarvi per essere stati soci. Speriamo che la vostra esperienza sia stata positiva.
+        _it: Desideriamo ringraziarti per essere stato socio. Speriamo che la tua esperienza sia stata positiva.
         _nl: Wij willen je bedanken voor je lidmaatschap. We hopen dat je ervaring positief was.
     basket_first:
       first_basket_paragraph/bag:
         _en: Today is the delivery day of your first bag of the year.
         _fr: C'est le jour de livraison de votre premier sac de l'année.
         _de: Heute ist der Liefertag Deiner ersten Tasche des Jahres.
-        _it: Oggi è il giorno della consegna della vostra prima borsa dell'anno.
+        _it: Oggi è il giorno della consegna della tua prima borsa dell'anno.
         _nl: Vandaag is de leveringsdag van je eerste tas van het jaar.
       first_basket_paragraph/basket:
         _en: Today is the delivery day of your first basket of the year.
         _fr: C'est le jour de livraison de votre premier panier de l'année.
         _de: Heute ist der Liefertag Deines ersten Korbs des Jahres.
-        _it: Oggi è il giorno della consegna della vostra prima cesta dell'anno.
+        _it: Oggi è il giorno della consegna della tua prima cesta dell'anno.
         _nl: Vandaag is de leveringsdag van je eerste mand van het jaar.
       first_basket_paragraph/cone:
         _en: Today is the delivery day of your first cone of the year.
         _fr: C'est le jour de livraison de votre premier cornet de l'année.
         _de: Heute ist der Liefertag Deiner ersten Tüte des Jahres.
-        _it: Oggi è il giorno della consegna del vostro primo cono dell'anno.
+        _it: Oggi è il giorno della consegna del tuo primo cono dell'anno.
         _nl: Vandaag is de leveringsdag van je eerste zak van het jaar.
       first_basket_paragraph/crate:
         _en: Today is the delivery day of your first crate of the year.
         _fr: C'est le jour de livraison de votre première cagette de l'année.
         _de: Heute ist der Liefertag Deiner ersten Kiste des Jahres.
-        _it: Oggi è il giorno della consegna della vostra prima cassetta dell'anno.
+        _it: Oggi è il giorno della consegna della tua prima cassetta dell'anno.
         _nl: Vandaag is de leveringsdag van je eerste krat van het jaar.
       first_basket_paragraph/package:
         _en: Today is the delivery day of your first package of the year.
-        _fr: C'est le jour de livraison de votre premier colis de l'année.
+        _fr: C'est le jour de livraison de votre tout premier colis.
         _de: Heute ist der Liefertag Deines ersten Pakets des Jahres.
-        _it: Oggi è il giorno della consegna del vostro primo pacco dell'anno.
+        _it: Oggi è il giorno della consegna del tuo primo pacco dell'anno.
         _nl: Vandaag is de leveringsdag van je eerste pakket van het jaar.
       first_basket_paragraph/share:
         _en: Today is the delivery day of your first share of the year.
         _fr: C'est le jour de livraison de votre première part de l'année.
         _de: Heute ist der Liefertag Deines ersten Anteils des Jahres.
-        _it: Oggi è il giorno della consegna della vostra prima parte dell'anno.
+        _it: Oggi è il giorno della consegna della tua prima parte dell'anno.
         _nl: Vandaag is de leveringsdag van je eerste deel van het jaar.
       member_page_button:
         _en: Access my member page
@@ -450,44 +450,44 @@ _:
         _en: You can view your delivery schedule and manage your absences from your member page.
         _fr: Vous pouvez consulter votre calendrier de livraisons et gérer vos absences depuis votre page de membre.
         _de: Du kannst Deinen Lieferplan einsehen und Deine Abwesenheiten über Deine Mitgliederseite verwalten.
-        _it: Potete consultare il calendario delle consegne e gestire le vostre assenze dalla vostra pagina di socio.
+        _it: Puoi consultare il calendario delle consegne e gestire le tue assenze dalla tua pagina socio.
         _nl: Je kunt je leveringsschema bekijken en je afwezigheden beheren via je ledenpagina.
     basket_initial:
       first_basket_paragraph/bag:
         _en: Today is the day of your very first bag!
         _fr: C'est le jour de votre tout premier sac!
         _de: Heute ist der Liefertag Deiner allerersten Tasche!
-        _it: Oggi è il giorno della consegna della vostra prima borsa!
+        _it: Oggi è il giorno della consegna della tua prima borsa!
         _nl: Vandaag is de leveringsdag van je allereerste tas!
       first_basket_paragraph/basket:
         _en: Today is the day of your very first basket!
         _fr: C'est le jour de votre tout premier panier!
         _de: Heute ist der Liefertag Deines allerersten Korbs!
-        _it: Oggi è il giorno della consegna della vostra prima cesta!
+        _it: Oggi è il giorno della consegna della tua prima cesta!
         _nl: Vandaag is de leveringsdag van je allereerste mand!
       first_basket_paragraph/cone:
         _en: Today is the day of your very first cone!
         _fr: C'est le jour de votre tout premier cornet!
         _de: Heute ist der Liefertag Deiner allerersten Tüte!
-        _it: Oggi è il giorno della consegna del vostro primo cono!
+        _it: Oggi è il giorno della consegna del tuo primo cono!
         _nl: Vandaag is de leveringsdag van je allereerste zak!
       first_basket_paragraph/crate:
         _en: Today is the day of your very first crate!
         _fr: C'est le jour de votre toute première cagette!
         _de: Heute ist der Liefertag Deiner allerersten Kiste!
-        _it: Oggi è il giorno della consegna della vostra prima cassetta!
+        _it: Oggi è il giorno della consegna della tua prima cassetta!
         _nl: Vandaag is de leveringsdag van je allereerste krat!
       first_basket_paragraph/package:
         _en: Today is the day of your very first package!
-        _fr: C'est le jour de votre tout premier colis!
+        _fr: C'est le jour de votre tout premier colis.
         _de: Heute ist der Liefertag Deines allerersten Pakets!
-        _it: Oggi è il giorno della consegna del vostro primo pacco!
+        _it: Oggi è il giorno della consegna del tuo primo pacco!
         _nl: Vandaag is de leveringsdag van je allereerste pakket!
       first_basket_paragraph/share:
         _en: Today is the day of your very first share!
         _fr: C'est le jour de votre toute première part!
         _de: Heute ist der Liefertag Deines allerersten Anteils!
-        _it: Oggi è il giorno della consegna della vostra prima parte!
+        _it: Oggi è il giorno della consegna della tua prima parte!
         _nl: Vandaag is de leveringsdag van je allereerste deel!
       member_page_button:
         _en: Access my member page
@@ -499,44 +499,44 @@ _:
         _en: You can access your member page at any time to view your upcoming deliveries or manage your absences.
         _fr: Vous pouvez accéder à votre page de membre à tout moment pour consulter vos prochaines livraisons ou gérer vos absences.
         _de: Du kannst jederzeit auf Deine Mitgliederseite zugreifen, um Deine kommenden Lieferungen einzusehen oder Deine Abwesenheiten zu verwalten.
-        _it: Potete accedere alla vostra pagina di socio in qualsiasi momento per consultare le prossime consegne o gestire le vostre assenze.
+        _it: Puoi accedere alla tua pagina socio in qualsiasi momento per consultare le prossime consegne o gestire le tue assenze.
         _nl: Je kunt op elk moment je ledenpagina raadplegen om je komende leveringen te bekijken of je afwezigheden te beheren.
     basket_last:
       last_basket_paragraph/bag:
         _en: Today is the day of your last bag of the year.
         _fr: C'est le jour de votre dernier sac de l'année.
         _de: Heute ist der Liefertag Deiner letzten Tasche des Jahres.
-        _it: Oggi è il giorno di consegna della vostra ultima borsa dell'anno.
+        _it: Oggi è il giorno di consegna della tua ultima borsa dell'anno.
         _nl: Vandaag is de leveringsdag van je laatste tas van het jaar.
       last_basket_paragraph/basket:
         _en: Today is the day of your last basket of the year.
         _fr: C'est le jour de votre dernier panier de l'année.
         _de: Heute ist der Liefertag Deines letzten Korbs des Jahres.
-        _it: Oggi è il giorno di consegna della vostra ultima cesta dell'anno.
+        _it: Oggi è il giorno di consegna della tua ultima cesta dell'anno.
         _nl: Vandaag is de leveringsdag van je laatste mand van het jaar.
       last_basket_paragraph/cone:
         _en: Today is the day of your last cone of the year.
         _fr: C'est le jour de votre dernier cornet de l'année.
         _de: Heute ist der Liefertag Deiner letzten Tüte des Jahres.
-        _it: Oggi è il giorno di consegna del vostro ultimo cono dell'anno.
+        _it: Oggi è il giorno di consegna del tuo ultimo cono dell'anno.
         _nl: Vandaag is de leveringsdag van je laatste zak van het jaar.
       last_basket_paragraph/crate:
         _en: Today is the day of your last crate of the year.
         _fr: C'est le jour de votre dernière cagette de l'année.
         _de: Heute ist der Liefertag Deiner letzten Kiste des Jahres.
-        _it: Oggi è il giorno di consegna della vostra ultima cassetta dell'anno.
+        _it: Oggi è il giorno di consegna della tua ultima cassetta dell'anno.
         _nl: Vandaag is de leveringsdag van je laatste krat van het jaar.
       last_basket_paragraph/package:
         _en: Today is the day of your last package of the year.
         _fr: C'est le jour de votre dernier colis de l'année.
         _de: Heute ist der Liefertag Deines letzten Pakets des Jahres.
-        _it: Oggi è il giorno di consegna del vostro ultimo pacco dell'anno.
+        _it: Oggi è il giorno di consegna del tuo ultimo pacco dell'anno.
         _nl: Vandaag is de leveringsdag van je laatste pakket van het jaar.
       last_basket_paragraph/share:
         _en: Today is the day of your last share of the year.
         _fr: C'est le jour de votre dernière part de l'année.
         _de: Heute ist der Liefertag Deines letzten Anteils des Jahres.
-        _it: Oggi è il giorno di consegna della vostra ultima parte dell'anno.
+        _it: Oggi è il giorno di consegna della tua ultima parte dell'anno.
         _nl: Vandaag is de leveringsdag van je laatste deel van het jaar.
       member_page_button:
         _en: Access my member page
@@ -548,20 +548,20 @@ _:
         _en: Thank you for your membership this season. We look forward to seeing you again next year!
         _fr: Merci pour votre abonnement cette saison. Au plaisir de vous retrouver l'année prochaine!
         _de: Vielen Dank für Dein Abonnement in dieser Saison. Wir freuen uns darauf, Dich nächstes Jahr wiederzusehen!
-        _it: Grazie per il vostro abbonamento in questa stagione. Non vediamo l'ora di rivedervi l'anno prossimo!
+        _it: Grazie per il tuo abbonamento in questa stagione. Non vediamo l'ora di rivederti l'anno prossimo!
         _nl: Bedankt voor je lidmaatschap dit seizoen. We kijken ernaar uit je volgend jaar weer te zien!
     basket_last_trial:
       auto_continue_paragraph:
         _en: Your membership will automatically continue until the end of the fiscal year. If you wish to cancel, you can do so from your membership page before your next delivery.
         _fr: Votre abonnement se poursuivra automatiquement jusqu'à la fin de l'année fiscale. Si vous souhaitez annuler, vous pouvez le faire depuis votre page d'abonnement avant votre prochaine livraison.
         _de: Dein Abonnement wird automatisch bis zum Ende des Geschäftsjahres fortgesetzt. Wenn Du kündigen möchtest, kannst Du dies über Deine Abonnementseite vor Deiner nächsten Lieferung tun.
-        _it: Il vostro abbonamento continuerà automaticamente fino alla fine dell'anno fiscale. Se desiderate annullare, potete farlo dalla vostra pagina abbonamento prima della prossima consegna.
+        _it: Il tuo abbonamento continuerà automaticamente fino alla fine dell'anno fiscale. Se desideri annullare, puoi farlo dalla tua pagina dell'abbonamento prima della prossima consegna.
         _nl: Je lidmaatschap wordt automatisch voortgezet tot het einde van het boekjaar. Als je wilt opzeggen, kun je dit doen via je lidmaatschapspagina vóór je volgende levering.
       last_trial_paragraph:
         _en: Today is the last day of your trial period.
         _fr: Aujourd'hui est le dernier jour de votre période d'essai.
         _de: Heute ist der letzte Tag Deiner Probezeit.
-        _it: Oggi è l'ultimo giorno del vostro periodo di prova.
+        _it: Oggi è l'ultimo giorno del tuo periodo di prova.
         _nl: Vandaag is de laatste dag van je proefperiode.
       membership_button:
         _en: Access my membership
@@ -574,7 +574,7 @@ _:
         _en: If you wish to cancel your membership, you can do so from your account before the end of the trial period.
         _fr: Si vous souhaitez annuler votre abonnement, vous pouvez le faire depuis votre compte avant la fin de la période d'essai.
         _de: Wenn Du Dein Abonnement kündigen möchtest, kannst Du dies vor Ende der Probezeit über Dein Konto tun.
-        _it: Se desiderate annullare il vostro abbonamento, potete farlo dal vostro account prima della fine del periodo di prova.
+        _it: Se desideri annullare il tuo abbonamento, puoi farlo dal tuo account prima della fine del periodo di prova.
         _nl: Als je je lidmaatschap wilt annuleren, kun je dit doen via je account vóór het einde van de proefperiode.
       membership_button:
         _en: Access my membership
@@ -586,37 +586,37 @@ _:
         _en: This is your second to last trial bag.
         _fr: Ceci est votre avant-dernier sac à l'essai.
         _de: Dies ist Deine vorletzte Probetasche.
-        _it: Questa è la vostra penultima borsa di prova.
+        _it: Questa è la tua penultima borsa di prova.
         _nl: Dit is je voorlaatste proeftas.
       second_last_trial_paragraph/basket:
         _en: This is your second to last trial basket.
         _fr: Ceci est votre avant-dernier panier à l'essai.
         _de: Dies ist Dein vorletzter Probekorb.
-        _it: Questa è la vostra penultima cesta di prova.
+        _it: Questa è la tua penultima cesta di prova.
         _nl: Dit is je voorlaatste proefmand.
       second_last_trial_paragraph/cone:
         _en: This is your second to last trial cone.
         _fr: Ceci est votre avant-dernier cornet à l'essai.
         _de: Dies ist Deine vorletzte Probetüte.
-        _it: Questo è il vostro penultimo cono di prova.
+        _it: Questo è il tuo penultimo cono di prova.
         _nl: Dit is je voorlaatste proefzak.
       second_last_trial_paragraph/crate:
         _en: This is your second to last trial crate.
         _fr: Ceci est votre avant-dernière cagette à l'essai.
         _de: Dies ist Deine vorletzte Probekiste.
-        _it: Questa è la vostra penultima cassetta di prova.
+        _it: Questa è la tua penultima cassetta di prova.
         _nl: Dit is je voorlaatste proefkrat.
       second_last_trial_paragraph/package:
         _en: This is your second to last trial package.
         _fr: Ceci est votre avant-dernier colis à l'essai.
         _de: Dies ist Dein vorletztes Probepaket.
-        _it: Questo è il vostro penultimo pacco di prova.
+        _it: Questo è il tuo penultimo pacco di prova.
         _nl: Dit is je voorlaatste proefpakket.
       second_last_trial_paragraph/share:
         _en: This is your second to last trial share.
         _fr: Ceci est votre avant-dernière part à l'essai.
         _de: Dies ist Dein vorletzter Probeteil.
-        _it: Questa è la vostra penultima parte di prova.
+        _it: Questa è la tua penultima parte di prova.
         _nl: Dit is je voorlaatste proefdeel.
     bidding_round_completed:
       membership_button:
@@ -629,79 +629,79 @@ _:
         _en: You didn't make a pledge, so the default bag price ({{ membership.basket_size.price }}) has been applied.
         _fr: Vous n'aviez pas fixé de montant, le prix par défaut du sac ({{ membership.basket_size.price }}) a été appliqué.
         _de: Es wurde kein Betrag zugesagt, daher wurde der Richtwert pro Tasche ({{ membership.basket_size.price }}) angewendet.
-        _it: Non avete fissato un importo, quindi è stato applicato il prezzo predefinito della borsa ({{ membership.basket_size.price }}).
+        _it: Non hai fissato un importo, quindi è stato applicato il prezzo predefinito della borsa ({{ membership.basket_size.price }}).
         _nl: Je hebt geen bod uitgebracht, dus de standaard tasprijs ({{ membership.basket_size.price }}) is toegepast.
       no_pledge_paragraph/basket:
         _en: You didn't make a pledge, so the default basket price ({{ membership.basket_size.price }}) has been applied.
         _fr: Vous n'aviez pas fixé de montant, le prix par défaut du panier ({{ membership.basket_size.price }}) a été appliqué.
         _de: Es wurde kein Betrag zugesagt, daher wurde der Richtwert pro Korb ({{ membership.basket_size.price }}) angewendet.
-        _it: Non avete fissato un importo, quindi è stato applicato il prezzo predefinito della cesta ({{ membership.basket_size.price }}).
+        _it: Non hai fissato un importo, quindi è stato applicato il prezzo predefinito della cesta ({{ membership.basket_size.price }}).
         _nl: Je hebt geen bod uitgebracht, dus de standaard mandprijs ({{ membership.basket_size.price }}) is toegepast.
       no_pledge_paragraph/cone:
         _en: You didn't make a pledge, so the default cone price ({{ membership.basket_size.price }}) has been applied.
         _fr: Vous n'aviez pas fixé de montant, le prix par défaut du cornet ({{ membership.basket_size.price }}) a été appliqué.
         _de: Es wurde kein Betrag zugesagt, daher wurde der Richtwert pro Tüte ({{ membership.basket_size.price }}) angewendet.
-        _it: Non avete fissato un importo, quindi è stato applicato il prezzo predefinito del cono ({{ membership.basket_size.price }}).
+        _it: Non hai fissato un importo, quindi è stato applicato il prezzo predefinito del cono ({{ membership.basket_size.price }}).
         _nl: Je hebt geen bod uitgebracht, dus de standaard zakprijs ({{ membership.basket_size.price }}) is toegepast.
       no_pledge_paragraph/crate:
         _en: You didn't make a pledge, so the default crate price ({{ membership.basket_size.price }}) has been applied.
         _fr: Vous n'aviez pas fixé de montant, le prix par défaut de la cagette ({{ membership.basket_size.price }}) a été appliqué.
         _de: Es wurde kein Betrag zugesagt, daher wurde der Richtwert pro Kiste ({{ membership.basket_size.price }}) angewendet.
-        _it: Non avete fissato un importo, quindi è stato applicato il prezzo predefinito della cassetta ({{ membership.basket_size.price }}).
+        _it: Non hai fissato un importo, quindi è stato applicato il prezzo predefinito della cassetta ({{ membership.basket_size.price }}).
         _nl: Je hebt geen bod uitgebracht, dus de standaard kratprijs ({{ membership.basket_size.price }}) is toegepast.
       no_pledge_paragraph/package:
         _en: You didn't make a pledge, so the default package price ({{ membership.basket_size.price }}) has been applied.
         _fr: Vous n'aviez pas fixé de montant, le prix par défaut du colis ({{ membership.basket_size.price }}) a été appliqué.
         _de: Es wurde kein Betrag zugesagt, daher wurde der Richtwert pro Paket ({{ membership.basket_size.price }}) angewendet.
-        _it: Non avete fissato un importo, quindi è stato applicato il prezzo predefinito del pacco ({{ membership.basket_size.price }}).
+        _it: Non hai fissato un importo, quindi è stato applicato il prezzo predefinito del pacco ({{ membership.basket_size.price }}).
         _nl: Je hebt geen bod uitgebracht, dus de standaard pakketprijs ({{ membership.basket_size.price }}) is toegepast.
       no_pledge_paragraph/share:
         _en: You didn't make a pledge, so the default share price ({{ membership.basket_size.price }}) has been applied.
         _fr: Vous n'aviez pas fixé de montant, le prix par défaut de la part ({{ membership.basket_size.price }}) a été appliqué.
         _de: Es wurde kein Betrag zugesagt, daher wurde der Richtwert pro Anteil ({{ membership.basket_size.price }}) angewendet.
-        _it: Non avete fissato un importo, quindi è stato applicato il prezzo predefinito della parte ({{ membership.basket_size.price }}).
+        _it: Non hai fissato un importo, quindi è stato applicato il prezzo predefinito della parte ({{ membership.basket_size.price }}).
         _nl: Je hebt geen bod uitgebracht, dus de standaard deelprijs ({{ membership.basket_size.price }}) is toegepast.
       pledge_thank_you_paragraph/bag:
         _en: Thank you for your pledge of {{ bidding_round_pledge.basket_size_price }} per bag. This amount has been used to update your membership price.
         _fr: Merci pour votre engagement de {{ bidding_round_pledge.basket_size_price }} par sac. Ce montant a été utilisé pour mettre à jour le prix de votre sac.
         _de: Vielen Dank für die Zusage von {{ bidding_round_pledge.basket_size_price }} pro Tasche. Dieser Betrag wurde verwendet, um den Beitrag pro Tasche zu aktualisieren.
-        _it: Grazie per il vostro impegno di {{ bidding_round_pledge.basket_size_price }} per borsa. Questo importo è stato utilizzato per aggiornare il prezzo della vostra borsa.
+        _it: Grazie per il tuo impegno di {{ bidding_round_pledge.basket_size_price }} per borsa. Questo importo è stato utilizzato per aggiornare il prezzo della tua borsa.
         _nl: Bedankt voor je bod van {{ bidding_round_pledge.basket_size_price }} per tas. Dit bedrag is gebruikt om je lidmaatschapsprijs bij te werken.
       pledge_thank_you_paragraph/basket:
         _en: Thank you for your pledge of {{ bidding_round_pledge.basket_size_price }} per basket. This amount has been used to update your membership price.
         _fr: Merci pour votre engagement de {{ bidding_round_pledge.basket_size_price }} par panier. Ce montant a été utilisé pour mettre à jour le prix de votre panier.
         _de: Vielen Dank für die Zusage von {{ bidding_round_pledge.basket_size_price }} pro Korb. Dieser Betrag wurde verwendet, um den Beitrag pro Korb zu aktualisieren.
-        _it: Grazie per il vostro impegno di {{ bidding_round_pledge.basket_size_price }} per cesta. Questo importo è stato utilizzato per aggiornare il prezzo della vostra cesta.
+        _it: Grazie per il tuo impegno di {{ bidding_round_pledge.basket_size_price }} per cesta. Questo importo è stato utilizzato per aggiornare il prezzo della tua cesta.
         _nl: Bedankt voor je bod van {{ bidding_round_pledge.basket_size_price }} per mand. Dit bedrag is gebruikt om je lidmaatschapsprijs bij te werken.
       pledge_thank_you_paragraph/cone:
         _en: Thank you for your pledge of {{ bidding_round_pledge.basket_size_price }} per cone. This amount has been used to update your membership price.
         _fr: Merci pour votre engagement de {{ bidding_round_pledge.basket_size_price }} par cornet. Ce montant a été utilisé pour mettre à jour le prix de votre cornet.
         _de: Vielen Dank für die Zusage von {{ bidding_round_pledge.basket_size_price }} pro Tüte. Dieser Betrag wurde verwendet, um den Beitrag pro Tüte zu aktualisieren.
-        _it: Grazie per il vostro impegno di {{ bidding_round_pledge.basket_size_price }} per cono. Questo importo è stato utilizzato per aggiornare il prezzo del vostro cono.
+        _it: Grazie per il tuo impegno di {{ bidding_round_pledge.basket_size_price }} per cono. Questo importo è stato utilizzato per aggiornare il prezzo del tuo cono.
         _nl: Bedankt voor je bod van {{ bidding_round_pledge.basket_size_price }} per zak. Dit bedrag is gebruikt om je lidmaatschapsprijs bij te werken.
       pledge_thank_you_paragraph/crate:
         _en: Thank you for your pledge of {{ bidding_round_pledge.basket_size_price }} per crate. This amount has been used to update your membership price.
         _fr: Merci pour votre engagement de {{ bidding_round_pledge.basket_size_price }} par cagette. Ce montant a été utilisé pour mettre à jour le prix de votre cagette.
         _de: Vielen Dank für die Zusage von {{ bidding_round_pledge.basket_size_price }} pro Kiste. Dieser Betrag wurde verwendet, um den Beitrag pro Kiste zu aktualisieren.
-        _it: Grazie per il vostro impegno di {{ bidding_round_pledge.basket_size_price }} per cassetta. Questo importo è stato utilizzato per aggiornare il prezzo della vostra cassetta.
+        _it: Grazie per il tuo impegno di {{ bidding_round_pledge.basket_size_price }} per cassetta. Questo importo è stato utilizzato per aggiornare il prezzo della tua cassetta.
         _nl: Bedankt voor je bod van {{ bidding_round_pledge.basket_size_price }} per krat. Dit bedrag is gebruikt om je lidmaatschapsprijs bij te werken.
       pledge_thank_you_paragraph/package:
         _en: Thank you for your pledge of {{ bidding_round_pledge.basket_size_price }} per package. This amount has been used to update your membership price.
         _fr: Merci pour votre engagement de {{ bidding_round_pledge.basket_size_price }} par colis. Ce montant a été utilisé pour mettre à jour le prix de votre colis.
         _de: Vielen Dank für die Zusage von {{ bidding_round_pledge.basket_size_price }} pro Paket. Dieser Betrag wurde verwendet, um den Beitrag pro Paket zu aktualisieren.
-        _it: Grazie per il vostro impegno di {{ bidding_round_pledge.basket_size_price }} per pacco. Questo importo è stato utilizzato per aggiornare il prezzo del vostro pacco.
+        _it: Grazie per il tuo impegno di {{ bidding_round_pledge.basket_size_price }} per pacco. Questo importo è stato utilizzato per aggiornare il prezzo del tuo pacco.
         _nl: Bedankt voor je bod van {{ bidding_round_pledge.basket_size_price }} per pakket. Dit bedrag is gebruikt om je lidmaatschapsprijs bij te werken.
       pledge_thank_you_paragraph/share:
         _en: Thank you for your pledge of {{ bidding_round_pledge.basket_size_price }} per share. This amount has been used to update your membership price.
         _fr: Merci pour votre engagement de {{ bidding_round_pledge.basket_size_price }} par part. Ce montant a été utilisé pour mettre à jour le prix de votre part.
         _de: Vielen Dank für die Zusage von {{ bidding_round_pledge.basket_size_price }} pro Anteil. Dieser Betrag wurde verwendet, um den Beitrag pro Anteil zu aktualisieren.
-        _it: Grazie per il vostro impegno di {{ bidding_round_pledge.basket_size_price }} per parte. Questo importo è stato utilizzato per aggiornare il prezzo della vostra parte.
+        _it: Grazie per il tuo impegno di {{ bidding_round_pledge.basket_size_price }} per parte. Questo importo è stato utilizzato per aggiornare il prezzo della tua parte.
         _nl: Bedankt voor je bod van {{ bidding_round_pledge.basket_size_price }} per deel. Dit bedrag is gebruikt om je lidmaatschapsprijs bij te werken.
       review_membership_paragraph:
         _en: You can review the details of your membership at any time.
         _fr: Vous pouvez consulter les détails de votre abonnement à tout moment.
         _de: Die Details der Mitgliedschaft können jederzeit eingesehen werden.
-        _it: Potete consultare i dettagli del vostro abbonamento in qualsiasi momento.
+        _it: Puoi consultare i dettagli del tuo abbonamento in qualsiasi momento.
         _nl: Je kunt de details van je lidmaatschap op elk moment bekijken.
       round_completed_paragraph:
         _en: 'Bidding round #{{ bidding_round.number }} has been successfully completed.'
@@ -720,49 +720,49 @@ _:
         _en: You didn't make a pledge.
         _fr: Vous n'aviez pas fixé de montant.
         _de: Es wurde kein Betrag zugesagt.
-        _it: Non avete fissato un importo.
+        _it: Non hai fissato un importo.
         _nl: Je hebt geen bod uitgebracht.
       pledge_amount_paragraph/bag:
         _en: You pledged {{ bidding_round_pledge.basket_size_price }} per bag.
         _fr: Votre engagement était de {{ bidding_round_pledge.basket_size_price }} par sac.
         _de: Die Zusage betrug {{ bidding_round_pledge.basket_size_price }} pro Tasche.
-        _it: Il vostro impegno era di {{ bidding_round_pledge.basket_size_price }} per borsa.
+        _it: Il tuo impegno era di {{ bidding_round_pledge.basket_size_price }} per borsa.
         _nl: Je hebt {{ bidding_round_pledge.basket_size_price }} per tas geboden.
       pledge_amount_paragraph/basket:
         _en: You pledged {{ bidding_round_pledge.basket_size_price }} per basket.
         _fr: Votre engagement était de {{ bidding_round_pledge.basket_size_price }} par panier.
         _de: Die Zusage betrug {{ bidding_round_pledge.basket_size_price }} pro Korb.
-        _it: Il vostro impegno era di {{ bidding_round_pledge.basket_size_price }} per cesta.
+        _it: Il tuo impegno era di {{ bidding_round_pledge.basket_size_price }} per cesta.
         _nl: Je hebt {{ bidding_round_pledge.basket_size_price }} per mand geboden.
       pledge_amount_paragraph/cone:
         _en: You pledged {{ bidding_round_pledge.basket_size_price }} per cone.
         _fr: Votre engagement était de {{ bidding_round_pledge.basket_size_price }} par cornet.
         _de: Die Zusage betrug {{ bidding_round_pledge.basket_size_price }} pro Tüte.
-        _it: Il vostro impegno era di {{ bidding_round_pledge.basket_size_price }} per cono.
+        _it: Il tuo impegno era di {{ bidding_round_pledge.basket_size_price }} per cono.
         _nl: Je hebt {{ bidding_round_pledge.basket_size_price }} per zak geboden.
       pledge_amount_paragraph/crate:
         _en: You pledged {{ bidding_round_pledge.basket_size_price }} per crate.
         _fr: Votre engagement était de {{ bidding_round_pledge.basket_size_price }} par cagette.
         _de: Die Zusage betrug {{ bidding_round_pledge.basket_size_price }} pro Kiste.
-        _it: Il vostro impegno era di {{ bidding_round_pledge.basket_size_price }} per cassetta.
+        _it: Il tuo impegno era di {{ bidding_round_pledge.basket_size_price }} per cassetta.
         _nl: Je hebt {{ bidding_round_pledge.basket_size_price }} per krat geboden.
       pledge_amount_paragraph/package:
         _en: You pledged {{ bidding_round_pledge.basket_size_price }} per package.
         _fr: Votre engagement était de {{ bidding_round_pledge.basket_size_price }} par colis.
         _de: Die Zusage betrug {{ bidding_round_pledge.basket_size_price }} pro Paket.
-        _it: Il vostro impegno era di {{ bidding_round_pledge.basket_size_price }} per pacco.
+        _it: Il tuo impegno era di {{ bidding_round_pledge.basket_size_price }} per pacco.
         _nl: Je hebt {{ bidding_round_pledge.basket_size_price }} per pakket geboden.
       pledge_amount_paragraph/share:
         _en: You pledged {{ bidding_round_pledge.basket_size_price }} per share.
         _fr: Votre engagement était de {{ bidding_round_pledge.basket_size_price }} par part.
         _de: Die Zusage betrug {{ bidding_round_pledge.basket_size_price }} pro Anteil.
-        _it: Il vostro impegno era di {{ bidding_round_pledge.basket_size_price }} per parte.
+        _it: Il tuo impegno era di {{ bidding_round_pledge.basket_size_price }} per parte.
         _nl: Je hebt {{ bidding_round_pledge.basket_size_price }} per deel geboden.
       review_membership_paragraph:
         _en: You can review the details of your membership at any time.
         _fr: Vous pouvez consulter les détails de votre abonnement à tout moment.
         _de: Die Details der Mitgliedschaft können jederzeit eingesehen werden.
-        _it: Potete consultare in qualsiasi momento i dettagli del vostro abbonamento.
+        _it: Puoi consultare in qualsiasi momento i dettagli del tuo abbonamento.
         _nl: Je kunt de details van je lidmaatschap op elk moment bekijken.
       round_failed_paragraph:
         _en: 'Bidding round #{{ bidding_round.number }} did not reach its target.'
@@ -775,7 +775,7 @@ _:
         _en: You can make your pledge for the coming year directly from your account.
         _fr: Vous pouvez fixer votre montant pour l'année à venir directement depuis votre compte.
         _de: Den Beitrag für das kommende Jahr jetzt direkt im Mitgliedskonto festlegen.
-        _it: Potete fissare il vostro importo per il prossimo anno direttamente dal vostro account.
+        _it: Puoi fissare il tuo importo per il prossimo anno direttamente dal tuo account.
         _nl: Je kunt je bod voor het komende jaar direct vanaf je account uitbrengen.
       pledge_button:
         _en: Make your pledge
@@ -794,7 +794,7 @@ _:
         _en: You haven't made a pledge yet. It only takes a minute to set yours now.
         _fr: Vous n'avez pas encore fixé de montant. Cela ne prend qu'une minute pour le définir maintenant.
         _de: Es wurde noch kein Beitrag zugesagt. Es dauert nur eine Minute, den Beitrag jetzt festzulegen.
-        _it: Non avete ancora fissato un importo. Ci vuole solo un minuto per impostarlo ora.
+        _it: Non hai ancora fissato un importo. Ci vuole solo un minuto per impostarlo ora.
         _nl: Je hebt nog geen bod uitgebracht. Het duurt slechts een minuut om je bod nu in te stellen.
       pledge_button:
         _en: Make your pledge
@@ -813,13 +813,13 @@ _:
         _en: Feel free to contact us if you have any questions.
         _fr: N'hésitez pas à nous contacter si vous avez des questions.
         _de: Zögere bitte nicht, uns zu kontaktieren, wenn Du Fragen hast.
-        _it: Non esiti a contattarci per qualsiasi domanda.
+        _it: Non esitare a contattarci per qualsiasi domanda.
         _nl: Neem gerust contact met ons op als je vragen hebt.
       invoice_cancelled_paragraph:
-        _en: 'Your invoice #{{ invoice.number }} from {{ invoice.date }} has been cancelled.'
+        _en: 'Your invoice #{{ invoice.number }} from {{ invoice.date }} has been canceled.'
         _fr: 'Votre facture #{{ invoice.number }} du {{ invoice.date }} vient d''être annulée.'
         _de: 'Deine Rechnung #{{ invoice.number }} vom {{ invoice.date }} wurde soeben storniert.'
-        _it: 'La vostra fattura #{{ invoice.number }} datata {{ invoice.date }} è stata appena annullata.'
+        _it: 'La tua fattura #{{ invoice.number }} datata {{ invoice.date }} è stata appena annullata.'
         _nl: 'Je factuur #{{ invoice.number }} van {{ invoice.date }} is geannuleerd.'
       member_page_button:
         _en: Access my member page
@@ -831,7 +831,7 @@ _:
         _en: You can always view your invoices and payments from your member page.
         _fr: Vous pouvez consulter à tout moment vos factures et paiements depuis votre page de membre.
         _de: Schau Deine Rechnungen und Einzahlungen auf Deiner Mitgliederseite nach.
-        _it: In qualsiasi momento, dalla pagina di socio, potete consultare le vostre fatture e i vostri pagamenti.
+        _it: In qualsiasi momento, dalla pagina socio, puoi consultare le tue fatture e i tuoi pagamenti.
         _nl: Je kunt je facturen en betalingen altijd bekijken vanaf je ledenpagina.
     invoice_created:
       invoice_closed_notice:
@@ -844,7 +844,7 @@ _:
         _en: 'Considering previous payments, the remaining amount to be paid is: {{ invoice.missing_amount }}'
         _fr: 'En tenant compte des paiements précédents, le montant restant à payer est de: {{ invoice.missing_amount }}'
         _de: Unter Berücksichtigung der bisherigen Einzahlungen muss der restliche Betrag von {{ invoice.missing_amount }} noch beglichen werden.
-        _it: 'Tenendo conto dei pagamenti precedenti, il montante che deve essere ancora pagato è di: {{ invoice.missing_amount }}'
+        _it: 'Tenendo conto dei pagamenti precedenti, l''importo ancora da pagare è: {{ invoice.missing_amount }}'
         _nl: 'Gezien eerdere betalingen is het resterende te betalen bedrag: {{ invoice.missing_amount }}'
       member_page_button:
         _en: Access my member page
@@ -856,13 +856,13 @@ _:
         _en: Here is your new invoice for your order number {{ invoice.entity_number }}, all the details are in the attached PDF.
         _fr: Voici votre nouvelle facture, pour votre commande N° {{ invoice.entity_number }}, tous les détails se trouvent dans le PDF ci-joint.
         _de: Hier findest Du Deine neue Rechnung, für Deine Bestellnummer {{ invoice.entity_number }}, Details findest Du im angehängten PDF.
-        _it: Ecco la vostra nuova fattura, per il suo ordine N° {{ invoice.entity_number }}, tutti i dettagli si trovano nel PDF allegato.
+        _it: Ecco la tua nuova fattura per il tuo ordine n. {{ invoice.entity_number }}. Tutti i dettagli sono nel PDF allegato.
         _nl: Hier is je nieuwe factuur voor je bestelling nummer {{ invoice.entity_number }}, alle details staan in de bijgevoegde PDF.
       new_invoice_paragraph:
         _en: Here is your new invoice, all the details are in the attached PDF.
         _fr: Voici votre nouvelle facture, tous les détails se trouvent dans le PDF ci-joint.
         _de: Hier findest Du Deine neue Rechnung, Details findest Du im angehängten PDF.
-        _it: Ecco la vostra nuova fattura, tutti i dettagli si trovano nel PDF allegato.
+        _it: Ecco la tua nuova fattura. Tutti i dettagli sono nel PDF allegato.
         _nl: Hier is je nieuwe factuur, alle details staan in de bijgevoegde PDF.
       thank_you:
         _en: Thank you!
@@ -874,15 +874,15 @@ _:
         _en: You can view your invoices and payments anytime from your member page.
         _fr: Vous pouvez consulter à tout moment vos factures et paiements depuis votre page de membre.
         _de: Schau Deine Rechnungen und Einzahlungen auf Deiner Mitgliederseite nach.
-        _it: In qualsiasi momento, dalla pagina di socio, potete consultare le vostre fatture e i vostri pagamenti.
+        _it: In qualsiasi momento, dalla pagina socio, puoi consultare le tue fatture e i tuoi pagamenti.
         _nl: Je kunt je facturen en betalingen op elk moment bekijken vanaf je ledenpagina.
     invoice_overdue_notice:
       already_paid_paragraph:
         _en: If your payment has already been made, please disregard this notice.
         _fr: Si votre paiement s'est croisé avec ce rappel, nous vous saurions gré de ne pas en tenir compte.
         _de: Wenn Du die Rechnung in der Zwischenzeit eingezahlt hast, kannst Du diese Mahnung ignorieren.
-        _it: Se il vostro pagamento nel frattempo è già stato eseguito vi chidiamo di non considerare questo richiamo.
-        _nl: Als je betaling reeds is verricht, gelieve deze kennisgeving te negeren.
+        _it: Se nel frattempo hai già effettuato il pagamento, ti chiediamo di ignorare questo promemoria.
+        _nl: Als je betaling al is verricht, negeer deze kennisgeving dan.
       member_page_button:
         _en: Access my member page
         _fr: Accéder à ma page de membre
@@ -893,31 +893,31 @@ _:
         _en: 'Unless there is an error or omission on our part, we have not received full payment for invoice #{{ invoice.number }} dated {{ invoice.date }}.'
         _fr: 'Sauf erreur ou omission de notre part, le paiement de la facture #{{ invoice.number }} datée du {{ invoice.date }} ne nous est pas complètement parvenu.'
         _de: 'Irrtum vorbehalten wurde die Rechnung #{{ invoice.number }} vom {{ invoice.date }} nicht vollständig bezahlt.'
-        _it: 'Salvo errori o omissioni da parte nostra, il pagamento della fattura #{{ invoice.number }} datata {{ invoice.date }} non ci è parvenuto completamene.'
+        _it: 'Salvo errori o omissioni da parte nostra, non abbiamo ricevuto il pagamento completo della fattura #{{ invoice.number }} datata {{ invoice.date }}.'
         _nl: 'Tenzij er een fout of verzuim van onze kant is, hebben wij geen volledige betaling ontvangen voor factuur #{{ invoice.number }} gedateerd {{ invoice.date }}.'
       please_pay_paragraph:
         _en: Please proceed with the payment as soon as possible. Attached is the original invoice for reference.
         _fr: Nous vous prions de bien vouloir procéder à son règlement dans les meilleurs délais. Vous trouverez en pièce jointe la facture originale à titre de référence.
         _de: Begleiche bitte diesen Betrag so schnell wie möglich. Im Anhang findest Du die ursprüngliche Rechnung zur Referenz.
-        _it: Vi preghiamo gentilmente di procedere al pagamento il più presto possibile. In allegato trovate la fattura originale a titolo di riferimento.
-        _nl: Gelieve zo spoedig mogelijk over te gaan tot betaling. In de bijlage vind je de oorspronkelijke factuur ter referentie.
+        _it: Effettua il pagamento il prima possibile. In allegato trovi la fattura originale come riferimento.
+        _nl: Betaal zo snel mogelijk. In de bijlage vind je de oorspronkelijke factuur ter referentie.
       remaining_amount_notice:
         _en: 'The remaining amount to be paid is: {{ invoice.missing_amount }}'
         _fr: 'Le montant restant à payer est de: {{ invoice.missing_amount }}'
         _de: Der restliche Betrag von {{ invoice.missing_amount }} muss beglichen werden.
-        _it: 'Il montante che deve essere ancora pagato è di: {{ invoice.missing_amount }}'
+        _it: 'L''importo ancora da pagare è: {{ invoice.missing_amount }}'
         _nl: 'Het resterende te betalen bedrag is: {{ invoice.missing_amount }}'
       thank_you_paragraph:
         _en: Thank you in advance for your prompt payment. If you have any questions, please feel free to contact us.
         _fr: Nous vous remercions par avance pour votre prochain règlement, et restons à votre entière disposition pour toute question.
         _de: Vielen Dank im Voraus für Deine Einzahlung. Bei Fragen stehen wir Dir gerne zur Verfügung.
-        _it: Vi ringraziamo anticipatamente per il vostro prossimo pagamento e rimaniamo a vostra disposizione per qualsiasi domanda.
+        _it: Grazie in anticipo per il tuo pagamento. Per qualsiasi domanda, contattaci.
         _nl: Dank je bij voorbaat voor je snelle betaling. Indien je vragen hebt, aarzel niet om contact met ons op te nemen.
       view_billing_paragraph:
         _en: You can view your invoices and payments at any time from your member page.
         _fr: Vous pouvez consulter à tout moment vos factures et paiements depuis votre page de membre.
         _de: Schau Deine Rechnungen und Einzahlungen auf Deiner Mitgliederseite nach.
-        _it: In qualsiasi momento, dalla pagina di socio, potete consultare le vostre fatture e i vostri pagamenti.
+        _it: In qualsiasi momento, dalla pagina socio, puoi consultare le tue fatture e i tuoi pagamenti.
         _nl: Je kunt je facturen en betalingen op elk moment bekijken vanaf je ledenpagina.
     member_activated:
       activity_participations_label:
@@ -990,19 +990,19 @@ _:
         _en: You can access your member page at any time to view your deliveries, manage absences, or update your information.
         _fr: Vous pouvez accéder à votre page de membre à tout moment pour consulter vos livraisons, gérer vos absences ou mettre à jour vos informations.
         _de: Du kannst jederzeit auf Deine Mitgliederseite zugreifen, um Deine Lieferungen einzusehen, Abwesenheiten zu verwalten oder Deine Informationen zu aktualisieren.
-        _it: Potete accedere alla vostra pagina di socio in qualsiasi momento per consultare le consegne, gestire le assenze o aggiornare le vostre informazioni.
+        _it: Puoi accedere alla tua pagina socio in qualsiasi momento per consultare le consegne, gestire le assenze o aggiornare le tue informazioni.
         _nl: Je kunt op elk moment je ledenpagina bezoeken om je leveringen te bekijken, afwezigheden te beheren of je gegevens bij te werken.
       membership_active_paragraph:
         _en: Your membership is now active.
         _fr: Votre abonnement est maintenant actif.
         _de: Dein Abonnement ist jetzt aktiv.
-        _it: Il vostro abbonamento è ora attivo.
+        _it: Il tuo abbonamento è ora attivo.
         _nl: Je lidmaatschap is nu actief.
       membership_details_paragraph:
         _en: 'Here are your membership details:'
         _fr: 'Voici les détails de votre abonnement:'
         _de: 'Hier sind die Details Deines Abonnements:'
-        _it: 'Ecco i dettagli del vostro abbonamento:'
+        _it: 'Ecco i dettagli del tuo abbonamento:'
         _nl: 'Hier zijn de details van je lidmaatschap:'
       sepa_mandate_button:
         _en: Sign SEPA mandate
@@ -1014,7 +1014,7 @@ _:
         _en: If you wish to pay your invoices via SEPA direct debit, please <a href="{{ member.new_sepa_mandate_url }}">sign the mandate on the dedicated page</a>.
         _fr: Si vous souhaitez payer vos factures par prélèvement SEPA, merci de <a href="{{ member.new_sepa_mandate_url }}">signer le mandat depuis la page dédiée</a>.
         _de: Wenn Du Deine Rechnungen per SEPA-Lastschrift bezahlen möchtest, <a href="{{ member.new_sepa_mandate_url }}">unterzeichne bitte das Mandat auf der dafür vorgesehenen Seite</a>.
-        _it: Se desiderate pagare le fatture tramite addebito diretto SEPA, vi invitiamo a <a href="{{ member.new_sepa_mandate_url }}">firmare il mandato dalla pagina dedicata</a>.
+        _it: Se desideri pagare le fatture tramite addebito diretto SEPA, <a href="{{ member.new_sepa_mandate_url }}">firma il mandato dalla pagina dedicata</a>.
         _nl: Als je je facturen via SEPA-incasso wilt betalen, <a href="{{ member.new_sepa_mandate_url }}">onderteken dan de machtiging op de speciale pagina</a>.
       start_label:
         _en: 'Start:'
@@ -1075,19 +1075,19 @@ _:
         _en: You can access your member page at any time to place shop orders or update your information.
         _fr: Vous pouvez accéder à votre page de membre à tout moment pour passer des commandes à l'épicerie ou mettre à jour vos informations.
         _de: Du kannst jederzeit auf Deine Mitgliederseite zugreifen, um Bestellungen im Hofladen aufzugeben oder Deine Informationen zu aktualisieren.
-        _it: Potete accedere alla vostra pagina di socio in qualsiasi momento per effettuare ordini in bottega o aggiornare le vostre informazioni.
+        _it: Puoi accedere alla tua pagina socio in qualsiasi momento per effettuare ordini in bottega o aggiornare le tue informazioni.
         _nl: Je kunt op elk moment je ledenpagina bezoeken om winkelbestellingen te plaatsen of je gegevens bij te werken.
       shop_depot_active_paragraph:
         _en: Your shop access is now active.
         _fr: Votre accès à l'épicerie est maintenant actif.
         _de: Dein Zugang zum Hofladen ist jetzt aktiv.
-        _it: Il vostro accesso alla bottega è ora attivo.
+        _it: Il tuo accesso alla bottega è ora attivo.
         _nl: Je toegang tot de winkel is nu actief.
       shop_depot_details_paragraph:
         _en: 'Your shop orders will be available at the following pickup depot:'
         _fr: 'Vos commandes à l''épicerie seront disponibles au dépôt de retrait suivant:'
         _de: 'Deine Bestellungen im Hofladen sind im folgenden Abholdepot verfügbar:'
-        _it: 'I vostri ordini in bottega saranno disponibili presso il seguente punto di ritiro:'
+        _it: 'I tuoi ordini in bottega saranno disponibili presso il seguente punto di ritiro:'
         _nl: 'Je winkelbestellingen zijn beschikbaar bij het volgende afhaaldepot:'
     member_validated:
       member_page_button:
@@ -1100,19 +1100,19 @@ _:
         _en: We will contact you with more information about the next steps.
         _fr: Nous vous contacterons prochainement avec plus d'informations sur les prochaines étapes.
         _de: Wir werden uns in Kürze mit weiteren Informationen zu den nächsten Schritten bei Dir melden.
-        _it: Vi contatteremo presto con maggiori informazioni sui prossimi passi.
+        _it: Ti contatteremo presto con maggiori informazioni sui prossimi passi.
         _nl: Wij nemen binnenkort contact met je op met meer informatie over de volgende stappen.
       registration_received_paragraph:
         _en: Thank you for registering!
         _fr: Merci pour votre inscription!
         _de: Vielen Dank für Deine Anmeldung!
-        _it: Grazie per la vostra iscrizione!
+        _it: Grazie per la tua iscrizione!
         _nl: Bedankt voor je registratie!
       registration_validated_paragraph:
         _en: Your registration has been received and validated.
         _fr: Votre inscription a bien été reçue et validée.
         _de: Deine Anmeldung wurde erhalten und bestätigt.
-        _it: La vostra iscrizione è stata ricevuta e confermata.
+        _it: La tua iscrizione è stata ricevuta e confermata.
         _nl: Je registratie is ontvangen en bevestigd.
       sepa_mandate_button:
         _en: Sign SEPA mandate
@@ -1124,7 +1124,7 @@ _:
         _en: If you wish to pay your invoices via SEPA direct debit, please <a href="{{ member.new_sepa_mandate_url }}">sign the mandate on the dedicated page</a>.
         _fr: Si vous souhaitez payer vos factures par prélèvement SEPA, merci de <a href="{{ member.new_sepa_mandate_url }}">signer le mandat depuis la page dédiée</a>.
         _de: Wenn Du Deine Rechnungen per SEPA-Lastschrift bezahlen möchtest, <a href="{{ member.new_sepa_mandate_url }}">unterzeichne bitte das Mandat auf der dafür vorgesehenen Seite</a>.
-        _it: Se desiderate pagare le fatture tramite addebito diretto SEPA, vi invitiamo a <a href="{{ member.new_sepa_mandate_url }}">firmare il mandato dalla pagina dedicata</a>.
+        _it: Se desideri pagare le fatture tramite addebito diretto SEPA, <a href="{{ member.new_sepa_mandate_url }}">firma il mandato dalla pagina dedicata</a>.
         _nl: Als je je facturen via SEPA-incasso wilt betalen, <a href="{{ member.new_sepa_mandate_url }}">onderteken dan de machtiging op de speciale pagina</a>.
       waiting_list_position_label:
         _en: 'Waiting list position:'
@@ -1137,7 +1137,7 @@ _:
         _en: Please fill out the renewal form to confirm whether you'd like to continue or not.
         _fr: Veuillez remplir le formulaire de renouvellement pour confirmer si vous souhaitez continuer ou non.
         _de: Bitte fülle das Verlängerungsformular aus, um zu bestätigen, ob Du Dein Abonnement fortsetzen möchtest oder nicht.
-        _it: Vi preghiamo di compilare il modulo di rinnovo per confermare se desiderate continuare o meno.
+        _it: Compila il modulo di rinnovo per confermare se desideri continuare o meno.
         _nl: Vul het verlengingsformulier in om te bevestigen of je je lidmaatschap wilt voortzetten of niet.
       renewal_form_button:
         _en: Access the renewal form
@@ -1149,20 +1149,20 @@ _:
         _en: It's time to let us know about your membership for next year.
         _fr: C'est le moment de nous informer de vos intentions pour l'année prochaine.
         _de: Es ist Zeit, uns Deine Absichten für das nächste Jahr mitzuteilen.
-        _it: È il momento di comunicarci le vostre intenzioni per il prossimo anno.
+        _it: È il momento di comunicarci le tue intenzioni per il prossimo anno.
         _nl: Het is tijd om ons te laten weten wat je plannen zijn voor volgend jaar.
     membership_renewal_reminder:
       fill_form_paragraph:
         _en: Please let us know your intentions for the coming year by completing the form below.
         _fr: Merci de nous faire part de vos intentions pour l'année à venir en complétant le formulaire ci-dessous.
         _de: Bitte teile uns Deine Absichten für das kommende Jahr mit, indem Du das untenstehende Formular ausfüllst.
-        _it: Vi preghiamo di comunicarci le vostre intenzioni per l'anno a venire compilando il modulo sottostante.
-        _nl: Gelieve ons je intenties voor het komende jaar te laten weten door het onderstaande formulier in te vullen.
+        _it: Comunicaci le tue intenzioni per l'anno a venire compilando il modulo sottostante.
+        _nl: Laat ons je intenties voor het komende jaar weten door het onderstaande formulier in te vullen.
       no_response_paragraph:
         _en: We haven't received your response to the membership renewal form yet.
         _fr: Nous n'avons pas encore reçu votre réponse au formulaire de renouvellement d'abonnement.
         _de: Wir haben Deine Antwort auf das Formular zur Abonnementsverlängerung noch nicht erhalten.
-        _it: Non abbiamo ancora ricevuto la vostra risposta al modulo di rinnovo dell'abbonamento.
+        _it: Non abbiamo ancora ricevuto la tua risposta al modulo di rinnovo dell'abbonamento.
         _nl: We hebben je antwoord op het lidmaatschapsvernieuwingsformulier nog niet ontvangen.
       renewal_form_button:
         _en: Access the renewal form
@@ -1205,7 +1205,7 @@ _:
         _en: A PDF copy of the signed mandate is attached to this email for your records.
         _fr: Une copie PDF du mandat signé est jointe à cet e-mail pour vos archives.
         _de: Eine PDF-Kopie des unterzeichneten Mandats ist dieser E-Mail beigefügt.
-        _it: Una copia PDF del mandato firmato è allegata a questa e-mail per i vostri archivi.
+        _it: Una copia PDF del mandato firmato è allegata a questa e-mail per i tuoi archivi.
         _nl: Een PDF-kopie van de ondertekende machtiging is bij deze e-mail gevoegd voor je administratie.
       signed_on_label:
         _en: 'Signed on:'

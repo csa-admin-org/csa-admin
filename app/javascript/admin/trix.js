@@ -7,11 +7,11 @@ const maxImageSize = 5 * 1024 * 1024 // 5MB (variants will compress images)
 document.addEventListener("trix-file-accept", (e) => {
   if (e.file.size > maxImageSize) {
     e.preventDefault()
-    alert("Only images smaller than 5MB are allowed!")
+    alert(document.body.dataset.trixFileTooLargeAlert)
   }
   if (!allowedTypes.includes(e.file.type)) {
     e.preventDefault()
-    alert("Only images are allowed!")
+    alert(document.body.dataset.trixInvalidFileAlert)
   }
 })
 

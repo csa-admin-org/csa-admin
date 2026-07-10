@@ -5,13 +5,13 @@
   >
     <div class="md:my-8">
       <%= link_to Current.org.url do %>
-        <%= image_tag(org_logo_url, alt: "#{Current.org.name} Logo", class: "member-logo h-20 w-20 md:h-40 md:w-40") %>
+        <%= image_tag(org_logo_url, alt: t("accessibility.members.logo", organization: Current.org.name), class: "member-logo h-20 w-20 md:h-40 md:w-40") %>
       <% end %>
     </div>
 
     <div class="m-4 text-gray-900 md:hidden dark:text-gray-100">
       <%= link_to "#menu", data: { action: "click->menu#show" } do %>
-        <%= icon "menu", title: "Show Menu", class: "h-10 w-10" %>
+        <%= icon "menu", title: t("accessibility.members.show_menu"), class: "h-10 w-10" %>
       <% end %>
     </div>
   </div>
@@ -27,7 +27,7 @@
       "
     >
       <%= link_to "#nomenu", data: { action: "click->menu#hide" }, class: "inline-block" do %>
-        <%= icon "x", title: "Hide Menu", class: "h-10 w-10" %>
+        <%= icon "x", title: t("accessibility.members.hide_menu"), class: "h-10 w-10" %>
       <% end %>
     </div>
 
@@ -53,7 +53,11 @@
         <% end %>
 
         <% if show_shop_menu? %>
-          <li class="py-2" aria-label="Shop Menu">
+          <li
+            class="py-2"
+            aria-label="<%= t("accessibility.members.shop_menu") %>"
+            data-test-shop-menu
+          >
             <% if current_shop_delivery %>
               <%= link_to members_shop_path, class: "py-0" do %>
                 <h2><%= t("activerecord.models.shop.one") %></h2>

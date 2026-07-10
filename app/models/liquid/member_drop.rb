@@ -7,10 +7,15 @@ class Liquid::MemberDrop < Liquid::Drop
 
   def initialize(member, email: nil)
     @member = member
+    @email = email
   end
 
   def name
     @member.name
+  end
+
+  def email
+    @email
   end
 
   def balance

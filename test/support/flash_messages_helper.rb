@@ -2,14 +2,14 @@
 
 module FlashMessagesHelper
   def flash_error
-    find("[aria-label=\"Flash error\"]")&.text
+    find("[aria-label=\"#{I18n.t("accessibility.active_admin.flash.error")}\"]")&.text
   end
 
   def flash_alert
-    find("[aria-label=\"Flash alert\"]")&.text
+    find("[aria-label=\"#{I18n.t("accessibility.active_admin.flash.alert")}\"]")&.text
   end
 
   def flash_notice
-    find("[aria-label=\"Flash notice\"]")&.text
+    find("[aria-label=\"#{I18n.t("accessibility.active_admin.flash.notice")}\"]")&.text
   end
 end

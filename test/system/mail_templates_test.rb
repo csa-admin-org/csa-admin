@@ -45,7 +45,7 @@ class MailTemplatesTest < ApplicationSystemTestCase
       click_button "Update Automatic email"
     end
 
-    assert_selector "h2[aria-label='Page Title']", text: "Member activated"
+    assert_selector "h2", text: "Member activated"
     assert_text "Send Yes"
 
     assert iframe.has_selector?("h1", text: "Welcome Jane Doe!!")

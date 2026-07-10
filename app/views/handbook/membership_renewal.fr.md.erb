@@ -2,7 +2,7 @@
 
 Chaque abonnement s'arrête obligatoirement à la fin de son année fiscale; il est donc nécessaire de renouveler les abonnements pour l'année fiscale suivante.
 
-Tous les abonnements peuvent être renouvelés manuellement par un administrateur; soit depuis la page d'un abonnement, soit depuis [la page des abonnements](/memberships) (section "Renouvellements" en dessous des filtres). Il est également possible d'envoyer une demande de renouvellement par email à tous les membres qui pourront ensuite renouveler ou résilier leur abonnement depuis un formulaire sur leur page de membre.
+Tous les abonnements peuvent être renouvelés manuellement par un administrateur depuis la page d'un abonnement ou depuis la section "Renouvellements" sous les filtres de [la page des abonnements](/memberships). Vous pouvez également envoyer une demande de renouvellement par e-mail à tous les membres; ils pourront ensuite renouveler ou résilier leur abonnement depuis un formulaire dans leur espace membre.
 
 ## Prérequis {#prerequisites}
 
@@ -12,20 +12,20 @@ Une fois les livraisons créées, les administrateurs peuvent renouveler les abo
 
 ## Envoi des demandes {#sending-requests}
 
-Section "Renouvellements" en dessous des filtres de [la page des abonnements](/memberships) une fois les prérequis ci-dessous remplis:
+Une fois les prérequis ci-dessous remplis, utilisez la section "Renouvellements" sous les filtres de [la page des abonnements](/memberships):
 ![abonnements section](<%= image_url("handbook/membership_renewal/section.fr.png") %>){:class="small"}
 
 > Il est important de noter que le système n'envoie pas automatiquement les demandes de renouvellement aux membres; c'est donc à vous de choisir le moment opportun pour les envoyer en fonction de vos statuts ou règlements. <br><br>
-> Si des membres ne répondent pas, c'est également à vous de tacitement renouveler (ou pas) ces abonnements au moment de votre choix à l'aide du bouton "Renouveler X abonnements" se trouvant dans [la page des abonnements](/memberships).
+> Si des membres ne répondent pas, c'est également à vous de renouveler ou non tacitement leurs abonnements au moment de votre choix, à l'aide du bouton "Renouveler X abonnements" sur [la page des abonnements](/memberships).
 
 ### Prérequis
 
 Afin de pouvoir envoyer des demandes de renouvellement, il faut d'abord mettre en place les éléments suivants:
 
 - Créer toutes [les livraisons](/deliveries/new) pour la nouvelle année fiscale.
-- Éditer et activer [le template email "Renouvellement abonnement"](/mail_templates/membership_renewal).
-- Éditer et activer [le template email "Renouvellement abonnement (Rappel)"](/mail_templates/membership_renewal_reminder) (optionnel).
-- Éditer [les paramètres](/settings#membership_renewal), comme le texte d'explication affiché sur la page de membre (permission "maximale" requis).
+- Éditer et activer [le modèle d'e-mail "Renouvellement abonnement"](/mail_templates/membership_renewal).
+- Éditer et activer [le modèle d'e-mail "Renouvellement abonnement (Rappel)"](/mail_templates/membership_renewal_reminder) (facultatif).
+- Éditer [les paramètres](/settings#membership_renewal), notamment le texte d'explication affiché dans l'espace membre (permission "maximale" requise).
 
 ### Test d'envoi d'une demande
 
@@ -33,9 +33,9 @@ Une fois les prérequis remplis, il est possible d'envoyer une demande de renouv
 
 ### Email de rappel
 
-Si configuré, champ "Envoyer un rappel après (en jours)" dans [les paramètres](/settings#membership_renewal), le système envoie automatiquement un email de rappel à chaque membre qui n'a pas encore renouvelé ou résilié son abonnement X jours après l'envoi de la demande de renouvellement.
+Lorsque le champ "Envoyer un rappel après (en jours)" est configuré dans [les paramètres](/settings#membership_renewal), le système envoie automatiquement un e-mail de rappel X jours après la demande à chaque membre qui n'a pas encore renouvelé ou résilié son abonnement.
 
-[Le template email "Renouvellement abonnement (Rappel)"](/mail_templates/membership_renewal_reminder) doit également avoir été édité et activé préalablement.
+[Le modèle d'e-mail "Renouvellement abonnement (Rappel)"](/mail_templates/membership_renewal_reminder) doit également être édité et activé au préalable.
 
 > Comme renouveler ou résilier les abonnements n'a de sens qu'avant la première livraison de la nouvelle année fiscale, faites bien attention à ce qu'il reste toujours assez de temps entre l'envoi du rappel et cette échéance.
 
@@ -51,7 +51,7 @@ Si le membre choisit de renouveler son abonnement, il sera renvoyé vers la page
 
 Les options suivantes sont également disponibles sur la page de renouvellement selon votre configuration:
 
-- **Dépôt**: Les membres peuvent changer de dépôt si l'option « Autoriser le changement de dépôt au renouvellement » est activée dans [les paramètres](/settings#membership_renewal).
+- **Dépôt**: Les membres peuvent changer de dépôt si l'option " Autoriser le changement de dépôt au renouvellement " est activée dans [les paramètres](/settings#membership_renewal).
 - **Prix extra du <%= Basket.model_name.human.downcase %>**: Les membres peuvent ajuster leur contribution de [prix extra](/handbook/basket_price_extra).
 - **<%= activities_human_name %>**: Si un nombre minimum et/ou maximum de participations est configuré dans [les paramètres](/settings#activity), les membres peuvent ajuster le nombre de participations demandées dans ces limites.
 
@@ -61,7 +61,7 @@ Une fois confirmé, son abonnement pour l'année fiscale suivante est automatiqu
 
 Lorsqu'un abonnement est renouvelé (par le membre ou par un admin), certaines configurations de l'abonnement courant sont reprises dans le nouveau. Les configurations principales — <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, dépôt, cycle de livraisons, intervalle de paiement et prix extra du <%= Basket.model_name.human.downcase %> — sont toujours reprises.
 
-Des configurations supplémentaires peuvent être optionnellement reprises, contrôlées par les cases « Configurations reprises » dans [les paramètres](/settings#membership_renewal):
+Des configurations supplémentaires peuvent être optionnellement reprises, contrôlées par les cases " Configurations reprises " dans [les paramètres](/settings#membership_renewal):
 
 - **Ajustement du prix des <%= Basket.model_name.human(count: 2) %>**: L'ajustement de prix personnalisé sur les <%= Basket.model_name.human(count: 2).downcase %>.
 - **Ajustement du prix des <%= BasketComplement.model_name.human(count: 2) %>**: L'ajustement de prix personnalisé sur les compléments.

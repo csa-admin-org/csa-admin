@@ -308,7 +308,7 @@ _:
         _it: Turno di impegno n°{{ bidding_round.number }} è aperto (promemoria)
         _nl: 'Biedronde #{{ bidding_round.number }} is open (herinnering)'
       invoice_cancelled:
-        _en: 'Cancelled invoice #{{ invoice.number }}'
+        _en: 'Canceled invoice #{{ invoice.number }}'
         _fr: 'Facture annulée #{{ invoice.number }}'
         _de: 'Stornierte Rechnung #{{ invoice.number }}'
         _it: 'Fattura annullata #{{ invoice.number }}'
@@ -335,7 +335,7 @@ _:
         _en: Your shop access is active!
         _fr: Votre accès à l'épicerie est actif!
         _de: Dein Zugang zum Hofladen ist aktiv!
-        _it: Il vostro accesso alla bottega è attivo!
+        _it: Il tuo accesso alla bottega è attivo!
         _nl: Je toegang tot de winkel is actief!
       member_validated:
         _en: Registration validated!
@@ -347,14 +347,14 @@ _:
         _en: Renew your membership
         _fr: Renouvellement de votre abonnement
         _de: Dein Abonnement verlängern
-        _it: Rinnovo del vostro abbonamento
-        _nl: Vernieuw uw lidmaatschap
+        _it: Rinnova il tuo abbonamento
+        _nl: Vernieuw je lidmaatschap
       membership_renewal_reminder:
         _en: Renew your membership (reminder)
         _fr: Renouvellement de votre abonnement (rappel)
         _de: Dein Abonnement verlängern (Erinnerung)
-        _it: Rinnovo del vostro abbonamento (promemoria)
-        _nl: Vernieuw uw lidmaatschap (herinnering)
+        _it: Rinnova il tuo abbonamento (promemoria)
+        _nl: Vernieuw je lidmaatschap (herinnering)
       sepa_mandate_confirmation:
         _en: SEPA mandate confirmation
         _fr: Confirmation du mandat SEPA
@@ -649,19 +649,19 @@ _:
         _fr: Envoyé pour informer les membres que le tour d'engagement est terminé avec succès. Envoyé à tous les membres concernés, même s'ils n'ont pas fixé leur montant.
         _de: Wird gesendet, um die Mitglieder zu informieren, dass die Beitragsrunde erfolgreich abgeschlossen wurde. An alle berechtigten Mitglieder gesendet, auch wenn sie keinen Betrag zugesagt haben.
         _it: Inviato per informare i soci che il turno di impegno è stato completato con successo. Inviato a tutti i soci eleggibili, anche se non hanno promesso un importo.
-        _nl: Verzonden om de leden te informeren dat de biedronde succesvol is afgerond. Verzonden naar alle berechtigde leden, zelfs als ze geen bedrag hebben toegezegd.
+        _nl: Verzonden om de leden te informeren dat de biedronde succesvol is afgerond. Verzonden naar alle gerechtigde leden, zelfs als ze geen bedrag hebben toegezegd.
       bidding_round_failed:
         _en: Sent to notify the members that the bidding round has failed. Sent to all eligible members, even if they have not pledged.
         _fr: Envoyé pour informer les membres que le tour d'engagement a échoué. Envoyé à tous les membres concernés, même s'ils n'ont pas fixé leur montant.
         _de: Wird gesendet, um die Mitglieder zu informieren, dass die Beitragsrunde fehlgeschlagen ist. An alle berechtigten Mitglieder gesendet, auch wenn sie keinen Betrag zugesagt haben.
         _it: Inviato per informare i soci che il turno di impegno è fallito. Inviato a tutti i soci eleggibili, anche se non hanno promesso un importo.
-        _nl: Verzonden om de leden te informeren dat de biedronde is mislukt. Verzonden naar alle berechtigde leden, zelfs als ze geen bedrag hebben toegezegd.
+        _nl: Verzonden om de leden te informeren dat de biedronde is mislukt. Verzonden naar alle gerechtigde leden, zelfs als ze geen bedrag hebben toegezegd.
       bidding_round_opened:
         _en: Sent when a bidding round is opened to all eligible members.
         _fr: Envoyé quand un tour d'engagement est ouvert à tous les membres concernés.
         _de: Wird gesendet, wenn eine Beitragsrunde für alle berechtigten Mitglieder geöffnet wird.
         _it: Inviato quando un turno di impegno viene aperto a tutti i soci eleggibili.
-        _nl: Verzonden wanneer een biedronde wordt geopend voor alle berechtigde leden.
+        _nl: Verzonden wanneer een biedronde wordt geopend voor alle gerechtigde leden.
       bidding_round_opened_reminder:
         _en: Sent to remind the members that they have not yet pledged for the open bidding round (see <a href='/settings#bidding_round'>settings</a> for the deadline).
         _fr: Envoyé pour rappeler aux membres qu'ils n'ont pas encore fixé leur montant au tour d'engagement ouvert (voir <a href='/settings#bidding_round'>paramètres</a> pour la date limite).
@@ -669,7 +669,7 @@ _:
         _it: Inviato per ricordare al socio che non ha ancora promesso un importo per il turno di impegno aperto (vedi <a href='/settings#bidding_round'>parametri</a> per le scadenze).
         _nl: Verzonden om de leden eraan te herinneren dat ze nog geen bedrag hebben toegezegd voor de open biedronde (zie <a href='/settings#bidding_round'>instellingen</a> voor de deadline).
       invoice_cancelled:
-        _en: Sent when an open invoice is cancelled.
+        _en: Sent when an open invoice is canceled.
         _fr: Envoyé quand une facture encore ouverte est annulée.
         _de: Wird gesendet, wenn eine noch offene Rechnung storniert wird.
         _it: Inviato quando una fattura ancora aperta viene annullata.
@@ -681,11 +681,11 @@ _:
         _it: Inviato durante la creazione automatica di una fattura o quando si preme il pulsante "Invia" di una fattura creata manualmente.
         _nl: Verzonden wanneer een factuur automatisch wordt aangemaakt of wanneer de "Verzenden" knop van een handmatig aangemaakte factuur wordt ingedrukt.
       invoice_overdue_notice:
-        _en: Sent automatically when an invoice is still open 35 days after its creation or last reminder.</br><i>Disabled when payments are not processed automatically (EBICS).</i>
-        _fr: Envoyé automatiquement quand une facture est toujours ouverte 35 jours après sa création ou son dernier rappel.</br><i>Désactivé quand les paiements ne sont pas traités automatiquement (EBICS).</i>
-        _de: Wird automatisch gesendet, wenn eine Rechnung 35 Tage nach ihrer Erstellung oder letzten Mahnung noch offen ist.</br><i>Deaktiviert, wenn die Zahlungen nicht automatisch verarbeitet werden (EBICS).</i>
-        _it: Inviato automaticamente quando una fattura è ancora aperta 35 giorni dopo la sua creazione o il suo ultimo promemoria.</br><i>Disattivato quando i pagamenti non vengono elaborati automaticamente (EBICS).</i>
-        _nl: Automatisch verzonden wanneer een factuur nog open staat 35 dagen na aanmaak of laatste herinnering.</br><i>Uitgeschakeld wanneer betalingen niet automatisch worden verwerkt (EBICS).</i>
+        _en: Sent automatically when an invoice is still open 35 days after its creation or last reminder.<br><i>Disabled when payments are not processed automatically (EBICS).</i>
+        _fr: Envoyé automatiquement quand une facture est toujours ouverte 35 jours après sa création ou son dernier rappel.<br><i>Désactivé quand les paiements ne sont pas traités automatiquement (EBICS).</i>
+        _de: Wird automatisch gesendet, wenn eine Rechnung 35 Tage nach ihrer Erstellung oder letzten Mahnung noch offen ist.<br><i>Deaktiviert, wenn die Zahlungen nicht automatisch verarbeitet werden (EBICS).</i>
+        _it: Inviato automaticamente quando una fattura è ancora aperta 35 giorni dopo la sua creazione o il suo ultimo promemoria.<br><i>Disattivato quando i pagamenti non vengono elaborati automaticamente (EBICS).</i>
+        _nl: Automatisch verzonden wanneer een factuur nog open staat 35 dagen na aanmaak of laatste herinnering.<br><i>Uitgeschakeld wanneer betalingen niet automatisch worden verwerkt (EBICS).</i>
       member_activated:
         _en: Sent when a member becomes active for the first time after their first (current or future) membership is created.
         _fr: Envoyé quand un membre devient actif, pour la première fois, après la création de son premier abonnement (en cours ou futur).
@@ -1030,7 +1030,7 @@ _:
         _it: Turno di offerta aperto (promemoria)
         _nl: Biedronde geopend (herinnering)
       invoice_cancelled:
-        _en: Cancelled Invoice
+        _en: Canceled Invoice
         _fr: Facture annulée
         _de: Stornierte Rechnung
         _it: Fattura annullata

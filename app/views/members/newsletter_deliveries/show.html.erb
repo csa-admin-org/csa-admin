@@ -1,7 +1,7 @@
 <%= turbo_frame_tag @delivery do %>
   <div data-controller="iframe">
     <%= tag.iframe(
-      title: "Mail Preview",
+      title: t("accessibility.members.mail_preview"),
       srcdoc: @delivery.mail_preview,
       scrolling: "no",
       class: "mail_preview",

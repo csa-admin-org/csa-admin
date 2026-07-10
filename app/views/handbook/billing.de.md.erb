@@ -50,7 +50,7 @@ Die wiederkehrende Abrechnung ist der Mechanismus, der die Abonnements-Abrechnun
 
 In [den Einstellungen (Automatische Abrechnung)](/settings#billing) wählst Du den **Wochentag**, an dem das System laufen soll. Jede Woche an diesem Tag überprüft das System alle Mitglieder und erstellt Rechnungen, wenn sie fällig sind. So erstellte Rechnungen werden **automatisch per E-Mail versendet**.
 
-Standardmäßig werden Rechnungen, die bei ihrer Erstellung bereits als bezahlt/geschlossen gelten, nicht automatisch versendet. Du kannst dies mit der Einstellung «Geschlossene Rechnungen senden» ändern.
+Standardmässig werden Rechnungen, die bei ihrer Erstellung bereits als bezahlt/geschlossen gelten, nicht automatisch versendet. Du kannst dies mit der Einstellung "Geschlossene Rechnungen senden" ändern.
 
 > Es ist ratsam, einen anderen Tag als den Lieferungstag zu wählen. So werden Änderungen am Abonnement oder an der Tasche, die am Lieferungstag vorgenommen werden, in der Rechnung der folgenden Tage berücksichtigt, anstatt voreilig am selben Tag abgerechnet zu werden oder eine volle Woche warten zu müssen.
 
@@ -64,15 +64,15 @@ Der Rechnungsbetrag wird berechnet als: **Gesamtbetrag des Abonnements ÷ Anzahl
 
 #### Wann wird die erste Rechnung versendet? {#first-invoice-timing}
 
-Standardmäßig wird die erste Rechnung am Abrechnungstag nach der **ersten Lieferung einer <%= Basket.model_name.human %>** versendet. Das bedeutet, dass keine Rechnung erstellt wird, bevor das Mitglied seine erste Lieferung erhalten hat.
+Standardmässig wird die erste Rechnung am Abrechnungstag nach der **ersten Lieferung einer <%= Basket.model_name.human %>** versendet. Das bedeutet, dass keine Rechnung erstellt wird, bevor das Mitglied seine erste Lieferung erhalten hat.
 
-Dieses Verhalten kann in [den Einstellungen](/settings#billing) geändert werden, indem «Abonnements erst nach ihrer ersten Lieferung abrechnen» deaktiviert wird. Dann beginnt die Abrechnung ab dem **Startdatum des Abonnements**, auch vor der ersten Lieferung.
+Dieses Verhalten kann in [den Einstellungen](/settings#billing) geändert werden, indem "Abonnements erst nach ihrer ersten Lieferung abrechnen" deaktiviert wird. Dann beginnt die Abrechnung ab dem **Startdatum des Abonnements**, auch vor der ersten Lieferung.
 
 #### Wann endet die Abrechnung? {#billing-end}
 
-Standardmäßig erstreckt sich die Abrechnung bis zum **Enddatum des Abonnements** und deckt das gesamte Geschäftsjahr ab, auch wenn in den letzten Monaten keine Lieferungen stattfinden.
+Standardmässig erstreckt sich die Abrechnung bis zum **Enddatum des Abonnements** und deckt das gesamte Geschäftsjahr ab, auch wenn in den letzten Monaten keine Lieferungen stattfinden.
 
-Dies kann in [den Einstellungen](/settings#billing) geändert werden, indem «Abonnements nur bis zu ihrer letzten Lieferung abrechnen» aktiviert wird. Dann deckt die Abrechnung nur bis zum Monat der letzten Lieferung ab. Dies ist nützlich, wenn die letzten Monate des Geschäftsjahres keine Lieferungen haben.
+Dies kann in [den Einstellungen](/settings#billing) geändert werden, indem "Abonnements nur bis zu ihrer letzten Lieferung abrechnen" aktiviert wird. Dann deckt die Abrechnung nur bis zum Monat der letzten Lieferung ab. Dies ist nützlich, wenn die letzten Monate des Geschäftsjahres keine Lieferungen haben.
 
 #### Detaillierte Logik
 
@@ -80,24 +80,24 @@ An jedem Abrechnungstag überprüft das System jedes Mitglied und bestimmt, ob e
 
 1. Das Geschäftsjahr wird in Perioden auf Basis des Zahlungsintervalls aufgeteilt (z.B. quartalweise = 4 Perioden à 3 Monate).
 2. Wenn die **aktuelle Periode bereits abgerechnet** wurde, wird die nächste Rechnung für den Beginn der nächsten Periode geplant.
-3. Wenn die **aktuelle Periode noch nicht abgerechnet** wurde, wird die Rechnung am nächsten Abrechnungstag erstellt, unter Berücksichtigung der oben beschriebenen Einstellung «erste Lieferung» oder «Abonnement-Beginn».
+3. Wenn die **aktuelle Periode noch nicht abgerechnet** wurde, wird die Rechnung am nächsten Abrechnungstag erstellt, unter Berücksichtigung der oben beschriebenen Einstellung "erste Lieferung" oder "Abonnement-Beginn".
 4. Wenn das berechnete Datum **nach dem Ende des Geschäftsjahres** liegt, wird keine weitere Rechnung für dieses Jahr erstellt.
 
 Die Rechnung wird immer am konfigurierten Wochentag erstellt. Wenn eine Rechnung an einem anderen Tag fällig wird (z.B. eine neue Periode beginnt an einem Mittwoch, aber der Abrechnungstag ist Montag), wird sie am folgenden Montag erstellt.
 
 #### Datum der nächsten Rechnung
 
-Auf der Seite eines Mitglieds oder eines Abonnements zeigt der Abschnitt «Abrechnung» (rechte Spalte) das **Datum der nächsten Rechnung** an. Dieses zeigt, wann die nächste automatische Rechnung erstellt und versendet wird.
+Auf der Seite eines Mitglieds oder eines Abonnements zeigt der Abschnitt "Abrechnung" (rechte Spalte) das **Datum der nächsten Rechnung** an. Dieses zeigt, wann die nächste automatische Rechnung erstellt und versendet wird.
 
 Dieses Datum aktualisiert sich dynamisch: Sobald eine Rechnung versendet wurde, springt es zum nächsten geplanten Datum.
 
 ### Jetzt abrechnen {#bill-now}
 
-In einigen Fällen, beispielsweise nach einer Änderung der Abonnementskonfiguration, möchtest Du möglicherweise sofort eine Rechnung erstellen, anstatt auf den nächsten Abrechnungstag zu warten. Klicke dazu auf die Schaltfläche «Jetzt abrechnen» im Abschnitt «Abrechnung» (rechte Spalte) der Mitglieds- oder Abonnementsseite.
+In einigen Fällen, beispielsweise nach einer Änderung der Abonnementskonfiguration, möchtest Du möglicherweise sofort eine Rechnung erstellen, anstatt auf den nächsten Abrechnungstag zu warten. Klicke dazu auf die Schaltfläche "Jetzt abrechnen" im Abschnitt "Abrechnung" (rechte Spalte) der Mitglieds- oder Abonnementsseite.
 
-Die Rechnung wird dann erstellt, aber **nicht gesendet**. Du kannst das PDF einsehen und es manuell mit der Schaltfläche «Senden» auf der Seite der Rechnung versenden. Dies ist nützlich, wenn Du in Kontakt mit einem Mitglied stehst und schnell eine Rechnung korrigieren oder das Ergebnis einer Konfigurationsänderung überprüfen möchtest.
+Die Rechnung wird dann erstellt, aber **nicht gesendet**. Du kannst das PDF einsehen und es manuell mit der Schaltfläche "Senden" auf der Seite der Rechnung versenden. Dies ist nützlich, wenn Du in Kontakt mit einem Mitglied stehst und schnell eine Rechnung korrigieren oder das Ergebnis einer Konfigurationsänderung überprüfen möchtest.
 
-> Die Schaltfläche «Jetzt abrechnen» erzeugt exakt die gleiche Rechnung wie das automatische System, der einzige Unterschied ist, dass sie nicht automatisch versendet wird, sodass Du sie vorher überprüfen kannst.
+> Die Schaltfläche "Jetzt abrechnen" erzeugt exakt die gleiche Rechnung wie das automatische System, der einzige Unterschied ist, dass sie nicht automatisch versendet wird, sodass Du sie vorher überprüfen kannst.
 
 ### Alle in Zukunft abrechnen {#future_billing}
 
@@ -120,7 +120,7 @@ Das Verkürzen des Enddatums eines Abonnements, auch mit der Aktion **Stoppen**,
 
 ### Jahresbeitrag {#annual-fee}
 
-Wenn die Jahresbeitragsfunktion aktiviert ist, ist der Standard-Jahresbeitrag der Organisation in [den Einstellungen zum Jahresbeitrag](/settings#annual_fee) definiert. Jedes Mitglied erbt diesen Standardwert bei der Erstellung, aber er kann individuell im Profil des Mitglieds (Bearbeitungsseite, Abschnitt «Abrechnung») überschrieben werden. Wenn die Einstellung «nur Fördermitglieder» aktiviert ist, erben aktive Mitglieder den Standard-Jahresbeitrag der Organisation nicht automatisch; er bleibt für Fördermitglieder gedacht, sofern er nicht manuell gesetzt wird.
+Wenn die Jahresbeitragsfunktion aktiviert ist, ist der Standard-Jahresbeitrag der Organisation in [den Einstellungen zum Jahresbeitrag](/settings#annual_fee) definiert. Jedes Mitglied erbt diesen Standardwert bei der Erstellung, aber er kann individuell im Profil des Mitglieds (Bearbeitungsseite, Abschnitt "Abrechnung") überschrieben werden. Wenn die Einstellung "nur Fördermitglieder" aktiviert ist, erben aktive Mitglieder den Standard-Jahresbeitrag der Organisation nicht automatisch; er bleibt für Fördermitglieder gedacht, sofern er nicht manuell gesetzt wird.
 
 Wenn die Funktion aktiviert ist, ist der Jahresbeitrag automatisch in der **ersten Rechnung** des Abonnements enthalten. Wenn das Mitglied kein Abonnement hat ([Förderung](/handbook/members#statuses)), wird zu Beginn des Geschäftsjahres automatisch eine spezifische Jahresbeitragsrechnung erstellt.
 
@@ -136,27 +136,27 @@ Wenn das Abonnement während der Probezeit gekündigt wird, werden nur die gelie
 
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
-Als «[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)» markierte Mitglieder sind vollständig von der Abrechnung ausgeschlossen. Ihr Abonnement existiert weiterhin für die Lieferverfolgung, aber alle Preise sind auf Null gesetzt und es werden keine Abonnementsrechnungen generiert.
+Als "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" markierte Mitglieder sind vollständig von der Abrechnung ausgeschlossen. Ihr Abonnement existiert weiterhin für die Lieferverfolgung, aber alle Preise sind auf Null gesetzt und es werden keine Abonnementsrechnungen generiert.
 
 ## Anteilskapital {#share-capital}
 
-Wenn die Anteilskapitalfunktion aktiviert ist, sind der Preis pro Anteil und die standardmäßig erforderliche Anzahl Anteile in [den Einstellungen zum Anteilskapital](/settings#shares) definiert. Die erforderliche Anzahl Anteile kann auch pro <%= BasketSize.model_name.human %> festgelegt werden (z.B. kann eine größere Variante mehr Anteile erfordern).
+Wenn die Anteilskapitalfunktion aktiviert ist, sind der Preis pro Anteil und die standardmässig erforderliche Anzahl Anteile in [den Einstellungen zum Anteilskapital](/settings#shares) definiert. Die erforderliche Anzahl Anteile kann auch pro <%= BasketSize.model_name.human %> festgelegt werden (z.B. kann eine grössere Variante mehr Anteile erfordern).
 
 Wenn die Funktion aktiviert ist, erstellt CSA Admin an jedem Abrechnungstag automatisch Rechnungen für fehlendes Anteilskapital, beispielsweise für ein Mitglied, dessen Abonnement gerade begonnen hat.
 
 ### Anteils-Felder des Mitglieds {#share-fields}
 
-Drei anteilsbezogene Felder sind im Profil eines Mitglieds verfügbar (Bearbeitungsseite, Abschnitt «Abrechnung»):
+Drei anteilsbezogene Felder sind im Profil eines Mitglieds verfügbar (Bearbeitungsseite, Abschnitt "Abrechnung"):
 
-- **Anzahl bestehender Anteile**: Bereits außerhalb von CSA Admin gehaltene Anteile (z.B. aus einem früheren System). Diese werden nicht erneut in Rechnung gestellt.
+- **Anzahl bestehender Anteile**: Bereits ausserhalb von CSA Admin gehaltene Anteile (z.B. aus einem früheren System). Diese werden nicht erneut in Rechnung gestellt.
 - **Gewünschte Anzahl an Anteilen**: Mitglieder können bei der [Anmeldung](/handbook/registration) oder [Erneuerung](/handbook/membership_renewal) zusätzliche Anteile über das Minimum hinaus anfordern. Das System berechnet den höheren Wert aus erforderlicher und gewünschter Anzahl.
-- **Erforderliche Anzahl an Anteilen**: Admin-Überschreibung der für dieses Mitglied benötigten Anteile. Standardmäßig der für seine <%= BasketSize.model_name.human %> konfigurierte Wert.
+- **Erforderliche Anzahl an Anteilen**: Admin-Überschreibung der für dieses Mitglied benötigten Anteile. Standardmässig der für seine <%= BasketSize.model_name.human %> konfigurierte Wert.
 
 ### Rückerstattung {#share-refund}
 
-Um bereits in Rechnung gestelltes Anteilskapital zurückzuerstatten, gehe zur Rechnungsseite und klicke oben rechts auf die Schaltfläche «Rückerstattung». Du kannst dann einfach eine negative Anteilskapitalrechnung erstellen. Stelle sicher, dass das Mitglied kein Anteilskapital mehr benötigt, andernfalls wird es am nächsten Abrechnungstag automatisch neu erstellt.
+Um bereits in Rechnung gestelltes Anteilskapital zurückzuerstatten, gehe zur Rechnungsseite und klicke oben rechts auf die Schaltfläche "Rückerstattung". Du kannst dann einfach eine negative Anteilskapitalrechnung erstellen. Stelle sicher, dass das Mitglied kein Anteilskapital mehr benötigt, andernfalls wird es am nächsten Abrechnungstag automatisch neu erstellt.
 
-> Von der Seite eines Mitglieds aus kannst Du im Abschnitt «Abrechnung» (rechte Spalte) die Anzahl der Anteile sehen, die in Rechnung gestellt werden oder bereits in Rechnung gestellt wurden, mit einem Link zu den entsprechenden Rechnungen.
+> Von der Seite eines Mitglieds aus kannst Du im Abschnitt "Abrechnung" (rechte Spalte) die Anzahl der Anteile sehen, die in Rechnung gestellt werden oder bereits in Rechnung gestellt wurden, mit einem Link zu den entsprechenden Rechnungen.
 
 ## Nicht durchgeführte <%= activities_human_name %> {#activity}
 
@@ -201,7 +201,7 @@ CSA Admin bietet die Möglichkeit, verschiedene Artikel oder Dienstleistungen ma
 
 ## MwSt. {#vat}
 
-Wenn Deine Organisation mehrwertsteuerpflichtig ist, aktiviere die MwSt.-Funktion und konfiguriere Deine MwSt.-Nummer sowie die Sätze in [den MwSt.-Einstellungen](/settings#vat). Separate Sätze können für Abonnementsrechnungen, <%= activities_human_name.downcase %>-Rechnungen und Hofladenbestellungsrechnungen definiert werden. Für Rechnungen vom Typ «Sonstiges» und «Neumitgliedsbeitrag» wird der MwSt.-Satz manuell auf jeder Rechnung festgelegt.
+Wenn Deine Organisation mehrwertsteuerpflichtig ist, aktiviere die MwSt.-Funktion und konfiguriere Deine MwSt.-Nummer sowie die Sätze in [den MwSt.-Einstellungen](/settings#vat). Separate Sätze können für Abonnementsrechnungen, <%= activities_human_name.downcase %>-Rechnungen und Hofladenbestellungsrechnungen definiert werden. Für Rechnungen vom Typ "Sonstiges" und "Neumitgliedsbeitrag" wird der MwSt.-Satz manuell auf jeder Rechnung festgelegt.
 
 Die MwSt. wird als inklusive Steuer berechnet (der Rechnungsbetrag enthält bereits die MwSt.). Der Nettobetrag und der MwSt.-Betrag werden auf der Rechnungs-PDF separat ausgewiesen.
 
@@ -256,7 +256,7 @@ Die Verbindung mit der [Alternative Bank Schweiz (ABS)](https://www.abs.ch/de) v
 
 ### Manueller Import {#manual-import}
 
-Wenn der automatische Import über [EBICS](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) noch nicht konfiguriert ist, kannst Du Zahlungen von Rechnungen mit Referenznummern Deiner Mitglieder einfach importieren, indem Du eine Datei im camt.053-, camt.054- oder mt940-Format von Deinem E-Banking herunterlädst und in CSA Admin von [der Zahlungsseite](/payments) aus hochlädst, Abschnitt "Import" in der rechten Spalte. Vergiss nicht, den Vorgang regelmäßig (jede Woche) zu wiederholen, bis der automatische Import eingerichtet ist.
+Wenn der automatische Import über [EBICS](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) noch nicht konfiguriert ist, kannst Du Zahlungen von Rechnungen mit Referenznummern Deiner Mitglieder einfach importieren, indem Du eine Datei im camt.053-, camt.054- oder mt940-Format von Deinem E-Banking herunterlädst und in CSA Admin von [der Zahlungsseite](/payments) aus hochlädst, Abschnitt "Import" in der rechten Spalte. Vergiss nicht, den Vorgang regelmässig (jede Woche) zu wiederholen, bis der automatische Import eingerichtet ist.
 
 Für Zahlungen ohne Referenznummer (Bargeld oder direkte Einzahlung) musst Du einfach [eine neue Zahlung manuell erstellen](/payments/new). Der Betrag wird automatisch auf bestehende offene Rechnungen umverteilt.
 

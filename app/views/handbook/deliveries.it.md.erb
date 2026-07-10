@@ -46,16 +46,16 @@ La scelta di un ciclo di consegne sul modulo di iscrizione dipende dalla configu
 
 ### Distribuzione equa (una settimana su due) {#even-odd-distribution}
 
-Se proponi consegne una settimana su due, probabilmente vorrai distribuire i soci equamente tra le settimane pari e dispari. Con un solo ciclo « una su due », tutti i soci riceverebbero le stesse settimane.
+Se proponi consegne una settimana su due, probabilmente vorrai distribuire i soci equamente tra le settimane pari e dispari. Con un solo ciclo " una su due ", tutti i soci riceverebbero le stesse settimane.
 
-La soluzione consiste nel creare **due cicli distinti**, uno con la selezione delle consegne « Pari » e l'altro « Dispari », e nel renderne **uno solo visibile** ai soci:
+La soluzione consiste nel creare **due cicli distinti**, uno con la selezione delle consegne " Pari " e l'altro " Dispari ", e nel renderne **uno solo visibile** ai soci:
 
-1. Crea due cicli, ciascuno con un periodo che copre tutto l'anno: uno con la selezione delle consegne « Pari », l'altro « Dispari ».
-2. Da' loro lo **stesso nome**, ad es. « Una settimana su due », ma **nomi interni diversi**, ad es. « Una settimana su due (pari) » e « Una settimana su due (dispari) ».
+1. Crea due cicli, ciascuno con un periodo che copre tutto l'anno: uno con la selezione delle consegne " Pari ", l'altro " Dispari ".
+2. Da' loro lo **stesso nome**, ad es. " Una settimana su due ", ma **nomi interni diversi**, ad es. " Una settimana su due (pari) " e " Una settimana su due (dispari) ".
 3. Rendi **uno solo** dei due cicli visibile sul modulo di iscrizione (tramite la disponibilità per deposito).
 4. Al momento della creazione degli abbonamenti, distribuisci manualmente i soci tra i due cicli per equilibrare le consegne.
 
-In questo modo, i soci vedono una sola opzione « Una settimana su due » all'iscrizione, ma tu mantieni il controllo della distribuzione internamente.
+In questo modo, i soci vedono una sola opzione " Una settimana su due " all'iscrizione, ma tu mantieni il controllo della distribuzione internamente.
 
 ### Fatturazione
 
@@ -69,13 +69,13 @@ Ogni ciclo di consegne può avere le proprie opzioni di fatturazione:
 
 Alcuni soci hanno bisogno di ritirare le proprie <%= Basket.model_name.human(count: 2).downcase %> in depositi diversi a seconda della settimana — ad esempio, perché il veicolo di consegna serve un determinato deposito solo una settimana su due. CSA Admin supporta questa esigenza tramite la configurazione di un **punto di ritiro alternativo** a livello di abbonamento.
 
-Questa configurazione è disponibile solo per gli amministratori (non per i soci) e si trova nel modulo di modifica di un abbonamento, nella sezione espandibile « Punto di ritiro alternativo » sotto le impostazioni delle consegne. Tre campi devono essere impostati insieme:
+Questa configurazione è disponibile solo per gli amministratori (non per i soci) e si trova nel modulo di modifica di un abbonamento, nella sezione espandibile " Punto di ritiro alternativo " sotto le impostazioni delle consegne. Tre campi devono essere impostati insieme:
 
 - **Punto di ritiro alternativo**: Il secondo luogo di ritiro.
 - **Prezzo del punto di ritiro alternativo**: Il prezzo del deposito per le consegne al punto alternativo (viene impostato per impostazione predefinita dal prezzo del deposito).
 - **Ciclo di consegna alternativo**: Determina quali consegne vanno al punto alternativo. Tutte le altre consegne vanno al deposito principale.
 
-> **Esempio**: Un abbonamento usa il ciclo « Ogni settimana ». Il veicolo di consegna passa dalla panetteria solo una settimana su due (settimane pari), quindi il socio ritira alla fattoria nelle altre settimane. Il deposito principale è « Panetteria », il punto di ritiro alternativo è « Fattoria » e il ciclo di consegna alternativo è « Settimane dispari ». Risultato: le <%= Basket.model_name.human(count: 2).downcase %> delle settimane pari vanno alla panetteria, quelle delle settimane dispari alla fattoria.
+> **Esempio**: Un abbonamento usa il ciclo " Ogni settimana ". Il veicolo di consegna passa dalla panetteria solo una settimana su due (settimane pari), quindi il socio ritira alla fattoria nelle altre settimane. Il deposito principale è " Panetteria ", il punto di ritiro alternativo è " Fattoria " e il ciclo di consegna alternativo è " Settimane dispari ". Risultato: le <%= Basket.model_name.human(count: 2).downcase %> delle settimane pari vanno alla panetteria, quelle delle settimane dispari alla fattoria.
 
 Alcuni punti importanti:
 
@@ -88,7 +88,7 @@ Alcuni punti importanti:
 
 Ogni <%= Basket.model_name.human.downcase %> di un abbonamento può essere modificata individualmente per discostarsi dalla configurazione dell'abbonamento: un deposito diverso, una <%= BasketSize.model_name.human.downcase %> diversa, una quantità modificata, <%= BasketComplement.model_name.human(count: 2).downcase %> personalizzati o anche uno spostamento a un'altra data di consegna (nell'ambito di un altro ciclo di consegna). Queste modifiche individuali vengono **preservate** quando la configurazione dell'abbonamento viene modificata in seguito (ad esempio, quando la <%= BasketSize.model_name.human.downcase %> o il deposito viene aggiornato a partire da una data specifica).
 
-Nella pagina dell'abbonamento, ogni <%= Basket.model_name.human.downcase %> che si discosta dalla configurazione dell'abbonamento mostra una piccola **icona della cronologia** accanto al suo stato. Passando il mouse sull'icona, vedi chi ha effettuato la modifica (nome dell'admin o « dal socio ») e quando, insieme all'elenco dei campi modificati. Da lì, un pulsante **« Annulla »** ripristina la <%= Basket.model_name.human.downcase %> ai valori predefiniti dell'abbonamento.
+Nella pagina dell'abbonamento, ogni <%= Basket.model_name.human.downcase %> che si discosta dalla configurazione dell'abbonamento mostra una piccola **icona della cronologia** accanto al suo stato. Passando il mouse sull'icona, vedi chi ha effettuato la modifica (nome dell'admin o " dal socio ") e quando, insieme all'elenco dei campi modificati. Da lì, un pulsante **" Annulla "** ripristina la <%= Basket.model_name.human.downcase %> ai valori predefiniti dell'abbonamento.
 
 Alcuni punti importanti:
 
@@ -108,7 +108,7 @@ Per ogni consegna, CSA Admin genera schede PDF che puoi stampare e utilizzare ne
 
 Ogni deposito può utilizzare una delle due modalità di schede (configurabile nelle impostazioni del deposito):
 
-- **Scheda firma** (predefinita): Una lista dove i soci firmano accanto al loro nome al momento del ritiro. I soci sono elencati in ordine alfabetico, con una colonna «Firma» a destra.
+- **Scheda firma** (predefinita): Una lista dove i soci firmano accanto al loro nome al momento del ritiro. I soci sono elencati in ordine alfabetico, con una colonna "Firma" a destra.
 - **Scheda consegna a domicilio**: Progettata per i corrieri. Include l'indirizzo completo di ogni socio e la sua nota di consegna (se presente) nell'ultima colonna. L'ordine dei soci può essere modificato manualmente tramite trascinamento nelle impostazioni del deposito.
 
 ### Informazioni del socio sulle schede {#member-info}
@@ -148,8 +148,8 @@ Se la [funzionalità <%= BasketContent.model_name.human.downcase %>](/handbook/b
 
 Quando attivato, due tabelle aggiuntive appaiono sulle schede:
 
-- **Pagina riepilogativa**: Una tabella che mostra la quantità totale di ogni prodotto per punto di ritiro (es. «4.5kg» di carote per il punto di ritiro Fattoria).
-- **Pagine per punto di ritiro**: Una tabella che elenca ogni prodotto con la sua quantità per <%= BasketSize.model_name.human.downcase %> (es. «250g» per <%= Basket.model_name.human.downcase %> piccolo, «400g» per grande).
+- **Pagina riepilogativa**: Una tabella che mostra la quantità totale di ogni prodotto per punto di ritiro (es. "4.5kg" di carote per il punto di ritiro Fattoria).
+- **Pagine per punto di ritiro**: Una tabella che elenca ogni prodotto con la sua quantità per <%= BasketSize.model_name.human.downcase %> (es. "250g" per <%= Basket.model_name.human.downcase %> piccolo, "400g" per grande).
 
 Se la tabella dei prodotti non entra nella stessa pagina della tabella dei membri esistente, apparirà automaticamente su una pagina separata.
 
@@ -159,10 +159,10 @@ CSA Admin può inviare automaticamente notifiche e-mail relative alle consegne:
 
 ### Lista di consegna per deposito {#depot-delivery-list-notifications}
 
-Puoi configurare ogni deposito con indirizzi e-mail (nella sezione « Notifiche » del deposito). Prima di ogni consegna, questi indirizzi ricevono un'e-mail contenente la lista dei soci e delle loro <%= Basket.model_name.human(count: 2).downcase %>, con allegati PDF e XLSX delle schede di consegna. Per impostazione predefinita, l'e-mail viene inviata il giorno prima, ma può essere regolata per deposito (0 per il giorno stesso, 2 per due giorni prima, ecc.).
+Puoi configurare ogni deposito con indirizzi e-mail (nella sezione " Notifiche " del deposito). Prima di ogni consegna, questi indirizzi ricevono un'e-mail contenente la lista dei soci e delle loro <%= Basket.model_name.human(count: 2).downcase %>, con allegati PDF e XLSX delle schede di consegna. Per impostazione predefinita, l'e-mail viene inviata il giorno prima, ma può essere regolata per deposito (0 per il giorno stesso, 2 per due giorni prima, ecc.).
 
 ### Riepilogo settimanale dei <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
 
-Per ogni <%= BasketComplement.model_name.human.downcase %> puoi configurare indirizzi e-mail (nella sezione « Notifiche » del <%= BasketComplement.model_name.human.downcase %>). Ogni domenica mattina, questi indirizzi ricevono un'e-mail che riepiloga il numero totale di quel complemento necessario per ogni consegna della settimana successiva.
+Per ogni <%= BasketComplement.model_name.human.downcase %> puoi configurare indirizzi e-mail (nella sezione " Notifiche " del <%= BasketComplement.model_name.human.downcase %>). Ogni domenica mattina, questi indirizzi ricevono un'e-mail che riepiloga il numero totale di quel complemento necessario per ogni consegna della settimana successiva.
 
 > Questo è utile per i fornitori esterni (ad es. un panettiere, un casaro) che devono sapere quanto preparare per la settimana successiva.

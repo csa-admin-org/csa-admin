@@ -92,9 +92,9 @@ _:
       _nl: Bijlagen
     audience:
       _en: Audience
-      _fr: Audience
-      _de: Audienz
-      _it: Pubblico
+      _fr: Destinataires
+      _de: Zielgruppe
+      _it: Destinatari
       _nl: Doelgroep
     available:
       _en: Available
@@ -940,7 +940,7 @@ _:
       _en: Stock
       _fr: Pièces en stock
       _de: Teile auf Lager
-      _it: Parti in stock
+      _it: Pezzi disponibili
       _nl: Voorraad
     street:
       _en: Address

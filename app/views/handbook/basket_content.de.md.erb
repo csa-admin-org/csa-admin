@@ -53,7 +53,7 @@ Mehrere Optionen stehen zur Verfügung, um die Anzeige anzupassen:
 
 - **Titel**: Die Überschrift, die über der Produktliste angezeigt wird (ein Standard wird bereitgestellt).
 - **Hinweis**: Ein optionaler Hinweis, der unter der Produktliste angezeigt wird, zum Beispiel um darauf hinzuweisen, dass kurzfristige Änderungen möglich sind (ein Standard wird bereitgestellt, leer lassen zum Ausblenden).
-- **Menge anzeigen**: Wenn aktiviert, wird die Menge neben jedem Produktnamen angezeigt, z.B. «Karotten (250g)».
+- **Menge anzeigen**: Wenn aktiviert, wird die Menge neben jedem Produktnamen angezeigt, z.B. "Karotten (250g)".
 
 Der aktuelle Sichtbarkeitsstatus für jede Lieferung wird in der Seitenleiste von [der <%= BasketContent.model_name.human %>-Seite](/basket_contents) angezeigt, wenn Du eine kommende Lieferung betrachtest.
 
@@ -63,7 +63,7 @@ Der <%= BasketContent.model_name.human.downcase %> kann auch auf gedruckten Lief
 
 ## Newsletter-Integration {#newsletter-integration}
 
-Der <%= BasketContent.model_name.human %> ist auch in Newsletter-Vorlagen mit [Liquid-Syntax](https://shopify.github.io/liquid) verfügbar. Die Standard-Newsletter-Vorlage [«Nächste Lieferung»](/newsletter_templates) enthält bereits einen Abschnitt zum <%= BasketContent.model_name.human %>. Falls Deine Vorlage diesen nicht enthält oder Du ihn anpassen möchtest, kannst Du folgenden Code verwenden:
+Der <%= BasketContent.model_name.human %> ist auch in Newsletter-Vorlagen mit [Liquid-Syntax](https://shopify.github.io/liquid) verfügbar. Die Standard-Newsletter-Vorlage ["Nächste Lieferung"](/newsletter_templates) enthält bereits einen Abschnitt zum <%= BasketContent.model_name.human %>. Falls Deine Vorlage diesen nicht enthält oder Du ihn anpassen möchtest, kannst Du folgenden Code verwenden:
 
 ~~~ liquid
 {% if basket.contents.size > 0 and basket.quantity > 0 %}
@@ -81,8 +81,8 @@ Der <%= BasketContent.model_name.human %> ist auch in Newsletter-Vorlagen mit [L
 Jeder <%= BasketContent.model_name.human %> in der Schleife bietet folgende Attribute:
 
 - `content.product`: Der Produktname
-- `content.quantity`: Die formatierte Menge (z.B. «250g», «3Stk»)
-- `content.unit`: Die Roheinheit («kg» oder «pc»)
+- `content.quantity`: Die formatierte Menge (z.B. "250g", "3Stk")
+- `content.unit`: Die Roheinheit ("kg" oder "pc")
 - `content.price`: Der formatierte Preis für dieses Produkt (falls ein Stückpreis gesetzt ist)
 - `content.unit_price`: Der formatierte Stückpreis (falls gesetzt)
 - `content.product_url`: Die Produkt-URL (falls gesetzt)

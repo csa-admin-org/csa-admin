@@ -1167,7 +1167,7 @@ module PDF
         end
         # Total header
         fill_color "000000"
-        text_box "Total",
+        text_box I18n.t("delivery.total"),
           rotate: 45,
           at: [ product_name_width + basket_sizes.size * number_width + offset_x, cursor + offset_y ],
           valign: :center,

@@ -16,7 +16,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_equal [
-      "Invoice N°\u00A0#{invoice.id}",
+      "Invoice No.\u00A0#{invoice.id}",
       "1 April 2024",
       "Martha", "Nowhere 46", "1234 City",
       "Member No.: #{invoice.member_id}",
@@ -57,7 +57,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_contains pdf_strings, [
-      "Invoice N°\u00A0#{invoice.id}",
+      "Invoice No.\u00A0#{invoice.id}",
       "1 April 2024",
       "Martha Office", "Nowhere 42", "4321 Office City",
       "Member No.: #{invoice.member_id}"
@@ -344,7 +344,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Missed half-day on 1 July 2024 (2 participants)", "100.00",
       "Total", "* 100.00",
       "* All taxes included, CHF\u00A092.51 Without taxes, CHF\u00A07.49 VAT (8.1%)",
-      "N° VAT CHE-123.456.789"
+      "VAT No. CHE-123.456.789"
     ]
   end
 
@@ -357,7 +357,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       missing_activity_participations_fiscal_year: 2023)
     pdf_strings = save_pdf_and_return_strings(invoice)
 
-    assert_contains pdf_strings, [ "Invoice N°\u00A0#{invoice.id}", "1 January 2024" ]
+    assert_contains pdf_strings, [ "Invoice No.\u00A0#{invoice.id}", "1 January 2024" ]
     assert_contains pdf_strings, [
       "Description", "Amount (CHF)",
       "3 missed half-days (2023-24)", "150.00",
@@ -408,7 +408,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Balance", "** -21.00",
       "To be paid", "22.76",
       "* All taxes included, CHF\u00A042.69 Without taxes, CHF\u00A01.07 VAT (2.5%)",
-      "N° VAT CHE-123.456.789",
+      "VAT No. CHE-123.456.789",
       "** Difference between all existing invoices and all payments made at the time of issuing this invoice.",
       "The history of your invoices can be viewed at any time on your member page."
     ]
@@ -456,9 +456,9 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     invoice = order.invoice!
     pdf_strings = save_pdf_and_return_strings(invoice)
 
-    assert_includes pdf_strings, "Invoice N°\u00A0#{invoice.id}"
+    assert_includes pdf_strings, "Invoice No.\u00A0#{invoice.id}"
     assert_contains pdf_strings, [
-      "Order N°\u00A0#{order.id}",
+      "Order No.\u00A0#{order.id}",
       "Delivery: 4 April 2024"
     ]
     assert_contains pdf_strings, [
@@ -494,7 +494,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_equal [
-      "Invoice N°\u00A0#{invoice.id}",
+      "Invoice No.\u00A0#{invoice.id}",
       "1 April 2024",
       "Martha", "Nowhere 46", "1234 City",
       "Member No.: #{invoice.member_id}",
@@ -521,7 +521,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_equal [
-      "Facture N°\u00A0#{invoice.id}",
+      "Facture n°\u00A0#{invoice.id}",
       "1 avril 2024",
       "Martha",
       "Nowhere 46", "1234 City",
@@ -555,7 +555,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_equal [
-      "Rechnung N°\u00A0#{invoice.id}",
+      "Rechnung Nr.\u00A0#{invoice.id}",
       "1. April 2024",
       "Martha",
       "Grosse Marktgasse 28", "30952 Ronnenberg",
@@ -599,7 +599,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     member.update!(billing_name: "Anna Changed")
     pdf_strings = save_pdf_and_return_strings(invoice)
     assert_equal [
-      "Mitgliedsbestätigung", "N°\u00A0#{invoice.id}",
+      "Mitgliedsbestätigung", "Nr.\u00A0#{invoice.id}",
       "1. Januar 2024",
       "Anna Doe",
       "Grosse Marktgasse 28", "30952 Ronnenberg",

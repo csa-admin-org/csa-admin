@@ -26,22 +26,22 @@ Si les filtres d'audience standard ci-dessus ne couvrent pas vos besoins, vous p
 
 Les segments enregistrés peuvent filtrer par <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, dépôt, cycle de livraisons, état du renouvellement, intervalle de facturation, ville, et plus encore. Ils apparaissent aux côtés des autres options d'audience lors de la création d'une newsletter.
 
-## Templates {#templates}
+## Modèles {#templates}
 
-Pour faciliter la création de vos newsletters, CSA Admin propose un système sophistiqué de [templates](/newsletter_templates). Ces templates sont des modèles d'email avec des blocs de contenu prédéfinis que vous pouvez créer et modifier selon vos besoins.
+Pour faciliter la création de vos newsletters, CSA Admin propose un système de [modèles](/newsletter_templates). Ces modèles d'e-mail contiennent des blocs de contenu prédéfinis que vous pouvez créer et modifier selon vos besoins.
 
-Par défaut, [2 templates](/newsletter_templates) sont disponibles:
+Par défaut, [deux modèles](/newsletter_templates) sont disponibles:
 
-- <strong>Texte libre</strong>: un template simple avec un seul bloc de contenu sans titre.
-- <strong>Prochaine livraison</strong>: un template plus complexe avec plusieurs blocs de contenu, ainsi que des informations dynamiques ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [prochaine activité](/handbook/activity), ...).
+- <strong>Texte libre</strong>: un modèle simple avec un seul bloc de contenu sans titre.
+- <strong>Prochaine livraison</strong>: un modèle plus complet avec plusieurs blocs de contenu et des informations dynamiques ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [prochaine activité](/handbook/activity), ...).
 
 N'hésitez pas à les dupliquer et à les modifier à votre guise ou en [créer de nouveaux](/newsletter_templates/new).
 
-> Malgré l'envoi "groupé" d'une newsletter, le contenu de chaque email est généré individuellement en fonction des informations de chaque membre (nom, langue, abonnement, ...).
+> Malgré l'envoi "groupé" d'une newsletter, le contenu de chaque e-mail est généré individuellement selon les informations de chaque membre (nom, langue, abonnement, ...).
 
 ### Blocs de contenu
 
-Chaque template doit contenir au moins un bloc de contenu. Il s'agit d'un bloc de texte libre qui pourra ensuite être modifié lors de la création d'une newsletter. Un bloc dont le contenu sera laissé vide lors de l'édition d'une newsletter sera simplement ignoré.
+Chaque modèle doit contenir au moins un bloc de contenu. Ce bloc de texte libre peut ensuite être modifié lors de la création d'une newsletter. Un bloc laissé vide lors de l'édition est simplement ignoré.
 
 Chaque bloc est défini avec un identifiant (`id`) unique et optionnellement un titre (`title`) ainsi qu'un contenu par défaut.
 
@@ -59,9 +59,9 @@ Exemple d'un bloc vide (à remplir lors de la création d'une newsletter):
 {% content id: "text" %}{% endcontent %}
 ~~~
 
-### Langage de template et mise en forme {#liquid}
+### Langage des modèles et mise en forme {#liquid}
 
-Les templates utilisent le langage de template Liquid pour insérer des données dynamiques propres à chaque membre (nom, détails du <%= Basket.model_name.human.downcase %>, informations d'abonnement, ...) et de la logique conditionnelle. Pour plus de détails sur la syntaxe Liquid, les balises de mise en forme et le panneau de prévisualisation des données, consultez la [page Emails du manuel](/handbook/emails).
+Les modèles utilisent le langage Liquid pour insérer des données dynamiques propres à chaque membre (nom, détails du <%= Basket.model_name.human.downcase %>, informations d'abonnement, ...) et de la logique conditionnelle. Pour plus de détails sur la syntaxe Liquid, les balises de mise en forme et le panneau de prévisualisation des données, consultez la [page E-mails du manuel](/handbook/emails).
 
 ## Pièces jointes {#attachments}
 
@@ -83,13 +83,13 @@ Chaque distribution affiche:
 
 ### Emails manquants
 
-Si un membre ajoute une nouvelle adresse email (ou qu'une adresse existante est corrigée) dans la semaine suivant l'envoi d'une newsletter, le système le détecte comme une "distribution manquante". Un admin peut alors envoyer la newsletter à cette nouvelle adresse directement depuis la page de distribution.
+Si un membre ajoute une nouvelle adresse e-mail, ou si une adresse existante est corrigée, dans la semaine suivant l'envoi d'une newsletter, le système le détecte comme une "distribution manquante". Un admin peut alors envoyer la newsletter à cette nouvelle adresse depuis la page de distribution.
 
 > Les données de distribution sont automatiquement purgées après 1 an. Le contenu et l'audience de la newsletter sont conservés indépendamment sur la newsletter elle-même.
 
 ## Planification d'envoi {#scheduling}
 
-Pour planifier l'envoi automatique d'une newsletter, indiquez une date future dans le champ "Envoie planifié le". Le système l'enverra automatiquement dans la nuit de la date choisie. Aucune autre action n'est nécessaire — enregistrer avec une date planifiée suffit. Le statut de la newsletter passera de "Brouillon" à "Planifié" pour confirmer que l'envoi est programmé. Vous pouvez continuer à modifier le contenu jusqu'à l'envoi. Cliquer sur le bouton "Envoyer" enverra la newsletter immédiatement, sans tenir compte de la date planifiée.
+Pour planifier l'envoi automatique d'une newsletter, indiquez une date future dans le champ "Envoi planifié le". Le système l'enverra automatiquement dans la nuit de la date choisie. Aucune autre action n'est nécessaire: enregistrez simplement avec une date planifiée. Le statut de la newsletter passera de "Brouillon" à "Planifié" pour confirmer que l'envoi est programmé. Vous pouvez continuer à modifier le contenu jusqu'à l'envoi. Cliquer sur "Envoyer" envoie la newsletter immédiatement, sans tenir compte de la date planifiée.
 
 ## Désinscription {#unsubscription}
 

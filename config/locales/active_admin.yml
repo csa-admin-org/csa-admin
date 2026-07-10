@@ -42,73 +42,73 @@ _:
           _nl: 'Ontbrekende producten kopiëren naar:'
       member_visibility:
         currently_visible/bag:
-          _en: Bag contents is currently visible on the member page!
+          _en: Bag contents are currently visible on the member page!
           _fr: Le contenu des sacs est actuellement visible sur l'espace membre!
           _de: Der Tascheninhalt ist derzeit auf der Mitgliederseite sichtbar!
           _it: Il contenuto delle borse è attualmente visibile sulla pagina dei soci!
           _nl: De tasinhoud is momenteel zichtbaar op de ledenpagina!
         currently_visible/basket:
-          _en: Basket contents is currently visible on the member page!
+          _en: Basket contents are currently visible on the member page!
           _fr: Le contenu des paniers est actuellement visible sur l'espace membre!
           _de: Der Korbinhalt ist derzeit auf der Mitgliederseite sichtbar!
           _it: Il contenuto delle ceste è attualmente visibile sulla pagina dei soci!
           _nl: De mandinhoud is momenteel zichtbaar op de ledenpagina!
         currently_visible/cone:
-          _en: Cone contents is currently visible on the member page!
+          _en: Cone contents are currently visible on the member page!
           _fr: Le contenu des cornets est actuellement visible sur l'espace membre!
           _de: Der Tüteninhalt ist derzeit auf der Mitgliederseite sichtbar!
           _it: Il contenuto dei coni è attualmente visibile sulla pagina dei soci!
           _nl: De zakinhoud is momenteel zichtbaar op de ledenpagina!
         currently_visible/crate:
-          _en: Crate contents is currently visible on the member page!
+          _en: Crate contents are currently visible on the member page!
           _fr: Le contenu des cagettes est actuellement visible sur l'espace membre!
           _de: Der Kisteninhalt ist derzeit auf der Mitgliederseite sichtbar!
           _it: Il contenuto delle cassette è attualmente visibile sulla pagina dei soci!
           _nl: De kratinhoud is momenteel zichtbaar op de ledenpagina!
         currently_visible/package:
-          _en: Package contents is currently visible on the member page!
+          _en: Package contents are currently visible on the member page!
           _fr: Le contenu des colis est actuellement visible sur l'espace membre!
           _de: Der Paketinhalt ist derzeit auf der Mitgliederseite sichtbar!
           _it: Il contenuto dei pacchi è attualmente visibile sulla pagina dei soci!
           _nl: De pakketinhoud is momenteel zichtbaar op de ledenpagina!
         currently_visible/share:
-          _en: Share contents is currently visible on the member page!
+          _en: Share contents are currently visible on the member page!
           _fr: Le contenu des parts est actuellement visible sur l'espace membre!
           _de: Der Anteilsinhalt ist derzeit auf der Mitgliederseite sichtbar!
           _it: Il contenuto delle parti è attualmente visibile sulla pagina dei soci!
           _nl: De deelinhoud is momenteel zichtbaar op de ledenpagina!
         disabled/bag:
-          _en: Bag contents is currently not configured to be displayed on the member page.
+          _en: Bag contents are currently not configured to be displayed on the member page.
           _fr: Le contenu des sacs n'est actuellement pas configuré pour être affiché sur la page membre.
           _de: Der Tascheninhalt ist derzeit nicht für die Anzeige auf der Mitgliederseite konfiguriert.
           _it: Il contenuto delle borse non è attualmente configurato per essere visualizzato sulla pagina dei soci.
           _nl: De tasinhoud is momenteel niet geconfigureerd om op de ledenpagina te worden weergegeven.
         disabled/basket:
-          _en: Basket contents is currently not configured to be displayed on the member page.
+          _en: Basket contents are currently not configured to be displayed on the member page.
           _fr: Le contenu des paniers n'est actuellement pas configuré pour être affiché sur la page membre.
           _de: Der Korbinhalt ist derzeit nicht für die Anzeige auf der Mitgliederseite konfiguriert.
           _it: Il contenuto delle ceste non è attualmente configurato per essere visualizzato sulla pagina dei soci.
           _nl: De mandinhoud is momenteel niet geconfigureerd om op de ledenpagina te worden weergegeven.
         disabled/cone:
-          _en: Cone contents is currently not configured to be displayed on the member page.
+          _en: Cone contents are currently not configured to be displayed on the member page.
           _fr: Le contenu des cornets n'est actuellement pas configuré pour être affiché sur la page membre.
           _de: Der Tüteninhalt ist derzeit nicht für die Anzeige auf der Mitgliederseite konfiguriert.
           _it: Il contenuto dei coni non è attualmente configurato per essere visualizzato sulla pagina dei soci.
           _nl: De zakinhoud is momenteel niet geconfigureerd om op de ledenpagina te worden weergegeven.
         disabled/crate:
-          _en: Crate contents is currently not configured to be displayed on the member page.
+          _en: Crate contents are currently not configured to be displayed on the member page.
           _fr: Le contenu des cagettes n'est actuellement pas configuré pour être affiché sur la page membre.
           _de: Der Kisteninhalt ist derzeit nicht für die Anzeige auf der Mitgliederseite konfiguriert.
           _it: Il contenuto delle cassette non è attualmente configurato per essere visualizzato sulla pagina dei soci.
           _nl: De kratinhoud is momenteel niet geconfigureerd om op de ledenpagina te worden weergegeven.
         disabled/package:
-          _en: Package contents is currently not configured to be displayed on the member page.
+          _en: Package contents are currently not configured to be displayed on the member page.
           _fr: Le contenu des colis n'est actuellement pas configuré pour être affiché sur la page membre.
           _de: Der Paketinhalt ist derzeit nicht für die Anzeige auf der Mitgliederseite konfiguriert.
           _it: Il contenuto dei pacchi non è attualmente configurato per essere visualizzato sulla pagina dei soci.
           _nl: De pakketinhoud is momenteel niet geconfigureerd om op de ledenpagina te worden weergegeven.
         disabled/share:
-          _en: Share contents is currently not configured to be displayed on the member page.
+          _en: Share contents are currently not configured to be displayed on the member page.
           _fr: Le contenu des parts n'est actuellement pas configuré pour être affiché sur la page membre.
           _de: Der Anteilsinhalt ist derzeit nicht für die Anzeige auf der Mitgliederseite konfiguriert.
           _it: Il contenuto delle parti non è attualmente configurato per essere visualizzato sulla pagina dei soci.
@@ -169,11 +169,11 @@ _:
         _it: Azioni di gruppo
         _nl: Groepsacties
       default_confirmation:
-        _en: Are you sure you want to do this?
-        _fr: Êtes-vous sûr de vouloir faire cela?
-        _de: Soll das wirklich durchgeführt werden?
-        _it: Siete sicuri di volerlo fare?
-        _nl: Moet dit echt worden uitgevoerd?
+        _en: Are you sure you want to apply this action to the selected items?
+        _fr: Voulez-vous appliquer cette action aux éléments sélectionnés?
+        _de: Diese Aktion wirklich auf die ausgewählten Einträge anwenden?
+        _it: Siete sicuri di voler applicare questa azione agli elementi selezionati?
+        _nl: Deze actie echt op de geselecteerde items toepassen?
       delete_confirmation:
         _en: Are you sure you want to delete these %{plural_model}?
         _fr: Êtes-vous sûr de vouloir supprimer ces %{plural_model}?
@@ -184,7 +184,7 @@ _:
         close_shop:
           _en: Close shop for
           _fr: Fermer l'épicerie pour
-          _de: Hofladen schließen für
+          _de: Hofladen schliessen für
           _it: Chiudere la drogheria per
           _nl: Winkel sluiten voor
         destroy:
@@ -285,7 +285,7 @@ _:
           _it: 1 %{model} cancellato
           _nl: 1 %{model} verwijderd
         other:
-          _en: "%{count} %{plural_model} delete"
+          _en: "%{count} %{plural_model} deleted"
           _fr: "%{count} %{plural_model} supprimés"
           _de: "%{count} %{plural_model} gelöscht"
           _it: "%{count} %{plural_model} cancellati"
@@ -412,7 +412,7 @@ _:
         _en: <strong>Welcome to the demo!</strong><br>Explore freely, data is reset every weekend. Check out the <a href="/handbook">handbook</a> for detailed documentation. Questions? <a href="/support">Get in touch!</a>
         _fr: <strong>Bienvenue sur la démo!</strong><br>Explorez librement, les données sont réinitialisées chaque week-end. Consultez le <a href="/handbook">manuel</a> pour une documentation détaillée. Des questions? <a href="/support">Contactez-moi!</a>
         _de: <strong>Willkommen zur Demo!</strong><br>Frei erkunden, die Daten werden jedes Wochenende zurückgesetzt. Im <a href="/handbook">Handbuch</a> findet sich eine ausführliche Dokumentation. Fragen? <a href="/support">Gerne kontaktieren!</a>
-        _it: <strong>Benvenuto nella demo!</strong><br>Esplora liberamente, i dati vengono reimpostati ogni fine settimana. Consulta il <a href="/handbook">manuale</a> per la documentazione dettagliata. Domande? <a href="/support">Contattami!</a>
+        _it: <strong>Benvenuti nella demo!</strong><br>Esplorate liberamente, i dati vengono reimpostati ogni fine settimana. Consultate il <a href="/handbook">manuale</a> per la documentazione dettagliata. Domande? <a href="/support">Contattatemi!</a>
         _nl: <strong>Welkom bij de demo!</strong><br>Vrij verkennen, gegevens worden elk weekend gereset. Bekijk de <a href="/handbook">handleiding</a> voor gedetailleerde documentatie. Vragen? <a href="/support">Gerust contact opnemen!</a>
     details:
       _en: Details
@@ -421,11 +421,11 @@ _:
       _it: Dettagli
       _nl: Details
     download:
-      _en: 'Download :'
+      _en: 'Download:'
       _fr: 'Télécharger:'
-      _de: 'Herunterladen :'
-      _it: 'Scaricare :'
-      _nl: 'Downloaden :'
+      _de: 'Herunterladen:'
+      _it: 'Scaricare:'
+      _nl: 'Downloaden:'
     dropdown_actions:
       button_label:
         _en: Actions
@@ -797,7 +797,7 @@ _:
           _en: The <strong>%{feature}</strong> feature is not enabled. You can activate it in <a href="%{url}">your settings</a>.
           _fr: La fonctionnalité <strong>%{feature}</strong> n'est pas activée. Vous pouvez l'activer dans <a href="%{url}">vos paramètres</a>.
           _de: Die Funktion <strong>%{feature}</strong> ist nicht aktiviert. Aktivierung möglich in <a href="%{url}">den Einstellungen</a>.
-          _it: La funzionalità <strong>%{feature}</strong> non è attivata. Puoi attivarla nelle <a href="%{url}">tue impostazioni</a>.
+          _it: La funzionalità <strong>%{feature}</strong> non è attivata. Può essere attivata nelle <a href="%{url}">impostazioni</a>.
           _nl: De functie <strong>%{feature}</strong> is niet ingeschakeld. Te activeren in <a href="%{url}">de instellingen</a>.
         handbook_questions_html:
           _en: Feel free to <a href="/support">contact me</a> if you have any questions or comments about this page.
@@ -926,59 +926,59 @@ _:
           _it: Totali %{numbers}
           _nl: Totalen %{numbers}
         updates_explanation_html:
-          _en: Here is a list of the latest additions to CSA Admin (unfortunately only in French). Feel free to <a href="/support">contact me</a> if you have any questions or comments, thank you!
-          _fr: Voici une liste des derniers ajouts apportés à CSA Admin. N'hésitez pas à <a href="/support">me contacter</a> si vous avez des questions ou remarques, merci!
-          _de: Hier ist eine Liste der neuesten Ergänzungen zu CSA Admin (leider nur auf Französisch). Bei Fragen oder Kommentaren gerne <a href="/support">Kontakt aufnehmen</a>, danke!
-          _it: Ecco una lista delle ultime aggiunte a CSA Admin (solo in francese, mi dispiace). Sentitevi liberi di <a href="/support">contattarmi</a> se avete domande o osservazioni, grazie!
-          _nl: Hier is een lijst van de nieuwste toevoegingen aan CSA Admin (helaas alleen in het Frans). Bij vragen of opmerkingen, gerust <a href="/support">contact opnemen</a>, bedankt!
+          _en: Here is a list of the latest updates to CSA Admin. Feel free to <a href="/support">contact me</a> with any questions or comments, thank you!
+          _fr: Voici une liste des dernières mises à jour de CSA Admin. N'hésitez pas à <a href="/support">me contacter</a> si vous avez des questions ou des remarques, merci!
+          _de: Hier ist eine Liste der neuesten Aktualisierungen von CSA Admin. Bei Fragen oder Kommentaren gerne <a href="/support">Kontakt aufnehmen</a>, danke!
+          _it: Ecco una lista degli ultimi aggiornamenti di CSA Admin. Per domande o osservazioni, <a href="/support">contattatemi</a>, grazie!
+          _nl: Hier is een lijst met de nieuwste updates van CSA Admin. Bij vragen of opmerkingen, gerust <a href="/support">contact opnemen</a>, bedankt!
       onboarding:
         create_basket_sizes/bag:
           _en: Create your bag sizes
           _fr: Créer vos tailles de sac
           _de: Taschengrössen erstellen
-          _it: Crea le dimensioni della tua borsa
+          _it: Creare le dimensioni della borsa
           _nl: Tasgroottes aanmaken
         create_basket_sizes/basket:
           _en: Create your basket sizes
           _fr: Créer vos tailles de panier
           _de: Korbgrössen erstellen
-          _it: Crea le dimensioni della tua cesta
+          _it: Creare le dimensioni della cesta
           _nl: Mandgroottes aanmaken
         create_basket_sizes/cone:
           _en: Create your cone sizes
           _fr: Créer vos tailles de cornet
           _de: Tütengrössen erstellen
-          _it: Crea le dimensioni del tuo cono
+          _it: Creare le dimensioni del cono
           _nl: Zakgroottes aanmaken
         create_basket_sizes/crate:
           _en: Create your crate sizes
           _fr: Créer vos tailles de cagette
           _de: Kistengrössen erstellen
-          _it: Crea le dimensioni della tua cassetta
+          _it: Creare le dimensioni della cassetta
           _nl: Kratgroottes aanmaken
         create_basket_sizes/package:
           _en: Create your package sizes
           _fr: Créer vos tailles de colis
           _de: Paketgrössen erstellen
-          _it: Crea le dimensioni del tuo pacco
+          _it: Creare le dimensioni del pacco
           _nl: Pakketgroottes aanmaken
         create_basket_sizes/share:
           _en: Create your share sizes
           _fr: Créer vos tailles de part
           _de: Anteilsgrössen erstellen
-          _it: Crea le dimensioni della tua parte
+          _it: Creare le dimensioni della parte
           _nl: Deelgroottes aanmaken
         create_deliveries:
           _en: Create your deliveries
           _fr: Créer vos livraisons
           _de: Lieferungen erstellen
-          _it: Crea le tue consegne
+          _it: Creare le consegne
           _nl: Leveringen aanmaken
         create_depots:
           _en: Create your depots
           _fr: Créer vos dépôts
           _de: Depots erstellen
-          _it: Crea i tuoi punti di ritiro
+          _it: Creare i punti di ritiro
           _nl: Depots aanmaken
         getting_started:
           _en: Getting started
@@ -1525,7 +1525,7 @@ _:
           _en: Your <a href="%{url}">%{iban_type}</a> is not yet configured. Invoices cannot be created until it is set.
           _fr: Votre <a href="%{url}">%{iban_type}</a> n'est pas encore configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
           _de: Die <a href="%{url}">%{iban_type}</a> ist noch nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
-          _it: Il tuo <a href="%{url}">%{iban_type}</a> non è ancora configurato. Le fatture non possono essere create finché non viene impostato.
+          _it: Configurare <a href="%{url}">%{iban_type}</a> prima di creare fatture.
           _nl: De <a href="%{url}">%{iban_type}</a> is nog niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         if_applicable:
           _en: If applicable
@@ -1541,7 +1541,7 @@ _:
           _nl: Factuur
         invoice_attachments_html:
           _en: Files sent in addition to the PDF invoice in the <a href="/mail_templates/invoice_created">"new invoice" email</a>.
-          _fr: Fichiers envoyés en plus de la facture PDF dans <a href="/mail_templates/invoice_created">l'email "nouvelle facture"</a>.
+          _fr: Fichiers envoyés en plus de la facture PDF dans <a href="/mail_templates/invoice_created">l’e-mail " nouvelle facture "</a>.
           _de: Dateien, die zusätzlich zur PDF-Rechnung in der <a href="/mail_templates/invoice_created">"neue Rechnung"-E-Mail</a> gesendet werden.
           _it: File inviati in aggiunta alla fattura PDF nell'<a href="/mail_templates/invoice_created">email "nuova fattura"</a>.
           _nl: Bestanden verzonden naast de PDF-factuur in de <a href="/mail_templates/invoice_created">"nieuwe factuur" e-mail</a>.
@@ -1553,7 +1553,7 @@ _:
           _nl: E-mail
         mailer_text_html:
           _en: These settings are used by <a href="/mail_templates">email templates</a> and <a href="/newsletters">newsletters</a>.
-          _fr: Ces paramètres sont utilisés par <a href="/mail_templates">les templates email</a> et <a href="/newsletters">les newsletters</a>.
+          _fr: Ces paramètres sont utilisés par <a href="/mail_templates">les modèles d’e-mail</a> et <a href="/newsletters">les newsletters</a>.
           _de: Diese Einstellungen werden von <a href="/mail_templates">E-Mail-Vorlagen</a> und <a href="/newsletters">Newsletter</a> verwendet.
           _it: Queste impostazioni sono utilizzate dai <a href="/mail_templates">modelli email</a> e dalle <a href="/newsletters">newsletter</a>.
           _nl: Deze instellingen worden gebruikt door <a href="/mail_templates">e-mailsjablonen</a> en <a href="/newsletters">nieuwsbrieven</a>.
@@ -1667,7 +1667,7 @@ _:
           _nl: Vernieuwing
         membership_renewal_text_html:
           _en: <a href="/mail_templates?scope=membership">Email templates</a> for membership renewals must also be edited and activated before requests can be sent from the memberships page.
-          _fr: <a href="/mail_templates?scope=membership">Les templates email</a> pour le renouvellement des abonnements doivent également être édités et activés avant de pouvoir envoyer les demandes depuis la page des abonnements.
+          _fr: <a href="/mail_templates?scope=membership">Les modèles d’e-mail</a> pour le renouvellement des abonnements doivent également être modifiés et activés avant l’envoi des demandes depuis la page des abonnements.
           _de: <a href="/mail_templates?scope=membership">E-Mail-Vorlagen</a> für Abonnementverlängerungen müssen ebenfalls bearbeitet und aktiviert werden, bevor Anträge von der Abonnementsseite gesendet werden können.
           _it: <a href="/mail_templates?scope=membership">I templates delle email</a> per il rinnovo degli abbonamenti devono essere editati e attivati prima di poter inviare le domande attraverso alla pagina degli abbonamenti.
           _nl: <a href="/mail_templates?scope=membership">E-mailsjablonen</a> voor lidmaatschapvernieuwingen moeten ook worden bewerkt en geactiveerd voordat verzoeken kunnen worden verzonden vanaf de lidmaatschappenpagina.
@@ -1793,9 +1793,9 @@ _:
           _nl: Min. %{min} (stapwaarde %{step})
         send_validation_email:
           _en: Send the "Member validated" automatic email.
-          _fr: Envoyer l'email automatique "Membre validé".
+          _fr: Envoyer l’e-mail automatique " Membre validé ".
           _de: Die automatische E-Mail "Mitglied validiert" senden.
-          _it: Invia l'email automatica "Socio confermato".
+          _it: Inviare l'e-mail automatica " Socio confermato ".
           _nl: Verstuur de automatische email "Lid gevalideerd".
         sepa_disabled_form_hint:
           _en: SEPA is currently disabled. Enter an IBAN to reactivate it, or leave the fields blank to keep it disabled.
@@ -1887,7 +1887,7 @@ _:
           _en: ⚠ <b>%{count}</b> words — this is getting long. Consider moving details to your website and linking from here. <a href="%{handbook_path}">See tips</a>.
           _fr: ⚠ <b>%{count}</b> mots — ça commence à être long. Envisagez de déplacer les détails vers votre site web et de créer un lien ici. <a href="%{handbook_path}">Voir les conseils</a>.
           _de: ⚠ <b>%{count}</b> Wörter — das wird ziemlich lang. Details besser auf die Website verschieben und von hier aus verlinken. <a href="%{handbook_path}">Siehe Tipps</a>.
-          _it: ⚠ <b>%{count}</b> parole — il testo si sta allungando. Considerate di spostare i dettagli sul vostro sito web e di inserire un link qui. <a href="%{handbook_path}">Vedi i consigli</a>.
+          _it: ⚠ <b>%{count}</b> parole — il testo si sta allungando. Considerate di spostare i dettagli sul vostro sito web e di inserire un link qui. <a href="%{handbook_path}">Consultate i consigli</a>.
           _nl: ⚠ <b>%{count}</b> woorden — dit wordt vrij lang. Overweeg om details naar de website te verplaatsen en hier een link te plaatsen. <a href="%{handbook_path}">Zie tips</a>.
       index:
         basket_prices/bag:
@@ -2175,25 +2175,25 @@ _:
           _en: Clear demanded basket preparations
           _fr: Annuler les préparations de paniers demandées
           _de: Geforderte Taschenbefüllungen löschen
-          _it: Annulla le preparazioni cestini richieste
+          _it: Annullare le preparazioni cestini richieste
           _nl: Geëiste pakketvoorbereidingen wissen
         clear_activity_participations_demanded/day_work:
           _en: Clear demanded work days
           _fr: Annuler les jours de travail demandés
           _de: Geforderte Arbeitstage löschen
-          _it: Annulla i giorni di lavoro richiesti
+          _it: Annullare i giorni di lavoro richiesti
           _nl: Geëiste werkdagen wissen
         clear_activity_participations_demanded/halfday_work:
           _en: Clear demanded half-days
           _fr: Annuler les demi-journées demandées
           _de: Geforderte ½ Tage löschen
-          _it: Annulla le mezze giornate richieste
+          _it: Annullare le mezze giornate richieste
           _nl: Geëiste halve dagen wissen
         clear_activity_participations_demanded/hour_work:
           _en: Clear demanded work hours
           _fr: Annuler les heures de travail demandées
           _de: Geforderte Arbeitsstunden löschen
-          _it: Annulla le ore di lavoro richieste
+          _it: Annullare le ore di lavoro richieste
           _nl: Geëiste werkuren wissen
         clear_activity_participations_demanded_confirm/basket_preparation:
           _en: Are you sure? The number of demanded basket preparations will be set to zero.
@@ -2223,7 +2223,7 @@ _:
           _en: Undo
           _fr: Annuler
           _de: Rückgängig
-          _it: Annulla
+          _it: Annullare
           _nl: Annuleren
         config:
           _en: Configuration
@@ -2232,11 +2232,11 @@ _:
           _it: Configurazione
           _nl: Configuratie
         confirm:
-          _en: Are you sure?
-          _fr: Êtes-vous sûr?
-          _de: Wirklich fortfahren?
-          _it: Siete sicuri?
-          _nl: Echt doorgaan?
+          _en: Continue with this action? Review its consequences before proceeding.
+          _fr: Poursuivre avec cette action? Vérifiez ses conséquences avant de continuer.
+          _de: Mit dieser Aktion fortfahren? Die Folgen vorher prüfen.
+          _it: Procedere con questa azione? Verificatene le conseguenze prima di continuare.
+          _nl: Doorgaan met deze actie? Controleer eerst de gevolgen.
         delivered_emails:
           one:
             _en: Delivered email
@@ -2333,37 +2333,37 @@ _:
           _en: Are you sure you want to force this delivery? The member will be billed for this bag.
           _fr: Êtes-vous sûr de vouloir forcer cette livraison? Le membre sera facturé pour ce sac.
           _de: Soll diese Lieferung wirklich erzwungen werden? Das Mitglied wird für diese Tasche in Rechnung gestellt.
-          _it: Sei sicuro di voler forzare questa consegna? Il socio sarà fatturato per questa borsa.
+          _it: Siete sicuri di voler forzare questa consegna? Il socio sarà fatturato per questa borsa.
           _nl: Moet deze levering echt worden geforceerd? Het lid wordt gefactureerd voor deze tas.
         force_confirm/basket:
           _en: Are you sure you want to force this delivery? The member will be billed for this basket.
           _fr: Êtes-vous sûr de vouloir forcer cette livraison? Le membre sera facturé pour ce panier.
           _de: Soll diese Lieferung wirklich erzwungen werden? Das Mitglied wird für diesen Korb in Rechnung gestellt.
-          _it: Sei sicuro di voler forzare questa consegna? Il socio sarà fatturato per questa cesta.
+          _it: Siete sicuri di voler forzare questa consegna? Il socio sarà fatturato per questa cesta.
           _nl: Moet deze levering echt worden geforceerd? Het lid wordt gefactureerd voor deze mand.
         force_confirm/cone:
           _en: Are you sure you want to force this delivery? The member will be billed for this cone.
           _fr: Êtes-vous sûr de vouloir forcer cette livraison? Le membre sera facturé pour ce cornet.
           _de: Soll diese Lieferung wirklich erzwungen werden? Das Mitglied wird für diese Tüte in Rechnung gestellt.
-          _it: Sei sicuro di voler forzare questa consegna? Il socio sarà fatturato per questo cono.
+          _it: Siete sicuri di voler forzare questa consegna? Il socio sarà fatturato per questo cono.
           _nl: Moet deze levering echt worden geforceerd? Het lid wordt gefactureerd voor deze zak.
         force_confirm/crate:
           _en: Are you sure you want to force this delivery? The member will be billed for this crate.
           _fr: Êtes-vous sûr de vouloir forcer cette livraison? Le membre sera facturé pour cette cagette.
           _de: Soll diese Lieferung wirklich erzwungen werden? Das Mitglied wird für diese Kiste in Rechnung gestellt.
-          _it: Sei sicuro di voler forzare questa consegna? Il socio sarà fatturato per questa cassetta.
+          _it: Siete sicuri di voler forzare questa consegna? Il socio sarà fatturato per questa cassetta.
           _nl: Moet deze levering echt worden geforceerd? Het lid wordt gefactureerd voor deze krat.
         force_confirm/package:
           _en: Are you sure you want to force this delivery? The member will be billed for this package.
           _fr: Êtes-vous sûr de vouloir forcer cette livraison? Le membre sera facturé pour ce colis.
           _de: Soll diese Lieferung wirklich erzwungen werden? Das Mitglied wird für dieses Paket in Rechnung gestellt.
-          _it: Sei sicuro di voler forzare questa consegna? Il socio sarà fatturato per questo pacco.
+          _it: Siete sicuri di voler forzare questa consegna? Il socio sarà fatturato per questo pacco.
           _nl: Moet deze levering echt worden geforceerd? Het lid wordt gefactureerd voor dit pakket.
         force_confirm/share:
           _en: Are you sure you want to force this delivery? The member will be billed for this share.
           _fr: Êtes-vous sûr de vouloir forcer cette livraison? Le membre sera facturé pour cette part.
           _de: Soll diese Lieferung wirklich erzwungen werden? Das Mitglied wird für diesen Anteil in Rechnung gestellt.
-          _it: Sei sicuro di voler forzare questa consegna? Il socio sarà fatturato per questa parte.
+          _it: Siete sicuri di voler forzare questa consegna? Il socio sarà fatturato per questa parte.
           _nl: Moet deze levering echt worden geforceerd? Het lid wordt gefactureerd voor dit deel.
         future_billing:
           _en: Invoice all in advance
@@ -2381,25 +2381,25 @@ _:
           _en: Your %{iban_type} is not configured. Invoices cannot be created until it is set.
           _fr: Votre %{iban_type} n'est pas configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
           _de: Die %{iban_type} ist nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
-          _it: Il tuo %{iban_type} non è configurato. Le fatture non possono essere create finché non viene impostato.
+          _it: Configurare %{iban_type} prima di creare fatture.
           _nl: De %{iban_type} is niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         future_billing_with_annual_fee_confirm:
           _en: Are you sure? The membership will be billed in full, including the annual fee. Don't forget to send the invoice after reviewing it.
           _fr: Êtes-vous sûr? L'abonnement sera facturé dans son intégralité, y compris la cotisation annuelle. N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
-          _de: Wirklich fortfahren? Das Abonnement wird in voller Höhe abgerechnet, einschließlich des Jahresbeitrags. Nicht vergessen, die Rechnung nach der Überprüfung abzusenden.
+          _de: Wirklich fortfahren? Das Abonnement wird in voller Höhe abgerechnet, einschliesslich des Jahresbeitrags. Nicht vergessen, die Rechnung nach der Überprüfung abzusenden.
           _it: Siete sicuri? L'abbonamento verrà fatturato per intero, compresa la quota annuale. Non dimenticate di inviare la fattura dopo la verifica.
           _nl: Echt doorgaan? Het lidmaatschap wordt volledig gefactureerd, inclusief de jaarlijkse bijdrage. Niet vergeten de factuur te verzenden na controle.
         invoice_must_be_sent_before_sepa_direct_debit_order_upload:
           _en: The invoice must be sent to the member before uploading the direct debit order to the bank.
           _fr: La facture doit être envoyée au membre avant l'envoi de l'ordre de paiement à la banque.
           _de: Die Rechnung muss dem Mitglied vor dem Hochladen des Lastschriftauftrags an die Bank gesendet werden.
-          _it: La fattura deve essere inviata al socio prima dell'invio dell'ordine di pagamento al banco.
-          _nl: De factuur moet worden verzonden naar de lid voordat de direct debit order naar de bank wordt verzonden.
+          _it: La fattura deve essere inviata al socio prima dell'invio dell'ordine di pagamento alla banca.
+          _nl: De factuur moet aan het lid worden verzonden voordat de incasso-opdracht naar de bank wordt gestuurd.
         mark_renewal_as_pending:
           _en: Cancel termination
           _fr: Annuler résiliation
           _de: Kündigung abbrechen
-          _it: Annulla la decisione
+          _it: Annullare la disdetta
           _nl: Beëindiging annuleren
         member_new_form:
           _en: Registration form
@@ -2621,37 +2621,37 @@ _:
         provisional_absences/bag:
           _en: The last bags are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
           _fr: Les derniers sacs sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
-          _de: Die letzten Taschen werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschließt, eine enthaltene Abwesenheit nicht zu nutzen.
+          _de: Die letzten Taschen werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschliesst, eine enthaltene Abwesenheit nicht zu nutzen.
           _it: Le ultime borse sono marcate provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
           _nl: De laatste tassen worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         provisional_absences/basket:
           _en: The last baskets are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
           _fr: Les derniers paniers sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
-          _de: Die letzten Körbe werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschließt, eine enthaltene Abwesenheit nicht zu nutzen.
+          _de: Die letzten Körbe werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschliesst, eine enthaltene Abwesenheit nicht zu nutzen.
           _it: Le ultime ceste sono marcate provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
           _nl: De laatste manden worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         provisional_absences/cone:
           _en: The last cones are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
           _fr: Les derniers cornets sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
-          _de: Die letzten Tüten werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschließt, eine enthaltene Abwesenheit nicht zu nutzen.
+          _de: Die letzten Tüten werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschliesst, eine enthaltene Abwesenheit nicht zu nutzen.
           _it: Gli ultimi coni sono marcati provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
           _nl: De laatste zakken worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         provisional_absences/crate:
           _en: The last crates are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
           _fr: Les dernières cagettes sont marquées provisoirement comme absentes tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
-          _de: Die letzten Kisten werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschließt, eine enthaltene Abwesenheit nicht zu nutzen.
+          _de: Die letzten Kisten werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschliesst, eine enthaltene Abwesenheit nicht zu nutzen.
           _it: Le ultime cassette sono marcate provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
           _nl: De laatste kratten worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         provisional_absences/package:
           _en: The last packages are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
           _fr: Les derniers colis sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
-          _de: Die letzten Pakete werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschließt, eine enthaltene Abwesenheit nicht zu nutzen.
+          _de: Die letzten Pakete werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschliesst, eine enthaltene Abwesenheit nicht zu nutzen.
           _it: Gli ultimi pacchi sono marcati provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
           _nl: De laatste pakketten worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         provisional_absences/share:
           _en: The last shares are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
           _fr: Les dernières parts sont marquées provisoirement comme absentes tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
-          _de: Die letzten Anteile werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschließt, eine enthaltene Abwesenheit nicht zu nutzen.
+          _de: Die letzten Anteile werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschliesst, eine enthaltene Abwesenheit nicht zu nutzen.
           _it: Le ultime parti sono marcate provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
           _nl: De laatste delen worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         recipients:
@@ -2682,7 +2682,7 @@ _:
           _en: Your %{iban_type} is not configured. Invoices cannot be created until it is set.
           _fr: Votre %{iban_type} n'est pas configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
           _de: Die %{iban_type} ist nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
-          _it: Il tuo %{iban_type} non è configurato. Le fatture non possono essere create finché non viene impostato.
+          _it: Configurare %{iban_type} prima di creare fatture.
           _nl: De %{iban_type} is niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         renew:
           _en: Renew
@@ -2748,27 +2748,27 @@ _:
           _en: Send order to the bank
           _fr: Envoyer l'ordre à la banque
           _de: Auftrag an die Bank senden
-          _it: Invia ordine al banco
-          _nl: Verzend bestelling naar bank
+          _it: Inviare l'ordine alla banca
+          _nl: Incasso-opdracht naar de bank verzenden
         sepa_direct_debit_order_will_be_automatically_uploaded_in:
           one:
             _en: The direct debit order will be automatically uploaded to the bank tomorrow during the night.
             _fr: L'ordre de paiement sera automatiquement envoyé à la banque demain durant la nuit.
             _de: Der Lastschriftauftrag wird automatisch am nächsten Tag nachts an die Bank hochgeladen.
-            _it: L'ordine di pagamento verrà automaticamente inviato al banco domani durante la notte.
-            _nl: De direct debit order wordt automatisch morgen nachts naar de bank geüpload.
+            _it: L'ordine di pagamento verrà automaticamente inviato alla banca durante la notte di domani.
+            _nl: De incasso-opdracht wordt in de nacht van morgen op overmorgen automatisch naar de bank geüpload.
           other:
             _en: The direct debit order will be automatically uploaded to the bank in %{count} days.
             _fr: L'ordre de paiement sera automatiquement envoyé à la banque dans %{count} jours.
             _de: Der Lastschriftauftrag wird automatisch in %{count} Tagen nachts an die Bank hochgeladen.
-            _it: L'ordine di pagamento verrà automaticamente inviato al banco in %{count} giorni.
-            _nl: De direct debit order wordt automatisch in %{count} dagen naar de bank geüpload.
+            _it: L'ordine di pagamento verrà automaticamente inviato alla banca tra %{count} giorni.
+            _nl: De incasso-opdracht wordt over %{count} dagen automatisch naar de bank geüpload.
           zero:
             _en: The direct debit order will be automatically uploaded to the bank during the night.
             _fr: L'ordre de paiement sera automatiquement envoyé à la banque durant la nuit.
             _de: Der Lastschriftauftrag wird automatisch nachts an die Bank hochgeladen.
-            _it: L'ordine di pagamento verrà automaticamente inviato al banco durante la notte.
-            _nl: De direct debit order wordt automatisch naar de bank geüpload.
+            _it: L'ordine di pagamento verrà automaticamente inviato alla banca durante la notte.
+            _nl: De incasso-opdracht wordt vannacht automatisch naar de bank geüpload.
         sepa_disabled_hint:
           _en: SEPA is disabled for future invoices. The latest mandate remains stored for audit purposes.
           _fr: Le SEPA est désactivé pour les prochaines factures. Le dernier mandat reste conservé à des fins d'audit.
@@ -2850,7 +2850,7 @@ _:
           _en: show more
           _fr: voir plus
           _de: mehr anzeigen
-          _it: vedi altro
+          _it: Mostrare altro
           _nl: meer tonen
         stop:
           _en: Stop
@@ -2971,37 +2971,37 @@ _:
           _en: Are you sure you want to cancel this forced delivery? The bag will return to its provisional absent state.
           _fr: Êtes-vous sûr de vouloir annuler cette livraison forcée? Le sac reviendra à son état d'absence provisoire.
           _de: Soll diese erzwungene Lieferung wirklich storniert werden? Die Tasche kehrt in ihren vorläufigen Abwesenheitszustand zurück.
-          _it: Sei sicuro di voler annullare questa consegna forzata? La borsa tornerà al suo stato di assenza provvisorio.
+          _it: Siete sicuri di voler annullare questa consegna forzata? La borsa tornerà al suo stato di assenza provvisorio.
           _nl: Moet deze geforceerde levering echt worden geannuleerd? De tas keert terug naar de voorlopige afwezigheidsstatus.
         unforce_confirm/basket:
           _en: Are you sure you want to cancel this forced delivery? The basket will return to its provisional absent state.
           _fr: Êtes-vous sûr de vouloir annuler cette livraison forcée? Le panier reviendra à son état d'absence provisoire.
           _de: Soll diese erzwungene Lieferung wirklich storniert werden? Der Korb kehrt in seinen vorläufigen Abwesenheitszustand zurück.
-          _it: Sei sicuro di voler annullare questa consegna forzata? La cesta tornerà al suo stato di assenza provvisorio.
+          _it: Siete sicuri di voler annullare questa consegna forzata? La cesta tornerà al suo stato di assenza provvisorio.
           _nl: Moet deze geforceerde levering echt worden geannuleerd? De mand keert terug naar de voorlopige afwezigheidsstatus.
         unforce_confirm/cone:
           _en: Are you sure you want to cancel this forced delivery? The cone will return to its provisional absent state.
           _fr: Êtes-vous sûr de vouloir annuler cette livraison forcée? Le cornet reviendra à son état d'absence provisoire.
           _de: Soll diese erzwungene Lieferung wirklich storniert werden? Die Tüte kehrt in ihren vorläufigen Abwesenheitszustand zurück.
-          _it: Sei sicuro di voler annullare questa consegna forzata? Il cono tornerà al suo stato di assenza provvisorio.
+          _it: Siete sicuri di voler annullare questa consegna forzata? Il cono tornerà al suo stato di assenza provvisorio.
           _nl: Moet deze geforceerde levering echt worden geannuleerd? De zak keert terug naar de voorlopige afwezigheidsstatus.
         unforce_confirm/crate:
           _en: Are you sure you want to cancel this forced delivery? The crate will return to its provisional absent state.
           _fr: Êtes-vous sûr de vouloir annuler cette livraison forcée? La cagette reviendra à son état d'absence provisoire.
           _de: Soll diese erzwungene Lieferung wirklich storniert werden? Die Kiste kehrt in ihren vorläufigen Abwesenheitszustand zurück.
-          _it: Sei sicuro di voler annullare questa consegna forzata? La cassetta tornerà al suo stato di assenza provvisorio.
+          _it: Siete sicuri di voler annullare questa consegna forzata? La cassetta tornerà al suo stato di assenza provvisorio.
           _nl: Moet deze geforceerde levering echt worden geannuleerd? De krat keert terug naar de voorlopige afwezigheidsstatus.
         unforce_confirm/package:
           _en: Are you sure you want to cancel this forced delivery? The package will return to its provisional absent state.
           _fr: Êtes-vous sûr de vouloir annuler cette livraison forcée? Le colis reviendra à son état d'absence provisoire.
           _de: Soll diese erzwungene Lieferung wirklich storniert werden? Das Paket kehrt in seinen vorläufigen Abwesenheitszustand zurück.
-          _it: Sei sicuro di voler annullare questa consegna forzata? Il pacco tornerà al suo stato di assenza provvisorio.
+          _it: Siete sicuri di voler annullare questa consegna forzata? Il pacco tornerà al suo stato di assenza provvisorio.
           _nl: Moet deze geforceerde levering echt worden geannuleerd? Het pakket keert terug naar de voorlopige afwezigheidsstatus.
         unforce_confirm/share:
           _en: Are you sure you want to cancel this forced delivery? The share will return to its provisional absent state.
           _fr: Êtes-vous sûr de vouloir annuler cette livraison forcée? La part reviendra à son état d'absence provisoire.
           _de: Soll diese erzwungene Lieferung wirklich storniert werden? Der Anteil kehrt in seinen vorläufigen Abwesenheitszustand zurück.
-          _it: Sei sicuro di voler annullare questa consegna forzata? La parte tornerà al suo stato di assenza provvisorio.
+          _it: Siete sicuri di voler annullare questa consegna forzata? La parte tornerà al suo stato di assenza provvisorio.
           _nl: Moet deze geforceerde levering echt worden geannuleerd? Het deel keert terug naar de voorlopige afwezigheidsstatus.
         uploading:
           _en: Uploading...
@@ -3433,37 +3433,37 @@ _:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started. Creating deliveries within this fiscal year may add bags to existing memberships, affecting their billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé. La création de livraisons au sein de cette année fiscale peut ajouter des sacs aux abonnements existants, affectant leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen. Das Erstellen von Lieferungen innerhalb dieses Geschäftsjahres kann bestehenden Abonnements Taschen hinzufügen und deren Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere borse agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere borse agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Per saperne di più</a> – In caso di dubbio, non esitate a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen. Het aanmaken van leveringen binnen dit boekjaar kan tassen toevoegen aan bestaande lidmaatschappen, wat hun facturering beïnvloedt. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         ongoing_fiscal_year_warning/basket_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started. Creating deliveries within this fiscal year may add baskets to existing memberships, affecting their billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé. La création de livraisons au sein de cette année fiscale peut ajouter des paniers aux abonnements existants, affectant leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen. Das Erstellen von Lieferungen innerhalb dieses Geschäftsjahres kann bestehenden Abonnements Körbe hinzufügen und deren Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere ceste agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere ceste agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Per saperne di più</a> – In caso di dubbio, non esitate a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen. Het aanmaken van leveringen binnen dit boekjaar kan manden toevoegen aan bestaande lidmaatschappen, wat hun facturering beïnvloedt. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         ongoing_fiscal_year_warning/cone_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started. Creating deliveries within this fiscal year may add cones to existing memberships, affecting their billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé. La création de livraisons au sein de cette année fiscale peut ajouter des cornets aux abonnements existants, affectant leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen. Das Erstellen von Lieferungen innerhalb dieses Geschäftsjahres kann bestehenden Abonnements Tüten hinzufügen und deren Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere coni agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere coni agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Per saperne di più</a> – In caso di dubbio, non esitate a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen. Het aanmaken van leveringen binnen dit boekjaar kan zakken toevoegen aan bestaande lidmaatschappen, wat hun facturering beïnvloedt. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         ongoing_fiscal_year_warning/crate_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started. Creating deliveries within this fiscal year may add crates to existing memberships, affecting their billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé. La création de livraisons au sein de cette année fiscale peut ajouter des cagettes aux abonnements existants, affectant leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen. Das Erstellen von Lieferungen innerhalb dieses Geschäftsjahres kann bestehenden Abonnements Kisten hinzufügen und deren Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere cassette agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere cassette agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Per saperne di più</a> – In caso di dubbio, non esitate a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen. Het aanmaken van leveringen binnen dit boekjaar kan kratten toevoegen aan bestaande lidmaatschappen, wat hun facturering beïnvloedt. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         ongoing_fiscal_year_warning/package_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started. Creating deliveries within this fiscal year may add packages to existing memberships, affecting their billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé. La création de livraisons au sein de cette année fiscale peut ajouter des colis aux abonnements existants, affectant leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen. Das Erstellen von Lieferungen innerhalb dieses Geschäftsjahres kann bestehenden Abonnements Pakete hinzufügen und deren Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere pacchi agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere pacchi agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Per saperne di più</a> – In caso di dubbio, non esitate a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen. Het aanmaken van leveringen binnen dit boekjaar kan pakketten toevoegen aan bestaande lidmaatschappen, wat hun facturering beïnvloedt. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         ongoing_fiscal_year_warning/share_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started. Creating deliveries within this fiscal year may add shares to existing memberships, affecting their billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé. La création de livraisons au sein de cette année fiscale peut ajouter des parts aux abonnements existants, affectant leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen. Das Erstellen von Lieferungen innerhalb dieses Geschäftsjahres kann bestehenden Abonnements Anteile hinzufügen und deren Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere parti agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere parti agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Per saperne di più</a> – In caso di dubbio, non esitate a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen. Het aanmaken van leveringen binnen dit boekjaar kan delen toevoegen aan bestaande lidmaatschappen, wat hun facturering beïnvloedt. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         scopes:
           all:
@@ -3483,37 +3483,37 @@ _:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started and this delivery cycle is used by %{count} membership(s). Modifying its configuration may affect their bags and billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé et ce cycle de livraisons est utilisé par %{count} abonnement(s). La modification de sa configuration peut affecter leurs sacs et leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen und dieser Lieferzyklus wird von %{count} Abonnement(en) genutzt. Änderungen an der Konfiguration können deren Taschen und Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare le loro borse e la fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare le loro borse e la fatturazione. <a href="/handbook/billing#price-change">Per saperne di più</a> – In caso di dubbio, non esitate a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen en deze leveringscyclus wordt gebruikt door %{count} lidmaatschap(pen). Het wijzigen van de configuratie kan hun tassen en facturering beïnvloeden. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         ongoing_fiscal_year_warning/basket_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started and this delivery cycle is used by %{count} membership(s). Modifying its configuration may affect their baskets and billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé et ce cycle de livraisons est utilisé par %{count} abonnement(s). La modification de sa configuration peut affecter leurs paniers et leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen und dieser Lieferzyklus wird von %{count} Abonnement(en) genutzt. Änderungen an der Konfiguration können deren Körbe und Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare le loro ceste e la fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare le loro ceste e la fatturazione. <a href="/handbook/billing#price-change">Per saperne di più</a> – In caso di dubbio, non esitate a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen en deze leveringscyclus wordt gebruikt door %{count} lidmaatschap(pen). Het wijzigen van de configuratie kan hun manden en facturering beïnvloeden. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         ongoing_fiscal_year_warning/cone_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started and this delivery cycle is used by %{count} membership(s). Modifying its configuration may affect their cones and billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé et ce cycle de livraisons est utilisé par %{count} abonnement(s). La modification de sa configuration peut affecter leurs cornets et leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen und dieser Lieferzyklus wird von %{count} Abonnement(en) genutzt. Änderungen an der Konfiguration können deren Tüten und Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare i loro coni e la fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare i loro coni e la fatturazione. <a href="/handbook/billing#price-change">Per saperne di più</a> – In caso di dubbio, non esitate a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen en deze leveringscyclus wordt gebruikt door %{count} lidmaatschap(pen). Het wijzigen van de configuratie kan hun zakken en facturering beïnvloeden. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         ongoing_fiscal_year_warning/crate_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started and this delivery cycle is used by %{count} membership(s). Modifying its configuration may affect their crates and billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé et ce cycle de livraisons est utilisé par %{count} abonnement(s). La modification de sa configuration peut affecter leurs cagettes et leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen und dieser Lieferzyklus wird von %{count} Abonnement(en) genutzt. Änderungen an der Konfiguration können deren Kisten und Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare le loro cassette e la fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare le loro cassette e la fatturazione. <a href="/handbook/billing#price-change">Per saperne di più</a> – In caso di dubbio, non esitate a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen en deze leveringscyclus wordt gebruikt door %{count} lidmaatschap(pen). Het wijzigen van de configuratie kan hun kratten en facturering beïnvloeden. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         ongoing_fiscal_year_warning/package_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started and this delivery cycle is used by %{count} membership(s). Modifying its configuration may affect their packages and billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé et ce cycle de livraisons est utilisé par %{count} abonnement(s). La modification de sa configuration peut affecter leurs colis et leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen und dieser Lieferzyklus wird von %{count} Abonnement(en) genutzt. Änderungen an der Konfiguration können deren Pakete und Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare i loro pacchi e la fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare i loro pacchi e la fatturazione. <a href="/handbook/billing#price-change">Per saperne di più</a> – In caso di dubbio, non esitate a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen en deze leveringscyclus wordt gebruikt door %{count} lidmaatschap(pen). Het wijzigen van de configuratie kan hun pakketten en facturering beïnvloeden. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         ongoing_fiscal_year_warning/share_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started and this delivery cycle is used by %{count} membership(s). Modifying its configuration may affect their shares and billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé et ce cycle de livraisons est utilisé par %{count} abonnement(s). La modification de sa configuration peut affecter leurs parts et leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen und dieser Lieferzyklus wird von %{count} Abonnement(en) genutzt. Änderungen an der Konfiguration können deren Anteile und Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare le loro parti e la fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare le loro parti e la fatturazione. <a href="/handbook/billing#price-change">Per saperne di più</a> – In caso di dubbio, non esitate a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen en deze leveringscyclus wordt gebruikt door %{count} lidmaatschap(pen). Het wijzigen van de configuratie kan hun delen en facturering beïnvloeden. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
       depot:
         geocode:
@@ -3683,7 +3683,7 @@ _:
           newsletters:
             _en: Newsletters
             _fr: Newsletters
-            _de: Newsletters
+            _de: Newsletter
             _it: Newsletter
             _nl: Nieuwsbrieven
           processing:
@@ -3924,7 +3924,7 @@ _:
               _en: Payment download is not fully configured yet.
               _fr: Le téléchargement des paiements n'est pas encore entièrement configuré.
               _de: Zahlungsdownload ist noch nicht vollständig konfiguriert.
-              _it: Il download dei pagamenti non è ancora completamente configurato.
+              _it: Lo scaricamento dei pagamenti non è ancora completamente configurato.
               _nl: Betalingsdownload is nog niet volledig geconfigureerd.
             missing_sepa_upload:
               _en: Direct debit upload is not fully configured yet.
@@ -4014,7 +4014,7 @@ _:
           _en: Save
           _fr: Sauvegarder
           _de: Speichern
-          _it: Salva
+          _it: Salvare
           _nl: Opslaan
         unlimited:
           _en: Unlimited
@@ -4109,7 +4109,7 @@ _:
             _en: Your support request has been sent successfully, thank you!
             _fr: Votre demande de support a été envoyée avec succès, merci!
             _de: Die Supportanfrage wurde erfolgreich gesendet, danke!
-            _it: La tua richiesta di supporto è stata inviata con successo, grazie!
+            _it: La richiesta di supporto è stata inviata con successo, grazie!
             _nl: Het ondersteuningsverzoek is succesvol verzonden, bedankt!
         new_model:
           _en: Support request
@@ -4121,7 +4121,7 @@ _:
           _en: Send
           _fr: Envoyer
           _de: Senden
-          _it: Invia
+          _it: Inviare
           _nl: Verzenden
     scopes:
       active:
@@ -4193,7 +4193,7 @@ _:
       next_year:
         _en: Next year
         _fr: Année prochaine
-        _de: Näschstes Jahr
+        _de: Nächstes Jahr
         _it: Anno successivo
         _nl: Volgend jaar
       past:
@@ -4354,7 +4354,7 @@ _:
           _en: Modifying an already invoiced order will result in the cancellation of the existing invoice. Are you sure?
           _fr: Modifier une commande déjà facturée aura pour action d'annuler la facture existante. Êtes-vous sûr?
           _de: Die Änderung einer bereits fakturierten Bestellung führt zur Stornierung der bestehenden Rechnung. Wirklich fortfahren?
-          _it: La modifica di un ordine già fatturato comporterà l'annullamento della fattura esistente. Sei sicuro/a?
+          _it: La modifica di un ordine già fatturato comporterà l'annullamento della fattura esistente. Siete sicuri?
           _nl: Het wijzigen van een reeds gefactureerde bestelling resulteert in de annulering van de bestaande factuur. Echt doorgaan?
         cancel_and_edit_shop_order:
           _en: Edit order (Cancel)
@@ -4372,7 +4372,7 @@ _:
           _en: Are you sure? Canceling an invoice cannot be undone.
           _fr: Êtes-vous sûr? Annuler une facture ne peut pas être réversé.
           _de: Wirklich fortfahren? Die Stornierung einer Rechnung kann nicht rückgängig gemacht werden.
-          _it: Sei sicuro? Annullare una fattura non può essere annullato.
+          _it: Siete sicuri? L'annullamento di una fattura non può essere annullato.
           _nl: Echt doorgaan? Het annuleren van een factuur kan niet ongedaan worden gemaakt.
         complete:
           _en: Complete
@@ -4390,7 +4390,7 @@ _:
           _en: Are you sure you want to permanently delete this member? This action cannot be undone.
           _fr: Êtes-vous sûr de vouloir supprimer définitivement ce membre? Cette action est irréversible.
           _de: Soll dieses Mitglied wirklich dauerhaft gelöscht werden? Diese Aktion kann nicht rückgängig gemacht werden.
-          _it: Sei sicuro di voler eliminare definitivamente questo socio? Questa azione non può essere annullata.
+          _it: Siete sicuri di voler eliminare definitivamente questo socio? Questa azione non può essere annullata.
           _nl: Moet dit lid echt permanent worden verwijderd? Deze actie kan niet ongedaan worden gemaakt.
         delete_disabled_reason:
           _en: This member cannot be deleted because they have open invoices, billable memberships, or pending shop orders.
@@ -4412,8 +4412,8 @@ _:
           _nl: Leveringsbonnen
         discard_confirm:
           _en: 'This member will be marked for deletion: their page will no longer be accessible and their personal data will be anonymized after %{delay} days. See the "Right to be Forgotten" handbook page for more details. Continue?'
-          _fr: 'Ce membre sera marqué pour suppression: sa page ne sera plus accessible et ses données personnelles seront anonymisées après %{delay} jours. Consultez la page « Droit à l''oubli » du manuel pour plus de détails. Continuer?'
-          _de: 'Dieses Mitglied wird zur Löschung markiert: Seine Seite ist nicht mehr zugänglich und seine Daten werden nach %{delay} Tagen anonymisiert. Weitere Details auf der Handbuchseite „Recht auf Vergessenwerden". Fortfahren?'
+          _fr: 'Ce membre sera marqué pour suppression: sa page ne sera plus accessible et ses données personnelles seront anonymisées après %{delay} jours. Consultez la page " Droit à l''oubli " du manuel pour plus de détails. Continuer?'
+          _de: 'Dieses Mitglied wird zur Löschung markiert: Seine Seite ist nicht mehr zugänglich und seine Daten werden nach %{delay} Tagen anonymisiert. Weitere Details auf der Handbuchseite "Recht auf Vergessenwerden". Fortfahren?'
           _it: 'Questo socio sarà contrassegnato per l''eliminazione: la sua pagina non sarà più accessibile e i suoi dati saranno anonimizzati dopo %{delay} giorni. Consultare la pagina "Diritto all''oblio" del manuale per maggiori dettagli. Continuare?'
           _nl: 'Dit lid wordt gemarkeerd voor verwijdering: hun pagina is niet meer toegankelijk en hun gegevens worden na %{delay} dagen geanonimiseerd. Raadpleeg de handleidingpagina "Recht om vergeten te worden" voor meer informatie. Doorgaan?'
         duplicate:
@@ -4444,14 +4444,14 @@ _:
           _en: Your %{iban_type} is not configured. Invoices cannot be created until it is set.
           _fr: Votre %{iban_type} n'est pas configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
           _de: Die %{iban_type} ist nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
-          _it: Il tuo %{iban_type} non è configurato. Le fatture non possono essere create finché non viene impostato.
+          _it: Configurare %{iban_type} prima di creare fatture.
           _nl: De %{iban_type} is niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         link_confirm:
-          _en: Are you absolutely sure?
-          _fr: Êtes-vous sûr de sûr?
-          _de: Wirklich ganz sicher?
-          _it: Siete davvero sicuri?
-          _nl: Absoluut zeker?
+          _en: Continue with this action? Review its consequences before proceeding.
+          _fr: Poursuivre avec cette action? Vérifiez ses conséquences avant de continuer.
+          _de: Mit dieser Aktion fortfahren? Die Folgen vorher prüfen.
+          _it: Procedere con questa azione? Verificatene le conseguenze prima di continuare.
+          _nl: Doorgaan met deze actie? Controleer eerst de gevolgen.
         mark_as_sent:
           _en: Mark as sent
           _fr: Marquer comme envoyée
@@ -4480,9 +4480,9 @@ _:
           confirm_scheduled:
             _en: This will send the newsletter immediately to %{members_count} members, ignoring the scheduled date. Are you sure?
             _fr: Cela enverra la newsletter immédiatement à %{members_count} membres, sans tenir compte de la date planifiée. Êtes-vous sûr?
-            _de: Der Newsletter wird sofort an %{members_count} Mitglieder gesendet, ungeachtet des geplanten Datums. Bist Du sicher?
-            _it: Questo invierà la newsletter immediatamente a %{members_count} soci, ignorando la data pianificata. Siete sicuri?
-            _nl: Dit stuurt de nieuwsbrief onmiddellijk naar %{members_count} leden, ongeacht de geplande datum. Weet je het zeker?
+            _de: Der Newsletter wird sofort an %{members_count} Mitglieder gesendet; das geplante Datum wird ignoriert. Fortfahren?
+            _it: La newsletter sarà inviata immediatamente a %{members_count} soci, ignorando la data pianificata. Siete sicuri?
+            _nl: De nieuwsbrief wordt onmiddellijk naar %{members_count} leden verzonden; de geplande datum wordt genegeerd. Doorgaan?
         open:
           _en: Open
           _fr: Ouvrir
@@ -4529,21 +4529,21 @@ _:
           _en: Put on waiting list
           _fr: Mettre en liste d'attente
           _de: Auf die Warteliste setzen
-          _it: Metti in lista d'attesa
+          _it: Mettere in lista d'attesa
           _nl: Op wachtlijst plaatsen
       sidebar_section:
         activity_participation_ical_text_html:
           _en: Feed <a href="https://en.wikipedia.org/wiki/ICalendar">iCalendar</a> containing all upcoming activity participations.
           _fr: Flux <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a> contenant toutes les participations aux activités à venir.
           _de: Feed <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a>, der alle Teilnahmen an bevorstehenden Aktivitäten enthält.
-          _it: Feed <a href="https://it.wikipedia.org/wiki/ICalendar">iCalendar</a> contenente tutte le voci per le prossime attività.
+          _it: Calendario <a href="https://it.wikipedia.org/wiki/ICalendar">iCalendar</a> contenente tutte le partecipazioni alle prossime attività.
           _nl: Feed <a href="https://nl.wikipedia.org/wiki/ICalendar">iCalendar</a> met alle komende activiteitsdeelnames.
         activity_preset_info:
           _en: Templates save time when you often create similar activities with the same title, place, and place link. Select one when creating an activity to prefill these fields automatically.
           _fr: Les modèles font gagner du temps lorsque vous créez souvent des activités similaires avec le même intitulé, lieu et lien du lieu. Sélectionnez-en un lors de la création d'une activité pour préremplir automatiquement ces champs.
           _de: Vorlagen sparen Zeit, wenn oft ähnliche Aktivitäten mit demselben Titel, Standort und Standort-Link erstellt werden. Beim Erstellen einer Aktivität eine Vorlage auswählen, um diese Felder automatisch vorab auszufüllen.
           _it: I modelli fanno risparmiare tempo quando create spesso attività simili con lo stesso titolo, luogo e link al luogo. Selezionatene uno durante la creazione di un'attività per precompilare automaticamente questi campi.
-          _nl: Sjablonen besparen tijd wanneer je vaak vergelijkbare activiteiten aanmaakt met dezelfde titel, locatie en locatielink. Selecteer er een bij het aanmaken van een activiteit om deze velden automatisch vooraf in te vullen.
+          _nl: Sjablonen besparen tijd bij het aanmaken van vergelijkbare activiteiten met dezelfde titel, locatie en locatielink. Bij het aanmaken van een activiteit kan een sjabloon worden geselecteerd om deze velden automatisch vooraf in te vullen.
         amount:
           _en: Amount
           _fr: Montant
@@ -4587,11 +4587,11 @@ _:
           _it: Risoluzione
           _nl: Opzeggingen
         confirm:
-          _en: Are you absolutely sure?
-          _fr: Êtes-vous sûr de sûr?
-          _de: Wirklich ganz sicher?
-          _it: Siete davvero sicuri?
-          _nl: Absoluut zeker?
+          _en: Continue with this action? Review its consequences before proceeding.
+          _fr: Poursuivre avec cette action? Vérifiez ses conséquences avant de continuer.
+          _de: Mit dieser Aktion fortfahren? Die Folgen vorher prüfen.
+          _it: Procedere con questa azione? Verificatene le conseguenze prima di continuare.
+          _nl: Doorgaan met deze actie? Controleer eerst de gevolgen.
         delivery_cycle_info:
           _en: Delivery cycles dynamically group deliveries to offer different patterns to your members, such as weekly or bi-weekly, specific days, or seasonal deliveries. Each membership is associated with a delivery cycle.
           _fr: Les cycles de livraison regroupent dynamiquement les livraisons afin d'offrir différents rythmes à vos membres, comme hebdomadaire ou bimensuel, certains jours, ou des livraisons saisonnières. Chaque abonnement est associé à un cycle de livraison.
@@ -4626,13 +4626,13 @@ _:
           _en: Are you sure? The memberships will be billed in full.
           _fr: Êtes-vous sûr? Les abonnements seront facturés dans leur intégralité.
           _de: Wirklich fortfahren? Die Abonnements werden in voller Höhe berechnet.
-          _it: Sei sicuro? Gli abbonamenti saranno fatturati per intero.
+          _it: Siete sicuri? Gli abbonamenti saranno fatturati per intero.
           _nl: Echt doorgaan? De lidmaatschappen worden volledig gefactureerd.
         future_billing_with_annual_fee_confirm:
           _en: Are you sure? The memberships will be billed in full, including their annual fee.
           _fr: Êtes-vous sûr? Les abonnements seront facturés dans leur intégralité, y compris leur cotisation annuelle.
-          _de: Wirklich fortfahren? Die Abonnements werden vollständig in Rechnung gestellt, einschließlich des Jahresbeitrags.
-          _it: Sei sicuro? Gli abbonamenti saranno fatturati per intero, compresa la quota annuale.
+          _de: Wirklich fortfahren? Die Abonnements werden vollständig in Rechnung gestellt, einschliesslich des Jahresbeitrags.
+          _it: Siete sicuri? Gli abbonamenti saranno fatturati per intero, compresa la quota annuale.
           _nl: Echt doorgaan? De lidmaatschappen worden volledig gefactureerd, inclusief hun jaarlijkse bijdrage.
         help:
           _en: Help
@@ -4644,7 +4644,7 @@ _:
           _en: Your <a href="%{url}">%{iban_type}</a> is not yet configured. Invoices cannot be created until it is set.
           _fr: Votre <a href="%{url}">%{iban_type}</a> n'est pas encore configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
           _de: Die <a href="%{url}">%{iban_type}</a> ist noch nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
-          _it: Il tuo <a href="%{url}">%{iban_type}</a> non è ancora configurato. Le fatture non possono essere create finché non viene impostato.
+          _it: Configurare <a href="%{url}">%{iban_type}</a> prima di creare fatture.
           _nl: De <a href="%{url}">%{iban_type}</a> is nog niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         import:
           _en: Manual Import
@@ -4662,26 +4662,26 @@ _:
           _en: Invoice all
           _fr: Tout facturer
           _de: Alle fakturieren
-          _it: Fattura tutti
+          _it: Fatturare tutto
           _nl: Alles factureren
         invoice_all_confirm:
           one:
             _en: Are you sure you want to invoice 1 missing participation (%{activity_price}/part.) for the year %{year}?
             _fr: Êtes-vous sûr de vouloir facturer 1 participation manquante (%{activity_price}/part.) pour l'année %{year}?
             _de: Soll 1 fehlende Teilnahme (%{activity_price}/Teiln.) für das Jahr %{year} wirklich in Rechnung gestellt werden?
-            _it: Siete sicuri di voler addebitare 1 partecipazione mancante ({activity_price}/part.) per l'anno %{year}?
+            _it: Siete sicuri di voler addebitare 1 partecipazione mancante (%{activity_price}/part.) per l'anno %{year}?
             _nl: Moet 1 ontbrekende deelname (%{activity_price}/deel.) echt worden gefactureerd voor het jaar %{year}?
           other:
             _en: Are you sure you want to invoice %{count} missing participations (%{activity_price}/part.) for the year %{year}?
             _fr: Êtes-vous sûr de vouloir facturer %{count} participations manquantes (%{activity_price}/part.) pour l'année %{year}?
             _de: Sollen %{count} fehlende Teilnahmen (%{activity_price}/Teiln.) für das Jahr %{year} wirklich in Rechnung gestellt werden?
-            _it: Siete sicuri di voler addebitare %{count} partecipazioni mancanti ({activity_price}/part.) per l'anno %{year}?
+            _it: Siete sicuri di voler addebitare %{count} partecipazioni mancanti (%{activity_price}/part.) per l'anno %{year}?
             _nl: Moeten %{count} ontbrekende deelnames (%{activity_price}/deel.) echt worden gefactureerd voor het jaar %{year}?
         invoice_all_iban_missing:
           _en: Your %{iban_type} is not configured. Invoices cannot be created until it is set.
           _fr: Votre %{iban_type} n'est pas configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
           _de: Die %{iban_type} ist nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
-          _it: Il tuo %{iban_type} non è configurato. Le fatture non possono essere create finché non viene impostato.
+          _it: Configurare %{iban_type} prima di creare fatture.
           _nl: De %{iban_type} is niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         invoice_open_not_sent_text_html:
           one:
@@ -4728,10 +4728,10 @@ _:
           _nl: Ontbrekend
         newsletter_template_info:
           _en: Templates let you reuse newsletter layouts and content blocks instead of starting from scratch each time. They are especially useful for recurring newsletters with a similar structure.
-          _fr: Les templates permettent de réutiliser des mises en page et blocs de contenu de newsletters au lieu de repartir de zéro à chaque fois. Ils sont particulièrement utiles pour les newsletters récurrentes avec une structure similaire.
+          _fr: Les modèles permettent de réutiliser des mises en page et blocs de contenu de newsletters au lieu de repartir de zéro à chaque fois. Ils sont particulièrement utiles pour les newsletters récurrentes avec une structure similaire.
           _de: Vorlagen ermöglichen es, Newsletter-Layouts und Inhaltsblöcke wiederzuverwenden, statt jedes Mal von vorne zu beginnen. Sie sind besonders nützlich für wiederkehrende Newsletter mit ähnlicher Struktur.
           _it: I template consentono di riutilizzare layout e blocchi di contenuto delle newsletter invece di ripartire da zero ogni volta. Sono particolarmente utili per newsletter ricorrenti con una struttura simile.
-          _nl: Sjablonen laten je nieuwsbriefindelingen en inhoudsblokken hergebruiken in plaats van telkens opnieuw te beginnen. Ze zijn vooral handig voor terugkerende nieuwsbrieven met een vergelijkbare structuur.
+          _nl: Met sjablonen kunnen nieuwsbriefindelingen en inhoudsblokken worden hergebruikt in plaats van telkens opnieuw te beginnen. Ze zijn vooral handig voor terugkerende nieuwsbrieven met een vergelijkbare structuur.
         no_automatic_payments_processing_warning_text_html:
           _en: Automatic payment import is not set up yet. Open the <a href="%{settings_url}">bank connection settings</a> and follow the instructions.
           _fr: L'import automatique des paiements n'est pas encore configuré. Ouvrez les <a href="%{settings_url}">paramètres de connexion bancaire</a> et suivez les instructions.
@@ -4807,7 +4807,7 @@ _:
           _nl: Betalingsherinneringen uitgeschakeld!
         overdue_notice_not_sent_warning_mail_template_not_active_text_html:
           _en: The automatic sending of the email <a href="/mail_templates/invoice_overdue_notice">"Invoice overdue notice"</a> is disabled.
-          _fr: L'envoi automatique de l'email <a href="/mail_templates/invoice_overdue_notice">"Rappel facture"</a> est désactivé.
+          _fr: L’envoi automatique de l’e-mail <a href="/mail_templates/invoice_overdue_notice">" Rappel facture "</a> est désactivé.
           _de: Der Versand des E-Mails <a href="/mail_templates/invoice_overdue_notice">"Mahnung Rechnung"</a> ist deaktiviert.
           _it: L'invio automatico dell'email <a href="/mail_templates/invoice_overdue_notice">"Promemoria fattura"</a> è disabilitato.
           _nl: Het automatisch verzenden van de e-mail <a href="/mail_templates/invoice_overdue_notice">"Factuur achterstallige betaling"</a> is uitgeschakeld.
@@ -4886,9 +4886,9 @@ _:
             _nl: Vernieuwen (%{count})
         renew_all_confirm:
           _en: Are you sure? Make sure to review "Configurations carried over" in the Renewal settings beforehand.
-          _fr: Êtes-vous sûr? Veuillez vérifier les "Configurations reprises" dans les paramètres de Renouvellement au préalable.
+          _fr: Êtes-vous sûr? Veuillez vérifier au préalable les " Configurations reprises " dans les paramètres de renouvellement.
           _de: Wirklich fortfahren? Bitte vorher die "Übernommene Konfigurationen" in den Erneuerungseinstellungen überprüfen.
-          _it: Sei sicuro? Assicurati di verificare prima le "Configurazioni riprese" nelle impostazioni di Rinnovo.
+          _it: Siete sicuri? Verificate prima le " Configurazioni riprese " nelle impostazioni di Rinnovo.
           _nl: Echt doorgaan? Vooraf de "Overgenomen configuraties" in de Vernieuwingsinstellingen controleren.
         renewal:
           _en: Renewals
@@ -4912,7 +4912,7 @@ _:
           _en: Search handbook…
           _fr: Rechercher dans le manuel…
           _de: Handbuch durchsuchen…
-          _it: Cerca nel manuale…
+          _it: Cercare nel manuale…
           _nl: Handboek doorzoeken…
         search_status:
           _en: Search results
@@ -4964,11 +4964,11 @@ _:
           _it: Solo gli amministratori possono attualmente vedere il negozio di drogheria.
           _nl: Alleen beheerders kunnen momenteel de winkel zien.
         shop_closed_html:
-          _en: Orders for delivery on <u>%{date}</u> are no longer possible.
-          _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont plus possibles.
-          _de: Bestellungen für die Lieferung am <u>%{date}</u> sind nicht mehr möglich.
-          _it: Gli ordini per la consegna il <u>%{date}</u> non sono più possibili.
-          _nl: Bestellingen voor levering op <u>%{date}</u> zijn niet meer mogelijk.
+          _en: Orders for delivery on <strong>%{date}</strong> are no longer possible.
+          _fr: Les commandes pour la livraison du <strong>%{date}</strong> ne sont plus possibles.
+          _de: Bestellungen für die Lieferung am <strong>%{date}</strong> sind nicht mehr möglich.
+          _it: Gli ordini per la consegna il <strong>%{date}</strong> non sono più possibili.
+          _nl: Bestellingen voor levering op <strong>%{date}</strong> zijn niet meer mogelijk.
         shop_no_open_delivery:
           _en: Shop closed
           _fr: Épicerie fermée
@@ -4978,21 +4978,21 @@ _:
         shop_no_open_delivery_text_html:
           _en: No upcoming deliveries have the shop open. <a href="%{url}">Open the shop</a> for upcoming deliveries from the deliveries page.
           _fr: Aucune livraison à venir n'a l'épicerie ouverte. <a href="%{url}">Ouvrez l'épicerie</a> pour les livraisons à venir depuis la page des livraisons.
-          _de: Keine kommenden Lieferungen haben den Hofladen geöffnet. <a href="%{url}">Öffnen Sie den Hofladen</a> für kommende Lieferungen auf der Lieferungsseite.
-          _it: Nessuna consegna futura ha la bottega aperta. <a href="%{url}">Apri la bottega</a> per le consegne future dalla pagina delle consegne.
+          _de: Für keine kommende Lieferung ist der Hofladen geöffnet. Den Hofladen für kommende Lieferungen auf der <a href="%{url}">Lieferungsseite öffnen</a>.
+          _it: Nessuna consegna futura ha la bottega aperta. <a href="%{url}">Aprire la bottega</a> per le consegne future dalla pagina delle consegne.
           _nl: Geen komende leveringen hebben de winkel open. <a href="%{url}">Open de winkel</a> voor komende leveringen op de leveringenpagina.
         shop_not_open_yet_html:
-          _en: Orders for delivery on <u>%{date}</u> are not yet possible.
-          _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont pas encore possibles.
-          _de: Die Bestellungen für die Lieferung am <u>%{date}</u> sind noch nicht möglich.
-          _it: Gli ordini con consegna il <u>%{date}</u> non sono ancora possibili.
-          _nl: Bestellingen voor levering op <u>%{date}</u> zijn nog niet mogelijk.
+          _en: Orders for delivery on <strong>%{date}</strong> are not yet possible.
+          _fr: Les commandes pour la livraison du <strong>%{date}</strong> ne sont pas encore possibles.
+          _de: Die Bestellungen für die Lieferung am <strong>%{date}</strong> sind noch nicht möglich.
+          _it: Gli ordini con consegna il <strong>%{date}</strong> non sono ancora possibili.
+          _nl: Bestellingen voor levering op <strong>%{date}</strong> zijn nog niet mogelijk.
         shop_open_until_html:
-          _en: Orders for delivery on <u>%{date}</u> can still be placed, modified, or canceled by members until <u>%{end_date}</u>.
-          _fr: Les commandes pour la livraison du <u>%{date}</u> peuvent encore être passées, modifiées, ou annulées par les membres jusqu'au <u>%{end_date}</u>.
-          _de: Bestellungen für die Lieferung am <u>%{date}</u> können von den Mitgliedern noch bis zum <u>%{end_date}</u> aufgegeben, geändert oder storniert werden.
-          _it: Gli ordini per la consegna il <u>%{date}</u> possono ancora essere effettuati, modificati o cancellati dai soci fino al <u>%{end_date}</u>.
-          _nl: Bestellingen voor levering op <u>%{date}</u> kunnen door leden nog worden geplaatst, gewijzigd of geannuleerd tot <u>%{end_date}</u>.
+          _en: Orders for delivery on <strong>%{date}</strong> can still be placed, modified, or canceled by members until <strong>%{end_date}</strong>.
+          _fr: Les commandes pour la livraison du <strong>%{date}</strong> peuvent encore être passées, modifiées, ou annulées par les membres jusqu'au <strong>%{end_date}</strong>.
+          _de: Bestellungen für die Lieferung am <strong>%{date}</strong> können von den Mitgliedern noch bis zum <strong>%{end_date}</strong> aufgegeben, geändert oder storniert werden.
+          _it: Gli ordini per la consegna il <strong>%{date}</strong> possono ancora essere effettuati, modificati o cancellati dai soci fino al <strong>%{end_date}</strong>.
+          _nl: Bestellingen voor levering op <strong>%{date}</strong> kunnen door leden nog worden geplaatst, gewijzigd of geannuleerd tot <strong>%{end_date}</strong>.
         shop_status:
           _en: Shop status
           _fr: Statut épicerie
@@ -5009,7 +5009,7 @@ _:
           _en: Subscribe to feed
           _fr: S'abonner au flux
           _de: Feed abonnieren
-          _it: Abbonati al feed
+          _it: Iscriversi al calendario
           _nl: Abonneren op feed
         total:
           _en: Total
@@ -5138,7 +5138,7 @@ _:
       future:
         _en: future
         _fr: à venir
-        _de: bevorsetehende
+        _de: bevorstehende
         _it: imminente
         _nl: toekomstig
       hard_bounce:
@@ -5331,5 +5331,5 @@ _:
       _en: View
       _fr: Voir
       _de: Ansehen
-      _it: Vedi
+      _it: Visualizzare
       _nl: Bekijken

@@ -8,9 +8,9 @@ Zodra deze functie is ingeschakeld, moeten de beschrijving en het bedrag van je 
 
 ## Facturering {#billing}
 
-Het systeem zorgt ervoor dat deze bijdragen aan elk nieuw lid worden gefactureerd op de automatische factureringsdag gedefinieerd in [je instellingen](/settings#billing). Als je [proef<%= Basket.model_name.human(count: 2).downcase %>](/handbook/billing#trial-baskets) hebt, worden deze bijdragen alleen gefactureerd aan het einde van de proefperiode, als het lid besluit door te gaan.
+Het systeem factureert deze bijdragen aan elk nieuw lid op de automatische factureringsdag die is ingesteld in [je instellingen](/settings#billing). Als je [<%= Basket.model_name.human(count: 2).downcase %> op proef](/handbook/billing#trial-baskets) hebt, worden deze bijdragen pas aan het einde van de proefperiode gefactureerd, als het lid besluit door te gaan.
 
-Het is mogelijk om specifieke tekst toe te voegen in de ["Nieuwe factuur" e-mailsjabloon](/mail_templates/invoice_created) met behulp van [Liquid syntax](https://shopify.github.io/liquid) als volgt:
+Je kunt specifieke tekst toevoegen aan de [e-mailsjabloon "Nieuwe factuur"](/mail_templates/invoice_created) met behulp van [Liquid-syntaxis](https://shopify.github.io/liquid):
 
 ~~~ liquid
 {% case invoice.entity_type %}

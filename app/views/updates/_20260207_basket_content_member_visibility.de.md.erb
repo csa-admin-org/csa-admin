@@ -1,11 +1,11 @@
-# Anzeige des Tascheninhalts für Mitglieder
+# Anzeige des <%= BasketContent.model_name.human.downcase %> für Mitglieder
 
-Der Tascheninhalt kann nun direkt auf der Lieferungsseite Ihrer Mitglieder angezeigt werden. Wenn aktiviert, sehen sie die Liste der Produkte in ihrer nächsten Tasche, basierend auf ihrer Taschengrösse und ihrem Depot.
+Der <%= BasketContent.model_name.human.downcase %> kann nun direkt auf der Lieferungsseite Deiner Mitglieder angezeigt werden. Wenn aktiviert, sehen sie eine Produktliste für ihre nächste Lieferung, abgestimmt auf <%= BasketSize.model_name.human.downcase %> und Depot.
 
-Dies kann in [den Einstellungen zum Tascheninhalt](/settings#basket_content) aktiviert und angepasst werden:
+Dies kann in [den Einstellungen zum <%= BasketContent.model_name.human.downcase %>](/settings#basket_content) aktiviert und angepasst werden:
 
-- **Sichtbarkeitsfenster**: Legen Sie fest, wann der Inhalt sichtbar wird, indem Sie die Anzahl Stunden vor dem Liefertag einstellen.
-- **Titel und Hinweis**: Passen Sie die Überschrift an und fügen Sie einen optionalen Hinweis hinzu (z.B. um darauf hinzuweisen, dass sich der Inhalt noch ändern kann).
-- **Menge anzeigen**: Zeigen Sie optional die Menge neben jedem Produktnamen an.
+- **Sichtbarkeitsfenster**: Lege fest, wann der Inhalt sichtbar wird, indem Du die Anzahl Stunden vor dem Liefertag einstellst.
+- **Titel und Hinweis**: Passe die Überschrift an und füge einen optionalen Hinweis hinzu (z.B. um darauf hinzuweisen, dass sich der Inhalt noch ändern kann).
+- **Menge anzeigen**: Zeige optional die Menge neben jedem Produktnamen an.
 
-Zur Erinnerung: Der Tascheninhalt kann auch in Ihren Newslettern mit Liquid-Templates eingebunden werden. Für weitere Details, siehe die neue Handbuchseite [Tascheninhalt](/handbook/basket_content).
+Zur Erinnerung: Der <%= BasketContent.model_name.human.downcase %> kann auch in Deinen Newslettern mit Liquid-Vorlagen eingebunden werden. Weitere Details findest Du auf der neuen Handbuchseite [<%= BasketContent.model_name.human %>](/handbook/basket_content).

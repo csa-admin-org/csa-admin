@@ -10,7 +10,7 @@ _:
       all_but:
         _en: All, except %{missing}
         _fr: Tous, sauf %{missing}
-        _de: Alle, außer %{missing}
+        _de: Alle, ausser %{missing}
         _it: Tutto, tranne %{missing}
         _nl: Alle, behalve %{missing}
       ignored_note:
@@ -35,7 +35,7 @@ _:
       basket_content_percentages_even:
         _en: In equal parts
         _fr: À parts égales
-        _de: Gleichmäßig
+        _de: Gleichmässig
         _it: Equa distribuzione
         _nl: Gelijke verdeling
       basket_content_percentages_pro_rated:

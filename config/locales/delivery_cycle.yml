@@ -41,7 +41,7 @@ _:
       all_but_first:
         _en: All except the 1st
         _fr: Toutes sauf la 1ère
-        _de: Alle außer der ersten
+        _de: Alle ausser der ersten
         _it: Tutte tranne la prima
         _nl: Alle behalve de 1e
       even:

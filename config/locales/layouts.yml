@@ -25,7 +25,7 @@ _:
           _en: Calendar feed
           _fr: Flux de calendrier
           _de: Kalender-Feed
-          _it: Feed del calendario
+          _it: Flusso del calendario
           _nl: Kalenderfeed
         contact:
           _en: Contact
@@ -70,7 +70,7 @@ _:
           _en: "⤷ Pledge your amount!"
           _fr: "⤷ Fixez votre montant!"
           _de: "⤷ Lege Deinen Betrag fest!"
-          _it: "⤷ Fissate il vostro importo!"
+          _it: "⤷ Fissa il tuo importo!"
           _nl: "⤷ Bepaal je bedrag!"
         billing:
           _en: Billing

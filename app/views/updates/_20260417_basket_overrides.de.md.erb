@@ -4,7 +4,7 @@ Wenn Du eine einzelne <%= Basket.model_name.human.downcase %> so bearbeitest, da
 
 Bisher führte eine Änderung der Konfiguration einer Mitgliedschaft (<%= BasketSize.model_name.human.downcase %>, Depot, Lieferzyklus, <%= BasketComplement.model_name.human(count: 2).downcase %>, ...) dazu, dass alle zukünftigen <%= Basket.model_name.human(count: 2).downcase %> gelöscht und neu erstellt wurden, wobei alle individuellen Anpassungen stillschweigend verloren gingen. Das ist nun nicht mehr der Fall.
 
-Auf der Mitgliedschaftsseite zeigt jede <%= Basket.model_name.human.downcase %>, die von der Konfiguration der Mitgliedschaft abweicht, ein kleines **Verlaufssymbol** neben ihrem Status an. Wenn Du mit der Maus über das Symbol fährst, siehst Du, wer die Änderung vorgenommen hat und wann, sowie die Liste der geänderten Felder. Von dort aus stellt eine Schaltfläche **„Rückgängig"** die <%= Basket.model_name.human.downcase %> auf die Standardwerte der Mitgliedschaft zurück.
+Auf der Mitgliedschaftsseite zeigt jede <%= Basket.model_name.human.downcase %>, die von der Konfiguration der Mitgliedschaft abweicht, ein kleines **Verlaufssymbol** neben ihrem Status an. Wenn Du mit der Maus über das Symbol fährst, siehst Du, wer die Änderung vorgenommen hat und wann, sowie die Liste der geänderten Felder. Von dort aus stellt eine Schaltfläche **"Rückgängig"** die <%= Basket.model_name.human.downcase %> auf die Standardwerte der Mitgliedschaft zurück.
 
 Einige Punkte zu beachten:
 

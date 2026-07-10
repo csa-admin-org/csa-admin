@@ -912,7 +912,7 @@ _:
         exclude_cweek_range:
           _en: Exclude week range
           _fr: Exclure la plage de semaines
-          _de: Wochenbereich ausschließen
+          _de: Wochenbereich ausschliessen
           _it: Escludi intervallo settimane
           _nl: Weekbereik uitsluiten
         first_cweek:
@@ -2139,7 +2139,7 @@ _:
             _en: One work hour not completed
             _fr: Une heure de travail non effectuée
             _de: Eine nicht geleistete Arbeitsstunde
-            _it: Un'ora di lavoro non effetuata
+            _it: Un'ora di lavoro non effettuata
             _nl: Een werkuur niet voltooid
           other:
             _en: "%{count} work hours not completed"
@@ -2150,8 +2150,8 @@ _:
         activity_participations_annual_price_change_positive/basket_preparation:
           _en: Basket preparations not completed
           _fr: Mises en panier non effectuées
-          _de: Nicht geleistete Taschen befüllung
-          _it: Riempimento delle ceste non effetuate
+          _de: Nicht geleistete Taschenbefüllungen
+          _it: Preparazioni delle ceste non effettuate
           _nl: Pakketvoorbereidingen niet voltooid
         activity_participations_annual_price_change_positive/day_work:
           _en: Work days not completed
@@ -2159,6 +2159,12 @@ _:
           _de: Nicht geleistete Arbeitstage
           _it: Giorni di lavoro non effettuati
           _nl: Werkdagen niet voltooid
+        activity_participations_annual_price_change_positive/halfday_work:
+          _en: Half-days of work not completed
+          _fr: Demi-journées de travail non effectuées
+          _de: Nicht geleistete halbe Arbeitstage
+          _it: Mezze giornate di lavoro non effettuate
+          _nl: Halve werkdagen niet voltooid
         activity_participations_annual_price_change_positive/hour_work:
           _en: Work hours not completed
           _fr: Heures de travail non effectuées
@@ -3409,19 +3415,19 @@ _:
           _fr: Ordre des tailles de sac
           _de: Reihenfolge der Taschengrössen
           _it: Ordine delle dimensioni del cesto
-          _nl: Volgorde van tasgrootttes
+          _nl: Volgorde van tasgroottes
         basket_sizes_member_order_mode/basket:
           _en: Order of basket sizes
           _fr: Ordre des tailles de panier
           _de: Reihenfolge der Korbgrössen
           _it: Ordine delle dimensioni del cesto
-          _nl: Volgorde van mandgrootttes
+          _nl: Volgorde van mandgroottes
         basket_sizes_member_order_mode/cone:
           _en: Order of cone sizes
           _fr: Ordre des tailles de cornet
           _de: Reihenfolge der Tütengrössen
           _it: Ordine delle dimensioni del cesto
-          _nl: Volgorde van zakgrootttes
+          _nl: Volgorde van zakgroottes
         basket_sizes_member_order_mode/crate:
           _en: Order of crate sizes
           _fr: Ordre des tailles de cagette
@@ -3433,13 +3439,13 @@ _:
           _fr: Ordre des tailles de colis
           _de: Reihenfolge der Paketgrössen
           _it: Ordine delle dimensioni del cesto
-          _nl: Volgorde van pakketgrootttes
+          _nl: Volgorde van pakketgroottes
         basket_sizes_member_order_mode/share:
           _en: Order of share sizes
           _fr: Ordre des tailles de part
           _de: Reihenfolge der Anteilsgrössen
           _it: Ordine delle dimensioni del cesto
-          _nl: Volgorde van deelgrootttes
+          _nl: Volgorde van deelgroottes
         basket_update_limit_in_days:
           _en: Allow changes before delivery (in days)
           _fr: Délai de modification avant la livraison (en jours)
@@ -3581,7 +3587,7 @@ _:
         delivery_pdf_footer:
           _en: Footer
           _fr: Bas de page
-          _de: Fußzeile
+          _de: Fusszeile
           _it: Piè di pagina
           _nl: Voettekst
         delivery_pdf_member_info:
@@ -3617,7 +3623,7 @@ _:
         email_footer:
           _en: Footer
           _fr: Bas de page
-          _de: Fußzeile
+          _de: Fusszeile
           _it: Piè di pagina
           _nl: Voettekst
         email_signature:
@@ -3653,7 +3659,7 @@ _:
         invoice_footer:
           _en: Footer
           _fr: Bas de page
-          _de: Fußzeile
+          _de: Fusszeile
           _it: Piè di pagina
           _nl: Voettekst
         invoice_info:
@@ -3881,7 +3887,7 @@ _:
         shop_delivery_pdf_footer:
           _en: Footer of the delivery note (PDF)
           _fr: Bas de page du bulletin de livraison (PDF)
-          _de: Fußzeile des Lieferscheins (PDF)
+          _de: Fusszeile des Lieferscheins (PDF)
           _it: Piè di pagina della bolla di consegna (PDF)
           _nl: Voettekst van de leveringsbon (PDF)
         shop_invoice_info:
@@ -4118,7 +4124,7 @@ _:
           _fr: Heure de fermeture le dernier jour de commande
           _de: Annahmeschluss am letzten Tag der Bestellung
           _it: Orario di chiusura dell'ultimo giorno d'ordine
-          _nl: Sluitingstijd op de laatste bestelddag
+          _nl: Sluitingstijd op de laatste besteldag
         open_until:
           _en: Open until
           _fr: Ouverte jusqu'au
@@ -4183,6 +4189,26 @@ _:
           _it: non può essere utilizzato insieme ad altri criteri
           _nl: kan niet worden gecombineerd met andere criteria
       models:
+        bank_connection:
+          already_used_by_another_bank_connection:
+            _en: is already used by another bank connection
+            _fr: est déjà utilisée par une autre connexion bancaire
+            _de: wird bereits von einer anderen Bankverbindung verwendet
+            _it: è già utilizzata da un'altra connessione bancaria
+            _nl: wordt al door een andere bankverbinding gebruikt
+          must_be_an_object:
+            _en: must be an object
+            _fr: doit être un objet
+            _de: muss ein Objekt sein
+            _it: deve essere un oggetto
+            _nl: moet een object zijn
+        invoice:
+          memberships_amount_too_high:
+            _en: Total membership billing is too high
+            _fr: Le total de la facturation des abonnements est trop élevé
+            _de: Die Summe der Mitgliedschaftsabrechnungen ist zu hoch
+            _it: Il totale della fatturazione delle quote associative è troppo alto
+            _nl: Het totaal van de lidmaatschapsfacturatie is te hoog
         membership:
           attributes:
             alternate_delivery_cycle:
@@ -4211,6 +4237,13 @@ _:
                 _de: muss zusammen mit einem alternativen Lieferzyklus angegeben werden
                 _it: deve essere impostato insieme a un ciclo di consegna alternativo
                 _nl: moet samen met een alternatieve leveringscyclus worden ingesteld
+        organization:
+          only_one_organization_allowed:
+            _en: Only one organization is allowed
+            _fr: Une seule organisation est autorisée
+            _de: Es ist nur eine Organisation erlaubt
+            _it: È consentita una sola organizzazione
+            _nl: Er is maar één organisatie toegestaan
         session:
           attributes:
             email:
@@ -4571,12 +4604,6 @@ _:
           _it: Aggiunte coni
           _nl: Zakaanvullingen
       basket_complement/crate:
-        none:
-          _en: None
-          _fr: Aucun
-          _de: Kein
-          _it: Nessuna
-          _nl: Geen
         one:
           _en: Crate complement
           _fr: Complément cagette
@@ -4845,10 +4872,16 @@ _:
       contact_sharing:
         one:
           _en: Contact sharing (between members of a depot)
-          _fr: Copaniérage (Rends possible le partage des coordonnées entre membres d'un dépôt)
-          _de: Freigeben von Kontaktinformationen (zwischen Mitgliedern eine Depot)
+          _fr: Copaniérage (rend possible le partage des coordonnées entre membres d'un dépôt)
+          _de: Freigabe von Kontaktinformationen (zwischen Mitgliedern eines Depots)
           _it: Condivisione dei contatti (tra soci di un punto di ritiro)
           _nl: Contactdeling (tussen leden van een depot)
+        other:
+          _en: Contact sharings (between members of a depot)
+          _fr: Copaniérages (rendent possible le partage des coordonnées entre membres d'un dépôt)
+          _de: Freigaben von Kontaktinformationen (zwischen Mitgliedern eines Depots)
+          _it: Condivisioni dei contatti (tra soci di un punto di ritiro)
+          _nl: Contactdelingen (tussen leden van een depot)
       delivery:
         one:
           _en: Delivery
@@ -5142,6 +5175,12 @@ _:
           _de: Hofladen
           _it: Bottega
           _nl: Winkel
+        other:
+          _en: Shops
+          _fr: Épiceries
+          _de: Hofläden
+          _it: Botteghe
+          _nl: Winkels
       shop/order:
         one:
           _en: Order

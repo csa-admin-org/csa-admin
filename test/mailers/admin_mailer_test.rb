@@ -358,9 +358,10 @@ class AdminMailerTest < ActionMailer::TestCase
     body = mail.body.to_s
     assert_includes body, "Hello Thibaud,"
     assert_includes body, "Memberships not yet renewed or canceled:"
-    assert_includes body, "https://admin.example.com/memberships/pending>2</a>"
+    assert_includes body, "href=\"https://admin.example.com/memberships/pending\">2</a>"
     assert_includes body, "Open renewal requests not yet finalized:"
-    assert_includes body, "https://admin.example.com/memberships/opened>1</a>"
+    assert_includes body, "href=\"https://admin.example.com/memberships/opened\">1</a>"
+    assert_includes body, "href=\"https://admin.acme.test/handbook/membership_renewal\""
     assert_includes body, "Access memberships"
     assert_includes body, "https://admin.example.com/memberships"
     assert_includes body, "https://admin.acme.test/admins/#{admins(:ultra).id}/edit#notifications"
@@ -379,7 +380,7 @@ class AdminMailerTest < ActionMailer::TestCase
 
     assert_equal "⚠️ Membership renewals pending", mail.subject
     assert_includes mail.body.to_s, "Memberships not yet renewed or canceled:"
-    assert_includes mail.body.to_s, "https://admin.example.com/memberships/pending>2</a>"
+    assert_includes mail.body.to_s, "href=\"https://admin.example.com/memberships/pending\">2</a>"
     assert_not_includes mail.body.to_s, "Open renewal requests not yet finalized:"
     assert_not_includes mail.body.to_s, "https://admin.example.com/memberships/opened"
   end
@@ -398,7 +399,7 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_not_includes mail.body.to_s, "Memberships not yet renewed or canceled:"
     assert_not_includes mail.body.to_s, "https://admin.example.com/memberships/pending"
     assert_includes mail.body.to_s, "Open renewal requests not yet finalized:"
-    assert_includes mail.body.to_s, "https://admin.example.com/memberships/opened>2</a>"
+    assert_includes mail.body.to_s, "href=\"https://admin.example.com/memberships/opened\">2</a>"
   end
 
   test "membership_trial_cancelation_email" do

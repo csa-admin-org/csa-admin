@@ -56,6 +56,18 @@ class NewsletterMailerTest < ActionMailer::TestCase
     assert_equal "image/png", attachment.content_type
   end
 
+  test "prepared_data includes the recipient email" do
+    recipient = "newsletter-recipient@example.test"
+    mail = NewsletterMailer.with(
+      template_contents: { "en" => "{% if member.email %}email:{{ member.email }}{% endif %}" },
+      subject: "Test",
+      member: members(:john),
+      to: recipient
+    ).newsletter_email
+
+    assert_includes mail.body.to_s, "email:#{recipient}"
+  end
+
   test "prepared_data includes basket for member with deliverable basket" do
     travel_to "2024-04-01" do
       mail = NewsletterMailer.with(

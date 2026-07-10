@@ -49,14 +49,14 @@ De keuze van een leveringscyclus op het registratieformulier hangt af van de con
 
 Als om-de-week-leveringen worden aangeboden, is het waarschijnlijk wenselijk om de leden gelijkmatig te verdelen over even en oneven weken. Met één enkel "om de week"-cyclus zouden alle leden dezelfde weken krijgen.
 
-De oplossing is om **twee afzonderlijke cycli** aan te maken, één met de leveringsselectie « Even » en de andere « Oneven », en slechts **één ervan zichtbaar** te maken voor de leden:
+De oplossing is om **twee afzonderlijke cycli** aan te maken, één met de leveringsselectie " Even " en de andere " Oneven ", en slechts **één ervan zichtbaar** te maken voor de leden:
 
-1. Maak twee cycli aan, elk met een periode die het hele jaar bestrijkt: één met de leveringsselectie « Even », de andere « Oneven ».
-2. Geef ze dezelfde **naam**, bijv. « Om de week », maar verschillende **interne namen**, bijv. « Om de week (even) » en « Om de week (oneven) ».
+1. Maak twee cycli aan, elk met een periode die het hele jaar bestrijkt: één met de leveringsselectie " Even ", de andere " Oneven ".
+2. Geef ze dezelfde **naam**, bijv. " Om de week ", maar verschillende **interne namen**, bijv. " Om de week (even) " en " Om de week (oneven) ".
 3. Maak slechts **één** van de twee cycli zichtbaar op het registratieformulier (via de depotbeschikbaarheid).
 4. Verdeel bij het aanmaken van lidmaatschappen de leden handmatig over de twee cycli om de leveringen in evenwicht te brengen.
 
-Zo zien de leden slechts één optie « Om de week » bij registratie, terwijl je intern de controle over de verdeling behoudt.
+Zo zien de leden slechts één optie " Om de week " bij registratie, terwijl je intern de controle over de verdeling behoudt.
 
 ### Facturatie
 
@@ -70,13 +70,13 @@ Elke leveringscyclus kan eigen facturatieopties hebben:
 
 Sommige leden moeten hun <%= Basket.model_name.human(count: 2).downcase %> afhankelijk van de week bij verschillende depots ophalen — bijvoorbeeld omdat het leveringsvoertuig een bepaald depot slechts om de week aandoet. CSA Admin ondersteunt dit via de configuratie van een **alternatief depot** op lidmaatschapsniveau.
 
-Deze configuratie is alleen beschikbaar voor beheerders (niet voor leden) en bevindt zich in het bewerkingsformulier van een lidmaatschap, in het uitklapbare gedeelte « Alternatief depot » onder de leveringsinstellingen. Drie velden moeten samen worden ingesteld:
+Deze configuratie is alleen beschikbaar voor beheerders (niet voor leden) en bevindt zich in het bewerkingsformulier van een lidmaatschap, in het uitklapbare gedeelte " Alternatief depot " onder de leveringsinstellingen. Drie velden moeten samen worden ingesteld:
 
 - **Alternatief depot**: De tweede ophaallocatie.
 - **Alternatieve depotprijs**: De depotprijs voor leveringen bij het alternatieve depot (wordt standaard overgenomen van de depotprijs).
 - **Alternatieve leveringscyclus**: Bepaalt welke leveringen naar het alternatieve depot gaan. Alle andere leveringen gaan naar het hoofddepot.
 
-> **Voorbeeld**: Een lidmaatschap gebruikt de cyclus « Elke week ». Het leveringsvoertuig passeert het bakkerijdepot slechts om de week (even weken), dus het lid haalt de andere weken op bij de boerderij. Het hoofddepot is « Bakkerij », het alternatieve depot is « Boerderij » en de alternatieve leveringscyclus is « Oneven weken ». Resultaat: <%= Basket.model_name.human(count: 2).downcase %> van even weken gaan naar de bakkerij, die van oneven weken naar de boerderij.
+> **Voorbeeld**: Een lidmaatschap gebruikt de cyclus " Elke week ". Het leveringsvoertuig passeert het bakkerijdepot slechts om de week (even weken), dus het lid haalt de andere weken op bij de boerderij. Het hoofddepot is " Bakkerij ", het alternatieve depot is " Boerderij " en de alternatieve leveringscyclus is " Oneven weken ". Resultaat: <%= Basket.model_name.human(count: 2).downcase %> van even weken gaan naar de bakkerij, die van oneven weken naar de boerderij.
 
 Enkele belangrijke punten:
 
@@ -89,7 +89,7 @@ Enkele belangrijke punten:
 
 Elk(e) <%= Basket.model_name.human.downcase %> van een lidmaatschap kan individueel worden gewijzigd om af te wijken van de configuratie van het lidmaatschap: een ander depot, een andere <%= BasketSize.model_name.human.downcase %>, een aangepaste hoeveelheid, gepersonaliseerde <%= BasketComplement.model_name.human(count: 2).downcase %> of zelfs een verplaatsing naar een andere leveringsdatum (in de context van een andere leveringscyclus). Deze individuele wijzigingen blijven **behouden** wanneer de configuratie van het lidmaatschap later wordt gewijzigd (bijvoorbeeld wanneer de <%= BasketSize.model_name.human.downcase %> of het depot vanaf een bepaalde datum wordt bijgewerkt).
 
-Op de pagina van het lidmaatschap toont elk(e) <%= Basket.model_name.human.downcase %> die afwijkt van de configuratie van het lidmaatschap een klein **geschiedenispictogram** naast de status. Wanneer je met de muis over het pictogram beweegt, zie je wie de wijziging heeft aangebracht (naam van de admin, of « door het lid ») en wanneer, evenals de lijst met gewijzigde velden. Van daaruit herstelt een knop **« Ongedaan maken »** de <%= Basket.model_name.human.downcase %> naar de standaardwaarden van het lidmaatschap.
+Op de pagina van het lidmaatschap toont elk(e) <%= Basket.model_name.human.downcase %> die afwijkt van de configuratie van het lidmaatschap een klein **geschiedenispictogram** naast de status. Wanneer je met de muis over het pictogram beweegt, zie je wie de wijziging heeft aangebracht (naam van de admin, of " door het lid ") en wanneer, evenals de lijst met gewijzigde velden. Van daaruit herstelt een knop **" Ongedaan maken "** de <%= Basket.model_name.human.downcase %> naar de standaardwaarden van het lidmaatschap.
 
 Enkele belangrijke punten:
 
@@ -110,7 +110,7 @@ Voor elke levering genereert CSA Admin PDF-bladen die je kunt afdrukken en gebru
 
 Elk depot kan een van twee bladmodi gebruiken (configureerbaar in de depotinstellingen):
 
-- **Handtekeningenblad** (standaard): Een checklist waar leden bij afhaling naast hun naam tekenen. Leden staan alfabetisch vermeld, met een kolom «Handtekening» rechts.
+- **Handtekeningenblad** (standaard): Een checklist waar leden bij afhaling naast hun naam tekenen. Leden staan alfabetisch vermeld, met een kolom "Handtekening" rechts.
 - **Thuisleveringsblad**: Ontworpen voor bezorgers. Bevat het volledige adres van elk lid en hun leveringsnotitie (indien aanwezig) in de laatste kolom. De volgorde van leden kan handmatig worden aangepast via slepen en neerzetten in de depotinstellingen.
 
 ### Ledeninformatie op bladen {#member-info}
@@ -151,8 +151,8 @@ Als de [<%= BasketContent.model_name.human.downcase %>-functie](/handbook/basket
 
 Wanneer ingeschakeld, verschijnen er twee extra tabellen op de bonnen:
 
-- **Samenvattingspagina**: Een tabel met de totale hoeveelheid van elk product per depot (bijv. «4.5kg» wortelen voor depot Boerderij).
-- **Depot-pagina's**: Een tabel met elk product en de hoeveelheid per <%= BasketSize.model_name.human.downcase %> (bijv. «250g» per kleine <%= Basket.model_name.human.downcase %>, «400g» per grote).
+- **Samenvattingspagina**: Een tabel met de totale hoeveelheid van elk product per depot (bijv. "4.5kg" wortelen voor depot Boerderij).
+- **Depot-pagina's**: Een tabel met elk product en de hoeveelheid per <%= BasketSize.model_name.human.downcase %> (bijv. "250g" per kleine <%= Basket.model_name.human.downcase %>, "400g" per grote).
 
 Als de producttabel niet op dezelfde pagina past als de bestaande ledentabel, verschijnt deze automatisch op een aparte pagina.
 
@@ -162,10 +162,10 @@ CSA Admin kan automatisch e-mailmeldingen versturen met betrekking tot leveringe
 
 ### Depot-leveringslijst {#depot-delivery-list-notifications}
 
-Je kunt elk depot configureren met e-mailadressen (in het gedeelte « Notificaties » van het depot). Voor elke levering ontvangen deze adressen een e-mail met de lijst van leden en hun <%= Basket.model_name.human(count: 2).downcase %>, inclusief PDF- en XLSX-bijlagen van de leveringsbladen. Standaard wordt de e-mail de dag ervoor verstuurd, maar dit kan per depot worden aangepast (0 voor dezelfde dag, 2 voor twee dagen ervoor, enz.).
+Je kunt elk depot configureren met e-mailadressen (in het gedeelte " Notificaties " van het depot). Voor elke levering ontvangen deze adressen een e-mail met de lijst van leden en hun <%= Basket.model_name.human(count: 2).downcase %>, inclusief PDF- en XLSX-bijlagen van de leveringsbladen. Standaard wordt de e-mail de dag ervoor verstuurd, maar dit kan per depot worden aangepast (0 voor dezelfde dag, 2 voor twee dagen ervoor, enz.).
 
 ### Wekelijks overzicht van <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
 
-Voor elke <%= BasketComplement.model_name.human.downcase %> kun je e-mailadressen configureren (in het gedeelte « Notificaties » van de <%= BasketComplement.model_name.human.downcase %>). Elke zondagochtend ontvangen deze adressen een e-mail met een samenvatting van het totale aantal van die aanvulling dat nodig is voor elke levering van de komende week.
+Voor elke <%= BasketComplement.model_name.human.downcase %> kun je e-mailadressen configureren (in het gedeelte " Notificaties " van de <%= BasketComplement.model_name.human.downcase %>). Elke zondagochtend ontvangen deze adressen een e-mail met een samenvatting van het totale aantal van die aanvulling dat nodig is voor elke levering van de komende week.
 
 > Dit is handig voor externe leveranciers (bijv. een bakker, een kaasmaker) die moeten weten hoeveel ze voor de komende week moeten voorbereiden.

@@ -57,7 +57,7 @@ module PDF
     def header(page:, total_pages:)
       image org_logo_io(size: 110), at: [ 15, bounds.height - 20 ], width: 110
       bounding_box [ 155, bounds.height - 1.5.cm ], width: 6.5.cm, height: 3.cm do
-        text "#{invoice.document_name} N°\u00A0#{invoice.id}", style: :bold, size: 16, leading: 3
+        text "#{t("numbered", label: invoice.document_name)}\u00A0#{invoice.id}", style: :bold, size: 16, leading: 3
         move_down 5
         text I18n.l(invoice.date)
         case invoice.entity_type
@@ -66,7 +66,7 @@ module PDF
           text display_period(entity.date_range, format: :number), size: 10
         when "Shop::Order"
           move_down 12
-          text "#{::Shop::Order.model_name.human} N°\u00A0#{entity.id}"
+          text "#{t("numbered", label: ::Shop::Order.model_name.human)}\u00A0#{entity.id}"
           move_down 5
           text "#{::Delivery.model_name.human}: #{I18n.l(entity.delivery.date)}"
         end
@@ -350,7 +350,7 @@ module PDF
           text membership_vat_text, width: 200, align: :right, style: :italic, size: 9
         end
         bounding_box [ 0, y - 5 ], width: bounds.width - 24 do
-          text "N° #{t("vat")} #{Current.org.vat_number}", width: 200, align: :right, style: :italic, size: 9
+          text "#{t("numbered", label: t("vat"))} #{Current.org.vat_number}", width: 200, align: :right, style: :italic, size: 9
         end
         yy = 8
       end

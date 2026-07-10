@@ -32,7 +32,7 @@ The availability of a product can be defined for itself or for each of its varia
 
 It's possible to link a product to an existing [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements); orders for this product will then be automatically added to the number of this complement in the summary (XLSX) and sheets (PDF) of the <%= Basket.model_name.human.downcase %> delivery.
 
-This product will also only be available on the delivery days of the complement.
+The product is available only on the complement's delivery days.
 
 ## Orders {#orders}
 
@@ -50,14 +50,14 @@ By default, once the orders are prepared, the orders must be **manually** billed
 
 It's also possible to configure **automatic billing** of orders, from [the shop settings](/settings#shop), after or before a certain number of days following or preceding the delivery date.
 
-> If an already billed order is modified, the existing invoice is automatically cancelled and a new invoice will need to be generated and sent.
+> If you modify an order that has already been billed, its existing invoice is automatically canceled. Generate and send a new invoice.
 
 It's possible to add specific text in the ["New invoice" email template](/mail_templates/invoice_created) using [Liquid syntax](https://shopify.github.io/liquid) as follows:
 
 ~~~ liquid
 {% case invoice.entity_type %}
 {% when 'Shop::Order' %}
-  <p>Here is your new invoice, for your order N° {{ invoice.entity_number }}; all details can be found in the attached PDF.</p>
+  <p>Here is your new invoice for order No. {{ invoice.entity_number }}; all details can be found in the attached PDF.</p>
 {% else %}
   <p>Here is your new invoice; all details can be found in the attached PDF.</p>
 {% endcase %}

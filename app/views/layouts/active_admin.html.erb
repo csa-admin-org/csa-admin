@@ -16,6 +16,8 @@
     "
     data-controller="theme"
     data-theme-preference-value="<%= current_active_admin_user&.theme || "system" %>"
+    data-trix-file-too-large-alert="<%= t("accessibility.trix.file_too_large") %>"
+    data-trix-invalid-file-alert="<%= t("accessibility.trix.invalid_file") %>"
   >
     <%= render "active_admin/site_header", title: site_title %>
     <%= render "active_admin/page_header", title: @page_title || page_title %>

@@ -4,7 +4,7 @@ Quando modifichi una singola <%= Basket.model_name.human.downcase %> affinché s
 
 Fino ad ora, modificare la configurazione di un abbonamento (<%= BasketSize.model_name.human.downcase %>, deposito, ciclo di consegna, <%= BasketComplement.model_name.human(count: 2).downcase %>, ...) distruggeva e ricreava tutte le <%= Basket.model_name.human(count: 2).downcase %> future, cancellando silenziosamente tutte le personalizzazioni individuali impostate. Questo non è più il caso.
 
-Nella pagina dell'abbonamento, ogni <%= Basket.model_name.human.downcase %> che si discosta dalla configurazione dell'abbonamento mostra una piccola **icona della cronologia** accanto al suo stato. Passando il mouse sull'icona, vedi chi ha effettuato la modifica e quando, insieme all'elenco dei campi modificati. Da lì, un pulsante **« Annulla »** ripristina la <%= Basket.model_name.human.downcase %> ai valori predefiniti dell'abbonamento.
+Nella pagina dell'abbonamento, ogni <%= Basket.model_name.human.downcase %> che si discosta dalla configurazione dell'abbonamento mostra una piccola **icona della cronologia** accanto al suo stato. Passando il mouse sull'icona, vedi chi ha effettuato la modifica e quando, insieme all'elenco dei campi modificati. Da lì, un pulsante **" Annulla "** ripristina la <%= Basket.model_name.human.downcase %> ai valori predefiniti dell'abbonamento.
 
 Alcuni punti da tenere a mente:
 

@@ -1,10 +1,10 @@
 # Email automatiche
 
-CSA Admin invia automaticamente email ai tuoi soci durante eventi specifici nel corso dell'anno. Questi [template di email](/mail_templates) possono essere personalizzati per corrispondere al tuo stile di comunicazione.
+CSA Admin invia automaticamente email ai tuoi soci durante eventi specifici nel corso dell'anno. Questi [modelli di email](/mail_templates) possono essere personalizzati secondo il tuo stile di comunicazione.
 
 ## Panoramica {#overview}
 
-I template di email sono organizzati per categoria:
+I modelli di email sono organizzati per categoria:
 
 - **Socio**: Inviati quando lo stato di un socio cambia (validato, attivato).
 - **<%= Basket.model_name.human %>**: Inviati nei momenti chiave dell'abbonamento (prima <%= Basket.model_name.human.downcase %>, ultima <%= Basket.model_name.human.downcase %>, periodo di prova, ...).
@@ -19,22 +19,22 @@ I template di email sono organizzati per categoria:
 - **<%= BiddingRound.model_name.human %>**: Inviati all'apertura, promemoria, completamento o fallimento dei turni di impegno.
 <% end %>
 
-Ogni template ha una descrizione sulla sua pagina che spiega quando viene inviato.
+Ogni modello riporta sulla propria pagina quando viene inviato.
 
 ## Attivazione e disattivazione {#activating}
 
-La maggior parte dei template di email può essere attivata o disattivata dalla pagina di modifica. Alcuni template (come le notifiche di nuova fattura) sono sempre attivi e non possono essere disattivati.
+La maggior parte dei modelli di email può essere attivata o disattivata dalla pagina di modifica. Alcuni modelli, come le notifiche di nuova fattura, sono sempre attivi e non possono essere disattivati.
 
-Quando un template è disattivato, l'email corrispondente semplicemente non verrà inviata.
+Quando un modello è disattivato, l'email corrispondente non viene inviata.
 
 ## Personalizzazione del contenuto {#customizing}
 
-Ogni template ha un oggetto e un contenuto che puoi personalizzare completamente. I template utilizzano il linguaggio Liquid per inserire dati dinamici specifici del socio (nome, dettagli della <%= Basket.model_name.human.downcase %>, informazioni sull'abbonamento, ...) e logica condizionale. Per dettagli sulla sintassi Liquid, i tag di formattazione e il pannello di anteprima dei dati, consulta la [pagina Email del manuale](/handbook/emails).
+Ogni modello ha un oggetto e un contenuto che puoi personalizzare completamente. I modelli utilizzano il linguaggio Liquid per inserire dati dinamici specifici del socio (nome, dettagli della <%= Basket.model_name.human.downcase %>, informazioni sull'abbonamento, ...) e logica condizionale. Per dettagli sulla sintassi Liquid, i tag di formattazione e il pannello di anteprima dei dati, consulta la [pagina Email del manuale](/handbook/emails).
 
-> Ogni tipo di template di email ha il proprio set di dati disponibili, specifico al suo contesto. Consulta sempre il pannello di anteprima dei dati sotto l'editor per vedere esattamente quali variabili sono disponibili per il template che stai modificando.
+> Ogni tipo di modello di email ha il proprio insieme di dati, specifico al suo contesto. Consulta sempre il pannello di anteprima sotto l'editor per verificare le variabili disponibili per il modello che stai modificando.
 
 ## Tracciamento delle consegne {#delivery-tracking}
 
-Lo stato di consegna di ogni email automatica viene tracciato individualmente. Dalla pagina di dettaglio di un template, puoi vedere le statistiche globali di consegna, e dal [registro delle consegne](/mail_deliveries), puoi ispezionare le email individuali.
+Lo stato di consegna di ogni email automatica viene tracciato individualmente. Dalla pagina di dettaglio di un modello, puoi vedere le statistiche globali di consegna e, dal [registro delle consegne](/mail_deliveries), ispezionare le singole email.
 
 > I dati di consegna vengono automaticamente eliminati dopo 1 anno.

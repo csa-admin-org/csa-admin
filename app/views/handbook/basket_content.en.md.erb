@@ -35,13 +35,13 @@ To save time, you can duplicate all <%= BasketContent.model_name.human.downcase 
 
 When viewing a specific delivery, a prices panel appears above the product list for any products with a unit price set. For each <%= BasketSize.model_name.human.downcase %>, it shows the calculated content price alongside the difference from the base price.
 
-When depots receive different basket prices — for example because some products are only assigned to certain depots — the panel displays a min–max price range. Hovering over each value reveals which depots correspond to it.
+When depots receive differently priced <%= Basket.model_name.human(count: 2).downcase %> — for example because some products are assigned only to certain depots — the panel displays a min–max price range. Hovering over a value reveals its corresponding depots.
 
 A collapsible section labeled with the fiscal year shows the cumulative year-to-date price difference for deliveries so far, broken down by delivery cycle when more than one is configured. Colored dots on the summary give a quick status at a glance: green means the cumulative value is above the planned total (>5%), red means below, and neutral means close to target (±5%).
 
 ## Displaying Contents to Members {#displaying-contents-to-members}
 
-<%= BasketContent.model_name.human %> can optionally be displayed to your members on the deliveries page of their account. Each member sees only the products relevant to their specific <%= BasketSize.model_name.human.downcase %> and depot. This must be enabled from [the basket content settings](/settings#basket_content).
+<%= BasketContent.model_name.human %> can optionally be displayed to your members on the deliveries page of their account. Each member sees only the products relevant to their specific <%= BasketSize.model_name.human.downcase %> and depot. Enable this in [the <%= BasketContent.model_name.human.downcase %> settings](/settings#basket_content).
 
 ### Visibility Window
 

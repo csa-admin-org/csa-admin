@@ -63,12 +63,12 @@ export default class extends Controller {
   }
 
   getRowURL(row) {
-    const showLink = row.querySelector('a[aria-label="show"]')
+    const showLink = row.querySelector('a[data-table-row-action="show"]')
     if (showLink) {
       return showLink.href
     }
 
-    const editLink = row.querySelector('a[aria-label="edit"]')
+    const editLink = row.querySelector('a[data-table-row-action="edit"]')
     if (editLink) {
       return editLink.href
     }

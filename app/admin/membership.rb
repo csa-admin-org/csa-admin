@@ -409,7 +409,7 @@ ActiveAdmin.register Membership do
                     method: :post,
                     data: { confirm: t(".force_confirm") },
                     title: t(".force"),
-                    aria: { label: "force" } do
+                    aria: { label: t(".force") } do
                       icon "circle-check-big", class: "size-5"
                     end
                 elsif authorized?(:update, b)
@@ -419,13 +419,13 @@ ActiveAdmin.register Membership do
                         method: :delete,
                         data: { confirm: t(".unforce_confirm") },
                         title: t(".unforce"),
-                        aria: { label: "unforce" } do
+                        aria: { label: t(".unforce") } do
                           icon "circle-off", class: "size-5"
                         end
                     end
                   end
                   span do
-                    link_to edit_basket_path(b), title: t(".edit"), aria: { label: "edit" } do
+                    link_to edit_basket_path(b), title: t(".edit"), aria: { label: t(".edit") } do
                       icon "square-pen", class: "size-5"
                     end
                   end

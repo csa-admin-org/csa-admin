@@ -2,11 +2,11 @@
 
 La bottega online permette ai tuoi soci di ordinare prodotti aggiuntivi dal loro account alcuni giorni prima della consegna delle loro prossime <%= Basket.model_name.human(count: 2).downcase %>.
 
-Per permetterti di preparare il contenuto della tua bottega tranquillamente, per default, la bottega **non appare** nel menu dell'account socio. Solo gli admin che possono accedere all'account di un socio (dal pulsante "Account" della pagina admin di un socio) possono vedere la bottega. Puoi così assicurarti che tutti i prodotti siano ben presentati. Una volta tutto a posto, questa limitazione può essere disattivata dalle [impostazioni](/settings#shop).
+Per darti il tempo di preparare con calma il contenuto della bottega, per impostazione predefinita la bottega **non appare** nel menu dell'account socio. Solo gli admin che possono accedere all'account di un socio dal pulsante "Account" nella pagina admin possono vederla. Così puoi assicurarti che tutti i prodotti siano ben presentati. Quando tutto è pronto, puoi disattivare questa limitazione nelle [impostazioni](/settings#shop).
 
 ## Produttori {#producers}
 
-Ogni prodotto può essere associato a [un produttore](/shop_producers). Una descrizione così come un link verso un sito web o documento sono definibili per ciascuno di essi. Tutti i prodotti possono essere filtrati per produttore nell'interfaccia socio della bottega.
+Ogni prodotto può essere associato a [un produttore](/shop_producers). Per ogni produttore puoi definire una descrizione e un collegamento a un sito web o a un documento. Tutti i prodotti possono essere filtrati per produttore nell'interfaccia socio della bottega.
 
 ## Prodotti {#products}
 
@@ -20,13 +20,13 @@ Molte opzioni sono offerte per gestire al meglio i prodotti della tua bottega.
 
 Ogni prodotto si declina in una o più varianti. Le varianti permettono di definire caratteristiche diverse (peso, dimensione, tipo) di questo prodotto.
 
-Ogni variante ha il proprio nome, prezzo, peso (opzionale), e stock (opzionale).
+Ogni variante ha il proprio nome, prezzo, peso facoltativo e disponibilità facoltativa.
 
 ### Disponibilità
 
 La disponibilità di un prodotto può essere definita per se stesso o per ciascuna delle sue varianti separatamente. Se necessario, un prodotto può anche essere reso indisponibile per deposito o per una futura consegna.
 
-> Se lo stock di una variante è definito e scende a zero, apparirà sempre ma semplicemente non sarà più possibile aggiungerla al carrello.
+> Se la disponibilità di una variante è definita e scende a zero, la variante continua a essere visualizzata ma non può più essere aggiunta al carrello.
 
 ### Complementi
 
@@ -46,18 +46,18 @@ Un bollettino di consegna (PDF), che non include il prezzo dei prodotti, è disp
 
 ### Fatturazione {#billing}
 
-Per default, una volta preparati gli ordini, gli ordini devono essere fatturati **manualmente** (possibilità di fatturarli tutti in una volta tramite un'azione di gruppo). La fattura viene poi automaticamente inviata via email al socio.
+Per impostazione predefinita, una volta preparati, gli ordini devono essere fatturati **manualmente**. Puoi fatturarli tutti in una volta tramite un'azione di gruppo; la fattura viene poi inviata automaticamente via email al socio.
 
 È anche possibile configurare la **fatturazione automatica** degli ordini, dalle [impostazioni della bottega](/settings#shop), dopo o prima un certo numero di giorni seguenti o precedenti la data di consegna.
 
 > Se un ordine già fatturato viene modificato, la fattura esistente viene automaticamente annullata e una nuova fattura dovrà essere generata e inviata.
 
-È possibile aggiungere un testo specifico nel [template email "Nuova fattura"](/mail_templates/invoice_created) utilizzando [la sintassi Liquid](https://shopify.github.io/liquid) seguente:
+Puoi aggiungere un testo specifico nel [modello di email "Nuova fattura"](/mail_templates/invoice_created) utilizzando la [sintassi Liquid](https://shopify.github.io/liquid) seguente:
 
 ~~~ liquid
 {% case invoice.entity_type %}
 {% when 'Shop::Order' %}
-  <p>Ecco la tua nuova fattura, per il tuo ordine N° {{ invoice.entity_number }}; tutti i dettagli si trovano nel PDF allegato.</p>
+  <p>Ecco la tua nuova fattura per l'ordine n. {{ invoice.entity_number }}; tutti i dettagli si trovano nel PDF allegato.</p>
 {% else %}
   <p>Ecco la tua nuova fattura; tutti i dettagli si trovano nel PDF allegato.</p>
 {% endcase %}
@@ -67,15 +67,15 @@ Per default, una volta preparati gli ordini, gli ordini devono essere fatturati 
 
 Se desideri permettere ai soci di adeguare volontariamente il prezzo dei loro ordini (come contributo solidale o come sconto), puoi definire un elenco di percentuali nelle [impostazioni della bottega](/settings#shop). Per esempio: `-10, -5, 5, 10`.
 
-Quando delle percentuali sono configurate, i soci vedono un menu a tendina sulla pagina dell'ordine dove possono applicare un adeguamento (ad esempio «Sostegno +10%» o «Sconto -5%»). Questo adeguamento si applica all'importo totale dell'ordine. Se l'elenco contiene solo valori positivi, l'etichetta indica un contributo di sostegno; se solo valori negativi, uno sconto.
+Quando delle percentuali sono configurate, i soci vedono un menu a tendina sulla pagina dell'ordine dove possono applicare un adeguamento (ad esempio "Sostegno +10%" o "Sconto -5%"). Questo adeguamento si applica all'importo totale dell'ordine. Se l'elenco contiene solo valori positivi, l'etichetta indica un contributo di sostegno; se solo valori negativi, uno sconto.
 
 ## Condizioni di vendita {#terms-of-sale}
 
-Un link alle tue condizioni di vendita può essere configurato per lingua nelle [impostazioni della bottega](/settings#shop). Quando impostato, il link viene visualizzato in fondo alla pagina della bottega del socio.
+Puoi configurare un collegamento alle condizioni di vendita per ogni lingua nelle [impostazioni della bottega](/settings#shop). Quando è impostato, il collegamento viene visualizzato in fondo alla pagina della bottega del socio.
 
 ## Accesso ai soci senza abbonamento {#access-without-membership}
 
-Per default, e al di fuori [delle consegne speciali](#special-deliveries), l'accesso alla bottega è limitato ai soci attivi con un abbonamento. Tuttavia, è possibile definire un deposito, modificando il profilo di un socio inattivo, come "deposito della bottega" per dargli accesso alla bottega. Gli ordini di questi soci si troveranno allora nei fogli (PDF) dei depositi corrispondenti.
+Per impostazione predefinita, al di fuori [delle consegne speciali](#special-deliveries), l'accesso alla bottega è limitato ai soci attivi con un abbonamento. Puoi però definire un deposito come "deposito della bottega" modificando il profilo di un socio inattivo e dargli così accesso alla bottega. Gli ordini di questi soci compariranno nei fogli PDF dei depositi corrispondenti.
 
 Un ciclo di consegne può anche essere assegnato per limitare quali consegne sono accessibili nella bottega per questi soci. Senza un ciclo di consegne, tutte le consegne in cui la bottega è aperta per il deposito assegnato saranno disponibili.
 
@@ -83,8 +83,8 @@ Un ciclo di consegne può anche essere assegnato per limitare quali consegne son
 
 Un caso d'uso comune è dare accesso alla bottega a ristoranti o altri acquirenti professionali che non hanno un abbonamento. Ecco come configurarlo:
 
-1. **Creare un deposito nascosto** specificamente per questi soci (ad es. «Ristoranti»). Poiché non è visibile ai soci regolari, non ingombrerà la lista dei depositi durante l'iscrizione.
-2. **Assegnare questo deposito come «deposito della bottega»** sul profilo di ogni socio ristorante.
+1. **Creare un deposito nascosto** specificamente per questi soci (ad es. "Ristoranti"). Poiché non è visibile ai soci regolari, non ingombrerà la lista dei depositi durante l'iscrizione.
+2. **Assegnare questo deposito come "deposito della bottega"** sul profilo di ogni socio ristorante.
 3. **Limitare la visibilità dei prodotti tramite la disponibilità per deposito**: rendendo certi prodotti non disponibili per tutti i depositi _tranne_ questo deposito ristorante, puoi offrire un catalogo esclusivamente riservato a questi acquirenti professionali (ad es. formati più grandi, prezzi all'ingrosso). I soci regolari con un abbonamento non vedranno questi prodotti.
 4. **Controllare l'apertura della bottega per deposito**: all'apertura della bottega su una consegna, puoi selezionare solo il deposito ristorante. In questo modo, la bottega resta chiusa per i soci con un abbonamento su quella consegna, rimanendo aperta per i ristoranti. Viceversa, puoi aprire la bottega per tutti i depositi quando tutti devono avere accesso.
 5. **Assegnare un ciclo di consegne** (opzionale): se i ristoranti devono ordinare solo in certe date di consegna, assegna un ciclo di consegne corrispondente per limitare ulteriormente le loro consegne disponibili.
@@ -95,10 +95,10 @@ Un caso d'uso comune è dare accesso alla bottega a ristoranti o altri acquirent
 
 Le consegne speciali ti permettono di proporre prodotti aggiuntivi ai tuoi soci al di fuori delle consegne di <%= Basket.model_name.human(count: 2).downcase %> abituali tramite la bottega online.
 
-I prodotti disponibili possono essere definiti separatamente per ogni consegna speciale, l'impostazione individuale della disponibilità di ogni prodotto viene ignorata. Invece, la disponibilità delle varianti così come lo stato del loro stock sono sempre rispettati.
+Puoi definire separatamente i prodotti disponibili per ogni consegna speciale; l'impostazione individuale della disponibilità di ciascun prodotto viene ignorata. La disponibilità delle varianti e il relativo stato di disponibilità sono però sempre rispettati.
 
 > Poiché le consegne speciali sono consegnate al di fuori delle consegne di <%= Basket.model_name.human(count: 2).downcase %>, sono aperte a tutti i tuoi soci attivi o meno.
 
 ## Apertura della bottega {#opening}
 
-Prima che i soci possano effettuare ordini, la bottega deve essere **aperta per le consegne desiderate** dalla [pagina delle consegne](/deliveries). Questo può essere fatto in blocco con l'azione di gruppo « Apri la bottega », o individualmente modificando una consegna (dove si possono anche selezionare depositi specifici). La bottega può essere richiusa allo stesso modo se necessario.
+Prima che i soci possano effettuare ordini, la bottega deve essere **aperta per le consegne desiderate** dalla [pagina delle consegne](/deliveries). Questo può essere fatto in blocco con l'azione di gruppo " Apri la bottega ", o individualmente modificando una consegna (dove si possono anche selezionare depositi specifici). La bottega può essere richiusa allo stesso modo se necessario.

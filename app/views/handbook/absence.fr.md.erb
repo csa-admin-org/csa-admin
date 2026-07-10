@@ -25,9 +25,9 @@ Si l'absence est annulée, le contenu du <%= Basket.model_name.human.downcase %>
 
 > Le déplacement de <%= Basket.model_name.human(count: 2).downcase %> est possible uniquement pour les absences facturées. Les absences incluses (non facturées) ne peuvent pas être déplacées.
 
-### Template de newsletter
+### Modèle de newsletter
 
-Lorsqu'un <%= Basket.model_name.human.downcase %> a reçu des déplacements, vous pouvez afficher un rappel dans [vos templates de newsletter](/newsletter_templates) en utilisant les variables `basket.shifted` et `basket.shifts`:
+Lorsqu'un <%= Basket.model_name.human.downcase %> a été déplacé, vous pouvez afficher un rappel dans [vos modèles de newsletter](/newsletter_templates) en utilisant les variables `basket.shifted` et `basket.shifts`:
 
 ~~~ liquid
 {% if basket and basket.shifted %}

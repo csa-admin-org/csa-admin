@@ -322,11 +322,11 @@ _:
         _nl: Het lid <strong>{{ member.name }}</strong> heeft het proeflidmaatschap geannuleerd.
     memberships_renewal_pending_email:
       check_before_paragraph:
-        _en: Please check <strong>before</strong> the first delivery of the new fiscal year. See the <a href="/handbook/membership_renewal">handbook</a> for more information.
-        _fr: Merci de vérifier <strong>avant</strong> la première livraison de la nouvelle année fiscale. Consultez <a href="/handbook/membership_renewal">la page du manuel</a> pour plus d'informations.
-        _de: Bitte <strong>vor</strong> der ersten Lieferung des neuen Geschäftsjahres überprüfen. Weitere Informationen auf der <a href="/handbook/membership_renewal">Handbuchseite zur Erneuerung</a>.
-        _it: Controllate <strong>prima</strong> della prima consegna del nuovo anno fiscale. Consultate <a href="/handbook/membership_renewal">il manuale</a> per ulteriori informazioni.
-        _nl: Graag <strong>voor</strong> de eerste levering van het nieuwe boekjaar controleren. Zie de <a href="/handbook/membership_renewal">handboekpagina over vernieuwing</a> voor meer informatie.
+        _en: Please check <strong>before</strong> the first delivery of the new fiscal year. See the <a href="{{ handbook_url }}">handbook</a> for more information.
+        _fr: Merci de vérifier <strong>avant</strong> la première livraison de la nouvelle année fiscale. Consultez <a href="{{ handbook_url }}">la page du manuel</a> pour plus d'informations.
+        _de: Bitte <strong>vor</strong> der ersten Lieferung des neuen Geschäftsjahres überprüfen. Weitere Informationen auf der <a href="{{ handbook_url }}">Handbuchseite zur Erneuerung</a>.
+        _it: Controllate <strong>prima</strong> della prima consegna del nuovo anno fiscale. Consultate <a href="{{ handbook_url }}">il manuale</a> per ulteriori informazioni.
+        _nl: Graag <strong>voor</strong> de eerste levering van het nieuwe boekjaar controleren. Zie de <a href="{{ handbook_url }}">handboekpagina over vernieuwing</a> voor meer informatie.
       greeting:
         _en: Hello {{ admin.name }},
         _fr: Salut {{ admin.name }},

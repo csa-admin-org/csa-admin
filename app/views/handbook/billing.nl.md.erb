@@ -50,7 +50,7 @@ Terugkerende facturering is het mechanisme dat de lidmaatschapsfacturering verzo
 
 In [de instellingen (Automatische facturering)](/settings#billing) kies je de **dag van de week** waarop het systeem moet draaien. Elke week op die dag controleert het systeem alle leden en maakt facturen aan wanneer deze verschuldigd zijn. Facturen die op deze manier worden aangemaakt, worden **automatisch per e-mail verstuurd**.
 
-Standaard worden facturen die bij aanmaak al als betaald/gesloten worden beschouwd niet automatisch verzonden. Je kunt dit wijzigen met de instelling «Gesloten facturen verzenden».
+Standaard worden facturen die bij aanmaak al als betaald/gesloten worden beschouwd niet automatisch verzonden. Je kunt dit wijzigen met de instelling "Gesloten facturen verzenden".
 
 > Het is raadzaam een andere dag dan de leveringsdag te kiezen. Zo worden wijzigingen aan het lidmaatschap of pakket die op de leveringsdag worden gemaakt, meegenomen in de factuur van de dagen erna, in plaats van voortijdig diezelfde dag te worden gefactureerd of een volle week te moeten wachten.
 
@@ -66,13 +66,13 @@ Het factuurbedrag wordt berekend als: **totaal lidmaatschapsbedrag ÷ aantal res
 
 Standaard wordt de eerste factuur verstuurd op de factureringsdag die volgt op de **eerste levering van een <%= Basket.model_name.human.downcase %>**. Dit betekent dat er geen factuur wordt aangemaakt voordat het lid zijn eerste levering heeft ontvangen.
 
-Dit gedrag kan worden gewijzigd in [de instellingen](/settings#billing) door «Factureer lidmaatschappen alleen na hun eerste levering» uit te schakelen. Wanneer uitgeschakeld, begint de facturering vanaf de **startdatum van het lidmaatschap**, zelfs voor enige levering.
+Dit gedrag kan worden gewijzigd in [de instellingen](/settings#billing) door "Factureer lidmaatschappen alleen na hun eerste levering" uit te schakelen. Wanneer uitgeschakeld, begint de facturering vanaf de **startdatum van het lidmaatschap**, zelfs voor enige levering.
 
 #### Wanneer eindigt de facturering? {#billing-end}
 
 Standaard strekt facturering zich uit tot de **einddatum van het lidmaatschap**, waarmee het volledige boekjaar wordt gedekt, ook als er in de laatste maanden geen leveringen zijn.
 
-Dit kan worden gewijzigd in [de instellingen](/settings#billing) door «Factureer lidmaatschappen alleen tot hun laatste levering» in te schakelen. Wanneer ingeschakeld, dekt de facturering alleen tot de maand van de laatste levering. Dit is nuttig wanneer de laatste maanden van het boekjaar geen leveringen hebben.
+Dit kan worden gewijzigd in [de instellingen](/settings#billing) door "Factureer lidmaatschappen alleen tot hun laatste levering" in te schakelen. Wanneer ingeschakeld, dekt de facturering alleen tot de maand van de laatste levering. Dit is nuttig wanneer de laatste maanden van het boekjaar geen leveringen hebben.
 
 #### Gedetailleerde logica
 
@@ -80,24 +80,24 @@ Elke factureringsdag controleert het systeem elk lid en bepaalt of een factuur v
 
 1. Het boekjaar wordt opgedeeld in perioden op basis van het betalingsinterval (bijv. driemaandelijks = 4 perioden van 3 maanden).
 2. Als de **huidige periode al is gefactureerd**, wordt de volgende factuur gepland voor het begin van de volgende periode.
-3. Als de **huidige periode nog niet is gefactureerd**, wordt de factuur aangemaakt op de volgende factureringsdag, met inachtneming van de instelling «eerste levering» of «start lidmaatschap» zoals hierboven beschreven.
+3. Als de **huidige periode nog niet is gefactureerd**, wordt de factuur aangemaakt op de volgende factureringsdag, met inachtneming van de instelling "eerste levering" of "start lidmaatschap" zoals hierboven beschreven.
 4. Als de berekende datum **na het einde van het boekjaar** valt, wordt er geen verdere factuur meer gegenereerd voor dit jaar.
 
 De factuur wordt altijd aangemaakt op de geconfigureerde dag van de week. Als een factuur op een andere dag verschuldigd wordt (bijv. een nieuwe periode begint op woensdag maar de factureringsdag is maandag), wordt deze de volgende maandag aangemaakt.
 
 #### Datum volgende factuur
 
-Vanaf de pagina van een lid of lidmaatschap toont de sectie «Facturering» (rechterkolom) de **datum van de volgende factuur**. Deze geeft aan wanneer de volgende automatische factuur wordt aangemaakt en verstuurd.
+Vanaf de pagina van een lid of lidmaatschap toont de sectie "Facturering" (rechterkolom) de **datum van de volgende factuur**. Deze geeft aan wanneer de volgende automatische factuur wordt aangemaakt en verstuurd.
 
 Deze datum wordt dynamisch bijgewerkt: zodra een factuur is verstuurd, springt deze naar de volgende geplande datum.
 
 ### Nu factureren {#bill-now}
 
-In sommige gevallen, bijvoorbeeld na een wijziging in lidmaatschapsconfiguratie, wil je mogelijk direct een factuur aanmaken in plaats van te wachten op de volgende factureringsdag. Klik hiervoor op de knop «Nu factureren» in de sectie «Facturering» (rechterkolom) van de leden- of lidmaatschapspagina.
+In sommige gevallen, bijvoorbeeld na een wijziging in lidmaatschapsconfiguratie, wil je mogelijk direct een factuur aanmaken in plaats van te wachten op de volgende factureringsdag. Klik hiervoor op de knop "Nu factureren" in de sectie "Facturering" (rechterkolom) van de leden- of lidmaatschapspagina.
 
-De factuur wordt dan aangemaakt, maar **niet verstuurd**. Je kunt de PDF raadplegen en deze handmatig verzenden met de knop «Verzenden» op de betreffende pagina. Dit is nuttig als je in contact bent met een lid en snel een factuur wilt corrigeren of het resultaat van een configuratiewijziging wilt controleren.
+De factuur wordt dan aangemaakt, maar **niet verstuurd**. Je kunt de PDF raadplegen en deze handmatig verzenden met de knop "Verzenden" op de betreffende pagina. Dit is nuttig als je in contact bent met een lid en snel een factuur wilt corrigeren of het resultaat van een configuratiewijziging wilt controleren.
 
-> De knop «Nu factureren» produceert exact dezelfde factuur als het automatische systeem, het enige verschil is dat deze niet automatisch wordt verstuurd, zodat je deze eerst kunt controleren.
+> De knop "Nu factureren" produceert exact dezelfde factuur als het automatische systeem, het enige verschil is dat deze niet automatisch wordt verstuurd, zodat je deze eerst kunt controleren.
 
 ### Alles vooraf factureren {#future_billing}
 
@@ -120,7 +120,7 @@ Het verkorten van de einddatum van een lidmaatschap, ook met de actie **Stoppen*
 
 ### Jaarlijkse bijdrage {#annual-fee}
 
-Wanneer de functie voor jaarlijkse bijdrage is ingeschakeld, is de standaard jaarlijkse bijdrage van de organisatie gedefinieerd in [de instellingen voor jaarlijkse bijdrage](/settings#annual_fee). Elk lid erft deze standaardwaarde bij aanmaak, maar je kunt deze individueel overschrijven vanuit het profiel van het lid (bewerkpagina, sectie «Facturering»). Als de instelling «alleen ondersteunende leden» is ingeschakeld, erven actieve leden de standaard jaarlijkse bijdrage van de organisatie niet automatisch; de standaard blijft bedoeld voor ondersteunende leden, tenzij je deze handmatig instelt.
+Wanneer de functie voor jaarlijkse bijdrage is ingeschakeld, is de standaard jaarlijkse bijdrage van de organisatie gedefinieerd in [de instellingen voor jaarlijkse bijdrage](/settings#annual_fee). Elk lid erft deze standaardwaarde bij aanmaak, maar je kunt deze individueel overschrijven vanuit het profiel van het lid (bewerkpagina, sectie "Facturering"). Als de instelling "alleen ondersteunende leden" is ingeschakeld, erven actieve leden de standaard jaarlijkse bijdrage van de organisatie niet automatisch; de standaard blijft bedoeld voor ondersteunende leden, tenzij je deze handmatig instelt.
 
 Wanneer de functie is ingeschakeld, wordt de jaarlijkse bijdrage automatisch opgenomen in de **eerste factuur** van het lidmaatschap. Als het lid geen lidmaatschap heeft ([ondersteuning](/handbook/members#statuses)), wordt automatisch een specifieke jaarlijkse bijdragefactuur aangemaakt aan het begin van het boekjaar.
 
@@ -136,7 +136,7 @@ Als het lidmaatschap wordt geannuleerd tijdens de proefperiode, worden alleen de
 
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
-Leden gemarkeerd als «[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)» zijn volledig uitgesloten van facturering. Hun lidmaatschap bestaat nog steeds voor leveringstracking, maar alle prijzen zijn op nul gezet en er worden geen lidmaatschapsfacturen gegenereerd.
+Leden gemarkeerd als "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" zijn volledig uitgesloten van facturering. Hun lidmaatschap bestaat nog steeds voor leveringstracking, maar alle prijzen zijn op nul gezet en er worden geen lidmaatschapsfacturen gegenereerd.
 
 ## Aandelenkapitaal {#share-capital}
 
@@ -146,7 +146,7 @@ Wanneer de functie is ingeschakeld, maakt CSA Admin elke factureringsdag automat
 
 ### Aandelenvelden van het lid {#share-fields}
 
-Drie aandelengerelateerde velden zijn beschikbaar in het profiel van een lid (bewerkpagina, sectie «Facturering»):
+Drie aandelengerelateerde velden zijn beschikbaar in het profiel van een lid (bewerkpagina, sectie "Facturering"):
 
 - **Aantal bestaand aandelenkapitaal**: Aandelen die al buiten CSA Admin in bezit zijn (bijv. van een vorig systeem). Deze worden niet opnieuw gefactureerd.
 - **Gewenst aantal aandelenkapitaal**: Leden kunnen bij [registratie](/handbook/registration) of [vernieuwing](/handbook/membership_renewal) extra aandelen aanvragen boven het minimum. Het systeem factureert het hogere van het vereiste en gewenste aantal.
@@ -154,9 +154,9 @@ Drie aandelengerelateerde velden zijn beschikbaar in het profiel van een lid (be
 
 ### Terugbetaling {#share-refund}
 
-Om reeds gefactureerd aandelenkapitaal terug te betalen, ga naar de factuurpagina en klik op de knop «Terugbetalen» rechtsboven, je kunt dan eenvoudig een negatieve aandelenkapitaalfactuur aanmaken. Zorg ervoor dat het lid geen aandelenkapitaal meer nodig heeft, anders worden ze automatisch opnieuw aangemaakt op de volgende factureringsdag.
+Om reeds gefactureerd aandelenkapitaal terug te betalen, ga naar de factuurpagina en klik op de knop "Terugbetalen" rechtsboven, je kunt dan eenvoudig een negatieve aandelenkapitaalfactuur aanmaken. Zorg ervoor dat het lid geen aandelenkapitaal meer nodig heeft, anders worden ze automatisch opnieuw aangemaakt op de volgende factureringsdag.
 
-> Vanaf de pagina van een lid kun je in de sectie «Facturering» (rechterkolom) het aantal aandelenkapitaal zien dat wordt of al is gefactureerd met een link naar de corresponderende facturen.
+> Vanaf de pagina van een lid kun je in de sectie "Facturering" (rechterkolom) het aantal aandelenkapitaal zien dat wordt of al is gefactureerd met een link naar de corresponderende facturen.
 
 ## Niet voltooide <%= activities_human_name %> {#activity}
 
@@ -201,7 +201,7 @@ CSA Admin biedt de mogelijkheid om handmatig verschillende artikelen of diensten
 
 ## BTW {#vat}
 
-Als je organisatie BTW-plichtig is, schakel dan de BTW-functie in en configureer je BTW-nummer en tarieven in [de BTW-instellingen](/settings#vat). Aparte tarieven kunnen worden gedefinieerd voor lidmaatschapsfacturen, <%= activities_human_name.downcase %>-facturen en winkelbestelfacturen. Voor facturen van het type «Overig» en «Nieuw lid bijdrage» wordt het BTW-tarief handmatig op elke factuur ingesteld.
+Als je organisatie BTW-plichtig is, schakel dan de BTW-functie in en configureer je BTW-nummer en tarieven in [de BTW-instellingen](/settings#vat). Aparte tarieven kunnen worden gedefinieerd voor lidmaatschapsfacturen, <%= activities_human_name.downcase %>-facturen en winkelbestelfacturen. Voor facturen van het type "Overig" en "Nieuw lid bijdrage" wordt het BTW-tarief handmatig op elke factuur ingesteld.
 
 BTW wordt berekend als inclusieve belasting (het factuurtotaal bevat al BTW). Het nettobedrag en het BTW-bedrag worden apart weergegeven op de factuur-PDF.
 

@@ -2,6 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["section"]
+  static values = {
+    navigationLabel: String,
+    sectionLabel: String
+  }
 
   connect() {
     if (this.sectionTargets.length < 2) return
@@ -57,7 +61,7 @@ export default class extends Controller {
 
   #buildNav() {
     const nav = document.createElement("nav")
-    nav.setAttribute("aria-label", "Form sections")
+    nav.setAttribute("aria-label", this.navigationLabelValue)
     nav.className = [
       "sticky top-0 z-50",
       "hidden flex-row items-center justify-center gap-1",
@@ -72,7 +76,8 @@ export default class extends Controller {
 
     this.#links = this.sectionTargets.map((section, index) => {
       const legend = section.querySelector(":scope > legend")
-      const label = legend?.textContent?.trim() || `Section ${index + 1}`
+      const label =
+        legend?.textContent?.trim() || this.sectionLabelValue.replace("%{number}", index + 1)
 
       const li = document.createElement("li")
       li.className = "flex items-center"

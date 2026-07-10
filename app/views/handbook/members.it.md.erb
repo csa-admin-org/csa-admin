@@ -10,9 +10,9 @@ Un socio viene creato tramite il [formulario d'iscrizione](<%= new_members_membe
 
 Le persone che presentano il [formulario d'iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) vengono aggiunte [all'elenco dei soci da confermare](/members?scope=pending), che si tratti di nuovi soci o di soci esistenti inattivi o di supporto che si iscrivono di nuovo. Devono essere confermate da un amministratore per assicurarsi che le informazioni siano corrette.
 
-Se l'email inserita corrisponde a un socio esistente inattivo o di supporto, la sua scheda viene riutilizzata e riportata allo stato «Da confermare» invece di creare un duplicato. Vedi la [pagina del formulario d'iscrizione](/handbook/registration#validation-reregistration) per il funzionamento dettagliato della reiscrizione.
+Se l'email inserita corrisponde a un socio esistente inattivo o di supporto, la sua scheda viene riutilizzata e riportata allo stato "Da confermare" invece di creare un duplicato. Vedi la [pagina del formulario d'iscrizione](/handbook/registration#validation-reregistration) per il funzionamento dettagliato della reiscrizione.
 
-Chi si iscrive senza richiesta di abbonamento diventa un socio di supporto al momento della conferma. È possibile inviare automaticamente un'email di benvenuto durante la conferma di un socio configurando [il template email “Socio confermato”](/mail_templates/member_validated).
+Chi si iscrive senza richiesta di abbonamento diventa un socio di supporto al momento della conferma. Puoi inviare automaticamente un'email di benvenuto configurando [il modello di email "Socio confermato"](/mail_templates/member_validated).
 
 > Gli amministratori possono ricevere notifiche via email per ogni nuova iscrizione gestendo le [preferenze di notifica](<%= edit_admin_path(current_admin) %>).
 
@@ -20,11 +20,11 @@ Chi si iscrive senza richiesta di abbonamento diventa un socio di supporto al mo
 
 La [lista d'attesa](/settings#waiting_list) è una funzionalità opzionale, utile per le organizzazioni che hanno un limite di capacità per i soci attivi.
 
-Le iscrizioni presentate tramite il formulario pubblico vengono sempre aggiunte [alla lista dei soci da convalidare](/members?scope=pending). I soci non scelgono una data d'inizio dell'abbonamento. Quando un admin clicca su “Convalida”, una richiesta di abbonamento completa viene inserita nella lista d'attesa se questa funzionalità è attiva e non è stata impostata una data d'inizio; se è disattivata, l'abbonamento viene creato direttamente dalla settimana della prossima consegna del ciclo selezionato.
+Le iscrizioni presentate tramite il formulario pubblico vengono sempre aggiunte [alla lista dei soci da convalidare](/members?scope=pending). I soci non scelgono una data d'inizio dell'abbonamento. Quando un admin clicca su "Convalida", una richiesta di abbonamento completa viene inserita nella lista d'attesa se questa funzionalità è attiva e non è stata impostata una data d'inizio; se è disattivata, l'abbonamento viene creato direttamente dalla settimana della prossima consegna del ciclo selezionato.
 
-Quando un admin crea un socio direttamente dal [formulario di creazione di un socio](/members/new), o modifica un socio in attesa di conferma, il pannello dell'abbonamento può mostrare un campo data d'inizio. Con la lista d'attesa attiva, lascialo vuoto per inserire il socio nella lista d'attesa, oppure indica una data per creare subito l'abbonamento alla conferma del socio. Questa creazione immediata dell'abbonamento attiva il socio e usa [il template email “Socio attivato”](/mail_templates/member_activated) se è attivo.
+Quando un admin crea un socio dal [formulario di creazione di un socio](/members/new) o modifica un socio in attesa di conferma, il pannello dell'abbonamento può mostrare un campo per la data d'inizio. Con la lista d'attesa attiva, lascialo vuoto per inserire il socio nella lista d'attesa oppure indica una data per creare subito l'abbonamento alla conferma. Questa creazione immediata attiva il socio e usa [il modello di email "Socio attivato"](/mail_templates/member_activated), se attivo.
 
-Per rendere attivo un socio in lista d'attesa, clicca su “Attivare” in alto a destra nella pagina del socio. Viene creato un abbonamento a partire dalle impostazioni della lista d'attesa. Prima dell'attivazione puoi modificare la data d'inizio dell'abbonamento in attesa: lasciala vuota per usare la prossima consegna del ciclo selezionato, oppure indica una data per iniziare in quella data.
+Per rendere attivo un socio in lista d'attesa, clicca su "Attivare" in alto a destra nella pagina del socio. Viene creato un abbonamento a partire dalle impostazioni della lista d'attesa. Prima dell'attivazione puoi modificare la data d'inizio dell'abbonamento in attesa: lasciala vuota per usare la prossima consegna del ciclo selezionato, oppure indica una data per iniziare in quella data.
 
 ### Attivo
 
@@ -38,7 +38,7 @@ Un socio di supporto è un socio privo di abbonamenti che ha una quota annuale d
 
 Per spostare un socio inattivo a supporto, è sufficiente definire un importo di quota annuale nel profilo del socio (pagina di modifica). La quota annuale può essere impostata a 0 per i soci che devono avere lo stato di supporto senza pagare alcuna quota.
 
-Con il pulsante “Disattivare” in alto a destra nella pagina del socio, è possibile rendere inattivo un socio di supporto, rimuovendo così la sua quota annuale o azzerando le parti sociali richieste.
+Con il pulsante "Disattivare" in alto a destra nella pagina del socio, è possibile rendere inattivo un socio di supporto, rimuovendo così la sua quota annuale o azzerando le parti sociali richieste.
 
 Per assegnare un abbonamento a un socio di supporto, crea un abbonamento per il socio; diventerà quindi attivo.
 
@@ -48,18 +48,18 @@ Un socio inattivo è un socio che non possiede un abbonamento per l'anno fiscale
 
 Per spostare un socio inattivo a supporto, modifica il profilo del socio e definisci un importo di quota annuale (anche 0 per i soci di supporto senza pagamento).
 
-Quando la [lista d'attesa](/settings#waiting_list) è attiva, modifica il profilo di un socio inattivo e compila tutti i campi obbligatori del pannello “Abbonamento (lista d'attesa)” per rimetterlo in lista d'attesa.
+Quando la [lista d'attesa](/settings#waiting_list) è attiva, modifica il profilo di un socio inattivo e compila tutti i campi obbligatori del pannello "Abbonamento (lista d'attesa)" per rimetterlo in lista d'attesa.
 
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 
-L'opzione «<%= Member.human_attribute_name(:salary_basket) %>» nel profilo di un socio indica che questo socio riceve la sua <%= Basket.model_name.human.downcase %> come parte del suo stipendio (ad esempio, dipendenti dell'azienda agricola). Quando attivata:
+L'opzione "<%= Member.human_attribute_name(:salary_basket) %>" nel profilo di un socio indica che questo socio riceve la sua <%= Basket.model_name.human.downcase %> come parte del suo stipendio (ad esempio, dipendenti dell'azienda agricola). Quando attivata:
 
-- Tutti i prezzi dell'abbonamento sono azzerati, compresi i complementi cesto (l'abbonamento esiste ancora per il tracciamento delle consegne, ma nulla viene fatturato).
+- Tutti i prezzi dell'abbonamento sono azzerati, compresi i <%= BasketComplement.model_name.human(count: 2).downcase %> (l'abbonamento esiste ancora per il tracciamento delle consegne, ma nulla viene fatturato).
 - Il socio è escluso dai rapporti di fatturazione e dalla fatturazione previsionale.
 - Il numero predefinito di <%= activities_human_name.downcase %> richieste è impostato a 0.
 - Il socio è escluso dai [turni di impegno](/handbook/bidding_round).
 
-> Se i complementi devono comunque essere fatturati, non attivare questa opzione. Imposta invece manualmente a zero i prezzi dimensione cesto/deposito dell'abbonamento con prezzi d'abbonamento personalizzati.
+> Se i complementi devono comunque essere fatturati, non attivare questa opzione. Imposta invece manualmente a zero, con prezzi d'abbonamento personalizzati, i prezzi della <%= BasketSize.model_name.human.downcase %> e del deposito.
 
 Se questa opzione viene modificata su un socio esistente, i suoi abbonamenti attuali e futuri vengono automaticamente ricalcolati.
 
@@ -74,7 +74,7 @@ Entrambi i campi appaiono nelle esportazioni (CSV/XLSX) e vengono cancellati qua
 
 ## Indirizzo di fatturazione diverso {#billing-address}
 
-Se le fatture di un socio devono essere inviate a un indirizzo diverso (ad esempio, un'azienda o un familiare), attiva l'opzione «Indirizzo di fatturazione diverso» nel profilo del socio sotto la sezione «Fatturazione». Questo rivela campi aggiuntivi per un nome, via, CAP e città di fatturazione separati. I soci possono anche gestire questo dal proprio account.
+Se le fatture di un socio devono essere inviate a un indirizzo diverso (ad esempio, un'azienda o un familiare), attiva l'opzione "Indirizzo di fatturazione diverso" nel profilo del socio sotto la sezione "Fatturazione". Questo rivela campi aggiuntivi per un nome, via, CAP e città di fatturazione separati. I soci possono anche gestire questo dal proprio account.
 
 ## Condivisione dei contatti {#contact-sharing}
 
@@ -82,7 +82,7 @@ I soci possono scegliere di condividere i propri dati di contatto con gli altri 
 
 ## Account socio {#member-account}
 
-Ogni socio ha accesso a un account personale sul proprio [account socio](<%= Current.org.members_url %>). L'accesso è senza password: il socio inserisce il proprio indirizzo email sulla [pagina di accesso](<%= Current.org.members_url %>/login) e riceve un link valido per 15 minuti. Una volta effettuato l'accesso, la sessione dura un anno.
+Ogni socio ha accesso a un [account personale](<%= Current.org.members_url %>). L'accesso è senza password: il socio inserisce il proprio indirizzo email nella [pagina di accesso](<%= Current.org.members_url %>/login) e riceve un collegamento valido per 15 minuti. Dopo l'accesso, la sessione dura un anno.
 
 Dal proprio account, il socio può:
 
@@ -108,10 +108,10 @@ Le modifiche effettuate dai soci vengono salvate come modifiche individuali dell
 
 Se la [funzione Pagina informativa](/settings#member_information) è attivata, la pagina appare nella navigazione del socio.
 
-L'impostazione «Pagina informativa» permette di pubblicare contenuti in testo formattato direttamente nell'account del socio, sotto una voce di navigazione dedicata. Puoi usarla per condividere informazioni pratiche che devono restare facilmente reperibili in ogni momento, come regolamenti interni, istruzioni per il ritiro, aggiornamenti stagionali o informazioni riservate ai soci.
+L'impostazione "Pagina informativa" permette di pubblicare contenuti in testo formattato direttamente nell'account del socio, sotto una voce di navigazione dedicata. Puoi usarla per condividere informazioni pratiche che devono restare facilmente reperibili in ogni momento, come regolamenti interni, istruzioni per il ritiro, aggiornamenti stagionali o informazioni riservate ai soci.
 
-Questo contenuto viene configurato nelle [impostazioni della pagina informativa](/settings#member_information). Anche il titolo della pagina può essere personalizzato nelle stesse impostazioni; se lasciato vuoto, viene usato il titolo predefinito «Informazioni».
+Questo contenuto viene configurato nelle [impostazioni della pagina informativa](/settings#member_information). Anche il titolo della pagina può essere personalizzato nelle stesse impostazioni; se lasciato vuoto, viene usato il titolo predefinito "Informazioni".
 
 ### Accesso admin all'account di un socio {#admin-access}
 
-Dalla pagina admin di un socio, il pulsante «Account» permette di aprire l'account socio come quel socio. Questo è utile per verificare ciò che un socio vede o per risolvere un problema. Le sessioni iniziate da un admin scadono dopo 6 ore (invece dell'anno abituale).
+Dalla pagina admin di un socio, il pulsante "Account" permette di aprire l'account socio come quel socio. Questo è utile per verificare ciò che un socio vede o per risolvere un problema. Le sessioni iniziate da un admin scadono dopo 6 ore (invece dell'anno abituale).

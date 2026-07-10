@@ -24,7 +24,7 @@ class MailTemplateTest < ActiveSupport::TestCase
 
   test "set default subject and content for all languages" do
     org(languages: %w[en de])
-    template = mail_templates(:member_activated)
+    template = MailTemplate.new(title: :member_activated)
 
     assert_equal(
       {
@@ -39,7 +39,7 @@ class MailTemplateTest < ActiveSupport::TestCase
     assert_includes template.contents["en"], "<p>Your membership is now active.</p>"
     assert_includes template.contents["fr"], "<p>Votre abonnement est maintenant actif.</p>"
     assert_includes template.contents["de"], "<p>Dein Abonnement ist jetzt aktiv.</p>"
-    assert_includes template.contents["it"], "<p>Il vostro abbonamento è ora attivo.</p>"
+    assert_includes template.contents["it"], "<p>Il tuo abbonamento è ora attivo.</p>"
   end
 
   test "set always active template" do

@@ -1,57 +1,57 @@
 # Rinnovo
 
-Ogni abbonamento si ferma obbligatoriamente alla fine del suo anno fiscale; è quindi necessario rinnovare gli abbonamenti per l'anno fiscale successivo.
+Ogni abbonamento termina alla fine dell'anno fiscale. Rinnova gli abbonamenti per l'anno fiscale successivo.
 
-Tutti gli abbonamenti possono essere rinnovati manualmente da un amministratore; sia dalla pagina di un abbonamento, sia dalla [pagina degli abbonamenti](/memberships) (sezione "Rinnovi" sotto i filtri). È anche possibile inviare una richiesta di rinnovo via email a tutti i soci che potranno poi rinnovare o disdire il loro abbonamento da un modulo sulla loro pagina di socio.
+Un amministratore può rinnovare manualmente gli abbonamenti dalla pagina di un abbonamento o dalla sezione "Rinnovi" sotto i filtri nella [pagina degli abbonamenti](/memberships). Puoi anche inviare una richiesta di rinnovo via email a tutti i soci; potranno poi rinnovare o disdire l'abbonamento da un modulo nel loro account.
 
 ## Prerequisiti {#prerequisites}
 
-Per rinnovare gli abbonamenti, è innanzitutto necessario creare tutte [le consegne](/deliveries/new) per il nuovo anno fiscale (vedi [Consegne](/handbook/deliveries)) e, se necessario, adeguare i prezzi (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human.downcase %>, deposito...) per l'anno successivo. Infatti, rinnovare un abbonamento significa creare un nuovo abbonamento con le stesse informazioni di quello corrente, ma per il prossimo anno fiscale.
+Prima di rinnovare gli abbonamenti, crea tutte [le consegne](/deliveries/new) per il nuovo anno fiscale (vedi [Consegne](/handbook/deliveries)). Se necessario, adegua per l'anno successivo i prezzi della <%= BasketSize.model_name.human.downcase %>, dei <%= BasketComplement.model_name.human(count: 2).downcase %> e del deposito. Il rinnovo crea un nuovo abbonamento per il prossimo anno fiscale con le informazioni di quello corrente.
 
 Una volta create le consegne, gli amministratori possono rinnovare gli abbonamenti manualmente, al momento di loro scelta. Nota che se un abbonamento viene rinnovato dopo la prima consegna del nuovo anno fiscale, tale consegna sarà comunque inclusa nell'abbonamento rinnovato.
 
 ## Invio delle richieste {#sending-requests}
 
-Sezione "Rinnovi" sotto i filtri della [pagina degli abbonamenti](/memberships) una volta che i prerequisiti qui sotto sono soddisfatti:
+Dopo avere soddisfatto i prerequisiti, usa la sezione "Rinnovi" sotto i filtri della [pagina degli abbonamenti](/memberships):
 ![sezione abbonamenti](<%= image_url("handbook/membership_renewal/section.it.png") %>){:class="small"}
 
-> È importante notare che il sistema non invia automaticamente le richieste di rinnovo ai soci; sta quindi a te scegliere il momento opportuno per inviarle in base ai tuoi statuti o regolamenti. <br/><br/>
-> Se dei soci non rispondono, sta anche a te rinnovare tacitamente (o meno) questi abbonamenti al momento di tua scelta utilizzando il pulsante "Rinnovare X abbonamenti" che si trova nella [pagina degli abbonamenti](/memberships).
+> Il sistema non invia automaticamente le richieste di rinnovo. Scegli tu quando inviarle in base ai tuoi statuti o regolamenti. <br/><br/>
+> Se alcuni soci non rispondono, puoi rinnovare tacitamente i loro abbonamenti, o lasciarli non rinnovati, usando il pulsante "Rinnovare X abbonamenti" nella [pagina degli abbonamenti](/memberships).
 
 ### Prerequisiti
 
 Per poter inviare richieste di rinnovo, bisogna prima mettere in atto i seguenti elementi:
 
 - Creare tutte [le consegne](/deliveries/new) per il nuovo anno fiscale.
-- Modificare e attivare [il template email "Rinnovo abbonamento"](/mail_templates/membership_renewal).
-- Modificare e attivare [il template email "Rinnovo abbonamento (Promemoria)"](/mail_templates/membership_renewal_reminder) (opzionale).
-- Modificare [le impostazioni](/settings#membership_renewal), come il testo di spiegazione visualizzato sulla pagina del socio (permesso "massimo" richiesto).
+- Modificare e attivare [il modello di email "Rinnovo abbonamento"](/mail_templates/membership_renewal).
+- Modificare e attivare [il modello di email "Rinnovo abbonamento (Promemoria)"](/mail_templates/membership_renewal_reminder) (facoltativo).
+- Modificare [le impostazioni](/settings#membership_renewal), compreso il testo di spiegazione visualizzato nell'account del socio (richiede il permesso "massimo").
 
 ### Test di invio di una richiesta
 
-Una volta soddisfatti i prerequisiti, è possibile inviare una richiesta di rinnovo via email per un solo socio (per esempio te) dalla pagina del suo abbonamento. Questo ti permette di assicurarti che tutto funzioni correttamente.
+Dopo avere soddisfatto i prerequisiti, puoi inviare dalla pagina dell'abbonamento una richiesta di rinnovo via email a un solo socio, per esempio a te stesso. Così puoi verificare che tutto funzioni correttamente.
 
 ### Email di promemoria
 
-Se configurato, campo "Inviare un promemoria dopo (in giorni)" nelle [impostazioni](/settings#membership_renewal), il sistema invia automaticamente un'email di promemoria a ogni socio che non ha ancora rinnovato o disdetto il suo abbonamento X giorni dopo l'invio della richiesta di rinnovo.
+Quando configuri il campo "Inviare un promemoria dopo (in giorni)" nelle [impostazioni](/settings#membership_renewal), il sistema invia automaticamente un'email di promemoria X giorni dopo la richiesta a ogni socio che non ha ancora rinnovato o disdetto l'abbonamento.
 
-[Il template email "Rinnovo abbonamento (Promemoria)"](/mail_templates/membership_renewal_reminder) deve essere stato anche modificato e attivato precedentemente.
+[Il modello di email "Rinnovo abbonamento (Promemoria)"](/mail_templates/membership_renewal_reminder) deve essere modificato e attivato in anticipo.
 
 > Poiché rinnovare o disdire gli abbonamenti ha senso solo prima della prima consegna del nuovo anno fiscale, fai attenzione che rimanga sempre abbastanza tempo tra l'invio del promemoria e questa scadenza.
 
 ## Modulo di rinnovo {#renewal-form}
 
-Una volta inviata la richiesta di rinnovo, il socio avrà accesso a un modulo sulla pagina del suo abbonamento, che gli proporrà di rinnovare o disdire il suo abbonamento:
+Dopo l'invio della richiesta di rinnovo, il socio può usare un modulo nella pagina dell'abbonamento per rinnovarlo o disdirlo:
 
 ![sezione abbonamenti](<%= image_url("handbook/membership_renewal/form.it.png") %>)
 
 ### Rinnovo
 
-Se il socio sceglie di rinnovare il suo abbonamento, sarà reindirizzato alla pagina di rinnovo che gli permetterà di cambiare la sua <%= BasketSize.model_name.human.downcase %>, i suoi <%= BasketComplement.model_name.human(count: 2).downcase %> (se disponibili), l'intervallo di pagamento, e di lasciare un commento libero.
+Se il socio sceglie di rinnovare l'abbonamento, viene reindirizzato alla pagina di rinnovo. Qui può modificare la <%= BasketSize.model_name.human.downcase %>, i <%= BasketComplement.model_name.human(count: 2).downcase %> disponibili, l'intervallo di pagamento e lasciare un commento.
 
 Le seguenti opzioni sono anche disponibili sulla pagina di rinnovo a seconda della tua configurazione:
 
-- **Deposito**: I soci possono cambiare deposito se l'opzione «Consentire il cambio di deposito al rinnovo» è attivata nelle [impostazioni](/settings#membership_renewal).
+- **Deposito**: I soci possono cambiare deposito se l'opzione "Consentire il cambio di deposito al rinnovo" è attivata nelle [impostazioni](/settings#membership_renewal).
 - **Prezzo extra della <%= Basket.model_name.human.downcase %>**: I soci possono adeguare il loro contributo di [prezzo extra](/handbook/basket_price_extra).
 - **<%= activities_human_name %>**: Se un numero minimo e/o massimo di partecipazioni è configurato nelle [impostazioni](/settings#activity), i soci possono adeguare il numero di partecipazioni richieste entro questi limiti.
 
@@ -61,7 +61,7 @@ Una volta confermato, il suo abbonamento per l'anno fiscale successivo viene aut
 
 Quando un abbonamento viene rinnovato (dal socio o da un admin), alcune configurazioni dell'abbonamento corrente vengono riprese nel nuovo. Le configurazioni principali — <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, deposito, ciclo di consegne, intervallo di pagamento e prezzo extra della <%= Basket.model_name.human.downcase %> — vengono sempre riprese.
 
-Configurazioni aggiuntive possono essere opzionalmente riprese, controllate dalle caselle «Configurazioni riprese» nelle [impostazioni](/settings#membership_renewal):
+Configurazioni aggiuntive possono essere opzionalmente riprese, controllate dalle caselle "Configurazioni riprese" nelle [impostazioni](/settings#membership_renewal):
 
 - **Adeguamento del prezzo delle <%= Basket.model_name.human(count: 2) %>**: L'adeguamento di prezzo personalizzato sulle <%= Basket.model_name.human(count: 2).downcase %>.
 - **Adeguamento del prezzo dei <%= BasketComplement.model_name.human(count: 2) %>**: L'adeguamento di prezzo personalizzato sui complementi.

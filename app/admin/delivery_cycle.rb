@@ -56,7 +56,7 @@ ActiveAdmin.register DeliveryCycle do
               table_for deliveries, class: "table-auto" do
                 column "#", ->(d) { d.number }
                 column t("attributes.day"), ->(d) { I18n.t("date.day_names")[d.date.wday] }, class: "text-right"
-                column t("attributes.date"), ->(d) { auto_link d, l(d.date, format: :day_month), aria: { label: "show" } }, class: "text-right"
+                column t("attributes.date"), ->(d) { auto_link d, l(d.date, format: :day_month) }, class: "text-right"
                 column t("attributes.cweek"), ->(d) { d.date.cweek }, class: "text-right"
                 unless Current.fiscal_year.standard?
                   column t("attributes.year"), ->(d) { d.date.year }, class: "text-right"
@@ -93,7 +93,7 @@ ActiveAdmin.register DeliveryCycle do
             end
             if dc.visible?
                 table_for dc.depots, class: "mt-4" do
-                  column Depot.model_name.human, ->(d) { auto_link d, aria: { label: "show" } }, class: "text-left"
+                  column Depot.model_name.human, ->(d) { auto_link d }, class: "text-left"
                   column :visible, ->(d) { aligned_status_tag(d.visible?) }, class: "text-right"
                 end
             end

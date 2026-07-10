@@ -1,26 +1,26 @@
 # Renewal
 
-Each membership necessarily stops at the end of its fiscal year; it is therefore necessary to renew memberships for the following fiscal year.
+Every membership ends at the close of its fiscal year. Renew it to continue for the following fiscal year.
 
-All memberships can be manually renewed by an administrator; either from a membership page, or from [the memberships page](/memberships) (section "Renewals" below the filters). It is also possible to send a renewal request by email to all members who can then renew or terminate their membership from a form on their member page.
+Administrators can renew memberships manually from an individual membership page or from the "Renewals" section below the filters on [the memberships page](/memberships). You can also email renewal requests to all members, who can then renew or terminate their membership from a form in their account.
 
 ## Prerequisites {#prerequisites}
 
-In order to renew memberships, it is first necessary to create all [the deliveries](/deliveries/new) for the new fiscal year (see [Deliveries](/handbook/deliveries)) and, if necessary, adjust the prices (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human.downcase %>, deposit...) for the following year. Indeed, renewing a membership consists of creating a new membership with the same information as the current one, but for the next fiscal year.
+Before renewing memberships, create all [deliveries](/deliveries/new) for the new fiscal year (see [Deliveries](/handbook/deliveries)). If needed, update prices for the following year, including <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human.downcase %>, and deposits. Renewal creates a new membership for the next fiscal year with the current membership's information.
 
 Once the deliveries are created, administrators can renew memberships manually, at the time of their choice. Note that if a membership is renewed after the first delivery of the new fiscal year, that delivery will be included in the renewed membership regardless.
 
 ## Sending requests {#sending-requests}
 
-Section "Renewals" below the filters of [the memberships page](/memberships) once the prerequisites below are met:
+Once the prerequisites below are met, use the "Renewals" section below the filters on [the memberships page](/memberships):
 ![memberships section](<%= image_url("handbook/membership_renewal/section.en.png") %>){:class="small"}
 
-> It is important to note that the system does not automatically send renewal requests to members; it is therefore up to you to choose the appropriate time to send them according to your statutes or regulations. <br/><br/>
-> If members do not respond, it is also up to you to tacitly renew (or not) these memberships at the time of your choice using the "Renew X memberships" button found on [the memberships page](/memberships).
+> Renewal requests are not sent automatically. Choose when to send them according to your statutes or regulations. <br/><br/>
+> If members do not respond, use the "Renew X memberships" button on [the memberships page](/memberships) to renew their memberships tacitly, or leave them unrenewed.
 
 ### Prerequisites
 
-In order to be able to send renewal requests, you must first set up the following elements:
+To send renewal requests, first set up:
 
 - Create all [the deliveries](/deliveries/new) for the new fiscal year.
 - Edit and activate [the "Membership Renewal" email template](/mail_templates/membership_renewal).
@@ -29,11 +29,11 @@ In order to be able to send renewal requests, you must first set up the followin
 
 ### Test sending a request
 
-Once the prerequisites are met, it is possible to send a renewal request by email for a single member (for example you) from their membership page. This allows you to ensure that everything is working correctly.
+Once the prerequisites are met, send a renewal request to one member (for example, yourself) from their membership page to confirm that everything works as expected.
 
 ### Reminder email
 
-If configured, field "Send a reminder after (in days)" in [the settings](/settings#membership_renewal), the system automatically sends a reminder email to each member who has not yet renewed or terminated their membership X days after sending the renewal request.
+When you set the "Send a reminder after (in days)" field in [the settings](/settings#membership_renewal), the system sends a reminder email X days after the renewal request to every member who has not yet renewed or terminated their membership.
 
 [The "Membership Renewal (Reminder)" email template](/mail_templates/membership_renewal_reminder) must also have been edited and activated beforehand.
 
@@ -41,13 +41,13 @@ If configured, field "Send a reminder after (in days)" in [the settings](/settin
 
 ## Renewal form {#renewal-form}
 
-Once the renewal request is sent, the member will have access to a form on their membership page, which will offer them to renew or terminate their membership:
+Once the renewal request is sent, the member can use a form on their membership page to renew or terminate their membership:
 
 ![memberships section](<%= image_url("handbook/membership_renewal/form.en.png") %>)
 
 ### Renewal
 
-If the member chooses to renew their membership, they will be redirected to the renewal page which will allow them to change their <%= BasketSize.model_name.human.downcase %>, their <%= BasketComplement.model_name.human(count: 2).downcase %> (if available), the payment interval, as well as leave a free comment.
+Members who choose to renew are redirected to a page where they can change their <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %> (if available), payment interval, and add a comment.
 
 The following options are also available on the renewal page depending on your configuration:
 
@@ -81,4 +81,4 @@ For administrators, the membership page separates several actions:
 - **Stop**: ends the membership today; use the edit form instead if it must end on a specific date.
 - **Delete**: should only be used to correct a mistake, as it deletes the membership and deletes or cancels related invoices.
 
-If necessary, the termination of the membership can be cancelled by an administrator from the membership page.
+If needed, an administrator can reverse a membership termination from its membership page.

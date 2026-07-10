@@ -35,13 +35,13 @@ Om tijd te besparen kun je alle <%= BasketContent.model_name.human.downcase %> v
 
 Wanneer je een specifieke levering bekijkt, verschijnt boven de productlijst een prijspaneel voor elk product met een ingestelde eenheidsprijs. Voor elke <%= BasketSize.model_name.human.downcase %> toont het de berekende inhoudswaarde en het verschil met de basisprijs.
 
-Wanneer depots verschillende pakketprijzen ontvangen — bijvoorbeeld omdat sommige producten alleen aan bepaalde depots zijn toegewezen — toont het paneel een min-max prijsbereik. Door over elke waarde te hoveren zie je welke depots overeenkomen.
+Wanneer depots verschillende prijzen voor <%= Basket.model_name.human(count: 2).downcase %> ontvangen — bijvoorbeeld omdat sommige producten alleen aan bepaalde depots zijn toegewezen — toont het paneel een min-maxprijsbereik. Door over een waarde te bewegen, zie je de bijbehorende depots.
 
 Een inklapbaar gedeelte **Jaargemiddelde** toont het cumulatieve prijsverschil over het boekjaar, uitgesplitst per leveringscyclus wanneer er meerdere zijn geconfigureerd. Gekleurde stippen in de samenvatting geven een snel statusoverzicht: groen betekent dat het lopende gemiddelde boven de basisprijs ligt, rood eronder en neutraal op doel.
 
 ## Inhoud weergeven aan leden {#displaying-contents-to-members}
 
-De <%= BasketContent.model_name.human.downcase %> kan optioneel worden weergegeven aan je leden op de leveringspagina van hun account. Elk lid ziet alleen de producten die relevant zijn voor hun specifieke <%= BasketSize.model_name.human.downcase %> en depot. Dit moet worden ingeschakeld in [de instellingen voor <%= BasketContent.model_name.human.downcase %>](/settings#basket_content).
+De <%= BasketContent.model_name.human.downcase %> kan optioneel worden weergegeven aan je leden op de leveringspagina van hun account. Elk lid ziet alleen de producten die relevant zijn voor de specifieke <%= BasketSize.model_name.human.downcase %> en het depot van dat lid. Schakel dit in via [de instellingen voor <%= BasketContent.model_name.human.downcase %>](/settings#basket_content).
 
 ### Zichtbaarheidsvenster
 

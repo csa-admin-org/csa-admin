@@ -239,14 +239,14 @@ class BankConnection < ApplicationRecord
   def json_columns_are_objects
     %i[credentials settings capabilities status_details].each do |name|
       value = public_send(name)
-      errors.add(name, "must be an object") unless value.is_a?(Hash)
+      errors.add(name, :must_be_an_object) unless value.is_a?(Hash)
     end
   end
 
   def only_one_active_connection
     return unless self.class.active.where.not(id: id).exists?
 
-    errors.add(:active, "is already used by another bank connection")
+    errors.add(:active, :already_used_by_another_bank_connection)
   end
 
   def redact(value, key = nil)

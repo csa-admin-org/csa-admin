@@ -50,7 +50,7 @@ La fatturazione ricorrente è il meccanismo che gestisce la fatturazione degli a
 
 Nelle [impostazioni (Fatturazione automatica)](/settings#billing), scegli il **giorno della settimana** in cui il sistema deve essere eseguito. Ogni settimana in quel giorno, il sistema esamina tutti i soci e crea le fatture quando sono dovute. Le fatture così create vengono **automaticamente inviate** via email.
 
-Per impostazione predefinita, le fatture già considerate pagate/chiuse al momento della creazione non vengono inviate automaticamente. Puoi cambiarlo con l'impostazione «Inviare fatture chiuse».
+Per impostazione predefinita, le fatture già considerate pagate/chiuse al momento della creazione non vengono inviate automaticamente. Puoi cambiarlo con l'impostazione "Inviare fatture chiuse".
 
 > È consigliabile scegliere un giorno diverso da quello della consegna. In questo modo, le modifiche all'abbonamento o al paniere effettuate il giorno della consegna saranno considerate nella fattura generata nei giorni successivi, anziché essere fatturate prematuramente lo stesso giorno o dover attendere una settimana intera.
 
@@ -66,13 +66,13 @@ L'importo della fattura è calcolato così: **importo totale dell'abbonamento ÷
 
 Per impostazione predefinita, la prima fattura viene inviata il giorno di fatturazione successivo alla **prima consegna della <%= Basket.model_name.human.downcase %>**. Ciò significa che nessuna fattura viene generata prima che il socio abbia ricevuto la sua prima consegna.
 
-Questo comportamento può essere modificato nelle [impostazioni](/settings#billing) disattivando «Fatturare gli abbonamenti solo dopo la loro prima consegna». Quando disattivato, la fatturazione inizia dalla **data di inizio dell'abbonamento**, anche prima di qualsiasi consegna.
+Questo comportamento può essere modificato nelle [impostazioni](/settings#billing) disattivando "Fatturare gli abbonamenti solo dopo la loro prima consegna". Quando disattivato, la fatturazione inizia dalla **data di inizio dell'abbonamento**, anche prima di qualsiasi consegna.
 
 #### Quando termina la fatturazione? {#billing-end}
 
 Per impostazione predefinita, la fatturazione si estende fino alla **data di fine dell'abbonamento**, coprendo l'intero anno fiscale anche se non ci sono consegne negli ultimi mesi.
 
-Questo può essere modificato nelle [impostazioni](/settings#billing) attivando «Fatturare gli abbonamenti solo fino alla loro ultima consegna». Quando attivato, la fatturazione copre solo fino al mese dell'ultima consegna. Questo è utile quando gli ultimi mesi dell'anno fiscale non hanno consegne.
+Questo può essere modificato nelle [impostazioni](/settings#billing) attivando "Fatturare gli abbonamenti solo fino alla loro ultima consegna". Quando attivato, la fatturazione copre solo fino al mese dell'ultima consegna. Questo è utile quando gli ultimi mesi dell'anno fiscale non hanno consegne.
 
 #### Logica dettagliata
 
@@ -80,24 +80,24 @@ Ogni giorno di fatturazione, il sistema verifica ogni socio e determina se una f
 
 1. L'anno fiscale è suddiviso in periodi in base all'intervallo di pagamento (ad es. trimestrale = 4 periodi di 3 mesi).
 2. Se il **periodo corrente è già stato fatturato**, la prossima fattura è pianificata per l'inizio del periodo successivo.
-3. Se il **periodo corrente non è ancora stato fatturato**, la fattura viene creata al prossimo giorno di fatturazione, rispettando l'impostazione «prima consegna» o «inizio dell'abbonamento» descritta sopra.
+3. Se il **periodo corrente non è ancora stato fatturato**, la fattura viene creata al prossimo giorno di fatturazione, rispettando l'impostazione "prima consegna" o "inizio dell'abbonamento" descritta sopra.
 4. Se la data calcolata cade **dopo la fine dell'anno fiscale**, nessuna fattura aggiuntiva viene generata per quest'anno.
 
 La fattura viene sempre creata nel giorno della settimana configurato. Se una fattura diventa dovuta in un altro giorno (ad es. un nuovo periodo inizia di mercoledì ma il giorno di fatturazione è lunedì), sarà creata il lunedì successivo.
 
 #### Data della prossima fattura
 
-Dalla pagina di un socio o di un abbonamento, la sezione «Fatturazione» (colonna di destra) mostra la **data della prossima fattura**. Questa indica quando la prossima fattura automatica sarà creata e inviata.
+Dalla pagina di un socio o di un abbonamento, la sezione "Fatturazione" (colonna di destra) mostra la **data della prossima fattura**. Questa indica quando la prossima fattura automatica sarà creata e inviata.
 
 Questa data si aggiorna dinamicamente: una volta inviata una fattura, passa alla prossima data pianificata.
 
 ### Fatturare ora {#bill-now}
 
-In alcuni casi, per esempio dopo un cambiamento di configurazione dell'abbonamento, potresti voler creare una fattura immediatamente piuttosto che aspettare il prossimo giorno di fatturazione. Per farlo, clicca sul pulsante «Fatturare ora» nella sezione «Fatturazione» (colonna di destra) della pagina del socio o dell'abbonamento.
+In alcuni casi, per esempio dopo un cambiamento di configurazione dell'abbonamento, potresti voler creare una fattura immediatamente piuttosto che aspettare il prossimo giorno di fatturazione. Per farlo, clicca sul pulsante "Fatturare ora" nella sezione "Fatturazione" (colonna di destra) della pagina del socio o dell'abbonamento.
 
-La fattura sarà creata, ma **non inviata**. Puoi consultare il PDF e inviarlo manualmente utilizzando il pulsante «Inviare» sulla pagina della stessa. Questo è utile se sei in contatto con un socio e vuoi rettificare rapidamente una fattura o verificare il risultato di un cambiamento di configurazione.
+La fattura sarà creata, ma **non inviata**. Puoi consultare il PDF e inviarlo manualmente utilizzando il pulsante "Inviare" sulla pagina della stessa. Questo è utile se sei in contatto con un socio e vuoi rettificare rapidamente una fattura o verificare il risultato di un cambiamento di configurazione.
 
-> Il pulsante «Fatturare ora» produce esattamente la stessa fattura del sistema automatico, l'unica differenza è che non viene inviata automaticamente, dandoti il tempo di verificarla prima.
+> Il pulsante "Fatturare ora" produce esattamente la stessa fattura del sistema automatico, l'unica differenza è che non viene inviata automaticamente, dandoti il tempo di verificarla prima.
 
 ### Fatturare tutto in anticipo {#future_billing}
 
@@ -120,7 +120,7 @@ Accorciare la data di fine di un abbonamento, anche con l'azione **Fermare**, se
 
 ### Quota annuale {#annual-fee}
 
-Quando la funzione quota annuale è attivata, la quota annuale predefinita dell'organizzazione è definita nelle [impostazioni della quota annuale](/settings#annual_fee). Ogni socio eredita questo valore predefinito alla creazione, ma può essere modificato individualmente dal suo profilo (pagina di modifica, sezione «Fatturazione»). Se l'impostazione «solo soci di supporto» è attivata, i soci attivi non ereditano automaticamente la quota annuale predefinita dell'organizzazione; resta destinata ai soci di supporto, salvo impostazione manuale.
+Quando la funzione quota annuale è attivata, la quota annuale predefinita dell'organizzazione è definita nelle [impostazioni della quota annuale](/settings#annual_fee). Ogni socio eredita questo valore predefinito alla creazione, ma può essere modificato individualmente dal suo profilo (pagina di modifica, sezione "Fatturazione"). Se l'impostazione "solo soci di supporto" è attivata, i soci attivi non ereditano automaticamente la quota annuale predefinita dell'organizzazione; resta destinata ai soci di supporto, salvo impostazione manuale.
 
 Quando la funzione è attivata, la quota annuale è automaticamente inclusa nella **prima fattura** dell'abbonamento. Se il socio non ha un abbonamento ([supporto](/handbook/members#statuses)), viene creata automaticamente una fattura specifica di quota annuale all'inizio dell'anno fiscale.
 
@@ -136,7 +136,7 @@ Se l'abbonamento viene annullato durante il periodo di prova, solo le <%= Basket
 
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
-I soci contrassegnati come «[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)» sono completamente esclusi dalla fatturazione. Il loro abbonamento esiste ancora per il tracciamento delle consegne, ma tutti i prezzi sono azzerati e non vengono generate fatture di abbonamento.
+I soci contrassegnati come "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" sono completamente esclusi dalla fatturazione. Il loro abbonamento esiste ancora per il tracciamento delle consegne, ma tutti i prezzi sono azzerati e non vengono generate fatture di abbonamento.
 
 ## Quote sociali {#share-capital}
 
@@ -146,7 +146,7 @@ Quando la funzione è attivata, ogni giorno di fatturazione CSA Admin crea autom
 
 ### Campi quote del socio {#share-fields}
 
-Tre campi relativi alle quote sono disponibili nel profilo di un socio (pagina di modifica, sezione «Fatturazione»):
+Tre campi relativi alle quote sono disponibili nel profilo di un socio (pagina di modifica, sezione "Fatturazione"):
 
 - **Numero di quote sociali esistenti**: Quote già possedute al di fuori di CSA Admin (ad esempio, provenienti da un sistema precedente). Queste non vengono fatturate nuovamente.
 - **Numero di quote sociali desiderate**: I soci possono richiedere quote aggiuntive oltre il minimo durante l'[iscrizione](/handbook/registration) o il [rinnovo](/handbook/membership_renewal). Il sistema fattura il maggiore tra il numero richiesto e quello desiderato.
@@ -154,9 +154,9 @@ Tre campi relativi alle quote sono disponibili nel profilo di un socio (pagina d
 
 ### Rimborso {#share-refund}
 
-Per rimborsare una quota sociale già fatturata, vai sulla pagina della fattura e clicca sul pulsante «Rimborso» in alto a destra, puoi quindi creare facilmente una fattura di quota sociale negativa. Assicurati che il socio non abbia più bisogno di quote sociali, altrimenti saranno automaticamente create di nuovo il prossimo giorno di fatturazione.
+Per rimborsare una quota sociale già fatturata, vai sulla pagina della fattura e clicca sul pulsante "Rimborso" in alto a destra, puoi quindi creare facilmente una fattura di quota sociale negativa. Assicurati che il socio non abbia più bisogno di quote sociali, altrimenti saranno automaticamente create di nuovo il prossimo giorno di fatturazione.
 
-> Dalla pagina di un socio, puoi vedere nella sezione «Fatturazione» (colonna di destra) il numero di quote sociali che saranno o sono già fatturate con un link alle fatture corrispondenti.
+> Dalla pagina di un socio, nella sezione "Fatturazione" (colonna di destra), puoi vedere il numero di quote sociali già fatturate o da fatturare, con un collegamento alle fatture corrispondenti.
 
 ## <%= activities_human_name %> non effettuate {#activity}
 
@@ -182,7 +182,7 @@ Le fatture vengono qui inviate automaticamente.
 
 ### Contenuto dell'[email "Nuova fattura"](/mail_templates/invoice_created) {#activity-email}
 
-È possibile aggiungere un testo specifico nel [template email "Nuova fattura"](/mail_templates/invoice_created) per le fatture delle <%= activities_human_name.downcase %> utilizzando [la sintassi Liquid](https://shopify.github.io/liquid) seguente:
+Puoi aggiungere un testo specifico nel [modello di email "Nuova fattura"](/mail_templates/invoice_created) per le fatture delle <%= activities_human_name.downcase %> utilizzando la [sintassi Liquid](https://shopify.github.io/liquid) seguente:
 
 ~~~ liquid
 {% case invoice.entity_type %}
@@ -201,7 +201,7 @@ CSA Admin offre la possibilità di fatturare manualmente articoli o servizi vari
 
 ## IVA {#vat}
 
-Se la tua organizzazione è soggetta all'IVA, attiva la funzione IVA e configura il tuo numero di partita IVA e le aliquote nelle [impostazioni IVA](/settings#vat). Aliquote separate possono essere definite per le fatture di abbonamento, le fatture di <%= activities_human_name.downcase %> e le fatture di ordini della bottega. Per le fatture «Altro» e «Quota nuovo socio», l'aliquota IVA viene impostata manualmente su ogni fattura.
+Se la tua organizzazione è soggetta all'IVA, attiva la funzione IVA e configura il tuo numero di partita IVA e le aliquote nelle [impostazioni IVA](/settings#vat). Aliquote separate possono essere definite per le fatture di abbonamento, le fatture di <%= activities_human_name.downcase %> e le fatture di ordini della bottega. Per le fatture "Altro" e "Quota nuovo socio", l'aliquota IVA viene impostata manualmente su ogni fattura.
 
 L'IVA è calcolata come imposta inclusa (il totale della fattura include già l'IVA). L'importo netto e l'importo IVA sono visualizzati separatamente sul PDF della fattura.
 
@@ -276,7 +276,7 @@ Consulta la [pagina SEPA dedicata](/handbook/sepa) del manuale per la configuraz
 
 Quando i pagamenti vengono importati automaticamente, il sistema si occupa automaticamente di inviare un promemoria via email a tutti i soci che hanno una fattura non pagata ogni 35 giorni, fino a quando la fattura non viene pagata (1° promemoria dopo 35 giorni, 2° promemoria dopo 70 giorni, ecc.).
 
-Puoi configurare il contenuto di questo promemoria modificando [il template email "Promemoria fattura"](/mail_templates/invoice_overdue_notice).
+Puoi configurare il contenuto di questo promemoria modificando [il modello di email "Promemoria fattura"](/mail_templates/invoice_overdue_notice).
 
 > Puoi essere notificato via email quando viene inviato il 3° promemoria di una fattura. Gestisci le tue notifiche dal [tuo account admin](/admins/<%= current_admin.id %>/edit).
 

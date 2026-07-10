@@ -1,10 +1,10 @@
 # Emails automatiques
 
-CSA Admin envoie automatiquement des emails à vos membres lors d'événements spécifiques tout au long de l'année. Ces [templates d'email](/mail_templates) peuvent être personnalisés pour correspondre à votre style de communication.
+CSA Admin envoie automatiquement des e-mails à vos membres lors d'événements spécifiques tout au long de l'année. Ces [modèles d'e-mail](/mail_templates) peuvent être personnalisés selon votre style de communication.
 
 ## Vue d'ensemble {#overview}
 
-Les templates d'email sont organisés par catégorie:
+Les modèles d'e-mail sont organisés par catégorie:
 
 - **Membre**: Envoyés lors de changements de statut d'un membre (validé, activé).
 - **<%= Basket.model_name.human %>**: Envoyés à des moments clés de l'abonnement (premier <%= Basket.model_name.human.downcase %>, dernier <%= Basket.model_name.human.downcase %>, période d'essai, ...).
@@ -19,22 +19,22 @@ Les templates d'email sont organisés par catégorie:
 - **<%= BiddingRound.model_name.human %>**: Envoyés lors de l'ouverture, du rappel, de la complétion ou de l'échec des enchères.
 <% end %>
 
-Chaque template possède une description sur sa page expliquant quand il est envoyé.
+Chaque modèle indique sur sa page quand il est envoyé.
 
 ## Activation et désactivation {#activating}
 
-La plupart des templates d'email peuvent être activés ou désactivés depuis leur page d'édition. Certains templates (comme les notifications de nouvelle facture) sont toujours actifs et ne peuvent pas être désactivés.
+La plupart des modèles d'e-mail peuvent être activés ou désactivés depuis leur page d'édition. Certains modèles, comme les notifications de nouvelle facture, sont toujours actifs et ne peuvent pas être désactivés.
 
-Lorsqu'un template est désactivé, l'email correspondant ne sera simplement pas envoyé.
+Lorsqu'un modèle est désactivé, l'e-mail correspondant n'est pas envoyé.
 
 ## Personnalisation du contenu {#customizing}
 
-Chaque template possède un sujet et un contenu que vous pouvez entièrement personnaliser. Les templates utilisent le langage de template Liquid pour insérer des données dynamiques propres à chaque membre (nom, détails du <%= Basket.model_name.human.downcase %>, informations d'abonnement, ...) et de la logique conditionnelle. Pour plus de détails sur la syntaxe Liquid, les balises de mise en forme et le panneau de prévisualisation des données, consultez la [page Emails du manuel](/handbook/emails).
+Chaque modèle possède un sujet et un contenu entièrement personnalisables. Les modèles utilisent le langage Liquid pour insérer des données dynamiques propres à chaque membre (nom, détails du <%= Basket.model_name.human.downcase %>, informations d'abonnement, ...) et de la logique conditionnelle. Pour plus de détails sur la syntaxe Liquid, les balises de mise en forme et le panneau de prévisualisation des données, consultez la [page E-mails du manuel](/handbook/emails).
 
-> Chaque type de template d'email possède son propre jeu de données disponibles, spécifique à son contexte. Consultez toujours le panneau de prévisualisation des données sous l'éditeur pour voir exactement quelles variables sont disponibles pour le template que vous éditez.
+> Chaque type de modèle d'e-mail possède son propre jeu de données, spécifique à son contexte. Consultez toujours le panneau de prévisualisation sous l'éditeur pour vérifier les variables disponibles pour le modèle que vous éditez.
 
 ## Suivi de distribution {#delivery-tracking}
 
-Le statut de distribution de chaque email automatique est suivi individuellement. Depuis la page de détail d'un template, vous pouvez voir les statistiques globales de distribution, et depuis [le journal de distribution](/mail_deliveries), vous pouvez inspecter les emails individuels.
+Le statut de distribution de chaque e-mail automatique est suivi individuellement. Depuis la page de détail d'un modèle, vous pouvez consulter les statistiques globales et, depuis [le journal de distribution](/mail_deliveries), inspecter chaque e-mail.
 
 > Les données de distribution sont automatiquement purgées après 1 an.
