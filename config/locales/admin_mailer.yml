@@ -71,7 +71,7 @@ _:
         _nl: 'Goed nieuws: de bank heeft de EBICS-verbinding geactiveerd.'
       greeting:
         _en: Hello {{ admin.name }},
-        _fr: Bonjour {{ admin.name }},
+        _fr: Salut {{ admin.name }},
         _de: Hallo {{ admin.name }},
         _it: Ciao {{ admin.name }},
         _nl: Hallo {{ admin.name }},
@@ -102,7 +102,7 @@ _:
         _nl: CSA Admin controleert elke nacht of de bank de verbinding heeft geactiveerd.
       greeting:
         _en: Hello {{ admin.name }},
-        _fr: Bonjour {{ admin.name }},
+        _fr: Salut {{ admin.name }},
         _de: Hallo {{ admin.name }},
         _it: Ciao {{ admin.name }},
         _nl: Hallo {{ admin.name }},

@@ -48,6 +48,22 @@ class AdminMailerEBICSOnboardingTest < ActionMailer::TestCase
     assert_sanitized body
   end
 
+  test "EBICS setup emails use the standard French admin greeting" do
+    admin = admins(:super)
+    admin.update!(language: "fr")
+    connection = onboarding_connection
+
+    mails = [
+      AdminMailer.with(admin: admin, connection: connection).ebics_setup_submitted_email,
+      AdminMailer.with(admin: admin, connection: connection).ebics_setup_finalized_email
+    ]
+
+    mails.each do |mail|
+      assert_includes mail.body.to_s, "Salut Acme Super Admin,"
+      assert_not_includes mail.body.to_s, "Bonjour Acme Super Admin,"
+    end
+  end
+
   private
 
   def onboarding_connection(active: false, state: "waiting_for_bank", onboarding_state: "waiting_for_bank")
