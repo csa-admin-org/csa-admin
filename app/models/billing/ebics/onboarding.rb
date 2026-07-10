@@ -75,11 +75,15 @@ module Billing
           client_id: client_id,
           participant_id: participant_id,
           target_bits: target_bits)
-        status = onboarding_status("initialized").merge(
+        status = {
+          "state" => "initialized",
+          "target_bits" => target_bits,
+          "host_id" => host_id,
+          "protocol" => "H005",
           "initialized_at" => now.iso8601,
           "certificate_issued_at" => now.utc.iso8601,
-          "target_bits" => target_bits,
-          "keys" => split_key_metadata(KeyStore.new(credentials).key_metadata))
+          "keys" => split_key_metadata(KeyStore.new(credentials).key_metadata)
+        }
 
         @connection = (connection || BankConnection.new(provider: "ebics", active: false)).tap do |record|
           record.update!(
@@ -93,6 +97,7 @@ module Billing
             status_details: merged_status_details_for(record, status))
         end
 
+        clear_connection_memoization!
         refreshed.status.merge("initialized" => true)
       rescue UnsupportedOperation
         raise
@@ -499,7 +504,13 @@ module Billing
         attributes = { status_details: merged_status_details(status) }
         attributes[:state] = connection_state if connection_state
         connection.update!(attributes)
-        @recorded_status = nil
+        clear_connection_memoization!
+      end
+
+      def clear_connection_memoization!
+        %i[@recorded_status @ebics_credentials @ebics_settings @key_store @key_error_message].each do |name|
+          remove_instance_variable(name) if instance_variable_defined?(name)
+        end
       end
 
       def onboarding_status(state)

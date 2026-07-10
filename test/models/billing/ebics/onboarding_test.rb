@@ -116,6 +116,22 @@ class Billing::EBICS::OnboardingTest < ActiveSupport::TestCase
     assert_sanitized hia, connection
   end
 
+  test "same onboarding instance can initialize and submit setup orders" do
+    client = FakeSetupClient.new
+    setup = onboarding(btf_client: client)
+
+    setup.initialize_connection!(**valid_initialize_connection_attributes)
+    ini = setup.submit_ini!
+    hia = setup.submit_hia!
+    connection = setup.connection.reload
+
+    assert ini.fetch("submitted")
+    assert hia.fetch("submitted")
+    assert_equal %w[INI HIA], client.submitted_orders
+    assert_equal "HOSTID", connection.status_details.dig("onboarding", "host_id")
+    assert_equal "waiting_for_bank", connection.state
+  end
+
   test "initialization letter is available only after setup orders while waiting for bank" do
     connection = initialized_connection
     client = FakeSetupClient.new
