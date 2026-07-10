@@ -364,6 +364,17 @@ ActiveAdmin.register Invoice do
       icon: "circle-off"
   end
 
+  action_item :cancel_disabled, only: :show, if: -> {
+    authorized?(:cancel, Invoice) &&
+      resource.entity_type != "Shop::Order" &&
+      resource.cancellation_blocked_by_newer_invoice?
+  } do
+    action_button t(".cancel_invoice"),
+      disabled: true,
+      disabled_tooltip: t(".cancel_invoice_disabled_reason"),
+      icon: "circle-off"
+  end
+
   action_item :cancel_and_edit_shop_order, only: :show, if: -> { resource.shop_order_type? && authorized?(:cancel, resource.entity) } do
     action_button t(".cancel_and_edit_shop_order"), cancel_shop_order_path(resource.entity),
       data: { confirm: t(".cancel_action_confirm") },

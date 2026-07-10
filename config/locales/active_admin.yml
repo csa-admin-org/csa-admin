@@ -4374,6 +4374,12 @@ _:
           _de: Wirklich fortfahren? Die Stornierung einer Rechnung kann nicht rückgängig gemacht werden.
           _it: Siete sicuri? L'annullamento di una fattura non può essere annullato.
           _nl: Echt doorgaan? Het annuleren van een factuur kan niet ongedaan worden gemaakt.
+        cancel_invoice_disabled_reason:
+          _en: This invoice cannot be canceled because a more recent invoice exists for the same membership or participation. Cancel or delete the most recent invoice first.
+          _fr: Cette facture ne peut pas être annulée car une facture plus récente existe pour le même abonnement ou la même participation. Annulez ou supprimez d'abord la facture la plus récente.
+          _de: Diese Rechnung kann nicht storniert werden, da eine neuere Rechnung für dasselbe Abonnement oder dieselbe Teilnahme vorhanden ist. Zuerst die neueste Rechnung stornieren oder löschen.
+          _it: Questa fattura non può essere annullata perché esiste una fattura più recente per lo stesso abbonamento o la stessa partecipazione. Annullate o eliminate prima la fattura più recente.
+          _nl: Deze factuur kan niet worden geannuleerd omdat er een recentere factuur voor hetzelfde lidmaatschap of dezelfde deelname bestaat. Eerst de meest recente factuur annuleren of verwijderen.
         complete:
           _en: Complete
           _fr: Terminer

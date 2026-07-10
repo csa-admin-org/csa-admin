@@ -3,6 +3,23 @@
 require "application_system_test_case"
 
 class InvoicesTest < ApplicationSystemTestCase
+  test "explains why an older entity invoice cannot be canceled" do
+    enable_invoice_pdf
+    travel_to "2024-01-01"
+    invoice = create_membership_invoice(membership_amount_fraction: 2)
+    create_membership_invoice
+
+    login admins(:ultra)
+    visit invoice_path(invoice)
+
+    assert_button "Cancel", disabled: true
+    assert_selector "button.action-item-button:disabled:not(.destructive)", text: "Cancel"
+    assert_selector "[data-tooltip-target='content']",
+      text: "This invoice cannot be canceled because a more recent invoice exists for the same membership or participation. Cancel or delete the most recent invoice first.",
+      visible: :all
+    assert_no_selector "form[action='#{cancel_invoice_path(invoice)}']"
+  end
+
   test "shows manual SEPA XML export when bank connection cannot upload" do
     enable_invoice_pdf
     BankConnection.delete_all

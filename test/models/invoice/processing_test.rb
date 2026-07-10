@@ -240,7 +240,13 @@ class Invoice::ProcessingTest < ActiveSupport::TestCase
     perform_enqueued_jobs
 
     assert_not first.reload.can_cancel?
+    assert first.cancellation_blocked_by_newer_invoice?
     assert latest.reload.can_cancel?
+    assert_not latest.cancellation_blocked_by_newer_invoice?
+
+    latest.cancel!
+    assert first.reload.can_cancel?
+    assert_not first.cancellation_blocked_by_newer_invoice?
   end
 
   test "can not cancel when not current year but closed" do
