@@ -4,25 +4,37 @@ require "digest"
 require "fileutils"
 require "openssl"
 require "pathname"
+require "uri"
 require "securerandom"
 require "time"
 
 module Billing
   class EBICS
     class Onboarding
-      TARGET_BITS = 4096
+      TARGET_BITS = KeyMetadata::TARGET_BITS
       STATUS_DETAILS_KEY = "onboarding"
-      PARTICIPANT_KEY_VERSIONS = %w[A006 X002 E002].freeze
+      PARTICIPANT_KEY_VERSIONS = KeyMetadata::PARTICIPANT_KEY_VERSIONS
       FINALIZATION_ORDER_TYPE = "HTD"
-      REQUIRED_CREDENTIALS = %w[keys secret url host_id participant_id client_id].freeze
+      REQUIRED_CREDENTIALS = KeyMetadata::REQUIRED_CREDENTIALS
 
-      def initialize(tenant:, connection: nil, now: Time.current, error_reporter: Rails.error, key_generator: ->(bits) { OpenSSL::PKey::RSA.generate(bits) }, btf_client_factory: ->(credentials, **options) { BtfClient.new(credentials, **options) })
-        @tenant = tenant
+      def initialize(
+        connection: nil,
+        now: Time.current,
+        error_reporter: Rails.error,
+        key_generator: ->(bits) { OpenSSL::PKey::RSA.generate(bits) },
+        version_probe_factory: -> { VersionProbe.new },
+        btf_client_factory: ->(credentials, **options) { BtfClient.new(credentials, **options) },
+        capabilities_report_factory: ->(tenant, connection) { CapabilitiesReport.new(tenant: tenant, connection: connection) },
+        capabilities_monitor_factory: ->(connection, report) { CapabilitiesMonitor.new(connection: connection, report: report) })
+        @tenant = Tenant.current
         @connection = connection
         @now = now
         @error_reporter = error_reporter
         @key_generator = key_generator
+        @version_probe_factory = version_probe_factory
         @btf_client_factory = btf_client_factory
+        @capabilities_report_factory = capabilities_report_factory
+        @capabilities_monitor_factory = capabilities_monitor_factory
       end
 
       attr_reader :connection
@@ -43,18 +55,25 @@ module Billing
         }.compact_blank
       end
 
-      def initialize_connection!(url:, host_id:, partner_id:, user_id:, name: nil, target_bits: TARGET_BITS)
+      def initialize_connection!(url:, host_id:, client_id:, participant_id:, name: nil, target_bits: TARGET_BITS)
+        raise UnsupportedOperation, "EBICS onboarding url is required" if url.blank?
+        raise UnsupportedOperation, "EBICS onboarding host_id is required" if host_id.blank?
+        raise UnsupportedOperation, "EBICS onboarding client_id is required" if client_id.blank?
+        raise UnsupportedOperation, "EBICS onboarding participant_id is required" if participant_id.blank?
+        raise UnsupportedOperation, "EBICS onboarding url must be a valid HTTPS URL" unless https_url?(url)
         raise UnsupportedOperation, "EBICS onboarding is already initialized for this bank connection" if initialized?
         raise UnsupportedOperation, "Ready EBICS bank connections cannot be reinitialized" if connection&.ready?
 
         target_bits = target_bits.to_i
         raise UnsupportedOperation, "EBICS onboarding target key size must be at least 2048 bits" if target_bits < 2048
 
+        check_version!(url: url, host_id: host_id)
+
         credentials = initial_credentials(
           url: url,
           host_id: host_id,
-          partner_id: partner_id,
-          user_id: user_id,
+          client_id: client_id,
+          participant_id: participant_id,
           target_bits: target_bits)
         status = onboarding_status("initialized").merge(
           "initialized_at" => now.iso8601,
@@ -115,35 +134,40 @@ module Billing
 
         raise UnsupportedOperation, finalization_blockers.to_sentence if finalization_blockers.present?
 
-        update_onboarding!(onboarding_status("finalizing").merge("finalize_started_at" => now.iso8601))
-
-        bank_public_keys = bootstrap_client.fetch_bank_public_keys
-        final_credentials = credentials_with_bank_keys(bank_public_keys.keys.keys)
-        verification = finalized_client(final_credentials).admin_order(FINALIZATION_ORDER_TYPE)
-
-        connection.update!(
-          credentials: final_credentials,
-          state: "ready",
-          health_status: "healthy",
-          last_health_check_at: now,
-          last_error_class: nil,
-          last_error_message: nil,
-          status_details: merged_status_details(onboarding_status("finalized").merge(
-            "finalized_at" => now.iso8601,
-            "bank_keys" => bank_public_keys.keys.metadata,
-            "verification_order_type" => FINALIZATION_ORDER_TYPE,
-            "verification_receipt_sent" => verification.receipt_sent)))
-
-        refreshed.status.merge("finalized" => true)
+        perform_finalization!
       rescue UnsupportedOperation
         raise
       rescue => e
         fail_safely!(e, stage: "finalize")
       end
 
+      def check_finalization!
+        return status.merge("checked" => false, "finalized" => false, "message" => "EBICS onboarding already finalized") if finalized?
+
+        blockers = finalization_blockers
+        if blockers.present?
+          return record_finalization_check!("blocked", message: blockers.to_sentence)
+        end
+
+        perform_finalization!
+      rescue => e
+        if finalization_not_ready_error?(e)
+          record_finalization_check!("not_ready", error: e)
+        else
+          record_finalization_check!("error", error: e)
+          report_unexpected(e, stage: "check_finalization")
+          refreshed.status.merge(
+            "checked" => true,
+            "finalized" => false,
+            "finalization_status" => "error",
+            "message" => "EBICS onboarding finalization check failed unexpectedly")
+        end
+      end
+
       private
 
-      attr_reader :tenant, :now, :error_reporter, :key_generator, :btf_client_factory
+      attr_reader :tenant, :now, :error_reporter, :key_generator, :version_probe_factory, :btf_client_factory,
+        :capabilities_report_factory, :capabilities_monitor_factory
 
       def submit_initialization_order!(order_type)
         submitted_key = "#{order_type.downcase}_submitted_at"
@@ -171,7 +195,104 @@ module Billing
         fail_safely!(e, stage: "submit_#{order_type.downcase}")
       end
 
-      def initial_credentials(url:, host_id:, partner_id:, user_id:, target_bits:)
+      def perform_finalization!
+        update_onboarding!(onboarding_status("finalizing").merge("finalize_started_at" => now.iso8601))
+
+        bank_public_keys = bootstrap_client.fetch_bank_public_keys
+        final_credentials = credentials_with_bank_keys(bank_public_keys.keys.keys)
+        verification = finalized_client(final_credentials).admin_order(FINALIZATION_ORDER_TYPE)
+
+        connection.update!(
+          active: true,
+          credentials: final_credentials,
+          state: "ready",
+          health_status: "healthy",
+          last_health_check_at: now,
+          last_error_class: nil,
+          last_error_message: nil,
+          status_details: merged_status_details(onboarding_status("finalized").merge(
+            "finalized_at" => now.iso8601,
+            "last_finalization_check_at" => now.iso8601,
+            "last_finalization_status" => "finalized",
+            "bank_keys" => bank_public_keys.keys.metadata,
+            "verification_order_type" => FINALIZATION_ORDER_TYPE,
+            "verification_receipt_sent" => verification.receipt_sent)))
+        check_capabilities_after_finalization!
+
+        refreshed.status.merge("checked" => true, "finalized" => true)
+      end
+
+      def check_capabilities_after_finalization!
+        report = capabilities_report_factory.call(tenant, connection).to_h
+        capabilities_monitor_factory.call(connection, report).check!
+      rescue => e
+        report_unexpected(e, stage: "capabilities_after_finalization")
+      end
+
+      def record_finalization_check!(status, message: nil, error: nil)
+        return self.status.merge(
+          "checked" => true,
+          "finalized" => false,
+          "finalization_status" => status,
+          "message" => message || finalization_message_for(status)) unless connection&.persisted?
+
+        details = {
+          "last_finalization_check_at" => now.iso8601,
+          "last_finalization_status" => status,
+          "finalization_message" => message || finalization_message_for(status)
+        }.merge(finalization_error_summary(error))
+
+        update_onboarding!(onboarding_status(finalization_check_state).merge(details))
+        refreshed.status.merge(
+          "checked" => true,
+          "finalized" => false,
+          "finalization_status" => status,
+          "message" => details.fetch("finalization_message"))
+      end
+
+      def finalization_check_state
+        status = recorded_status["state"].presence
+        status == "finalizing" ? connection.state : (status || connection.state)
+      end
+
+      def finalization_message_for(status)
+        case status
+        when "not_ready"
+          "The bank has not activated the EBICS setup yet"
+        when "error"
+          "EBICS onboarding finalization check failed unexpectedly"
+        else
+          "EBICS onboarding finalization check was not run"
+        end
+      end
+
+      def finalization_error_summary(error)
+        return {} unless error
+
+        response = finalization_error_response(error)
+        {
+          "finalization_error_class" => error.class.name,
+          "finalization_return_code" => response&.return_code,
+          "finalization_report_text" => response&.report_text
+        }.compact_blank
+      end
+
+      def finalization_error_response(error)
+        original = error.respond_to?(:original_error) ? error.original_error : error
+        original.response if original.respond_to?(:response)
+      end
+
+      def finalization_not_ready_error?(error)
+        error.is_a?(ClientError) ||
+          error.is_a?(BtfClient::AdminOrderDataError) ||
+          error.is_a?(UnsupportedOperation)
+      end
+
+      def check_version!(url:, host_id:)
+        version_probe_factory.call.check!(url: url, host_id: host_id)
+      end
+
+      def initial_credentials(url:, host_id:, client_id:, participant_id:, target_bits:)
         secret = SecureRandom.base64(48)
         keys = PARTICIPANT_KEY_VERSIONS.index_with { generate_key(target_bits) }
 
@@ -180,14 +301,21 @@ module Billing
           "secret" => secret,
           "url" => url,
           "host_id" => host_id,
-          "participant_id" => user_id,
-          "client_id" => partner_id
+          "participant_id" => participant_id,
+          "client_id" => client_id
         }
       end
 
       def generate_key(bits)
         key = key_generator.call(bits)
         key.respond_to?(:key) ? key.key : key
+      end
+
+      def https_url?(value)
+        uri = URI.parse(value)
+        uri.is_a?(URI::HTTPS) && uri.host.present? && uri.userinfo.blank?
+      rescue URI::InvalidURIError
+        false
       end
 
       def state
@@ -221,6 +349,8 @@ module Billing
       def letter_blockers
         values = blockers.dup
         values << "EBICS onboarding must be initialized before generating the initialization letter" unless initialized?
+        values << "INI and HIA must be submitted before generating the initialization letter" unless setup_orders_submitted?
+        values << "EBICS onboarding must be waiting for bank activation before generating the initialization letter" unless connection&.waiting_for_bank?
         values
       end
 
@@ -228,6 +358,7 @@ module Billing
         values = blockers.dup
         values << "EBICS onboarding must be initialized first" unless initialized?
         values << "HIA must be submitted before HPB finalization" if recorded_status["hia_submitted_at"].blank?
+        values << "Another bank connection is already active" if another_active_connection?
         values
       end
 
@@ -238,6 +369,16 @@ module Billing
 
       def initialized?
         connection&.ebics? && ebics_credentials["keys"].present? && ebics_credentials["secret"].present? && recorded_status.present?
+      end
+
+      def setup_orders_submitted?
+        recorded_status["ini_submitted_at"].present? && recorded_status["hia_submitted_at"].present?
+      end
+
+      def another_active_connection?
+        return false unless connection&.persisted?
+
+        BankConnection.active.where.not(id: connection.id).exists?
       end
 
       def finalized?
@@ -305,10 +446,7 @@ module Billing
       end
 
       def split_key_metadata(metadata)
-        {
-          "participant" => metadata.reject { |name, _attributes| name.include?(".") },
-          "bank" => metadata.select { |name, _attributes| name.include?(".") }
-        }
+        KeyMetadata.split(metadata)
       end
 
       def credentials_with_bank_keys(bank_keys)
@@ -361,6 +499,7 @@ module Billing
         attributes = { status_details: merged_status_details(status) }
         attributes[:state] = connection_state if connection_state
         connection.update!(attributes)
+        @recorded_status = nil
       end
 
       def onboarding_status(state)
@@ -408,12 +547,14 @@ module Billing
 
       def refreshed
         self.class.new(
-          tenant: tenant,
           connection: connection.reload,
           now: now,
           error_reporter: error_reporter,
           key_generator: key_generator,
-          btf_client_factory: btf_client_factory)
+          version_probe_factory: version_probe_factory,
+          btf_client_factory: btf_client_factory,
+          capabilities_report_factory: capabilities_report_factory,
+          capabilities_monitor_factory: capabilities_monitor_factory)
       end
 
       def fail_safely!(error, stage:)
@@ -424,20 +565,29 @@ module Billing
       def record_failure!(error, stage:)
         return unless connection&.persisted?
 
+        failure_error = recorded_error(error)
         connection.update_columns(
           state: "errored",
           health_status: "errored",
-          last_error_class: error.class.name,
+          last_error_class: failure_error.class.name,
           last_error_message: "EBICS onboarding failed during #{stage}",
           status_details: merged_status_details(onboarding_status("errored").merge(
             "stage" => stage,
             "failed_at" => Time.current.iso8601,
-            "error_class" => error.class.name,
+            "error_class" => failure_error.class.name,
             "error_message" => "EBICS onboarding failed during #{stage}")),
           updated_at: Time.current)
         report_unexpected(error, stage: stage)
       rescue => reporter_error
         error_reporter.report(reporter_error, context: safe_context(stage: "record_failure"))
+      end
+
+      def recorded_error(error)
+        if error.respond_to?(:original_error) && error.original_error.is_a?(BtfClient::InvalidResponseError)
+          error.original_error
+        else
+          error
+        end
       end
 
       def report_unexpected(error, stage:)

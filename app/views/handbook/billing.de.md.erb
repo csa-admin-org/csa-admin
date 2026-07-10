@@ -231,12 +231,12 @@ CSA Admin verwaltet auch den automatischen Abruf von Zahlungen der [Alternativen
 
 Die Einrichtung einer EBICS-3.0-Verbindung (H005/BTF) mit Deiner Bank umfasst mehrere Schritte und dauert in der Regel einige Tage. Hier ist der Ablauf:
 
-1. **EBICS-Anmeldeformular bei Deiner Bank anfordern** — Kontaktiere Deine Bank und bitte sie, eine EBICS-3.0-Verbindung (H005/BTF) für Dein Konto mit täglichem Abruf von Zahlungsdateien (`BTD`) und Unterstützung von **camt.053/camt.054** zu aktivieren.
-2. **Mir das Bankdokument senden** — Nach Deiner Anmeldung erhältst Du ein Dokument von Deiner Bank (mit der Teilnehmer-ID usw.), scanne es und [sende es mir](/support).
-3. **Unterzeichnung des INI-Briefs** — Ich werde die Verbindung initialisieren und Dir einen INI-Brief zurücksenden. Du musst ihn unterschreiben (**Seiten 1 und 3**) und an Deine Bank senden.
-4. **Finalisierung** — Sobald Deine Bank den unterschriebenen INI-Brief erhalten und validiert hat, kann ich die Verbindung finalisieren.
+1. **EBICS-Anmeldeformular bei Deiner Bank anfordern** — Kontaktiere Deine Bank und bitte sie, eine EBICS-3.0-Verbindung (H005/BTF) für Dein Konto mit täglichem Abruf von Zahlungsdateien (`BTD`) und Unterstützung von **camt.053/camt.054** zu aktivieren. Frage die Bank nach EBICS-URL, Host-ID, Kunden-/Vertrags-/Partner-ID und Teilnehmer-ID.
+2. **Einrichtung in CSA Admin starten** — Öffne in den Admin-Einstellungen **Bankverbindung**, klicke auf **EBICS-Einrichtung starten** und gib die Kennungen aus dem Bankvertrag ein. CSA Admin prüft zuerst URL und Host-ID und übermittelt danach die EBICS-Initialisierungsaufträge.
+3. **Unterzeichnung des INI-Briefs** — Lade den Initialisierungsbrief herunter, unterschreibe **jede Seite** und sende ihn an Deine Bank.
+4. **Finalisierung** — Sobald Deine Bank den unterschriebenen INI-Brief erhalten und validiert hat, prüft CSA Admin einmal täglich und aktiviert die Verbindung automatisch.
 
-> In der Zwischenzeit kannst Du den [manuellen Import](#manual-import) verwenden, um Deine Zahlungen zu verarbeiten.
+> In der Zwischenzeit kannst Du den [manuellen Import](#manual-import) verwenden, um Deine Zahlungen zu verarbeiten. Wenn die Bank die Kennungen ablehnt oder die Einrichtung Support benötigt, [frag mich](/support).
 
 <!-- country:CH -->
 ### Einrichtung Alternative Bank Schweiz (ABS) {#abs-setup}

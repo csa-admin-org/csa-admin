@@ -1,0 +1,13 @@
+<p><%= t(".greeting") %></p>
+
+<p><%= t(".submitted_paragraph") %></p>
+
+{% button letter_url %}
+  <%= t(".letter_button") %>
+{% endbutton %}
+
+<p><%= t(".send_letter_paragraph") %></p>
+
+<p><%= t(".daily_check_paragraph") %></p>
+
+<p><a href="{{ settings_url }}"><%= t(".settings_button") %></a></p>

@@ -94,7 +94,7 @@
   button[type="submit"].action-item-button:disabled:not(.destructive-icon-action),
   .actions input[type="submit"]:disabled,
   .actions button[type="submit"]:disabled {
-    @apply text-white hover:text-white dark:text-white dark:hover:text-white;
+    @apply text-gray-500 hover:text-gray-500 dark:text-gray-400 dark:hover:text-gray-400;
   }
 
   .actions .cancel-link {

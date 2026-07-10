@@ -11,6 +11,12 @@ production:
     queue: low
     schedule: at 4:45am every day
 
+  ebics_onboarding_finalization:
+    class: TenantSwitchEachJob
+    args: [Scheduled::EBICSOnboardingFinalizationJob]
+    queue: low
+    schedule: at 3:45am every day
+
   billing_payments:
     class: TenantSwitchEachJob
     args: [Scheduled::BillingPaymentsProcessorJob]

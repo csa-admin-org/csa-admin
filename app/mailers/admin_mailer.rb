@@ -42,6 +42,33 @@ class AdminMailer < ApplicationMailer
     end
   end
 
+  def ebics_setup_submitted_email
+    @admin = params[:admin]
+    I18n.with_locale(@admin.language) do
+      content = liquid_template.render(
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "letter_url" => ebics_initialization_letter_url(host: Current.org.admin_url),
+        "settings_url" => organization_url(anchor: "bank_connection", host: Current.org.admin_url))
+      content_mail(content,
+        to: @admin.email,
+        subject: t(".subject"),
+        tag: "admin-ebics-setup-submitted")
+    end
+  end
+
+  def ebics_setup_finalized_email
+    @admin = params[:admin]
+    I18n.with_locale(@admin.language) do
+      content = liquid_template.render(
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "settings_url" => organization_url(anchor: "bank_connection", host: Current.org.admin_url))
+      content_mail(content,
+        to: @admin.email,
+        subject: t(".subject"),
+        tag: "admin-ebics-setup-finalized")
+    end
+  end
+
   def invoice_overpaid_email
     @admin = params[:admin]
     I18n.with_locale(@admin.language) do

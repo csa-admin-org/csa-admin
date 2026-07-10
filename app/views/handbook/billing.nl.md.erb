@@ -229,14 +229,14 @@ CSA Admin beheert ook automatische ophaling van betalingen van de [Alternative B
 
 ### EBICS instellen {#ebics-setup}
 
-Het instellen van een EBICS 3.0-verbinding (H005/BTF) met je bank omvat verschillende stappen en duurt doorgaans enkele dagen. Hier is het proces:
+Het instellen van een EBICS 3.0-verbinding (H005/BTF) met je bank omvat verschillende stappen en duurt doorgaans enkele dagen. Dit is het proces:
 
-1. **Het EBICS-inschrijfformulier aanvragen bij je bank** — Neem contact op met je bank en vraag om een EBICS 3.0-verbinding (H005/BTF) voor je rekening te activeren met dagelijkse ophaling van betalingsbestanden (`BTD`) en ondersteuning van **camt.053/camt.054**.
-2. **Stuur mij het bankdocument** — Na je inschrijvingsaanvraag ontvang je een document van je bank (met het deelnemer-ID, enz.), scan het en [stuur het naar mij](/support).
-3. **Ondertekening van de INI-brief** — Ik zal de verbinding initialiseren en je een INI-brief terugsturen. Je dient deze te ondertekenen (**pagina's 1 en 3**) en naar je bank te sturen.
-4. **Afronding** — Zodra je bank de ondertekende INI-brief heeft ontvangen en gevalideerd, kan ik de verbinding afronden.
+1. **Het EBICS-inschrijfformulier aanvragen bij je bank** — Neem contact op met je bank en vraag om een EBICS 3.0-verbinding (H005/BTF) voor je rekening te activeren met dagelijkse ophaling van betalingsbestanden (`BTD`) en ondersteuning van **camt.053/camt.054**. Vraag de bank om de EBICS-URL, Host-ID, klant-/contract-/partner-ID en deelnemer-/gebruikers-ID.
+2. **De instelling starten in CSA Admin** — Open in de beheerdersinstellingen **Bankverbinding**, klik op **EBICS-instelling starten** en vul de identificatoren uit het bankcontract in. CSA Admin controleert eerst de URL en Host-ID en verstuurt daarna de EBICS-initialisatieorders.
+3. **Ondertekening van de INI-brief** — Download de initialisatiebrief, onderteken **elke pagina** en stuur hem naar je bank.
+4. **Afronding** — Zodra je bank de ondertekende INI-brief heeft ontvangen en gevalideerd, controleert CSA Admin eenmaal per dag en activeert de verbinding automatisch.
 
-> In de tussentijd kun je [handmatige import](#manual-import) gebruiken om je betalingen te verwerken.
+> In de tussentijd kun je [handmatige import](#manual-import) gebruiken om je betalingen te verwerken. Als de bank de identificatoren weigert of de instelling support vereist, [vraag het mij](/support).
 
 <!-- country:CH -->
 ### Alternative Bank Switzerland (ABS) instellen {#abs-setup}

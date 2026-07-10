@@ -23,6 +23,8 @@ Keep these rules in mind:
   `status_details`, never in `organizations`.
 - New EBICS connections must be EBICS 3.0 / H005 / BTF. CSA Admin no longer
   supports creating EBICS 2.x/H003/H004 order-type connections.
+- EBICS endpoint URLs must use HTTPS and must not contain URL userinfo such as
+  `user:password@host`.
 
 ## EBICS 3.0 / H005 / BTF
 
@@ -100,6 +102,12 @@ SEPA direct-debit upload example. Keep the same top-level
 }
 ```
 
+A successful H005 `BTU` direct-debit upload means the EBICS transport accepted
+the file and returned a transaction/order identifier. It is not final proof that
+the bank or payment scheme executed every debit. Use bank-side status reporting
+such as `pain.002` where available, or the bank portal/support process, for final
+acceptance and rejection details.
+
 Useful billing and EBICS checks:
 
 ```sh
@@ -120,6 +128,10 @@ key-rotation/error note. Successful rotations are implied by `4096`; failed HCS
 attempts stay visible as `HCS failed; kept 2048` until the bank-specific issue is
 resolved.
 
+`ebics:btf_download` uses the active connection's configured payment-download
+BTF tuple. It intentionally does not fall back to the country preset, so it is a
+safe way to prove the exact production configuration before a live import.
+
 Run `ACK=true` only when you accept that returned payment data may be marked as
 consumed by the bank.
 
@@ -136,8 +148,8 @@ Create encrypted participant credentials and store only sanitized setup metadata
 TENANT=tenant \
   URL=https://ebics.bank.example/ebics \
   HOST_ID=HOSTID \
-  PARTNER_ID=PARTNERID \
-  USER_ID=USERID \
+  CLIENT_ID=CLIENTID \
+  PARTICIPANT_ID=PARTICIPANTID \
   NAME="Bank name" \
   CONFIRM=true \
   bin/rails ebics:onboarding:initialize
@@ -145,24 +157,18 @@ TENANT=tenant \
 
 The default participant key size is 4096-bit RSA. Use `KEY_BITS=2048` only when a
 bank explicitly requires it for a new subscriber. The generated `A006`, `X002`, and
-`E002` private keys are stored encrypted in `credentials["keys"]`; rake output and
-`status_details["onboarding"]` contain only public metadata, sizes, hashes, and
-state transitions.
+`E002` private keys are stored in versioned AES-256-GCM key blobs inside the
+encrypted `credentials["keys"]` column. Older AES-256-CBC blobs remain readable for
+existing rows; rake output and `status_details["onboarding"]` contain only public
+metadata, sizes, hashes, and state transitions.
 
-Inspect status and generate the signed-bank letter PDF:
+Inspect status before submitting live setup orders:
 
 ```sh
 TENANT=tenant bin/rails ebics:onboarding:status
-TENANT=tenant LOCALE=fr OUTPUT=tmp/tenant-ebics-letter.pdf bin/rails ebics:onboarding:letter
 ```
 
-If multiple draft/onboarding EBICS connections exist, pass `BANK_CONNECTION_ID=...`.
-The letter uses the EBICS 3.0 certificate format: one page each for the `A006`
-signature certificate, `X002` authentication certificate, and `E002` encryption
-certificate. It prints public certificates and SHA-256 fingerprints only, never
-private keys, encrypted credentials, signed request XML, or EBICS signatures.
-
-Submit setup orders only after reviewing the status and letter:
+Submit setup orders only after reviewing the status:
 
 ```sh
 TENANT=tenant CONFIRM=true bin/rails ebics:onboarding:submit_ini
@@ -175,6 +181,19 @@ silently retried as if nothing happened. After `HIA`, the connection stays inact
 and moves to `waiting_for_bank` until the signed letter has been sent and the bank
 confirms activation.
 
+Generate the signed-bank letter PDF after `HIA` has moved the connection to
+`waiting_for_bank`:
+
+```sh
+TENANT=tenant LOCALE=fr OUTPUT=tmp/tenant-ebics-letter.pdf bin/rails ebics:onboarding:letter
+```
+
+If multiple draft/onboarding EBICS connections exist, pass `BANK_CONNECTION_ID=...`.
+The letter uses the EBICS 3.0 certificate format: one page each for the `A006`
+signature certificate, `X002` authentication certificate, and `E002` encryption
+certificate. It prints public certificates and SHA-256 fingerprints only, never
+private keys, encrypted credentials, signed request XML, or EBICS signatures.
+
 Finalize only after bank activation:
 
 ```sh
@@ -183,10 +202,18 @@ TENANT=tenant CONFIRM=true bin/rails ebics:onboarding:finalize
 
 Finalization runs `HPB` without requiring pre-existing bank public keys, stores the
 bank `HOSTID.X002` and `HOSTID.E002` public keys into encrypted credentials, then
-verifies the finalized credentials with `HTD` before marking the connection `ready`.
-It does not configure payment/download/upload BTF presets for the tenant and does
-not activate a new inactive row automatically; review settings and activate the
-connection only after the bank operations are confirmed.
+verifies the finalized credentials with `HTD`. If verification succeeds, CSA Admin
+activates the tenant-local row, marks it `ready`, records the bank keys, and runs
+a follow-up capability check. The connection may still show a payment-automation
+warning until the active download/upload settings and bank capabilities are fully
+verified.
+
+HPB is the bootstrap trust boundary: the first HPB response cannot be EBICS
+signature-verified because the bank signing keys are what it returns. Trust the
+bank keys only when the HTTPS endpoint, Host ID, client/participant identifiers,
+HEV Host ID check, and bank-side subscriber activation all match the bank
+contract. If the bank provides public-key fingerprints, compare them with the
+sanitized HPB/key-summary output before treating the connection as fully trusted.
 
 ### EBICS subscriber key rotation
 
@@ -266,7 +293,8 @@ TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:promote
 and the pending public keys. `verify` performs an `HTD` admin-order check using
 the pending keys. `promote` is local-only and overwrites active
 `credentials["keys"]` only after verification succeeded; it keeps the previous
-active key blob encrypted in `credentials["previous_key_rotation"]["keys"]`.
+active key blob encrypted in `credentials["previous_key_rotation"]["keys"]` as a
+short manual-recovery aid.
 
 After the flow is proven for a bank, the guarded all-in-one command is available:
 
@@ -319,9 +347,19 @@ TENANT=tenant CONFIRM=true REASON=bank_rejected_hcs bin/rails ebics:key_rotation
 The discard task is local-only and safe to rerun. It removes
 `credentials["pending_key_rotation"]` when present, keeps active
 `credentials["keys"]`, and keeps a sanitized `rotation_failed` status so batch
-rotation skips that tenant until the bank-specific issue is resolved. CSA Admin
-keeps previous encrypted active keys after successful promotion for audit and
-manual recovery context, but does not expose a live automated rollback command.
+rotation skips that tenant until the bank-specific issue is resolved.
+
+After a verified rotation has been live long enough to confirm payment imports,
+purge the retained previous key blob locally:
+
+```sh
+TENANT=tenant CONFIRM=true REASON=verified_after_rotation bin/rails ebics:key_rotation:purge_previous
+```
+
+The purge task removes only `credentials["previous_key_rotation"]`, keeps active
+`credentials["keys"]`, and records the sanitized purge timestamp/reason. It makes
+recovery depend on backups/bank coordination instead of retaining old private keys
+indefinitely.
 
 ## BAS
 

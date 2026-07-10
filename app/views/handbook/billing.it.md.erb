@@ -231,12 +231,12 @@ CSA Admin gestisce anche il recupero automatico dei pagamenti della [Banca Alter
 
 L'impostazione di una connessione EBICS 3.0 (H005/BTF) con la tua banca comprende diverse fasi e richiede generalmente alcuni giorni. Ecco il processo:
 
-1. **Richiedere il modulo di iscrizione EBICS alla tua banca** — Contatta la tua banca per chiedere di attivare una connessione EBICS 3.0 (H005/BTF) per il tuo conto con recupero giornaliero dei file di pagamento (`BTD`) e supporto dei formati **camt.053/camt.054**.
-2. **Inviarmi il documento della banca** — In seguito alla tua richiesta di iscrizione, riceverai un documento dalla tua banca (contenente l'identificativo del partecipante, ecc.), scannerizzalo e [invialo a me](/support).
-3. **Firma della lettera INI** — Inizializzerò la connessione e ti restituirò una lettera INI. Dovrai firmarla (**pagine 1 e 3**) e inviarla alla tua banca.
-4. **Finalizzazione** — Una volta che la tua banca ha ricevuto e convalidato la lettera INI firmata, potrò finalizzare la connessione.
+1. **Richiedere il modulo di iscrizione EBICS alla tua banca** — Contatta la tua banca per chiedere di attivare una connessione EBICS 3.0 (H005/BTF) per il tuo conto con recupero giornaliero dei file di pagamento (`BTD`) e supporto dei formati **camt.053/camt.054**. Chiedi alla banca l'URL EBICS, l'ID host, l'ID cliente/contratto/partner e l'ID partecipante/utente.
+2. **Avviare la configurazione in CSA Admin** — Nelle impostazioni di amministrazione, apri **Connessione bancaria**, clicca su **Avviare la configurazione EBICS** e inserisci gli identificativi del contratto bancario. CSA Admin verifica prima l'URL e l'ID host, poi invia gli ordini di inizializzazione EBICS.
+3. **Firma della lettera INI** — Scarica la lettera di inizializzazione, firma **ogni pagina** e inviala alla tua banca.
+4. **Finalizzazione** — Una volta che la tua banca ha ricevuto e convalidato la lettera INI firmata, CSA Admin verifica una volta al giorno e attiva automaticamente la connessione.
 
-> Nel frattempo, puoi utilizzare [l'importazione manuale](#manual-import) per elaborare i tuoi pagamenti.
+> Nel frattempo, puoi utilizzare [l'importazione manuale](#manual-import) per elaborare i tuoi pagamenti. Se la banca rifiuta gli identificativi o la configurazione richiede supporto, [chiedimelo](/support).
 
 <!-- country:CH -->
 ### Configurazione Banca Alternativa Svizzera (BAS) {#abs-setup}

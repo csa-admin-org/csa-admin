@@ -277,7 +277,38 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
     assert_equal credentials_before, connection.credentials.to_h.deep_stringify_keys
   end
 
+  test "purges retained previous keys after verified rotation" do
+    connection = create_ebics_connection(capabilities: hcs_capabilities)
+    generated_key = OpenSSL::PKey::RSA.generate(4096)
+    client = FakeBtfClient.new
+    rotation = key_rotation(connection, key_generator: -> { generated_key }, btf_client: client)
+    rotation.prepare_pending!
+    key_rotation(connection.reload, btf_client: client).submit_pending!
+    key_rotation(connection.reload, btf_client: client).verify_pending!
+    key_rotation(connection.reload, btf_client: client).promote_pending!
+    assert connection.reload.credentials.dig("previous_key_rotation", "keys").present?
 
+    report = key_rotation(connection.reload).purge_previous!(reason: "verified_after_rotation")
+    connection.reload
+
+    assert report.fetch("purged")
+    assert_nil connection.credentials.dig("previous_key_rotation")
+    assert_nil report["previous_rotation"]
+    assert_equal "verified_after_rotation", connection.status_details.dig("key_rotation", "previous_keys_purge_reason")
+    assert connection.status_details.dig("key_rotation", "previous_keys_purged_at").present?
+  end
+
+  test "purge previous is a no-op when no previous keys are retained" do
+    connection = create_ebics_connection(capabilities: hcs_capabilities)
+    credentials_before = connection.credentials.to_h.deep_stringify_keys
+
+    report = key_rotation(connection).purge_previous!(reason: "already_absent")
+    connection.reload
+
+    assert_not report.fetch("purged")
+    assert_equal "No previous key rotation to purge", report.fetch("message")
+    assert_equal credentials_before, connection.credentials.to_h.deep_stringify_keys
+  end
 
   private
 

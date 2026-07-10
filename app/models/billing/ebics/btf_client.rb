@@ -18,6 +18,7 @@ module Billing
       end
 
       AdminOrderResult = Data.define(:order_data, :receipt_sent)
+      InvalidResponseError = Class.new(StandardError)
       SetupOrderResult = Data.define(:order_type, :transaction_id, :order_id) do
         def to_h
           {
@@ -301,10 +302,18 @@ module Billing
 
       def post_request(request)
         response_from(transport.post(credentials.url, request.to_xml))
+      rescue Btf::Transport::HTTPError => e
+        raise_response_error!(response_from(e.body)) if e.body.present?
+
+        raise e
       end
 
       def response_from(response_xml)
-        Btf::Response.new(client: client, xml: response_xml).tap { |response| verify_response!(response) }
+        Btf::Response.new(client: client, xml: response_xml).tap do |response|
+          raise TechnicalError.new(InvalidResponseError.new("Invalid EBICS H005 response")) unless response.h005?
+
+          verify_response!(response)
+        end
       end
 
       def admin_request(order_type, **overrides)

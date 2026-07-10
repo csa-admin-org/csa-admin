@@ -6,6 +6,8 @@ module Billing
   class EBICS
     module Btf
       class ReceiptRequest
+        include RequestEnvelope
+
         SUCCESS_CODE = 0
         FAILURE_CODE = 1
 
@@ -21,25 +23,17 @@ module Billing
         end
 
         def unsigned_xml
-          Nokogiri::XML::Builder.new do |xml|
-            xml.ebicsRequest(DownloadRequest::ROOT_ATTRIBUTES) {
-              xml.header(authenticate: true) {
-                xml.static {
-                  xml.HostID client.host_id
-                  xml.TransactionID transaction_id
-                }
-                xml.mutable {
-                  xml.TransactionPhase "Receipt"
-                }
-              }
-              DownloadRequest.auth_signature(xml)
+          serialize_xml(Nokogiri::XML::Builder.new do |xml|
+            xml.ebicsRequest(root_attributes) {
+              transfer_header(xml, transaction_id: transaction_id, phase: "Receipt")
+              auth_signature(xml)
               xml.body {
                 xml.TransferReceipt(authenticate: true) {
                   xml.ReceiptCode receipt_code
                 }
               }
             }
-          end.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML, encoding: "utf-8")
+          end)
         end
 
         private

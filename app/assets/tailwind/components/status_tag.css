@@ -23,6 +23,7 @@
     &[data-status="completed"],
     &[data-status="primary"],
     &[data-status="forced"],
+    &[data-status="healthy"],
     &[data-status="yes"] {
       @apply bg-green-100 text-green-800 ring-green-600/20 dark:bg-green-950 dark:text-green-300 dark:ring-green-400/25;
     }
@@ -30,7 +31,8 @@
     /* Yellow statuses - warning/attention */
     &[data-status="support"],
     &[data-status="required"],
-    &[data-status="future"] {
+    &[data-status="future"],
+    &[data-status="warning"] {
       @apply bg-yellow-100 text-yellow-900 ring-yellow-600/25 dark:bg-yellow-950 dark:text-yellow-300 dark:ring-yellow-400/25;
     }
 
@@ -74,6 +76,7 @@
     &[data-status="disabled"],
     &[data-status="failed"],
     &[data-status="open"],
+    &[data-status="errored"],
     &[data-status="rejected"] {
       @apply bg-red-100 text-red-800 ring-red-600/20 dark:bg-red-950 dark:text-red-300 dark:ring-red-400/25;
     }
@@ -89,6 +92,7 @@
     &[data-status="past"],
     &[data-status="unavailable"],
     &[data-status="inactive"],
+    &[data-status="unknown"],
     &[data-status="unconfigured"] {
       @apply bg-neutral-100 text-neutral-700 ring-neutral-500/20 dark:bg-neutral-800 dark:text-neutral-300 dark:ring-neutral-400/20;
     }

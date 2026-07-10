@@ -1,0 +1,96 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  bank_connection = organization_settings_bank_connection(org)
+
+  if organization_settings_bank_connection_active?(bank_connection)
+    attributes_table_for bank_connection do
+      row(t("active_admin.resources.organization.bank_connection.health")) do
+        organization_settings_bank_connection_health(bank_connection)
+      end
+      row(t("active_admin.resources.organization.bank_connection.connection")) do
+        organization_settings_bank_connection_provider(bank_connection)
+      end
+      if organization_settings_bank_connection_payment_automation_warning?(bank_connection)
+        row(t("active_admin.resources.organization.bank_connection.payment_automation")) do
+          organization_settings_bank_connection_payment_automation(bank_connection)
+        end
+      end
+      row(t("active_admin.resources.organization.bank_connection.last_payment_import")) do
+        organization_settings_bank_connection_last_import(bank_connection)
+      end
+      if bank_connection.sepa_direct_debit_upload?
+        row(t("active_admin.resources.organization.bank_connection.last_upload")) do
+          organization_settings_bank_connection_last_upload(bank_connection)
+        end
+      end
+      if organization_settings_bank_connection_error?(bank_connection)
+        row(t("active_admin.resources.organization.bank_connection.latest_error")) do
+          organization_settings_bank_connection_error(bank_connection)
+        end
+      end
+    end
+  elsif organization_settings_bank_connection_setup?(bank_connection)
+    attributes_table_for bank_connection do
+      row(t("active_admin.resources.organization.bank_connection.state")) do
+        organization_settings_bank_connection_onboarding_state(bank_connection)
+      end
+      row(t("active_admin.resources.organization.bank_connection.connection")) do
+        organization_settings_bank_connection_provider(bank_connection)
+      end
+      if bank_connection.last_error_class.present?
+        row(t("active_admin.resources.organization.bank_connection.latest_error")) do
+          organization_settings_bank_connection_error(bank_connection)
+        end
+      end
+    end
+
+    div class: "p-2 pt-0 space-y-3" do
+      if bank_connection.errored?
+        para t("active_admin.resources.organization.bank_connection.support_needed_html", support_url: support_path).html_safe,
+          class: "description"
+      else
+        para t("active_admin.resources.organization.bank_connection.waiting_for_bank_html").html_safe,
+          class: "description"
+
+        if organization_settings_bank_connection_letter_available?(bank_connection)
+          div class: "flex justify-center pt-1" do
+            link_to ebics_initialization_letter_path,
+              class: "btn btn-sm",
+              target: "_blank",
+              rel: "noopener" do
+              safe_join([
+                icon("file-down", class: "size-4"),
+                t("active_admin.resources.organization.bank_connection.download_initialization_letter")
+              ], " ")
+            end
+          end
+        end
+      end
+    end
+  else
+    div class: "p-2 pt-0 space-y-3" do
+      para t("active_admin.resources.organization.bank_connection.not_configured_html", support_url: support_path).html_safe,
+        class: "description"
+
+      if org.country_code == "CH"
+        para t(
+          "active_admin.resources.organization.bank_connection.bas_html",
+          handbook_url: handbook_page_path("billing", anchor: "abs-setup"),
+          support_url: support_path).html_safe,
+          class: "description"
+      end
+
+      if authorized?(:create, BankConnection) && BankConnection::EBICSSetup.supported_country?(org)
+        div class: "flex justify-center pt-1" do
+          link_to new_bank_connection_path, class: "btn btn-sm" do
+            safe_join([
+              icon("cable", class: "size-4"),
+              t("active_admin.resources.organization.bank_connection.start_setup")
+            ], " ")
+          end
+        end
+      end
+    end
+  end
+end

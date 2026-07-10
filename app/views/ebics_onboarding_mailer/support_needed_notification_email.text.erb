@@ -1,0 +1,14 @@
+EBICS onboarding setup needs support.
+
+Organization: <%= Current.org.name %>
+Tenant: <%= Tenant.current %>
+Bank connection: #<%= @connection.id %> (<%= @connection.name %>)
+State: <%= @connection.state %>
+Last error: <%= [ @connection.last_error_class, @connection.last_error_message ].compact_blank.join(" — ") %>
+Initiated by: <%= @context[:initiated_by_admin_email] || "unknown" %>
+
+Settings:
+<%= @settings_url %>
+
+Sanitized context:
+<%= JSON.pretty_generate(@context) %>

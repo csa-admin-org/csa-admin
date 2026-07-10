@@ -7,6 +7,8 @@ module Billing
   class EBICS
     module Btf
       class NoPubKeyDigestsRequest
+        include RequestEnvelope
+
         SUPPORTED_ORDER_TYPES = %w[HPB].freeze
 
         def initialize(client:, order_type:, nonce: SecureRandom.hex(16), timestamp: Time.current.utc.iso8601, product_name: "CSA Admin", language: "en", signer: nil)
@@ -26,27 +28,13 @@ module Billing
         def unsigned_xml
           ensure_supported_order_type!
 
-          Nokogiri::XML::Builder.new do |xml|
-            xml.ebicsNoPubKeyDigestsRequest(DownloadRequest::ROOT_ATTRIBUTES) {
-              xml.header(authenticate: true) {
-                xml.static {
-                  xml.HostID client.host_id
-                  xml.Nonce nonce
-                  xml.Timestamp timestamp
-                  xml.PartnerID client.partner_id
-                  xml.UserID client.user_id
-                  xml.Product product_name, Language: language
-                  order_details(xml)
-                  xml.SecurityMedium "0000"
-                }
-                xml.mutable {
-                  xml.TransactionPhase "Initialisation"
-                }
-              }
-              DownloadRequest.auth_signature(xml)
+          serialize_xml(Nokogiri::XML::Builder.new do |xml|
+            xml.ebicsNoPubKeyDigestsRequest(root_attributes) {
+              initialisation_header(xml, bank_public_key_digests: false) { order_details(xml) }
+              auth_signature(xml)
               xml.body
             }
-          end.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML, encoding: "utf-8")
+          end)
         end
 
         private

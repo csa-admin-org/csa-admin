@@ -7,6 +7,8 @@ module Billing
   class EBICS
     module Btf
       class DownloadRequest
+        include RequestEnvelope
+
         H005_NAMESPACE = "urn:org:ebics:H005"
         XMLDSIG_NAMESPACE = "http://www.w3.org/2000/09/xmldsig#"
         XSI_NAMESPACE = "http://www.w3.org/2001/XMLSchema-instance"
@@ -57,37 +59,18 @@ module Billing
         end
 
         def unsigned_xml
-          Nokogiri::XML::Builder.new do |xml|
+          serialize_xml(Nokogiri::XML::Builder.new do |xml|
             xml.ebicsRequest(root_attributes) {
-              xml.header(authenticate: true) {
-                xml.static {
-                  xml.HostID client.host_id
-                  xml.Nonce nonce
-                  xml.Timestamp timestamp
-                  xml.PartnerID client.partner_id
-                  xml.UserID client.user_id
-                  xml.Product product_name, Language: language
-                  order_details(xml)
-                  bank_public_key_digests(xml)
-                  xml.SecurityMedium "0000"
-                }
-                xml.mutable {
-                  xml.TransactionPhase "Initialisation"
-                }
-              }
+              initialisation_header(xml) { order_details(xml) }
               auth_signature(xml)
               xml.body
             }
-          end.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML, encoding: "utf-8")
+          end)
         end
 
         private
 
         attr_reader :client, :operation, :from, :to, :nonce, :timestamp, :product_name, :language, :signer
-
-        def root_attributes
-          ROOT_ATTRIBUTES
-        end
 
         def order_details(xml)
           xml.OrderDetails {
@@ -100,21 +83,7 @@ module Billing
         end
 
         def service(xml)
-          xml.Service {
-            xml.ServiceName btf.fetch("service_name")
-            xml.Scope btf.fetch("scope") if btf["scope"].present?
-            xml.ServiceOption btf.fetch("service_option") if btf["service_option"].present?
-            xml.Container containerType: btf.fetch("container") if btf["container"].present?
-            msg_name(xml)
-          }
-        end
-
-        def msg_name(xml)
-          if btf["version"].present?
-            xml.MsgName btf.fetch("message_name"), version: btf.fetch("version")
-          else
-            xml.MsgName btf.fetch("message_name")
-          end
+          btf_service(xml, btf)
         end
 
         def date_range(xml)
@@ -126,20 +95,7 @@ module Billing
           }
         end
 
-        def bank_public_key_digests(xml)
-          xml.BankPubKeyDigests {
-            xml.Authentication client.bank_x.public_digest,
-              Version: "X002",
-              Algorithm: SHA256_ALGORITHM
-            xml.Encryption client.bank_e.public_digest,
-              Version: "E002",
-              Algorithm: SHA256_ALGORITHM
-          }
-        end
 
-        def auth_signature(xml)
-          self.class.auth_signature(xml)
-        end
 
         def btf
           @btf ||= operation.btf.fetch_values(

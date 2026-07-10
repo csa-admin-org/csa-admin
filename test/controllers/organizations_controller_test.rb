@@ -23,6 +23,18 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     Rails.application.config.x.geocoding.enabled = previous
   end
 
+  def h005_payment_settings
+    {
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.payment_download(country_code: "CH")
+        }
+      }
+    }
+  end
+
   def stub_geocoding_results(coordinates, addresses: nil)
     result = Struct.new(:coordinates).new(coordinates)
     original = Geocoding::Nominatim.method(:search)
@@ -57,6 +69,149 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.body, edit_organization_path(:general)
     assert_includes response.body, edit_organization_path(:billing)
+  end
+
+  test "settings overview shows read-only bank connection card" do
+    BankConnection.delete_all
+    login admins(:external)
+
+    get organization_path
+
+    assert_response :success
+    assert_select "#bank_connection .panel-title", text: /#{I18n.t("active_admin.resource.form.bank_connection")}/
+    assert_select "#bank_connection .panel-title .status-tag[data-status='disabled']", text: I18n.t("active_admin.resources.organization.not_configured")
+    assert_select "#bank_connection a[href='#{new_bank_connection_path}']", false
+    assert_not_includes response.body, edit_organization_path(:bank_connection)
+  end
+
+  test "settings overview links to EBICS setup for superadmins without bank connection" do
+    BankConnection.delete_all
+    login admins(:super)
+
+    get organization_path
+
+    assert_response :success
+    assert_select "#bank_connection a[href='#{new_bank_connection_path}']",
+      text: I18n.t("active_admin.resources.organization.bank_connection.start_setup", locale: admins(:super).language)
+  end
+
+  test "settings overview hides EBICS setup link for unsupported countries" do
+    BankConnection.delete_all
+    france_org
+    login admins(:super)
+
+    get organization_path
+
+    assert_response :success
+    assert_select "#bank_connection a[href='#{new_bank_connection_path}']", false
+  end
+
+  test "settings overview hides EBICS setup link when a bank connection exists" do
+    BankConnection.delete_all
+    BankConnection.create!(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      health_status: "healthy",
+      credentials: synthetic_ebics_credentials,
+      settings: { "protocol" => "H005" })
+    login admins(:super)
+
+    get organization_path
+
+    assert_response :success
+    assert_select "#bank_connection a[href='#{new_bank_connection_path}']", false
+  end
+
+  test "settings overview shows active EBICS connection status without credentials or internals" do
+    BankConnection.delete_all
+    org(country_code: "CH", features: [], sepa_creditor_identifier: nil)
+    BankConnection.create!(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      health_status: "healthy",
+      credentials: synthetic_ebics_credentials,
+      settings: h005_payment_settings,
+      status_details: {
+        "last_capabilities_check" => {
+          "status" => "healthy",
+          "checked_at" => "2026-07-05T08:30:00Z"
+        }
+      })
+    login admins(:super)
+
+    get organization_path
+
+    locale = admins(:super).language
+    assert_response :success
+    assert_includes response.body, "EBICS 3.0/H005 (2048-bits)"
+    assert_select "#bank_connection .panel-title .status-tag[data-status='unconfigured']", count: 0
+    assert_not_includes response.body, I18n.t("active_admin.resources.organization.bank_connection.last_upload", locale: locale)
+    assert_not_includes response.body, I18n.t("active_admin.resources.organization.bank_connection.payment_automation", locale: locale)
+    assert_not_includes response.body, "BTD / REP / CH / ZIP / camt.054 / 04"
+    assert_not_includes response.body, "Participant keys:"
+    assert_not_includes response.body, "Bank keys:"
+    assert_not_includes response.body, "Rotation des clés"
+    assert_not_includes response.body, "Key rotation"
+    assert_not_includes response.body, "secret"
+    assert_not_includes response.body, "encrypted"
+    assert_not_includes response.body, "PRIVATE KEY"
+  end
+
+  test "settings overview shows compact EBICS payment automation warning without internals" do
+    BankConnection.delete_all
+    org(country_code: "CH", features: [], sepa_creditor_identifier: nil)
+    BankConnection.create!(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      health_status: "warning",
+      last_error_class: "UnexpectedEBICSCapability",
+      credentials: synthetic_ebics_credentials,
+      settings: h005_payment_settings,
+      status_details: {
+        "last_capabilities_check" => {
+          "status" => "warning",
+          "checked_at" => "2026-07-05T08:30:00Z"
+        }
+      })
+    login admins(:super)
+
+    get organization_path
+
+    locale = admins(:super).language
+    assert_response :success
+    assert_select "#bank_connection", text: /#{Regexp.escape(I18n.t("active_admin.resources.organization.bank_connection.payment_automation", locale: locale))}/
+    assert_select "#bank_connection", text: /#{Regexp.escape(I18n.t("active_admin.resources.organization.bank_connection.payment_automation_status.capabilities_warning", locale: locale))}/
+    assert_not_includes response.body, I18n.t("active_admin.resources.organization.bank_connection.latest_error", locale: locale)
+    assert_not_includes response.body, "Unexpected ebics capability"
+    assert_not_includes response.body, "BTD / REP / CH / ZIP / camt.054 / 04"
+    assert_not_includes response.body, "Participant keys:"
+    assert_not_includes response.body, "Bank keys:"
+    assert_not_includes response.body, "Rotation des clés"
+    assert_not_includes response.body, "Key rotation"
+  end
+
+  test "settings overview does not expose raw bank connection error messages" do
+    BankConnection.delete_all
+    BankConnection.create!(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      health_status: "errored",
+      last_error_class: "Billing::EBICS::AuthenticationError",
+      last_error_message: "EBICS XML failed with secret token",
+      credentials: synthetic_ebics_credentials,
+      settings: { "protocol" => "H005" })
+    login admins(:super)
+
+    get organization_path
+
+    assert_response :success
+    assert_includes response.body, "Authentication error"
+    assert_not_includes response.body, "secret token"
+    assert_not_includes response.body, "EBICS XML"
   end
 
   test "general settings overview links to website from panel action and shows social networks" do

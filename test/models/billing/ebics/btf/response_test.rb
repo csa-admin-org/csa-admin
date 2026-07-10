@@ -51,6 +51,18 @@ class Billing::EBICS::Btf::ResponseTest < ActiveSupport::TestCase
     assert_equal "A001", response.order_id
   end
 
+  test "detects H005 EBICS responses" do
+    response = Billing::EBICS::Btf::Response.new(client: client, xml: response_xml)
+    unsecured_response = Billing::EBICS::Btf::Response.new(
+      client: client,
+      xml: response_xml(root: "ebicsUnsecuredResponse"))
+    html = Billing::EBICS::Btf::Response.new(client: client, xml: "<html>Not EBICS</html>")
+
+    assert_predicate response, :h005?
+    assert_predicate unsecured_response, :h005?
+    assert_not_predicate html, :h005?
+  end
+
   test "detects technical errors" do
     response = Billing::EBICS::Btf::Response.new(
       client: client,
@@ -76,7 +88,7 @@ class Billing::EBICS::Btf::ResponseTest < ActiveSupport::TestCase
     Base64.strict_encode64(cipher.update(zero_pad(compressed)) + cipher.final)
   end
 
-  def response_xml(order_data: nil, return_code: "000000", business_return_code: nil, report_text: "OK", order_id: nil)
+  def response_xml(order_data: nil, return_code: "000000", business_return_code: nil, report_text: "OK", order_id: nil, root: "ebicsResponse")
     transaction_key_xml = order_data ? "<TransactionKey>#{encrypted_transaction_key}</TransactionKey>" : ""
     order_data_xml = order_data ? "<OrderData>#{order_data}</OrderData>" : ""
     body_return_code_xml = business_return_code ? "<ReturnCode>#{business_return_code}</ReturnCode>" : ""
@@ -84,7 +96,7 @@ class Billing::EBICS::Btf::ResponseTest < ActiveSupport::TestCase
 
     <<~XML
       <?xml version="1.0" encoding="utf-8"?>
-      <ebicsResponse xmlns="#{H005_NAMESPACE}" Version="H005" Revision="1">
+      <#{root} xmlns="#{H005_NAMESPACE}" Version="H005" Revision="1">
         <header authenticate="true">
           <static>
             <TransactionID>TX123</TransactionID>
@@ -106,7 +118,7 @@ class Billing::EBICS::Btf::ResponseTest < ActiveSupport::TestCase
             #{order_data_xml}
           </DataTransfer>
         </body>
-      </ebicsResponse>
+      </#{root}>
     XML
   end
 

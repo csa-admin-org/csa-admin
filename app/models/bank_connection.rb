@@ -94,18 +94,7 @@ class BankConnection < ApplicationRecord
   def ebics_key_summary
     return {} unless ebics?
 
-    credentials = self.credentials.to_h.stringify_keys
-    required_keys = %w[keys secret url host_id participant_id client_id]
-    return {} unless required_keys.all? { |key| credentials[key].present? }
-
-    Billing::EBICS::KeyStore.new(credentials).key_summary
-  rescue => e
-    {
-      "error" => {
-        "class" => e.class.name,
-        "message" => "Unable to inspect EBICS keys"
-      }
-    }
+    Billing::EBICS::KeyMetadata.inspectable_key_summary(credentials)
   end
 
   def mark_import_attempted!(operation: nil)

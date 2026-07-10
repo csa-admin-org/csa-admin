@@ -299,15 +299,15 @@
 
     /* Errors */
     ul.errors {
-      @apply m-0 my-2 gap-2 bg-red-100 p-2 text-red-500 dark:bg-red-900;
+      @apply m-0 my-2 flex min-h-12 flex-col justify-center gap-1 rounded-md bg-red-100 px-4 py-3 font-bold text-red-600 dark:bg-red-900 dark:text-red-300;
     }
 
     ul.errors li {
-      @apply m-1 list-inside;
+      @apply m-0 list-inside list-disc;
     }
 
     .errors {
-      @apply mb-6 space-y-2 rounded-md bg-red-50 p-4 text-red-800 dark:bg-red-800 dark:text-red-300;
+      @apply mb-6 space-y-2 rounded-md bg-red-50 p-4 font-bold text-red-800 dark:bg-red-800 dark:text-red-300;
     }
 
     .errors > li {
@@ -326,7 +326,7 @@
     .error [type="url"],
     .error select,
     .error textarea {
-      @apply border-red-500;
+      @apply border-2 border-red-600 focus:border-red-600 focus:ring-0 dark:border-red-400 dark:focus:border-red-400;
     }
 
     /* Visibility */

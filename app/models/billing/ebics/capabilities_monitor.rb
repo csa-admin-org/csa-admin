@@ -56,7 +56,7 @@ module Billing
       end
 
       def monitor_sepa_direct_debit_upload?
-        Current.org.sepa_configured? && sepa_direct_debit_upload_settings.present?
+        Current.org.sepa_configured?
       rescue
         false
       end

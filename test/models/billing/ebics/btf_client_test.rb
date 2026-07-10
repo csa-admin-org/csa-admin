@@ -220,6 +220,28 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_includes transport.requests.third, "<ReceiptCode>0</ReceiptCode>"
   end
 
+  test "parses EBICS response bodies from non-success HTTP responses" do
+    transport = TransportStub.new([ http_error(response_xml(return_code: "061099", report_text: "EBICS_INVALID_USER_OR_USER_STATE")) ])
+    client = btf_client(transport: transport)
+
+    error = assert_raises(Billing::EBICS::TechnicalError) do
+      client.submit_initialization_order("INI")
+    end
+
+    assert_includes error.message, "EBICS_INVALID_USER_OR_USER_STATE"
+  end
+
+  test "rejects non-H005 EBICS responses" do
+    transport = TransportStub.new([ "<html>Not EBICS</html>" ])
+    client = btf_client(transport: transport)
+
+    error = assert_raises(Billing::EBICS::TechnicalError) do
+      client.submit_initialization_order("INI")
+    end
+
+    assert_includes error.message, "Invalid EBICS H005 response"
+  end
+
   test "plain BTF downloads remain disabled to avoid pre-processing acknowledgements" do
     client = btf_client
 
@@ -342,7 +364,59 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_includes error.message, "EBICS_NO_DOWNLOAD_DATA_AVAILABLE"
   end
 
+  test "transport rejects non-HTTPS EBICS endpoints" do
+    assert_transport_endpoint_error "http://ebics.example.test"
+    assert_transport_endpoint_error "https://user:secret@ebics.example.test"
+    assert_transport_endpoint_error "https://"
+  end
 
+  test "BTF ZIP payload rejects too many files" do
+    with_payload_limit(:MAX_ZIP_FILES, 1) do
+      error = assert_raises(Billing::EBICS::Btf::Payload::PayloadTooLarge) do
+        btf_client.files_from_response(
+          operation,
+          response_xml(transaction_key: true, order_data: encrypted_order_data(zip(%w[one two]))))
+      end
+
+      assert_includes error.message, "too many files"
+    end
+  end
+
+  test "BTF ZIP payload rejects oversized entries" do
+    with_payload_limit(:MAX_ZIP_ENTRY_BYTES, 8) do
+      error = assert_raises(Billing::EBICS::Btf::Payload::PayloadTooLarge) do
+        btf_client.files_from_response(
+          operation,
+          response_xml(transaction_key: true, order_data: encrypted_order_data(zip([ "123456789" ]))))
+      end
+
+      assert_includes error.message, "EBICS ZIP entry exceeds"
+    end
+  end
+
+  test "BTF ZIP payload rejects oversized totals" do
+    with_payload_limit(:MAX_ZIP_TOTAL_BYTES, 8) do
+      error = assert_raises(Billing::EBICS::Btf::Payload::PayloadTooLarge) do
+        btf_client.files_from_response(
+          operation,
+          response_xml(transaction_key: true, order_data: encrypted_order_data(zip(%w[12345 6789]))))
+      end
+
+      assert_includes error.message, "EBICS ZIP payload is too large"
+    end
+  end
+
+  test "BTF payload rejects oversized inflated order data" do
+    with_payload_limit(:MAX_INFLATED_ORDER_DATA_BYTES, 8) do
+      error = assert_raises(Billing::EBICS::Btf::Payload::PayloadTooLarge) do
+        btf_client.files_from_response(
+          plain_operation,
+          response_xml(transaction_key: true, order_data: encrypted_order_data("123456789")))
+      end
+
+      assert_includes error.message, "EBICS order data exceeds"
+    end
+  end
 
   private
 
@@ -363,6 +437,10 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
 
   def operation
     Billing::EBICS::Operation.btf(Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04"))
+  end
+
+  def plain_operation
+    Billing::EBICS::Operation.btf(Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04", container: nil))
   end
 
   def btu_operation
@@ -444,6 +522,11 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
       report_text: "[EBICS_DOWNLOAD_POSTPROCESS_SKIPPED] Negative acknowledgement received")
   end
 
+  def http_error(body)
+    response = Struct.new(:code, :message, :body).new("500", "Internal Server Error", body)
+    Billing::EBICS::Btf::Transport::HTTPError.new(response)
+  end
+
   def encrypted_transaction_key
     Base64.strict_encode64(key_store.e.key.public_encrypt(transaction_key))
   end
@@ -468,6 +551,25 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     end.string
   end
 
+  def assert_transport_endpoint_error(url)
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+      Billing::EBICS::Btf::Transport.new.post(url, "<xml/>")
+    end
+
+    assert_includes error.message, "HTTPS without userinfo"
+  end
+
+  def with_payload_limit(name, value)
+    payload = Billing::EBICS::Btf::Payload
+    original = payload.const_get(name)
+    payload.send(:remove_const, name)
+    payload.const_set(name, value)
+    yield
+  ensure
+    payload.send(:remove_const, name)
+    payload.const_set(name, original)
+  end
+
   class FakeSigner
     def sign(xml)
       doc = Nokogiri::XML(xml)
@@ -487,7 +589,10 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
 
     def post(_url, request_xml)
       requests << request_xml
-      @responses.shift
+      response = @responses.shift
+      raise response if response.is_a?(Exception)
+
+      response
     end
   end
 

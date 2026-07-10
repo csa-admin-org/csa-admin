@@ -1,0 +1,16 @@
+EBICS onboarding setup was submitted successfully.
+
+Organization: <%= Current.org.name %>
+Tenant: <%= Tenant.current %>
+Bank connection: #<%= @connection.id %> (<%= @connection.name %>)
+State: <%= @connection.state %>
+Initiated by: <%= @context[:initiated_by_admin_email] || "unknown" %>
+
+Initialization letter:
+<%= @letter_url %>
+
+Settings:
+<%= @settings_url %>
+
+Sanitized context:
+<%= JSON.pretty_generate(@context) %>

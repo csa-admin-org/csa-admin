@@ -3,6 +3,7 @@
 require "test_helper"
 require "base64"
 require "openssl"
+require "securerandom"
 
 class Billing::EBICS::KeyStoreTest < ActiveSupport::TestCase
   test "loads encrypted EBICS key blobs" do
@@ -14,6 +15,52 @@ class Billing::EBICS::KeyStoreTest < ActiveSupport::TestCase
     assert_equal digest_for(key_material.fetch("E002")), store.e.public_digest
     assert_equal digest_for(key_material.fetch("HOSTID.X002")), store.bank_x.public_digest
     assert_equal digest_for(key_material.fetch("HOSTID.E002")), store.bank_e.public_digest
+  end
+
+  test "writes versioned encrypted EBICS key blobs" do
+    key_material = synthetic_ebics_key_material
+    keys = JSON.parse(Billing::EBICS::KeyStore.encrypt_keys(key_material, "secret"))
+    blob = keys.fetch("A006")
+
+    assert_equal 2, blob.fetch("version")
+    assert_equal "aes-256-gcm", blob.fetch("cipher")
+    assert_equal "pbkdf2_hmac_sha256", blob.fetch("kdf")
+    assert_operator blob.fetch("iterations"), :>, 1
+    assert blob.fetch("salt").present?
+    assert blob.fetch("iv").present?
+    assert blob.fetch("auth_tag").present?
+    assert blob.fetch("ciphertext").present?
+  end
+
+  test "loads legacy encrypted EBICS key blobs" do
+    key_material = synthetic_ebics_key_material
+    credentials = synthetic_ebics_credentials(key_material: key_material).merge(
+      "keys" => legacy_encrypted_ebics_keys(key_material, "secret"))
+    store = Billing::EBICS::KeyStore.new(credentials)
+
+    assert_equal digest_for(key_material.fetch("A006")), store.a.public_digest
+  end
+
+  test "rejects unsupported versioned key blobs" do
+    key_material = synthetic_ebics_key_material
+    keys = JSON.parse(Billing::EBICS::KeyStore.encrypt_keys(key_material, "secret"))
+    keys.fetch("A006")["version"] = 999
+    credentials = synthetic_ebics_credentials(key_material: key_material).merge("keys" => keys.to_json)
+
+    assert_raises(Billing::EBICS::KeyStore::InvalidKeyBlob) do
+      Billing::EBICS::KeyStore.new(credentials)
+    end
+  end
+
+  test "rejects tampered versioned key blobs" do
+    key_material = synthetic_ebics_key_material
+    keys = JSON.parse(Billing::EBICS::KeyStore.encrypt_keys(key_material, "secret"))
+    keys.fetch("A006")["auth_tag"] = Base64.strict_encode64("tampered-auth-tag")
+    credentials = synthetic_ebics_credentials(key_material: key_material).merge("keys" => keys.to_json)
+
+    assert_raises(Billing::EBICS::KeyStore::InvalidKeyBlob) do
+      Billing::EBICS::KeyStore.new(credentials)
+    end
   end
 
   test "exposes the current EBICS client identity mapping" do
@@ -69,6 +116,19 @@ class Billing::EBICS::KeyStoreTest < ActiveSupport::TestCase
 
   def credentials_with_bank_keys(bank_x:, bank_e:)
     synthetic_ebics_credentials(bank_x: bank_x, bank_e: bank_e)
+  end
+
+  def legacy_encrypted_ebics_keys(keys, secret)
+    keys.transform_values { |key| legacy_encrypt_key(key, secret) }.to_json
+  end
+
+  def legacy_encrypt_key(key, secret)
+    salt = SecureRandom.random_bytes(8)
+    cipher = OpenSSL::Cipher.new("aes-256-cbc")
+    cipher.encrypt
+    cipher.key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(secret, salt, 1, cipher.key_len)
+
+    Base64.strict_encode64(salt + cipher.update(key.to_pem) + cipher.final)
   end
 
   def digest_for(key)

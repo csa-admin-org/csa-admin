@@ -47,6 +47,10 @@ class Ability
       can :update, Organization, id: Current.org.id
     end
 
+    if admin.permission.superadmin?
+      can :manage, BankConnection
+    end
+
     if admin.permission.can_write?(:admin) && !Tenant.demo?
       can :manage, Admin
     end

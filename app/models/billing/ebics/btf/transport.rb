@@ -7,17 +7,34 @@ module Billing
   class EBICS
     module Btf
       class Transport
-        HTTPError = Class.new(StandardError)
+        class HTTPError < StandardError
+          attr_reader :body
+
+          def initialize(response)
+            @body = response.body.to_s
+            super("HTTP #{response.code} #{response.message}")
+          end
+        end
 
         def post(url, xml)
-          uri = URI(url)
+          uri = endpoint_uri(url)
           response = http(uri).request(request(uri, xml))
-          raise HTTPError, "HTTP #{response.code} #{response.message}" unless response.is_a?(Net::HTTPSuccess)
+          raise HTTPError.new(response) unless response.is_a?(Net::HTTPSuccess)
 
           response.body
         end
 
         private
+
+        def endpoint_uri(url)
+          URI.parse(url.to_s).tap do |uri|
+            unless uri.is_a?(URI::HTTPS) && uri.host.present? && uri.userinfo.blank?
+              raise UnsupportedOperation, "EBICS endpoint URL must use HTTPS without userinfo"
+            end
+          end
+        rescue URI::InvalidURIError
+          raise UnsupportedOperation, "EBICS endpoint URL must use HTTPS without userinfo"
+        end
 
         def http(uri)
           Net::HTTP.new(uri.host, uri.port).tap do |http|

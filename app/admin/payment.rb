@@ -79,15 +79,28 @@ ActiveAdmin.register Payment do
   end
 
   sidebar :no_automatic_payments_processing_warning, only: :index, if: -> { !Current.org.bank_connection? } do
-    side_panel t(".automatic_payments_processing"), action: handbook_icon_link("billing", anchor: "automatic_payments_processing"), class: "warning" do
+    settings_action = link_to organization_path(anchor: "bank_connection"), title: t("active_admin.resource.form.bank_connection") do
+      icon "sliders-horizontal", class: "size-5"
+    end
+
+    side_panel t(".automatic_payments_processing"), action: settings_action, class: "warning" do
       para do
-        t(".no_automatic_payments_processing_warning_text_html")
+        t(".no_automatic_payments_processing_warning_text_html", settings_url: organization_path(anchor: "bank_connection"))
       end
     end
   end
 
   sidebar :automatic_payments_processing, only: :index, if: -> { Current.org.bank_connection? } do
-    side_panel t(".automatic_payments_processing") do
+    bank_connection = Current.org.active_bank_connection
+    settings_action = link_to organization_path(anchor: "bank_connection"), title: t("active_admin.resource.form.bank_connection") do
+      icon "sliders-horizontal", class: "size-5"
+    end
+
+    title = content_tag(:span, class: "inline-flex items-center gap-2") do
+      safe_join([ t(".automatic_payments_processing"), organization_settings_bank_connection_health(bank_connection) ])
+    end
+
+    side_panel title, action: settings_action do
       para do
         t(".automatic_payments_processing_text")
       end

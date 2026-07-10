@@ -4421,6 +4421,19 @@ _:
           _de: Verlauf
           _it: Cronologia
           _nl: Geschiedenis
+      bank_connection:
+        one:
+          _en: Bank connection
+          _fr: Connexion bancaire
+          _de: Bankverbindung
+          _it: Connessione bancaria
+          _nl: Bankverbinding
+        other:
+          _en: Bank connections
+          _fr: Connexions bancaires
+          _de: Bankverbindungen
+          _it: Connessioni bancarie
+          _nl: Bankverbindingen
       basket/bag:
         one:
           _en: Bag

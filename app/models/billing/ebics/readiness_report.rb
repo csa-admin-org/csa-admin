@@ -5,10 +5,6 @@ require "uri"
 module Billing
   class EBICS
     class ReadinessReport
-      REQUIRED_CREDENTIALS = %w[keys secret url host_id participant_id client_id]
-      PARTICIPANT_KEY_VERSIONS = %w[A006 X002 E002]
-      BANK_KEY_SUFFIXES = %w[.X002 .E002]
-
       def initialize(tenant:, organization: Current.org, connection: organization.active_bank_connection)
         @tenant = tenant
         @organization = organization
@@ -41,7 +37,7 @@ module Billing
           "state" => connection.state,
           "health_status" => connection.health_status,
           "credential_keys" => connection.credential_keys,
-          "settings" => connection.settings,
+          "settings" => connection.safe_summary["settings"],
           "last_import_attempted_at" => connection.last_import_attempted_at&.iso8601,
           "last_import_succeeded_at" => connection.last_import_succeeded_at&.iso8601,
           "last_no_data_at" => connection.last_no_data_at&.iso8601
@@ -89,18 +85,7 @@ module Billing
       end
 
       def key_summary
-        @key_summary ||= if REQUIRED_CREDENTIALS.all? { |key| ebics_credentials[key].present? }
-          Billing::EBICS::KeyStore.new(ebics_credentials).key_summary
-        else
-          {}
-        end
-      rescue => e
-        {
-          "error" => {
-            "class" => e.class.name,
-            "message" => "Unable to inspect EBICS keys"
-          }
-        }
+        @key_summary ||= Billing::EBICS::KeyMetadata.inspectable_key_summary(ebics_credentials)
       end
 
       def current_payment_operation
@@ -139,17 +124,15 @@ module Billing
       end
 
       def required_credentials_present?
-        REQUIRED_CREDENTIALS.all? { |key| ebics_credentials[key].present? }
+        Billing::EBICS::KeyMetadata.required_credentials_present?(ebics_credentials)
       end
 
       def participant_keys_present?
-        versions = key_summary.fetch("participant_key_versions", [])
-        PARTICIPANT_KEY_VERSIONS.all? { |version| versions.include?(version) }
+        Billing::EBICS::KeyMetadata.participant_keys_present?(key_summary)
       end
 
       def bank_public_keys_present?
-        versions = key_summary.fetch("bank_key_versions", [])
-        BANK_KEY_SUFFIXES.all? { |suffix| versions.any? { |version| version.end_with?(suffix) } }
+        Billing::EBICS::KeyMetadata.bank_public_keys_present?(key_summary)
       end
 
       def key_size_ok?

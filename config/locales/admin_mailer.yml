@@ -62,6 +62,80 @@ _:
         _de: Wie läuft es mit der Demo?
         _it: Come va con la demo?
         _nl: Hoe gaat het met de demo?
+    ebics_setup_finalized_email:
+      finalized_paragraph:
+        _en: 'Good news: the bank has activated the EBICS connection.'
+        _fr: 'Bonne nouvelle: la banque a activé la connexion EBICS.'
+        _de: 'Gute Nachricht: Die Bank hat die EBICS-Verbindung aktiviert.'
+        _it: 'Buone notizie: la banca ha attivato la connessione EBICS.'
+        _nl: 'Goed nieuws: de bank heeft de EBICS-verbinding geactiveerd.'
+      greeting:
+        _en: Hello {{ admin.name }},
+        _fr: Bonjour {{ admin.name }},
+        _de: Hallo {{ admin.name }},
+        _it: Ciao {{ admin.name }},
+        _nl: Hallo {{ admin.name }},
+      payment_import_paragraph:
+        _en: The EBICS connection is active. Payment automation health is shown in the bank connection settings.
+        _fr: La connexion EBICS est active. L'état de l'automatisation des paiements est affiché dans les paramètres de connexion bancaire.
+        _de: Die EBICS-Verbindung ist aktiv. Der Status der Zahlungsautomatisierung wird in den Einstellungen der Bankverbindung angezeigt.
+        _it: La connessione EBICS è attiva. Lo stato dell'automazione dei pagamenti è mostrato nelle impostazioni della connessione bancaria.
+        _nl: De EBICS-verbinding is actief. De status van de betalingsautomatisering wordt getoond in de instellingen voor de bankverbinding.
+      settings_button:
+        _en: Review bank connection settings
+        _fr: Consulter les paramètres de connexion bancaire
+        _de: Einstellungen der Bankverbindung prüfen
+        _it: Consultare le impostazioni della connessione bancaria
+        _nl: Instellingen van de bankverbinding bekijken
+      subject:
+        _en: EBICS setup finalized
+        _fr: Mise en place EBICS finalisée
+        _de: EBICS-Einrichtung abgeschlossen
+        _it: Configurazione EBICS finalizzata
+        _nl: EBICS-configuratie afgerond
+    ebics_setup_submitted_email:
+      daily_check_paragraph:
+        _en: CSA Admin will check every night whether the bank has activated the connection.
+        _fr: CSA Admin vérifiera chaque nuit si la banque a activé la connexion.
+        _de: CSA Admin prüft jede Nacht, ob die Bank die Verbindung aktiviert hat.
+        _it: CSA Admin verificherà ogni notte se la banca ha attivato la connessione.
+        _nl: CSA Admin controleert elke nacht of de bank de verbinding heeft geactiveerd.
+      greeting:
+        _en: Hello {{ admin.name }},
+        _fr: Bonjour {{ admin.name }},
+        _de: Hallo {{ admin.name }},
+        _it: Ciao {{ admin.name }},
+        _nl: Hallo {{ admin.name }},
+      letter_button:
+        _en: Download initialization letter
+        _fr: Télécharger la lettre d'initialisation
+        _de: Initialisierungsbrief herunterladen
+        _it: Scaricare la lettera di inizializzazione
+        _nl: Initialisatiebrief downloaden
+      send_letter_paragraph:
+        _en: Print and sign the letter, then send it to the bank so the EBICS access can be activated.
+        _fr: Imprimez et signez la lettre, puis envoyez-la à la banque afin que l'accès EBICS puisse être activé.
+        _de: Den Brief ausdrucken, unterschreiben und an die Bank senden, damit der EBICS-Zugang aktiviert werden kann.
+        _it: Stampate e firmate la lettera, poi inviatela alla banca affinché l'accesso EBICS possa essere attivato.
+        _nl: De brief afdrukken, ondertekenen en naar de bank sturen, zodat de EBICS-toegang kan worden geactiveerd.
+      settings_button:
+        _en: Review bank connection settings
+        _fr: Consulter les paramètres de connexion bancaire
+        _de: Einstellungen der Bankverbindung prüfen
+        _it: Consultare le impostazioni della connessione bancaria
+        _nl: Instellingen van de bankverbinding bekijken
+      subject:
+        _en: EBICS setup started
+        _fr: Mise en place EBICS démarrée
+        _de: EBICS-Einrichtung gestartet
+        _it: Configurazione EBICS avviata
+        _nl: EBICS-configuratie gestart
+      submitted_paragraph:
+        _en: The EBICS setup was submitted successfully.
+        _fr: La mise en place EBICS a été transmise avec succès.
+        _de: Die EBICS-Einrichtung wurde erfolgreich übermittelt.
+        _it: La configurazione EBICS è stata inviata correttamente.
+        _nl: De EBICS-configuratie is succesvol verzonden.
     invitation_email:
       admin_account_paragraph:
         _en: An admin account for {{ organization.name }} has been created for you, please use your email (<strong>{{ admin.email }}</strong>) to log in.

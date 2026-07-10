@@ -231,12 +231,12 @@ CSA Admin also manages automatic retrieval of payments from the [Alternative Ban
 
 Setting up an EBICS 3.0 (H005/BTF) connection with your bank involves several steps and typically takes a few days. Here is the process:
 
-1. **Request the EBICS registration form from your bank** — Contact your bank to ask them to activate an EBICS 3.0 (H005/BTF) connection for your account with daily payment-file downloads (`BTD`) and **camt.053/camt.054** support.
-2. **Send me the bank document** — Following your registration request, you will receive a document from your bank (containing the Participant ID, etc.), scan it and [send it to me](/support).
-3. **INI letter signing** — I will initialize the connection and send you back an INI letter. You must sign **pages 1 and 3** and send it to your bank.
-4. **Finalization** — Once your bank has received and validated the signed INI letter, I can finalize the connection.
+1. **Request the EBICS registration form from your bank** — Contact your bank to ask them to activate an EBICS 3.0 (H005/BTF) connection for your account with daily payment-file downloads (`BTD`) and **camt.053/camt.054** support. Ask the bank for the EBICS URL, Host ID, Client/Contract/Partner ID, and Participant/User ID.
+2. **Start setup in CSA Admin** — In the admin settings, open **Bank connection**, click **Start EBICS setup**, and enter the identifiers from the bank contract. CSA Admin first checks the URL and Host ID, then submits the EBICS initialization orders.
+3. **INI letter signing** — Download the initialization letter, sign **each page**, and send it to your bank.
+4. **Finalization** — Once your bank has received and validated the signed INI letter, CSA Admin checks once per day and activates the connection automatically.
 
-> In the meantime, you can use [manual import](#manual-import) to process your payments.
+> In the meantime, you can use [manual import](#manual-import) to process your payments. If the bank rejects the identifiers or the setup needs support, [contact me](/support).
 
 <!-- country:CH -->
 ### Setting up Alternative Bank Switzerland (ABS) {#abs-setup}

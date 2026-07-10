@@ -1263,6 +1263,12 @@ _:
           _de: Verfügbarkeit
           _it: Disponibilità
           _nl: Beschikbaarheid
+        bank_connection:
+          _en: Bank connection
+          _fr: Connexion bancaire
+          _de: Bankverbindung
+          _it: Connessione bancaria
+          _nl: Bankverbinding
         basket_content:
           _en: 'Content: %{content}'
           _fr: 'Contenu: %{content}'
@@ -3133,6 +3139,193 @@ _:
             _de: Vergangene
             _it: Passato
             _nl: Verleden
+      bank_connection:
+        ebics_setup:
+          bank_access:
+            direct_debit_de:
+              _en: If SEPA direct debit is used, PAIN/pain.008 upload for direct debit files.
+              _fr: Si les prélèvements SEPA sont utilisés, envoi PAIN/pain.008 des fichiers de prélèvement.
+              _de: Falls SEPA-Lastschriften genutzt werden, PAIN/pain.008-Upload für Lastschriftdateien.
+              _it: Se vengono usati gli addebiti diretti SEPA, caricamento PAIN/pain.008 dei file di addebito diretto.
+              _nl: Als SEPA-domiciliëring wordt gebruikt, PAIN/pain.008-upload voor domiciliëringsbestanden.
+            ebics:
+              _en: EBICS 3.0/H005 with BTF enabled.
+              _fr: EBICS 3.0/H005 avec BTF activé.
+              _de: EBICS 3.0/H005 mit aktiviertem BTF.
+              _it: EBICS 3.0/H005 con BTF attivato.
+              _nl: EBICS 3.0/H005 met BTF geactiveerd.
+            payment_reports_ch:
+              _en: Daily payment reports in camt.054, using the newest supported version.
+              _fr: Rapports quotidiens de paiements en camt.054, dans la version la plus récente prise en charge.
+              _de: Tägliche Zahlungsreports in camt.054, in der neuesten unterstützten Version.
+              _it: Report giornalieri dei pagamenti in camt.054, nella versione più recente supportata.
+              _nl: Dagelijkse betalingsrapporten in camt.054, met de nieuwste ondersteunde versie.
+            payment_reports_de:
+              _en: Daily payment/account reports in camt.053, using the newest supported version.
+              _fr: Rapports quotidiens de paiements/comptes en camt.053, dans la version la plus récente prise en charge.
+              _de: Tägliche Zahlungs-/Kontoreports in camt.053, in der neuesten unterstützten Version.
+              _it: Report giornalieri di pagamenti/conti in camt.053, nella versione più recente supportata.
+              _nl: Dagelijkse betalings-/rekeningrapporten in camt.053, met de nieuwste ondersteunde versie.
+          bank_access_title:
+            _en: Request or check during EBICS registration
+            _fr: À demander ou vérifier lors de l'inscription EBICS
+            _de: Bei der EBICS-Registrierung anfordern oder prüfen
+            _it: Da richiedere o verificare durante la registrazione EBICS
+            _nl: Aanvragen of controleren bij de EBICS-registratie
+          bas_html:
+            _en: For Alternative Bank Switzerland (ABS/BAS), follow the <a href="%{handbook_url}">handbook instructions</a> instead. If needed, <a href="%{support_url}">contact me</a>.
+            _fr: Pour la Banque Alternative Suisse (BAS), suivez plutôt les <a href="%{handbook_url}">instructions du manuel</a>. Si besoin, <a href="%{support_url}">contactez-moi</a>.
+            _de: Für die Alternative Bank Schweiz (ABS/BAS) stattdessen den <a href="%{handbook_url}">Anweisungen im Handbuch</a> folgen. Bei Bedarf <a href="%{support_url}">Kontakt aufnehmen</a>.
+            _it: Per Banca Alternativa Svizzera (ABS/BAS), seguite invece le <a href="%{handbook_url}">istruzioni del manuale</a>. Se necessario, <a href="%{support_url}">contattatemi</a>.
+            _nl: Voor Alternative Bank Switzerland (ABS/BAS) in plaats daarvan de <a href="%{handbook_url}">instructies in het handboek</a> volgen. Neem indien nodig <a href="%{support_url}">contact op</a>.
+          demo_disabled:
+            _en: EBICS setup is disabled in demo mode.
+            _fr: La mise en place EBICS est désactivée dans le mode démo.
+            _de: Die EBICS-Einrichtung ist im Demo-Modus deaktiviert.
+            _it: La configurazione EBICS è disattivata in modalità demo.
+            _nl: EBICS-instelling is uitgeschakeld in demomodus.
+          fields:
+            client_id:
+              _en: Client/Contract/Partner ID
+              _fr: ID client/contrat/partenaire
+              _de: Kunden-/Vertrags-/Partner-ID
+              _it: ID cliente/contratto/partner
+              _nl: Klant-/contract-/partner-ID
+            confirmation:
+              _en: I confirm that these identifiers come from the bank EBICS contract.
+              _fr: Je confirme que ces identifiants proviennent du contrat EBICS de la banque.
+              _de: Bestätigen, dass diese Kennungen aus dem EBICS-Vertrag der Bank stammen.
+              _it: Confermo che questi identificativi provengono dal contratto EBICS della banca.
+              _nl: Bevestigen dat deze identificatoren uit het EBICS-contract van de bank komen.
+            host_id:
+              _en: Host ID
+              _fr: ID hôte
+              _de: Host-ID
+              _it: ID host
+              _nl: Host-ID
+            participant_id:
+              _en: Participant/User ID
+              _fr: ID participant/utilisateur
+              _de: Teilnehmer-ID
+              _it: ID partecipante/utente
+              _nl: Deelnemer-/gebruikers-ID
+            url:
+              _en: EBICS URL
+              _fr: URL EBICS
+              _de: EBICS-URL
+              _it: URL EBICS
+              _nl: EBICS-URL
+          flash:
+            active_connection:
+              _en: A bank connection is already configured.
+              _fr: Une connexion bancaire est déjà configurée.
+              _de: Es ist bereits eine Bankverbindung konfiguriert.
+              _it: Una connessione bancaria è già configurata.
+              _nl: Er is al een bankverbinding ingesteld.
+            alert:
+              _en: EBICS setup did not work as expected. I have been alerted and will contact you soon.
+              _fr: La mise en place EBICS ne s'est pas déroulée comme prévu. J'ai été alerté et je vous contacterai bientôt.
+              _de: Die EBICS-Einrichtung ist nicht wie erwartet verlaufen. Eine Benachrichtigung wurde ausgelöst; Rückmeldung folgt bald.
+              _it: La configurazione EBICS non è andata come previsto. Sono stato avvisato e vi contatterò presto.
+              _nl: De EBICS-instelling is niet verlopen zoals verwacht. Er is een melding verstuurd; er volgt binnenkort contact.
+            existing_setup:
+              _en: An EBICS setup is already in progress or needs support. Review the bank connection settings.
+              _fr: Une mise en place EBICS est déjà en cours ou nécessite du support. Consultez les paramètres de connexion bancaire.
+              _de: Eine EBICS-Einrichtung läuft bereits oder benötigt Support. Die Einstellungen der Bankverbindung prüfen.
+              _it: Una configurazione EBICS è già in corso o richiede supporto. Consultate le impostazioni della connessione bancaria.
+              _nl: Er loopt al een EBICS-instelling of er is support nodig. Bekijk de instellingen van de bankverbinding.
+            notice:
+              _en: EBICS setup was started. Download the initialization letter and send it to the bank.
+              _fr: La mise en place EBICS a démarré. Téléchargez la lettre d'initialisation et envoyez-la à la banque.
+              _de: Die EBICS-Einrichtung wurde gestartet. Initialisierungsbrief herunterladen und an die Bank senden.
+              _it: La configurazione EBICS è iniziata. Scaricate la lettera di inizializzazione e inviatela alla banca.
+              _nl: EBICS-instelling is gestart. Download de initialisatiebrief en stuur hem naar de bank.
+            unsupported_country:
+              _en: EBICS self-service setup is currently available for Swiss and German organizations only.
+              _fr: La mise en place EBICS en libre-service est actuellement disponible uniquement pour les organisations suisses et allemandes.
+              _de: Die EBICS-Selbstbedienung ist derzeit nur für Schweizer und deutsche Organisationen verfügbar.
+              _it: La configurazione EBICS self-service è attualmente disponibile solo per organizzazioni svizzere e tedesche.
+              _nl: EBICS-selfservice-instelling is momenteel alleen beschikbaar voor Zwitserse en Duitse organisaties.
+          form_title:
+            _en: EBICS contract identifiers
+            _fr: Identifiants du contrat EBICS
+            _de: EBICS-Vertragskennungen
+            _it: Identificativi del contratto EBICS
+            _nl: EBICS-contractidentificatoren
+          hints:
+            client_id_html:
+              _en: The bank may call this Client ID, Contract ID, Partner ID, Customer ID, or Vertrags-ID. If unsure, <a href="%{support_url}">contact me</a>.
+              _fr: La banque peut l'appeler ID client, ID contrat, ID partenaire, Client ID ou Vertrags-ID. En cas de doute, <a href="%{support_url}">contactez-moi</a>.
+              _de: Banken können diese Kennung Kunden-ID, Vertrags-ID, Partner-ID oder Client ID nennen. Bei Unsicherheit <a href="%{support_url}">Kontakt aufnehmen</a>.
+              _it: La banca può chiamarlo ID cliente, ID contratto, ID partner, Client ID o Vertrags-ID. In caso di dubbio, <a href="%{support_url}">contattatemi</a>.
+              _nl: Banken kunnen dit klant-ID, contract-ID, partner-ID, Client ID of Vertrags-ID noemen. Bij twijfel <a href="%{support_url}">contact opnemen</a>.
+            participant_id_html:
+              _en: The bank may call this Participant ID, User ID, Subscriber ID, or Teilnehmer-ID. If unsure, <a href="%{support_url}">contact me</a>.
+              _fr: La banque peut l'appeler ID participant, ID utilisateur, ID abonné, User ID ou Teilnehmer-ID. En cas de doute, <a href="%{support_url}">contactez-moi</a>.
+              _de: Banken können diese Kennung Teilnehmer-ID, User-ID, Benutzer-ID oder Subscriber ID nennen. Bei Unsicherheit <a href="%{support_url}">Kontakt aufnehmen</a>.
+              _it: La banca può chiamarlo ID partecipante, ID utente, Subscriber ID o Teilnehmer-ID. In caso di dubbio, <a href="%{support_url}">contattatemi</a>.
+              _nl: Banken kunnen dit deelnemer-ID, gebruikers-ID, Subscriber ID of Teilnehmer-ID noemen. Bij twijfel <a href="%{support_url}">contact opnemen</a>.
+            url_html:
+              _en: If the bank gives DNS/host and path separately, combine them into a full URL, for example https://ebics.example.ch/ebics.aspx.
+              _fr: Si la banque indique le DNS/l'hôte et le chemin séparément, combinez-les dans une URL complète, par exemple https://ebics.example.ch/ebics.aspx.
+              _de: Wenn DNS/Host und Pfad getrennt angegeben sind, als vollständige URL kombinieren, zum Beispiel https://ebics.example.ch/ebics.aspx.
+              _it: Se la banca indica DNS/host e percorso separatamente, combinateli in un URL completo, per esempio https://ebics.example.ch/ebics.aspx.
+              _nl: Als DNS/host en pad apart vermeld zijn, combineer ze tot een volledige URL, bijvoorbeeld https://ebics.example.ch/ebics.aspx.
+          instructions_title:
+            _en: Instructions
+            _fr: Instructions
+            _de: Anweisungen
+            _it: Istruzioni
+            _nl: Instructies
+          intro_html:
+            _en: If you do not have EBICS identifiers yet, contact the bank first and request EBICS registration for CSA Admin. The bank usually provides a form to fill in and sign.
+            _fr: Si vous n'avez pas encore les identifiants EBICS, contactez d'abord la banque et demandez une inscription ou adhésion EBICS pour CSA Admin. La banque fournit généralement un formulaire à compléter et signer.
+            _de: Wenn noch keine EBICS-Kennungen vorliegen, zuerst die Bank kontaktieren und eine EBICS-Registrierung für CSA Admin beantragen. Die Bank stellt in der Regel ein Formular bereit, das ausgefüllt und unterschrieben werden muss.
+            _it: Se non avete ancora gli identificativi EBICS, contattate prima la banca e richiedete la registrazione EBICS per CSA Admin. Di solito la banca fornisce un modulo da compilare e firmare.
+            _nl: Als de EBICS-identificatoren nog niet beschikbaar zijn, eerst de bank contacteren en EBICS-registratie voor CSA Admin aanvragen. De bank bezorgt meestal een formulier om in te vullen en te ondertekenen.
+          return_html:
+            _en: Once the bank sends the contract identifiers back, return here and enter the EBICS URL, Host ID, Client/Contract/Partner ID, and Participant/User ID below. If the bank does not support EBICS, please <a href="%{support_url}">contact me</a>.
+            _fr: Lorsque la banque vous renvoie les identifiants du contrat, revenez ici et saisissez ci-dessous l'URL EBICS, l'ID hôte, l'ID client/contrat/partenaire et l'ID participant/utilisateur. Si la banque ne prend pas en charge EBICS, veuillez <a href="%{support_url}">me contacter</a>.
+            _de: Sobald die Bank die Vertragskennungen zurücksendet, hierher zurückkehren und unten EBICS-URL, Host-ID, Kunden-/Vertrags-/Partner-ID und Teilnehmer-ID eingeben. Falls die Bank EBICS nicht unterstützt, bitte <a href="%{support_url}">Kontakt aufnehmen</a>.
+            _it: Quando la banca invia gli identificativi del contratto, tornate qui e inserite qui sotto URL EBICS, ID host, ID cliente/contratto/partner e ID partecipante/utente. Se la banca non supporta EBICS, <a href="%{support_url}">contattatemi</a>.
+            _nl: Zodra de bank de contractidentificatoren terugstuurt, hier terugkomen en hieronder EBICS-URL, Host-ID, klant-/contract-/partner-ID en deelnemer-/gebruikers-ID invullen. Als de bank EBICS niet ondersteunt, neem dan <a href="%{support_url}">contact op</a>.
+          submit:
+            _en: Start
+            _fr: Démarrer
+            _de: Starten
+            _it: Avviare
+            _nl: Starten
+          title:
+            _en: Start EBICS setup
+            _fr: Démarrer la mise en place EBICS
+            _de: EBICS-Einrichtung starten
+            _it: Avviare la configurazione EBICS
+            _nl: EBICS-instelling starten
+          validation:
+            endpoint:
+              _en: The bank did not answer like an EBICS 3.0 endpoint. Check the URL, including any path given separately by the bank.
+              _fr: La banque n'a pas répondu comme un point d'accès EBICS 3.0. Vérifiez l'URL, y compris le chemin éventuellement indiqué séparément par la banque.
+              _de: Die Bank hat nicht wie ein EBICS-3.0-Endpunkt geantwortet. URL prüfen, einschliesslich eines von der Bank separat angegebenen Pfads.
+              _it: La banca non ha risposto come un endpoint EBICS 3.0. Verificate l'URL, compreso l'eventuale percorso indicato separatamente dalla banca.
+              _nl: De bank heeft niet geantwoord als een EBICS 3.0-endpoint. Controleer de URL, inclusief een eventueel apart door de bank opgegeven pad.
+            host_id:
+              _en: The bank rejected this Host ID before accepting the setup. Check the Host ID from the EBICS contract.
+              _fr: La banque a refusé cet ID hôte avant d'accepter la mise en place. Vérifiez l'ID hôte du contrat EBICS.
+              _de: Die Bank hat diese Host-ID vor Annahme der Einrichtung abgelehnt. Host-ID aus dem EBICS-Vertrag prüfen.
+              _it: La banca ha rifiutato questo ID host prima di accettare la configurazione. Verificate l'ID host del contratto EBICS.
+              _nl: De bank heeft deze Host-ID geweigerd voordat de instelling werd aanvaard. Host-ID uit het EBICS-contract controleren.
+            identifiers:
+              _en: The bank rejected these identifiers after accepting the URL and Host ID. Check the Client/Contract ID and Participant/User ID.
+              _fr: La banque a refusé ces identifiants après avoir accepté l'URL et l'ID hôte. Vérifiez l'ID client/contrat et l'ID participant/utilisateur.
+              _de: Die Bank hat diese Kennungen nach Annahme von URL und Host-ID abgelehnt. Kunden-/Vertrags-ID und Teilnehmer-ID prüfen.
+              _it: La banca ha rifiutato questi identificativi dopo aver accettato l'URL e l'ID host. Verificate l'ID cliente/contratto e l'ID partecipante/utente.
+              _nl: De bank heeft deze identificatoren geweigerd nadat de URL en Host-ID waren aanvaard. Klant-/contract-ID en deelnemer-/gebruikers-ID controleren.
+            retry_or_contact:
+              _en: If these values come from the EBICS contract and the error persists, contact me.
+              _fr: Si ces valeurs proviennent du contrat EBICS et que l'erreur persiste, contactez-moi.
+              _de: Wenn diese Werte aus dem EBICS-Vertrag stammen und der Fehler weiterhin auftritt, Kontakt aufnehmen.
+              _it: Se questi valori provengono dal contratto EBICS e l'errore persiste, contattatemi.
+              _nl: Als deze waarden uit het EBICS-contract komen en de fout blijft optreden, neem dan contact op.
       basket_content:
         new_model:
           _en: New %{model}
@@ -3609,6 +3802,160 @@ _:
           _de: Alle optionalen Funktionen sind konfiguriert.
           _it: Tutte le funzionalità opzionali sono configurate.
           _nl: Alle optionele functies zijn geconfigureerd.
+        bank_connection:
+          bas_html:
+            _en: For Alternative Bank Switzerland (ABS/BAS), follow the <a href="%{handbook_url}">handbook instructions</a>. If needed, <a href="%{support_url}">contact me</a>.
+            _fr: Pour la Banque Alternative Suisse (BAS), suivez les <a href="%{handbook_url}">instructions du manuel</a>. Si besoin, <a href="%{support_url}">contactez-moi</a>.
+            _de: Für die Alternative Bank Schweiz (ABS/BAS) zuerst den <a href="%{handbook_url}">Anweisungen im Handbuch</a> folgen. Bei Bedarf <a href="%{support_url}">Kontakt aufnehmen</a>.
+            _it: Per Banca Alternativa Svizzera (ABS/BAS), seguite prima le <a href="%{handbook_url}">istruzioni del manuale</a>. Se necessario, <a href="%{support_url}">contattatemi</a>.
+            _nl: Voor Alternative Bank Switzerland (ABS/BAS) eerst de <a href="%{handbook_url}">instructies in het handboek</a> volgen. Neem indien nodig <a href="%{support_url}">contact op</a>.
+          connection:
+            _en: Connection
+            _fr: Connexion
+            _de: Verbindung
+            _it: Connessione
+            _nl: Verbinding
+          download_initialization_letter:
+            _en: Download initialization letter
+            _fr: Télécharger la lettre d'initialisation
+            _de: Initialisierungsbrief herunterladen
+            _it: Scaricare la lettera di inizializzazione
+            _nl: Initialisatiebrief downloaden
+          health:
+            _en: Health
+            _fr: État
+            _de: Status
+            _it: Stato
+            _nl: Status
+          health_status:
+            errored:
+              _en: Error
+              _fr: Erreur
+              _de: Fehler
+              _it: Errore
+              _nl: Fout
+            healthy:
+              _en: Healthy
+              _fr: OK
+              _de: OK
+              _it: OK
+              _nl: OK
+            unknown:
+              _en: Unknown
+              _fr: Inconnu
+              _de: Unbekannt
+              _it: Sconosciuto
+              _nl: Onbekend
+            warning:
+              _en: Warning
+              _fr: Attention
+              _de: Warnung
+              _it: Attenzione
+              _nl: Waarschuwing
+          last_payment_import:
+            _en: Last payment import
+            _fr: Dernier import de paiements
+            _de: Letzter Zahlungsimport
+            _it: Ultima importazione pagamenti
+            _nl: Laatste betalingsimport
+          last_upload:
+            _en: Last upload
+            _fr: Dernier envoi
+            _de: Letzter Upload
+            _it: Ultimo invio
+            _nl: Laatste upload
+          latest_error:
+            _en: Latest error
+            _fr: Dernière erreur
+            _de: Letzter Fehler
+            _it: Ultimo errore
+            _nl: Laatste fout
+          not_configured_html:
+            _en: Automatic payment import is not set up yet. If the bank does not support EBICS, please <a href="%{support_url}">contact me</a>.
+            _fr: L'import automatique des paiements n'est pas encore configuré. Si la banque ne prend pas en charge EBICS, veuillez <a href="%{support_url}">me contacter</a>.
+            _de: Der automatische Zahlungsimport ist noch nicht eingerichtet. Falls die Bank EBICS nicht unterstützt, bitte <a href="%{support_url}">Kontakt aufnehmen</a>.
+            _it: L'importazione automatica dei pagamenti non è ancora configurata. Se la banca non supporta EBICS, <a href="%{support_url}">contattatemi</a>.
+            _nl: Automatische betalingsimport is nog niet ingesteld. Als de bank EBICS niet ondersteunt, neem dan <a href="%{support_url}">contact op</a>.
+          not_supported:
+            _en: Not supported
+            _fr: Non pris en charge
+            _de: Nicht unterstützt
+            _it: Non supportato
+            _nl: Niet ondersteund
+          onboarding_state:
+            errored:
+              _en: Support needed
+              _fr: Support nécessaire
+              _de: Support nötig
+              _it: Supporto necessario
+              _nl: Support nodig
+            initialized:
+              _en: Initializing
+              _fr: Initialisation
+              _de: Initialisierung
+              _it: Inizializzazione
+              _nl: Initialisatie
+            waiting_for_bank:
+              _en: Waiting for bank
+              _fr: En attente de la banque
+              _de: Warten auf Bank
+              _it: In attesa della banca
+              _nl: Wachten op bank
+          payment_automation:
+            _en: Payment automation
+            _fr: Automatisation des paiements
+            _de: Zahlungsautomatisierung
+            _it: Automazione dei pagamenti
+            _nl: Betalingsautomatisering
+          payment_automation_status:
+            capabilities_pending:
+              _en: Payment automation verification is pending.
+              _fr: La vérification de l'automatisation des paiements est en attente.
+              _de: Prüfung der Zahlungsautomatisierung ausstehend.
+              _it: La verifica dell'automazione dei pagamenti è in attesa.
+              _nl: Controle van betalingsautomatisering is in behandeling.
+            capabilities_warning:
+              _en: Payment automation needs review.
+              _fr: L'automatisation des paiements nécessite une revue.
+              _de: Zahlungsautomatisierung benötigt eine Prüfung.
+              _it: L'automazione dei pagamenti richiede una revisione.
+              _nl: Betalingsautomatisering moet worden nagekeken.
+            missing_payment_download:
+              _en: Payment download is not fully configured yet.
+              _fr: Le téléchargement des paiements n'est pas encore entièrement configuré.
+              _de: Zahlungsdownload ist noch nicht vollständig konfiguriert.
+              _it: Il download dei pagamenti non è ancora completamente configurato.
+              _nl: Betalingsdownload is nog niet volledig geconfigureerd.
+            missing_sepa_upload:
+              _en: Direct debit upload is not fully configured yet.
+              _fr: L'envoi des prélèvements n'est pas encore entièrement configuré.
+              _de: Lastschrift-Upload ist noch nicht vollständig konfiguriert.
+              _it: L'invio degli addebiti diretti non è ancora completamente configurato.
+              _nl: Upload van domiciliëringen is nog niet volledig geconfigureerd.
+          start_setup:
+            _en: Start EBICS setup
+            _fr: Démarrer la mise en place EBICS
+            _de: EBICS-Einrichtung starten
+            _it: Avviare la configurazione EBICS
+            _nl: EBICS-instelling starten
+          state:
+            _en: State
+            _fr: État
+            _de: Status
+            _it: Stato
+            _nl: Status
+          support_needed_html:
+            _en: EBICS setup did not work as expected. Please <a href="%{support_url}">contact me</a>.
+            _fr: La mise en place EBICS ne s'est pas déroulée comme prévu. Veuillez <a href="%{support_url}">me contacter</a>.
+            _de: Die EBICS-Einrichtung ist nicht wie erwartet verlaufen. Bitte <a href="%{support_url}">Kontakt aufnehmen</a>.
+            _it: La configurazione EBICS non è andata come previsto. <a href="%{support_url}">Contattatemi</a>.
+            _nl: De EBICS-instelling is niet verlopen zoals verwacht. Neem <a href="%{support_url}">contact op</a>.
+          waiting_for_bank_html:
+            _en: Download the initialization letter, sign it, and send it to the bank as soon as possible. CSA Admin checks once per day whether the bank has activated the connection.
+            _fr: Téléchargez la lettre d'initialisation, signez-la et envoyez-la à la banque dès que possible. CSA Admin vérifie une fois par jour si la banque a activé la connexion.
+            _de: Initialisierungsbrief herunterladen, unterschreiben und möglichst bald an die Bank senden. CSA Admin prüft einmal täglich, ob die Bank die Verbindung aktiviert hat.
+            _it: Scaricate la lettera di inizializzazione, firmatela e inviatela alla banca il prima possibile. CSA Admin verifica una volta al giorno se la banca ha attivato la connessione.
+            _nl: Download de initialisatiebrief, onderteken hem en stuur hem zo snel mogelijk naar de bank. CSA Admin controleert eenmaal per dag of de bank de verbinding heeft geactiveerd.
         billing_period:
           _en: Billing Period
           _fr: Période de facturation
@@ -4210,11 +4557,11 @@ _:
           _it: Gli annunci consentono di visualizzare un'informazione sintetica sulle schede di consegna, in alto a destra di queste ultime.
           _nl: Aankondigingen maken het mogelijk om beknopte informatie weer te geven op leveringsbladen, rechtsboven.
         automatic_payments_processing:
-          _en: Automatic import
-          _fr: Importation automatique
-          _de: Automatische Import
-          _it: Importazione automatica
-          _nl: Automatische import
+          _en: Import
+          _fr: Importation
+          _de: Import
+          _it: Importazione
+          _nl: import
         automatic_payments_processing_text:
           _en: New payments are imported and processed automatically every night.
           _fr: Les paiements sont importés et traités automatiquement chaque nuit.
@@ -4386,11 +4733,11 @@ _:
           _it: I template consentono di riutilizzare layout e blocchi di contenuto delle newsletter invece di ripartire da zero ogni volta. Sono particolarmente utili per newsletter ricorrenti con una struttura simile.
           _nl: Sjablonen laten je nieuwsbriefindelingen en inhoudsblokken hergebruiken in plaats van telkens opnieuw te beginnen. Ze zijn vooral handig voor terugkerende nieuwsbrieven met een vergelijkbare structuur.
         no_automatic_payments_processing_warning_text_html:
-          _en: Payments are currently not processed automatically, please <a href="/support">contact me</a> to set this up.
-          _fr: Les paiements ne sont actuellement pas traités automatiquement, merci de <a href="/support">me contacter</a> afin de mettre cela en place.
-          _de: Einzelzahlungen werden aktuell nicht automatisch verarbeitet. Bei Fragen gerne <a href="/support">kontaktieren</a>.
-          _it: Le pagamenti non sono attualmente elaborati automaticamente, per favore <a href="/support">contattami</a> per impostare questo.
-          _nl: Betalingen worden momenteel niet automatisch verwerkt. Bij vragen gerust <a href="/support">contact opnemen</a>.
+          _en: Automatic payment import is not set up yet. Open the <a href="%{settings_url}">bank connection settings</a> and follow the instructions.
+          _fr: L'import automatique des paiements n'est pas encore configuré. Ouvrez les <a href="%{settings_url}">paramètres de connexion bancaire</a> et suivez les instructions.
+          _de: Der automatische Zahlungsimport ist noch nicht eingerichtet. Die <a href="%{settings_url}">Einstellungen zur Bankverbindung</a> öffnen und den Anweisungen folgen.
+          _it: L'importazione automatica dei pagamenti non è ancora configurata. Aprite le <a href="%{settings_url}">impostazioni della connessione bancaria</a> e seguite le istruzioni.
+          _nl: Automatische betalingsimport is nog niet ingesteld. De <a href="%{settings_url}">instellingen voor de bankverbinding</a> openen en de instructies volgen.
         no_eligible_memberships:
           _en: No memberships
           _fr: Aucun abonnement

@@ -6,6 +6,8 @@ module Billing
   class EBICS
     module Btf
       class UploadTransferRequest
+        include RequestEnvelope
+
         def initialize(client:, transaction_id:, payload:, segment_number: 1, last_segment: true, signer: nil)
           @client = client
           @transaction_id = transaction_id
@@ -20,26 +22,17 @@ module Billing
         end
 
         def unsigned_xml
-          Nokogiri::XML::Builder.new do |xml|
-            xml.ebicsRequest(DownloadRequest::ROOT_ATTRIBUTES) {
-              xml.header(authenticate: true) {
-                xml.static {
-                  xml.HostID client.host_id
-                  xml.TransactionID transaction_id
-                }
-                xml.mutable {
-                  xml.TransactionPhase "Transfer"
-                  xml.SegmentNumber segment_number, lastSegment: last_segment
-                }
-              }
-              DownloadRequest.auth_signature(xml)
+          serialize_xml(Nokogiri::XML::Builder.new do |xml|
+            xml.ebicsRequest(root_attributes) {
+              transfer_header(xml, transaction_id: transaction_id, phase: "Transfer", segment_number: segment_number, last_segment: last_segment)
+              auth_signature(xml)
               xml.body {
                 xml.DataTransfer {
                   xml.OrderData payload.encrypted_order_data
                 }
               }
             }
-          end.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML, encoding: "utf-8")
+          end)
         end
 
         private

@@ -10,7 +10,7 @@ class EbicsOnboardingLettersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "serves initialization letter PDF with no-store headers" do
-    initialized_connection
+    waiting_for_bank_connection
     login(admins(:ultra))
 
     get ebics_initialization_letter_path(locale: "fr")
@@ -22,6 +22,16 @@ class EbicsOnboardingLettersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "redirects when no EBICS connection is waiting for an initialization letter" do
+    login(admins(:ultra))
+
+    get ebics_initialization_letter_path
+
+    assert_redirected_to organization_path
+    assert_equal I18n.t("ebics.initialization_letter.unavailable"), flash[:notice]
+  end
+
+  test "redirects before setup orders are submitted" do
+    initialized_connection
     login(admins(:ultra))
 
     get ebics_initialization_letter_path
@@ -58,15 +68,30 @@ class EbicsOnboardingLettersControllerTest < ActionDispatch::IntegrationTest
   def initialized_connection
     org(country_code: "CH")
     Billing::EBICS::Onboarding.new(
-      tenant: "acme",
       now: Time.zone.parse("2026-07-05 10:00"),
-      key_generator: ->(_bits) { OpenSSL::PKey::RSA.generate(2048) }).initialize_connection!(
+      key_generator: ->(_bits) { OpenSSL::PKey::RSA.generate(2048) },
+      version_probe_factory: -> { SuccessfulVersionProbe.new }).initialize_connection!(
         url: "https://ebics.example.test",
         host_id: "HOSTID",
-        partner_id: "PARTNERID",
-        user_id: "USERID",
+        client_id: "CLIENTID",
+        participant_id: "PARTICIPANTID",
         name: "Test Bank",
         target_bits: 2048)
     BankConnection.last
+  end
+
+  def waiting_for_bank_connection
+    initialized_connection.tap do |connection|
+      details = connection.status_details.to_h.deep_stringify_keys
+      details["onboarding"] = details.fetch("onboarding") { {} }.merge(
+        "state" => "waiting_for_bank",
+        "ini_submitted_at" => "2026-07-05T10:01:00Z",
+        "hia_submitted_at" => "2026-07-05T10:02:00Z")
+      connection.update!(state: "waiting_for_bank", status_details: details)
+    end
+  end
+
+  class SuccessfulVersionProbe
+    def check!(url:, host_id:) = true
   end
 end

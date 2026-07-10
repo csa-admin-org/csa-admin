@@ -19,7 +19,7 @@ ActiveAdmin.register Organization do
       div class: "grid grid-cols-1 lg:grid-cols-2 md:auto-rows-fr gap-4" do
         organization_enabled_setting_sections(org).each do |section|
           div id: section[:key], class: "scroll-mt-16 h-full", "data-settings-anchor-highlight-target" => true do
-            panel organization_setting_section_title(section),
+            panel organization_setting_section_panel_title(section, org),
               icon: section[:icon],
               action: organization_setting_section_actions(section, org),
               class: "h-full" do

@@ -27,6 +27,7 @@ class EbicsRakeTest < ActiveSupport::TestCase
     Rake::Task["ebics:key_rotation:promote"].reenable
     Rake::Task["ebics:key_rotation:perform"].reenable
     Rake::Task["ebics:key_rotation:discard_pending"].reenable
+    Rake::Task["ebics:key_rotation:purge_previous"].reenable
     Rake::Task["ebics:key_rotation:batch:plan"].reenable
     Rake::Task["ebics:key_rotation:batch:prepare"].reenable
     Rake::Task["ebics:key_rotation:batch:perform"].reenable
@@ -86,7 +87,7 @@ class EbicsRakeTest < ActiveSupport::TestCase
   end
 
   test "onboarding initialize calls backend when confirmed" do
-    with_env("TENANT" => "ragedevert", "CONFIRM" => "true", "URL" => "https://ebics.example.test", "HOST_ID" => "HOSTID", "PARTNER_ID" => "PARTNERID", "USER_ID" => "USERID", "NAME" => "Test Bank", "KEY_BITS" => "2048") do
+    with_env("TENANT" => "ragedevert", "CONFIRM" => "true", "URL" => "https://ebics.example.test", "HOST_ID" => "HOSTID", "CLIENT_ID" => "CLIENTID", "PARTICIPANT_ID" => "PARTICIPANTID", "NAME" => "Test Bank", "KEY_BITS" => "2048") do
       Tenant.stub(:exists?, true) do
         Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
           Billing::EBICS::Onboarding.stub(:new, onboarding_stub) do
@@ -217,14 +218,14 @@ class EbicsRakeTest < ActiveSupport::TestCase
   end
 
   test "key rotation submit verify promote perform and discard tasks call model with guards" do
-    %w[submit verify promote perform discard_pending].each do |task_name|
+    %w[submit verify promote perform discard_pending purge_previous].each do |task_name|
       with_env("TENANT" => "ragedevert", "CONFIRM" => nil) do
         Rake::Task["ebics:key_rotation:#{task_name}"].reenable
         assert_raises(SystemExit) { capture_io { Rake::Task["ebics:key_rotation:#{task_name}"].invoke } }
       end
     end
 
-    %w[submit verify promote perform discard_pending].each do |task_name|
+    %w[submit verify promote perform discard_pending purge_previous].each do |task_name|
       assert_key_rotation_task(task_name)
     end
   end
@@ -346,7 +347,8 @@ class EbicsRakeTest < ActiveSupport::TestCase
       provider: "ebics",
       active: true,
       state: "ready",
-      credentials: ebics_credentials)
+      credentials: ebics_credentials,
+      settings: active_payment_settings)
 
     with_env("TENANT" => "ragedevert", "FROM" => "2026-06-01", "TO" => "2026-06-02", "ACK" => "false") do
       Tenant.stub(:exists?, true) do
@@ -360,6 +362,9 @@ class EbicsRakeTest < ActiveSupport::TestCase
             assert_equal "2026-06-02", json.fetch("to")
             assert_not json.fetch("acknowledge_requested")
             assert_equal "BTD", json.dig("operation", "order_type")
+            assert_equal "camt.053", json.dig("operation", "message_name")
+            assert_equal "DE", json.dig("operation", "scope")
+            assert_nil json.dig("operation", "version")
             assert_equal "data_available_not_acknowledged", json.dig("result", "status")
             assert_equal 1, json.dig("result", "receipt_code")
           end
@@ -403,8 +408,8 @@ class EbicsRakeTest < ActiveSupport::TestCase
       secret: "secret",
       url: "https://ebics.example.test",
       host_id: "HOSTID",
-      participant_id: "PARTNERID",
-      client_id: "USERID"
+      participant_id: "PARTICIPANTID",
+      client_id: "CLIENTID"
     }
   end
 
@@ -412,7 +417,12 @@ class EbicsRakeTest < ActiveSupport::TestCase
     test = self
     ->(_credentials) {
       Object.new.tap do |client|
-        client.define_singleton_method(:test_download) do |_operation, from:, to:, acknowledge:|
+        client.define_singleton_method(:test_download) do |operation, from:, to:, acknowledge:|
+          test.assert_equal "BTD", operation.order_type
+          test.assert_equal "EOP", operation.btf.fetch("service_name")
+          test.assert_equal "DE", operation.btf.fetch("scope")
+          test.assert_equal "camt.053", operation.btf.fetch("message_name")
+          test.assert_nil operation.btf["version"]
           test.assert_equal "2026-06-01", from
           test.assert_equal "2026-06-02", to
           test.assert_not acknowledge
@@ -426,6 +436,18 @@ class EbicsRakeTest < ActiveSupport::TestCase
           })
         end
       end
+    }
+  end
+
+  def active_payment_settings
+    {
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE")
+        }
+      }
     }
   end
 
@@ -445,8 +467,8 @@ class EbicsRakeTest < ActiveSupport::TestCase
 
   def onboarding_stub
     test = self
-    ->(tenant:, connection: nil) {
-      test.assert_equal "ragedevert", tenant
+    ->(connection: nil) {
+      tenant = "ragedevert"
 
       Object.new.tap do |onboarding|
         onboarding.define_singleton_method(:connection) { connection || BankConnection.first }
@@ -459,11 +481,11 @@ class EbicsRakeTest < ActiveSupport::TestCase
             }
           }
         end
-        onboarding.define_singleton_method(:initialize_connection!) do |url:, host_id:, partner_id:, user_id:, name:, target_bits:|
+        onboarding.define_singleton_method(:initialize_connection!) do |url:, host_id:, client_id:, participant_id:, name:, target_bits:|
           test.assert_equal "https://ebics.example.test", url
           test.assert_equal "HOSTID", host_id
-          test.assert_equal "PARTNERID", partner_id
-          test.assert_equal "USERID", user_id
+          test.assert_equal "CLIENTID", client_id
+          test.assert_equal "PARTICIPANTID", participant_id
           test.assert_equal "Test Bank", name
           test.assert_equal "2048", target_bits
           status.merge("initialized" => true)
@@ -536,6 +558,10 @@ class EbicsRakeTest < ActiveSupport::TestCase
 
         rotation.define_singleton_method(:discard_pending!) do |reason:|
           { "task" => "discard_pending", "reason" => reason }
+        end
+
+        rotation.define_singleton_method(:purge_previous!) do |reason:|
+          { "task" => "purge_previous", "reason" => reason }
         end
       end
     }

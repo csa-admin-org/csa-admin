@@ -7,6 +7,8 @@ module Billing
   class EBICS
     module Btf
       class UploadRequest
+        include RequestEnvelope
+
         attr_reader :payload
 
         def initialize(client:, operation:, document:, nonce: SecureRandom.hex(16), timestamp: Time.current.utc.iso8601, product_name: "CSA Admin", language: "en", num_segments: 1, signer: nil, payload: nil)
@@ -26,29 +28,13 @@ module Billing
         end
 
         def unsigned_xml
-          Nokogiri::XML::Builder.new do |xml|
-            xml.ebicsRequest(DownloadRequest::ROOT_ATTRIBUTES) {
-              xml.header(authenticate: true) {
-                xml.static {
-                  xml.HostID client.host_id
-                  xml.Nonce nonce
-                  xml.Timestamp timestamp
-                  xml.PartnerID client.partner_id
-                  xml.UserID client.user_id
-                  xml.Product product_name, Language: language
-                  order_details(xml)
-                  bank_public_key_digests(xml)
-                  xml.SecurityMedium "0000"
-                  xml.NumSegments num_segments
-                }
-                xml.mutable {
-                  xml.TransactionPhase "Initialisation"
-                }
-              }
-              DownloadRequest.auth_signature(xml)
+          serialize_xml(Nokogiri::XML::Builder.new do |xml|
+            xml.ebicsRequest(root_attributes) {
+              initialisation_header(xml, num_segments: num_segments) { order_details(xml) }
+              auth_signature(xml)
               body(xml)
             }
-          end.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML, encoding: "utf-8")
+          end)
         end
 
         private
@@ -76,32 +62,7 @@ module Billing
         end
 
         def service(xml)
-          xml.Service {
-            xml.ServiceName btf.fetch("service_name")
-            xml.Scope btf.fetch("scope") if btf["scope"].present?
-            xml.ServiceOption btf.fetch("service_option") if btf["service_option"].present?
-            xml.Container containerType: btf.fetch("container") if btf["container"].present?
-            msg_name(xml)
-          }
-        end
-
-        def msg_name(xml)
-          if btf["version"].present?
-            xml.MsgName btf.fetch("message_name"), version: btf.fetch("version")
-          else
-            xml.MsgName btf.fetch("message_name")
-          end
-        end
-
-        def bank_public_key_digests(xml)
-          xml.BankPubKeyDigests {
-            xml.Authentication client.bank_x.public_digest,
-              Version: "X002",
-              Algorithm: DownloadRequest::SHA256_ALGORITHM
-            xml.Encryption client.bank_e.public_digest,
-              Version: "E002",
-              Algorithm: DownloadRequest::SHA256_ALGORITHM
-          }
+          btf_service(xml, btf)
         end
 
         def body(xml)

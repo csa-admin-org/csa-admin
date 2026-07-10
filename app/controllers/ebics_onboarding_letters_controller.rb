@@ -25,8 +25,8 @@ class EBICSOnboardingLettersController < ApplicationController
   def onboarding_bank_connection
     connections = BankConnection.where(
       provider: "ebics",
-      state: %w[initializing waiting_for_bank]).select do |connection|
-        Billing::EBICS::Onboarding.new(tenant: Tenant.current, connection: connection).letter_available?
+      state: "waiting_for_bank").select do |connection|
+        Billing::EBICS::Onboarding.new(connection: connection).letter_available?
       end
 
     connections.first if connections.one?

@@ -64,7 +64,7 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
     assert_equal "EBICS capabilities monitor", context.dig(:appsignal, :action)
   end
 
-  test "does not warn when SEPA upload settings are absent" do
+  test "warns when SEPA upload settings are absent for a SEPA configured organization" do
     error = ErrorRecorder.new
     connection = create_connection(settings: download_only_settings)
 
@@ -74,9 +74,11 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
       error_reporter: error).check!
 
     connection.reload
-    assert_empty error.reports
-    assert_equal "healthy", connection.health_status
-    assert_nil connection.last_error_class
+    assert_equal "warning", connection.health_status
+    assert_equal "UnexpectedEBICSCapability", connection.last_error_class
+    assert_includes connection.status_details.dig("last_capabilities_check", "warnings"),
+      "Active EBICS connection must use BTF operation settings"
+    assert_equal "sepa_direct_debit_upload", error.reports.last.second.fetch("operation_kind")
   end
 
   test "does not warn about legacy upload settings when SEPA is not configured" do
@@ -275,8 +277,8 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
       secret: "secret-passphrase",
       url: "https://ebics.example.test",
       host_id: "MULTIVIA",
-      participant_id: "PARTNERID",
-      client_id: "USERID"
+      participant_id: "PARTICIPANTID",
+      client_id: "CLIENTID"
     }
   end
 end

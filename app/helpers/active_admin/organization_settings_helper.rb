@@ -6,6 +6,7 @@ module ActiveAdmin::OrganizationSettingsHelper
       organization_setting_section_definition(:general, :core, "active_admin.resource.form.general", "sliders-horizontal"),
       organization_setting_section_definition(:mailer, :core, "active_admin.resource.form.mailer", "mail", handbook: "emails", handbook_anchor: "email-settings"),
       organization_setting_section_definition(:billing, :core, "active_admin.resource.form.billing", "banknotes", handbook: "billing"),
+      organization_setting_section_definition(:bank_connection, :core, "active_admin.resource.form.bank_connection", "landmark", handbook: "billing", handbook_anchor: "automatic_payments_processing"),
       organization_setting_section_definition(:invoice, :core, "active_admin.resource.form.invoice", "receipt-text", handbook: "billing", handbook_anchor: "invoice-settings"),
       organization_setting_section_definition(:registration, :core, "active_admin.resource.form.registration", "form", handbook: "registration"),
       organization_setting_section_definition(:delivery_sheets, :core, "active_admin.resource.form.delivery_sheets", "file-spreadsheet", handbook: "deliveries", handbook_anchor: "delivery-sheets"),
@@ -72,6 +73,20 @@ module ActiveAdmin::OrganizationSettingsHelper
     title.to_s.include?(".") ? t(title) : title
   end
 
+  def organization_setting_section_panel_title(section, org = Current.org)
+    title = organization_setting_section_title(section, org)
+    return title unless organization_setting_section(section)[:key] == "bank_connection" && organization_settings_bank_connection(org).blank?
+
+    content_tag(:span, class: "inline-flex items-center gap-2") do
+      safe_join([
+        title,
+        organization_settings_status_tag(
+          I18n.t("active_admin.resources.organization.not_configured"),
+          status: :disabled)
+      ])
+    end
+  end
+
   def organization_setting_section_enabled?(section, org = Current.org)
     section = organization_setting_section(section)
     section[:kind] == :core || org.feature?(section[:key])
@@ -86,8 +101,8 @@ module ActiveAdmin::OrganizationSettingsHelper
     organization_setting_section(section)[:kind] == :feature
   end
 
-  def organization_setting_section_editable?(_section)
-    true
+  def organization_setting_section_editable?(section)
+    organization_setting_section(section)[:key] != "bank_connection"
   end
 
   def organization_setting_section_activation?(section, org = Current.org)
@@ -382,7 +397,139 @@ module ActiveAdmin::OrganizationSettingsHelper
     end
   end
 
+  def organization_settings_bank_connection(org = Current.org)
+    org.active_bank_connection || organization_settings_ebics_setup_connection
+  end
+
+  def organization_settings_bank_connection_active?(connection)
+    connection&.active? && connection.ready?
+  end
+
+  def organization_settings_bank_connection_setup?(connection)
+    connection&.ebics? && !organization_settings_bank_connection_active?(connection)
+  end
+
+  def organization_settings_bank_connection_health(connection)
+    status = connection.health_status.to_s
+    organization_settings_status_tag(
+      t("active_admin.resources.organization.bank_connection.health_status.#{status}"),
+      status: status)
+  end
+
+  def organization_settings_bank_connection_provider(connection)
+    case connection.provider
+    when "ebics"
+      [ "EBICS", organization_settings_ebics_version(connection), organization_settings_ebics_security(connection) ].compact_blank.join(" ")
+    when "bas"
+      [ "BAS", organization_settings_bas_identifier(connection) ].compact_blank.join(" ")
+    when "bunq"
+      [ "Bunq", connection.credentials.to_h.stringify_keys["monetary_account_id"].presence || connection.name ].compact_blank.join(" ")
+    else
+      [ connection.provider.to_s.upcase.presence, connection.name ].compact_blank.join(": ")
+    end.presence || organization_settings_missing_status_tag
+  end
+
+  def organization_settings_bank_connection_payment_automation_warning?(connection)
+    connection.ebics? && organization_settings_ebics_payment_automation_status(connection) != "ok"
+  end
+
+  def organization_settings_bank_connection_payment_automation(connection)
+    status = organization_settings_ebics_payment_automation_status(connection)
+    organization_settings_warning_text(
+      t("active_admin.resources.organization.bank_connection.payment_automation_status.#{status}"))
+  end
+
+  def organization_settings_bank_connection_last_import(connection)
+    time = connection.last_import_succeeded_at || connection.last_no_data_at
+    organization_settings_bank_connection_date(time)
+  end
+
+  def organization_settings_bank_connection_last_upload(connection)
+    organization_settings_bank_connection_date(connection.last_upload_succeeded_at)
+  end
+
+  def organization_settings_bank_connection_error?(connection)
+    connection.health_status != "healthy" && connection.last_error_class != "UnexpectedEBICSCapability"
+  end
+
+  def organization_settings_bank_connection_error(connection)
+    return organization_settings_missing_status_tag if connection.health_status == "healthy"
+
+    connection.last_error_class.to_s.demodulize.underscore.humanize.presence ||
+      t("active_admin.resources.organization.bank_connection.onboarding_state.errored")
+  end
+
+  def organization_settings_bank_connection_onboarding_state(connection)
+    state = connection.status_details.to_h.dig("onboarding", "state").presence || connection.state
+    display_state = state == "ini_submitted" ? "initialized" : state
+    status = case state
+    when "waiting_for_bank" then "waiting"
+    when "errored" then "failed"
+    when "initialized", "ini_submitted" then "pending"
+    else state
+    end
+
+    organization_settings_status_tag(
+      t("active_admin.resources.organization.bank_connection.onboarding_state.#{display_state}", default: display_state.to_s.humanize),
+      status: status)
+  end
+
+  def organization_settings_bank_connection_letter_available?(connection)
+    Billing::EBICS::Onboarding.new(connection: connection).letter_available?
+  end
+
   private
+
+  def organization_settings_ebics_setup_connection
+    BankConnection.where(
+      provider: "ebics",
+      active: false,
+      state: %w[initializing waiting_for_bank errored]).order(id: :desc).first
+  end
+
+  def organization_settings_bas_identifier(connection)
+    credentials = connection.credentials.to_h.stringify_keys
+    [ credentials["contract_number"], credentials["account_number"] ].compact_blank.join(" / ").presence || connection.name
+  end
+
+  def organization_settings_ebics_version(connection)
+    protocol = connection.settings.to_h.dig("protocol").presence || "H005"
+    protocol == "H005" ? "3.0/H005" : protocol
+  end
+
+  def organization_settings_ebics_security(connection)
+    bits = connection.ebics_key_summary["participant_key_min_bits"] ||
+      connection.status_details.to_h.dig("onboarding", "target_bits") ||
+      connection.status_details.to_h.dig("key_rotation", "target_bits")
+
+    "(#{bits}-bits)" if bits.present?
+  end
+
+  def organization_settings_ebics_payment_automation_status(connection)
+    return "missing_payment_download" unless organization_settings_ebics_payment_download_configured?(connection)
+    return "missing_sepa_upload" if Current.org.sepa_configured? && !connection.sepa_direct_debit_upload?
+
+    capabilities_check = connection.status_details.to_h.dig("last_capabilities_check").to_h
+    return "capabilities_pending" if capabilities_check.blank?
+    return "capabilities_warning" if capabilities_check["status"] == "warning"
+
+    "ok"
+  end
+
+  def organization_settings_ebics_payment_download_configured?(connection)
+    Billing::EBICS::OperationConfig.new(connection.settings).payment_download
+    true
+  rescue Billing::EBICS::UnsupportedOperation
+    false
+  end
+
+  def organization_settings_warning_text(text)
+    content_tag(:span, text, class: "font-semibold text-orange-700 dark:text-orange-300")
+  end
+
+  def organization_settings_bank_connection_date(time)
+    time.present? ? l(time.to_date, format: :short) : organization_settings_missing_status_tag
+  end
 
   def organization_setting_section_definition(key, kind, title, icon, handbook: nil, handbook_anchor: nil)
     {

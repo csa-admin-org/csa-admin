@@ -7,12 +7,12 @@ require "uri"
 module Billing
   class EBICS
     class KeyRotation
-      TARGET_BITS = 4096
+      TARGET_BITS = KeyMetadata::TARGET_BITS
       ROTATION_ORDER_TYPE = "HCS"
       VERIFICATION_ORDER_TYPE = "HTD"
-      REQUIRED_CREDENTIALS = %w[keys secret url host_id participant_id client_id].freeze
-      PARTICIPANT_KEY_VERSIONS = %w[A006 X002 E002].freeze
-      BANK_KEY_SUFFIXES = %w[.X002 .E002].freeze
+      REQUIRED_CREDENTIALS = KeyMetadata::REQUIRED_CREDENTIALS
+      PARTICIPANT_KEY_VERSIONS = KeyMetadata::PARTICIPANT_KEY_VERSIONS
+      BANK_KEY_SUFFIXES = KeyMetadata::BANK_KEY_SUFFIXES
       KEY_MANAGEMENT_ORDER_TYPES = %w[H3K HCA HCS HIA HPB INI PUB].freeze
       PENDING_CREDENTIAL_KEY = "pending_key_rotation"
       PREVIOUS_CREDENTIAL_KEY = "previous_key_rotation"
@@ -214,6 +214,22 @@ module Billing
         raise
       rescue => e
         fail_safely!(e, stage: "discard_pending")
+      end
+
+      def purge_previous!(reason: "retention_policy")
+        return readiness.merge("purged" => false, "message" => "No previous key rotation to purge") unless previous_keys_json.present?
+
+        update_connection!(
+          credentials: ebics_credentials.except(PREVIOUS_CREDENTIAL_KEY),
+          status: (recorded_status || {}).to_h.deep_stringify_keys.merge(
+            "previous_keys_purged_at" => now.iso8601,
+            "previous_keys_purge_reason" => reason))
+
+        refreshed.readiness.merge("purged" => true)
+      rescue UnsupportedOperation
+        raise
+      rescue => e
+        fail_safely!(e, stage: "purge_previous")
       end
 
       private
@@ -424,10 +440,7 @@ module Billing
       end
 
       def split_key_metadata(metadata)
-        {
-          "participant" => metadata.reject { |name, _attributes| name.include?(".") },
-          "bank" => metadata.select { |name, _attributes| name.include?(".") }
-        }
+        KeyMetadata.split(metadata)
       end
 
       def participant_min_bits
@@ -504,14 +517,7 @@ module Billing
       end
 
       def key_metadata_for(keys)
-        keys.keys.sort.index_with do |name|
-          key = Key.new(keys.fetch(name))
-          {
-            "role" => name.include?(".") ? "bank" : "participant",
-            "bits" => key.bits,
-            "public_digest" => key.public_digest
-          }
-        end
+        KeyMetadata.for_keys(keys)
       end
 
       def build_request_metadata

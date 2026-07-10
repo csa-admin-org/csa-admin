@@ -19,6 +19,12 @@ module Billing
 
         attr_reader :doc
 
+        def h005?
+          doc.root&.name.to_s.match?(/\Aebics.*Response\z/) &&
+            doc.root.namespace&.href == H005_NAMESPACE &&
+            doc.root["Version"] == "H005"
+        end
+
         def ok?
           !technical_error? && !business_error?
         end
@@ -106,20 +112,11 @@ module Billing
         end
 
         def digest_valid?
-          return false unless digest_node
-
-          authenticated = doc.xpath("//*[@authenticate='true']").map(&:canonicalize).join
-          digest = Base64.encode64(OpenSSL::Digest::SHA256.digest(authenticated)).strip
-          digest == digest_node.content
+          signature_verifier.digest_valid?
         end
 
         def signature_valid?
-          return false unless signature_node && signature_value_node
-
-          client.bank_x.key.verify(
-            OpenSSL::Digest::SHA256.new,
-            Base64.decode64(signature_value_node.content),
-            signature_node.canonicalize)
+          signature_verifier.signature_valid?
         end
 
         private
@@ -134,16 +131,8 @@ module Billing
           doc.xpath("//xmlns:SystemReturnCode/xmlns:ReturnCode", xmlns: "http://www.ebics.org/H000").text
         end
 
-        def digest_node
-          doc.at_xpath("//ds:DigestValue", ds: DownloadRequest::XMLDSIG_NAMESPACE)
-        end
-
-        def signature_node
-          doc.at_xpath("//ds:SignedInfo", ds: DownloadRequest::XMLDSIG_NAMESPACE)
-        end
-
-        def signature_value_node
-          doc.at_xpath("//ds:SignatureValue", ds: DownloadRequest::XMLDSIG_NAMESPACE)
+        def signature_verifier
+          @signature_verifier ||= ResponseSignatureVerifier.new(client: client, doc: doc)
         end
 
         def text(xpath)

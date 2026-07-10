@@ -66,8 +66,8 @@ class Billing::EBICS::CapabilitiesReportTest < ActiveSupport::TestCase
       secret: "secret-passphrase",
       url: "https://ebics.example.test",
       host_id: "MULTIVIA",
-      participant_id: "PARTNERID",
-      client_id: "USERID"
+      participant_id: "PARTICIPANTID",
+      client_id: "CLIENTID"
     }
   end
 

@@ -230,12 +230,12 @@ CSA Admin gère également la récupération automatique des paiements de la [Ba
 
 La mise en place d'une connexion EBICS 3.0 (H005/BTF) avec votre banque implique plusieurs étapes et prend généralement quelques jours. Voici le processus:
 
-1. **Demander le formulaire d'inscription à EBICS à votre banque** — Contactez votre banque afin de leur demander d'activer une connexion EBICS 3.0 (H005/BTF) pour votre compte avec récupération journalière des fichiers de paiement (`BTD`) et support des formats **camt.053/camt.054**.
-2. **M'envoyer le document de la banque** — Suite à votre demande d'inscription, vous recevrez un document de votre banque (contenant l'identifiant participant, etc.), scannez-le et [envoyez-le moi](/support).
-3. **Signature de la lettre INI** — J'initialiserai la connexion et vous renverrai une lettre INI. Vous devrez la signer (**pages 1 et 3**) et l'envoyer à votre banque.
-4. **Finalisation** — Une fois que votre banque a reçu et validé la lettre INI signée, je pourrai finaliser la connexion.
+1. **Demander le formulaire d'inscription à EBICS à votre banque** — Contactez votre banque afin de lui demander d'activer une connexion EBICS 3.0 (H005/BTF) pour votre compte avec récupération journalière des fichiers de paiement (`BTD`) et support des formats **camt.053/camt.054**. Demandez à la banque l'URL EBICS, l'ID hôte, l'ID client/contrat/partenaire et l'ID participant/utilisateur.
+2. **Démarrer la mise en place dans CSA Admin** — Dans les paramètres d'administration, ouvrez **Connexion bancaire**, cliquez sur **Démarrer la mise en place EBICS** et saisissez les identifiants du contrat bancaire. CSA Admin vérifie d'abord l'URL et l'ID hôte, puis soumet les ordres d'initialisation EBICS.
+3. **Signature de la lettre INI** — Téléchargez la lettre d'initialisation, signez **chaque page** et envoyez-la à votre banque.
+4. **Finalisation** — Une fois que votre banque a reçu et validé la lettre INI signée, CSA Admin vérifie une fois par jour et active automatiquement la connexion.
 
-> En attendant, vous pouvez utiliser [l'importation manuelle](#manual-import) pour traiter vos paiements.
+> En attendant, vous pouvez utiliser [l'importation manuelle](#manual-import) pour traiter vos paiements. Si la banque refuse les identifiants ou que la mise en place nécessite du support, [contactez-moi](/support).
 
 <!-- country:CH -->
 ### Mise en place Banque Alternative Suisse (BAS) {#abs-setup}

@@ -7,6 +7,8 @@ module Billing
   class EBICS
     module Btf
       class KeyChangeRequest
+        include RequestEnvelope
+
         attr_reader :payload
 
         def initialize(client:, target_client:, order_type: "HCS", nonce: SecureRandom.hex(16), timestamp: Time.current.utc.iso8601, product_name: "CSA Admin", language: "en", num_segments: 1, signer: nil, payload: nil)
@@ -31,29 +33,13 @@ module Billing
         def unsigned_xml
           ensure_supported_order_type!
 
-          Nokogiri::XML::Builder.new do |xml|
-            xml.ebicsRequest(DownloadRequest::ROOT_ATTRIBUTES) {
-              xml.header(authenticate: true) {
-                xml.static {
-                  xml.HostID client.host_id
-                  xml.Nonce nonce
-                  xml.Timestamp timestamp
-                  xml.PartnerID client.partner_id
-                  xml.UserID client.user_id
-                  xml.Product product_name, Language: language
-                  order_details(xml)
-                  bank_public_key_digests(xml)
-                  xml.SecurityMedium "0000"
-                  xml.NumSegments num_segments
-                }
-                xml.mutable {
-                  xml.TransactionPhase "Initialisation"
-                }
-              }
-              DownloadRequest.auth_signature(xml)
+          serialize_xml(Nokogiri::XML::Builder.new do |xml|
+            xml.ebicsRequest(root_attributes) {
+              initialisation_header(xml, num_segments: num_segments) { order_details(xml) }
+              auth_signature(xml)
               body(xml)
             }
-          end.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML, encoding: "utf-8")
+          end)
         end
 
         private
@@ -73,16 +59,6 @@ module Billing
           }
         end
 
-        def bank_public_key_digests(xml)
-          xml.BankPubKeyDigests {
-            xml.Authentication client.bank_x.public_digest,
-              Version: "X002",
-              Algorithm: DownloadRequest::SHA256_ALGORITHM
-            xml.Encryption client.bank_e.public_digest,
-              Version: "E002",
-              Algorithm: DownloadRequest::SHA256_ALGORITHM
-          }
-        end
 
         def body(xml)
           xml.body {

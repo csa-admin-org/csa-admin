@@ -15,7 +15,7 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
       active: true,
       state: "ready",
       credentials: ebics_credentials,
-      settings: btf_payment_settings)
+      settings: btf_payment_settings.merge("secret" => "settings-secret"))
 
     report = Billing::EBICS::ReadinessReport.new(tenant: "acme").to_h
 
@@ -24,6 +24,7 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
     assert_equal "ebics.example.test", report.dig("ebics", "endpoint_host")
     assert_equal "HOSTID", report.dig("ebics", "host_id")
     assert_equal "H005", report.dig("ebics", "protocol")
+    assert_equal BankConnection::FILTERED, report.dig("active_connection", "settings", "secret")
     assert_equal "btf", report.dig("ebics", "current_payment_operation", "mode")
     assert_equal "BTD", report.dig("ebics", "current_payment_operation", "order_type")
     assert_equal "camt.054", report.dig("ebics", "current_payment_operation", "message_name")
@@ -73,5 +74,6 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
 
     assert_not_includes output, ebics_credentials.fetch(:secret)
     assert_not_includes output, ebics_credentials.fetch(:keys).first(80)
+    assert_not_includes output, "settings-secret"
   end
 end

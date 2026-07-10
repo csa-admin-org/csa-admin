@@ -25,9 +25,9 @@ class PDF::EBICSInitializationLetterTest < ActiveSupport::TestCase
     assert_includes text, "Host-ID"
     assert_includes text, "HOSTID"
     assert_includes text, "User-ID"
-    assert_includes text, "USERID"
+    assert_includes text, "PARTICIPANTID"
     assert_includes text, "Partner-ID"
-    assert_includes text, "PARTNERID"
+    assert_includes text, "CLIENTID"
     assert_includes text, "Hash"
     assert_includes text, "Page 1 / 3"
     assert_includes text, "Page 2 / 3"
@@ -41,15 +41,19 @@ class PDF::EBICSInitializationLetterTest < ActiveSupport::TestCase
 
   def initialized_connection
     Billing::EBICS::Onboarding.new(
-      tenant: "acme",
       now: Time.zone.parse("2026-07-05 10:00"),
-      key_generator: ->(_bits) { OpenSSL::PKey::RSA.generate(2048) }).initialize_connection!(
+      key_generator: ->(_bits) { OpenSSL::PKey::RSA.generate(2048) },
+      version_probe_factory: -> { SuccessfulVersionProbe.new }).initialize_connection!(
         url: "https://ebics.example.test",
         host_id: "HOSTID",
-        partner_id: "PARTNERID",
-        user_id: "USERID",
+        client_id: "CLIENTID",
+        participant_id: "PARTICIPANTID",
         name: "Test Bank",
         target_bits: 2048)
     BankConnection.last
+  end
+
+  class SuccessfulVersionProbe
+    def check!(url:, host_id:) = true
   end
 end
