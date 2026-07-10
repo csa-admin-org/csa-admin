@@ -13,7 +13,7 @@ module Billing
         PayloadTooLarge = Class.new(StandardError)
 
         MAX_INFLATED_ORDER_DATA_BYTES = 25 * 1024 * 1024
-        MAX_ZIP_FILES = 100
+        MAX_ZIP_FILES = 1_000
         MAX_ZIP_ENTRY_BYTES = 10 * 1024 * 1024
         MAX_ZIP_TOTAL_BYTES = 25 * 1024 * 1024
         READ_CHUNK_BYTES = 64 * 1024
@@ -59,7 +59,7 @@ module Billing
 
           Zip::File.open_buffer(StringIO.new(data)) do |zip|
             entries = zip.reject(&:directory?)
-            raise PayloadTooLarge, "EBICS ZIP payload contains too many files" if entries.size > MAX_ZIP_FILES
+            raise PayloadTooLarge, "EBICS ZIP payload contains too many files (#{entries.size}/#{MAX_ZIP_FILES})" if entries.size > MAX_ZIP_FILES
 
             entries.each do |entry|
               content = read_zip_entry(entry)

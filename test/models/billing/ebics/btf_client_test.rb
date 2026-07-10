@@ -393,6 +393,14 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_transport_endpoint_error "https://"
   end
 
+  test "BTF ZIP payload accepts legitimate bank batches with many files" do
+    files = 101.times.map { |index| "<Document>#{index}</Document>" }
+
+    assert_equal files, btf_client.files_from_response(
+      operation,
+      response_xml(transaction_key: true, order_data: encrypted_order_data(zip(files))))
+  end
+
   test "BTF ZIP payload rejects too many files" do
     with_payload_limit(:MAX_ZIP_FILES, 1) do
       error = assert_raises(Billing::EBICS::Btf::Payload::PayloadTooLarge) do
@@ -401,7 +409,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
           response_xml(transaction_key: true, order_data: encrypted_order_data(zip(%w[one two]))))
       end
 
-      assert_includes error.message, "too many files"
+      assert_includes error.message, "too many files (2/1)"
     end
   end
 
