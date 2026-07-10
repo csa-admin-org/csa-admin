@@ -312,7 +312,7 @@ module Billing
         Btf::Response.new(client: client, xml: response_xml).tap do |response|
           raise TechnicalError.new(InvalidResponseError.new("Invalid EBICS H005 response")) unless response.h005?
 
-          verify_response!(response)
+          verify_response!(response) if response.ok?
         end
       end
 

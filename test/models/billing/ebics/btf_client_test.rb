@@ -364,6 +364,29 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_includes error.message, "EBICS_NO_DOWNLOAD_DATA_AVAILABLE"
   end
 
+  test "signature verification still allows H005 no-data return codes to surface" do
+    client = btf_client(verify_signatures: true)
+
+    error = assert_raises(Billing::EBICS::NoDownloadDataAvailable) do
+      client.files_from_response(operation, no_data_response_xml)
+    end
+
+    assert_includes error.message, "EBICS_NO_DOWNLOAD_DATA_AVAILABLE"
+  end
+
+  test "signature verification rejects successful unsigned responses" do
+    client = btf_client(verify_signatures: true)
+
+    error = assert_raises(Billing::EBICS::TechnicalError) do
+      client.files_from_response(
+        operation,
+        response_xml(transaction_key: true, order_data: encrypted_order_data(zip([ "<Document>one</Document>" ]))))
+    end
+
+    assert_instance_of Billing::EBICS::BtfClient::VerificationError, error.original_error
+    assert_equal "Invalid EBICS response signature", error.message
+  end
+
   test "transport rejects non-HTTPS EBICS endpoints" do
     assert_transport_endpoint_error "http://ebics.example.test"
     assert_transport_endpoint_error "https://user:secret@ebics.example.test"
@@ -420,7 +443,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
 
   private
 
-  def btf_client(transport: TransportStub.new([]), error_reporter: ErrorRecorder.new)
+  def btf_client(transport: TransportStub.new([]), error_reporter: ErrorRecorder.new, verify_signatures: false)
     Billing::EBICS::BtfClient.new(
       credentials,
       key_store: key_store,
@@ -430,7 +453,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
         signer: FakeSigner.new
       },
       transport: transport,
-      verify_signatures: false,
+      verify_signatures: verify_signatures,
       context: { "tenant" => "acme", "bank" => "Test Bank" },
       error_reporter: error_reporter)
   end
