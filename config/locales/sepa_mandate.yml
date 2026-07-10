@@ -8,38 +8,38 @@ _:
       _nl: Door ondertekening van dit formulier geef je toestemming aan %{creditor_name} om doorlopend incasso-opdrachten te sturen naar je bank om een bedrag van je rekening af te schrijven en aan je bank om doorlopend een bedrag van je rekening af te schrijven overeenkomstig de opdracht van %{creditor_name}.
     creditor_identifier_line:
       _en: 'Creditor Identifier: %{sepa_creditor_identifier}'
-      _fr: 'Identifiant créancier SEPA (ICS) : %{sepa_creditor_identifier}'
+      _fr: 'Identifiant créancier SEPA (ICS): %{sepa_creditor_identifier}'
       _de: 'Gläubiger-Identifikationsnummer: %{sepa_creditor_identifier}'
       _it: 'Identificativo del creditore SEPA: %{sepa_creditor_identifier}'
       _nl: 'Incassant ID: %{sepa_creditor_identifier}'
     creditor_line:
       _en: 'Creditor: %{creditor_name}, %{creditor_street}, %{creditor_zip} %{creditor_city}'
-      _fr: 'Créancier : %{creditor_name}, %{creditor_street}, %{creditor_zip} %{creditor_city}'
+      _fr: 'Créancier: %{creditor_name}, %{creditor_street}, %{creditor_zip} %{creditor_city}'
       _de: 'Zahlungsempfänger: %{creditor_name}, %{creditor_street}, %{creditor_zip} %{creditor_city}'
       _it: 'Creditore: %{creditor_name}, %{creditor_street}, %{creditor_zip} %{creditor_city}'
       _nl: 'Incassant: %{creditor_name}, %{creditor_street}, %{creditor_zip} %{creditor_city}'
     mandate_reference_line:
       _en: 'Mandate reference (UMR): %{sepa_mandate_id}'
-      _fr: 'Référence unique du mandat (RUM) : %{sepa_mandate_id}'
+      _fr: 'Référence unique du mandat (RUM): %{sepa_mandate_id}'
       _de: 'Mandatsreferenz: %{sepa_mandate_id}'
       _it: 'Riferimento del mandato (UMR): %{sepa_mandate_id}'
       _nl: 'Kenmerk machtiging: %{sepa_mandate_id}'
     pdf:
       creditor:
         _en: 'Creditor:'
-        _fr: 'Créancier :'
+        _fr: 'Créancier:'
         _de: 'Zahlungsempfänger:'
         _it: 'Creditore:'
         _nl: 'Incassant:'
       creditor_identifier:
         _en: 'Creditor Identifier:'
-        _fr: 'Identifiant créancier (ICS) :'
+        _fr: 'Identifiant créancier (ICS):'
         _de: 'Gläubiger-Identifikationsnummer:'
         _it: 'Identificativo creditore SEPA:'
         _nl: 'Incassant ID:'
       debtor:
         _en: 'Debtor:'
-        _fr: 'Débiteur :'
+        _fr: 'Débiteur:'
         _de: 'Zahlungspflichtiger:'
         _it: 'Debitore:'
         _nl: 'Rekeninghouder:'
@@ -51,19 +51,19 @@ _:
         _nl: Gedetailleerd toestemmingsbewijs (tijdstempel, IP, user agent) wordt opgeslagen en is op aanvraag beschikbaar.
       iban:
         _en: 'IBAN:'
-        _fr: 'IBAN :'
+        _fr: 'IBAN:'
         _de: 'IBAN:'
         _it: 'IBAN:'
         _nl: 'IBAN:'
       mandate_reference:
         _en: 'Mandate reference (UMR):'
-        _fr: 'Référence du mandat (RUM) :'
+        _fr: 'Référence du mandat (RUM):'
         _de: 'Mandatsreferenz:'
         _it: 'Riferimento mandato (UMR):'
         _nl: 'Kenmerk machtiging:'
       signed_on:
         _en: 'Signed on:'
-        _fr: 'Signé le :'
+        _fr: 'Signé le:'
         _de: 'Unterzeichnet am:'
         _it: 'Firmato il:'
         _nl: 'Ondertekend op:'
@@ -75,7 +75,7 @@ _:
         _nl: SEPA-machtiging doorlopende incasso
     refund_notice:
       _en: 'Note: As part of your rights, you are entitled to a refund from your bank under the terms and conditions of your agreement with your bank. A refund must be claimed within 8 weeks starting from the date on which your account was debited.'
-      _fr: 'Note : Vous bénéficiez du droit d''être remboursé par votre banque selon les conditions décrites dans la convention que vous avez passée avec elle. Toute demande de remboursement doit être présentée dans les 8 semaines suivant la date de débit de votre compte.'
+      _fr: 'Note: Vous bénéficiez du droit d''être remboursé par votre banque selon les conditions décrites dans la convention que vous avez passée avec elle. Toute demande de remboursement doit être présentée dans les 8 semaines suivant la date de débit de votre compte.'
       _de: 'Hinweis: Ich kann innerhalb von acht Wochen, beginnend mit dem Belastungsdatum, die Erstattung des belasteten Betrags verlangen. Es gelten dabei die mit meinem Kreditinstitut vereinbarten Bedingungen.'
       _it: 'Nota: Il debitore ha diritto al rimborso dalla propria banca secondo gli accordi ed alle condizioni che regolano il rapporto con quest''ultima. Se del caso, il rimborso deve essere richiesto nel termine di 8 settimane a decorrere dalla data di addebito in conto.'
       _nl: 'Let op: Als je het niet eens bent met deze afschrijving kun je deze laten terugboeken. Neem hiervoor binnen acht weken na afschrijving contact op met je bank. Vraag je bank naar de voorwaarden.'

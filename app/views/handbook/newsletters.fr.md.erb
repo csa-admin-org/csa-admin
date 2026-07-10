@@ -8,17 +8,17 @@ Ces newsletters peuvent s'adresser à tous vos membres ou à une [audience](#aud
 
 ## Audience {#audience}
 
-Lors de la création d'une newsletter, vous choisissez l'audience cible. Plusieurs filtres sont disponibles :
+Lors de la création d'une newsletter, vous choisissez l'audience cible. Plusieurs filtres sont disponibles:
 
-- **Statut du membre** : Actif, soutien, inactif, en attente (lorsque disponible), ou tous les membres.
-- **Statut de l'abonnement** : À l'essai, en cours, futur ou passé.
-- **<%= BasketSize.model_name.human %>** : Membres avec une <%= BasketSize.model_name.human.downcase %> spécifique.
-- **<%= BasketComplement.model_name.human %>** : Membres abonnés à un <%= BasketComplement.model_name.human.downcase %> spécifique.
-- **Dépôt** : Membres dans un dépôt spécifique.
-- **Livraison** : Membres avec un <%= Basket.model_name.human.downcase %> pour une date de livraison spécifique.
-- **Statut de facture** : Membres avec des factures ouvertes ou en retard.
-- **<%= activities_human_name %>** : Membres avec des participations demandées ou manquantes, ou participants d'une activité spécifique.
-- **Livraison épicerie** : Membres avec des commandes pour une livraison épicerie spécifique.
+- **Statut du membre**: Actif, soutien, inactif, en attente (lorsque disponible), ou tous les membres.
+- **Statut de l'abonnement**: À l'essai, en cours, futur ou passé.
+- **<%= BasketSize.model_name.human %>**: Membres avec une <%= BasketSize.model_name.human.downcase %> spécifique.
+- **<%= BasketComplement.model_name.human %>**: Membres abonnés à un <%= BasketComplement.model_name.human.downcase %> spécifique.
+- **Dépôt**: Membres dans un dépôt spécifique.
+- **Livraison**: Membres avec un <%= Basket.model_name.human.downcase %> pour une date de livraison spécifique.
+- **Statut de facture**: Membres avec des factures ouvertes ou en retard.
+- **<%= activities_human_name %>**: Membres avec des participations demandées ou manquantes, ou participants d'une activité spécifique.
+- **Livraison épicerie**: Membres avec des commandes pour une livraison épicerie spécifique.
 
 ### Segments enregistrés {#segments}
 
@@ -73,11 +73,11 @@ Si vous souhaitez envoyer des pièces jointes plus lourdes, vous pouvez utiliser
 
 Une fois une newsletter envoyée, le statut de distribution de chaque email est suivi individuellement. Vous pouvez voir le nombre d'emails distribués, rejetés ou supprimés directement sur la [page de détail de la newsletter](/newsletters).
 
-Chaque distribution affiche :
+Chaque distribution affiche:
 
-- **Distribué** : L'email a été remis avec succès au serveur de messagerie du destinataire.
-- **Rejeté** : L'email a été refusé (adresse invalide, boîte pleine, etc.). Les détails sur la raison du rejet sont disponibles sur la page de distribution.
-- **Supprimé** : L'adresse email est sur la liste de suppression (rejet précédent ou plainte pour spam) et l'email n'a pas été envoyé.
+- **Distribué**: L'email a été remis avec succès au serveur de messagerie du destinataire.
+- **Rejeté**: L'email a été refusé (adresse invalide, boîte pleine, etc.). Les détails sur la raison du rejet sont disponibles sur la page de distribution.
+- **Supprimé**: L'adresse email est sur la liste de suppression (rejet précédent ou plainte pour spam) et l'email n'a pas été envoyé.
 
 > Les membres qui se sont [désinscrits](#unsubscription) des newsletters apparaissent comme "supprimés" dans le suivi de distribution.
 

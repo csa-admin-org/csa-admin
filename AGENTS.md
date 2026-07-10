@@ -76,7 +76,9 @@ See `DESIGN.md` for icon and panel conventions.
 
 ## Translations
 
-See `TRANSLATIONS.md` for locale file conventions, two-phase workflow, and voice & tone rules per language.
+See `TRANSLATIONS.md` for locale file conventions, scoped translation variants, the two-phase workflow, and voice & tone rules per language.
+
+`I18n::Backend::ScopedLookup` (`lib/i18n/backend/scoped_lookup.rb`) automatically tries `/scope` key variants from `Current.org` basket and activity terminology, then falls back to the base key. Request the base key in application code, keep an unscoped fallback, and place scopes before `_html` (for example, `description/bag_html`).
 
 ## GDPR & Member Privacy
 

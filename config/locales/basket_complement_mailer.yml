@@ -3,7 +3,7 @@ _:
     weekly_summary_email:
       intro_paragraph:
         _en: 'Here are the counts of {{ basket_complement }} for the upcoming week:'
-        _fr: 'Voici les quantités de {{ basket_complement }} pour la semaine à venir :'
+        _fr: 'Voici les quantités de {{ basket_complement }} pour la semaine à venir:'
         _de: 'Hier sind die Mengen von {{ basket_complement }} für die kommende Woche:'
         _it: 'Ecco le quantità di {{ basket_complement }} per la settimana prossima:'
         _nl: 'Hier zijn de aantallen van {{ basket_complement }} voor de komende week:'

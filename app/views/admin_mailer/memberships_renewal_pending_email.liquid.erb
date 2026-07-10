@@ -4,13 +4,13 @@
 <ul>
   {% if pending_memberships.size > 0 %}
   <li>
-    <a href={{ pending_action_url }}>{{ pending_memberships.size }} <%= t(".pending_memberships_link") %></a> <%= t(".pending_memberships_suffix") %>
+    <%= t(".pending_memberships_label") %> <a href={{ pending_action_url }}>{{ pending_memberships.size }}</a>
   </li>
   {% endif %}
 
   {% if opened_memberships.size > 0 %}
   <li>
-    <a href={{ opened_action_url }}>{{ opened_memberships.size }} <%= t(".opened_memberships_link") %></a> <%= t(".opened_memberships_suffix") %>
+    <%= t(".opened_memberships_label") %> <a href={{ opened_action_url }}>{{ opened_memberships.size }}</a>
   </li>
   {% endif %}
 </ul>

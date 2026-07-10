@@ -222,7 +222,7 @@ _:
         _nl: moet oneven zijn
       record_invalid:
         _en: 'Validation failed: %{errors}'
-        _fr: 'La validation a échoué : %{errors}'
+        _fr: 'La validation a échoué: %{errors}'
         _de: 'Die Bestätigung ist fehlgeschlagen: %{errors}'
         _it: 'La conferma è fallita: %{errors}'
         _nl: 'Validatie mislukt: %{errors}'
@@ -292,20 +292,20 @@ _:
     template:
       body:
         _en: 'Please check the following fields: '
-        _fr: 'Veuillez vérifier les champs suivants : '
+        _fr: 'Veuillez vérifier les champs suivants: '
         _de: 'Bitte folgende Felder überprüfen: '
         _it: 'Vogliate verificare i campi seguenti: '
         _nl: 'Controleer de volgende velden: '
       header:
         one:
           _en: 'This %{model} cannot be saved: 1 error'
-          _fr: 'Impossible d''enregistrer ce %{model} : 1 erreur'
+          _fr: 'Impossible d''enregistrer ce %{model}: 1 erreur'
           _de: 'Dieses %{model} kann nicht gespeichert werden: 1 Fehlermeldung'
           _it: 'Impossibile registrare questo %{model}: 1 errore'
           _nl: 'Dit %{model} kan niet worden opgeslagen: 1 fout'
         other:
           _en: 'This %{model} cannot be saved: %{count} errors'
-          _fr: 'Impossible d''enregistrer ce %{model} : %{count} erreurs'
+          _fr: 'Impossible d''enregistrer ce %{model}: %{count} erreurs'
           _de: 'Dieses %{model} kann nicht gespeichert werden: %{count} Fehlermeldungen'
           _it: 'Impossibile registrare questo %{model}: %{count} errori'
           _nl: 'Dit %{model} kan niet worden opgeslagen: %{count} fouten'

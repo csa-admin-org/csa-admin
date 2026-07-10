@@ -16,10 +16,10 @@ Depuis [la page du <%= BasketContent.model_name.human.downcase %>](/basket_conte
 
 Pour chaque produit, vous définissez la quantité par <%= Basket.model_name.human.downcase %> pour chaque <%= BasketSize.model_name.human.downcase %>. Des curseurs de pourcentage permettent d'ajuster la répartition entre les tailles de manière proportionnelle, et la quantité totale se met à jour automatiquement en fonction des quantités par taille et du nombre actuel de <%= Basket.model_name.human(count: 2).downcase %>.
 
-Deux boutons de préréglage sont disponibles pour une distribution rapide :
+Deux boutons de préréglage sont disponibles pour une distribution rapide:
 
-- **Au prorata du prix** : répartit les quantités proportionnellement au prix de chaque <%= BasketSize.model_name.human.downcase %>, de sorte qu'une taille deux fois plus chère reçoit environ deux fois plus.
-- **À parts égales** : attribue la même quantité à chaque <%= BasketSize.model_name.human.downcase %>.
+- **Au prorata du prix**: répartit les quantités proportionnellement au prix de chaque <%= BasketSize.model_name.human.downcase %>, de sorte qu'une taille deux fois plus chère reçoit environ deux fois plus.
+- **À parts égales**: attribue la même quantité à chaque <%= BasketSize.model_name.human.downcase %>.
 
 Un aperçu en direct affiche le nombre de <%= Basket.model_name.human(count: 2).downcase %> et les prix.
 
@@ -37,7 +37,7 @@ Lors de la consultation d'une livraison spécifique, un panneau de prix apparaî
 
 Lorsque les dépôts reçoivent des prix différents — par exemple parce que certains produits ne sont attribués qu'à certains dépôts — le panneau affiche une plage de prix min–max. En survolant chaque valeur, les dépôts correspondants sont affichés.
 
-Une section repliable portant le nom de l'année fiscale affiche la différence de prix cumulée depuis le début de l'année pour les livraisons effectuées jusqu'ici, décomposée par cycle de livraison lorsque plusieurs sont configurés. Les points colorés du résumé donnent un aperçu rapide du statut : vert signifie que le total cumulé est supérieur au total planifié (>5 %), rouge inférieur, et neutre proche de la cible (±5 %).
+Une section repliable portant le nom de l'année fiscale affiche la différence de prix cumulée depuis le début de l'année pour les livraisons effectuées jusqu'ici, décomposée par cycle de livraison lorsque plusieurs sont configurés. Les points colorés du résumé donnent un aperçu rapide du statut: vert signifie que le total cumulé est supérieur au total planifié (>5 %), rouge inférieur, et neutre proche de la cible (±5 %).
 
 ## Affichage du contenu aux membres {#displaying-contents-to-members}
 

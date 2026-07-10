@@ -1,8 +1,8 @@
 # Cartes
 
-Les cartes aident les membres et les visiteurs à trouver vos dépôts. CSA Admin peut les afficher à deux endroits :
+Les cartes aident les membres et les visiteurs à trouver vos dépôts. CSA Admin peut les afficher à deux endroits:
 
-- dans le formulaire d'inscription, pour aider les personnes à choisir leur dépôt ;
+- dans le formulaire d'inscription, pour aider les personnes à choisir leur dépôt;
 - sur votre site web public, avec une carte des dépôts intégrée.
 
 Seuls les dépôts que vous marquez explicitement comme visibles sur les cartes sont affichés. Les données de carte contiennent uniquement le nom public du dépôt et sa position. Les contacts, notes, prix et quantités de paniers ne sont pas inclus.
@@ -11,10 +11,10 @@ Seuls les dépôts que vous marquez explicitement comme visibles sur les cartes 
 
 1. Activez **Cartes** dans [les paramètres](/settings#maps).
 2. Choisissez un style de carte dans [les paramètres des cartes](/settings#maps), si le style par défaut ne convient pas à votre site.
-3. Pour chaque dépôt à afficher sur une carte :
-   - complétez l'adresse ;
-   - utilisez **Géocoder depuis l'adresse** ou saisissez manuellement la latitude et la longitude ;
-   - contrôlez le marqueur sur le formulaire du dépôt ;
+3. Pour chaque dépôt à afficher sur une carte:
+   - complétez l'adresse;
+   - utilisez **Géocoder depuis l'adresse** ou saisissez manuellement la latitude et la longitude;
+   - contrôlez le marqueur sur le formulaire du dépôt;
    - activez **Visible sur les cartes** seulement une fois la position correcte.
 
 Les coordonnées et la visibilité sur les cartes sont séparées volontairement. Un dépôt peut avoir des coordonnées sans être publié sur une carte.
@@ -34,19 +34,19 @@ Vous pouvez aussi sélectionner plusieurs dépôts sur [la page des dépôts](<%
 
 La carte du formulaire d'inscription s'active séparément dans [les paramètres des cartes](/settings#maps). Gardez-la désactivée tant que les positions des dépôts n'ont pas été vérifiées.
 
-Une fois activée, elle apparaît directement au-dessus des choix de dépôt principal dans le formulaire d'inscription. La liste reste la sélection officielle : les dépôts sans coordonnées, la livraison à domicile, la livraison à vélo et les autres options non cartographiées restent visibles et sélectionnables dans la liste.
+Une fois activée, elle apparaît directement au-dessus des choix de dépôt principal dans le formulaire d'inscription. La liste reste la sélection officielle: les dépôts sans coordonnées, la livraison à domicile, la livraison à vélo et les autres options non cartographiées restent visibles et sélectionnables dans la liste.
 
-Utilisez la carte comme aide visuelle :
+Utilisez la carte comme aide visuelle:
 
-- cliquer sur un marqueur sélectionne le dépôt principal correspondant ;
-- survoler un marqueur affiche son nom et met la ligne correspondante en évidence, sans la sélectionner ni déplacer la liste ;
-- sélectionner ou survoler un dépôt dans la liste met son marqueur en évidence ; lors d'une sélection, la carte peut se déplacer pour garder le marqueur visible ;
-- les dépôts alternatifs, lorsqu'ils sont affichés, peuvent être mis en évidence sur la carte, mais cliquer sur un marqueur ne sélectionne jamais une alternative ;
+- cliquer sur un marqueur sélectionne le dépôt principal correspondant;
+- survoler un marqueur affiche son nom et met la ligne correspondante en évidence, sans la sélectionner ni déplacer la liste;
+- sélectionner ou survoler un dépôt dans la liste met son marqueur en évidence; lors d'une sélection, la carte peut se déplacer pour garder le marqueur visible;
+- les dépôts alternatifs, lorsqu'ils sont affichés, peuvent être mis en évidence sur la carte, mais cliquer sur un marqueur ne sélectionne jamais une alternative;
 - lorsqu'il est affiché, le filtre texte des dépôts filtre à la fois la liste et les marqueurs visibles.
 
 ## Carte publique intégrée {#public-embed}
 
-Utilisez cette option pour afficher une carte des dépôts sur le site web de votre organisation. La personne qui gère votre site peut ajouter cette iframe :
+Utilisez cette option pour afficher une carte des dépôts sur le site web de votre organisation. La personne qui gère votre site peut ajouter cette iframe:
 
     <iframe
       title="Carte des dépôts"
@@ -61,16 +61,16 @@ L'iframe fonctionne sur le domaine configuré pour le site web et ses sous-domai
 
 ### Paramètres URL {#embed-params}
 
-L'intégration accepte quelques paramètres URL optionnels :
+L'intégration accepte quelques paramètres URL optionnels:
 
 | Paramètre | Exemple | Utilité |
 |-----------|---------|---------|
-| `style` | `?style=bright` | Change le style de carte pour cette iframe. Valeurs autorisées : `positron`, `bright`, `liberty`, `dark`, `fiord`. |
+| `style` | `?style=bright` | Change le style de carte pour cette iframe. Valeurs autorisées: `positron`, `bright`, `liberty`, `dark`, `fiord`. |
 | `marker_color` | `?marker_color=4f8a10` | Change la couleur des marqueurs pour cette iframe uniquement. Utilisez une couleur hexadécimale sur 3 ou 6 caractères, avec ou sans `#`. La couleur par défaut est le vert (`<%= default_depot_marker_color %>`). |
-| `locale` | `?locale=de` | Change la langue de l'interface de la carte. Par défaut : la langue principale de l'organisation. |
-| `controls` | `?controls=geolocate,zoom` | Choisit les contrôles visibles sur la carte. Par défaut : `geolocate,zoom` ; utilisez `?controls=` pour les masquer. |
+| `locale` | `?locale=de` | Change la langue de l'interface de la carte. Par défaut: la langue principale de l'organisation. |
+| `controls` | `?controls=geolocate,zoom` | Choisit les contrôles visibles sur la carte. Par défaut: `geolocate,zoom`; utilisez `?controls=` pour les masquer. |
 | `depot_ids` | `?depot_ids=1,2,3` | Limite la carte à certains IDs de dépôts. Les dépôts cachés ou non visibles sur les cartes restent exclus. |
 
-Les paramètres peuvent être combinés :
+Les paramètres peuvent être combinés:
 
     <%= Current.org.admin_url %>/embeds/maps/depots?style=bright&marker_color=4f8a10&locale=fr

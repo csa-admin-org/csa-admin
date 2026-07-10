@@ -76,6 +76,61 @@ class AdminMailerTest < ActionMailer::TestCase
     end
   end
 
+  test "localized admin email greetings are consistent" do
+    actions = %i[
+      delivery_list_email
+      demo_follow_up_email
+      ebics_setup_finalized_email
+      ebics_setup_submitted_email
+      invitation_email
+      invoice_overpaid_email
+      invoice_third_overdue_notice_email
+      membership_trial_cancelation_email
+      memberships_renewal_pending_email
+      new_absence_email
+      new_activity_participation_email
+      new_email_suppression_email
+      new_registration_email
+      new_shop_order_email
+      payment_reversal_email
+    ]
+    greetings = {
+      en: "Hello {{ admin.name }},",
+      fr: "Salut {{ admin.name }},",
+      de: "Hallo {{ admin.name }},",
+      it: "Ciao {{ admin.name }},",
+      nl: "Hallo {{ admin.name }},"
+    }
+
+    greetings.each do |locale, greeting|
+      actions.each do |action|
+        assert_equal greeting, I18n.t("admin_mailer.#{action}.greeting", locale: locale)
+      end
+    end
+  end
+
+
+
+  test "payment reversal terminology is consistent with its notification setting" do
+    terms = {
+      en: "Payment reversal",
+      fr: "Remboursement d'un paiement",
+      de: "Zahlungsrückbuchung",
+      it: "Storno di pagamento",
+      nl: "Betalingsterugboeking"
+    }
+
+    terms.each do |locale, term|
+      label = I18n.t("admin.notifications.payment_reversal", locale: locale)
+      hint = I18n.t("admin.notifications.payment_reversal_hint", locale: locale)
+      subject = I18n.t("admin_mailer.payment_reversal_email.subject", locale: locale, number: 42)
+
+      assert_equal term, label
+      assert_includes hint.downcase, term.downcase
+      assert subject.start_with?(term), "Expected #{locale} subject to start with #{term.inspect}"
+    end
+  end
+
   test "invoice_overpaid_email" do
     invoice = invoices(:annual_fee)
 
@@ -139,8 +194,8 @@ class AdminMailerTest < ActionMailer::TestCase
 
     body = mail.body.to_s
     assert_includes body, "Hello Thibaud,"
-    assert_includes body, "A payment for the invoice ##{payment.invoice_id} from <strong>#{payment.member.name}</strong> has been reversed, please verify."
-    assert_includes body, "Access reversal payment page"
+    assert_includes body, "A payment reversal for invoice ##{payment.invoice_id} from <strong>#{payment.member.name}</strong> has been imported. Please review it."
+    assert_includes body, "Review payment reversal"
     assert_includes body, "https://admin.acme.test/payments/#{payment.id}"
     assert_includes body, "https://admin.acme.test/admins/#{admins(:ultra).id}/edit#notifications"
     assert_includes body, "Manage my notifications"
@@ -218,7 +273,7 @@ class AdminMailerTest < ActionMailer::TestCase
 
     body = mail.body.to_s
     assert_includes body, "Hello Thibaud,"
-    assert_includes body, "Email rejected (HardBounce)</h1>\n\n<p>Hello Thibaud,</p>\n\n<p>The email <strong>john@doe.com</strong> was rejected during the last message delivery due to the following reason: <strong>HardBounce</strong>.</p>"
+    assert_includes body, "Email rejected (HardBounce)</h1>\n\n<p>Hello Thibaud,</p>\n\n<p>The email address <strong>john@doe.com</strong> was rejected during the last message delivery for the following reason: <strong>HardBounce</strong>.</p>"
     assert_includes body, "Member: John Doe"
     assert_includes body, "https://admin.acme.test/members/#{members(:john).id}"
     assert_includes body, "https://admin.acme.test/admins/#{admins(:ultra).id}/edit#notifications"
@@ -295,17 +350,17 @@ class AdminMailerTest < ActionMailer::TestCase
       action_url: "https://admin.example.com/memberships"
     ).memberships_renewal_pending_email
 
-    assert_equal "⚠️ Membership(s) pending renewal!", mail.subject
+    assert_equal "⚠️ Membership renewals pending", mail.subject
     assert_equal [ "info@csa-admin.org" ], mail.to
     assert_equal "admin-memberships-renewal-pending", mail.tag
     assert_equal "Acme <info@acme.test>", mail[:from].decoded
 
     body = mail.body.to_s
     assert_includes body, "Hello Thibaud,"
-    assert_includes body, "2 membership(s)</a>"
-    assert_includes body, "https://admin.example.com/memberships/pending"
-    assert_includes body, "1 open renewal request(s)</a>"
-    assert_includes body, "https://admin.example.com/memberships/opened"
+    assert_includes body, "Memberships not yet renewed or canceled:"
+    assert_includes body, "https://admin.example.com/memberships/pending>2</a>"
+    assert_includes body, "Open renewal requests not yet finalized:"
+    assert_includes body, "https://admin.example.com/memberships/opened>1</a>"
     assert_includes body, "Access memberships"
     assert_includes body, "https://admin.example.com/memberships"
     assert_includes body, "https://admin.acme.test/admins/#{admins(:ultra).id}/edit#notifications"
@@ -322,11 +377,11 @@ class AdminMailerTest < ActionMailer::TestCase
       action_url: "https://admin.example.com/memberships"
     ).memberships_renewal_pending_email
 
-    assert_equal "⚠️ Membership(s) pending renewal!", mail.subject
-    assert_includes mail.body.to_s, "2 membership(s)</a>"
-    assert_includes mail.body.to_s, "https://admin.example.com/memberships/pending"
-    assert_not_includes mail.body.to_s, "request(s)</a>"
-    assert_not_includes mail.body.to_s, "https://admin.example.com/memberships.opened"
+    assert_equal "⚠️ Membership renewals pending", mail.subject
+    assert_includes mail.body.to_s, "Memberships not yet renewed or canceled:"
+    assert_includes mail.body.to_s, "https://admin.example.com/memberships/pending>2</a>"
+    assert_not_includes mail.body.to_s, "Open renewal requests not yet finalized:"
+    assert_not_includes mail.body.to_s, "https://admin.example.com/memberships/opened"
   end
 
   test "memberships_renewal_pending_email_opened_only" do
@@ -339,11 +394,11 @@ class AdminMailerTest < ActionMailer::TestCase
       action_url: "https://admin.example.com/memberships"
     ).memberships_renewal_pending_email
 
-    assert_equal "⚠️ Membership(s) pending renewal!", mail.subject
-    assert_not_includes mail.body.to_s, "2 membership(s)</a>"
+    assert_equal "⚠️ Membership renewals pending", mail.subject
+    assert_not_includes mail.body.to_s, "Memberships not yet renewed or canceled:"
     assert_not_includes mail.body.to_s, "https://admin.example.com/memberships/pending"
-    assert_includes mail.body.to_s, "2 open renewal request(s)</a>"
-    assert_includes mail.body.to_s, "https://admin.example.com/memberships/opened"
+    assert_includes mail.body.to_s, "Open renewal requests not yet finalized:"
+    assert_includes mail.body.to_s, "https://admin.example.com/memberships/opened>2</a>"
   end
 
   test "membership_trial_cancelation_email" do
@@ -501,6 +556,7 @@ class AdminMailerTest < ActionMailer::TestCase
       body = mail.body.to_s
       assert_includes body, "Hello Alice,"
       assert_includes body, "exploration of the CSA Admin demo going"
+      assert_includes body, "program seems to meet your needs"
       assert_includes body, "https://admin.csa-admin.org/handbook/setup"
       assert_includes body, "<a href=\"https://admin.csa-admin.org/handbook/setup\">Setup</a> handbook page"
       assert_match %r{<p class="closing">Best regards,\n<br />Thibaud</p>}, body

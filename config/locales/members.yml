@@ -287,7 +287,7 @@ _:
           _nl: Annuleren
         delivery_note_hint:
           _en: 'Delivery instructions: door code, floor, buzzer, drop-off spot, etc.'
-          _fr: 'Instructions de livraison : code, étage, sonnette, lieu de dépôt, etc.'
+          _fr: 'Instructions de livraison: code, étage, sonnette, lieu de dépôt, etc.'
           _de: 'Lieferhinweise: Türcode, Stockwerk, Klingel, Ablageort, usw.'
           _it: 'Istruzioni per la consegna: codice porta, piano, campanello, punto di deposito, ecc.'
           _nl: 'Leveringsinstructies: deurcode, verdieping, deurbel, afzetpunt, enz.'
@@ -2192,7 +2192,7 @@ _:
       disable:
         confirm:
           _en: Are you sure you want to disable SEPA direct debit?
-          _fr: Êtes-vous sûr de vouloir désactiver le prélèvement SEPA ?
+          _fr: Êtes-vous sûr de vouloir désactiver le prélèvement SEPA?
           _de: Möchtest Du das SEPA-Lastschriftverfahren wirklich deaktivieren?
           _it: Sei sicuro di voler disattivare l'addebito diretto SEPA?
           _nl: Weet je zeker dat je de SEPA-incasso wilt uitschakelen?
@@ -2236,7 +2236,7 @@ _:
           _nl: Machtiging-PDF downloaden
         edit_billing_info_link:
           _en: Need to change your billing details? Edit your account.
-          _fr: Besoin de modifier vos coordonnées de facturation ? Modifiez votre compte.
+          _fr: Besoin de modifier vos coordonnées de facturation? Modifiez votre compte.
           _de: Rechnungsdaten ändern? Bearbeite Dein Konto.
           _it: Hai bisogno di modificare i tuoi dati di fatturazione? Modifica il tuo account.
           _nl: Factuurgegevens wijzigen? Bewerk je account.

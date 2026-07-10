@@ -8,7 +8,7 @@ La prochaine livraison ainsi que son nombre de <%= Basket.model_name.human(count
 
 ## Cycles de livraisons {#delivery-cycles}
 
-Certaines organisations proposent différents choix de livraisons, par exemple :
+Certaines organisations proposent différents choix de livraisons, par exemple:
 
 - Livraisons les lundis ou jeudis.
 - Livraisons chaque semaine ou une semaine sur deux.
@@ -18,10 +18,10 @@ Certaines organisations proposent différents choix de livraisons, par exemple :
 
 ### Paramètres {#settings}
 
-Les paramètres définissent la sélection initiale des livraisons pour ce cycle. Ces filtres sont appliqués en premier :
+Les paramètres définissent la sélection initiale des livraisons pour ce cycle. Ces filtres sont appliqués en premier:
 
-- **Jours** : Sélectionnez les jours de la semaine inclus (par ex., uniquement les lundis).
-- **À partir de la semaine / Jusqu'à la semaine** : Limitez les livraisons à une plage de numéros de semaine. Utile pour les cycles saisonniers (par ex., semaine 18 à semaine 42 pour une saison d'été). Lorsque les deux limites sont définies, une option **« Exclure la plage de semaines »** devient disponible pour inverser la logique — exclure les livraisons à l'intérieur de la plage plutôt qu'à l'extérieur (par ex., pour sauter une période de vacances).
+- **Jours**: Sélectionnez les jours de la semaine inclus (par ex., uniquement les lundis).
+- **À partir de la semaine / Jusqu'à la semaine**: Limitez les livraisons à une plage de numéros de semaine. Utile pour les cycles saisonniers (par ex., semaine 18 à semaine 42 pour une saison d'été). Lorsque les deux limites sont définies, une option **« Exclure la plage de semaines »** devient disponible pour inverser la logique — exclure les livraisons à l'intérieur de la plage plutôt qu'à l'extérieur (par ex., pour sauter une période de vacances).
 
 ### Périodes {#periods}
 
@@ -29,10 +29,10 @@ Les périodes appliquent ensuite un filtrage supplémentaire aux livraisons sél
 
 Chaque cycle de livraisons doit avoir au moins une période. Les périodes ne peuvent pas se chevaucher au sein d'un même cycle.
 
-Chaque période dispose des options suivantes :
+Chaque période dispose des options suivantes:
 
-- **Du mois / Au mois** : Définissez la plage de mois de l'année fiscale à laquelle cette période s'applique (par ex., janvier à juin pour un premier semestre).
-- **Sélection des livraisons** : Dans la plage de mois de la période, détermine quelles livraisons sont conservées (par ex., toutes, une sur deux, première de chaque mois, etc.).
+- **Du mois / Au mois**: Définissez la plage de mois de l'année fiscale à laquelle cette période s'applique (par ex., janvier à juin pour un premier semestre).
+- **Sélection des livraisons**: Dans la plage de mois de la période, détermine quelles livraisons sont conservées (par ex., toutes, une sur deux, première de chaque mois, etc.).
 
 Cela permet des configurations flexibles, comme des livraisons hebdomadaires pendant les mois d'été et bimensuelles pendant l'hiver, le tout au sein du même cycle de livraisons.
 
@@ -48,9 +48,9 @@ Le choix d'un cycle de livraisons sur le formulaire d'inscription dépend de la 
 
 Si vous proposez des livraisons une semaine sur deux, vous souhaitez probablement répartir les membres équitablement entre les semaines paires et impaires. Or, un seul cycle « Une semaine sur deux » attribuerait les mêmes semaines à tous les membres.
 
-La solution consiste à créer **deux cycles distincts**, l'un avec la sélection des livraisons « Paires » et l'autre « Impaires », puis à n'en **afficher qu'un seul** aux membres dans le formulaire d'inscription :
+La solution consiste à créer **deux cycles distincts**, l'un avec la sélection des livraisons « Paires » et l'autre « Impaires », puis à n'en **afficher qu'un seul** aux membres dans le formulaire d'inscription:
 
-1. Créez deux cycles avec chacun une période couvrant toute l'année : l'un avec la sélection des livraisons « Paires », l'autre « Impaires ».
+1. Créez deux cycles avec chacun une période couvrant toute l'année: l'un avec la sélection des livraisons « Paires », l'autre « Impaires ».
 2. Donnez-leur le **même nom**, par ex. « Une semaine sur deux », mais des **noms internes différents**, par ex. « Une semaine sur deux (paires) » et « Une semaine sur deux (impaires) ».
 3. Rendez **un seul** des deux cycles visible sur le formulaire d'inscription (via la disponibilité par dépôt).
 4. Lors de la création des abonnements, répartissez manuellement les membres entre les deux cycles afin d'équilibrer les livraisons.
@@ -59,25 +59,25 @@ Ainsi, les membres ne voient qu'une seule option « Une semaine sur deux » à l
 
 ### Facturation
 
-Chaque cycle de livraisons peut avoir ses propres options de facturation :
+Chaque cycle de livraisons peut avoir ses propres options de facturation:
 
-- **Prix (par livraison)** : Un supplément pour la gestion et/ou la livraison avec ce cycle.
-- **Nom (facture)** : Un nom personnalisé affiché sur les factures au lieu du nom par défaut du cycle de livraisons.
-- **Absences incluses annuellement** : Exclure automatiquement un certain nombre de livraisons, permettant aux membres de planifier un nombre limité d'absences non facturées. Voir [Absences incluses](/handbook/absence#absence-included) pour plus de détails.
+- **Prix (par livraison)**: Un supplément pour la gestion et/ou la livraison avec ce cycle.
+- **Nom (facture)**: Un nom personnalisé affiché sur les factures au lieu du nom par défaut du cycle de livraisons.
+- **Absences incluses annuellement**: Exclure automatiquement un certain nombre de livraisons, permettant aux membres de planifier un nombre limité d'absences non facturées. Voir [Absences incluses](/handbook/absence#absence-included) pour plus de détails.
 
 ## Dépôt alternatif {#alternate-depot}
 
 Certains membres ont besoin de retirer leurs <%= Basket.model_name.human(count: 2).downcase %> dans différents dépôts selon les semaines — par exemple, parce que le véhicule de livraison ne dessert un dépôt donné qu'une semaine sur deux. CSA Admin prend en charge cette situation grâce à la configuration d'un **dépôt alternatif** au niveau de l'abonnement.
 
-Cette configuration est réservée aux administrateurs (non accessible aux membres) et se trouve dans le formulaire de modification d'un abonnement, dans la section dépliable « Dépôt alternatif » sous les paramètres de livraisons. Trois champs doivent être définis ensemble :
+Cette configuration est réservée aux administrateurs (non accessible aux membres) et se trouve dans le formulaire de modification d'un abonnement, dans la section dépliable « Dépôt alternatif » sous les paramètres de livraisons. Trois champs doivent être définis ensemble:
 
-- **Dépôt alternatif** : Le second lieu de retrait.
-- **Prix dépôt alternatif** : Le prix du dépôt pour les livraisons au dépôt alternatif (par défaut, le prix du dépôt est utilisé).
-- **Cycle de livraisons alternatif** : Détermine quelles livraisons vont au dépôt alternatif. Toutes les autres livraisons vont au dépôt principal.
+- **Dépôt alternatif**: Le second lieu de retrait.
+- **Prix dépôt alternatif**: Le prix du dépôt pour les livraisons au dépôt alternatif (par défaut, le prix du dépôt est utilisé).
+- **Cycle de livraisons alternatif**: Détermine quelles livraisons vont au dépôt alternatif. Toutes les autres livraisons vont au dépôt principal.
 
-> **Exemple** : Un abonnement utilise le cycle « Chaque semaine ». Le véhicule ne passe à la boulangerie qu'une semaine sur deux (semaines paires), le membre retire donc à la ferme les autres semaines. Le dépôt principal est « Boulangerie », le dépôt alternatif est « Ferme » et le cycle de livraisons alternatif est « Semaines impaires ». Résultat : les <%= Basket.model_name.human(count: 2).downcase %> des semaines paires vont à la boulangerie, ceux des semaines impaires à la ferme.
+> **Exemple**: Un abonnement utilise le cycle « Chaque semaine ». Le véhicule ne passe à la boulangerie qu'une semaine sur deux (semaines paires), le membre retire donc à la ferme les autres semaines. Le dépôt principal est « Boulangerie », le dépôt alternatif est « Ferme » et le cycle de livraisons alternatif est « Semaines impaires ». Résultat: les <%= Basket.model_name.human(count: 2).downcase %> des semaines paires vont à la boulangerie, ceux des semaines impaires à la ferme.
 
-Quelques points importants :
+Quelques points importants:
 
 - Le cycle de livraisons alternatif **doit être différent du cycle principal** de l'abonnement et partager au moins une livraison avec celui-ci.
 - La **facturation** fonctionne automatiquement — chaque <%= Basket.model_name.human.downcase %> est facturé(e) au prix du dépôt correspondant.
@@ -86,13 +86,13 @@ Quelques points importants :
 
 ## Modifications individuelles des <%= Basket.model_name.human(count: 2).downcase %> {#basket-overrides}
 
-Chaque <%= Basket.model_name.human.downcase %> d'un abonnement peut être modifié individuellement pour s'écarter de la configuration de l'abonnement : un dépôt différent, un autre <%= BasketSize.model_name.human.downcase %>, une quantité ajustée, des <%= BasketComplement.model_name.human(count: 2).downcase %> personnalisés ou même un déplacement vers une autre date de livraison (dans le contexte d'un autre cycle de livraison). Ces modifications individuelles sont **préservées** lorsque la configuration de l'abonnement est modifiée par la suite (par exemple, lorsque le <%= BasketSize.model_name.human.downcase %> ou le dépôt est mis à jour à partir d'une date donnée).
+Chaque <%= Basket.model_name.human.downcase %> d'un abonnement peut être modifié individuellement pour s'écarter de la configuration de l'abonnement: un dépôt différent, un autre <%= BasketSize.model_name.human.downcase %>, une quantité ajustée, des <%= BasketComplement.model_name.human(count: 2).downcase %> personnalisés ou même un déplacement vers une autre date de livraison (dans le contexte d'un autre cycle de livraison). Ces modifications individuelles sont **préservées** lorsque la configuration de l'abonnement est modifiée par la suite (par exemple, lorsque le <%= BasketSize.model_name.human.downcase %> ou le dépôt est mis à jour à partir d'une date donnée).
 
 Sur la page de l'abonnement, tout <%= Basket.model_name.human.downcase %> qui diverge de la configuration de l'abonnement affiche une petite **icône d'historique** à côté de son état. Au survol de l'icône, vous voyez qui a effectué la modification (nom de l'admin, ou «par le membre») et quand, ainsi que la liste des champs modifiés. De là, un bouton **«Annuler»** rétablit le <%= Basket.model_name.human.downcase %> aux valeurs par défaut de l'abonnement.
 
-Quelques points importants :
+Quelques points importants:
 
-- Les modifications sont enregistrées automatiquement dès qu'un admin modifie un <%= Basket.model_name.human.downcase %> ou qu'un membre change son dépôt ou ses compléments depuis l'espace membre (si permis dans [les paramètres de modification d'abonnement](/settings#membership_updates) ; voir [modifications d'abonnement](/handbook/members#membership-updates)).
+- Les modifications sont enregistrées automatiquement dès qu'un admin modifie un <%= Basket.model_name.human.downcase %> ou qu'un membre change son dépôt ou ses compléments depuis l'espace membre (si permis dans [les paramètres de modification d'abonnement](/settings#membership_updates); voir [modifications d'abonnement](/handbook/members#membership-updates)).
 - Lorsque la configuration de l'abonnement change, les modifications sont réappliquées sur les <%= Basket.model_name.human(count: 2).downcase %> recréés. Les modifications qui font référence à des livraisons qui ne sont plus couvertes par l'abonnement (par exemple, après un changement de cycle de livraisons) sont automatiquement nettoyées.
 - Si la configuration de l'abonnement est modifiée pour correspondre à un <%= Basket.model_name.human.downcase %> précédemment modifié, la modification devient sans effet et l'icône d'historique disparaît.
 
@@ -106,29 +106,29 @@ Pour chaque livraison, CSA Admin génère des fiches PDF que vous pouvez imprime
 
 ### Modes de fiches {#sheet-modes}
 
-Chaque dépôt peut utiliser l'un des deux modes de fiches (configurable dans les paramètres du dépôt) :
+Chaque dépôt peut utiliser l'un des deux modes de fiches (configurable dans les paramètres du dépôt):
 
-- **Fiche de signature** (par défaut) : Une liste où les membres signent à côté de leur nom lors du retrait. Les membres sont listés par ordre alphabétique, avec une colonne « Signature » à droite.
-- **Fiche de livraison à domicile** : Conçue pour les livreurs. Inclut l'adresse complète de chaque membre et sa note de livraison (si renseignée) dans la dernière colonne. L'ordre des membres peut être modifié manuellement par glisser-déposer dans les paramètres du dépôt.
+- **Fiche de signature** (par défaut): Une liste où les membres signent à côté de leur nom lors du retrait. Les membres sont listés par ordre alphabétique, avec une colonne « Signature » à droite.
+- **Fiche de livraison à domicile**: Conçue pour les livreurs. Inclut l'adresse complète de chaque membre et sa note de livraison (si renseignée) dans la dernière colonne. L'ordre des membres peut être modifié manuellement par glisser-déposer dans les paramètres du dépôt.
 
 ### Informations du membre sur les fiches {#member-info}
 
-Un [paramètre](/settings#delivery_sheets) contrôle quelles informations supplémentaires sont affichées sous le nom de chaque membre sur les fiches :
+Un [paramètre](/settings#delivery_sheets) contrôle quelles informations supplémentaires sont affichées sous le nom de chaque membre sur les fiches:
 
-- **Aucune** (par défaut) : Seul le nom du membre.
-- **Numéros de téléphone** : Le(s) numéro(s) de téléphone du membre apparaissent sous son nom.
-- **Note alimentaire** : La note alimentaire du membre (allergies, préférences) apparaît sous son nom.
+- **Aucune** (par défaut): Seul le nom du membre.
+- **Numéros de téléphone**: Le(s) numéro(s) de téléphone du membre apparaissent sous son nom.
+- **Note alimentaire**: La note alimentaire du membre (allergies, préférences) apparaît sous son nom.
 
 Ce paramètre s'applique globalement à tous les dépôts utilisant le mode fiche de signature. Les fiches de livraison à domicile affichent toujours l'adresse et la note de livraison indépendamment de ce paramètre.
 
 ### Abréviation du nom du membre {#member-name-format}
 
-Un [paramètre](/settings#delivery_sheets) contrôle comment les noms des membres sont affichés sur les fiches de livraison, permettant de protéger la vie privée des membres lorsque les fiches sont visibles par d'autres membres :
+Un [paramètre](/settings#delivery_sheets) contrôle comment les noms des membres sont affichés sur les fiches de livraison, permettant de protéger la vie privée des membres lorsque les fiches sont visibles par d'autres membres:
 
-- **Aucune, nom complet** (par défaut) : Le nom complet est affiché.
-- **Première partie uniquement** (ex. *D. Jean*) : Le premier mot de chaque segment du nom est réduit à une initiale. Adapté aux organisations où les noms sont saisis en **Nom de famille + Prénom**.
-- **Dernière partie uniquement** (ex. *Jean D.*) : Le dernier mot de chaque segment du nom est réduit à une initiale. Adapté aux organisations où les noms sont saisis en **Prénom + Nom de famille**.
-- **Initiales uniquement** (ex. *J. D.*) : Chaque mot est réduit à son initiale, pour une protection maximale.
+- **Aucune, nom complet** (par défaut): Le nom complet est affiché.
+- **Première partie uniquement** (ex. *D. Jean*): Le premier mot de chaque segment du nom est réduit à une initiale. Adapté aux organisations où les noms sont saisis en **Nom de famille + Prénom**.
+- **Dernière partie uniquement** (ex. *Jean D.*): Le dernier mot de chaque segment du nom est réduit à une initiale. Adapté aux organisations où les noms sont saisis en **Prénom + Nom de famille**.
+- **Initiales uniquement** (ex. *J. D.*): Chaque mot est réduit à son initiale, pour une protection maximale.
 
 Lorsqu'un nom contient plusieurs personnes séparées par une virgule ou une conjonction (*und*, *en*, *et*, *and*, *&*), chaque partie est abrégée indépendamment. Par exemple, «Jane Doe, John Doe» devient «Jane D., John D.» avec l'option **Dernière partie uniquement**.
 
@@ -146,16 +146,16 @@ Des messages courts peuvent être rattachés à des combinaisons dépôt/livrais
 
 Si la [fonctionnalité <%= BasketContent.model_name.human.downcase %>](/handbook/basket_content) est activée, vous pouvez optionnellement inclure la liste des produits sur vos fiches de livraison. Activez cette option depuis [les paramètres <%= BasketContent.model_name.human.downcase %>](/settings#basket_content).
 
-Lorsqu'activé, deux tableaux supplémentaires apparaissent sur les fiches :
+Lorsqu'activé, deux tableaux supplémentaires apparaissent sur les fiches:
 
-- **Page récapitulative** : Un tableau montrant la quantité totale de chaque produit par dépôt (ex. « 4.5kg » de carottes pour le dépôt Ferme).
-- **Pages par dépôt** : Un tableau listant chaque produit avec sa quantité par <%= BasketSize.model_name.human.downcase %> (ex. « 250g » par petit <%= Basket.model_name.human.downcase %>, « 400g » par grand).
+- **Page récapitulative**: Un tableau montrant la quantité totale de chaque produit par dépôt (ex. « 4.5kg » de carottes pour le dépôt Ferme).
+- **Pages par dépôt**: Un tableau listant chaque produit avec sa quantité par <%= BasketSize.model_name.human.downcase %> (ex. « 250g » par petit <%= Basket.model_name.human.downcase %>, « 400g » par grand).
 
 Si le tableau des produits ne tient pas sur la même page que le tableau des membres existant, il apparaîtra automatiquement sur une page séparée.
 
 ## Notifications de livraison {#delivery-notifications}
 
-CSA Admin peut envoyer automatiquement des notifications par e-mail liées aux livraisons :
+CSA Admin peut envoyer automatiquement des notifications par e-mail liées aux livraisons:
 
 ### Liste de livraison par dépôt {#depot-delivery-list-notifications}
 

@@ -9,37 +9,37 @@ _:
         _nl: Toegang tot mijn ledenpagina
       shifts_registered_paragraph/bag:
         _en: 'Your bag shifts during your absence have been successfully registered:'
-        _fr: 'Les déplacements de vos sacs durant votre absence ont bien été enregistrés :'
+        _fr: 'Les déplacements de vos sacs durant votre absence ont bien été enregistrés:'
         _de: 'Die Verschiebungen Deiner Taschen während Deiner Abwesenheit wurden erfolgreich registriert:'
         _it: 'Gli spostamenti delle vostre borse durante la vostra assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je tassen tijdens je afwezigheid zijn succesvol geregistreerd:'
       shifts_registered_paragraph/basket:
         _en: 'Your basket shifts during your absence have been successfully registered:'
-        _fr: 'Les déplacements de vos paniers durant votre absence ont bien été enregistrés :'
+        _fr: 'Les déplacements de vos paniers durant votre absence ont bien été enregistrés:'
         _de: 'Die Verschiebungen Deiner Körbe während Deiner Abwesenheit wurden erfolgreich registriert:'
         _it: 'Gli spostamenti delle vostre ceste durante la vostra assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je manden tijdens je afwezigheid zijn succesvol geregistreerd:'
       shifts_registered_paragraph/cone:
         _en: 'Your cone shifts during your absence have been successfully registered:'
-        _fr: 'Les déplacements de vos cornets durant votre absence ont bien été enregistrés :'
+        _fr: 'Les déplacements de vos cornets durant votre absence ont bien été enregistrés:'
         _de: 'Die Verschiebungen Deiner Tüten während Deiner Abwesenheit wurden erfolgreich registriert:'
         _it: 'Gli spostamenti dei vostri coni durante la vostra assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je zakken tijdens je afwezigheid zijn succesvol geregistreerd:'
       shifts_registered_paragraph/crate:
         _en: 'Your crate shifts during your absence have been successfully registered:'
-        _fr: 'Les déplacements de vos cagettes durant votre absence ont bien été enregistrés :'
+        _fr: 'Les déplacements de vos cagettes durant votre absence ont bien été enregistrés:'
         _de: 'Die Verschiebungen Deiner Kisten während Deiner Abwesenheit wurden erfolgreich registriert:'
         _it: 'Gli spostamenti delle vostre cassette durante la vostra assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je kratten tijdens je afwezigheid zijn succesvol geregistreerd:'
       shifts_registered_paragraph/package:
         _en: 'Your package shifts during your absence have been successfully registered:'
-        _fr: 'Les déplacements de vos colis durant votre absence ont bien été enregistrés :'
+        _fr: 'Les déplacements de vos colis durant votre absence ont bien été enregistrés:'
         _de: 'Die Verschiebungen Deiner Pakete während Deiner Abwesenheit wurden erfolgreich registriert:'
         _it: 'Gli spostamenti dei vostri pacchi durante la vostra assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je pakketten tijdens je afwezigheid zijn succesvol geregistreerd:'
       shifts_registered_paragraph/share:
         _en: 'Your share shifts during your absence have been successfully registered:'
-        _fr: 'Les déplacements de vos parts durant votre absence ont bien été enregistrés :'
+        _fr: 'Les déplacements de vos parts durant votre absence ont bien été enregistrés:'
         _de: 'Die Verschiebungen Deiner Anteile während Deiner Abwesenheit wurden erfolgreich registriert:'
         _it: 'Gli spostamenti delle vostre parti durante la vostra assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je delen tijdens je afwezigheid zijn succesvol geregistreerd:'
@@ -137,7 +137,7 @@ _:
         _nl: Deze delen worden <strong>niet geleverd</strong> tenzij je ze aanvraagt. Als je een van deze leveringen wilt ontvangen, kun je dit doen via je account.
       provisional_absence_paragraph:
         _en: 'Since you haven''t used all your absences, the following deliveries will be skipped:'
-        _fr: 'Comme vous n''avez pas utilisé toutes vos absences, les livraisons suivantes seront ignorées :'
+        _fr: 'Comme vous n''avez pas utilisé toutes vos absences, les livraisons suivantes seront ignorées:'
         _de: 'Da Du nicht alle Deine Abwesenheiten genutzt hast, werden die folgenden Lieferungen übersprungen:'
         _it: 'Poiché non avete utilizzato tutte le vostre assenze, le seguenti consegne saranno saltate:'
         _nl: 'Aangezien je niet al je afwezigheden hebt gebruikt, worden de volgende leveringen overgeslagen:'
@@ -149,7 +149,7 @@ _:
         _nl: Als je sommige van deze leveringen niet wilt ontvangen, kun je nog steeds een afwezigheid melden via je account.
       provisional_delivery_paragraph:
         _en: 'Since you haven''t used all your absences, the following deliveries will now <strong>be delivered and billed</strong>:'
-        _fr: 'Comme vous n''avez pas utilisé toutes vos absences, les livraisons suivantes seront désormais <strong>livrées et facturées</strong> :'
+        _fr: 'Comme vous n''avez pas utilisé toutes vos absences, les livraisons suivantes seront désormais <strong>livrées et facturées</strong>:'
         _de: 'Da Du nicht alle Deine Abwesenheiten genutzt hast, werden die folgenden Lieferungen nun <strong>geliefert und berechnet</strong>:'
         _it: 'Poiché non avete utilizzato tutte le vostre assenze, le seguenti consegne saranno ora <strong>consegnate e fatturate</strong>:'
         _nl: 'Aangezien je niet al je afwezigheden hebt gebruikt, zullen de volgende leveringen nu <strong>geleverd en gefactureerd</strong> worden:'
@@ -1185,19 +1185,19 @@ _:
         _nl: Je SEPA-machtiging is geregistreerd. Toekomstige facturen worden automatisch van de onderstaande rekening afgeschreven.
       debtor_name_label:
         _en: 'Debtor name:'
-        _fr: 'Nom du débiteur :'
+        _fr: 'Nom du débiteur:'
         _de: 'Zahlungspflichtiger:'
         _it: 'Nome del debitore:'
         _nl: 'Naam rekeninghouder:'
       iban_label:
         _en: 'IBAN:'
-        _fr: 'IBAN :'
+        _fr: 'IBAN:'
         _de: 'IBAN:'
         _it: 'IBAN:'
         _nl: 'IBAN:'
       mandate_id_label:
         _en: 'Mandate reference (UMR):'
-        _fr: 'Référence unique du mandat (RUM) :'
+        _fr: 'Référence unique du mandat (RUM):'
         _de: 'Mandatsreferenz:'
         _it: 'Riferimento mandato (UMR):'
         _nl: 'Kenmerk machtiging:'
@@ -1209,7 +1209,7 @@ _:
         _nl: Een PDF-kopie van de ondertekende machtiging is bij deze e-mail gevoegd voor je administratie.
       signed_on_label:
         _en: 'Signed on:'
-        _fr: 'Signé le :'
+        _fr: 'Signé le:'
         _de: 'Unterzeichnet am:'
         _it: 'Firmato il:'
         _nl: 'Ondertekend op:'

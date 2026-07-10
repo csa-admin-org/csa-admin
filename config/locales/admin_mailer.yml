@@ -21,17 +21,17 @@ _:
         _nl: Hallo {{ admin.name }},
       subject:
         _en: Delivery list of %{date}
-        _fr: Liste livraison du %{date}
+        _fr: Liste de livraison du %{date}
         _de: Lieferungsliste vom %{date}
         _it: Lista di consegna del %{date}
         _nl: Leveringslijst van %{date}
     demo_follow_up_email:
       exploration_paragraph:
-        _en: How's the exploration of the CSA Admin demo going? I hope the program looks useful to you! I'd love to hear your first impressions.
-        _fr: Comment est-ce que se passe l'exploration de la démo de CSA Admin? J'espère que le programme vous semble utile! J'aimerais beaucoup connaître vos premières impressions.
-        _de: Wie läuft die Erkundung der CSA Admin Demo? Ich hoffe, das Programm scheint nützlich! Ich würde gerne die ersten Eindrücke erfahren.
-        _it: Come va l'esplorazione della demo di CSA Admin? Spero che il programma vi sembri utile! Mi piacerebbe molto conoscere le vostre prime impressioni.
-        _nl: Hoe gaat het met het verkennen van de CSA Admin demo? Ik hoop dat het programma nuttig lijkt! Ik zou graag de eerste indrukken horen.
+        _en: How is your exploration of the CSA Admin demo going? I hope the program seems to meet your needs. I'd love to hear your first impressions.
+        _fr: Comment se passe votre découverte de la démo de CSA Admin? J'espère que le programme semble répondre à vos besoins. J'aimerais beaucoup connaître vos premières impressions.
+        _de: Wie läuft die Erkundung der CSA Admin Demo? Ich hoffe, das Programm scheint den Anforderungen zu entsprechen. Ich würde mich über erste Eindrücke freuen.
+        _it: Come procede l'esplorazione della demo di CSA Admin? Spero che il programma sembri rispondere alle vostre esigenze. Mi piacerebbe molto conoscere le vostre prime impressioni.
+        _nl: Hoe gaat het verkennen van de CSA Admin-demo? Hopelijk lijkt het programma aan de behoeften te voldoen. Ik hoor graag de eerste indrukken.
       greeting:
         _en: Hello {{ admin.name }},
         _fr: Salut {{ admin.name }},
@@ -39,11 +39,11 @@ _:
         _it: Ciao {{ admin.name }},
         _nl: Hallo {{ admin.name }},
       questions_paragraph:
-        _en: If you have any questions, would like a guided tour, or want to discuss how CSA Admin could work for your CSA, just reply to this email.
-        _fr: Si vous avez des questions, aimeriez une visite guidée ou souhaitez discuter de comment CSA Admin pourrait fonctionner pour votre ACP, répondez simplement à cet e-mail.
-        _de: Bei Fragen, für eine geführte Tour oder um zu besprechen, wie CSA Admin für die Solawi funktionieren könnte, einfach auf diese E-Mail antworten.
-        _it: Se avete domande, desiderate una visita guidata o volete discutere di come CSA Admin potrebbe funzionare per la vostra ACP, rispondete semplicemente a questa e-mail.
-        _nl: Bij vragen, voor een rondleiding of om te bespreken hoe CSA Admin voor de CSA zou kunnen werken, gewoon deze e-mail beantwoorden.
+        _en: If you have any questions, would like a guided tour, or want to discuss how CSA Admin could work for your CSA, just reply to this email. I'm happy to help.
+        _fr: Si vous avez des questions, souhaitez une visite guidée ou voulez discuter de la façon dont CSA Admin pourrait fonctionner pour votre ACP, répondez simplement à cet e-mail. Je suis là pour vous aider.
+        _de: Bei Fragen, für eine geführte Tour oder um zu besprechen, wie CSA Admin für die Solawi funktionieren könnte, einfach auf diese E-Mail antworten. Ich helfe gerne.
+        _it: Se avete domande, desiderate una visita guidata o volete discutere di come CSA Admin potrebbe funzionare per la vostra ACP, rispondete semplicemente a questa e-mail. Sarò felice di aiutarvi.
+        _nl: Bij vragen, voor een rondleiding of om te bespreken hoe CSA Admin voor de CSA kan werken, gewoon deze e-mail beantwoorden. Ik help graag.
       setup_button:
         _en: Setup
         _fr: Mise en place
@@ -51,11 +51,11 @@ _:
         _it: Configurazione
         _nl: Configuratie
       setup_paragraph:
-        _en: 'If you''re already ready to get started, the <a href="{{ setup_handbook_url }}">Setup</a> handbook page explains the few simple steps needed:'
-        _fr: 'Si vous êtes déjà prêt·e à vous lancer, la page <a href="{{ setup_handbook_url }}">Mise en place</a> du manuel explique les quelques étapes nécessaires:'
-        _de: 'Wer bereits bereit ist loszulegen, findet auf der Handbuchseite <a href="{{ setup_handbook_url }}">Einrichtung</a> die wenigen nötigen Schritte:'
-        _it: 'Se siete già pronti a partire, la pagina <a href="{{ setup_handbook_url }}">Configurazione</a> del manuale spiega i pochi passaggi necessari:'
-        _nl: 'Om meteen te beginnen, legt de handleidingpagina <a href="{{ setup_handbook_url }}">Configuratie</a> de paar benodigde stappen uit:'
+        _en: 'If you''re ready to get started, the <a href="{{ setup_handbook_url }}">Setup</a> handbook page explains the few steps needed:'
+        _fr: 'Si vous êtes prêt·e à vous lancer, la page <a href="{{ setup_handbook_url }}">Mise en place</a> du manuel explique les quelques étapes nécessaires:'
+        _de: 'Wer gleich loslegen möchte, findet auf der Handbuchseite <a href="{{ setup_handbook_url }}">Einrichtung</a> die wenigen nötigen Schritte:'
+        _it: 'Se siete pronti a iniziare, la pagina <a href="{{ setup_handbook_url }}">Configurazione</a> del manuale spiega i pochi passaggi necessari:'
+        _nl: 'Om meteen te beginnen, staan op de handleidingpagina <a href="{{ setup_handbook_url }}">Configuratie</a> de paar benodigde stappen:'
       subject:
         _en: How's it going with the demo?
         _fr: Comment ça se passe avec la démo?
@@ -138,10 +138,10 @@ _:
         _nl: De EBICS-configuratie is succesvol verzonden.
     invitation_email:
       admin_account_paragraph:
-        _en: An admin account for {{ organization.name }} has been created for you, please use your email (<strong>{{ admin.email }}</strong>) to log in.
-        _fr: Un compte admin pour {{ organization.name }} vient de vous être créé, merci d'utiliser votre e-mail (<strong>{{ admin.email }}</strong>) pour vous connecter.
+        _en: An admin account for {{ organization.name }} has been created. Use your email (<strong>{{ admin.email }}</strong>) to log in.
+        _fr: Un compte admin pour {{ organization.name }} vient de vous être créé. Utilisez votre adresse e-mail (<strong>{{ admin.email }}</strong>) pour vous connecter.
         _de: Ein Admin-Konto für {{ organization.name }} wurde gerade erstellt. Bitte mit der E-Mail-Adresse (<strong>{{ admin.email }}</strong>) anmelden.
-        _it: Un conto admin per {{ organization.name }} è appena stato creato, per connetterti accedi con la tua e-mail (<strong>{{ admin.email }}</strong>).
+        _it: È stato appena creato un account amministratore per {{ organization.name }}. Utilizzate il vostro indirizzo e-mail (<strong>{{ admin.email }}</strong>) per accedere.
         _nl: Er is een admin-account voor {{ organization.name }} aangemaakt. Gebruik het e-mailadres (<strong>{{ admin.email }}</strong>) om in te loggen.
       admin_button:
         _en: Access the admin of {{ organization.name }}
@@ -153,25 +153,25 @@ _:
         _en: Access the demo
         _fr: Accéder à la démo
         _de: Zur Demo
-        _it: Accedi alla demo
+        _it: Accedere alla demo
         _nl: Naar de demo
       demo_explore_paragraph:
-        _en: Your account is ready. Feel free to click around, create members, play with the settings, ... everything resets weekly, so you can't break anything.
-        _fr: Votre compte est prêt. N'hésitez pas à cliquer partout, créer des membres, jouez avec les réglages, ... tout est réinitialisé chaque semaine, donc impossible de casser quoi que ce soit.
-        _de: Das Konto ist bereit. Einfach durchklicken, Mitglieder erstellen, die Einstellungen ausprobieren, ... alles wird wöchentlich zurückgesetzt, es kann also nichts kaputt gehen.
-        _it: Il vostro account è pronto. Cliccate ovunque, create soci, provate le impostazioni, ... tutto viene reimpostato ogni settimana, quindi non potete rompere nulla.
-        _nl: Het account is klaar. Gerust rondklikken, leden aanmaken, de instellingen uitproberen, ... alles wordt wekelijks gereset, dus er kan niets kapot gaan.
+        _en: Your account is ready. Feel free to click around, create members, and experiment with the settings. Everything resets weekly, so you can't break anything.
+        _fr: Votre compte est prêt. N'hésitez pas à explorer, à créer des membres et à tester les réglages. Tout est réinitialisé chaque semaine, donc impossible de casser quoi que ce soit.
+        _de: Das Konto ist bereit. Einfach durchklicken, Mitglieder erstellen und die Einstellungen ausprobieren. Alles wird wöchentlich zurückgesetzt, es kann also nichts kaputt gehen.
+        _it: Il vostro account è pronto. Esplorate liberamente, create soci e provate le impostazioni. Tutto viene reimpostato ogni settimana, quindi non potete rompere nulla.
+        _nl: Het account is klaar. Gerust rondklikken, leden aanmaken en de instellingen uitproberen. Alles wordt wekelijks gereset, dus er kan niets kapotgaan.
       demo_questions_paragraph:
-        _en: If you have any questions or would like a personal walkthrough, just reply to this email, I'm always happy to help.
-        _fr: Si vous avez des questions ou souhaitez une présentation personnalisée, répondez simplement à cet e-mail, je suis là pour vous aider.
-        _de: Bei Fragen oder für eine persönliche Führung einfach auf diese E-Mail antworten, ich helfe immer gerne.
-        _it: Se avete domande o desiderate una presentazione personalizzata, rispondete semplicemente a questa e-mail, sono sempre felice di aiutarvi.
-        _nl: Bij vragen of voor een persoonlijke rondleiding gewoon deze e-mail beantwoorden, ik help altijd graag.
+        _en: If you have any questions or would like a personal walkthrough, just reply to this email. I'm always happy to help.
+        _fr: Si vous avez des questions ou souhaitez une présentation personnalisée, répondez simplement à cet e-mail. Je suis là pour vous aider.
+        _de: Bei Fragen oder für eine persönliche Führung einfach auf diese E-Mail antworten. Ich helfe immer gerne.
+        _it: Se avete domande o desiderate una presentazione personalizzata, rispondete semplicemente a questa e-mail. Sarò felice di aiutarvi.
+        _nl: Bij vragen of voor een persoonlijke rondleiding gewoon deze e-mail beantwoorden. Ik help altijd graag.
       demo_welcome_paragraph:
         _en: I'm Thibaud, the developer of CSA Admin. Welcome to the demo!
-        _fr: Je suis Thibaud, le développeur de CSA Admin. Bienvenue sur la démo!
+        _fr: Je suis Thibaud, le développeur de CSA Admin. Bienvenue dans la démo!
         _de: Ich bin Thibaud, der Entwickler von CSA Admin. Willkommen zur Demo!
-        _it: Sono Thibaud, lo sviluppatore di CSA Admin. Benvenuto nella demo!
+        _it: Sono Thibaud, lo sviluppatore di CSA Admin. Benvenuti nella demo!
         _nl: Ik ben Thibaud, de ontwikkelaar van CSA Admin. Welkom bij de demo!
       greeting:
         _en: Hello {{ admin.name }},
@@ -188,8 +188,8 @@ _:
       subject_demo:
         _en: Invitation to the CSA Admin demo
         _fr: Invitation à la démo de CSA Admin
-        _de: Einladung zu der CSA Admin Demo
-        _it: Invito a la demo di CSA Admin
+        _de: Einladung zur CSA Admin Demo
+        _it: Invito alla demo di CSA Admin
         _nl: Uitnodiging voor de CSA Admin demo
     invoice_overpaid_email:
       greeting:
@@ -247,7 +247,7 @@ _:
         _fr: Le membre a choisi de continuer à payer la cotisation annuelle.
         _de: Das Mitglied hat sich entschieden, den Jahresbeitrag weiterhin zu zahlen.
         _it: Il socio ha scelto di continuare a pagare la quota annuale.
-        _nl: Het lid heeft ervoor gekozen om het jaarlijkse lidmaatschapsbijdrage te blijven betalen.
+        _nl: Het lid heeft ervoor gekozen om de jaarlijkse lidmaatschapsbijdrage te blijven betalen.
       greeting:
         _en: Hello {{ admin.name }},
         _fr: Salut {{ admin.name }},
@@ -256,8 +256,8 @@ _:
         _nl: Hallo {{ admin.name }},
       member_note_label:
         _en: 'Member''s note:'
-        _fr: 'Note du membre:'
-        _de: 'Anmerkung des Mitglieds:'
+        _fr: 'Remarque du membre:'
+        _de: 'Bemerkung des Mitglieds:'
         _it: 'Nota del socio:'
         _nl: 'Opmerking van het lid:'
       membership_end_paragraph/bag:
@@ -265,37 +265,37 @@ _:
         _fr: L'abonnement se terminera le <strong>{{ membership.ended_on }}</strong> (dernière livraison de sac d'essai).
         _de: Die Mitgliedschaft endet am <strong>{{ membership.ended_on }}</strong> (letzte Probetaschen-Lieferung).
         _it: L'abbonamento terminerà il <strong>{{ membership.ended_on }}</strong> (ultima consegna della borsa di prova).
-        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proeftas levering).
+        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proeftaslevering).
       membership_end_paragraph/basket:
         _en: The membership will end on <strong>{{ membership.ended_on }}</strong> (last trial basket delivery).
         _fr: L'abonnement se terminera le <strong>{{ membership.ended_on }}</strong> (dernière livraison de panier d'essai).
         _de: Die Mitgliedschaft endet am <strong>{{ membership.ended_on }}</strong> (letzte Probekorb-Lieferung).
         _it: L'abbonamento terminerà il <strong>{{ membership.ended_on }}</strong> (ultima consegna del cesto di prova).
-        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefmand levering).
+        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefmandlevering).
       membership_end_paragraph/cone:
         _en: The membership will end on <strong>{{ membership.ended_on }}</strong> (last trial cone delivery).
         _fr: L'abonnement se terminera le <strong>{{ membership.ended_on }}</strong> (dernière livraison de cornet d'essai).
         _de: Die Mitgliedschaft endet am <strong>{{ membership.ended_on }}</strong> (letzte Probetüten-Lieferung).
         _it: L'abbonamento terminerà il <strong>{{ membership.ended_on }}</strong> (ultima consegna del cono di prova).
-        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefzak levering).
+        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefzaklevering).
       membership_end_paragraph/crate:
         _en: The membership will end on <strong>{{ membership.ended_on }}</strong> (last trial crate delivery).
         _fr: L'abonnement se terminera le <strong>{{ membership.ended_on }}</strong> (dernière livraison de cagette d'essai).
         _de: Die Mitgliedschaft endet am <strong>{{ membership.ended_on }}</strong> (letzte Probekisten-Lieferung).
         _it: L'abbonamento terminerà il <strong>{{ membership.ended_on }}</strong> (ultima consegna della cassetta di prova).
-        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefkrat levering).
+        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefkratlevering).
       membership_end_paragraph/package:
         _en: The membership will end on <strong>{{ membership.ended_on }}</strong> (last trial package delivery).
         _fr: L'abonnement se terminera le <strong>{{ membership.ended_on }}</strong> (dernière livraison de colis d'essai).
         _de: Die Mitgliedschaft endet am <strong>{{ membership.ended_on }}</strong> (letzte Probepaket-Lieferung).
         _it: L'abbonamento terminerà il <strong>{{ membership.ended_on }}</strong> (ultima consegna del pacco di prova).
-        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefpakket levering).
+        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefpakketlevering).
       membership_end_paragraph/share:
         _en: The membership will end on <strong>{{ membership.ended_on }}</strong> (last trial share delivery).
         _fr: L'abonnement se terminera le <strong>{{ membership.ended_on }}</strong> (dernière livraison de part d'essai).
         _de: Die Mitgliedschaft endet am <strong>{{ membership.ended_on }}</strong> (letzte Probeteil-Lieferung).
         _it: L'abbonamento terminerà il <strong>{{ membership.ended_on }}</strong> (ultima consegna della parte di prova).
-        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefdeel levering).
+        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefdeellevering).
       membership_page_button:
         _en: Access membership page
         _fr: Accéder à la page de l'abonnement
@@ -304,9 +304,9 @@ _:
         _nl: Toegang tot lidmaatschapspagina
       no_note_paragraph:
         _en: The member did not provide a note.
-        _fr: Le membre n'a pas laissé de note.
-        _de: Das Mitglied hat keine Anmerkung hinterlassen.
-        _it: Il socio non ha compilato la nota.
+        _fr: Le membre n'a pas laissé de remarque.
+        _de: Das Mitglied hat keine Bemerkung hinterlassen.
+        _it: Il socio non ha lasciato alcuna nota.
         _nl: Het lid heeft geen opmerking achtergelaten.
       subject:
         _en: Trial membership canceled
@@ -319,14 +319,14 @@ _:
         _fr: Le membre <strong>{{ member.name }}</strong> a annulé son abonnement d'essai.
         _de: Das Mitglied <strong>{{ member.name }}</strong> hat seine Probemitgliedschaft gekündigt.
         _it: Il socio <strong>{{ member.name }}</strong> ha annullato il proprio abbonamento di prova.
-        _nl: Het lid <strong>{{ member.name }}</strong> heeft hun proeflidmaatschap geannuleerd.
+        _nl: Het lid <strong>{{ member.name }}</strong> heeft het proeflidmaatschap geannuleerd.
     memberships_renewal_pending_email:
       check_before_paragraph:
-        _en: Please check <u>before</u> the first delivery of the new fiscal year. See the <a href="/handbook/membership_renewal">handbook</a> for more information.
-        _fr: Merci de vérifier <u>avant</u> la première livraison de la nouvelle année fiscale. Consultez <a href="/handbook/membership_renewal">la page du manuel</a> pour plus d'informations.
-        _de: Bitte <u>vor</u> der ersten Lieferung des neuen Geschäftsjahres überprüfen. Weitere Informationen auf der <a href="/handbook/membership_renewal">Handbuchseite zur Erneuerung</a>.
-        _it: Si prega di controllare <u>prima</u> della prima consegna del nuovo anno fiscale. Vedere <a href="/handbook/membership_renewal">il manuale</a> per ulteriori informazioni.
-        _nl: Graag <u>voor</u> de eerste levering van het nieuwe boekjaar controleren. Zie de <a href="/handbook/membership_renewal">handboekpagina over vernieuwing</a> voor meer informatie.
+        _en: Please check <strong>before</strong> the first delivery of the new fiscal year. See the <a href="/handbook/membership_renewal">handbook</a> for more information.
+        _fr: Merci de vérifier <strong>avant</strong> la première livraison de la nouvelle année fiscale. Consultez <a href="/handbook/membership_renewal">la page du manuel</a> pour plus d'informations.
+        _de: Bitte <strong>vor</strong> der ersten Lieferung des neuen Geschäftsjahres überprüfen. Weitere Informationen auf der <a href="/handbook/membership_renewal">Handbuchseite zur Erneuerung</a>.
+        _it: Controllate <strong>prima</strong> della prima consegna del nuovo anno fiscale. Consultate <a href="/handbook/membership_renewal">il manuale</a> per ulteriori informazioni.
+        _nl: Graag <strong>voor</strong> de eerste levering van het nieuwe boekjaar controleren. Zie de <a href="/handbook/membership_renewal">handboekpagina over vernieuwing</a> voor meer informatie.
       greeting:
         _en: Hello {{ admin.name }},
         _fr: Salut {{ admin.name }},
@@ -339,30 +339,18 @@ _:
         _de: Zugang zu Abonnements
         _it: Accedere agli abbonamenti
         _nl: Toegang tot lidmaatschappen
-      opened_memberships_link:
-        _en: open renewal request(s)
-        _fr: demande(s) de renouvellement ouverte(s)
-        _de: offene(r) Verlängerungsantrag(e)
-        _it: richiesta di rinnovo aperta
-        _nl: open vernieuwingsverzoek(en)
-      opened_memberships_suffix:
-        _en: that have not yet been finalized.
-        _fr: qui n'ont pas encore été finalisée(s).
-        _de: der/die noch nicht abgeschlossen wurde(n).
-        _it: che non è stata ancora finalizzata.
-        _nl: die nog niet zijn afgerond.
-      pending_memberships_link:
-        _en: membership(s)
-        _fr: abonnement(s)
-        _de: Abonnement(e)
-        _it: abbonamenti
-        _nl: lidmaatschappen
-      pending_memberships_suffix:
-        _en: that have not yet been renewed or canceled.
-        _fr: qui n'ont pas encore été renouvelé(s) ou résilié(s).
-        _de: das/die noch nicht verlängert oder gekündigt wurde(n).
-        _it: non ancora rinnovati o annullati.
-        _nl: die nog niet zijn vernieuwd of geannuleerd.
+      opened_memberships_label:
+        _en: 'Open renewal requests not yet finalized:'
+        _fr: 'Demandes de renouvellement ouvertes non encore finalisées:'
+        _de: 'Noch nicht abgeschlossene offene Verlängerungsanträge:'
+        _it: 'Richieste di rinnovo aperte non ancora finalizzate:'
+        _nl: 'Open vernieuwingsverzoeken die nog niet zijn afgerond:'
+      pending_memberships_label:
+        _en: 'Memberships not yet renewed or canceled:'
+        _fr: 'Abonnements non encore renouvelés ou résiliés:'
+        _de: 'Noch nicht verlängerte oder gekündigte Mitgliedschaften:'
+        _it: 'Abbonamenti non ancora rinnovati o annullati:'
+        _nl: 'Nog niet vernieuwde of geannuleerde lidmaatschappen:'
       still_remaining_paragraph:
         _en: 'There are still:'
         _fr: 'Il reste encore:'
@@ -370,11 +358,11 @@ _:
         _it: 'Ci sono ancora:'
         _nl: 'Er zijn nog:'
       subject:
-        _en: "⚠️ Membership(s) pending renewal!"
-        _fr: "⚠️ Abonnement(s) en attente de renouvellement!"
-        _de: "⚠️ Mitgliedschaft(en) wartet auf Verlängerung!"
-        _it: "⚠️ Abbonamento(i) in attesa di rinnovo!"
-        _nl: "⚠️ Lidmaatschap(pen) in afwachting van vernieuwing!"
+        _en: "⚠️ Membership renewals pending"
+        _fr: "⚠️ Renouvellements d'abonnements en attente"
+        _de: "⚠️ Ausstehende Mitgliedschaftsverlängerungen"
+        _it: "⚠️ Rinnovi degli abbonamenti in sospeso"
+        _nl: "⚠️ Openstaande lidmaatschapsverlengingen"
     new_absence_email:
       absence_page_button:
         _en: Access the absence page
@@ -410,7 +398,7 @@ _:
       activity_label:
         _en: 'Activity:'
         _fr: 'Activité:'
-        _de: 'Arbeit:'
+        _de: 'Aktivität:'
         _it: 'Attività:'
         _nl: 'Activiteit:'
       carpooling_label:
@@ -465,7 +453,7 @@ _:
         _en: The member <strong>{{ member.name }}</strong> has registered for an activity.
         _fr: Le membre <strong>{{ member.name }}</strong> s'est inscrit à une activité.
         _de: Das Mitglied <strong>{{ member.name }}</strong> hat sich für eine Aktivität angemeldet.
-        _it: Il socio <strong>{{member.name }}</strong> si è iscritto a un'attività.
+        _it: Il socio <strong>{{ member.name }}</strong> si è iscritto a un'attività.
         _nl: Het lid <strong>{{ member.name }}</strong> heeft zich ingeschreven voor een activiteit.
       schedule_label:
         _en: 'Schedule:'
@@ -505,40 +493,40 @@ _:
         _it: Ciao {{ admin.name }},
         _nl: Hallo {{ admin.name }},
       linked_to_label:
-        _en: 'This email is linked to:'
-        _fr: 'Cet email est relié à:'
-        _de: 'Diese Email ist verlinkt mit:'
-        _it: 'Questa email è collegata a:'
+        _en: 'This email address is linked to:'
+        _fr: 'Cette adresse e-mail est liée à:'
+        _de: 'Diese E-Mail-Adresse ist verknüpft mit:'
+        _it: 'Questo indirizzo e-mail è collegato a:'
         _nl: 'Dit e-mailadres is gekoppeld aan:'
       no_more_messages_paragraph:
-        _en: No more messages can be sent to this email, please check.
-        _fr: Plus aucun message ne peut être envoyé à cet email, merci de vérifier.
-        _de: Es können keine weiteren Nachrichten an diese E-Mail gesendet werden, bitte überprüfen.
-        _it: Non è possibile inviare altri messaggi a questa email, si prega di verificare.
-        _nl: Er kunnen geen berichten meer naar dit e-mailadres worden verzonden, graag controleren.
+        _en: No more messages can be sent to this email address. Please check it.
+        _fr: Plus aucun message ne peut être envoyé à cette adresse e-mail. Merci de vérifier.
+        _de: An diese E-Mail-Adresse können keine weiteren Nachrichten gesendet werden. Bitte überprüfen.
+        _it: Non è più possibile inviare messaggi a questo indirizzo e-mail. Verificate.
+        _nl: Er kunnen geen berichten meer naar dit e-mailadres worden verzonden. Graag controleren.
       subject:
         _en: Email rejected (%{reason})
         _fr: Email rejeté (%{reason})
         _de: E-Mail abgelehnt (%{reason})
-        _it: E-mail rifiutatata (%{reason})
+        _it: E-mail rifiutata (%{reason})
         _nl: E-mail geweigerd (%{reason})
       suppression_paragraph:
-        _en: 'The email <strong>{{ email_suppression.email }}</strong> was rejected during the last message delivery due to the following reason: <strong>{{ email_suppression.reason }}</strong>.'
-        _fr: 'L''email <strong>{{ email_suppression.email }}</strong> a été rejeté lors de l''envoi du dernier message à cause de la raison suivante: <strong>{{ email_suppression.reason }}</strong>.'
-        _de: 'Die Email <strong>{{ email_suppression.email }}</strong> wurde beim Versenden der letzten Nachricht aus folgendem Grund abgelehnt: <strong>{{ email_suppression.reason }}</strong>.'
-        _it: 'L''email <strong>{{ email_suppression.email }}</strong> dell''ultimo invio è stata respinta per il seguente motivo: <strong>{{ email_suppression.reason }}</strong>.'
-        _nl: 'Het e-mailadres <strong>{{ email_suppression.email }}</strong> werd afgewezen tijdens de laatste berichtbezorging vanwege de volgende reden: <strong>{{ email_suppression.reason }}</strong>.'
+        _en: 'The email address <strong>{{ email_suppression.email }}</strong> was rejected during the last message delivery for the following reason: <strong>{{ email_suppression.reason }}</strong>.'
+        _fr: 'L''adresse e-mail <strong>{{ email_suppression.email }}</strong> a été rejetée lors de l''envoi du dernier message pour le motif suivant: <strong>{{ email_suppression.reason }}</strong>.'
+        _de: 'Die E-Mail-Adresse <strong>{{ email_suppression.email }}</strong> wurde beim Versand der letzten Nachricht aus folgendem Grund abgelehnt: <strong>{{ email_suppression.reason }}</strong>.'
+        _it: 'L''invio dell''ultimo messaggio all''indirizzo e-mail <strong>{{ email_suppression.email }}</strong> è stato rifiutato per il seguente motivo: <strong>{{ email_suppression.reason }}</strong>.'
+        _nl: 'Het laatste bericht aan het e-mailadres <strong>{{ email_suppression.email }}</strong> is om de volgende reden geweigerd: <strong>{{ email_suppression.reason }}</strong>.'
     new_registration_email:
       account_updated_paragraph:
-        _en: Their account has been updated and is awaiting validation. You can review the changes made in the <a href="{{ member.admin_audits_url }}">audit log</a>.
-        _fr: Son compte a été mis à jour et attend une validation. Vous pouvez consulter les changements appliqués dans <a href="{{ member.admin_audits_url }}">l'audit des modifications</a>.
+        _en: Their account has been updated and is awaiting validation. You can review the changes in the <a href="{{ member.admin_audits_url }}">audit log</a>.
+        _fr: Son compte a été mis à jour et attend une validation. Vous pouvez consulter les changements dans <a href="{{ member.admin_audits_url }}">l'historique des modifications</a>.
         _de: Das Konto wurde aktualisiert und wartet auf Bestätigung. Die vorgenommenen Änderungen können im <a href="{{ member.admin_audits_url }}">Änderungsprotokoll</a> eingesehen werden.
-        _it: Il suo account è stato aggiornato ed è in attesa di conferma. Potete consultare le modifiche applicate nell'<a href="{{ member.admin_audits_url }}">audit delle modifiche</a>.
-        _nl: Het account is bijgewerkt en wacht op validatie. De wijzigingen kunnen worden bekeken in het <a href="{{ member.admin_audits_url }}">audit logboek</a>.
+        _it: Il suo account è stato aggiornato ed è in attesa di conferma. Potete consultare le modifiche nel <a href="{{ member.admin_audits_url }}">registro delle modifiche</a>.
+        _nl: Het account is bijgewerkt en wacht op validatie. De wijzigingen kunnen worden bekeken in het <a href="{{ member.admin_audits_url }}">wijzigingslogboek</a>.
       existing_member_paragraph:
         _en: An existing member, <strong>{{ member.name }}</strong>, has re-registered!
-        _fr: Un membre existant, <strong>{{ member.name }}</strong>, s'est réinscrit !
-        _de: Ein bestehendes Mitglied, <strong>{{ member.name }}</strong>, hat sich erneut eingeschrieben!
+        _fr: Un membre existant, <strong>{{ member.name }}</strong>, s'est réinscrit!
+        _de: Ein bestehendes Mitglied, <strong>{{ member.name }}</strong>, hat sich erneut angemeldet!
         _it: Un socio esistente, <strong>{{ member.name }}</strong>, si è reiscritto!
         _nl: Een bestaand lid, <strong>{{ member.name }}</strong>, heeft zich opnieuw geregistreerd!
       greeting:
@@ -556,7 +544,7 @@ _:
       new_member_paragraph:
         _en: A new member, <strong>{{ member.name }}</strong>, has just signed up!
         _fr: Un nouveau membre, <strong>{{ member.name }}</strong>, vient de s'inscrire!
-        _de: Ein neues Mitglied, <strong>{{ member.name }}</strong>, hat sich soeben eingeschrieben!
+        _de: Ein neues Mitglied, <strong>{{ member.name }}</strong>, hat sich soeben angemeldet!
         _it: Un nuovo socio, <strong>{{ member.name }}</strong>, si è appena iscritto!
         _nl: Een nieuw lid, <strong>{{ member.name }}</strong>, heeft zich zojuist aangemeld!
       subject:
@@ -618,25 +606,25 @@ _:
     payment_reversal_email:
       greeting:
         _en: Hello {{ admin.name }},
-        _fr: Bonjour {{ admin.name }},
+        _fr: Salut {{ admin.name }},
         _de: Hallo {{ admin.name }},
         _it: Ciao {{ admin.name }},
         _nl: Hallo {{ admin.name }},
       payment_page_button:
-        _en: Access reversal payment page
-        _fr: Accéder à la page du remboursement du paiement
-        _de: Zur Rückzahlungsseite der Zahlung zugreifen
-        _it: Accedi alla pagina del rimborso del pagamento
-        _nl: Toegang tot de pagina voor de terugbetaling
+        _en: Review payment reversal
+        _fr: Consulter le remboursement du paiement
+        _de: Zahlungsrückbuchung prüfen
+        _it: Consultare lo storno di pagamento
+        _nl: Betalingsterugboeking bekijken
       reversal_paragraph:
-        _en: 'A payment for the invoice #{{ invoice.number }} from <strong>{{ member.name }}</strong> has been reversed, please verify.'
-        _fr: Un remboursement d'un paiement pour la facture n°{{ invoice.number }} de <strong>{{ member.name }}</strong> a été importé, veuillez vérifier.
-        _de: 'Der Zahlungsbetrag für die Rechnung #{{ invoice.number }} von <strong>{{ member.name }}</strong> wurde rückgezahlt, bitte überprüfen.'
-        _it: 'Un pagamento per la fattura #{{ invoice.number }} da <strong>{{ member.name }}</strong> è stato rimborsato, si prega di verificare.'
-        _nl: 'Een terugbetaling van de betaling voor de factuur #{{ invoice.number }} van <strong>{{ member.name }}</strong> is geïmporteerd, graag controleren.'
+        _en: 'A payment reversal for invoice #{{ invoice.number }} from <strong>{{ member.name }}</strong> has been imported. Please review it.'
+        _fr: Un remboursement du paiement de la facture n°{{ invoice.number }} de <strong>{{ member.name }}</strong> a été importé. Veuillez le vérifier.
+        _de: 'Eine Zahlungsrückbuchung für die Rechnung #{{ invoice.number }} von <strong>{{ member.name }}</strong> wurde importiert. Bitte prüfen.'
+        _it: 'Uno storno di pagamento per la fattura #{{ invoice.number }} di <strong>{{ member.name }}</strong> è stato importato. Verificatelo.'
+        _nl: 'Een betalingsterugboeking voor factuur #{{ invoice.number }} van <strong>{{ member.name }}</strong> is geïmporteerd. Graag controleren.'
       subject:
         _en: 'Payment reversal for invoice #%{number}'
         _fr: 'Remboursement d''un paiement pour la facture #%{number}'
-        _de: 'Rückzahlung des Zahlungsbetrags für die Rechnung #%{number}'
-        _it: 'Rimborso del pagamento per la fattura #%{number}'
-        _nl: 'Terugbetaling van betaling voor factuur #%{number}'
+        _de: 'Zahlungsrückbuchung für Rechnung #%{number}'
+        _it: 'Storno di pagamento per la fattura #%{number}'
+        _nl: 'Betalingsterugboeking voor factuur #%{number}'

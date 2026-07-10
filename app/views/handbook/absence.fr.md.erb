@@ -18,8 +18,8 @@ Côté admin, il suffit de modifier un <%= Basket.model_name.human.downcase %> m
 
 Côté membre, le déplacement de <%= Basket.model_name.human(count: 2).downcase %> n'est pas possible par défaut. Pour activer cette fonctionnalité, vous avez la possibilité de [modifier les paramètres](/settings#absence) suivants:
 
-- **Nombre de déplacements permis** : afin de limiter, si vous le souhaitez, le nombre de déplacements possibles par les membres.
-- **Délai pour les déplacements** : afin de limiter, si vous le souhaitez, les déplacements possibles dans le temps.
+- **Nombre de déplacements permis**: afin de limiter, si vous le souhaitez, le nombre de déplacements possibles par les membres.
+- **Délai pour les déplacements**: afin de limiter, si vous le souhaitez, les déplacements possibles dans le temps.
 
 Si l'absence est annulée, le contenu du <%= Basket.model_name.human.downcase %> sera automatiquement restitué à sa livraison d'origine.
 
@@ -52,7 +52,7 @@ Il est possible de configurer un nombre d'absences incluses dans l'abonnement. C
 
 ### Mode de fin d'année {#absence-included-mode}
 
-Lorsque les membres n'utilisent pas toutes leurs absences incluses à la fin de leur abonnement, les absences restantes restent provisoirement marquées sur les dernières livraisons. Pour gérer cette situation, vous pouvez configurer un **mode de fin d'année** dans [les paramètres](/settings#absence) :
+Lorsque les membres n'utilisent pas toutes leurs absences incluses à la fin de leur abonnement, les absences restantes restent provisoirement marquées sur les dernières livraisons. Pour gérer cette situation, vous pouvez configurer un **mode de fin d'année** dans [les paramètres](/settings#absence):
 
 **Absence provisoire respectée**
 
@@ -68,7 +68,7 @@ Ce mode est utile lorsque vous préférez que les membres reçoivent leurs <%= B
 
 ### Email de rappel {#absence-included-reminder}
 
-Un email de rappel est envoyé aux membres ayant des absences incluses non utilisées un nombre configurable de semaines avant la première absence provisoire (par défaut : 4 semaines). Cela donne aux membres le temps d'agir selon le mode choisi :
+Un email de rappel est envoyé aux membres ayant des absences incluses non utilisées un nombre configurable de semaines avant la première absence provisoire (par défaut: 4 semaines). Cela donne aux membres le temps d'agir selon le mode choisi:
 
-- **En mode "Absence provisoire respectée"** : Forcer une livraison s'ils souhaitent recevoir des <%= Basket.model_name.human(count: 2).downcase %> qui étaient marqués comme provisoirement absents.
-- **En mode "Livraison des absences restantes"** : Annoncer une absence pour refuser les livraisons qu'ils ne souhaitent pas.
+- **En mode "Absence provisoire respectée"**: Forcer une livraison s'ils souhaitent recevoir des <%= Basket.model_name.human(count: 2).downcase %> qui étaient marqués comme provisoirement absents.
+- **En mode "Livraison des absences restantes"**: Annoncer une absence pour refuser les livraisons qu'ils ne souhaitent pas.

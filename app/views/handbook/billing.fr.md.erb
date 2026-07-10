@@ -58,17 +58,17 @@ Par défaut, les factures déjà considérées comme payées/fermées au moment 
 
 Chaque abonnement possède un **intervalle de paiement** qui détermine combien de factures sont générées sur l'année fiscale. Les intervalles disponibles sont configurés dans [les paramètres](/settings#billing) et proposés aux membres lors de l'inscription ou du renouvellement.
 
-Intervalles disponibles : Annuel (1), Semestriel (2), Quadrimestriel (3), Trimestriel (4), Mensuel (12).
+Intervalles disponibles: Annuel (1), Semestriel (2), Quadrimestriel (3), Trimestriel (4), Mensuel (12).
 
-Le montant de la facture est calculé ainsi : **montant total de l'abonnement ÷ nombre d'intervalles restants**. Par exemple, pour un abonnement à 1000.- payé tous les trimestres, chaque facture sera de 250.-.
+Le montant de la facture est calculé ainsi: **montant total de l'abonnement ÷ nombre d'intervalles restants**. Par exemple, pour un abonnement à 1000.- payé tous les trimestres, chaque facture sera de 250.-.
 
-#### Quand la première facture est-elle envoyée ? {#first-invoice-timing}
+#### Quand la première facture est-elle envoyée? {#first-invoice-timing}
 
 Par défaut, la première facture est envoyée le jour de facturation suivant la **première livraison de <%= Basket.model_name.human.downcase %>**. Cela signifie qu'aucune facture n'est générée avant que le membre ait reçu sa première livraison.
 
 Ce comportement peut être modifié dans [les paramètres](/settings#billing) en désactivant « Facturer les abonnements seulement après leur première livraison ». Lorsque désactivé, la facturation commence dès la **date de début de l'abonnement**, même avant toute livraison.
 
-#### Quand la facturation se termine-t-elle ? {#billing-end}
+#### Quand la facturation se termine-t-elle? {#billing-end}
 
 Par défaut, la facturation s'étend jusqu'à la **date de fin de l'abonnement**, couvrant l'année fiscale complète même s'il n'y a pas de livraisons les derniers mois.
 
@@ -76,7 +76,7 @@ Cela peut être modifié dans [les paramètres](/settings#billing) en activant �
 
 #### Logique détaillée
 
-Chaque jour de facturation, le système vérifie chaque membre et détermine si une facture est due :
+Chaque jour de facturation, le système vérifie chaque membre et détermine si une facture est due:
 
 1. L'année fiscale est découpée en périodes selon l'intervalle de paiement (par ex. trimestriel = 4 périodes de 3 mois).
 2. Si la **période en cours a déjà été facturée**, la prochaine facture est planifiée pour le début de la période suivante.
@@ -89,7 +89,7 @@ La facture est toujours créée le jour de la semaine configuré. Si une facture
 
 Depuis la page d'un membre ou d'un abonnement, la section « Facturation » (colonne de droite) affiche la **date de la prochaine facture**. Celle-ci indique quand la prochaine facture automatique sera créée et envoyée.
 
-Cette date se met à jour dynamiquement : une fois une facture envoyée, elle passe à la prochaine date planifiée.
+Cette date se met à jour dynamiquement: une fois une facture envoyée, elle passe à la prochaine date planifiée.
 
 ### Facturer maintenant {#bill-now}
 
@@ -120,7 +120,7 @@ Raccourcir la date de fin d'un abonnement, y compris avec l'action **Arrêter**,
 
 ### Cotisation annuelle {#annual-fee}
 
-Lorsque la fonctionnalité de cotisation annuelle est activée, la cotisation annuelle par défaut de l'organisation est définie dans [les paramètres de cotisation annuelle](/settings#annual_fee). Chaque membre hérite de cette valeur par défaut à sa création, mais elle peut être modifiée individuellement depuis son profil (page d'édition, section « Facturation »). Si le paramètre « membres de soutien uniquement » est activé, les membres actifs n'héritent pas automatiquement de la cotisation annuelle par défaut de l'organisation ; celle-ci reste destinée aux membres de soutien, sauf si elle est définie manuellement.
+Lorsque la fonctionnalité de cotisation annuelle est activée, la cotisation annuelle par défaut de l'organisation est définie dans [les paramètres de cotisation annuelle](/settings#annual_fee). Chaque membre hérite de cette valeur par défaut à sa création, mais elle peut être modifiée individuellement depuis son profil (page d'édition, section « Facturation »). Si le paramètre « membres de soutien uniquement » est activé, les membres actifs n'héritent pas automatiquement de la cotisation annuelle par défaut de l'organisation; celle-ci reste destinée aux membres de soutien, sauf si elle est définie manuellement.
 
 Lorsque la fonctionnalité est activée, la cotisation annuelle est automatiquement incluse dans la **première facture** de l'abonnement. Si le membre n'a pas d'abonnement ([soutien](/handbook/members#statuses)), une facture spécifique de cotisation annuelle est créée automatiquement au début de l'année fiscale.
 
@@ -204,7 +204,7 @@ Si votre organisation est assujettie à la TVA, activez la fonctionnalité TVA e
 
 La TVA est calculée comme une taxe incluse (le montant total de la facture inclut déjà la TVA). Le montant net et le montant de la TVA sont affichés séparément sur le PDF de la facture.
 
-> La TVA n'est appliquée que lorsque la fonctionnalité TVA est activée. Les paramètres de TVA exigent un numéro de TVA et un taux de TVA pour les abonnements ; les taux de TVA pour les <%= activities_human_name.downcase %> et la boutique sont optionnels et ne sont utilisés que lorsque ces fonctionnalités sont activées.
+> La TVA n'est appliquée que lorsque la fonctionnalité TVA est activée. Les paramètres de TVA exigent un numéro de TVA et un taux de TVA pour les abonnements; les taux de TVA pour les <%= activities_human_name.downcase %> et la boutique sont optionnels et ne sont utilisés que lorsque ces fonctionnalités sont activées.
 
 ## Paiements {#payments}
 
@@ -244,7 +244,7 @@ La mise en place d'une connexion avec [la BAS](https://www.bas.ch/fr) se fait vi
 
 1. **Contacter la banque** — Via votre canal de messagerie sécurisé e-banking, demandez une connexion "keyfile" (fichier de clé) pour votre contrat e-banking existant (IBXXXXXXX).
 2. **Recevoir le fichier keyfile** — La banque vous enverra par email un fichier keyfile chiffré (format `.p12`) ainsi que son mot de passe par courrier postal séparé.
-3. **M'envoyer les informations** — Une fois en possession de ces éléments, transmettez-les moi de préférence via un canal sécurisé avec chiffrement de bout en bout (Signal, Telegram, WhatsApp, iMessage, ...) :
+3. **M'envoyer les informations** — Une fois en possession de ces éléments, transmettez-les moi de préférence via un canal sécurisé avec chiffrement de bout en bout (Signal, Telegram, WhatsApp, iMessage, ...):
    - Le fichier keyfile chiffré (format `.p12`) et son mot de passe
    - Votre numéro de contrat IBXXXXXXX
    - Votre mot de passe de contrat IBXXXXXXX, identique à celui de votre e-banking. Noter que je n'ai pas accès à votre e-banking, le système peut récupèrer uniquement les fichiers camt.054 contenant la liste des paiements.
@@ -287,4 +287,4 @@ Plusieurs événements liés à la facturation peuvent déclencher des notificat
 
 - **Facture surpayée**: Envoyée lorsqu'un paiement fait dépasser le montant payé d'une facture par rapport à son total, indiquant que le membre a une balance positive.
 - **3ᵉ rappel**: Envoyée lorsque le troisième rappel est envoyé pour une facture impayée, signalant un problème de paiement persistant.
-- **Contrepassation de paiement**: Envoyée lorsqu'un paiement négatif (contrepassation) est importé, pouvant indiquer un rejet ou une correction bancaire.
+- **Remboursement d'un paiement**: Envoyée lorsqu'un paiement négatif (remboursement) est importé, pouvant indiquer un rejet ou une correction bancaire.

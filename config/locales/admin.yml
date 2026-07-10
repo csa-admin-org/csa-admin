@@ -155,12 +155,12 @@ _:
       payment_reversal:
         _en: Payment reversal
         _fr: Remboursement d'un paiement
-        _de: Zahlungsrückgabebenachrichtigung
-        _it: Rimborsamento del pagamento
-        _nl: Betalingsterugdraaiing
+        _de: Zahlungsrückbuchung
+        _it: Storno di pagamento
+        _nl: Betalingsterugboeking
       payment_reversal_hint:
         _en: Receive a notification when a payment reversal is imported and automatically created.
         _fr: Recevoir une notification lorsqu'un remboursement d'un paiement est importé et créé automatiquement.
-        _de: Erhalte eine Benachrichtigung, wenn eine Zahlungsrückgabebenachrichtigung importiert und automatisch erstellt wird.
-        _it: Ricevi una notifica quando un rimborsamento di un pagamento viene importato e creato automaticamente.
-        _nl: Ontvang een melding wanneer een betalingsterugdraaiing wordt geïmporteerd en automatisch gemaakt.
+        _de: Benachrichtigung erhalten, wenn eine Zahlungsrückbuchung importiert und automatisch erstellt wird.
+        _it: Ricevete una notifica quando uno storno di pagamento viene importato e creato automaticamente.
+        _nl: Melding ontvangen wanneer een betalingsterugboeking wordt geïmporteerd en automatisch aangemaakt.

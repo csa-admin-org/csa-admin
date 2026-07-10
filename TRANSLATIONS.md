@@ -28,11 +28,59 @@ Keys are under a single `_:` root, with language-prefixed leaf keys (`_en`, `_fr
 This is **not** standard Rails `en:`/`fr:` nesting — the custom backend resolves the
 correct locale at runtime.
 
+## Scoped Translation Variants
+
+CSA Admin prepends `I18n::Backend::ScopedLookup`, defined in
+`lib/i18n/backend/scoped_lookup.rb`, to the side-by-side backend. Normal lookups
+therefore automatically try variants matching the current organization's basket and
+activity terminology before falling back to the unscoped key.
+
+Slash suffixes are part of the key name, not YAML nesting:
+
+```yaml
+_:
+  activerecord:
+    attributes:
+      basket:
+        basket_size:
+          _en: Size
+          _fr: Taille
+          _de: Grösse
+          _it: Dimensione
+          _nl: Grootte
+        basket_size/bag:
+          _en: Bag size
+          _fr: Taille du sac
+          _de: Taschengrösse
+          _it: Dimensione della borsa
+          _nl: Tasgrootte
+```
+
+Application code should request the base key (`basket_size`). The backend derives active
+scopes from `Current.org`, tries the locale-specific basket scope followed by the activity
+scope, and uses `basket_size/bag` when available. If no scoped variant exists, it returns
+`basket_size`.
+
+For keys ending in `_html`, insert the scope before that suffix so Rails keeps treating the
+translation as HTML-safe:
+
+```text
+description_html → description/bag_html
+```
+
+Use scoped variants only when terminology genuinely differs. Always keep an unscoped
+fallback. During development, follow the two-phase process below; once wording is
+finalized, every scoped variant needs values for all supported locales. See
+`test/lib/i18n/backend/scoped_lookup_test.rb` for lookup and fallback examples.
+
 ## Liquid Templates
 
-Mail and newsletter templates are stored in the database, not on disk. Template files
-(when exported or referenced) use language suffixes: `invoice_created.en.liquid`,
-`invoice_created.fr.liquid`.
+Database-backed member and newsletter templates use locale-suffixed `.liquid` files:
+`invoice_created.en.liquid`, `invoice_created.fr.liquid`.
+
+Application mailers, such as `AdminMailer`, use `app/views/.../*.liquid.erb` templates
+and locale keys under `config/locales/`. Internal emails sent exclusively to
+`ULTRA_ADMIN_EMAIL` may remain English-only.
 
 ## Two-Phase Process
 
@@ -44,14 +92,25 @@ Mail and newsletter templates are stored in the database, not on disk. Template 
 | Context | EN | FR | DE | NL | IT |
 |---|---|---|---|---|---|
 | **Admin UI** (buttons, hints, confirmations) | you | vous | **impersonal** (infinitive, passive) | **impersonal** | voi |
-| **Member-facing** (member portal, emails, newsletters) | you | vous | **Du** (capitalized) | **je/jij** | tu |
+| **Admin emails** | you | vous | **impersonal** | **impersonal** | voi |
+| **Member-facing** (member portal; emails/newsletters sent to members) | you | vous | **Du** (capitalized) | **je/jij** | tu |
 | **Handbook** (docs for admins) | you | vous | **Du** (capitalized) | **je/jij** | tu |
+
+### Admin emails
+
+Use the recipient name in the greeting:
+
+| EN | FR | DE | IT | NL |
+|---|---|---|---|---|
+| `Hello {{ admin.name }},` | `Salut {{ admin.name }},` | `Hallo {{ admin.name }},` | `Ciao {{ admin.name }},` | `Hallo {{ admin.name }},` |
+
+CSA Admin intentionally combines French `Salut` with `vous`.
 
 ### German
 
-**Impersonal** (Admin UI) — Use infinitive constructions ("Alle Daten importieren"),
-passive ("Soll das wirklich durchgeführt werden?"), drop possessives ("Die IBAN" not
-"Ihre IBAN"). Never use "Sie" for direct address.
+**Impersonal** (Admin UI and admin emails) — Use infinitive constructions
+("Alle Daten importieren"), passive ("Soll das wirklich durchgeführt werden?"), drop
+possessives ("Die IBAN" not "Ihre IBAN"). Never use "Sie" for direct address.
 
 **Du** (Member-facing, Handbook) — Capitalize Du/Dein/Dir/Dich in direct address.
 Adjust verb conjugations (hast, kannst, möchtest). Preserve lowercase "sie/ihre"
@@ -59,8 +118,8 @@ Adjust verb conjugations (hast, kannst, möchtest). Preserve lowercase "sie/ihre
 
 ### Dutch
 
-**Impersonal** (Admin UI) — Same patterns as German: infinitive, passive, drop
-possessives. Never use "u/uw".
+**Impersonal** (Admin UI and admin emails) — Same patterns as German: infinitive,
+passive, drop possessives. Never use "u/uw".
 
 **je** (Member-facing, Handbook) — Use "je" as the default (lighter). Use "jouw"
 only for emphasis. Adjust verb conjugations ("Je hebt", not "U heeft"). With
@@ -68,16 +127,20 @@ inversion, drop the -t ("heb je", not "hebt je").
 
 ### French
 
-- Use "vous" consistently (both Admin UI and member-facing).
+- Use "vous" consistently in Admin UI, admin emails, and member-facing copy.
 - Signal word **"désormais"** to introduce what's new in announcements.
 - Impersonal openings preferred: "Il est désormais possible de…"
 - Use «guillemets» for inline terminology, not English-style quotes.
-- Colon `:` before every bullet list (standard French punctuation).
+- Attach `:`, `;`, `?`, and `!` to the preceding text in all application copy—do not
+  add regular, thin, or non-breaking spaces. Keep the colon before bullet lists, but
+  attach it to the preceding text. This follows the
+  [Canton of Vaud typographic guidance](https://www.vd.ch/cha/bic/usages-typographiques)
+  and is enforced by `test/lib/i18n/french_punctuation_test.rb`.
 - Fully localized vocabulary, never anglicisms (dépôt, abonnement, panier, etc.).
 
 ### Italian
 
-- Use "voi" for Admin UI, "tu" for member-facing and handbook.
+- Use "voi" for Admin UI and admin emails, "tu" for member-facing and handbook.
 
 ## Writing Style
 
@@ -86,7 +149,7 @@ inversion, drop the -t ("heb je", not "hebt je").
   "It is important to note that…").
 - **Use em dashes sparingly.** Prefer semicolons, periods, or commas. An em dash is
   fine when it genuinely adds clarity, but overuse makes text feel AI-generated.
-- **Prefer `<strong>` / `**bold**` over `<u>` for emphasis** in hints and handbook.
+- **Prefer `<strong>` / `**bold**` over `<u>` for emphasis** in user-facing copy.
   Underlines are easily confused with hyperlinks.
 - **Be direct.** Say what happens, not what "the system does". Prefer active voice
   and short sentences when possible.
