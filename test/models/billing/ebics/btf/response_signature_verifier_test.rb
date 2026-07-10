@@ -20,6 +20,13 @@ class Billing::EBICS::Btf::ResponseSignatureVerifierTest < ActiveSupport::TestCa
     assert_predicate response, :signature_valid?
   end
 
+  test "accepts signed H005 responses without root revision" do
+    response = response_for(signed_response_xml { |doc| doc.root.remove_attribute("Revision") })
+
+    assert_predicate response, :digest_valid?
+    assert_predicate response, :signature_valid?
+  end
+
   test "rejects a digest injected outside the signed info" do
     response = response_for(signed_response_xml { |doc|
       injected = Nokogiri::XML::DocumentFragment.parse(

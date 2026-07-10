@@ -53,7 +53,11 @@ module Billing
           doc.root&.name == "ebicsResponse" &&
             doc.root.namespace&.href == H005_NAMESPACE &&
             doc.root["Version"] == "H005" &&
-            doc.root["Revision"] == "1"
+            valid_revision?
+        end
+
+        def valid_revision?
+          doc.root["Revision"].nil? || doc.root["Revision"] == "1"
         end
 
         def signature_nodes_valid?
