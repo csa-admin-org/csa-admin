@@ -66,7 +66,7 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
 
   test "warns when SEPA upload settings are absent for a SEPA configured organization" do
     error = ErrorRecorder.new
-    connection = create_connection(settings: download_only_settings)
+    connection = create_connection(settings: download_only_settings, legacy_persisted: true)
 
     Billing::EBICS::CapabilitiesMonitor.new(
       connection: connection,
@@ -84,7 +84,7 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
   test "does not warn about legacy upload settings when SEPA is not configured" do
     org(country_code: "CH", features: [], sepa_creditor_identifier: nil)
     error = ErrorRecorder.new
-    connection = create_connection(settings: legacy_upload_settings)
+    connection = create_connection(settings: legacy_upload_settings, legacy_persisted: true)
 
     Billing::EBICS::CapabilitiesMonitor.new(
       connection: connection,
@@ -120,6 +120,8 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
       "EBICS capabilities admin-order check failed",
       "EBICS capabilities admin-order check failed"
     ], error.reports.map { |warning, _context, _options| warning.message }
+    assert_not_includes error.reports.to_json, "provider response text"
+    assert_not_includes connection.capabilities.to_json, "provider response text"
   end
 
   test "ignores explicitly tolerated admin order return codes" do
@@ -163,14 +165,23 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
 
   private
 
-  def create_connection(settings: ebics_settings)
-    BankConnection.create!(
+  def create_connection(settings: ebics_settings, legacy_persisted: false)
+    connection = BankConnection.new(
       provider: "ebics",
       name: "MULTIVIA",
       active: true,
       state: "ready",
       credentials: ebics_credentials,
       settings: settings)
+
+    if legacy_persisted
+      # Capability monitoring must diagnose legacy persisted configurations without permitting new ones.
+      connection.save!(validate: false)
+    else
+      connection.save!
+    end
+
+    connection
   end
 
   def ebics_settings
@@ -241,16 +252,16 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
       "HTD" => {
         "status" => "error",
         "class" => "Billing::EBICS::ClientError",
-        "message" => "090003 [EBICS_OK] OK",
+        "message" => "provider response text",
         "return_code" => "090003",
-        "report_text" => "[EBICS_OK] OK"
+        "report_text" => "provider response text"
       },
       "HAA" => {
         "status" => "error",
         "class" => "Billing::EBICS::ClientError",
-        "message" => "090003 [EBICS_OK] OK",
+        "message" => "provider response text",
         "return_code" => "090003",
-        "report_text" => "[EBICS_OK] OK"
+        "report_text" => "provider response text"
       }
     }
   end
@@ -272,13 +283,9 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
   end
 
   def ebics_credentials
-    {
-      keys: "secret-key-json",
-      secret: "secret-passphrase",
-      url: "https://ebics.example.test",
+    @ebics_credentials ||= synthetic_ebics_credentials(
       host_id: "MULTIVIA",
-      participant_id: "PARTICIPANTID",
-      client_id: "CLIENTID"
-    }
+      user_id: "PARTICIPANTID",
+      partner_id: "CLIENTID")
   end
 end

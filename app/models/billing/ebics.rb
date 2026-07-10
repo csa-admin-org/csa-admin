@@ -111,27 +111,26 @@ module Billing
     def notify(name, error)
       Rails.event.notify(name,
         **safe_context(
-          error: error.class.name,
-          error_message: error.message).symbolize_keys)
+          **SafeContext.error_summary(error).except("error_message").symbolize_keys).symbolize_keys)
     end
 
     def report_technical_error(error, operation, operation_kind)
+      error_summary = SafeContext.error_summary(error, operation_kind: operation_kind).except("error_message")
       Rails.error.report(error.original_error,
         context: safe_context(
           operation: operation,
           operation_kind: operation_kind,
-          error: error.class.name,
-          error_message: error.message))
+          **error_summary.symbolize_keys))
     end
 
     def report_configuration_error(error, operation:, operation_kind:)
       @bank_connection&.mark_error!(error, operation: operation, operation_kind: operation_kind)
+      error_summary = SafeContext.error_summary(error, operation_kind: operation_kind).except("error_message")
       Rails.error.report(error,
         context: safe_context(
           operation: operation,
           operation_kind: operation_kind,
-          error: error.class.name,
-          error_message: error.message))
+          **error_summary.symbolize_keys))
     end
 
     def safe_context(operation: nil, **context)

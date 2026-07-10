@@ -43,7 +43,7 @@ class Billing::EBICSTest < ActiveSupport::TestCase
         }
       }
     }
-    connection = bank_connection(settings: settings)
+    connection = bank_connection(settings: settings, legacy_persisted: true)
 
     error = with_rails_env("production") do
       assert_raises(Billing::EBICS::UnsupportedOperation) do
@@ -68,7 +68,7 @@ class Billing::EBICSTest < ActiveSupport::TestCase
         }
       }
     }
-    connection = bank_connection(settings: settings)
+    connection = bank_connection(settings: settings, legacy_persisted: true)
 
     error = assert_raises(Billing::EBICS::UnsupportedOperation) do
       Billing::EBICS.new(credentials, settings: settings, bank_connection: connection).sepa_direct_debit_upload("document")
@@ -178,8 +178,8 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     end
 
     _name, payload = event.notifications.find { |name, _payload| name == :ebics_no_data_available }
-    assert_equal "StandardError", payload[:error]
-    assert_includes payload[:error_message], "EBICS_NO_DOWNLOAD_DATA_AVAILABLE"
+    assert_equal "StandardError", payload[:error_class]
+    assert_not_includes payload.to_json, "EBICS_NO_DOWNLOAD_DATA_AVAILABLE"
   end
 
   test "returns no payments and notifies when EBICS technical error occurs" do
@@ -194,25 +194,21 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     end
 
     _name, payload = event.notifications.find { |name, _payload| name == :ebics_technical_error }
-    assert_equal "StandardError", payload[:error]
-    assert_includes payload[:error_message], "EBICS_INTERNAL_ERROR"
+    assert_equal "StandardError", payload[:error_class]
+    assert_not_includes payload.to_json, "EBICS_INTERNAL_ERROR"
   end
 
   private
 
   def credentials
-    {
-      "keys" => "keys",
-      "secret" => "secret",
-      "url" => "https://ebics.example.test",
-      "host_id" => "HOSTID",
-      "participant_id" => "PARTICIPANTID",
-      "client_id" => "CLIENTID"
-    }
+    @credentials ||= synthetic_ebics_credentials(
+      user_id: "PARTICIPANTID",
+      partner_id: "CLIENTID")
   end
 
   def btf_settings
     {
+      "protocol" => "H005",
       "downloads" => {
         "payments" => {
           "mode" => "btf",
@@ -223,24 +219,32 @@ class Billing::EBICSTest < ActiveSupport::TestCase
   end
 
   def upload_btf_settings
-    {
+    btf_settings.deep_merge(
       "uploads" => {
         "sepa_direct_debit" => {
           "mode" => "btf",
           "schema" => "pain.008.001.08",
           "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML", version: nil)
         }
-      }
-    }
+      })
   end
 
-  def bank_connection(settings:)
-    BankConnection.create!(
+  def bank_connection(settings:, legacy_persisted: false)
+    connection = BankConnection.new(
       provider: "ebics",
       active: true,
       state: "ready",
       credentials: credentials,
       settings: settings)
+
+    if legacy_persisted
+      # Runtime checks must diagnose legacy persisted configurations without permitting new ones.
+      connection.save!(validate: false)
+    else
+      connection.save!
+    end
+
+    connection
   end
 
 

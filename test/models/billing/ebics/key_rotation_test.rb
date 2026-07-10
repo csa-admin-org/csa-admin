@@ -58,7 +58,9 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
   end
 
   test "blocks non-H005 credentials" do
-    connection = create_ebics_connection(settings: h005_settings.merge("protocol" => "H004"))
+    connection = create_ebics_connection(
+      settings: h005_settings.merge("protocol" => "H004"),
+      legacy_persisted: true)
 
     report = key_rotation(connection).readiness
 
@@ -200,7 +202,7 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
 
     assert_includes error.message, "EBICS key rotation failed during submit"
     assert_not_includes error.message, "raw bank secret"
-    assert_equal "submitting", pending.fetch("state")
+    assert_equal "uncertain", pending.fetch("state")
     assert pending.fetch("submit_started_at").present?
     assert_equal "rotation_failed", status.fetch("state")
     assert_equal "submit", status.fetch("stage")
@@ -226,6 +228,47 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
     assert_empty client.key_change_order_types
   end
 
+  test "claims HCS before the live request and stops a competing caller" do
+    connection = create_ebics_connection(capabilities: hcs_capabilities)
+    generated_key = OpenSSL::PKey::RSA.generate(4096)
+    key_rotation(connection, key_generator: -> { generated_key }).prepare_pending!
+
+    competing_client = FakeBtfClient.new
+    client = FakeBtfClient.new(on_key_change: -> {
+      error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+        key_rotation(connection.reload, btf_client: competing_client).submit_pending!
+      end
+      assert_includes error.message, "uncertain outcome"
+    })
+
+    report = key_rotation(connection.reload, btf_client: client).submit_pending!
+
+    assert report.fetch("submitted")
+    assert_equal [ "HCS" ], client.key_change_order_types
+    assert_empty competing_client.key_change_order_types
+    assert_nil connection.reload.credentials.dig("pending_key_rotation", "submit_claim_token")
+  end
+
+  test "claims pending verification and stops a competing caller" do
+    connection = create_ebics_connection(capabilities: hcs_capabilities)
+    generated_key = OpenSSL::PKey::RSA.generate(4096)
+    key_rotation(connection, key_generator: -> { generated_key }).prepare_pending!
+    key_rotation(connection.reload, btf_client: FakeBtfClient.new).submit_pending!
+
+    competing_client = FakeBtfClient.new
+    client = FakeBtfClient.new(on_admin_order: ->(_order_type) {
+      report = key_rotation(connection.reload, btf_client: competing_client).verify_pending!
+      assert_not report.fetch("verified")
+      assert_empty competing_client.admin_order_types
+    })
+
+    report = key_rotation(connection.reload, btf_client: client).verify_pending!
+
+    assert report.fetch("verified")
+    assert_equal [ "HTD" ], client.admin_order_types
+    assert_nil connection.reload.credentials.dig("pending_key_rotation", "verify_claim_token")
+  end
+
   test "verify can recover an uncertain submitted HCS without retrying HCS" do
     connection = create_ebics_connection(capabilities: hcs_capabilities)
     generated_key = OpenSSL::PKey::RSA.generate(4096)
@@ -242,6 +285,22 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
     assert_empty client.key_change_order_types
     assert_equal [ "HTD" ], client.admin_order_types
     assert_equal "verified", connection.credentials.dig("pending_key_rotation", "state")
+  end
+
+  test "does not discard a pending rotation after HCS starts with an uncertain outcome" do
+    connection = create_ebics_connection(capabilities: hcs_capabilities)
+    generated_key = OpenSSL::PKey::RSA.generate(4096)
+    key_rotation(connection, key_generator: -> { generated_key }).prepare_pending!
+    assert_raises(Billing::EBICS::UnsupportedOperation) do
+      key_rotation(connection.reload, btf_client: FailingKeyChangeClient.new("connection lost after HCS")).submit_pending!
+    end
+
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+      key_rotation(connection.reload).discard_pending!
+    end
+
+    assert_includes error.message, "submission has started"
+    assert connection.reload.credentials.dig("pending_key_rotation", "keys").present?
   end
 
   test "discard pending keeps active keys and removes pending rotation" do
@@ -312,8 +371,8 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
 
   private
 
-  def create_ebics_connection(keysize: 2048, settings: h005_settings, capabilities: {})
-    BankConnection.create!(
+  def create_ebics_connection(keysize: 2048, settings: h005_settings, capabilities: {}, legacy_persisted: false)
+    connection = BankConnection.new(
       provider: "ebics",
       name: "HOSTID",
       active: true,
@@ -321,6 +380,15 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
       credentials: synthetic_ebics_credentials(secret: secret, keysize: keysize, key_material: key_material(keysize)),
       settings: settings,
       capabilities: capabilities)
+
+    if legacy_persisted
+      # Key rotation must report an existing non-H005 row without allowing new ones.
+      connection.save!(validate: false)
+    else
+      connection.save!
+    end
+
+    connection
   end
 
   def key_material(keysize)
@@ -346,7 +414,13 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
 
   def h005_settings
     {
-      "protocol" => "H005"
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
+        }
+      }
     }
   end
 
@@ -383,7 +457,9 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
   class FakeBtfClient
     attr_reader :key_change_order_types, :admin_order_types
 
-    def initialize
+    def initialize(on_key_change: nil, on_admin_order: nil)
+      @on_key_change = on_key_change
+      @on_admin_order = on_admin_order
       @key_change_order_types = []
       @admin_order_types = []
     end
@@ -400,11 +476,13 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
       key_change_order_types << order_type
       raise "Expected 4096-bit target participant keys" unless target_key_store.key_summary.fetch("participant_key_min_bits") == 4096
 
+      @on_key_change&.call
       Billing::EBICS::BtfClient::KeyChangeResult.new(transaction_id: "TX123", order_id: "N0DD")
     end
 
     def admin_order(order_type)
       admin_order_types << order_type
+      @on_admin_order&.call(order_type)
       Billing::EBICS::BtfClient::AdminOrderResult.new(order_data: "<HTDResponseOrderData/>", receipt_sent: false)
     end
   end

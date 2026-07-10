@@ -30,7 +30,7 @@ class PaymentsControllerTest < ActionDispatch::IntegrationTest
       state: "ready",
       health_status: "healthy",
       credentials: synthetic_ebics_credentials,
-      settings: { "protocol" => "H005" })
+      settings: h005_payment_settings)
     login admins(:super)
 
     get payments_path
@@ -43,6 +43,18 @@ class PaymentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   private
+
+  def h005_payment_settings
+    {
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
+        }
+      }
+    }
+  end
 
   def login(admin)
     session = Session.create!(

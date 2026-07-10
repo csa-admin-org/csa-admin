@@ -60,7 +60,7 @@ module Billing
 
       def admin_order_summary(order_type)
         result = btf_client.admin_order(order_type)
-        data = AdminOrderData.new(result.order_data)
+        data = AdminOrderData.new(result.order_data, order_type: order_type)
 
         {
           "status" => "ok",
@@ -81,9 +81,8 @@ module Billing
         {
           "status" => "error",
           "class" => e.class.name,
-          "message" => e.message,
-          "return_code" => error_response(e)&.return_code,
-          "report_text" => error_response(e)&.report_text
+          "category" => error_response(e) ? "ebics_response" : "unexpected",
+          "return_code" => error_response(e)&.return_code
         }.compact_blank
       end
 
@@ -121,34 +120,44 @@ module Billing
       end
 
       class AdminOrderData
-        def initialize(xml)
-          @doc = Nokogiri::XML(xml)
+        H005_NAMESPACE = Btf::Response::H005_NAMESPACE
+
+        def initialize(xml, order_type:)
+          @order_type = order_type.to_s.upcase
+          unless BtfClient::AdminOrderDataProfile.valid?(@order_type, xml)
+            raise BtfClient::AdminOrderDataError, "Unexpected #{@order_type} response order data"
+          end
+
+          @doc = Nokogiri::XML(xml) { |config| config.nonet }
         end
 
         def order_infos
-          doc.xpath("//*[local-name() = 'OrderInfo'][*[local-name() = 'AdminOrderType']]").map do |node|
+          return [] unless order_type == "HTD"
+
+          doc.xpath("/h:HTDResponseOrderData/h:PartnerInfo/h:OrderInfo", h: H005_NAMESPACE).map do |node|
             {
               "admin_order_type" => text(node, "AdminOrderType"),
-              "description" => text(node, "Description"),
               "num_sig_required" => integer_text(node, "NumSigRequired"),
-              "service" => service_hash(node.at_xpath("./*[local-name() = 'Service']"))
+              "service" => service_hash(child(node, "Service"))
             }.compact_blank
           end.uniq
         end
 
         def services
-          doc.xpath("//*[local-name() = 'Service']").map { |node| service_hash(node) }.compact_blank.uniq
+          return [] unless order_type == "HAA"
+
+          doc.xpath("/h:HAAResponseOrderData/h:Service", h: H005_NAMESPACE)
+            .map { |node| service_hash(node) }
+            .compact_blank
+            .uniq
         end
 
         def legacy_order_types
-          doc.xpath("//*[local-name() = 'OrderTypes']")
-            .flat_map { |node| node.text.split }
-            .uniq
-            .sort
+          []
         end
 
         private
-        attr_reader :doc
+        attr_reader :doc, :order_type
 
         def service_hash(node)
           return unless node
@@ -178,7 +187,8 @@ module Billing
         end
 
         def child(node, name)
-          node&.at_xpath("./*[local-name() = '#{name}']")
+          nodes = node&.xpath("./h:#{name}", h: H005_NAMESPACE)
+          nodes&.first if nodes&.one?
         end
       end
     end

@@ -18,6 +18,10 @@ module Billing
       end
 
       AdminOrderResult = Data.define(:order_data, :receipt_sent)
+      MAX_RESPONSE_SEGMENTS = 100
+      MAX_CUMULATIVE_RESPONSE_BYTES = Btf::Transport::MAX_RESPONSE_BYTES
+      MAX_CUMULATIVE_ENCODED_ORDER_DATA_BYTES = Btf::Response::MAX_ENCODED_ORDER_DATA_BYTES
+      MAX_CUMULATIVE_ENCRYPTED_ORDER_DATA_BYTES = Btf::Payload::MAX_ENCRYPTED_ORDER_DATA_BYTES
       InvalidResponseError = Class.new(StandardError)
       SetupOrderResult = Data.define(:order_type, :transaction_id, :order_id) do
         def to_h
@@ -51,7 +55,19 @@ module Billing
 
         def initialize(response)
           @response = response
-          super([ response.return_code, response.report_text ].compact_blank.join(" "))
+          super("EBICS response #{response.return_code.presence || "unknown"}")
+        end
+      end
+
+      class AdminOrderDataProfile
+        ROOTS = {
+          "HAA" => "HAAResponseOrderData",
+          "HTD" => "HTDResponseOrderData"
+        }.freeze
+
+        def self.valid?(order_type, xml)
+          expected_root = ROOTS[order_type.to_s.upcase]
+          expected_root && Btf::SchemaValidator.valid?(xml, schema: :orders, root: expected_root)
         end
       end
 
@@ -282,22 +298,32 @@ module Billing
       end
 
       def order_responses(request)
-        [].tap do |responses|
-          response = post_request(request)
-          raise_response_error!(response)
-          responses << response
+        response = post_request(request)
+        raise_response_error!(response)
+        validate_initial_segment!(response)
+        responses = []
+        totals = {
+          response_bytes: 0,
+          encoded_order_data_bytes: 0,
+          encrypted_order_data_bytes: 0
+        }
+        retain_response!(responses, response, totals)
 
-          while response.segmented? && !response.last_segment?
-            response = post_request(transfer_request(
-              require_response_value!(
-                response,
-                :transaction_id,
-                "Missing EBICS BTD transfer TransactionID"),
-              response.next_segment_number))
-            raise_response_error!(response)
-            responses << response
-          end
+        while response.segmented? && !response.last_segment?
+          raise_invalid_response!("EBICS response exceeds #{MAX_RESPONSE_SEGMENTS} segments") if responses.size >= MAX_RESPONSE_SEGMENTS
+
+          transaction_id = require_response_value!(
+            response,
+            :transaction_id,
+            "Missing EBICS BTD transfer TransactionID")
+          next_segment_number = response.next_segment_number
+          response = post_request(transfer_request(transaction_id, next_segment_number))
+          raise_response_error!(response)
+          validate_transfer_segment!(response, transaction_id: transaction_id, segment_number: next_segment_number)
+          retain_response!(responses, response, totals)
         end
+
+        responses
       end
 
       def post_request(request)
@@ -309,11 +335,10 @@ module Billing
       end
 
       def response_from(response_xml)
-        Btf::Response.new(client: client, xml: response_xml).tap do |response|
-          raise TechnicalError.new(InvalidResponseError.new("Invalid EBICS H005 response")) unless response.h005?
-
-          verify_response!(response) if response.ok?
-        end
+        response = Btf::Response.new(client: client, xml: response_xml)
+        validate_response_profile!(response)
+        verify_response!(response) if response.standard_h005?
+        response
       end
 
       def admin_request(order_type, **overrides)
@@ -364,18 +389,74 @@ module Billing
       end
 
       def validate_admin_order_data!(order_type, order_data)
-        expected_root = {
-          "HAA" => "HAAResponseOrderData",
-          "HTD" => "HTDResponseOrderData"
-        }.fetch(order_type.to_s.upcase)
-        root_name = Nokogiri::XML(order_data).root&.name
-        return if root_name == expected_root
+        return if AdminOrderDataProfile.valid?(order_type, order_data)
 
         report_unexpected("Unexpected EBICS admin-order response data",
           admin_order_type: order_type.to_s.upcase,
-          expected_root: expected_root,
-          root: root_name)
+          admin_order_data_profile: "invalid")
         raise AdminOrderDataError, "Unexpected #{order_type.to_s.upcase} response order data"
+      end
+
+      def retain_response!(responses, response, totals)
+        response_bytes = totals.fetch(:response_bytes) + response.response_bytesize
+        if response_bytes > MAX_CUMULATIVE_RESPONSE_BYTES
+          raise_invalid_response!("EBICS cumulative response data exceeds #{MAX_CUMULATIVE_RESPONSE_BYTES} bytes")
+        end
+
+        encoded_order_data_bytes = totals.fetch(:encoded_order_data_bytes)
+        encrypted_order_data_bytes = totals.fetch(:encrypted_order_data_bytes)
+        if response.order_data_present?
+          encoded_order_data_bytes += response.encoded_order_data_bytes
+          if encoded_order_data_bytes > MAX_CUMULATIVE_ENCODED_ORDER_DATA_BYTES
+            raise_invalid_response!("EBICS cumulative encoded order data exceeds #{MAX_CUMULATIVE_ENCODED_ORDER_DATA_BYTES} bytes")
+          end
+
+          encrypted_order_data_bytes += response.order_data_encrypted.bytesize
+          if encrypted_order_data_bytes > MAX_CUMULATIVE_ENCRYPTED_ORDER_DATA_BYTES
+            raise_invalid_response!("EBICS cumulative encrypted order data exceeds #{MAX_CUMULATIVE_ENCRYPTED_ORDER_DATA_BYTES} bytes")
+          end
+        end
+
+        totals[:response_bytes] = response_bytes
+        totals[:encoded_order_data_bytes] = encoded_order_data_bytes
+        totals[:encrypted_order_data_bytes] = encrypted_order_data_bytes
+        responses << response
+      end
+
+      def validate_initial_segment!(response)
+        return unless response.segmented?
+
+        validate_segment_number!(response, expected: 1)
+      end
+
+      def validate_transfer_segment!(response, transaction_id:, segment_number:)
+        unless response.transaction_id == transaction_id
+          raise_invalid_response!("EBICS response TransactionID is inconsistent")
+        end
+
+        validate_segment_number!(response, expected: segment_number)
+      end
+
+      def validate_segment_number!(response, expected:)
+        segment_number = response.segment_number
+        valid_segment = segment_number.to_s.match?(/\A[1-9]\d*\z/) &&
+          segment_number.to_i == expected &&
+          segment_number.to_i <= MAX_RESPONSE_SEGMENTS
+        raise_invalid_response!("EBICS response segment sequence is invalid") unless valid_segment
+      end
+
+      def validate_response_profile!(response)
+        unless response.h005? && response.schema_valid?
+          raise_invalid_response!("Invalid EBICS H005 response")
+        end
+
+        return if response.standard_h005? || !verify_signatures
+
+        raise_invalid_response!("Unexpected EBICS key-management response")
+      end
+
+      def raise_invalid_response!(message)
+        raise TechnicalError.new(InvalidResponseError.new(message))
       end
 
       def transfer_request(transaction_id, segment_number)
@@ -468,7 +549,7 @@ module Billing
 
         {
           "return_code" => response.return_code,
-          "report_text" => response.report_text,
+          "response_category" => response.no_download_data? ? "no_data" : response.ok? ? "ok" : "error",
           "transaction_id_present" => response.transaction_id.present?,
           "order_id_present" => response.order_id.present?
         }
@@ -483,7 +564,6 @@ module Billing
       end
 
       def verify_response!(response)
-        return unless verify_signatures
         return if response.digest_valid? && response.signature_valid?
 
         raise TechnicalError.new(VerificationError.new("Invalid EBICS response signature"))

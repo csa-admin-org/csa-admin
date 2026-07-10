@@ -36,11 +36,11 @@ class Billing::EBICS::OnboardingTest < ActiveSupport::TestCase
     assert_sanitized report, connection
   end
 
-  test "initializing an existing bank connection forces it inactive" do
+  test "initializes an existing inactive bank connection" do
     connection = BankConnection.create!(
       provider: "ebics",
       name: "Existing EBICS setup",
-      active: true,
+      active: false,
       state: "draft",
       health_status: "unknown",
       credentials: { "temporary" => true })
@@ -97,6 +97,17 @@ class Billing::EBICS::OnboardingTest < ActiveSupport::TestCase
     end
   end
 
+  test "rejects a second in-progress EBICS setup" do
+    initialized_connection
+
+    error = assert_raises(Billing::EBICS::Onboarding::ConcurrentSetup) do
+      onboarding.initialize_connection!(**valid_initialize_connection_attributes)
+    end
+
+    assert_equal "An EBICS onboarding setup is already in progress", error.message
+    assert_equal 1, BankConnection.count
+  end
+
   test "submits INI and HIA before waiting for bank activation" do
     connection = initialized_connection
     client = FakeSetupClient.new
@@ -116,6 +127,43 @@ class Billing::EBICS::OnboardingTest < ActiveSupport::TestCase
     assert_sanitized hia, connection
   end
 
+  test "claims INI before the live request and stops a competing caller" do
+    connection = initialized_connection
+    competing_client = FakeSetupClient.new
+    client = FakeSetupClient.new(on_submit: ->(_order_type) {
+      error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+        onboarding(connection.reload, btf_client: competing_client).submit_ini!
+      end
+      assert_includes error.message, "uncertain outcome"
+    })
+
+    report = onboarding(connection, btf_client: client).submit_ini!
+
+    assert report.fetch("submitted")
+    assert_equal [ "INI" ], client.submitted_orders
+    assert_empty competing_client.submitted_orders
+    assert_nil connection.reload.status_details.dig("onboarding", "ini_submit_claim_token")
+  end
+
+  test "claims HIA before the live request and stops a competing caller" do
+    connection = initialized_connection
+    onboarding(connection, btf_client: FakeSetupClient.new).submit_ini!
+    competing_client = FakeSetupClient.new
+    client = FakeSetupClient.new(on_submit: ->(_order_type) {
+      error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+        onboarding(connection.reload, btf_client: competing_client).submit_hia!
+      end
+      assert_includes error.message, "uncertain outcome"
+    })
+
+    report = onboarding(connection.reload, btf_client: client).submit_hia!
+
+    assert report.fetch("submitted")
+    assert_equal [ "HIA" ], client.submitted_orders
+    assert_empty competing_client.submitted_orders
+    assert_nil connection.reload.status_details.dig("onboarding", "hia_submit_claim_token")
+  end
+
   test "same onboarding instance can initialize and submit setup orders" do
     client = FakeSetupClient.new
     setup = onboarding(btf_client: client)
@@ -130,6 +178,36 @@ class Billing::EBICS::OnboardingTest < ActiveSupport::TestCase
     assert_equal %w[INI HIA], client.submitted_orders
     assert_equal "HOSTID", connection.status_details.dig("onboarding", "host_id")
     assert_equal "waiting_for_bank", connection.state
+  end
+
+  test "preserves a started INI attempt while clearing its claim after failure" do
+    connection = initialized_connection
+
+    assert_raises(Billing::EBICS::UnsupportedOperation) do
+      onboarding(connection, btf_client: FailingInitializationClient.new).submit_ini!
+    end
+    connection.reload
+
+    assert_equal "errored", connection.state
+    assert connection.status_details.dig("onboarding", "ini_submit_started_at").present?
+    assert_nil connection.status_details.dig("onboarding", "ini_submitted_at")
+    assert_nil connection.status_details.dig("onboarding", "ini_submit_claim_token")
+  end
+
+  test "preserves a started HIA attempt while clearing its claim after failure" do
+    connection = initialized_connection
+    onboarding(connection, btf_client: FakeSetupClient.new).submit_ini!
+
+    assert_raises(Billing::EBICS::UnsupportedOperation) do
+      onboarding(connection.reload, btf_client: FailingInitializationClient.new).submit_hia!
+    end
+    connection.reload
+
+    assert_equal "errored", connection.state
+    assert connection.status_details.dig("onboarding", "ini_submitted_at").present?
+    assert connection.status_details.dig("onboarding", "hia_submit_started_at").present?
+    assert_nil connection.status_details.dig("onboarding", "hia_submitted_at")
+    assert_nil connection.status_details.dig("onboarding", "hia_submit_claim_token")
   end
 
   test "initialization letter is available only after setup orders while waiting for bank" do
@@ -230,6 +308,43 @@ class Billing::EBICS::OnboardingTest < ActiveSupport::TestCase
     assert_sanitized report, connection
   end
 
+  test "claims a finalization check before HPB and stops a competing caller" do
+    connection = initialized_connection
+    setup_client = FakeSetupClient.new(host_id: "HOSTID")
+    onboarding(connection, btf_client: setup_client).submit_ini!
+    onboarding(connection.reload, btf_client: setup_client).submit_hia!
+
+    competing_client = FakeSetupClient.new(host_id: "HOSTID")
+    client = FakeSetupClient.new(host_id: "HOSTID", on_fetch_bank_public_keys: -> {
+      report = onboarding(connection.reload, btf_client: competing_client).check_finalization!
+      assert_not report.fetch("checked")
+      assert_empty competing_client.admin_orders
+      assert_equal 0, competing_client.bank_public_key_fetches
+    })
+
+    report = onboarding(connection.reload, btf_client: client).check_finalization!
+
+    assert report.fetch("finalized")
+    assert_equal 1, client.bank_public_key_fetches
+    assert_equal [ "HTD" ], client.admin_orders
+    assert_nil connection.reload.status_details.dig("onboarding", "finalization_claim_token")
+  end
+
+  test "manual finalization retries after a scheduled check on the same day" do
+    connection = initialized_connection
+    onboarding(connection, btf_client: FakeSetupClient.new(host_id: "HOSTID")).submit_ini!
+    onboarding(connection.reload, btf_client: FakeSetupClient.new(host_id: "HOSTID")).submit_hia!
+
+    check = onboarding(connection.reload, btf_client: BankNotReadyClient.new(host_id: "HOSTID")).check_finalization!
+    retry_client = FakeSetupClient.new(host_id: "HOSTID")
+    retry_report = onboarding(connection.reload, btf_client: retry_client).finalize!
+
+    assert_not check.fetch("finalized")
+    assert retry_report.fetch("finalized")
+    assert_equal 1, retry_client.bank_public_key_fetches
+    assert_equal [ "HTD" ], retry_client.admin_orders
+  end
+
   test "check finalization keeps waiting setup non-destructive when bank is not ready" do
     connection = initialized_connection
     client = BankNotReadyClient.new(host_id: "HOSTID")
@@ -247,6 +362,9 @@ class Billing::EBICS::OnboardingTest < ActiveSupport::TestCase
     assert_equal "waiting_for_bank", connection.status_details.dig("onboarding", "state")
     assert_equal "not_ready", connection.status_details.dig("onboarding", "last_finalization_status")
     assert_equal "091005", connection.status_details.dig("onboarding", "finalization_return_code")
+    assert_equal "EBICS_SUBSCRIBER_UNKNOWN".bytesize, connection.status_details.dig("onboarding", "finalization_report_text_length")
+    assert_nil connection.status_details.dig("onboarding", "finalization_claim_token")
+    assert_not_includes connection.status_details.to_json, "EBICS_SUBSCRIBER_UNKNOWN"
     assert_sanitized report, connection
   end
 
@@ -263,6 +381,7 @@ class Billing::EBICS::OnboardingTest < ActiveSupport::TestCase
     assert_not report.fetch("finalized")
     assert_equal "waiting_for_bank", connection.state
     assert_equal "error", connection.status_details.dig("onboarding", "last_finalization_status")
+    assert_nil connection.status_details.dig("onboarding", "finalization_claim_token")
     reported_error, context, = error.reports.sole
     assert_instance_of RuntimeError, reported_error
     assert_equal "check_finalization", context.fetch("stage")
@@ -365,7 +484,19 @@ class Billing::EBICS::OnboardingTest < ActiveSupport::TestCase
       participant_id: "PARTICIPANTID",
       name: "Test Bank",
       target_bits: 2048)
-    BankConnection.last
+    BankConnection.last.tap { |connection| connection.update!(settings: h005_settings) }
+  end
+
+  def h005_settings
+    {
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
+        }
+      }
+    }
   end
 
   def assert_sanitized(value, connection)
@@ -399,18 +530,22 @@ class Billing::EBICS::OnboardingTest < ActiveSupport::TestCase
   end
 
   class FakeSetupClient
-    attr_reader :submitted_orders, :admin_orders
+    attr_reader :submitted_orders, :admin_orders, :bank_public_key_fetches
 
-    def initialize(host_id: "HOSTID")
+    def initialize(host_id: "HOSTID", on_submit: nil, on_fetch_bank_public_keys: nil)
       @host_id = host_id
+      @on_submit = on_submit
+      @on_fetch_bank_public_keys = on_fetch_bank_public_keys
       @submitted_orders = []
       @admin_orders = []
+      @bank_public_key_fetches = 0
       @bank_x = OpenSSL::PKey::RSA.generate(2048)
       @bank_e = OpenSSL::PKey::RSA.generate(2048)
     end
 
     def submit_initialization_order(order_type)
       submitted_orders << order_type
+      @on_submit&.call(order_type)
       Billing::EBICS::BtfClient::SetupOrderResult.new(
         order_type: order_type,
         transaction_id: "TX-#{order_type}",
@@ -418,6 +553,8 @@ class Billing::EBICS::OnboardingTest < ActiveSupport::TestCase
     end
 
     def fetch_bank_public_keys
+      @bank_public_key_fetches += 1
+      @on_fetch_bank_public_keys&.call
       keys = Billing::EBICS::Btf::BankPublicKeys.new(
         host_id: @host_id,
         order_data: hpb_order_data)
@@ -466,6 +603,12 @@ class Billing::EBICS::OnboardingTest < ActiveSupport::TestCase
       hex = value.to_i.to_s(16)
       hex = "0#{hex}" if hex.length.odd?
       Base64.strict_encode64([ hex ].pack("H*"))
+    end
+  end
+
+  class FailingInitializationClient < FakeSetupClient
+    def submit_initialization_order(_order_type)
+      raise "response lost after INI submission"
     end
   end
 

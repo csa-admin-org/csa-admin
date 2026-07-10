@@ -49,6 +49,31 @@ module Billing
         with_ebics_onboarding(&:finalize!)
       end
 
+      def sepa_direct_debit_confirm_not_accepted
+        require_confirmation!
+        unless truthy_env?("BANK_CONFIRMED_NOT_ACCEPTED")
+          raise UnsupportedOperation, "BANK_CONFIRMED_NOT_ACCEPTED=true is required"
+        end
+
+        name = require_tenant_name!
+        invoice_id = required_env!("INVOICE_ID")
+        switch_tenant(name) do
+          invoice = Invoice.find_by(id: invoice_id)
+          raise UnsupportedOperation, "Invoice ##{invoice_id} does not exist" unless invoice
+
+          invoice.confirm_sepa_direct_debit_order_not_accepted!
+          {
+            tenant: name,
+            invoice_id: invoice.id,
+            submission_state: invoice.reload.sepa_direct_debit_submission_state,
+            payload_identity_preserved: invoice.sepa_direct_debit_pain_message_id? &&
+              invoice.sepa_direct_debit_pain_payload_sha256?
+          }
+        end
+      rescue Invoice::SEPA::SubmissionReconciliationError => e
+        raise UnsupportedOperation, e.message
+      end
+
       def key_rotation_readiness
         results = []
 

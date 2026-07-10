@@ -26,14 +26,40 @@ class Billing::EBICS::VersionProbeTest < ActiveSupport::TestCase
     assert_predicate result, :h005?
   end
 
-  test "raises host ID error when HEV rejects the host" do
-    transport = TransportStub.new(hev_response(return_code: "091011", report_text: "EBICS_INVALID_HOST_ID"))
+  test "raises host ID error without exposing HEV report text" do
+    hostile_text = "account=123 member@example.test https://user:secret@provider.test"
+    transport = TransportStub.new(hev_response(return_code: "091011", report_text: hostile_text))
 
     error = assert_raises(Billing::EBICS::VersionProbe::HostIDError) do
       probe(transport).check!(url: "https://ebics.example.test", host_id: "UNKNOWN")
     end
 
     assert_includes error.message, "HostID"
+    assert_not_includes error.message, hostile_text
+  end
+
+  test "raises generic endpoint errors without exposing HEV report text" do
+    hostile_text = "account=123 member@example.test https://user:secret@provider.test"
+    transport = TransportStub.new(hev_response(return_code: "061099", report_text: hostile_text))
+
+    error = assert_raises(Billing::EBICS::VersionProbe::EndpointError) do
+      probe(transport).check!(url: "https://ebics.example.test", host_id: "HOSTID")
+    end
+
+    assert_equal "EBICS HEV failed with return code 061099", error.message
+    assert_not_includes error.message, hostile_text
+  end
+
+  test "raises generic endpoint errors without exposing network error text" do
+    hostile_text = "https://user:secret@provider.test member@example.test"
+    transport = TransportStub.new(SocketError.new(hostile_text))
+
+    error = assert_raises(Billing::EBICS::VersionProbe::EndpointError) do
+      probe(transport).check!(url: "https://ebics.example.test", host_id: "HOSTID")
+    end
+
+    assert_equal "EBICS HEV request failed", error.message
+    assert_not_includes error.message, hostile_text
   end
 
   test "raises unsupported version error when H005 is not advertised" do

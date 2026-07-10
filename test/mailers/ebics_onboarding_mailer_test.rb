@@ -71,7 +71,7 @@ class EBICSOnboardingMailerTest < ActionMailer::TestCase
   private
 
   def onboarding_connection(active: false, state: "waiting_for_bank", health_status: "unknown", last_error_class: nil, last_error_message: nil, onboarding_state: "waiting_for_bank", finalized_at: nil)
-    BankConnection.create!(
+    connection = BankConnection.new(
       provider: "ebics",
       name: "HOSTID",
       active: active,
@@ -102,6 +102,8 @@ class EBICSOnboardingMailerTest < ActionMailer::TestCase
           "finalization_report_text" => "Bank response for CLIENTID and PARTICIPANTID"
         }.compact
       })
+    connection.save!(validate: !active)
+    connection
   end
 
   def assert_sanitized(body)

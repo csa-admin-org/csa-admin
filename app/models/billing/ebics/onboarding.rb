@@ -17,6 +17,12 @@ module Billing
       FINALIZATION_ORDER_TYPE = "HTD"
       REQUIRED_CREDENTIALS = KeyMetadata::REQUIRED_CREDENTIALS
 
+      FINALIZATION_CLAIM_TIMEOUT = 15.minutes
+
+      class ConcurrentSetup < UnsupportedOperation; end
+      class InitializationClaimLost < UnsupportedOperation; end
+      class FinalizationClaimLost < UnsupportedOperation; end
+
       def initialize(
         connection: nil,
         now: Time.current,
@@ -68,6 +74,7 @@ module Billing
         raise UnsupportedOperation, "EBICS onboarding target key size must be at least 2048 bits" if target_bits < 2048
 
         check_version!(url: url, host_id: host_id)
+        raise ConcurrentSetup, "An EBICS onboarding setup is already in progress" if another_onboarding_in_progress?
 
         credentials = initial_credentials(
           url: url,
@@ -85,22 +92,20 @@ module Billing
           "keys" => split_key_metadata(KeyStore.new(credentials).key_metadata)
         }
 
-        @connection = (connection || BankConnection.new(provider: "ebics", active: false)).tap do |record|
-          record.update!(
-            provider: "ebics",
-            name: name.presence || host_id,
-            active: false,
-            state: "initializing",
-            health_status: "unknown",
-            credentials: credentials,
-            settings: ebics_settings_for(record).merge("protocol" => "H005"),
-            status_details: merged_status_details_for(record, status))
-        end
+        @connection = connection || BankConnection.new(provider: "ebics", active: false)
+        persist_initialization!(
+          credentials: credentials,
+          host_id: host_id,
+          name: name,
+          status: status)
 
         clear_connection_memoization!
         refreshed.status.merge("initialized" => true)
-      rescue UnsupportedOperation
+      rescue ConcurrentSetup, UnsupportedOperation
         raise
+      rescue ActiveRecord::RecordNotUnique
+        @connection = nil unless connection&.persisted?
+        raise ConcurrentSetup, "An EBICS onboarding setup is already in progress"
       rescue => e
         fail_safely!(e, stage: "initialize")
       end
@@ -135,38 +140,27 @@ module Billing
       end
 
       def finalize!
-        return status.merge("finalized" => false, "message" => "EBICS onboarding already finalized") if finalized?
+        finalization_claim_token = claim_finalization_check!(record_blocked: false, respect_daily_limit: false)
+        return finalization_claim_result(finalization_claim_token) unless finalization_claim_token.is_a?(String)
 
-        raise UnsupportedOperation, finalization_blockers.to_sentence if finalization_blockers.present?
+        perform_finalization!(finalization_claim_token)
+      rescue FinalizationClaimLost
+        finalization_claim_lost_result
+      rescue => error
+        raise unless finalization_claim_token
 
-        perform_finalization!
-      rescue UnsupportedOperation
-        raise
-      rescue => e
-        fail_safely!(e, stage: "finalize")
+        record_finalization_error!(error, finalization_claim_token, stage: "finalize")
       end
 
       def check_finalization!
-        return status.merge("checked" => false, "finalized" => false, "message" => "EBICS onboarding already finalized") if finalized?
+        finalization_claim_token = claim_finalization_check!(record_blocked: true, respect_daily_limit: true)
+        return finalization_claim_result(finalization_claim_token) unless finalization_claim_token.is_a?(String)
 
-        blockers = finalization_blockers
-        if blockers.present?
-          return record_finalization_check!("blocked", message: blockers.to_sentence)
-        end
-
-        perform_finalization!
-      rescue => e
-        if finalization_not_ready_error?(e)
-          record_finalization_check!("not_ready", error: e)
-        else
-          record_finalization_check!("error", error: e)
-          report_unexpected(e, stage: "check_finalization")
-          refreshed.status.merge(
-            "checked" => true,
-            "finalized" => false,
-            "finalization_status" => "error",
-            "message" => "EBICS onboarding finalization check failed unexpectedly")
-        end
+        perform_finalization!(finalization_claim_token)
+      rescue FinalizationClaimLost
+        finalization_claim_lost_result
+      rescue => error
+        record_finalization_error!(error, finalization_claim_token, stage: "check_finalization")
       end
 
       private
@@ -174,54 +168,187 @@ module Billing
       attr_reader :tenant, :now, :error_reporter, :key_generator, :version_probe_factory, :btf_client_factory,
         :capabilities_report_factory, :capabilities_monitor_factory
 
-      def submit_initialization_order!(order_type)
-        submitted_key = "#{order_type.downcase}_submitted_at"
-        return status.merge("submitted" => false, "message" => "#{order_type} already submitted") if recorded_status[submitted_key].present?
+      def claim_initialization_order!(order_type)
+        raise UnsupportedOperation, submission_blockers(order_type).to_sentence unless connection&.persisted?
 
-        blockers = submission_blockers(order_type)
-        raise UnsupportedOperation, blockers.to_sentence if blockers.present?
+        connection.with_lock do
+          clear_connection_memoization!
+          submitted_key = "#{order_type.downcase}_submitted_at"
 
-        update_onboarding!(onboarding_status("submitting_#{order_type.downcase}").merge(
-          "#{order_type.downcase}_submit_started_at" => now.iso8601))
+          if recorded_status[submitted_key].present?
+            status.merge("submitted" => false, "message" => "#{order_type} already submitted")
+          else
+            blockers = submission_blockers(order_type)
+            raise UnsupportedOperation, blockers.to_sentence if blockers.present?
 
-        result = bootstrap_client.submit_initialization_order(order_type)
-        new_state = order_type == "HIA" ? "waiting_for_bank" : "ini_submitted"
-        connection_state = order_type == "HIA" ? "waiting_for_bank" : "initializing"
-        update_onboarding!(
-          onboarding_status(new_state).merge(
-            submitted_key => now.iso8601,
-            "#{order_type.downcase}_result" => result.to_h),
-          connection_state: connection_state)
-
-        refreshed.status.merge("submitted" => true, "result" => result.to_h)
-      rescue UnsupportedOperation
-        raise
-      rescue => e
-        fail_safely!(e, stage: "submit_#{order_type.downcase}")
+            claim_token = SecureRandom.uuid
+            update_onboarding!(onboarding_status("submitting_#{order_type.downcase}").merge(
+              "#{order_type.downcase}_submit_started_at" => now.iso8601,
+              "#{order_type.downcase}_submit_claim_token" => claim_token))
+            claim_token
+          end
+        end
       end
 
-      def perform_finalization!
-        update_onboarding!(onboarding_status("finalizing").merge("finalize_started_at" => now.iso8601))
+      def claim_finalization_check!(record_blocked:, respect_daily_limit:)
+        unless connection&.persisted?
+          blockers = finalization_blockers
+          raise UnsupportedOperation, blockers.to_sentence unless record_blocked
 
+          return record_finalization_check!("blocked", message: blockers.to_sentence)
+        end
+
+        connection.with_lock do
+          clear_connection_memoization!
+
+          if finalized?
+            :finalized
+          elsif finalization_in_progress?
+            :in_progress
+          elsif respect_daily_limit && finalization_checked_today?
+            :already_checked
+          elsif (blockers = finalization_blockers).present?
+            if record_blocked
+              record_finalization_check!("blocked", message: blockers.to_sentence, locked: true)
+            else
+              raise UnsupportedOperation, blockers.to_sentence
+            end
+          else
+            claim_token = SecureRandom.uuid
+            update_onboarding!(onboarding_status("finalizing").merge(
+              "finalize_started_at" => now.iso8601,
+              "finalization_claim_token" => claim_token,
+              "last_finalization_check_at" => now.iso8601,
+              "last_finalization_status" => "checking"))
+            claim_token
+          end
+        end
+      end
+
+      def finalization_claim_result(claim)
+        case claim
+        when :finalized
+          status.merge("checked" => false, "finalized" => false, "message" => "EBICS onboarding already finalized")
+        when :in_progress
+          status.merge("checked" => false, "finalized" => false, "message" => "EBICS onboarding finalization is already in progress")
+        when :already_checked
+          status.merge("checked" => false, "finalized" => false, "message" => "EBICS onboarding finalization already checked today")
+        else
+          claim
+        end
+      end
+
+      def finalization_claim_lost_result
+        status.merge(
+          "checked" => false,
+          "finalized" => false,
+          "message" => "EBICS onboarding finalization was completed or retried by another process")
+      end
+
+      def finalization_checked_today?
+        checked_at = recorded_status["last_finalization_check_at"]
+        checked_at.present? && Time.iso8601(checked_at).to_date >= now.to_date
+      rescue ArgumentError
+        false
+      end
+
+      def finalization_in_progress?
+        recorded_status["state"] == "finalizing" && !stale_finalization_claim?
+      end
+
+      def stale_finalization_claim?
+        started_at = Time.iso8601(recorded_status.fetch("finalize_started_at"))
+        started_at <= FINALIZATION_CLAIM_TIMEOUT.ago
+      rescue ArgumentError, KeyError
+        true
+      end
+
+      def finalization_claim_owned?(claim_token)
+        recorded_status["state"] == "finalizing" &&
+          recorded_status["finalization_claim_token"] == claim_token
+      end
+
+      def submit_initialization_order!(order_type)
+        claim_token = claim_initialization_order!(order_type)
+        return claim_token unless claim_token.is_a?(String)
+
+        result = bootstrap_client.submit_initialization_order(order_type)
+        complete_initialization_order!(order_type, claim_token, result)
+
+        refreshed.status.merge("submitted" => true, "result" => result.to_h)
+      rescue InitializationClaimLost
+        initialization_claim_lost_result(order_type)
+      rescue UnsupportedOperation
+        raise
+      rescue => error
+        fail_safely!(
+          error,
+          stage: "submit_#{order_type.downcase}",
+          initialization_claim: [ order_type, claim_token ])
+      end
+
+      def complete_initialization_order!(order_type, claim_token, result)
+        submitted_key = "#{order_type.downcase}_submitted_at"
+        new_state = order_type == "HIA" ? "waiting_for_bank" : "ini_submitted"
+        connection_state = order_type == "HIA" ? "waiting_for_bank" : "initializing"
+
+        connection.with_lock do
+          clear_connection_memoization!
+          raise InitializationClaimLost unless initialization_claim_owned?(order_type, claim_token)
+
+          update_onboarding!(
+            onboarding_status(new_state).merge(
+              submitted_key => now.iso8601,
+              "#{order_type.downcase}_result" => result.to_h),
+            connection_state: connection_state,
+            clear_initialization_claim: order_type)
+        end
+      end
+
+      def initialization_claim_lost_result(order_type)
+        status.merge(
+          "submitted" => false,
+          "message" => "#{order_type} submission was completed or retried by another process")
+      end
+
+      def initialization_claim_owned?(order_type, claim_token)
+        recorded_status["state"] == "submitting_#{order_type.downcase}" &&
+          recorded_status["#{order_type.downcase}_submit_claim_token"] == claim_token
+      end
+
+      def perform_finalization!(finalization_claim_token)
         bank_public_keys = bootstrap_client.fetch_bank_public_keys
         final_credentials = credentials_with_bank_keys(bank_public_keys.keys.keys)
         verification = finalized_client(final_credentials).admin_order(FINALIZATION_ORDER_TYPE)
+        event_id = SecureRandom.uuid
 
-        connection.update!(
-          active: true,
-          credentials: final_credentials,
-          state: "ready",
-          health_status: "healthy",
-          last_health_check_at: now,
-          last_error_class: nil,
-          last_error_message: nil,
-          status_details: merged_status_details(onboarding_status("finalized").merge(
+        connection.with_lock do
+          clear_connection_memoization!
+          raise FinalizationClaimLost unless finalization_claim_owned?(finalization_claim_token)
+
+          status_details = merged_status_details(onboarding_status("finalized").merge(
             "finalized_at" => now.iso8601,
             "last_finalization_check_at" => now.iso8601,
             "last_finalization_status" => "finalized",
+            "finalization_notification_event_id" => event_id,
             "bank_keys" => bank_public_keys.keys.metadata,
             "verification_order_type" => FINALIZATION_ORDER_TYPE,
-            "verification_receipt_sent" => verification.receipt_sent)))
+            "verification_receipt_sent" => verification.receipt_sent))
+          status_details.fetch("onboarding").except!("finalization_claim_token", "finalize_started_at")
+
+          connection.update!(
+            active: true,
+            credentials: final_credentials,
+            state: "ready",
+            health_status: "healthy",
+            last_health_check_at: now,
+            last_error_class: nil,
+            last_error_message: nil,
+            status_details: status_details)
+          BankConnection::FinalizationNotification.create_for_finalization!(
+            bank_connection: connection,
+            event_id: event_id)
+        end
         check_capabilities_after_finalization!
 
         refreshed.status.merge("checked" => true, "finalized" => true)
@@ -234,7 +361,7 @@ module Billing
         report_unexpected(e, stage: "capabilities_after_finalization")
       end
 
-      def record_finalization_check!(status, message: nil, error: nil)
+      def record_finalization_check!(status, message: nil, error: nil, finalization_claim_token: nil, locked: false)
         return self.status.merge(
           "checked" => true,
           "finalized" => false,
@@ -246,13 +373,30 @@ module Billing
           "last_finalization_status" => status,
           "finalization_message" => message || finalization_message_for(status)
         }.merge(finalization_error_summary(error))
+        record_check = lambda do
+          clear_connection_memoization!
+          next :claim_lost if finalization_claim_token && !finalization_claim_owned?(finalization_claim_token)
 
-        update_onboarding!(onboarding_status(finalization_check_state).merge(details))
+          update_onboarding!(
+            onboarding_status(finalization_check_state).merge(details),
+            clear_finalization_claim: finalization_claim_token.present?)
+          :recorded
+        end
+        result = locked ? record_check.call : connection.with_lock(&record_check)
+        return finalization_claim_lost_result if result == :claim_lost
+
         refreshed.status.merge(
           "checked" => true,
           "finalized" => false,
           "finalization_status" => status,
           "message" => details.fetch("finalization_message"))
+      end
+
+      def record_finalization_error!(error, claim_token, stage:)
+        status = finalization_not_ready_error?(error) ? "not_ready" : "error"
+        result = record_finalization_check!(status, error: error, finalization_claim_token: claim_token)
+        report_unexpected(error, stage: stage) if status == "error"
+        result
       end
 
       def finalization_check_state
@@ -275,11 +419,18 @@ module Billing
         return {} unless error
 
         response = finalization_error_response(error)
-        {
+        report_text = response&.report_text.to_s
+        summary = {
           "finalization_error_class" => error.class.name,
-          "finalization_return_code" => response&.return_code,
-          "finalization_report_text" => response&.report_text
-        }.compact_blank
+          "finalization_return_code" => response&.return_code
+        }
+        if report_text.present?
+          summary.merge!(
+            "finalization_report_text_length" => report_text.bytesize,
+            "finalization_report_text_sha256" => Digest::SHA256.hexdigest(report_text))
+        end
+
+        summary.compact_blank
       end
 
       def finalization_error_response(error)
@@ -295,6 +446,32 @@ module Billing
 
       def check_version!(url:, host_id:)
         version_probe_factory.call.check!(url: url, host_id: host_id)
+      end
+
+      def persist_initialization!(credentials:, host_id:, name:, status:)
+        if connection.persisted?
+          connection.with_lock do
+            clear_connection_memoization!
+            raise UnsupportedOperation, "EBICS onboarding is already initialized for this bank connection" if initialized?
+            raise ConcurrentSetup, "An EBICS onboarding setup is already in progress" if another_onboarding_in_progress?
+
+            update_initialized_connection!(credentials: credentials, host_id: host_id, name: name, status: status)
+          end
+        else
+          update_initialized_connection!(credentials: credentials, host_id: host_id, name: name, status: status)
+        end
+      end
+
+      def update_initialized_connection!(credentials:, host_id:, name:, status:)
+        connection.update!(
+          provider: "ebics",
+          name: name.presence || host_id,
+          active: false,
+          state: "initializing",
+          health_status: "unknown",
+          credentials: credentials,
+          settings: ebics_settings_for(connection).merge("protocol" => "H005"),
+          status_details: merged_status_details_for(connection, status))
       end
 
       def initial_credentials(url:, host_id:, client_id:, participant_id:, target_bits:)
@@ -384,6 +561,14 @@ module Billing
         return false unless connection&.persisted?
 
         BankConnection.active.where.not(id: connection.id).exists?
+      end
+
+      def another_onboarding_in_progress?
+        BankConnection.where(
+          provider: "ebics",
+          active: false,
+          state: %w[initializing waiting_for_bank errored]
+        ).where.not(id: connection&.id).exists?
       end
 
       def finalized?
@@ -500,8 +685,13 @@ module Billing
         }.compact_blank
       end
 
-      def update_onboarding!(status, connection_state: nil)
-        attributes = { status_details: merged_status_details(status) }
+      def update_onboarding!(status, connection_state: nil, clear_finalization_claim: false, clear_initialization_claim: nil)
+        status_details = merged_status_details(status)
+        onboarding = status_details.fetch(STATUS_DETAILS_KEY)
+        onboarding.except!("finalization_claim_token", "finalize_started_at") if clear_finalization_claim
+        onboarding.delete("#{clear_initialization_claim.downcase}_submit_claim_token") if clear_initialization_claim
+
+        attributes = { status_details: status_details }
         attributes[:state] = connection_state if connection_state
         connection.update!(attributes)
         clear_connection_memoization!
@@ -568,26 +758,49 @@ module Billing
           capabilities_monitor_factory: capabilities_monitor_factory)
       end
 
-      def fail_safely!(error, stage:)
-        record_failure!(error, stage: stage)
+      def fail_safely!(error, stage:, finalization_claim_token: nil, initialization_claim: nil)
+        record_failure!(
+          error,
+          stage: stage,
+          finalization_claim_token: finalization_claim_token,
+          initialization_claim: initialization_claim)
         raise UnsupportedOperation, "EBICS onboarding failed during #{stage}; inspect sanitized onboarding status and error reporting context"
       end
 
-      def record_failure!(error, stage:)
+      def record_failure!(error, stage:, finalization_claim_token: nil, initialization_claim: nil)
         return unless connection&.persisted?
 
         failure_error = recorded_error(error)
-        connection.update_columns(
-          state: "errored",
-          health_status: "errored",
-          last_error_class: failure_error.class.name,
-          last_error_message: "EBICS onboarding failed during #{stage}",
-          status_details: merged_status_details(onboarding_status("errored").merge(
+        record_failure = lambda do
+          status_details = merged_status_details(onboarding_status("errored").merge(
             "stage" => stage,
-            "failed_at" => Time.current.iso8601,
+            "failed_at" => now.iso8601,
             "error_class" => failure_error.class.name,
-            "error_message" => "EBICS onboarding failed during #{stage}")),
-          updated_at: Time.current)
+            "error_message" => "EBICS onboarding failed during #{stage}"))
+          onboarding = status_details.fetch(STATUS_DETAILS_KEY)
+          onboarding.except!("finalization_claim_token", "finalize_started_at") if finalization_claim_token
+          onboarding.delete("#{initialization_claim.first.downcase}_submit_claim_token") if initialization_claim
+
+          connection.update_columns(
+            state: "errored",
+            health_status: "errored",
+            last_error_class: failure_error.class.name,
+            last_error_message: "EBICS onboarding failed during #{stage}",
+            status_details: status_details,
+            updated_at: now)
+        end
+
+        if finalization_claim_token || initialization_claim
+          connection.with_lock do
+            clear_connection_memoization!
+            owns_claim = finalization_claim_token ?
+              finalization_claim_owned?(finalization_claim_token) :
+              initialization_claim_owned?(*initialization_claim)
+            record_failure.call if owns_claim
+          end
+        else
+          record_failure.call
+        end
         report_unexpected(error, stage: stage)
       rescue => reporter_error
         error_reporter.report(reporter_error, context: safe_context(stage: "record_failure"))

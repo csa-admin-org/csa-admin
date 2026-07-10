@@ -46,7 +46,7 @@ module Billing
         def profile_valid?
           return @profile_valid unless @profile_valid.nil?
 
-          @profile_valid = signed_response_root? && signature_nodes_valid? && algorithms_valid?
+          @profile_valid = doc.errors.empty? && signed_response_root? && signature_nodes_valid? && algorithms_valid?
         end
 
         def signed_response_root?

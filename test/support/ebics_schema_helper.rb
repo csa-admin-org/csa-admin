@@ -3,7 +3,7 @@
 require "nokogiri"
 
 module EbicsSchemaHelper
-  EBICS_H005_SCHEMA_FIXTURE_PATH = Rails.root.join("test/fixtures/files/ebics/schemas/h005")
+  EBICS_H005_SCHEMA_PATH = Rails.root.join("config/ebics/schemas/h005")
   EBICS_H005_SCHEMAS = {
     request: "ebics_request_H005.xsd",
     key_management_request: "ebics_keymgmt_request_H005.xsd",
@@ -29,7 +29,7 @@ module EbicsSchemaHelper
   private
 
   def load_ebics_h005_schema(schema)
-    path = EBICS_H005_SCHEMA_FIXTURE_PATH.join(EBICS_H005_SCHEMAS.fetch(schema))
+    path = EBICS_H005_SCHEMA_PATH.join(EBICS_H005_SCHEMAS.fetch(schema))
     File.open(path) { |file| Nokogiri::XML::Schema(file) }
   end
 end

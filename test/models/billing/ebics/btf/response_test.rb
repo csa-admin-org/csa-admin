@@ -43,6 +43,33 @@ class Billing::EBICS::Btf::ResponseTest < ActiveSupport::TestCase
     assert_equal "090005", response.return_code
   end
 
+  test "does not classify provider text as no-data without the exact return code" do
+    response = Billing::EBICS::Btf::Response.new(
+      client: client,
+      xml: response_xml(report_text: "EBICS_NO_DOWNLOAD_DATA_AVAILABLE"))
+
+    assert_not_predicate response, :no_download_data?
+  end
+
+  test "rejects ambiguous critical response fields" do
+    xml = response_xml.sub("<ReturnCode>000000</ReturnCode>", "<ReturnCode>000000</ReturnCode><ReturnCode>061099</ReturnCode>")
+    response = Billing::EBICS::Btf::Response.new(client: client, xml: xml)
+
+    assert_not_predicate response, :critical_fields_unique?
+  end
+
+  test "limits encoded order data segments before decoding" do
+    response = Billing::EBICS::Btf::Response.new(
+      client: client,
+      xml: response_xml(order_data: Base64.strict_encode64("123456789")))
+
+    with_response_limit(:MAX_ENCODED_ORDER_DATA_BYTES, 4) do
+      assert_raises(Billing::EBICS::Btf::Response::OrderDataTooLarge) do
+        response.order_data_encrypted
+      end
+    end
+  end
+
   test "parses upload order id" do
     response = Billing::EBICS::Btf::Response.new(
       client: client,
@@ -51,15 +78,15 @@ class Billing::EBICS::Btf::ResponseTest < ActiveSupport::TestCase
     assert_equal "A001", response.order_id
   end
 
-  test "detects H005 EBICS responses" do
+  test "recognizes only standard and key-management H005 response roots" do
     response = Billing::EBICS::Btf::Response.new(client: client, xml: response_xml)
     unsecured_response = Billing::EBICS::Btf::Response.new(
       client: client,
       xml: response_xml(root: "ebicsUnsecuredResponse"))
     html = Billing::EBICS::Btf::Response.new(client: client, xml: "<html>Not EBICS</html>")
 
-    assert_predicate response, :h005?
-    assert_predicate unsecured_response, :h005?
+    assert_predicate response, :standard_h005?
+    assert_not_predicate unsecured_response, :h005?
     assert_not_predicate html, :h005?
   end
 
@@ -76,6 +103,17 @@ class Billing::EBICS::Btf::ResponseTest < ActiveSupport::TestCase
 
   def client
     @client ||= Billing::EBICS::KeyStore.new(synthetic_ebics_credentials)
+  end
+
+  def with_response_limit(name, value)
+    response = Billing::EBICS::Btf::Response
+    original = response.const_get(name)
+    response.send(:remove_const, name)
+    response.const_set(name, value)
+    yield
+  ensure
+    response.send(:remove_const, name)
+    response.const_set(name, original)
   end
 
   def encrypted_order_data(payload)

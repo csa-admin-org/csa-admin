@@ -34,9 +34,10 @@ module Billing
       attr_reader :connection, :error_reporter, :warnings
 
       def report
-        @report ||= CapabilitiesReport.new(
-          tenant: Tenant.current,
-          connection: connection).to_h
+        @safe_report ||= SafeContext.sanitize(
+          @report || CapabilitiesReport.new(
+            tenant: Tenant.current,
+            connection: connection).to_h)
       end
 
       def settings
@@ -69,9 +70,8 @@ module Billing
           unexpected("EBICS capabilities admin-order check failed",
             admin_order_type: order_type,
             error_class: result["class"],
-            error_message: result["message"],
-            return_code: admin_order_return_code(result),
-            report_text: result["report_text"])
+            error_category: result["category"],
+            return_code: admin_order_return_code(result))
         end
       end
 
@@ -165,7 +165,7 @@ module Billing
       end
 
       def admin_order_return_code(result)
-        result["return_code"].presence || result["message"].to_s[/\A\d{6}/]
+        result["return_code"].presence
       end
 
       def configured_service_advertised?(service, advertised_services)

@@ -149,6 +149,8 @@ ActiveAdmin.register BankConnection do
       else
         render_new(status: :unprocessable_entity)
       end
+    rescue Billing::EBICS::Onboarding::ConcurrentSetup
+      redirect_to organization_path(anchor: "bank_connection"), alert: t("active_admin.resources.bank_connection.ebics_setup.flash.existing_setup")
     rescue Billing::EBICS::UnsupportedOperation => error
       handle_ebics_setup_error(error)
     rescue ActiveRecord::ActiveRecordError
@@ -246,7 +248,11 @@ ActiveAdmin.register BankConnection do
     end
 
     def inline_setup_error?
-      @setup_connection&.persisted? && setup_status["ini_submitted_at"].blank? && user_fixable_setup_error?
+      @setup_connection&.persisted? && !setup_order_started? && user_fixable_setup_error?
+    end
+
+    def setup_order_started?
+      setup_status["ini_submit_started_at"].present? || setup_status["hia_submit_started_at"].present?
     end
 
     def user_fixable_setup_error?

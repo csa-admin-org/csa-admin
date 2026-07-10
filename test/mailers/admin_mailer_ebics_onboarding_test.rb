@@ -67,7 +67,7 @@ class AdminMailerEBICSOnboardingTest < ActionMailer::TestCase
   private
 
   def onboarding_connection(active: false, state: "waiting_for_bank", onboarding_state: "waiting_for_bank")
-    BankConnection.create!(
+    connection = BankConnection.new(
       provider: "ebics",
       name: "HOSTID",
       active: active,
@@ -93,6 +93,8 @@ class AdminMailerEBICSOnboardingTest < ActionMailer::TestCase
           "hia_submitted_at" => "2026-07-07T10:02:00Z"
         }
       })
+    connection.save!(validate: !active)
+    connection
   end
 
   def assert_sanitized(body)

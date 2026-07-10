@@ -35,6 +35,13 @@ namespace :ebics do
     end
   end
 
+  namespace :sepa_direct_debit do
+    desc "Allow retry after the bank confirms an uncertain upload was not accepted (TENANT, INVOICE_ID, CONFIRM=true, BANK_CONFIRMED_NOT_ACCEPTED=true required; no live bank call)"
+    task confirm_not_accepted: :environment do
+      print_ebics_json { ebics_task_runner.sepa_direct_debit_confirm_not_accepted }
+    end
+  end
+
   namespace :key_rotation do
     desc "Print sanitized EBICS key-rotation readiness inventory (optional TENANT=ragedevert; no live bank calls)"
     task readiness: :environment do

@@ -2,6 +2,7 @@
 
 require "digest"
 require "openssl"
+require "securerandom"
 require "uri"
 
 module Billing
@@ -17,6 +18,9 @@ module Billing
       PENDING_CREDENTIAL_KEY = "pending_key_rotation"
       PREVIOUS_CREDENTIAL_KEY = "previous_key_rotation"
       STATUS_DETAILS_KEY = "key_rotation"
+      VERIFICATION_CLAIM_TIMEOUT = 15.minutes
+
+      class PendingClaimLost < UnsupportedOperation; end
 
       def initialize(tenant:, connection: Current.org.active_bank_connection, now: Time.current, error_reporter: Rails.error, key_generator: -> { OpenSSL::PKey::RSA.generate(TARGET_BITS) }, btf_client_factory: ->(credentials, **options) { BtfClient.new(credentials, **options) })
         @tenant = tenant
@@ -47,27 +51,32 @@ module Billing
       end
 
       def prepare_pending!
-        return readiness.merge("prepared" => false, "message" => "Participant keys are already at #{TARGET_BITS} bits") if already_at_target?
-        return readiness.merge("prepared" => false, "message" => "Pending key rotation already exists") if pending_keys_json.present?
+        raise UnsupportedOperation, prepare_blockers.to_sentence unless connection&.persisted?
 
-        raise UnsupportedOperation, prepare_blockers.to_sentence if prepare_blockers.present?
+        connection.with_lock do
+          clear_connection_memoization!
+          return readiness.merge("prepared" => false, "message" => "Participant keys are already at #{TARGET_BITS} bits") if already_at_target?
+          return readiness.merge("prepared" => false, "message" => "Pending key rotation already exists") if pending_keys_json.present?
 
-        pending_keys = generated_participant_keys.merge(active_key_store.bank_key_material)
-        pending_metadata = key_metadata_for(pending_keys)
-        pending = {
-          "state" => "prepared",
-          "target_bits" => TARGET_BITS,
-          "created_at" => now.iso8601,
-          "keys" => KeyStore.encrypt_keys(pending_keys, ebics_credentials.fetch("secret"))
-        }
-        update_connection!(
-          credentials: ebics_credentials.merge(PENDING_CREDENTIAL_KEY => pending),
-          status: pending_status("pending_rotation").merge(
-            "prepared_at" => now.iso8601,
-            "active_keys" => active_key_summary,
-            "pending_keys" => split_key_metadata(pending_metadata)))
+          raise UnsupportedOperation, prepare_blockers.to_sentence if prepare_blockers.present?
 
-        refreshed.readiness.merge("prepared" => true)
+          pending_keys = generated_participant_keys.merge(active_key_store.bank_key_material)
+          pending_metadata = key_metadata_for(pending_keys)
+          pending = {
+            "state" => "prepared",
+            "target_bits" => TARGET_BITS,
+            "created_at" => now.iso8601,
+            "keys" => KeyStore.encrypt_keys(pending_keys, ebics_credentials.fetch("secret"))
+          }
+          update_connection!(
+            credentials: ebics_credentials.merge(PENDING_CREDENTIAL_KEY => pending),
+            status: pending_status("pending_rotation").merge(
+              "prepared_at" => now.iso8601,
+              "active_keys" => active_key_summary,
+              "pending_keys" => split_key_metadata(pending_metadata)))
+
+          refreshed.readiness.merge("prepared" => true)
+        end
       rescue UnsupportedOperation
         raise
       rescue => e
@@ -98,73 +107,60 @@ module Billing
       end
 
       def submit_pending!
-        return readiness.merge("submitted" => false, "message" => "Pending key rotation already submitted") if pending_submitted?
-        raise UnsupportedOperation, "Pending HCS submission has an uncertain outcome; run verify/promote or inspect bank state before retrying" if pending_submit_started?
-
-        raise UnsupportedOperation, submission_blockers.to_sentence if submission_blockers.present?
-
-        update_pending!(
-          {
-            "state" => "submitting",
-            "submit_started_at" => now.iso8601
-          },
-          "submit_started_at" => now.iso8601)
+        claim_token = claim_pending_submission!
+        return claim_token unless claim_token.is_a?(String)
 
         result = active_btf_client.key_change(target_key_store: pending_key_store, order_type: ROTATION_ORDER_TYPE)
-        update_pending!(
-          {
-            "state" => "submitted",
-            "submitted_at" => now.iso8601,
-            "submit_result" => result.to_h
-          },
-          "submitted_at" => now.iso8601,
-          "submit_result" => result.to_h)
+        complete_pending_submission!(claim_token, result)
 
         refreshed.readiness.merge("submitted" => true, "result" => result.to_h)
+      rescue PendingClaimLost
+        pending_claim_lost_result("submission")
       rescue UnsupportedOperation
         raise
-      rescue => e
-        fail_safely!(e, stage: "submit")
+      rescue => error
+        release_pending_submission_claim!(claim_token, error) if claim_token
+        fail_safely!(error, stage: "submit", record_failure: claim_token.blank?)
       end
 
       def verify_pending!
-        return readiness.merge("verified" => false, "message" => "Pending key rotation already verified") if pending_verified?
-
-        raise UnsupportedOperation, verification_blockers.to_sentence if verification_blockers.present?
+        claim_token = claim_pending_verification!
+        return claim_token unless claim_token.is_a?(String)
 
         result = verify_credentials!(pending_runtime_credentials)
-        update_pending!(
-          {
-            "state" => "verified",
-            "verified_at" => now.iso8601,
-            "verification" => result
-          },
-          "verified_at" => now.iso8601,
-          "verification" => result)
+        complete_pending_verification!(claim_token, result)
 
         refreshed.readiness.merge("verified" => true, "verification" => result)
+      rescue PendingClaimLost
+        pending_claim_lost_result("verification")
       rescue UnsupportedOperation
         raise
-      rescue => e
-        fail_safely!(e, stage: "verify")
+      rescue => error
+        release_pending_verification_claim!(claim_token, error) if claim_token
+        fail_safely!(error, stage: "verify", record_failure: claim_token.blank?)
       end
 
       def promote_pending!
-        raise UnsupportedOperation, promotion_blockers.to_sentence if promotion_blockers.present?
+        raise UnsupportedOperation, promotion_blockers.to_sentence unless connection&.persisted?
 
-        previous = previous_credentials_payload(
-          keys: ebics_credentials.fetch("keys"),
-          reason: "promoted_pending_rotation")
-        update_connection!(
-          credentials: ebics_credentials
-            .merge("keys" => pending_keys_json, PREVIOUS_CREDENTIAL_KEY => previous)
-            .except(PENDING_CREDENTIAL_KEY),
-          status: pending_status("rotated").merge(
-            "promoted_at" => now.iso8601,
-            "active_keys" => pending_summary.fetch("keys"),
-            "previous_keys" => active_key_summary))
+        connection.with_lock do
+          clear_connection_memoization!
+          raise UnsupportedOperation, promotion_blockers.to_sentence if promotion_blockers.present?
 
-        refreshed.readiness.merge("promoted" => true)
+          previous = previous_credentials_payload(
+            keys: ebics_credentials.fetch("keys"),
+            reason: "promoted_pending_rotation")
+          update_connection!(
+            credentials: ebics_credentials
+              .merge("keys" => pending_keys_json, PREVIOUS_CREDENTIAL_KEY => previous)
+              .except(PENDING_CREDENTIAL_KEY),
+            status: pending_status("rotated").merge(
+              "promoted_at" => now.iso8601,
+              "active_keys" => pending_summary.fetch("keys"),
+              "previous_keys" => active_key_summary))
+
+          refreshed.readiness.merge("promoted" => true)
+        end
       rescue UnsupportedOperation
         raise
       rescue => e
@@ -196,20 +192,27 @@ module Billing
         rotation.promote_pending!
       end
 
-
-
       def discard_pending!(reason: "manual_discard")
-        return readiness.merge("discarded" => false, "message" => "No pending key rotation to discard") unless pending_keys_json.present?
+        raise UnsupportedOperation, "No active bank connection" unless connection&.persisted?
 
-        update_connection!(
-          credentials: ebics_credentials.except(PENDING_CREDENTIAL_KEY),
-          status: pending_status("rotation_failed").merge(
-            "stage" => "discard_pending",
-            "discarded_at" => now.iso8601,
-            "reason" => reason,
-            "error_message" => "Pending EBICS key rotation discarded; active keys kept"))
+        connection.with_lock do
+          clear_connection_memoization!
+          return readiness.merge("discarded" => false, "message" => "No pending key rotation to discard") unless pending_keys_json.present?
+          if pending_submit_started?
+            raise UnsupportedOperation, "Pending HCS submission has started; verify it or inspect bank state before discarding"
+          end
+          raise UnsupportedOperation, "Pending HCS verification is still in progress" if pending_verification_in_progress?
 
-        refreshed.readiness.merge("discarded" => true)
+          update_connection!(
+            credentials: ebics_credentials.except(PENDING_CREDENTIAL_KEY),
+            status: pending_status("rotation_failed").merge(
+              "stage" => "discard_pending",
+              "discarded_at" => now.iso8601,
+              "reason" => reason,
+              "error_message" => "Pending EBICS key rotation discarded; active keys kept"))
+
+          refreshed.readiness.merge("discarded" => true)
+        end
       rescue UnsupportedOperation
         raise
       rescue => e
@@ -217,15 +220,20 @@ module Billing
       end
 
       def purge_previous!(reason: "retention_policy")
-        return readiness.merge("purged" => false, "message" => "No previous key rotation to purge") unless previous_keys_json.present?
+        raise UnsupportedOperation, "No active bank connection" unless connection&.persisted?
 
-        update_connection!(
-          credentials: ebics_credentials.except(PREVIOUS_CREDENTIAL_KEY),
-          status: (recorded_status || {}).to_h.deep_stringify_keys.merge(
-            "previous_keys_purged_at" => now.iso8601,
-            "previous_keys_purge_reason" => reason))
+        connection.with_lock do
+          clear_connection_memoization!
+          return readiness.merge("purged" => false, "message" => "No previous key rotation to purge") unless previous_keys_json.present?
 
-        refreshed.readiness.merge("purged" => true)
+          update_connection!(
+            credentials: ebics_credentials.except(PREVIOUS_CREDENTIAL_KEY),
+            status: (recorded_status || {}).to_h.deep_stringify_keys.merge(
+              "previous_keys_purged_at" => now.iso8601,
+              "previous_keys_purge_reason" => reason))
+
+          refreshed.readiness.merge("purged" => true)
+        end
       rescue UnsupportedOperation
         raise
       rescue => e
@@ -235,6 +243,160 @@ module Billing
       private
 
       attr_reader :tenant, :connection, :now, :error_reporter, :key_generator, :btf_client_factory
+
+      def claim_pending_submission!
+        raise UnsupportedOperation, submission_blockers.to_sentence unless connection&.persisted?
+
+        connection.with_lock do
+          clear_connection_memoization!
+
+          if pending_submitted?
+            readiness.merge("submitted" => false, "message" => "Pending key rotation already submitted")
+          elsif pending_submit_started?
+            raise UnsupportedOperation, "Pending HCS submission has an uncertain outcome; run verify/promote or inspect bank state before retrying"
+          else
+            blockers = submission_blockers
+            raise UnsupportedOperation, blockers.to_sentence if blockers.present?
+
+            claim_token = SecureRandom.uuid
+            update_pending!(
+              {
+                "state" => "submitting",
+                "submit_started_at" => now.iso8601,
+                "submit_claim_token" => claim_token
+              },
+              "submit_started_at" => now.iso8601)
+            claim_token
+          end
+        end
+      end
+
+      def complete_pending_submission!(claim_token, result)
+        connection.with_lock do
+          clear_connection_memoization!
+          raise PendingClaimLost, "Pending HCS submission claim was lost" unless pending_submission_claim_owned?(claim_token)
+
+          update_pending_payload!(
+            pending_credentials.except("submit_claim_token").merge(
+              "state" => "submitted",
+              "submitted_at" => now.iso8601,
+              "submit_result" => result.to_h),
+            "submitted_at" => now.iso8601,
+            "submit_result" => result.to_h)
+        end
+      end
+
+      def release_pending_submission_claim!(claim_token, error)
+        released = false
+
+        connection.with_lock do
+          clear_connection_memoization!
+          if pending_submission_claim_owned?(claim_token)
+            update_pending_payload!(
+              pending_credentials.except("submit_claim_token").merge(
+                "state" => "uncertain",
+                "submit_failed_at" => now.iso8601),
+              state: "rotation_failed",
+              stage: "submit",
+              "error_class" => error.class.name,
+              "error_message" => "EBICS key rotation failed during submit",
+              "submit_failed_at" => now.iso8601,
+              "submit_error_class" => error.class.name)
+            released = true
+          end
+        end
+
+        released
+      end
+
+      def claim_pending_verification!
+        raise UnsupportedOperation, verification_blockers.to_sentence unless connection&.persisted?
+
+        connection.with_lock do
+          clear_connection_memoization!
+
+          if pending_verified?
+            readiness.merge("verified" => false, "message" => "Pending key rotation already verified")
+          elsif pending_verification_in_progress? && !stale_pending_verification_claim?
+            readiness.merge("verified" => false, "message" => "Pending key rotation verification is already in progress")
+          else
+            blockers = verification_blockers
+            raise UnsupportedOperation, blockers.to_sentence if blockers.present?
+
+            claim_token = SecureRandom.uuid
+            update_pending!(
+              {
+                "state" => "verifying",
+                "verify_started_at" => now.iso8601,
+                "verify_claim_token" => claim_token
+              },
+              "verify_started_at" => now.iso8601)
+            claim_token
+          end
+        end
+      end
+
+      def complete_pending_verification!(claim_token, result)
+        connection.with_lock do
+          clear_connection_memoization!
+          raise PendingClaimLost, "Pending key rotation verification claim was lost" unless pending_verification_claim_owned?(claim_token)
+
+          update_pending_payload!(
+            pending_credentials.except("verify_claim_token").merge(
+              "state" => "verified",
+              "verified_at" => now.iso8601,
+              "verification" => result),
+            "verified_at" => now.iso8601,
+            "verification" => result)
+        end
+      end
+
+      def release_pending_verification_claim!(claim_token, error)
+        released = false
+
+        connection.with_lock do
+          clear_connection_memoization!
+          if pending_verification_claim_owned?(claim_token)
+            update_pending_payload!(
+              pending_credentials.except("verify_claim_token").merge(
+                "state" => pending_submitted? ? "submitted" : "uncertain",
+                "verify_failed_at" => now.iso8601),
+              state: "rotation_failed",
+              stage: "verify",
+              "error_class" => error.class.name,
+              "error_message" => "EBICS key rotation failed during verify",
+              "verify_failed_at" => now.iso8601,
+              "verify_error_class" => error.class.name)
+            released = true
+          end
+        end
+
+        released
+      end
+
+      def clear_connection_memoization!
+        %i[
+          @active_btf_client
+          @active_key_error_message
+          @active_key_store
+          @active_key_summary_hash
+          @advertised_key_management_order_types
+          @blockers
+          @ebics_credentials
+          @ebics_settings
+          @key_rotation_settings
+          @pending_credentials
+          @pending_key_error_message
+          @pending_key_metadata
+          @pending_key_store
+          @prepare_blockers
+          @previous_credentials
+          @previous_key_error_message
+          @previous_key_metadata
+          @previous_key_store
+          @recorded_status
+        ].each { |name| remove_instance_variable(name) if instance_variable_defined?(name) }
+      end
 
       def state
         return "blocked" unless connection&.ebics?
@@ -283,17 +445,17 @@ module Billing
 
       def verification_blockers
         values = submission_blockers(require_submitted: false)
+        values << "HCS submission is still in progress" if pending_submission_in_progress?
         values << "Pending key rotation must be submitted first" unless pending_submitted? || pending_submit_started?
         values
       end
 
       def promotion_blockers
         values = verification_blockers
+        values << "Pending key rotation verification is still in progress" if pending_verification_in_progress?
         values << "Pending key rotation must be verified before promotion" unless pending_verified?
         values
       end
-
-
 
       def missing_credential_blockers
         return [] unless connection&.ebics?
@@ -324,8 +486,6 @@ module Billing
           end
         end
       end
-
-
 
       def required_credentials_present?
         connection&.ebics? && REQUIRED_CREDENTIALS.all? { |key| ebics_credentials[key].present? }
@@ -598,11 +758,32 @@ module Billing
         pending_credentials["submit_started_at"].present?
       end
 
+      def pending_submission_in_progress?
+        pending_credentials["state"] == "submitting" && pending_credentials["submit_claim_token"].present?
+      end
+
+      def pending_submission_claim_owned?(claim_token)
+        pending_submission_in_progress? && pending_credentials["submit_claim_token"] == claim_token
+      end
+
+      def pending_verification_in_progress?
+        pending_credentials["state"] == "verifying" && pending_credentials["verify_claim_token"].present?
+      end
+
+      def pending_verification_claim_owned?(claim_token)
+        pending_verification_in_progress? && pending_credentials["verify_claim_token"] == claim_token
+      end
+
+      def stale_pending_verification_claim?
+        started_at = Time.iso8601(pending_credentials.fetch("verify_started_at"))
+        started_at <= VERIFICATION_CLAIM_TIMEOUT.ago
+      rescue ArgumentError, KeyError
+        true
+      end
+
       def pending_verified?
         pending_credentials["verified_at"].present?
       end
-
-
 
       def recorded_status
         connection&.status_details.to_h.dig(STATUS_DETAILS_KEY)
@@ -628,15 +809,20 @@ module Billing
       end
 
       def update_pending!(attributes, **status_attributes)
+        update_pending_payload!(pending_credentials.merge(attributes), **status_attributes)
+      end
+
+      def update_pending_payload!(pending, state: "pending_rotation", **status_attributes)
         update_connection!(
-          credentials: ebics_credentials.merge(PENDING_CREDENTIAL_KEY => pending_credentials.merge(attributes)),
-          status: pending_status("pending_rotation").merge(status_attributes))
+          credentials: ebics_credentials.merge(PENDING_CREDENTIAL_KEY => pending),
+          status: pending_status(state).merge(status_attributes))
       end
 
       def update_connection!(credentials:, status:)
         connection.update!(
           credentials: credentials,
           status_details: merged_status_details(status))
+        clear_connection_memoization!
       end
 
       def merged_status_details(status)
@@ -653,21 +839,31 @@ module Billing
           btf_client_factory: btf_client_factory)
       end
 
-      def fail_safely!(error, stage:)
-        record_failure!(error, stage: stage)
+      def pending_claim_lost_result(stage)
+        refreshed.readiness.merge(
+          stage => false,
+          "message" => "Pending key rotation #{stage} was completed or retried by another process")
+      end
+
+      def fail_safely!(error, stage:, record_failure: true)
+        record_failure!(error, stage: stage) if record_failure
+        report_unexpected(error, stage: stage) unless record_failure
         raise UnsupportedOperation, "EBICS key rotation failed during #{stage}; inspect sanitized key_rotation status and error reporting context"
       end
 
       def record_failure!(error, stage:)
         return unless connection&.persisted?
 
-        connection.update_columns(
-          status_details: merged_status_details(sanitized_status("rotation_failed").merge(
-            "stage" => stage,
-            "failed_at" => Time.current.iso8601,
-            "error_class" => error.class.name,
-            "error_message" => "EBICS key rotation failed during #{stage}")),
-          updated_at: Time.current)
+        connection.with_lock do
+          clear_connection_memoization!
+          connection.update_columns(
+            status_details: merged_status_details(sanitized_status("rotation_failed").merge(
+              "stage" => stage,
+              "failed_at" => now.iso8601,
+              "error_class" => error.class.name,
+              "error_message" => "EBICS key rotation failed during #{stage}")),
+            updated_at: now)
+        end
         report_unexpected(error, stage: stage)
       rescue => reporter_error
         error_reporter.report(reporter_error, context: safe_context(stage: "record_failure"))

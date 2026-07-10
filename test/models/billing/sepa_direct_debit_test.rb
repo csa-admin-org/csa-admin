@@ -151,9 +151,11 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
     member.reload
 
     invoice = create_annual_fee_invoice(member: member)
+    message_id = "CSAADMIN/stable-message-id"
     xml = Billing::SEPADirectDebit.new(
       invoice,
-      schema: Billing::SEPADirectDebit::PAIN_008_001_08).xml
+      schema: Billing::SEPADirectDebit::PAIN_008_001_08,
+      message_id: message_id).xml
 
     document = Nokogiri::XML(xml)
     namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.08"
@@ -161,7 +163,7 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
 
     assert_equal namespace, document.root.namespace.href
     assert_equal "#{namespace} pain.008.001.08.xsd", document.root["xsi:schemaLocation"]
-    assert_equal "CSAADMIN/", text(document, "//pain:GrpHdr/pain:MsgId", ns).first(9)
+    assert_equal message_id, text(document, "//pain:GrpHdr/pain:MsgId", ns)
     assert_equal "2025-02-01T00:00:00+01:00", text(document, "//pain:GrpHdr/pain:CreDtTm", ns)
     assert_equal "1", text(document, "//pain:GrpHdr/pain:NbOfTxs", ns)
     assert_equal "30.00", text(document, "//pain:GrpHdr/pain:CtrlSum", ns)

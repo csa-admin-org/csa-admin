@@ -46,6 +46,11 @@ class Billing::EBICS::Btf::SchemaValidationTest < ActiveSupport::TestCase
       "S002 upload signature data should be schema-valid"
   end
 
+  test "runtime schema validation uses the vendored H005 schemas" do
+    assert_equal Rails.root.join("config/ebics/schemas/h005"), Billing::EBICS::Btf::SchemaValidator::SCHEMA_DIRECTORY
+    assert Billing::EBICS::Btf::SchemaValidator.valid?(response_xml, schema: :response)
+  end
+
   test "representative H005 response XML validates against official schemas" do
     assert_valid_ebics_h005_xml response_xml,
       :response,

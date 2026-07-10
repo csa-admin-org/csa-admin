@@ -51,6 +51,38 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
     assert_equal "N042", qualifying_invoice.sepa_direct_debit_order_id
   end
 
+  test "does not enqueue submitting or uncertain SEPA direct debit orders" do
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    create_mock_bank_connection
+    member = members(:anna)
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
+
+    submitting_invoice = create_annual_fee_invoice(member: member)
+    submitting_invoice.update_columns(
+      sent_at: 3.days.ago,
+      sepa_direct_debit_submission_state: "submitting")
+
+    uncertain_invoice = create_annual_fee_invoice(member: member)
+    uncertain_invoice.update_columns(
+      sent_at: 3.days.ago,
+      sepa_direct_debit_submission_state: "uncertain")
+
+    uploadable_invoice = create_annual_fee_invoice(member: member)
+    uploadable_invoice.update!(sent_at: 3.days.ago)
+
+    assert_enqueued_jobs 1, only: Billing::SEPADirectDebitOrderUploaderJob do
+      perform_enqueued_jobs only: Scheduled::BillingSEPADirectDebitOrdersUploaderJob do
+    Scheduled::BillingSEPADirectDebitOrdersUploaderJob.perform_later
+      end
+    end
+  end
+
   test "reports uploadable SEPA invoices stuck past the automatic upload window" do
     german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
     create_mock_bank_connection

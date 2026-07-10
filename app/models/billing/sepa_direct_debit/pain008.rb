@@ -9,8 +9,10 @@ module Billing
       SCHEMA = SEPADirectDebit::PAIN_008_001_08
       DEFAULT_REQUESTED_COLLECTION_DATE = Date.new(1999, 1, 1)
 
-      def initialize(invoices)
+      def initialize(invoices, message_id: nil, generated_at: nil)
         @invoices = invoices
+        @message_id = message_id
+        @generated_at = generated_at
       end
 
       def xml
@@ -40,7 +42,7 @@ module Billing
       def group_header(xml)
         xml.GrpHdr {
           xml.MsgId message_identification
-          xml.CreDtTm Time.current.iso8601
+          xml.CreDtTm generated_at.iso8601
           xml.NbOfTxs invoices.size
           xml.CtrlSum amount_total
           xml.InitgPty {
@@ -153,7 +155,11 @@ module Billing
       end
 
       def message_identification
-        @message_identification ||= "CSAADMIN/#{SecureRandom.hex(11)}"
+        @message_identification ||= @message_id.presence || "CSAADMIN/#{SecureRandom.hex(11)}"
+      end
+
+      def generated_at
+        @generated_at || Time.current
       end
     end
   end

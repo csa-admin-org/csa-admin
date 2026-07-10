@@ -194,7 +194,7 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
     end
   end
 
-  test "does not create duplicate payment with same fingerprint" do
+  test "does not create duplicate payment with same fingerprint on replay" do
     invoice = invoices(:annual_fee)
     member = invoice.member
     data = PaymentData.new(
@@ -212,6 +212,100 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
     assert_no_difference "Payment.count" do
       Billing::PaymentsProcessor.new([ data ]).process!
     end
+  end
+
+  test "reconciles one legacy CAMT payment across statement and notification origins" do
+    invoice = invoices(:annual_fee)
+    payment = Payment.create!(
+      invoice: invoice,
+      amount: 30,
+      date: Date.current,
+      origin: "camt.053")
+    data = PaymentData.new(
+      origin: "camt.054",
+      member_id: invoice.member_id,
+      invoice_id: invoice.id,
+      amount: 30,
+      date: Date.current,
+      fingerprint: "camt-cutover")
+
+    assert_no_difference "Payment.count" do
+      Billing::PaymentsProcessor.new([ data ], raise_on_error: true).process!
+    end
+
+    assert_equal "camt-cutover", payment.reload.fingerprint
+    assert_equal "camt.054", payment.origin
+  end
+
+  test "reports ambiguous legacy CAMT reconciliation without creating a payment" do
+    invoice = invoices(:annual_fee)
+    2.times do
+      Payment.create!(
+        invoice: invoice,
+        amount: 30,
+        date: Date.current,
+        origin: "camt.054")
+    end
+    data = PaymentData.new(
+      origin: "camt.054",
+      member_id: invoice.member_id,
+      invoice_id: invoice.id,
+      amount: 30,
+      date: Date.current,
+      fingerprint: "camt-ambiguous")
+    event = EventRecorder.new
+
+    with_rails_event(event) do
+      assert_no_difference "Payment.count" do
+        Billing::PaymentsProcessor.new([ data ], raise_on_error: true).process!
+      end
+    end
+
+    name, payload = event.notifications.sole
+    assert_equal :payment_processing_legacy_camt_fingerprint_ambiguous, name
+    assert_equal 2, payload.fetch(:payments_count)
+    assert_equal [ nil, nil ], Payment.where(
+      origin: "camt.054",
+      invoice_id: invoice.id,
+      amount: 30,
+      date: Date.current,
+      fingerprint: nil).pluck(:fingerprint)
+  end
+
+  test "continues processing after a payment fingerprint race" do
+    invoice = invoices(:annual_fee)
+    first_payment = PaymentData.new(
+      origin: "camt.054",
+      member_id: invoice.member_id,
+      invoice_id: invoice.id,
+      amount: 1,
+      date: Date.current,
+      fingerprint: "race-#{SecureRandom.hex(4)}")
+    second_payment = PaymentData.new(
+      origin: "camt.054",
+      member_id: invoice.member_id,
+      invoice_id: invoice.id,
+      amount: 2,
+      date: Date.current,
+      fingerprint: "next-#{SecureRandom.hex(4)}")
+    raced = false
+
+    assert_difference "Payment.count", 2 do
+      Payment.stub(:find_or_initialize_by, lambda { |attrs|
+    unless raced
+      raced = true
+      Payment.create!(attrs.merge(origin: first_payment.origin))
+    end
+    Payment.new(attrs)
+      }) do
+    assert Billing::PaymentsProcessor.new(
+      [ first_payment, second_payment ],
+      raise_on_error: true).process!
+      end
+    end
+
+    assert Payment.exists?(fingerprint: first_payment.fingerprint)
+    assert Payment.exists?(fingerprint: second_payment.fingerprint)
   end
 
   test "raises processing errors when requested" do
@@ -236,6 +330,14 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
     end
   end
 
+  def with_rails_event(event)
+    original = Rails.method(:event)
+    Rails.define_singleton_method(:event) { event }
+    yield
+  ensure
+    Rails.define_singleton_method(:event, original)
+  end
+
   def bunq_credentials
     {
       private_key: OpenSSL::PKey::RSA.new(2048).to_pem,
@@ -244,6 +346,18 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
       user_id: 12345,
       monetary_account_id: 67890
     }
+  end
+
+  class EventRecorder
+    attr_reader :notifications
+
+    def initialize
+      @notifications = []
+    end
+
+    def notify(name, **payload)
+      notifications << [ name, payload ]
+    end
   end
 
   class ProcessPaymentsConnection

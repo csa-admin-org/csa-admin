@@ -47,6 +47,7 @@ class CreateBankConnections < ActiveRecord::Migration[8.1]
   end
 
   def down
-    drop_table :bank_connections
+    raise ActiveRecord::IrreversibleMigration,
+      "bank_connections contains the only current bank credentials; restore a database backup instead"
   end
 end

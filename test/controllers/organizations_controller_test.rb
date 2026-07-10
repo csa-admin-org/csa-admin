@@ -114,7 +114,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
       state: "ready",
       health_status: "healthy",
       credentials: synthetic_ebics_credentials,
-      settings: { "protocol" => "H005" })
+      settings: h005_payment_settings)
     login admins(:super)
 
     get organization_path
@@ -203,7 +203,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
       last_error_class: "Billing::EBICS::AuthenticationError",
       last_error_message: "EBICS XML failed with secret token",
       credentials: synthetic_ebics_credentials,
-      settings: { "protocol" => "H005" })
+      settings: h005_payment_settings)
     login admins(:super)
 
     get organization_path

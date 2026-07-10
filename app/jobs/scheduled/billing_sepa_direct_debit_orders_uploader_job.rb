@@ -14,7 +14,9 @@ module Scheduled
         .open
         .sent
         .where(sent_at: ..delay.ago.end_of_day)
+        .where(sepa_direct_debit_order_id: nil)
         .where(sepa_direct_debit_order_uploaded_at: nil)
+        .where(sepa_direct_debit_submission_state: [ nil, "failed" ])
 
       report_stuck_uploads!(uploadable_invoices, delay)
 

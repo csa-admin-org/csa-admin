@@ -18,6 +18,7 @@ class EbicsRakeTest < ActiveSupport::TestCase
     Rake::Task["ebics:onboarding:submit_ini"].reenable
     Rake::Task["ebics:onboarding:submit_hia"].reenable
     Rake::Task["ebics:onboarding:finalize"].reenable
+    Rake::Task["ebics:sepa_direct_debit:confirm_not_accepted"].reenable
     Rake::Task["ebics:key_rotation:readiness"].reenable
     Rake::Task["ebics:key_rotation:prepare"].reenable
     Rake::Task["ebics:key_rotation:validate"].reenable
@@ -143,6 +144,39 @@ class EbicsRakeTest < ActiveSupport::TestCase
     end
   end
 
+  test "SEPA direct debit reconciliation requires bank confirmation before unlocking retry" do
+    invoice = invoices(:annual_fee)
+    invoice.update_columns(
+      sepa_direct_debit_submission_state: "uncertain",
+      sepa_direct_debit_submission_attempted_at: Time.current,
+      sepa_direct_debit_pain_message_id: "CSAADMIN/uncertain-attempt",
+      sepa_direct_debit_pain_payload_sha256: "a" * 64)
+
+    with_env("TENANT" => "ragedevert", "INVOICE_ID" => invoice.id.to_s, "CONFIRM" => nil) do
+      assert_raises(SystemExit) do
+        capture_io { Rake::Task["ebics:sepa_direct_debit:confirm_not_accepted"].invoke }
+      end
+    end
+
+    Rake::Task["ebics:sepa_direct_debit:confirm_not_accepted"].reenable
+    with_env(
+      "TENANT" => "ragedevert",
+      "INVOICE_ID" => invoice.id.to_s,
+      "CONFIRM" => "true",
+      "BANK_CONFIRMED_NOT_ACCEPTED" => "true") do
+      Tenant.stub(:exists?, true) do
+        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+          out, = capture_io { Rake::Task["ebics:sepa_direct_debit:confirm_not_accepted"].invoke }
+          json = JSON.parse(out)
+
+          assert_equal invoice.id, json.fetch("invoice_id")
+          assert_equal "failed", json.fetch("submission_state")
+          assert json.fetch("payload_identity_preserved")
+        end
+      end
+    end
+  end
+
   test "key rotation readiness prints sanitized inventory as JSON" do
     with_env("TENANT" => "ragedevert") do
       Tenant.stub(:exists?, true) do
@@ -176,7 +210,8 @@ class EbicsRakeTest < ActiveSupport::TestCase
       name: "HOSTID",
       active: true,
       state: "ready",
-      credentials: ebics_credentials)
+      credentials: ebics_credentials,
+      settings: active_payment_settings)
 
     with_env("TENANT" => "ragedevert", "CONFIRM" => "true") do
       Tenant.stub(:exists?, true) do
@@ -200,7 +235,8 @@ class EbicsRakeTest < ActiveSupport::TestCase
       name: "HOSTID",
       active: true,
       state: "ready",
-      credentials: ebics_credentials)
+      credentials: ebics_credentials,
+      settings: active_payment_settings)
 
     with_env("TENANT" => "ragedevert") do
       Tenant.stub(:exists?, true) do
@@ -296,7 +332,8 @@ class EbicsRakeTest < ActiveSupport::TestCase
       name: "MULTIVIA",
       active: true,
       state: "ready",
-      credentials: ebics_credentials)
+      credentials: ebics_credentials,
+      settings: active_payment_settings)
 
     with_env("TENANT" => "wilderauke") do
       Tenant.stub(:exists?, true) do
@@ -323,7 +360,8 @@ class EbicsRakeTest < ActiveSupport::TestCase
       name: "MULTIVIA",
       active: true,
       state: "ready",
-      credentials: ebics_credentials)
+      credentials: ebics_credentials,
+      settings: active_payment_settings)
 
     with_env("TENANT" => "wilderauke") do
       Tenant.stub(:exists?, true) do
@@ -383,7 +421,8 @@ class EbicsRakeTest < ActiveSupport::TestCase
       name: "HOSTID",
       active: true,
       state: "ready",
-      credentials: ebics_credentials)
+      credentials: ebics_credentials,
+      settings: active_payment_settings)
 
     env = { "TENANT" => "ragedevert", "CONFIRM" => "true" }
 
@@ -403,14 +442,9 @@ class EbicsRakeTest < ActiveSupport::TestCase
   end
 
   def ebics_credentials
-    {
-      keys: "keys",
-      secret: "secret",
-      url: "https://ebics.example.test",
-      host_id: "HOSTID",
-      participant_id: "PARTICIPANTID",
-      client_id: "CLIENTID"
-    }
+    @ebics_credentials ||= synthetic_ebics_credentials(
+      user_id: "PARTICIPANTID",
+      partner_id: "CLIENTID")
   end
 
   def btf_client_stub

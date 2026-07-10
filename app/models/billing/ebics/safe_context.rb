@@ -18,6 +18,29 @@ module Billing
         provider
         kind
       ].freeze
+      PROVIDER_TEXT_KEYS = %w[
+        body
+        description
+        detail
+        error
+        message
+        provider_error
+        reason
+        report_text
+        response_body
+        response_text
+      ].freeze
+      PROVIDER_TEXT_KEY_SUFFIXES = %w[
+        _body
+        _description
+        _detail
+        _error
+        _message
+        _provider_error
+        _reason
+        _report_text
+        _response_text
+      ].freeze
 
       def self.build(connection: current_connection, operation: nil, **attributes)
         new(connection: connection, operation: operation, attributes: attributes).to_h
@@ -31,6 +54,14 @@ module Billing
           attributes = operation.deep_stringify_keys
           attributes.slice(*OPERATION_KEYS).merge("mode" => attributes["mode"]).compact
         end
+      end
+
+      def self.error_summary(error, operation_kind: nil)
+        {
+          "error_class" => error.class.name,
+          "error_message" => safe_error_message(error, operation_kind: operation_kind),
+          "return_code" => error_return_code(error)
+        }.compact_blank
       end
 
       def self.payload(payload)
@@ -66,6 +97,25 @@ module Billing
         nil
       end
 
+      def self.sanitize(value)
+        case value
+        when Hash
+          value.each_with_object({}) do |(key, item), sanitized|
+            key = key.to_s
+            if provider_text_key?(key)
+              sanitized["#{key}_length"] = item.to_s.bytesize
+              sanitized["#{key}_sha256"] = Digest::SHA256.hexdigest(item.to_s)
+            else
+              sanitized[key] = sanitize(item)
+            end
+          end
+        when Array
+          value.map { |item| sanitize(item) }
+        else
+          value
+        end
+      end
+
       def initialize(connection:, operation:, attributes: {})
         @connection = connection
         @operation = operation
@@ -73,15 +123,42 @@ module Billing
       end
 
       def to_h
-        connection_context
-          .merge("operation" => self.class.operation(operation))
-          .merge(attributes.deep_stringify_keys)
+        self.class.sanitize(
+          connection_context
+            .merge("operation" => self.class.operation(operation))
+            .merge(attributes.deep_stringify_keys))
           .compact_blank
       end
 
       private
 
       attr_reader :connection, :operation, :attributes
+
+      def self.provider_text_key?(key)
+        PROVIDER_TEXT_KEYS.include?(key) || PROVIDER_TEXT_KEY_SUFFIXES.any? { |suffix| key.end_with?(suffix) }
+      end
+      private_class_method :provider_text_key?
+
+      def self.safe_error_message(error, operation_kind:)
+        return "EBICS response #{error_return_code(error)}" if error_return_code(error).present?
+        return "#{operation_kind.to_s.humanize} failed" if operation_kind.present?
+
+        "Bank connection operation failed"
+      end
+      private_class_method :safe_error_message
+
+      def self.error_return_code(error)
+        current = error
+        3.times do
+          response = current.response if current.respond_to?(:response)
+          return response.return_code if response&.respond_to?(:return_code)
+          break unless current.respond_to?(:original_error)
+
+          current = current.original_error
+        end
+        nil
+      end
+      private_class_method :error_return_code
 
       def self.current_connection
         Current.org.active_bank_connection

@@ -108,6 +108,31 @@ the bank or payment scheme executed every debit. Use bank-side status reporting
 such as `pain.002` where available, or the bank portal/support process, for final
 acceptance and rejection details.
 
+CSA Admin claims an invoice before the live upload and persists a stable PAIN
+message ID, generation timestamp, and payload digest. `submitting` and `uncertain`
+outcomes are never retried automatically. If a response is lost, reconcile the
+message ID and any transaction/order ID with the bank before changing state. Only
+a confirmed pre-acceptance failure may be marked `failed` for an explicit retry:
+
+```sh
+TENANT=tenant \
+  INVOICE_ID=123 \
+  CONFIRM=true \
+  BANK_CONFIRMED_NOT_ACCEPTED=true \
+  bin/rails ebics:sepa_direct_debit:confirm_not_accepted
+```
+
+The guarded task accepts only an `uncertain` submission with no bank order ID and a
+complete persisted PAIN identity. It does not call the bank. The next explicit or
+scheduled retry reuses the original PAIN identity and is refused if the reconstructed
+payload no longer matches its persisted digest.
+
+CAMT imports now use stable bank references as payment fingerprints. During the
+cutover, a single unambiguous legacy payment without a fingerprint is upgraded in
+place. Ambiguous equal-payment groups are skipped and emit
+`payment_processing_legacy_camt_fingerprint_ambiguous`; reconcile those records
+before reprocessing rather than guessing or inserting another payment.
+
 Useful billing and EBICS checks:
 
 ```sh
@@ -177,9 +202,12 @@ TENANT=tenant CONFIRM=true bin/rails ebics:onboarding:submit_hia
 
 `INI` and `HIA` are live bank calls. CSA Admin records a `*_submit_started_at`
 timestamp before posting to the bank so an interrupted request is visible and not
-silently retried as if nothing happened. After `HIA`, the connection stays inactive
-and moves to `waiting_for_bank` until the signed letter has been sent and the bank
-confirms activation.
+silently retried as if nothing happened. Any setup with an INI/HIA start marker is
+preserved with its encrypted keys, even when the response is lost. Do not delete it,
+generate replacement keys, or resubmit the same order until the bank confirms the
+subscriber state. After `HIA`, the connection stays inactive and moves to
+`waiting_for_bank` until the signed letter has been sent and the bank confirms
+activation.
 
 Generate the signed-bank letter PDF after `HIA` has moved the connection to
 `waiting_for_bank`:
@@ -207,6 +235,14 @@ activates the tenant-local row, marks it `ready`, records the bank keys, and run
 a follow-up capability check. The connection may still show a payment-automation
 warning until the active download/upload settings and bank capabilities are fully
 verified.
+
+The scheduled finalizer checks each waiting setup at most once per day. The explicit
+operator `finalize` command may retry sooner after a reviewed transient/not-ready
+result, but competing finalizations are rejected through an operation claim.
+Finalization also creates a tenant-local notification outbox in the same transaction.
+Delivery is durable and duplicate queued jobs skip completed rows; as with normal
+email delivery, a process crash after the mail provider accepts a message but before
+the local delivered marker is saved remains an at-least-once delivery window.
 
 HPB is the bootstrap trust boundary: the first HPB response cannot be EBICS
 signature-verified because the bank signing keys are what it returns. Trust the
@@ -416,6 +452,27 @@ Tenant.switch("tenant") do
     credentials: { "password" => "secret" })
 end
 ```
+
+## Migration and recovery safety
+
+`bank_connections` contains the only current payment-provider credentials. The
+legacy `organizations.bank_connection_type` and `organizations.bank_credentials`
+columns were removed after the production backfill. Those migrations are explicitly
+irreversible: rolling them back cannot reconstruct credentials and dropping
+`bank_connections` would destroy the active encrypted key material.
+
+Before deploying tenant-wide bank-connection migrations:
+
+1. take and verify a restorable backup of every tenant database;
+2. run the migration preflight and resolve any active/non-ready or duplicate
+   onboarding rows without guessing lifecycle state;
+3. migrate all tenants;
+4. verify each active connection resolves as `ready` and that EBICS payment tuples
+   still match the bank-advertised H005/BTF configuration.
+
+Recovery from a failed destructive migration is restore-only. Do not run
+`.agents/scripts/backfill_bank_connections.rb`; it is a disabled historical artifact
+that references columns no longer present in the current schema.
 
 ## Verify payment imports
 

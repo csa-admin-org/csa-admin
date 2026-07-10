@@ -1,48 +1,35 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "minitest/mock"
 
 class Scheduled::EBICSOnboardingFinalizationJobTest < ActiveJob::TestCase
   setup do
+    BankConnection::FinalizationNotification.delete_all
     BankConnection.delete_all
     org(country_code: "CH")
   end
 
   test "does nothing when no EBICS setup is waiting for bank activation" do
     create_connection(state: "initializing")
-    admin_mailer = FakeAdminFinalizedMailer.new
-    ultra_mailer = FakeFinalizedMailer.new
 
-    AdminMailer.stub(:with, ->(**options) { admin_mailer.with(**options) }) do
-      EBICSOnboardingMailer.stub(:with, ->(**options) { ultra_mailer.with(**options) }) do
-        Scheduled::EBICSOnboardingFinalizationJob.new.perform
-      end
+    assert_no_difference -> { BankConnection::FinalizationNotification.count } do
+      Scheduled::EBICSOnboardingFinalizationJob.new.perform
     end
-
-    assert_empty admin_mailer.delivered
-    assert_empty ultra_mailer.delivered_connections
   end
 
-  test "skips waiting setup already checked today" do
+  test "delegates the daily finalization gate to onboarding" do
     travel_to Time.zone.parse("2026-07-07 12:00") do
-      create_connection(last_finalization_check_at: "2026-07-07T05:10:00Z")
-      called = false
+      expected_connection = create_connection(last_finalization_check_at: "2026-07-07T05:10:00Z")
+      onboarding = CheckingOnboarding.new
 
-      admin_mailer = FakeAdminFinalizedMailer.new
-      ultra_mailer = FakeFinalizedMailer.new
-
-      Billing::EBICS::Onboarding.stub(:new, ->(**_options) { called = true }) do
-        AdminMailer.stub(:with, ->(**options) { admin_mailer.with(**options) }) do
-          EBICSOnboardingMailer.stub(:with, ->(**options) { ultra_mailer.with(**options) }) do
-            Scheduled::EBICSOnboardingFinalizationJob.new.perform
-          end
-        end
+      Billing::EBICS::Onboarding.stub(:new, ->(connection:, **_options) {
+        assert_equal expected_connection, connection
+        onboarding
+      }) do
+        Scheduled::EBICSOnboardingFinalizationJob.new.perform
       end
 
-      assert_not called
-      assert_empty admin_mailer.delivered
-      assert_empty ultra_mailer.delivered_connections
+      assert_equal 1, onboarding.checks
     end
   end
 
@@ -57,42 +44,32 @@ class Scheduled::EBICSOnboardingFinalizationJobTest < ActiveJob::TestCase
     assert_not called
   end
 
-  test "checks eligible waiting setup and notifies ultra admin after finalization" do
+  test "checks eligible waiting setup and creates one durable notification per recipient" do
     connection = create_connection
-
-    admin_mailer = FakeAdminFinalizedMailer.new
-    ultra_mailer = FakeFinalizedMailer.new
 
     Billing::EBICS::Onboarding.stub(:new, ->(connection:, **_options) { FinalizingOnboarding.new(connection) }) do
-      AdminMailer.stub(:with, ->(**options) { admin_mailer.with(**options) }) do
-        EBICSOnboardingMailer.stub(:with, ->(**options) { ultra_mailer.with(**options) }) do
-          Scheduled::EBICSOnboardingFinalizationJob.new.perform
-        end
+      assert_difference -> { BankConnection::FinalizationNotification.count }, 2 do
+        Scheduled::EBICSOnboardingFinalizationJob.new.perform
       end
     end
 
-    assert_equal [ [ admins(:super), connection ] ], admin_mailer.delivered
-    assert_equal [ connection ], ultra_mailer.delivered_connections
+    notifications = BankConnection::FinalizationNotification.order(:recipient)
     assert connection.reload.active?
     assert_equal "ready", connection.state
+    assert_equal %w[initiating_admin ultra_admin], notifications.pluck(:recipient)
+    assert_equal 1, notifications.pluck(:event_id).uniq.size
+    assert notifications.all?(&:pending?)
   end
 
-  test "does not notify when finalization check is still waiting for the bank" do
+  test "does not create notifications when finalization remains waiting for the bank" do
     connection = create_connection
 
-    admin_mailer = FakeAdminFinalizedMailer.new
-    ultra_mailer = FakeFinalizedMailer.new
-
     Billing::EBICS::Onboarding.stub(:new, ->(connection:, **_options) { WaitingOnboarding.new(connection) }) do
-      AdminMailer.stub(:with, ->(**options) { admin_mailer.with(**options) }) do
-        EBICSOnboardingMailer.stub(:with, ->(**options) { ultra_mailer.with(**options) }) do
-          Scheduled::EBICSOnboardingFinalizationJob.new.perform
-        end
+      assert_no_difference -> { BankConnection::FinalizationNotification.count } do
+        Scheduled::EBICSOnboardingFinalizationJob.new.perform
       end
     end
 
-    assert_empty admin_mailer.delivered
-    assert_empty ultra_mailer.delivered_connections
     assert_not connection.reload.active?
     assert_equal "waiting_for_bank", connection.state
   end
@@ -106,15 +83,8 @@ class Scheduled::EBICSOnboardingFinalizationJobTest < ActiveJob::TestCase
       active: false,
       state: state,
       health_status: "unknown",
-      credentials: {
-        "url" => "https://ebics.example.test",
-        "host_id" => "HOSTID",
-        "client_id" => "CLIENTID",
-        "participant_id" => "PARTICIPANTID",
-        "secret" => "secret",
-        "keys" => "keys"
-      },
-      settings: { "protocol" => "H005" },
+      credentials: synthetic_ebics_credentials(user_id: "PARTICIPANTID", partner_id: "CLIENTID"),
+      settings: h005_settings,
       status_details: {
         "onboarding" => {
           "state" => state,
@@ -128,43 +98,16 @@ class Scheduled::EBICSOnboardingFinalizationJobTest < ActiveJob::TestCase
       })
   end
 
-  class FakeAdminFinalizedMailer
-    attr_reader :delivered
-
-    def initialize
-      @delivered = []
-    end
-
-    def with(admin:, connection:)
-      @admin = admin
-      @connection = connection
-      self
-    end
-
-    def ebics_setup_finalized_email = self
-
-    def deliver_later
-      delivered << [ @admin, @connection ]
-    end
-  end
-
-  class FakeFinalizedMailer
-    attr_reader :delivered_connections
-
-    def initialize
-      @delivered_connections = []
-    end
-
-    def with(connection:)
-      @connection = connection
-      self
-    end
-
-    def finalized_notification_email = self
-
-    def deliver_later
-      delivered_connections << @connection
-    end
+  def h005_settings
+    {
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
+        }
+      }
+    }
   end
 
   class FinalizingOnboarding
@@ -173,6 +116,7 @@ class Scheduled::EBICSOnboardingFinalizationJobTest < ActiveJob::TestCase
     end
 
     def check_finalization!
+      event_id = "finalization-event"
       @connection.update!(
         active: true,
         state: "ready",
@@ -181,9 +125,25 @@ class Scheduled::EBICSOnboardingFinalizationJobTest < ActiveJob::TestCase
           "onboarding" => {
             "state" => "finalized",
             "last_finalization_check_at" => Time.current.iso8601,
-            "last_finalization_status" => "finalized"
+            "last_finalization_status" => "finalized",
+            "finalization_notification_event_id" => event_id
           }))
+      BankConnection::FinalizationNotification.create_for_finalization!(
+        bank_connection: @connection,
+        event_id: event_id)
       { "finalized" => true }
+    end
+  end
+
+  class CheckingOnboarding
+    attr_reader :checks
+
+    def initialize
+      @checks = 0
+    end
+
+    def check_finalization!
+      @checks += 1
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_04_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_10_144000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -174,6 +174,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_04_100000) do
     t.index ["session_id"], name: "index_audits_on_session_id"
   end
 
+  create_table "bank_connection_finalization_notifications", force: :cascade do |t|
+    t.integer "bank_connection_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "delivered_at"
+    t.string "delivery_claim_token"
+    t.datetime "delivery_started_at"
+    t.string "event_id", null: false
+    t.string "last_error_class"
+    t.string "recipient", null: false
+    t.string "state", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bank_connection_id", "event_id", "recipient"], name: "index_unique_bank_connection_finalization_notifications", unique: true
+    t.index ["bank_connection_id"], name: "idx_on_bank_connection_id_271a22c131"
+    t.index ["state"], name: "index_bank_connection_finalization_notifications_on_state"
+    t.check_constraint "recipient IN ('initiating_admin', 'ultra_admin')", name: "bank_connection_finalization_notifications_recipient"
+    t.check_constraint "state IN ('pending', 'delivering', 'delivered', 'skipped')", name: "bank_connection_finalization_notifications_state"
+  end
+
   create_table "bank_connections", force: :cascade do |t|
     t.boolean "active", default: false, null: false
     t.json "capabilities", default: {}, null: false
@@ -195,12 +213,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_04_100000) do
     t.json "status_details", default: {}, null: false
     t.datetime "updated_at", null: false
     t.index ["active"], name: "index_bank_connections_on_active_unique", unique: true, where: "active = 1"
+    t.index ["provider"], name: "index_bank_connections_on_inactive_ebics_onboarding", unique: true, where: "provider = 'ebics' AND active = 0 AND state IN ('initializing', 'waiting_for_bank', 'errored')"
     t.index ["provider"], name: "index_bank_connections_on_provider"
     t.index ["state"], name: "index_bank_connections_on_state"
     t.check_constraint "JSON_TYPE(capabilities) = 'object'", name: "bank_connections_capabilities_is_object"
     t.check_constraint "JSON_TYPE(credentials) = 'object'", name: "bank_connections_credentials_is_object"
     t.check_constraint "JSON_TYPE(settings) = 'object'", name: "bank_connections_settings_is_object"
     t.check_constraint "JSON_TYPE(status_details) = 'object'", name: "bank_connections_status_details_is_object"
+    t.check_constraint "active = 0 OR state = 'ready'", name: "bank_connections_active_requires_ready"
   end
 
   create_table "basket_complements", force: :cascade do |t|
@@ -547,6 +567,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_04_100000) do
     t.string "sepa_debtor_name"
     t.string "sepa_direct_debit_order_id"
     t.datetime "sepa_direct_debit_order_uploaded_at"
+    t.string "sepa_direct_debit_pain_message_id"
+    t.string "sepa_direct_debit_pain_payload_sha256"
+    t.datetime "sepa_direct_debit_submission_attempted_at"
+    t.string "sepa_direct_debit_submission_state"
+    t.string "sepa_direct_debit_transaction_id"
     t.integer "sepa_mandate_id"
     t.integer "shares_number"
     t.datetime "stamped_at"
@@ -558,6 +583,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_04_100000) do
     t.index ["member_id"], name: "index_invoices_on_member_id"
     t.index ["sepa_mandate_id"], name: "index_invoices_on_sepa_mandate_id"
     t.index ["state"], name: "index_invoices_on_state"
+    t.check_constraint "sepa_direct_debit_submission_state IS NULL OR sepa_direct_debit_submission_state IN ('submitting', 'submitted', 'uncertain', 'failed')", name: "invoices_sepa_direct_debit_submission_state"
   end
 
   create_table "mail_deliveries", force: :cascade do |t|
@@ -1132,6 +1158,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_04_100000) do
   add_foreign_key "activity_participations", "admins", column: "validator_id"
   add_foreign_key "activity_participations", "members"
   add_foreign_key "admins", "permissions"
+  add_foreign_key "bank_connection_finalization_notifications", "bank_connections", on_delete: :cascade
   add_foreign_key "basket_contents", "basket_content_products", column: "product_id"
   add_foreign_key "basket_contents", "deliveries"
   add_foreign_key "basket_contents_depots", "basket_contents"

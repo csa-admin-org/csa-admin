@@ -7,6 +7,8 @@ require "zip"
 require "zlib"
 
 class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
+  include EbicsSignedResponseHelper
+
   H005_NAMESPACE = Billing::EBICS::Btf::Response::H005_NAMESPACE
 
   test "uses app-owned key store for H005 requests" do
@@ -43,7 +45,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
 
     result = client.upload(btu_operation, document: "<Document>pain</Document>")
 
-    assert_equal [ "TX123", "B002" ], result
+    assert_equal [ valid_transaction_id, "B002" ], result
     assert_equal 2, transport.requests.size
     assert_includes transport.requests.first, "<AdminOrderType>BTU</AdminOrderType>"
     assert_includes transport.requests.first, "<BTUOrderParams>"
@@ -68,7 +70,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
 
     result = client.key_change(target_key_store: target_key_store)
 
-    assert_equal({ "transaction_id" => "TX123", "order_id" => "B002" }, result.to_h)
+    assert_equal({ "transaction_id" => valid_transaction_id, "order_id" => "B002" }, result.to_h)
     assert_equal 2, transport.requests.size
     assert_includes transport.requests.first, "<AdminOrderType>HCS</AdminOrderType>"
     assert_includes transport.requests.first, "<StandardOrderParams/>"
@@ -88,7 +90,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     ])
     client = btf_client(transport: transport)
 
-    assert_equal [ "TX123", "A001" ], client.upload(btu_operation, document: "<Document>pain</Document>")
+    assert_equal [ valid_transaction_id, "A001" ], client.upload(btu_operation, document: "<Document>pain</Document>")
   end
 
   test "BTU upload reports and raises when initialisation response has no transaction id" do
@@ -139,7 +141,8 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
   end
 
   test "fetches H005 admin order data and acknowledges the metadata response" do
-    htd_xml = "<HTDResponseOrderData><UserInfo><OrderInfo><AdminOrderType>BTD</AdminOrderType></OrderInfo></UserInfo></HTDResponseOrderData>"
+    htd_xml = htd_order_data_xml
+    assert_valid_ebics_h005_xml htd_xml, :orders
     transport = TransportStub.new([
       response_xml(segment_number: 1, last_segment: true, transaction_key: true, order_data: encrypted_order_data(htd_xml)),
       ok_receipt_response_xml
@@ -172,8 +175,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     message, context = error.unexpected_errors.first
     assert_equal "Unexpected EBICS admin-order response data", message
     assert_equal "HTD", context.fetch("admin_order_type")
-    assert_equal "HTDResponseOrderData", context.fetch("expected_root")
-    assert_equal "Document", context.fetch("root")
+    assert_equal "invalid", context.fetch("admin_order_data_profile")
     assert_equal 2, transport.requests.size
     assert_includes transport.requests.second, "<ReceiptCode>1</ReceiptCode>"
     assert_not_includes transport.requests.second, "<ReceiptCode>0</ReceiptCode>"
@@ -194,6 +196,37 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_includes transport.requests.first, "<AdminOrderType>HPB</AdminOrderType>"
     assert_includes transport.requests.second, "<ReceiptCode>1</ReceiptCode>"
     assert_not_includes transport.requests.second, "<ReceiptCode>0</ReceiptCode>"
+  end
+
+  test "admin orders reject wrong-namespace response data" do
+    transport = TransportStub.new([
+      response_xml(segment_number: 1, last_segment: true, transaction_key: true, order_data: encrypted_order_data("<HTDResponseOrderData xmlns=\"urn:provider:ebics\"/>")),
+      ok_receipt_response_xml
+    ])
+
+    assert_raises(Billing::EBICS::BtfClient::AdminOrderDataError) do
+      btf_client(transport: transport).admin_order("HTD")
+    end
+
+    assert_includes transport.requests.second, "<ReceiptCode>1</ReceiptCode>"
+  end
+
+  test "admin orders reject malformed H005 response data" do
+    malformed_order_data = <<~XML
+      <HTDResponseOrderData xmlns="#{H005_NAMESPACE}">
+        <UserInfo><UserID Status="0">USERID</UserID></UserInfo>
+      </HTDResponseOrderData>
+    XML
+    transport = TransportStub.new([
+      response_xml(segment_number: 1, last_segment: true, transaction_key: true, order_data: encrypted_order_data(malformed_order_data)),
+      ok_receipt_response_xml
+    ])
+
+    assert_raises(Billing::EBICS::BtfClient::AdminOrderDataError) do
+      btf_client(transport: transport).admin_order("HTD")
+    end
+
+    assert_includes transport.requests.second, "<ReceiptCode>1</ReceiptCode>"
   end
 
   test "manual test download can acknowledge segmented BTD data" do
@@ -220,26 +253,164 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_includes transport.requests.third, "<ReceiptCode>0</ReceiptCode>"
   end
 
-  test "parses EBICS response bodies from non-success HTTP responses" do
-    transport = TransportStub.new([ http_error(response_xml(return_code: "061099", report_text: "EBICS_INVALID_USER_OR_USER_STATE")) ])
+  test "parses EBICS response bodies from non-success HTTP responses without exposing provider text" do
+    provider_message = "EBICS_INVALID_USER_OR_USER_STATE account 123"
+    transport = TransportStub.new([ http_error(response_xml(return_code: "061099", report_text: provider_message)) ])
     client = btf_client(transport: transport)
 
     error = assert_raises(Billing::EBICS::TechnicalError) do
       client.submit_initialization_order("INI")
     end
 
-    assert_includes error.message, "EBICS_INVALID_USER_OR_USER_STATE"
+    assert_equal "EBICS response 061099", error.message
+    assert_not_includes error.message, provider_message
   end
 
-  test "rejects non-H005 EBICS responses" do
-    transport = TransportStub.new([ "<html>Not EBICS</html>" ])
-    client = btf_client(transport: transport)
+  test "rejects malformed H005 responses" do
+    client = btf_client(transport: TransportStub.new([ "<ebicsResponse" ]))
 
     error = assert_raises(Billing::EBICS::TechnicalError) do
       client.submit_initialization_order("INI")
     end
 
-    assert_includes error.message, "Invalid EBICS H005 response"
+    assert_equal "Invalid EBICS H005 response", error.message
+  end
+
+  test "rejects schema-invalid standard H005 responses" do
+    xml = signed_h005_response_xml(bank_x: bank_x) do |doc|
+      doc.at_xpath("/h:ebicsResponse/h:body", h: H005_NAMESPACE).add_child("<Unexpected/>")
+    end
+    client = btf_client(transport: TransportStub.new([ xml ]))
+
+    error = assert_raises(Billing::EBICS::TechnicalError) do
+      client.submit_initialization_order("INI")
+    end
+
+    assert_equal "Invalid EBICS H005 response", error.message
+  end
+
+  test "rejects ebicsUnsecuredResponse" do
+    xml = signed_h005_response_xml(bank_x: bank_x) do |doc|
+      doc.root.name = "ebicsUnsecuredResponse"
+    end
+    client = btf_client(transport: TransportStub.new([ xml ]))
+
+    error = assert_raises(Billing::EBICS::TechnicalError) do
+      client.submit_initialization_order("INI")
+    end
+
+    assert_equal "Invalid EBICS H005 response", error.message
+  end
+
+  test "accepts schema-valid key-management responses only in the bootstrap client" do
+    response = key_management_response_xml(order_id: "A001")
+
+    result = btf_client(
+      transport: TransportStub.new([ response ]),
+      verify_signatures: false).submit_initialization_order("INI")
+
+    assert_equal "INI", result.order_type
+    assert_equal "A001", result.order_id
+
+    error = assert_raises(Billing::EBICS::TechnicalError) do
+      btf_client(transport: TransportStub.new([ response ])).submit_initialization_order("INI")
+    end
+
+    assert_equal "Unexpected EBICS key-management response", error.message
+  end
+
+  test "rejects inconsistent segmented response transaction IDs" do
+    transport = TransportStub.new([
+      response_xml(segment_number: 1, last_segment: false, transaction_key: true, order_data: encrypted_order_data_segments(zip([ "<Document>one</Document>" ])).first),
+      response_xml(segment_number: 2, last_segment: true, transaction_id: "fedcba9876543210fedcba9876543210", order_data: encrypted_order_data_segments(zip([ "<Document>one</Document>" ])).last)
+    ])
+
+    error = assert_raises(Billing::EBICS::TechnicalError) do
+      btf_client(transport: transport).test_download(operation, from: "2026-06-01", to: "2026-06-30")
+    end
+
+    assert_equal "EBICS response TransactionID is inconsistent", error.message
+  end
+
+  test "rejects skipped segmented response sequence numbers" do
+    encrypted_segments = encrypted_order_data_segments(zip([ "<Document>one</Document>" ]))
+    transport = TransportStub.new([
+      response_xml(segment_number: 1, last_segment: false, transaction_key: true, order_data: encrypted_segments.first),
+      response_xml(segment_number: 3, last_segment: true, order_data: encrypted_segments.last)
+    ])
+
+    error = assert_raises(Billing::EBICS::TechnicalError) do
+      btf_client(transport: transport).test_download(operation, from: "2026-06-01", to: "2026-06-30")
+    end
+
+    assert_equal "EBICS response segment sequence is invalid", error.message
+  end
+
+  test "limits the number of segmented responses" do
+    with_btf_client_limit(:MAX_RESPONSE_SEGMENTS, 1) do
+      transport = TransportStub.new([
+        response_xml(segment_number: 1, last_segment: false, transaction_key: true, order_data: encrypted_order_data("<Document>one</Document>"))
+      ])
+
+      error = assert_raises(Billing::EBICS::TechnicalError) do
+        btf_client(transport: transport).test_download(operation, from: "2026-06-01", to: "2026-06-30")
+      end
+
+      assert_equal "EBICS response exceeds 1 segments", error.message
+      assert_equal 1, transport.requests.size
+    end
+  end
+
+  test "limits cumulative segmented response bytes before retaining another response" do
+    first_response = response_xml(segment_number: 1, last_segment: false)
+    second_response = response_xml(segment_number: 2, last_segment: true)
+    transport = TransportStub.new([ first_response, second_response ])
+
+    with_btf_client_limit(:MAX_CUMULATIVE_RESPONSE_BYTES, first_response.bytesize + second_response.bytesize - 1) do
+      error = assert_raises(Billing::EBICS::TechnicalError) do
+        btf_client(transport: transport).test_download(operation, from: "2026-06-01", to: "2026-06-30")
+      end
+
+      assert_equal "EBICS cumulative response data exceeds #{first_response.bytesize + second_response.bytesize - 1} bytes", error.message
+    end
+
+    assert_equal 2, transport.requests.size
+  end
+
+  test "limits cumulative encoded order data before decoding another segment" do
+    encrypted_segment = "encoded-segment"
+    first_response = response_xml(segment_number: 1, last_segment: false, order_data: encrypted_segment)
+    second_response = response_xml(segment_number: 2, last_segment: true, order_data: encrypted_segment)
+    limit = Base64.strict_encode64(encrypted_segment).bytesize * 2 - 1
+    transport = TransportStub.new([ first_response, second_response ])
+
+    with_btf_client_limit(:MAX_CUMULATIVE_ENCODED_ORDER_DATA_BYTES, limit) do
+      error = assert_raises(Billing::EBICS::TechnicalError) do
+        btf_client(transport: transport).test_download(operation, from: "2026-06-01", to: "2026-06-30")
+      end
+
+      assert_equal "EBICS cumulative encoded order data exceeds #{limit} bytes", error.message
+    end
+
+    assert_equal 2, transport.requests.size
+  end
+
+  test "limits cumulative encrypted order data before retaining another segment" do
+    encrypted_segment = "encrypted-segment"
+    first_response = response_xml(segment_number: 1, last_segment: false, order_data: encrypted_segment)
+    second_response = response_xml(segment_number: 2, last_segment: true, order_data: encrypted_segment)
+    limit = encrypted_segment.bytesize * 2 - 1
+    transport = TransportStub.new([ first_response, second_response ])
+
+    with_btf_client_limit(:MAX_CUMULATIVE_ENCRYPTED_ORDER_DATA_BYTES, limit) do
+      error = assert_raises(Billing::EBICS::TechnicalError) do
+        btf_client(transport: transport).test_download(operation, from: "2026-06-01", to: "2026-06-30")
+      end
+
+      assert_equal "EBICS cumulative encrypted order data exceeds #{limit} bytes", error.message
+    end
+
+    assert_equal 2, transport.requests.size
   end
 
   test "plain BTF downloads remain disabled to avoid pre-processing acknowledgements" do
@@ -354,37 +525,93 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_equal 1, result.receipt_code
   end
 
-  test "maps H005 no-data response through the EBICS boundary error" do
+  test "maps H005 no-data response through the EBICS boundary error without exposing provider text" do
     client = btf_client
 
     error = assert_raises(Billing::EBICS::NoDownloadDataAvailable) do
       client.files_from_response(operation, no_data_response_xml)
     end
 
-    assert_includes error.message, "EBICS_NO_DOWNLOAD_DATA_AVAILABLE"
+    assert_equal "EBICS response 090005", error.message
   end
 
-  test "signature verification still allows H005 no-data return codes to surface" do
-    client = btf_client(verify_signatures: true)
+  test "signature verification accepts schema-valid signed H005 responses" do
+    xml = signed_h005_response_xml(bank_x: bank_x)
+    assert_valid_ebics_h005_xml xml, :response
+    client = btf_client(transport: TransportStub.new([ xml ]), verify_signatures: true)
 
-    error = assert_raises(Billing::EBICS::NoDownloadDataAvailable) do
-      client.files_from_response(operation, no_data_response_xml)
+    result = client.submit_initialization_order("INI")
+
+    assert_equal "0123456789abcdef0123456789abcdef", result.transaction_id
+  end
+
+  test "signature verification accepts signed no-data responses" do
+    xml = signed_h005_response_xml(
+      bank_x: bank_x,
+      business_return_code: "090005",
+      report_text: "provider-specific no-data text")
+    assert_valid_ebics_h005_xml xml, :response
+    client = btf_client(transport: TransportStub.new([ xml ]), verify_signatures: true)
+
+    result = client.test_download(operation, from: "2026-06-01", to: "2026-06-30")
+
+    assert_equal "no_data", result.status
+  end
+
+  test "schema validation rejects unsigned no-data responses" do
+    client = btf_client
+
+    error = assert_raises(Billing::EBICS::TechnicalError) do
+      client.files_from_response(operation, unsigned_response_xml(business_return_code: "090005"))
     end
 
-    assert_includes error.message, "EBICS_NO_DOWNLOAD_DATA_AVAILABLE"
+    assert_instance_of Billing::EBICS::BtfClient::InvalidResponseError, error.original_error
+    assert_equal "Invalid EBICS H005 response", error.message
   end
 
-  test "signature verification rejects successful unsigned responses" do
-    client = btf_client(verify_signatures: true)
+  test "signature verification rejects invalidly signed no-data responses" do
+    xml = signed_h005_response_xml(
+      bank_x: bank_x,
+      business_return_code: "090005",
+      report_text: "provider-specific no-data text") do |doc|
+        doc.at_xpath("//h:ReportText", h: H005_NAMESPACE).content = "tampered provider text"
+      end
+    client = btf_client(transport: TransportStub.new([ xml ]), verify_signatures: true)
+
+    error = assert_raises(Billing::EBICS::TechnicalError) do
+      client.test_download(operation, from: "2026-06-01", to: "2026-06-30")
+    end
+
+    assert_equal "Invalid EBICS response signature", error.message
+  end
+
+  test "signature verification verifies signed H005 error responses before classifying them" do
+    provider_message = "provider-specific error text"
+    xml = signed_h005_response_xml(
+      bank_x: bank_x,
+      technical_return_code: "061099",
+      report_text: provider_message)
+    client = btf_client(transport: TransportStub.new([ xml ]), verify_signatures: true)
+
+    error = assert_raises(Billing::EBICS::TechnicalError) do
+      client.submit_initialization_order("INI")
+    end
+
+    assert_equal "EBICS response 061099", error.message
+    assert_not_includes error.message, provider_message
+  end
+
+  test "standard responses require valid signatures even when bootstrap verification is disabled" do
+    client = btf_client(verify_signatures: false)
 
     error = assert_raises(Billing::EBICS::TechnicalError) do
       client.files_from_response(
         operation,
-        response_xml(transaction_key: true, order_data: encrypted_order_data(zip([ "<Document>one</Document>" ]))))
+        unsigned_response_xml(transaction_key: true, order_data: encrypted_order_data(zip([ "<Document>one</Document>" ]))))
     end
 
-    assert_instance_of Billing::EBICS::BtfClient::VerificationError, error.original_error
-    assert_equal "Invalid EBICS response signature", error.message
+    assert_instance_of Billing::EBICS::BtfClient::InvalidResponseError, error.original_error
+    assert_equal "Invalid EBICS H005 response", error.message
   end
 
   test "transport rejects non-HTTPS EBICS endpoints" do
@@ -451,7 +678,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
 
   private
 
-  def btf_client(transport: TransportStub.new([]), error_reporter: ErrorRecorder.new, verify_signatures: false)
+  def btf_client(transport: TransportStub.new([]), error_reporter: ErrorRecorder.new, verify_signatures: true)
     Billing::EBICS::BtfClient.new(
       credentials,
       key_store: key_store,
@@ -479,7 +706,15 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
   end
 
   def credentials
-    @credentials ||= synthetic_ebics_credentials
+    @credentials ||= synthetic_ebics_credentials(bank_x: bank_x, bank_e: bank_e)
+  end
+
+  def bank_x
+    @bank_x ||= OpenSSL::PKey::RSA.generate(2048)
+  end
+
+  def bank_e
+    @bank_e ||= OpenSSL::PKey::RSA.generate(2048)
   end
 
   def key_store
@@ -493,6 +728,29 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     [ encrypted.byteslice(0, midpoint), encrypted.byteslice(midpoint, encrypted.bytesize - midpoint) ]
   end
 
+  def htd_order_data_xml
+    <<~XML
+      <HTDResponseOrderData xmlns="#{H005_NAMESPACE}">
+        <PartnerInfo>
+          <AddressInfo/>
+          <BankInfo><HostID>HOSTID</HostID></BankInfo>
+          <OrderInfo>
+            <AdminOrderType>BTD</AdminOrderType>
+            <Service><ServiceName>REP</ServiceName><Scope>CH</Scope><Container containerType="ZIP"/><MsgName version="04">camt.054</MsgName></Service>
+            <Description>Account reports</Description>
+          </OrderInfo>
+        </PartnerInfo>
+        <UserInfo>
+          <UserID Status="0">USERID</UserID>
+          <Permission>
+            <AdminOrderType>BTD</AdminOrderType>
+            <Service><ServiceName>REP</ServiceName><Scope>CH</Scope><Container containerType="ZIP"/><MsgName version="04">camt.054</MsgName></Service>
+          </Permission>
+        </UserInfo>
+      </HTDResponseOrderData>
+    XML
+  end
+
   def encrypted_order_data(payload)
     compressed = Zlib::Deflate.deflate(payload)
     cipher = OpenSSL::Cipher.new("aes-128-cbc")
@@ -502,43 +760,54 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     cipher.update(zero_pad(compressed)) + cipher.final
   end
 
-  def response_xml(segment_number: 1, last_segment: true, transaction_key: false, order_data: nil, return_code: "000000", business_return_code: nil, report_text: "OK", order_id: nil, transaction_id: "TX123")
-    transaction_key_xml = transaction_key ? "<TransactionKey>#{encrypted_transaction_key}</TransactionKey>" : ""
-    order_data_xml = order_data ? "<OrderData>#{Base64.strict_encode64(order_data)}</OrderData>" : ""
-    body_return_code_xml = business_return_code ? "<ReturnCode>#{business_return_code}</ReturnCode>" : ""
+  def response_xml(segment_number: 1, last_segment: true, transaction_key: false, order_data: nil, return_code: "000000", business_return_code: "000000", report_text: "OK", order_id: nil, transaction_id: valid_transaction_id)
+    transaction_key = encrypted_transaction_key if transaction_key || order_data
+
+    signed_h005_response_xml(
+      bank_x: bank_x,
+      bank_e_digest: (key_store.bank_e.public_digest if transaction_key || order_data),
+      transaction_id: transaction_id,
+      technical_return_code: return_code,
+      business_return_code: business_return_code,
+      report_text: report_text,
+      segment_number: segment_number,
+      last_segment: last_segment,
+      order_id: order_id,
+      transaction_key: transaction_key,
+      order_data: order_data && Base64.strict_encode64(order_data))
+  end
+
+  def no_data_response_xml
+    response_xml(business_return_code: "090005", report_text: "EBICS_NO_DOWNLOAD_DATA_AVAILABLE")
+  end
+
+  def unsigned_response_xml(**options)
+    Nokogiri::XML(response_xml(**options)).tap do |doc|
+      doc.at_xpath("/h:ebicsResponse/h:AuthSignature", h: H005_NAMESPACE).remove
+    end.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML, encoding: "utf-8")
+  end
+
+  def key_management_response_xml(return_code: "000000", report_text: "OK", order_id: nil)
     order_id_xml = order_id ? "<OrderID>#{order_id}</OrderID>" : ""
-    transaction_id_xml = transaction_id ? "<TransactionID>#{transaction_id}</TransactionID>" : ""
 
     <<~XML
       <?xml version="1.0" encoding="utf-8"?>
-      <ebicsResponse xmlns="#{H005_NAMESPACE}" Version="H005" Revision="1">
+      <ebicsKeyManagementResponse xmlns="#{H005_NAMESPACE}" Version="H005">
         <header authenticate="true">
-          <static>
-            #{transaction_id_xml}
-          </static>
+          <static/>
           <mutable>
-            <TransactionPhase>Initialisation</TransactionPhase>
-            <SegmentNumber lastSegment="#{last_segment}">#{segment_number}</SegmentNumber>
             #{order_id_xml}
             <ReturnCode>#{return_code}</ReturnCode>
             <ReportText>#{report_text}</ReportText>
           </mutable>
         </header>
-        <body>
-          #{body_return_code_xml}
-          <DataTransfer>
-            <DataEncryptionInfo authenticate="true">
-              #{transaction_key_xml}
-            </DataEncryptionInfo>
-            #{order_data_xml}
-          </DataTransfer>
-        </body>
-      </ebicsResponse>
+        <body><ReturnCode authenticate="true">000000</ReturnCode></body>
+      </ebicsKeyManagementResponse>
     XML
   end
 
-  def no_data_response_xml
-    response_xml(business_return_code: "090005", report_text: "EBICS_NO_DOWNLOAD_DATA_AVAILABLE")
+  def valid_transaction_id
+    "0123456789abcdef0123456789abcdef"
   end
 
   def ok_receipt_response_xml
@@ -599,6 +868,17 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
   ensure
     payload.send(:remove_const, name)
     payload.const_set(name, original)
+  end
+
+  def with_btf_client_limit(name, value)
+    client = Billing::EBICS::BtfClient
+    original = client.const_get(name)
+    client.send(:remove_const, name)
+    client.const_set(name, value)
+    yield
+  ensure
+    client.send(:remove_const, name)
+    client.const_set(name, original)
   end
 
   class FakeSigner

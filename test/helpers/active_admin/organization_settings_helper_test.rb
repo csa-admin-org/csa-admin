@@ -51,13 +51,14 @@ class ActiveAdmin::OrganizationSettingsHelperTest < ActionView::TestCase
   end
 
   test "active EBICS card warns when payment download is missing" do
-    connection = BankConnection.create!(
+    connection = BankConnection.new(
       provider: "ebics",
       active: true,
       state: "ready",
       health_status: "healthy",
       credentials: synthetic_ebics_credentials,
       settings: { "protocol" => "H005" })
+    connection.save!(validate: false)
 
     assert organization_settings_bank_connection_payment_automation_warning?(connection)
     assert_includes organization_settings_bank_connection_payment_automation(connection),
@@ -81,7 +82,7 @@ class ActiveAdmin::OrganizationSettingsHelperTest < ActionView::TestCase
 
   test "active EBICS card warns when SEPA upload configuration is missing" do
     german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
-    connection = BankConnection.create!(
+    connection = BankConnection.new(
       provider: "ebics",
       active: true,
       state: "ready",
@@ -94,6 +95,7 @@ class ActiveAdmin::OrganizationSettingsHelperTest < ActionView::TestCase
           "checked_at" => "2026-07-05T08:30:00Z"
         }
       })
+    connection.save!(validate: false)
 
     assert organization_settings_bank_connection_payment_automation_warning?(connection)
     assert_includes organization_settings_bank_connection_payment_automation(connection),

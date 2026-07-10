@@ -81,7 +81,25 @@ class BillingRakeTest < ActiveSupport::TestCase
     end
   end
 
+  test "payments process does not print provider exception text" do
+    provider_text = "secret member@example.test <Document>payment data</Document>"
+    create_connection(provider: "bunq")
 
+    with_env("TENANT" => "acme", "CONFIRM" => "true") do
+      Tenant.stub(:exists?, true) do
+        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+          Billing::PaymentsProcessor.stub(:retrieve_and_process!, -> { raise provider_text }) do
+            out, = capture_io { Rake::Task["billing:payments:process"].invoke }
+            json = JSON.parse(out)
+
+            assert_equal "RuntimeError", json.dig("results", 0, "error_class")
+            assert_not_includes out, provider_text
+            assert_nil json.dig("results", 0, "last_error_message")
+          end
+        end
+      end
+    end
+  end
 
   test "payments process filters by provider" do
     create_connection(provider: "bunq")

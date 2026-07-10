@@ -7,9 +7,11 @@ module Billing
     SCHEMAS = [ SCHEMA ].freeze
     AUTOMATIC_ORDER_UPLOAD_DELAY = 3.days
 
-    def initialize(invoices, schema: SCHEMA)
+    def initialize(invoices, schema: SCHEMA, message_id: nil, generated_at: nil)
       @invoices = Array(invoices).select { it.sepa? && it.open? }
       @schema = schema
+      @message_id = message_id
+      @generated_at = generated_at
     end
 
     def blank?
@@ -21,7 +23,10 @@ module Billing
 
       case schema
       when PAIN_008_001_08
-        Pain008.new(@invoices).xml
+        Pain008.new(
+          @invoices,
+          message_id: @message_id,
+          generated_at: @generated_at).xml
       else
         raise ArgumentError, "Unsupported SEPA direct debit schema: #{schema.inspect}"
       end

@@ -13,6 +13,8 @@ module Billing
         PayloadTooLarge = Class.new(StandardError)
 
         MAX_INFLATED_ORDER_DATA_BYTES = 25 * 1024 * 1024
+        MAX_ENCRYPTED_ORDER_DATA_BYTES = 25 * 1024 * 1024
+        MAX_ORDER_DATA_SEGMENTS = 100
         MAX_ZIP_FILES = 1_000
         MAX_ZIP_ENTRY_BYTES = 10 * 1024 * 1024
         MAX_ZIP_TOTAL_BYTES = 25 * 1024 * 1024
@@ -46,7 +48,13 @@ module Billing
         end
 
         def encrypted_order_data
-          responses.select(&:order_data_present?).map(&:order_data_encrypted).join
+          segments = responses.select(&:order_data_present?)
+          raise PayloadTooLarge, "EBICS order data has too many segments" if segments.size > MAX_ORDER_DATA_SEGMENTS
+
+          segments.each_with_object(String.new) do |response, encrypted|
+            encrypted << response.order_data_encrypted
+            ensure_payload_size!(encrypted.bytesize, MAX_ENCRYPTED_ORDER_DATA_BYTES, "EBICS encrypted order data")
+          end
         end
 
         def transaction_key

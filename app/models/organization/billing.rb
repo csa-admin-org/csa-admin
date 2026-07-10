@@ -38,7 +38,7 @@ module Organization::Billing
     end
 
     def active_bank_connection
-      BankConnection.active.first
+      BankConnection.where(active: true, state: "ready").first
     end
 
     def bank_connection

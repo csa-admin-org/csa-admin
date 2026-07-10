@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "timeout"
 
 class Invoice::SEPATest < ActiveSupport::TestCase
   test "persisted sepa_mandate on invoice creation" do
@@ -126,7 +127,7 @@ class Invoice::SEPATest < ActiveSupport::TestCase
       source: "admin")
     member.reload
     invoice = create_annual_fee_invoice(member: member)
-    invoice.update!(sepa_direct_debit_order_id: "N001")
+    invoice.update!(sent_at: 1.day.ago, sepa_direct_debit_order_id: "N001")
 
     assert_no_changes -> { invoice.reload.sepa_direct_debit_order_uploaded_at } do
       invoice.upload_sepa_direct_debit_order
@@ -217,20 +218,14 @@ class Invoice::SEPATest < ActiveSupport::TestCase
   test "sepa direct debit PAIN XML defaults to owned pain.008.001.08 without upload-capable bank connection" do
     BankConnection.delete_all
     german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
-    BankConnection.create!(
+    connection = BankConnection.new(
       provider: "ebics",
       name: "HOSTID",
       active: true,
       state: "ready",
-      credentials: { secret: "secret" },
-      settings: {
-        "downloads" => {
-          "payments" => {
-            "mode" => "btf",
-            "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
-          }
-        }
-      })
+      credentials: synthetic_ebics_credentials,
+      settings: h005_payment_settings)
+    connection.save!(validate: false)
     member = members(:anna)
     member.update!(language: "de", country_code: "DE")
     member.sepa_mandates.create!(
@@ -254,16 +249,15 @@ class Invoice::SEPATest < ActiveSupport::TestCase
       name: "MULTIVIA",
       active: true,
       state: "ready",
-      credentials: { secret: "secret" },
-      settings: {
+      credentials: synthetic_ebics_credentials(host_id: "MULTIVIA"),
+      settings: h005_payment_settings.deep_merge(
         "uploads" => {
           "sepa_direct_debit" => {
             "mode" => "btf",
             "schema" => "pain.008.001.08",
             "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML", version: nil)
           }
-        }
-      })
+        }))
     member = members(:anna)
     member.update!(language: "de", country_code: "DE")
     member.sepa_mandates.create!(
@@ -304,5 +298,210 @@ class Invoice::SEPATest < ActiveSupport::TestCase
 
     assert_equal "N042", invoice.sepa_direct_debit_order_id
     assert invoice.sepa_direct_debit_order_uploaded_at?
+  end
+
+  test "upload persists the PAIN message ID and payload digest before submission" do
+    invoice = sepa_uploadable_invoice
+    submitted_xml = nil
+    test_case = self
+    connection = Object.new
+    connection.define_singleton_method(:sepa_direct_debit_upload) do |pain_xml|
+      submitted_xml = pain_xml
+      claimed_invoice = Invoice.find(invoice.id)
+      test_case.assert_equal "submitting", claimed_invoice.sepa_direct_debit_submission_state
+      test_case.assert_equal pain_xml[/<MsgId>([^<]+)/, 1], claimed_invoice.sepa_direct_debit_pain_message_id
+      test_case.assert_equal Digest::SHA256.hexdigest(pain_xml), claimed_invoice.sepa_direct_debit_pain_payload_sha256
+      [ "T042", "N042" ]
+    end
+
+    Current.org.stub(:bank_connection, connection) do
+      assert invoice.upload_sepa_direct_debit_order
+    end
+
+    invoice.reload
+    assert_equal submitted_xml[/<MsgId>([^<]+)/, 1], invoice.sepa_direct_debit_pain_message_id
+    assert_equal "T042", invoice.sepa_direct_debit_transaction_id
+    assert_equal "submitted", invoice.sepa_direct_debit_submission_state
+  end
+
+  test "upload does not submit an already claimed direct debit order" do
+    invoice = sepa_uploadable_invoice
+    invoice.update_columns(
+      sepa_direct_debit_submission_state: "submitting",
+      sepa_direct_debit_submission_attempted_at: Time.current,
+      sepa_direct_debit_pain_message_id: "CSAADMIN/alreadyclaimed",
+      sepa_direct_debit_pain_payload_sha256: "digest")
+    connection = Object.new
+    connection.define_singleton_method(:sepa_direct_debit_upload) { raise "must not submit twice" }
+
+    Current.org.stub(:bank_connection, connection) do
+      assert_not invoice.reload.upload_sepa_direct_debit_order
+    end
+
+    assert_equal "submitting", invoice.reload.sepa_direct_debit_submission_state
+  end
+
+  test "upload marks an ambiguous bank failure uncertain and does not retry" do
+    invoice = sepa_uploadable_invoice
+    calls = 0
+    connection = Object.new
+    connection.define_singleton_method(:sepa_direct_debit_upload) do |_pain_xml|
+      calls += 1
+      raise Timeout::Error, "response lost"
+    end
+
+    Current.org.stub(:bank_connection, connection) do
+      refute invoice.upload_sepa_direct_debit_order
+      refute invoice.reload.upload_sepa_direct_debit_order
+    end
+
+    invoice.reload
+    assert_equal 1, calls
+    assert_equal "uncertain", invoice.sepa_direct_debit_submission_state
+    assert invoice.sepa_direct_debit_submission_attempted_at?
+    assert invoice.sepa_direct_debit_pain_message_id?
+    assert invoice.sepa_direct_debit_pain_payload_sha256?
+    assert_not invoice.sepa_direct_debit_order_uploadable?
+  end
+
+  test "bank-confirmed non-acceptance unlocks an uncertain upload without changing its PAIN identity" do
+    invoice = sepa_uploadable_invoice
+    attempted_at = Time.zone.parse("2026-07-10 09:15:00")
+    invoice.update_columns(
+      sepa_direct_debit_submission_state: "uncertain",
+      sepa_direct_debit_submission_attempted_at: attempted_at,
+      sepa_direct_debit_pain_message_id: "CSAADMIN/uncertain-attempt",
+      sepa_direct_debit_pain_payload_sha256: "a" * 64)
+
+    assert invoice.confirm_sepa_direct_debit_order_not_accepted!
+
+    invoice.reload
+    assert_equal "failed", invoice.sepa_direct_debit_submission_state
+    assert_equal attempted_at, invoice.sepa_direct_debit_submission_attempted_at
+    assert_equal "CSAADMIN/uncertain-attempt", invoice.sepa_direct_debit_pain_message_id
+    assert_equal "a" * 64, invoice.sepa_direct_debit_pain_payload_sha256
+  end
+
+  test "bank-confirmed non-acceptance rejects an uncertain upload with a bank order ID" do
+    invoice = sepa_uploadable_invoice
+    invoice.update_columns(
+      sepa_direct_debit_submission_state: "uncertain",
+      sepa_direct_debit_submission_attempted_at: Time.current,
+      sepa_direct_debit_pain_message_id: "CSAADMIN/uncertain-attempt",
+      sepa_direct_debit_pain_payload_sha256: "a" * 64,
+      sepa_direct_debit_order_id: "N042")
+
+    assert_raises(Invoice::SEPA::SubmissionReconciliationError) do
+      invoice.confirm_sepa_direct_debit_order_not_accepted!
+    end
+
+    assert_equal "uncertain", invoice.reload.sepa_direct_debit_submission_state
+  end
+
+  test "failed retry submits the byte-stable persisted PAIN payload" do
+    invoice = sepa_uploadable_invoice
+    generated_at = Time.zone.parse("2026-07-10 09:15:00")
+    message_id = "CSAADMIN/failed-attempt"
+    pain_xml = invoice.sepa_direct_debit_pain_xml(message_id: message_id, generated_at: generated_at)
+    invoice.update_columns(
+      sepa_direct_debit_submission_state: "failed",
+      sepa_direct_debit_submission_attempted_at: generated_at,
+      sepa_direct_debit_pain_message_id: message_id,
+      sepa_direct_debit_pain_payload_sha256: Digest::SHA256.hexdigest(pain_xml))
+    submitted_xml = nil
+    connection = Object.new
+    connection.define_singleton_method(:sepa_direct_debit_upload) do |xml|
+      submitted_xml = xml
+      [ "T042", "N042" ]
+    end
+
+    travel_to generated_at + 1.day do
+      Current.org.stub(:bank_connection, connection) do
+        assert invoice.reload.upload_sepa_direct_debit_order
+      end
+    end
+
+    assert_equal pain_xml, submitted_xml
+    assert_equal "submitted", invoice.reload.sepa_direct_debit_submission_state
+  end
+
+  test "failed retry refuses payload digest drift before submission" do
+    invoice = sepa_uploadable_invoice
+    invoice.update_columns(
+      sepa_direct_debit_submission_state: "failed",
+      sepa_direct_debit_submission_attempted_at: Time.zone.parse("2026-07-10 09:15:00"),
+      sepa_direct_debit_pain_message_id: "CSAADMIN/failed-attempt",
+      sepa_direct_debit_pain_payload_sha256: Digest::SHA256.hexdigest("different payload"))
+    calls = 0
+    connection = Object.new
+    connection.define_singleton_method(:sepa_direct_debit_upload) do |_xml|
+      calls += 1
+    end
+
+    Current.org.stub(:bank_connection, connection) do
+      refute invoice.reload.upload_sepa_direct_debit_order
+    end
+
+    assert_equal 0, calls
+    assert_equal "failed", invoice.reload.sepa_direct_debit_submission_state
+  end
+
+  test "validates SEPA direct debit submission states" do
+    invoice = create_annual_fee_invoice
+    invoice.sepa_direct_debit_submission_state = "unknown"
+
+    assert_not_predicate invoice, :valid?
+    assert_includes invoice.errors[:sepa_direct_debit_submission_state], "is not included in the list"
+  end
+
+  test "upload preserves bank response IDs when the final local save fails" do
+    invoice = sepa_uploadable_invoice
+    connection = Object.new
+    connection.define_singleton_method(:sepa_direct_debit_upload) { |_pain_xml| [ "T042", "N042" ] }
+
+    invoice.stub(:update!, ->(*) { raise ActiveRecord::RecordInvalid.new(invoice) }) do
+      Current.org.stub(:bank_connection, connection) do
+        refute invoice.upload_sepa_direct_debit_order
+      end
+    end
+
+    invoice.reload
+    assert_equal "T042", invoice.sepa_direct_debit_transaction_id
+    assert_equal "N042", invoice.sepa_direct_debit_order_id
+    assert_equal "uncertain", invoice.sepa_direct_debit_submission_state
+    assert_nil invoice.sepa_direct_debit_order_uploaded_at
+  end
+
+  private
+
+  def h005_payment_settings
+    {
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
+        }
+      }
+    }
+  end
+
+  def sepa_uploadable_invoice
+    BankConnection.delete_all
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    BankConnection.create!(
+      provider: "mock",
+      active: true,
+      state: "ready",
+      credentials: { password: "secret" })
+    member = members(:anna)
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
+    create_annual_fee_invoice(member: member).tap { it.touch(:sent_at) }
   end
 end

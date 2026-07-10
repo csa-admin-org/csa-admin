@@ -87,8 +87,7 @@ namespace :billing do
       provider: resolved_provider,
       source: "bank_connections",
       status: "error",
-      error_class: e.class.name,
-      error_message: e.message.to_s.truncate(500))
+      error_class: e.class.name)
   end
 
   def payment_import_result(tenant, provider:, source:, status:, connection: nil, **attributes)
@@ -104,8 +103,7 @@ namespace :billing do
       "last_import_attempted_at" => connection&.last_import_attempted_at&.iso8601,
       "last_import_succeeded_at" => connection&.last_import_succeeded_at&.iso8601,
       "last_no_data_at" => connection&.last_no_data_at&.iso8601,
-      "last_error_class" => connection&.last_error_class,
-      "last_error_message" => connection&.last_error_message
+      "last_error_class" => connection&.last_error_class
     }.merge(attributes.stringify_keys).compact
   end
 end

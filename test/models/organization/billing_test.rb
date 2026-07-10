@@ -42,6 +42,7 @@ class Organization::BillingTest < ActiveSupport::TestCase
       state: "ready",
       credentials: ebics_credentials,
       settings: {
+        "protocol" => "H005",
         "downloads" => {
           "payments" => {
             "mode" => "btf",
@@ -109,13 +110,6 @@ class Organization::BillingTest < ActiveSupport::TestCase
   private
 
   def ebics_credentials
-    {
-      "keys" => "keys",
-      "secret" => "secret",
-      "url" => "https://ebics.example.test",
-      "host_id" => "HOSTID",
-      "participant_id" => "PARTICIPANTID",
-      "client_id" => "CLIENTID"
-    }
+    synthetic_ebics_credentials(user_id: "PARTICIPANTID", partner_id: "CLIENTID")
   end
 end

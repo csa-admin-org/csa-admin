@@ -4196,12 +4196,108 @@ _:
             _de: wird bereits von einer anderen Bankverbindung verwendet
             _it: è già utilizzata da un'altra connessione bancaria
             _nl: wordt al door een andere bankverbinding gebruikt
+          bank_keys_too_short:
+            _en: must contain bank public keys of at least 2048 bits
+            _fr: doit contenir des clés publiques de la banque d'au moins 2048 bits
+            _de: muss öffentliche Bankschlüssel mit mindestens 2048 Bit enthalten
+            _it: deve contenere chiavi pubbliche della banca di almeno 2048 bit
+            _nl: moet openbare banksleutels van minstens 2048 bits bevatten
+          incomplete_btd_payment_download:
+            _en: must include a complete BTD payment download configuration
+            _fr: doit inclure une configuration BTD complète pour le téléchargement des paiements
+            _de: muss eine vollständige BTD-Konfiguration für den Zahlungsabruf enthalten
+            _it: deve includere una configurazione BTD completa per il recupero dei pagamenti
+            _nl: moet een volledige BTD-configuratie voor het ophalen van betalingen bevatten
+          incomplete_btu_sepa_direct_debit_upload:
+            _en: must include a complete BTU SEPA direct debit upload configuration
+            _fr: doit inclure une configuration BTU complète pour l'envoi des prélèvements SEPA
+            _de: muss eine vollständige BTU-Konfiguration für den SEPA-Lastschriftversand enthalten
+            _it: deve includere una configurazione BTU completa per l'invio degli addebiti diretti SEPA
+            _nl: moet een volledige BTU-configuratie voor het verzenden van SEPA-incasso's bevatten
+          missing_required_ebics_values:
+            _en: 'is missing required EBICS values: %{values}'
+            _fr: 'ne contient pas les valeurs EBICS requises: %{values}'
+            _de: 'enthält nicht alle erforderlichen EBICS-Werte: %{values}'
+            _it: 'non contiene i valori EBICS richiesti: %{values}'
+            _nl: 'mist vereiste EBICS-waarden: %{values}'
           must_be_an_object:
             _en: must be an object
             _fr: doit être un objet
             _de: muss ein Objekt sein
             _it: deve essere un oggetto
             _nl: moet een object zijn
+          must_be_ready_when_active:
+            _en: must be ready when active
+            _fr: doit être prête lorsqu'elle est active
+            _de: muss bei Aktivierung bereit sein
+            _it: deve essere pronta quando è attiva
+            _nl: moet gereed zijn wanneer actief
+          must_contain_configured_host_bank_keys:
+            _en: must contain bank public keys X002 and E002 for the configured host
+            _fr: doit contenir les clés publiques X002 et E002 de la banque pour l'hôte configuré
+            _de: muss die öffentlichen Bankschlüssel X002 und E002 für den konfigurierten Host enthalten
+            _it: deve contenere le chiavi pubbliche X002 ed E002 della banca per l'host configurato
+            _nl: moet de openbare banksleutels X002 en E002 voor de geconfigureerde host bevatten
+          must_contain_participant_keys:
+            _en: must contain participant keys A006, X002, and E002
+            _fr: doit contenir les clés de participant A006, X002 et E002
+            _de: muss die Teilnehmerschlüssel A006, X002 und E002 enthalten
+            _it: deve contenere le chiavi del partecipante A006, X002 ed E002
+            _nl: moet de deelnemerssleutels A006, X002 en E002 bevatten
+          must_contain_private_participant_keys:
+            _en: must contain private participant keys A006, X002, and E002
+            _fr: doit contenir les clés privées de participant A006, X002 et E002
+            _de: muss die privaten Teilnehmerschlüssel A006, X002 und E002 enthalten
+            _it: deve contenere le chiavi private del partecipante A006, X002 ed E002
+            _nl: moet de privésleutels A006, X002 en E002 van de deelnemer bevatten
+          must_contain_public_bank_keys:
+            _en: must contain public bank keys X002 and E002
+            _fr: doit contenir les clés publiques X002 et E002 de la banque
+            _de: muss die öffentlichen Bankschlüssel X002 und E002 enthalten
+            _it: deve contenere le chiavi pubbliche X002 ed E002 della banca
+            _nl: moet de openbare banksleutels X002 en E002 bevatten
+          must_contain_valid_ebics_key_material:
+            _en: must contain valid EBICS key material
+            _fr: doit contenir du matériel de clés EBICS valide
+            _de: muss gültiges EBICS-Schlüsselmaterial enthalten
+            _it: deve contenere materiale di chiave EBICS valido
+            _nl: moet geldig EBICS-sleutelmateriaal bevatten
+          must_use_explicit_pain_008_schema_without_btu_version:
+            _en: must use an explicit supported PAIN.008 schema without a BTU version
+            _fr: doit utiliser un schéma PAIN.008 pris en charge explicite en l'absence de version BTU
+            _de: muss ohne BTU-Version ein explizites unterstütztes PAIN.008-Schema verwenden
+            _it: deve utilizzare uno schema PAIN.008 supportato esplicito in assenza di una versione BTU
+            _nl: moet zonder BTU-versie een expliciet ondersteund PAIN.008-schema gebruiken
+          must_use_h005_when_active:
+            _en: must use EBICS protocol H005 when active
+            _fr: doit utiliser le protocole EBICS H005 lorsqu'elle est active
+            _de: muss bei Aktivierung das EBICS-Protokoll H005 verwenden
+            _it: deve utilizzare il protocollo EBICS H005 quando è attiva
+            _nl: moet het EBICS-protocol H005 gebruiken wanneer actief
+          must_use_pain_008_for_btu:
+            _en: must use pain.008 for BTU SEPA direct debit uploads
+            _fr: doit utiliser pain.008 pour les envois BTU de prélèvements SEPA
+            _de: muss pain.008 für den BTU-Versand von SEPA-Lastschriften verwenden
+            _it: deve utilizzare pain.008 per gli invii BTU degli addebiti diretti SEPA
+            _nl: moet pain.008 gebruiken voor BTU-verzendingen van SEPA-incasso's
+          must_use_supported_pain_008_schema:
+            _en: must use a supported PAIN.008 schema
+            _fr: doit utiliser un schéma PAIN.008 pris en charge
+            _de: muss ein unterstütztes PAIN.008-Schema verwenden
+            _it: deve utilizzare uno schema PAIN.008 supportato
+            _nl: moet een ondersteund PAIN.008-schema gebruiken
+          pain_008_schema_must_match_btu_version:
+            _en: must use a PAIN.008 schema matching the configured BTU version
+            _fr: doit utiliser un schéma PAIN.008 correspondant à la version BTU configurée
+            _de: muss ein PAIN.008-Schema verwenden, das der konfigurierten BTU-Version entspricht
+            _it: deve utilizzare uno schema PAIN.008 corrispondente alla versione BTU configurata
+            _nl: moet een PAIN.008-schema gebruiken dat overeenkomt met de geconfigureerde BTU-versie
+          participant_keys_too_short:
+            _en: must contain participant keys of at least 2048 bits
+            _fr: doit contenir des clés de participant d'au moins 2048 bits
+            _de: muss Teilnehmerschlüssel mit mindestens 2048 Bit enthalten
+            _it: deve contenere chiavi del partecipante di almeno 2048 bit
+            _nl: moet deelnemerssleutels van minstens 2048 bits bevatten
         invoice:
           memberships_amount_too_high:
             _en: Total membership billing is too high

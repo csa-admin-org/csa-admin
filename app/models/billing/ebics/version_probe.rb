@@ -22,7 +22,7 @@ module Billing
         SocketError
       ].freeze
 
-      Result = Data.define(:versions, :return_code, :report_text) do
+      Result = Data.define(:versions, :return_code) do
         def h005? = versions.key?(H005_PROTOCOL)
         def ok? = return_code == OK_CODE
       end
@@ -38,7 +38,7 @@ module Billing
       def check!(url:, host_id:)
         result = response_from(post(url, request_xml(host_id)))
         raise HostIDError, "EBICS HEV rejected HostID" if result.return_code == INVALID_HOST_ID_CODE
-        raise EndpointError, "EBICS HEV failed: #{result.return_code} #{result.report_text}" unless result.ok?
+        raise EndpointError, "EBICS HEV failed with return code #{result.return_code.presence || "unknown"}" unless result.ok?
         raise UnsupportedVersionError, "EBICS endpoint does not advertise H005" unless result.h005?
 
         result
@@ -54,8 +54,8 @@ module Billing
         raise EndpointError, e.message if e.body.blank?
 
         e.body
-      rescue *NETWORK_ERRORS => e
-        raise EndpointError, e.message
+      rescue *NETWORK_ERRORS
+        raise EndpointError, "EBICS HEV request failed"
       end
 
       def request_xml(host_id)
@@ -75,13 +75,12 @@ module Billing
       end
 
       def response_from(xml)
-        doc = Nokogiri::XML(xml)
+        doc = Nokogiri::XML(xml) { |config| config.nonet }
         raise EndpointError, "Invalid EBICS HEV response" unless hev_response?(doc)
 
         Result.new(
           versions: versions(doc),
-          return_code: text(doc, "//h:SystemReturnCode/h:ReturnCode"),
-          report_text: text(doc, "//h:SystemReturnCode/h:ReportText"))
+          return_code: text(doc, "//h:SystemReturnCode/h:ReturnCode"))
       end
 
       def hev_response?(doc)

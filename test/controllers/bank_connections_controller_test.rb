@@ -197,6 +197,29 @@ class BankConnectionsControllerTest < ActionDispatch::IntegrationTest
     assert_empty BankConnection.all
   end
 
+  test "create preserves uncertain INI setup after a network timeout" do
+    login admins(:super)
+
+    assert_enqueued_emails 1 do
+      with_fake_onboarding(
+        fail_at: :submit_ini,
+        failure_class: "Net::ReadTimeout",
+        submit_started: true) do
+        post bank_connections_path, params: { ebics_setup: valid_setup_params }
+      end
+    end
+
+    assert_redirected_to organization_path(anchor: "bank_connection")
+    assert_equal I18n.t("active_admin.resources.bank_connection.ebics_setup.flash.alert"), flash[:alert]
+
+    connection = BankConnection.sole
+    assert_equal "errored", connection.state
+    assert_equal "encrypted-key-material", connection.credentials.fetch("keys")
+    assert_equal "setup-secret", connection.credentials.fetch("secret")
+    assert connection.status_details.dig("onboarding", "ini_submit_started_at").present?
+    assert_nil connection.status_details.dig("onboarding", "ini_submitted_at")
+  end
+
   test "create rerenders form when bank rejects identifiers before INI" do
     login admins(:super)
 
@@ -298,9 +321,13 @@ class BankConnectionsControllerTest < ActionDispatch::IntegrationTest
     }
   end
 
-  def with_fake_onboarding(fail_at: nil, failure_class: nil, &block)
+  def with_fake_onboarding(fail_at: nil, failure_class: nil, submit_started: false, &block)
     factory = ->(connection: nil, **_options) {
-      FakeOnboarding.new(connection: connection, fail_at: fail_at, failure_class: failure_class)
+      FakeOnboarding.new(
+        connection: connection,
+        fail_at: fail_at,
+        failure_class: failure_class,
+        submit_started: submit_started)
     }
     Billing::EBICS::Onboarding.stub(:new, factory, &block)
   end
@@ -308,11 +335,12 @@ class BankConnectionsControllerTest < ActionDispatch::IntegrationTest
   class FakeOnboarding
     attr_reader :connection
 
-    def initialize(connection: nil, fail_at: nil, failure_class: nil)
+    def initialize(connection: nil, fail_at: nil, failure_class: nil, submit_started: false)
       @tenant = Tenant.current
       @connection = connection
       @fail_at = fail_at
       @failure_class = failure_class
+      @submit_started = submit_started
       @now = Time.zone.parse("2026-07-06 10:00")
     end
 
@@ -329,7 +357,9 @@ class BankConnectionsControllerTest < ActionDispatch::IntegrationTest
           "url" => url,
           "host_id" => host_id,
           "participant_id" => participant_id,
-          "client_id" => client_id
+          "client_id" => client_id,
+          "secret" => "setup-secret",
+          "keys" => "encrypted-key-material"
         },
         settings: { "protocol" => "H005" },
         status_details: {
@@ -366,6 +396,7 @@ class BankConnectionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     def fail!(stage)
+      update_onboarding!("submitting_ini", "ini_submit_started_at") if @submit_started && stage == "submit_ini"
       update_onboarding!("errored", "#{stage}_failed_at", connection_state: "errored")
       connection.update_columns(
         last_error_class: failure_class_name,

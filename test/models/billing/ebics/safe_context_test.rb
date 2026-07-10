@@ -8,7 +8,7 @@ class Billing::EBICS::SafeContextTest < ActiveSupport::TestCase
     connection = BankConnection.create!(
       provider: "ebics",
       name: "MULTIVIA",
-      active: true,
+      active: false,
       state: "ready",
       credentials: { secret: "secret" },
       settings: {
@@ -34,6 +34,40 @@ class Billing::EBICS::SafeContextTest < ActiveSupport::TestCase
     assert_equal "pain.008", context.dig("operation", "message_name")
     assert_equal 123, context.fetch("invoice_id")
     assert_not_includes context.to_json, "secret"
+  end
+
+  test "replaces hostile provider text with stable metadata" do
+    hostile_text = "https://member:secret@provider.test <Document>member@example.test</Document>"
+    context = Billing::EBICS::SafeContext.build(
+      report_text: hostile_text,
+      error_message: hostile_text,
+      response: {
+        "detail" => hostile_text,
+        "body" => hostile_text,
+        "message" => hostile_text
+      })
+
+    assert_equal hostile_text.bytesize, context.fetch("report_text_length")
+    assert_equal Digest::SHA256.hexdigest(hostile_text), context.fetch("report_text_sha256")
+    assert_equal hostile_text.bytesize, context.fetch("error_message_length")
+    assert_equal hostile_text.bytesize, context.dig("response", "detail_length")
+    assert_equal hostile_text.bytesize, context.dig("response", "body_length")
+    assert_equal hostile_text.bytesize, context.dig("response", "message_length")
+    assert_not_includes context.to_json, hostile_text
+    assert_not_includes context.to_json, "member:secret"
+    assert_not_includes context.to_json, "member@example.test"
+  end
+
+  test "builds safe error summaries without arbitrary exception text" do
+    provider_text = "secret member@example.test <Document>payment data</Document>"
+
+    summary = Billing::EBICS::SafeContext.error_summary(
+      RuntimeError.new(provider_text),
+      operation_kind: "payment_download")
+
+    assert_equal "RuntimeError", summary.fetch("error_class")
+    assert_equal "Payment download failed", summary.fetch("error_message")
+    assert_not_includes summary.to_json, provider_text
   end
 
   test "preserves explicit false operation values" do

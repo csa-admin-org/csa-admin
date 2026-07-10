@@ -14,8 +14,8 @@ class BankConnectionTest < ActiveSupport::TestCase
   test "stores provider settings outside credentials" do
     connection = BankConnection.create!(
       provider: "ebics",
-      active: true,
-      state: "ready",
+      active: false,
+      state: "draft",
       credentials: ebics_credentials,
       settings: {
         "protocol" => "H004",
@@ -119,7 +119,7 @@ class BankConnectionTest < ActiveSupport::TestCase
       active: true,
       state: "ready",
       credentials: ebics_credentials,
-      settings: { "protocol" => "H005" })
+      settings: h005_settings)
     operation = Billing::EBICS::Operation.btf(
       Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE"))
 
@@ -148,7 +148,7 @@ class BankConnectionTest < ActiveSupport::TestCase
       active: true,
       state: "ready",
       credentials: ebics_credentials,
-      settings: { "protocol" => "H005" })
+      settings: h005_settings)
     operation = Billing::EBICS::Operation.btf(
       Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE"))
 
@@ -158,12 +158,14 @@ class BankConnectionTest < ActiveSupport::TestCase
     assert connection.last_no_data_at?
     assert_nil connection.last_error_class
 
-    connection.mark_error!(RuntimeError.new("boom"), operation: operation, operation_kind: "payment_download")
+    provider_text = "secret member@example.test <Document>payment data</Document>"
+    connection.mark_error!(RuntimeError.new(provider_text), operation: operation, operation_kind: "payment_download")
     connection.reload
     assert_equal "errored", connection.health_status
     assert_equal "RuntimeError", connection.last_error_class
-    assert_equal "boom", connection.last_error_message
+    assert_equal "Payment download failed", connection.last_error_message
     assert_equal "payment_download", connection.status_details.dig("last_error", "operation_kind")
+    assert_not_includes connection.attributes.to_json, provider_text
   end
 
   test "tracks capabilities health and warnings" do
@@ -172,7 +174,7 @@ class BankConnectionTest < ActiveSupport::TestCase
       active: true,
       state: "ready",
       credentials: ebics_credentials,
-      settings: { "protocol" => "H005" })
+      settings: h005_settings)
 
     connection.mark_capabilities_checked!(
       report: {
@@ -214,7 +216,7 @@ class BankConnectionTest < ActiveSupport::TestCase
   test "returns redacted EBICS key inspection errors" do
     connection = BankConnection.new(
       provider: "ebics",
-      credentials: ebics_credentials.merge(keys: "invalid-key-data"))
+      credentials: ebics_credentials.merge("keys" => "invalid-key-data"))
 
     summary = connection.ebics_key_summary
 
@@ -297,6 +299,222 @@ class BankConnectionTest < ActiveSupport::TestCase
     assert_equal [ connection ], BankConnection.ready
   end
 
+  test "rejects active connections that are not ready" do
+    connection = BankConnection.new(
+      provider: "mock",
+      active: true,
+      state: "draft",
+      credentials: { password: "secret" })
+
+    assert_not_predicate connection, :valid?
+    assert_includes connection.errors[:state], "must be ready when active"
+  end
+
+  test "validates active EBICS protocol credentials and BTF settings" do
+    partial_onboarding = BankConnection.new(
+      provider: "ebics",
+      active: false,
+      state: "initializing",
+      credentials: {},
+      settings: {})
+    assert_predicate partial_onboarding, :valid?
+
+    invalid_protocol = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: h005_settings.merge("protocol" => "H004"))
+    assert_not_predicate invalid_protocol, :valid?
+    assert_includes invalid_protocol.errors[:settings], "must use EBICS protocol H005 when active"
+
+    missing_credentials = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials.except("secret"),
+      settings: h005_settings)
+    assert_not_predicate missing_credentials, :valid?
+    assert_includes missing_credentials.errors[:credentials], "is missing required EBICS values: secret"
+
+    incomplete_btd = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: h005_settings.deep_merge("downloads" => { "payments" => { "btf" => { "container" => nil } } }))
+    assert_not_predicate incomplete_btd, :valid?
+    assert_includes incomplete_btd.errors[:settings], "must include a complete BTD payment download configuration"
+
+    inconsistent_btu = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: h005_settings.deep_merge(
+        "uploads" => {
+          "sepa_direct_debit" => {
+            "mode" => "btf",
+            "schema" => "pain.008.001.02",
+            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML")
+          }
+        }))
+    assert_not_predicate inconsistent_btu, :valid?
+    assert_includes inconsistent_btu.errors[:settings], "must use a PAIN.008 schema matching the configured BTU version"
+  end
+
+  test "ignores disabled legacy upload placeholders for organizations without SEPA" do
+    org(sepa_creditor_identifier: nil)
+    connection = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: h005_settings.deep_merge(
+        "uploads" => {
+          "sepa_direct_debit" => {
+            "mode" => "order_type",
+            "order_type" => "CDD"
+          }
+        }))
+
+    assert_predicate connection, :valid?
+  end
+
+  test "rejects legacy upload placeholders when the organization uses SEPA" do
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    connection = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: h005_settings.deep_merge(
+        "uploads" => {
+          "sepa_direct_debit" => {
+            "mode" => "order_type",
+            "order_type" => "CDD"
+          }
+        }))
+
+    assert_not_predicate connection, :valid?
+    assert_includes connection.errors[:settings], "must include a complete BTU SEPA direct debit upload configuration"
+  end
+
+  test "accepts the versionless MULTIVIA BTU tuple with an explicit supported schema" do
+    connection = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: h005_settings.deep_merge(
+        "uploads" => {
+          "sepa_direct_debit" => {
+            "mode" => "btf",
+            "schema" => "pain.008.001.08",
+            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(
+              scope: "DE",
+              service_option: "COR",
+              container: "XML",
+              version: nil)
+          }
+        }))
+
+    assert_predicate connection, :valid?
+  end
+
+  test "rejects a versionless BTU tuple without an explicit supported schema" do
+    connection = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: h005_settings.deep_merge(
+        "uploads" => {
+          "sepa_direct_debit" => {
+            "mode" => "btf",
+            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(
+              scope: "DE",
+              service_option: "COR",
+              container: "XML",
+              version: nil)
+          }
+        }))
+
+    assert_not_predicate connection, :valid?
+    assert_includes connection.errors[:settings], "must use an explicit supported PAIN.008 schema without a BTU version"
+  end
+
+  test "rejects active EBICS connections with unreadable key material" do
+    connection = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials.merge("keys" => "invalid-key-material"),
+      settings: h005_settings)
+
+    assert_not_predicate connection, :valid?
+    assert_includes connection.errors[:credentials], "must contain valid EBICS key material"
+  end
+
+  test "requires active EBICS connections to hold private participant and public configured bank keys" do
+    key_material = synthetic_ebics_key_material
+    missing_bank_key = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: synthetic_ebics_credentials(key_material: key_material.except("HOSTID.E002")),
+      settings: h005_settings)
+    private_bank_key = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: synthetic_ebics_credentials(key_material: key_material.merge("HOSTID.X002" => OpenSSL::PKey::RSA.generate(2048))),
+      settings: h005_settings)
+    participant_key = OpenSSL::PKey::RSA.generate(2048)
+    public_participant_key = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: synthetic_ebics_credentials(key_material: key_material.merge("A006" => OpenSSL::PKey::RSA.new(participant_key.public_to_pem))),
+      settings: h005_settings)
+
+    assert_not_predicate missing_bank_key, :valid?
+    assert_includes missing_bank_key.errors[:credentials], "must contain bank public keys X002 and E002 for the configured host"
+    assert_not_predicate private_bank_key, :valid?
+    assert_includes private_bank_key.errors[:credentials], "must contain public bank keys X002 and E002"
+    assert_not_predicate public_participant_key, :valid?
+    assert_includes public_participant_key.errors[:credentials], "must contain private participant keys A006, X002, and E002"
+  end
+
+  test "database prevents activating a connection that is not ready" do
+    connection = BankConnection.create!(
+      provider: "mock",
+      active: false,
+      state: "draft",
+      credentials: { password: "secret" })
+
+    assert_raises ActiveRecord::StatementInvalid do
+      connection.update_columns(active: true)
+    end
+  end
+
+  test "database prevents multiple in-progress EBICS onboarding rows" do
+    BankConnection.create!(
+      provider: "ebics",
+      active: false,
+      state: "initializing",
+      credentials: {})
+    connection = BankConnection.new(
+      provider: "ebics",
+      active: false,
+      state: "waiting_for_bank",
+      credentials: {})
+
+    assert_raises ActiveRecord::RecordNotUnique do
+      connection.save!(validate: false)
+    end
+  end
+
   test "allows only one active connection" do
     BankConnection.create!(
       provider: "mock",
@@ -316,14 +534,21 @@ class BankConnectionTest < ActiveSupport::TestCase
 
   private
 
-  def ebics_credentials
+  def h005_settings
     {
-      url: "https://ebics.example.test",
-      secret: "secret",
-      host_id: "HOSTID",
-      participant_id: "PARTICIPANTID",
-      client_id: "CLIENTID",
-      keys: "keys"
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
+        }
+      }
     }
+  end
+
+  def ebics_credentials
+    @ebics_credentials ||= synthetic_ebics_credentials(
+      user_id: "PARTICIPANTID",
+      partner_id: "CLIENTID")
   end
 end

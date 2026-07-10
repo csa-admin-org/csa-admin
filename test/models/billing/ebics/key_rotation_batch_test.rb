@@ -95,7 +95,13 @@ class Billing::EBICS::KeyRotationBatchTest < ActiveSupport::TestCase
 
   def h005_settings
     {
-      "protocol" => "H005"
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
+        }
+      }
     }
   end
 

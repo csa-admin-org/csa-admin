@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "stringio"
 
 class Billing::CamtFileTest < ActiveSupport::TestCase
   test "parser identifies supported CAMT origins" do
@@ -23,7 +24,7 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
 
   test "returns payment data from CAMT.054 file" do
     file = Billing::CamtFile.new(file_fixture("camt054.xml"))
-    assert_equal [
+    assert_payment_data [
       Billing::CamtFile::PaymentData.new(
         invoice_id: 1,
         member_id: 42,
@@ -36,7 +37,7 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
 
   test "returns payment data from CAMT.054.001.08 file" do
     file = Billing::CamtFile.new(file_fixture("camt054_001_08.xml"))
-    assert_equal [
+    assert_payment_data [
       Billing::CamtFile::PaymentData.new(
         invoice_id: 1,
         member_id: 42,
@@ -50,7 +51,7 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
   test "returns payment data from CAMT.053 file" do
     org(country_code: "DE")
     file = Billing::CamtFile.new(file_fixture("camt053.xml"))
-    assert_equal [
+    assert_payment_data [
       Billing::CamtFile::PaymentData.new(
         invoice_id: 1,
         member_id: 42,
@@ -64,7 +65,7 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
   test "returns reversal payment data from CAMT.053 file" do
     org(country_code: "DE")
     file = Billing::CamtFile.new(file_fixture("camt053_reversal.xml"))
-    assert_equal [
+    assert_payment_data [
       Billing::CamtFile::PaymentData.new(
         invoice_id: 612,
         member_id: 41,
@@ -76,7 +77,7 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
 
   test "returns payment data from CAMT.053 entry without TxDtls" do
     file = Billing::CamtFile.new(file_fixture("camt053_no_txdtls.xml"))
-    assert_equal [
+    assert_payment_data [
       Billing::CamtFile::PaymentData.new(
         invoice_id: 1,
         member_id: 42,
@@ -84,6 +85,70 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
         date: Date.new(2026, 2, 25),
         origin: "camt.053")
     ], file.payments_data
+  end
+
+  test "reuses a CAMT fingerprint on replay and distinguishes bank references" do
+    xml = file_fixture("camt054.xml").read
+    replay = Billing::CamtFile.new(xml).payments_data.first
+    distinct_reference = Billing::CamtFile.new(
+      xml.sub("ZV20201113/371247/2", "ZV20201113/371247/3")).payments_data.first
+
+    assert_equal replay.fingerprint, Billing::CamtFile.new(xml).payments_data.first.fingerprint
+    assert_not_equal replay.fingerprint, distinct_reference.fingerprint
+    assert_equal replay.amount, distinct_reference.amount
+    assert_equal replay.date, distinct_reference.date
+  end
+
+  test "uses every CAMT fingerprint identity tier" do
+    transaction = Struct.new(:bank_reference, :transaction_id)
+    entry = Struct.new(:bank_reference, :transactions)
+    file = Billing::CamtFile.new
+
+    entry_with_transaction_reference = entry.new("entry-reference", [ transaction.new("transaction-reference", "transaction-id") ])
+    assert_equal(
+      fingerprint(file, "camt.054", entry_with_transaction_reference, transaction.new("transaction-reference", "other-id")),
+      fingerprint(file, "camt.054", entry_with_transaction_reference, transaction.new("transaction-reference", "transaction-id")))
+    assert_equal(
+      fingerprint(file, "camt.053", entry_with_transaction_reference, transaction.new("transaction-reference", "transaction-id")),
+      fingerprint(file, "camt.054", entry_with_transaction_reference, transaction.new("transaction-reference", "transaction-id")))
+    assert_not_equal(
+      fingerprint(file, "camt.054", entry_with_transaction_reference, transaction.new("transaction-reference", "transaction-id")),
+      fingerprint(file, "camt.054", entry_with_transaction_reference, transaction.new("other-reference", "transaction-id")))
+
+    entry_with_transaction_id = entry.new("entry-reference", [ transaction.new(nil, "transaction-id") ])
+    assert_equal(
+      fingerprint(file, "camt.054", entry_with_transaction_id, transaction.new(nil, "transaction-id")),
+      fingerprint(file, "camt.054", entry_with_transaction_id, transaction.new(nil, "transaction-id")))
+    assert_not_equal(
+      fingerprint(file, "camt.054", entry_with_transaction_id, transaction.new(nil, "transaction-id")),
+      fingerprint(file, "camt.054", entry_with_transaction_id, transaction.new(nil, "other-id")))
+
+    transactions = [ transaction.new(nil, nil), transaction.new(nil, nil) ]
+    entry_with_reference = entry.new("entry-reference", transactions)
+    assert_not_equal(
+      fingerprint(file, "camt.054", entry_with_reference, transactions.first, transaction_index: 0),
+      fingerprint(file, "camt.054", entry_with_reference, transactions.second, transaction_index: 1))
+
+    entry_without_references = entry.new(nil, [ transaction.new(nil, nil) ])
+    assert_equal(
+      fingerprint(file, "camt.054", entry_without_references, entry_without_references.transactions.first, xml_digest: "document"),
+      fingerprint(file, "camt.054", entry_without_references, entry_without_references.transactions.first, xml_digest: "document"))
+    assert_not_equal(
+      fingerprint(file, "camt.054", entry_without_references, entry_without_references.transactions.first, xml_digest: "document"),
+      fingerprint(file, "camt.054", entry_without_references, entry_without_references.transactions.first, xml_digest: "changed-document"))
+  end
+
+  test "rewinds CAMT IOs before and after parsing" do
+    io = StringIO.new(file_fixture("camt054.xml").read)
+    io.read(10)
+    file = Billing::CamtFile.new(io)
+
+    first = file.payments_data
+    assert_equal 0, io.pos
+    second = file.payments_data
+
+    assert_equal first.map(&:fingerprint), second.map(&:fingerprint)
+    assert_equal 0, io.pos
   end
 
   test "notifies unknown CAMT.054 payment references" do
@@ -125,6 +190,22 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
   end
 
   private
+
+  def fingerprint(file, origin, entry, transaction, entry_index: 0, transaction_index: 0, xml_digest: "document")
+    file.send(
+      :payment_fingerprint,
+      origin,
+      entry: entry,
+      transaction: transaction,
+      entry_index: entry_index,
+      transaction_index: transaction_index,
+      xml_digest: xml_digest)
+  end
+
+  def assert_payment_data(expected, actual)
+    assert_equal expected, actual.map { Billing::CamtFile::PaymentData.new(it.to_h.except(:fingerprint)) }
+    actual.each { assert_match(/\A[0-9a-f]{64}\z/, it.fingerprint) }
+  end
 
   def with_rails_event(event)
     original = Rails.method(:event)

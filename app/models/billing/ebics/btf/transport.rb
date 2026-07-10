@@ -7,21 +7,29 @@ module Billing
   class EBICS
     module Btf
       class Transport
+        MAX_RESPONSE_BYTES = 40 * 1024 * 1024
+
         class HTTPError < StandardError
           attr_reader :body
 
-          def initialize(response)
-            @body = response.body.to_s
-            super("HTTP #{response.code} #{response.message}")
+          def initialize(response, body: nil)
+            @body = body || response.body.to_s
+            super("HTTP #{response.code}")
           end
         end
 
+        ResponseTooLarge = Class.new(StandardError)
+
         def post(url, xml)
           uri = endpoint_uri(url)
-          response = http(uri).request(request(uri, xml))
-          raise HTTPError.new(response) unless response.is_a?(Net::HTTPSuccess)
+          response = body = nil
+          http(uri).request(request(uri, xml)) do |http_response|
+            response = http_response
+            body = read_response_body(http_response)
+          end
+          raise HTTPError.new(response, body: body) unless response.is_a?(Net::HTTPSuccess)
 
-          response.body
+          body
         end
 
         private
@@ -49,6 +57,17 @@ module Billing
             "Content-Type" => "text/xml",
             "User-Agent" => "CSA Admin EBICS"
           }).tap { |request| request.body = xml }
+        end
+
+        def read_response_body(response)
+          body = +""
+          response.read_body do |chunk|
+            body << chunk
+            if body.bytesize > MAX_RESPONSE_BYTES
+              raise ResponseTooLarge, "EBICS HTTP response exceeds #{MAX_RESPONSE_BYTES} bytes"
+            end
+          end
+          body
         end
       end
     end
