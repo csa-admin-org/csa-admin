@@ -1,109 +1,57 @@
 # Agent Instructions
 
-## What is CSA Admin?
+## Project Context
 
-CSA Admin is a multi-tenant Rails application for managing Community Supported Agriculture organizations. Each tenant has its own isolated SQLite database.
+CSA Admin is a multi-tenant Rails application for managing Community Supported Agriculture organizations. Each tenant has its own isolated SQLite database, resolved from the request host. Read `.agents/glossary.md` when working with unfamiliar domain terminology.
 
-## Development Commands
+## Development and Validation
 
-- `bin/ci` — Full CI suite (lint, security, tests, seeds) — steps defined in `config/ci.rb`
-- `bin/rails test:all` — All tests, unit + system (uses "acme" tenant)
-- `bin/rails lint:check` / `lint:autocorrect` — Style checks
-- **Minitest** with fixtures (`test/fixtures/`), no factories. System tests use Capybara.
+- `bin/rails test:all` — full unit and system test suite using the `acme` test tenant
+- `bin/rails lint:check` / `bin/rails lint:autocorrect` — style checks and fixes
+- `bin/ci` — final validation: setup, lint, security, tests, and seeds; see `config/ci.rb`
+- Tests use Minitest, all fixtures in `test/fixtures/`, and Capybara for system tests.
+- Tests run in parallel and block real HTTP through WebMock. Stub external requests and avoid mutable process-global test state.
 
-## Multi-Tenant Architecture
+## Multi-Tenant Invariants
 
-Tenant is resolved from request subdomain. Each tenant has a separate SQLite database.
-
-```ruby
-Tenant.switch("acme") { }   # Execute block in tenant context
-Tenant.switch_each { }      # Execute block for each tenant
-Tenant.current              # Get current tenant name
-Current.org                 # Organization singleton (tenant settings/features)
-```
-
-Key files: `lib/tenant.rb`, `config/tenant.yml`
+- Tenant APIs live in `lib/tenant.rb`; configuration lives in `config/tenant.yml`.
+- Use `Tenant.switch(name) { ... }` for one tenant and `Tenant.switch_each { ... }` for cross-tenant work. `Tenant.current` identifies the current tenant; `Current.org` is its organization singleton.
+- Never query tenant models outside a tenant context, nest switches to different tenants, or carry Active Record objects across tenant boundaries.
+- `TENANT` restricts `Tenant.all`, including tenant-wide database and maintenance tasks.
 
 ### Local Browser Access
 
-Development is served through puma-dev over HTTPS, not `localhost:3000`. Choose a tenant from the `development` configuration in `config/tenant.yml`, take its exact `admin_host` or `members_host`, and replace the public top-level domain with `.test`:
+Development uses puma-dev over HTTPS, not `localhost:3000`. Select an exact development `admin_host` or `members_host` from `config/tenant.yml` and replace its public top-level domain with `.test`. Do not derive hosts from tenant names. Admin and member portals have separate routes and authentication contexts. The `acme` tenant is test-only.
 
-- `admin.ragedevert.ch` → `https://admin.ragedevert.test`
-- `membres.ragedevert.ch` → `https://membres.ragedevert.test`
+### Jobs
 
-Use these URLs with `agent-browser`. Do not derive hosts from tenant names because labels and domains vary between organizations. The `acme` tenant exists only under `test` for automated tests and is not available as a development browser tenant.
+Tenant-scoped jobs inherit from `ApplicationJob`, which serializes `Tenant.current` and `Current`. Enqueue them with `perform_later` from inside a tenant context; do not call `perform_now` on them. Cross-tenant orchestrators may inherit from `ActiveJob::Base`, switch tenants, and enqueue tenant-scoped jobs. Use `TenantSwitchEachJob.perform_later("MyJobClassName")` for the standard fan-out pattern.
 
-Jobs inherit from `ApplicationJob` which includes `TenantContext` for automatic tenant serialization. Use `TenantSwitchEachJob.perform_later("MyJobClassName")` to run a job across all tenants.
+### Database and Migrations
 
-## Database & Migrations
+Standard Rails database tasks are tenant-aware through `lib/tasks/database.rake` and operate on `Tenant.all`. Remember that `TENANT` may intentionally restrict that set.
 
-Standard Rails database tasks (`db:migrate`, `db:rollback`, `db:schema:load`, etc.) work as expected and automatically apply to all tenant databases. Custom overrides in `lib/tasks/database.rake` ensure multi-tenant compatibility.
+## Tenant-Aware Application Behavior
 
-```bash
-bin/rails db:migrate              # Run pending migrations (all tenants)
-bin/rails db:rollback             # Rollback last migration (all tenants, STEP=n supported)
-bin/rails db:migrate:down VERSION=xxx  # Run down for a specific migration (all tenants)
-bin/rails db:schema:load          # Load schema into all tenant databases
-```
+- Do not assume a feature is enabled for every organization. Gate feature-specific behavior with `Current.org.feature?` and existing feature helpers.
+- ActiveAdmin uses CanCan through `Ability`; custom admin actions must explicitly authorize their operation.
+- Business years are organization-specific fiscal years. Use `Current.fiscal_year` or `Current.org.fiscal_year_for`, not `Date.current.year`, for delivery and billing logic.
+- Many records use `Discardable`. Respect `.kept`, `can_destroy?`, `can_discard?`, and model `destroy` behavior; do not bypass lifecycle rules with direct deletion or bulk updates.
+- CSV/XLSX exports must use `member&.display_id`, never raw `member_id` or `member.id`, so anonymized members remain unlinkable. This is enforced by `test/models/member/discardable_test.rb`.
 
-Key file: `lib/tasks/database.rake`
+## Implementation Style
 
-## Banking & Payments
+- Prefer vanilla Rails and rich models over service, query, or form object layers. Extract cohesive model concerns or model-layer POROs when complexity requires it.
+- Model-specific concerns live under the model namespace (for example, `app/models/member/billing.rb`); shared concerns live in `app/models/concerns/`.
+- ActiveAdmin resources live in `app/admin/`; custom DSL extensions live in `lib/active_admin/`. Follow `DESIGN.md` for interface and icon conventions.
+- Frontend uses Importmap, Turbo, Stimulus, Tailwind CSS, and Lucide. Do not introduce a JavaScript bundler without an explicit requirement.
 
-Payment provider credentials live in tenant-local `bank_connections` rows, not on `organizations`. Use `Current.org.active_bank_connection` / `Current.org.bank_connection` to resolve the runtime adapter.
+## High-Risk Domains
 
-CSA Admin supports EBICS 3.0 / H005 / BTF only for EBICS runtime and new EBICS connections. Do not add H003/H004 order-type fallback paths or store new credentials in legacy organization columns. Manual console setup examples for EBICS, BAS, bunq, and mock providers live in `docs/bank_connections.md`.
+### Banking and Payments
 
-## Code Style
+Payment credentials live only in tenant-local `bank_connections`. Resolve runtime providers through `Current.org.active_bank_connection` / `Current.org.bank_connection`. Runtime and new EBICS connections support H005/BTF only; do not restore legacy organization credential columns or add H003/H004/order-type fallback paths. Follow `docs/bank_connections.md` for setup and recovery procedures.
 
-### Vanilla Rails is Plenty
+### Translations
 
-Prefer Rails conventions over custom abstractions. Use models, concerns, and built-in Rails patterns first. Avoid unnecessary service objects, query objects, or form objects. Complexity should be earned, not assumed.
-
-### Rich Models
-
-Put business logic in models. When a model grows:
-1. Extract cohesive functionality into sub-model concerns (e.g., `app/models/member/billing.rb`)
-2. Delegate complex operations to POROs in `app/models/` (e.g., `app/models/billing/invoicer.rb`)
-
-Shared concerns go in `app/models/concerns/`. When including multiple concerns, document callback order dependencies.
-
-### Minimal Comments
-
-Code should speak for itself. Use clear naming and small methods instead of comments. Only add comments to explain **why** something non-obvious is done, never **what** the code does. No `@param`/`@return` yard-style docs — this is an app, not a public API gem.
-
-## ActiveAdmin
-
-Admin interface built on ActiveAdmin. Resource files: `app/admin/`.
-Custom DSL extensions (panel icons, fieldset icons): `lib/active_admin/`.
-See `DESIGN.md` for icon and panel conventions.
-
-## Frontend
-
-- **Importmap** (no JS bundler), **Tailwind CSS**, **Turbo + Stimulus**
-- Icons from Lucide (see `DESIGN.md`)
-
-## Translations
-
-See `TRANSLATIONS.md` for locale file conventions, scoped translation variants, the two-phase workflow, and voice & tone rules per language.
-
-`I18n::Backend::ScopedLookup` (`lib/i18n/backend/scoped_lookup.rb`) automatically tries `/scope` key variants from `Current.org` basket and activity terminology, then falls back to the base key. Request the base key in application code and place scopes before `_html` (for example, `description/bag_html`). A scoped leaf needs an unscoped fallback unless it has every valid basket or activity scope; `locales:structure` enforces the matrix. Source-default changes must not overwrite customized tenant mail or newsletter content.
-
-## GDPR & Member Privacy
-
-Anonymized members must not have their `member_id` exposed in CSV/XLSX exports.
-
-**Convention:** Use `member&.display_id` instead of `member_id` or `member.id` in all export code:
-
-```ruby
-# ❌ Bad - leaks member_id for anonymized members
-column(:member_id)
-column(:member_id, &:member_id)
-
-# ✅ Good - returns nil for anonymized members
-column(:member_id) { |record| record.member&.display_id }
-```
-
-A test in `test/models/member/discardable_test.rb` automatically scans export files for dangerous patterns.
-
-Key files: `app/models/member/discardable.rb`, `app/models/member/anonymization.rb`
+Follow `TRANSLATIONS.md` for any user-facing copy, locale, mail, or newsletter change. Request base keys in application code, place scopes before `_html`, preserve the required scoped fallback matrix, and never overwrite tenant-customized mail or newsletter content when changing source defaults.

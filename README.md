@@ -16,7 +16,7 @@ Learn more on [csa-admin.org](https://csa-admin.org).
 ## Features
 
 - Member management (status, contact information, etc.)
-- Membership management (basket size type, depot location, quantity, deliveries, etc.)
+- Membership management (basket size, depot location, quantity, delivery cycle, etc.)
 - Basket complements (delivery frequency, quantity, etc.)
 - Online grocery store for additional product orders
 - Advanced delivery cycle management (every two weeks, winter/summer, etc.)
@@ -25,12 +25,12 @@ Learn more on [csa-admin.org](https://csa-admin.org).
 - Automatic invoicing:
   - memberships
   - membership shares / annual fees
-  - invoice dispatch with reference numbers (QR-Code, SEPA)
+  - invoice dispatch with QR code and SEPA reference numbers
   - automatic payment statement import from bank accounts (EBICS 3.0/H005/BTF, BAS, bunq)
   - overdue notices
 - Activity participation management with member registration forms
-- Advanced email and built-in newsletters system
-- Multi-language support (**en, fr, de, it, nl**)
+- Transactional email and built-in newsletter system
+- Multilingual support (**en, fr, de, it, nl**)
 
 Need a demo or a specific feature? [Contact me](mailto:info@csa-admin.org).
 
@@ -42,27 +42,37 @@ This application is currently used by [more than 30 organizations](https://csa-a
 
 - Built with Ruby on Rails
 - Multi-tenant architecture:
-  - tenant resolved from request subdomain
+  - tenant resolved from the configured request host
   - one isolated SQLite database per tenant
-- Asynchronous jobs handled by SolidQueue/ActiveJob (SQLite-backed)
+- Asynchronous jobs handled by Solid Queue and Active Job (SQLite-backed)
 - Transactional emails and newsletters sent via Postmark
 - Tenant-local bank connections for automatic payment imports and EBICS 3.0/H005/BTF uploads; see `docs/bank_connections.md` for manual console setup
 
 ## Getting started
 
-1. Clone the repository
-2. Copy `config/tenant.yml.example` to `config/tenant.yml` and update your admin/member hostnames
-3. Install dependencies, prepare and seed databases:
+Requirements are defined in `.ruby-version` and `.node-version`. Local development uses [puma-dev](https://github.com/puma/puma-dev) over HTTPS.
 
-   `bin/setup`
+1. Clone the repository.
+2. Install dependencies, copy the sample tenant configuration, and prepare the databases:
 
-4. Set up local domains with [puma-dev](https://github.com/puma/puma-dev). In development, use a tenant's `admin_host` or `members_host` from `config/tenant.yml`, replacing the public top-level domain with `.test`. For example:
+   ```sh
+   bin/setup --skip-server
+   ```
+
+3. Update the generated `config/tenant.yml` with your admin and member hostnames.
+4. From the repository directory, link the configured base domain to puma-dev. For the sample `my-domain.org` configuration:
+
+   ```sh
+   puma-dev link -n my-domain
+   ```
+
+5. Open the configured `admin_host` or `members_host`, replacing its public top-level domain with `.test`. For example:
    - `admin.ragedevert.ch` → [admin.ragedevert.test](https://admin.ragedevert.test)
    - `membres.ragedevert.ch` → [membres.ragedevert.test](https://membres.ragedevert.test)
 
-   Use the configured host rather than deriving it from the tenant name: member host labels and domains vary between organizations. The `acme` tenant exists only in the test environment and is not available for local development browser access.
+   Use the configured host rather than deriving it from the tenant name: host labels and domains vary between organizations. Admin and member portals have separate authentication contexts. The `acme` tenant is test-only and is not available for local browser access.
 
-5. Sign in through the selected tenant's local admin host with an admin email for that tenant.
+6. Sign in through the selected tenant's local admin host with an admin email for that tenant.
 
 ## Development
 
@@ -71,6 +81,7 @@ Useful commands:
 - Run all tests: `bin/rails test:all`
 - Check linting: `bin/rails lint:check`
 - Auto-fix linting issues: `bin/rails lint:autocorrect`
+- Run final validation: `bin/ci`
 
 ## Contributing
 

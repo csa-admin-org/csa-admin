@@ -470,9 +470,8 @@ Before deploying tenant-wide bank-connection migrations:
 4. verify each active connection resolves as `ready` and that EBICS payment tuples
    still match the bank-advertised H005/BTF configuration.
 
-Recovery from a failed destructive migration is restore-only. Do not run
-`.agents/scripts/backfill_bank_connections.rb`; it is a disabled historical artifact
-that references columns no longer present in the current schema.
+Recovery from a failed destructive migration is restore-only. No backfill or
+rollback script can reconstruct the removed legacy credentials.
 
 ## Verify payment imports
 
