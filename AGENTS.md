@@ -24,6 +24,15 @@ Current.org                 # Organization singleton (tenant settings/features)
 
 Key files: `lib/tenant.rb`, `config/tenant.yml`
 
+### Local Browser Access
+
+Development is served through puma-dev over HTTPS, not `localhost:3000`. Choose a tenant from the `development` configuration in `config/tenant.yml`, take its exact `admin_host` or `members_host`, and replace the public top-level domain with `.test`:
+
+- `admin.ragedevert.ch` → `https://admin.ragedevert.test`
+- `membres.ragedevert.ch` → `https://membres.ragedevert.test`
+
+Use these URLs with `agent-browser`. Do not derive hosts from tenant names because labels and domains vary between organizations. The `acme` tenant exists only under `test` for automated tests and is not available as a development browser tenant.
+
 Jobs inherit from `ApplicationJob` which includes `TenantContext` for automatic tenant serialization. Use `TenantSwitchEachJob.perform_later("MyJobClassName")` to run a job across all tenants.
 
 ## Database & Migrations

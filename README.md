@@ -56,11 +56,13 @@ This application is currently used by [more than 30 organizations](https://csa-a
 
    `bin/setup`
 
-4. Set up local subdomains (recommended: [puma-dev](https://github.com/puma/puma-dev)) to access:
-   - [admin.my-domain.test](https://admin.my-domain.test)
-   - [members.my-domain.test](https://members.my-domain.test)
+4. Set up local domains with [puma-dev](https://github.com/puma/puma-dev). In development, use a tenant's `admin_host` or `members_host` from `config/tenant.yml`, replacing the public top-level domain with `.test`. For example:
+   - `admin.ragedevert.ch` → [admin.ragedevert.test](https://admin.ragedevert.test)
+   - `membres.ragedevert.ch` → [membres.ragedevert.test](https://membres.ragedevert.test)
 
-5. Sign in to [the admin](https://admin.my-domain.test) with your email (for example `admin@my-domain.test`)
+   Use the configured host rather than deriving it from the tenant name: member host labels and domains vary between organizations. The `acme` tenant exists only in the test environment and is not available for local development browser access.
+
+5. Sign in through the selected tenant's local admin host with an admin email for that tenant.
 
 ## Development
 
