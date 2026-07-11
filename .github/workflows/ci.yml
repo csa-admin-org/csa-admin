@@ -6,6 +6,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  MISE_ENV: ci
+  AUBE_STORE_DIR: ~/.local/share/mise/aube-store
+  BUNDLE_FROZEN: true
+
 jobs:
   lint:
     name: Lint
@@ -16,22 +21,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install APT Packages
-        uses: awalsh128/cache-apt-pkgs-action@v1
+      - name: Bootstrap
+        uses: jdx/mise-action@v4
         with:
-          packages: libvips
-
-      - name: Ruby Setup
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-
-      - name: Node Setup
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: ".node-version"
-          cache: "npm"
-      - run: npm ci
+          bootstrap: true
+          cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
 
       - name: Locales
         run: bin/rails locales:check
@@ -74,15 +68,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install APT Packages
-        uses: awalsh128/cache-apt-pkgs-action@v1
+      - name: Bootstrap
+        uses: jdx/mise-action@v4
         with:
-          packages: libvips
-
-      - name: Ruby Setup
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
+          bootstrap: true
+          cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
 
       - name: Gem audit
         run: bin/bundler-audit
@@ -108,15 +98,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install APT Packages
-        uses: awalsh128/cache-apt-pkgs-action@v1
+      - name: Bootstrap
+        uses: jdx/mise-action@v4
         with:
-          packages: libvips poppler-utils
-
-      - name: Ruby Setup
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
+          bootstrap: true
+          cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
 
       - name: Set timezone
         run: echo "TZ=Europe/Zurich" >> $GITHUB_ENV

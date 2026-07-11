@@ -1,0 +1,10 @@
+min_version = { hard = "2026.7.0" }
+
+[tools]
+ruby = "4.0.5"
+node = "24"
+aube = "1.26.0"
+
+[tasks.bootstrap]
+description = "Install application dependencies and prepare databases"
+run = "bin/setup --skip-server"

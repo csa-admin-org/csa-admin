@@ -16,7 +16,9 @@ FileUtils.chdir APP_ROOT do
 
   puts "== Installing dependencies =="
   system("bundle check") || system!("bundle install")
-  system! "npm install"
+  system!("aube", ENV["CI"] ? "ci" : "install")
+
+  next if ARGV.include?("--dependencies-only")
 
   puts "\n== Copying sample files =="
   unless File.exist?("config/tenant.yml")

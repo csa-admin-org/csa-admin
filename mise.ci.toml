@@ -1,0 +1,3 @@
+[tasks.bootstrap]
+description = "Install CI dependencies"
+run = "bin/setup --dependencies-only"

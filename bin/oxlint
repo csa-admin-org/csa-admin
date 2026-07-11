@@ -1,8 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-bin = File.expand_path("../node_modules/.bin/oxlint", __dir__)
-
 # Default to .prettierignore (which is also symlinked as .eslintignore)
 # so both oxfmt and oxlint respect the same ignore rules out of the box.
 # Users can still override with their own --ignore-path.
@@ -11,4 +9,4 @@ unless args.any? { |arg| arg.start_with?("--ignore-path") }
   args.unshift("--ignore-path", ".prettierignore")
 end
 
-exec bin, *args
+exec "aube", "exec", "oxlint", "--", *args

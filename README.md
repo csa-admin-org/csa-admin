@@ -50,29 +50,33 @@ This application is currently used by [more than 30 organizations](https://csa-a
 
 ## Getting started
 
-Requirements are defined in `.ruby-version` and `.node-version`. Local development uses [puma-dev](https://github.com/puma/puma-dev) over HTTPS.
+Development requirements are managed with [Mise](https://mise.jdx.dev) 2026.7 or newer. Local development uses [puma-dev](https://github.com/puma/puma-dev) over HTTPS.
 
 1. Clone the repository.
-2. Install dependencies, copy the sample tenant configuration, and prepare the databases:
+2. Install and activate Mise, then install and configure puma-dev for your system.
+3. Trust the project configuration and bootstrap the application:
 
    ```sh
-   bin/setup --skip-server
+   mise trust
+   mise bootstrap
    ```
 
-3. Update the generated `config/tenant.yml` with your admin and member hostnames.
-4. From the repository directory, link the configured base domain to puma-dev. For the sample `my-domain.org` configuration:
+   This installs libvips and Poppler, the Ruby, Node, and Aube versions declared in `mise.toml`, then runs `bin/setup --skip-server`. On Intel macOS, install libvips and Poppler through Homebrew first because Mise's Brew bootstrap supports Apple Silicon only.
+
+4. Update the generated `config/tenant.yml` with your admin and member hostnames.
+5. From the repository directory, link the configured base domain to puma-dev. For the sample `my-domain.org` configuration:
 
    ```sh
    puma-dev link -n my-domain
    ```
 
-5. Open the configured `admin_host` or `members_host`, replacing its public top-level domain with `.test`. For example:
+6. Open the configured `admin_host` or `members_host`, replacing its public top-level domain with `.test`. For example:
    - `admin.ragedevert.ch` → [admin.ragedevert.test](https://admin.ragedevert.test)
    - `membres.ragedevert.ch` → [membres.ragedevert.test](https://membres.ragedevert.test)
 
    Use the configured host rather than deriving it from the tenant name: host labels and domains vary between organizations. Admin and member portals have separate authentication contexts. The `acme` tenant is test-only and is not available for local browser access.
 
-6. Sign in through the selected tenant's local admin host with an admin email for that tenant.
+7. Sign in through the selected tenant's local admin host with an admin email for that tenant.
 
 ## Development
 

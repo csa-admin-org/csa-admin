@@ -11,6 +11,11 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  MISE_ENV: ci
+  AUBE_STORE_DIR: ~/.local/share/mise/aube-store
+  BUNDLE_FROZEN: true
+
 jobs:
   brakeman-scan:
     permissions:
@@ -25,15 +30,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install APT Packages
-        uses: awalsh128/cache-apt-pkgs-action@v1
+      - name: Bootstrap
+        uses: jdx/mise-action@v4
         with:
-          packages: libvips
-
-      - name: Ruby Setup
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
+          bootstrap: true
+          cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
 
       - name: Brakeman Scan
         run: bin/brakeman -f sarif -o results.sarif
@@ -52,15 +53,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install APT Packages
-        uses: awalsh128/cache-apt-pkgs-action@v1
+      - name: Bootstrap
+        uses: jdx/mise-action@v4
         with:
-          packages: libvips
-
-      - name: Ruby Setup
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
+          bootstrap: true
+          cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
 
       - name: Bundle Audit
         run: bin/bundler-audit check --update

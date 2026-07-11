@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-prettier_bin = File.expand_path("../node_modules/prettier/bin/prettier.cjs", __dir__)
-exec "node", prettier_bin, *ARGV
+exec "aube", "exec", "prettier", "--", *ARGV
