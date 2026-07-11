@@ -9,7 +9,7 @@ module DeliveryCycle::Deliveries
 
   class_methods do
     def for(delivery)
-      DeliveryCycle.kept.select { |dc| dc.include_delivery?(delivery) }
+      DeliveryCycle.kept.includes(:periods).select { |dc| dc.include_delivery?(delivery) }
     end
 
     def reset_cache!

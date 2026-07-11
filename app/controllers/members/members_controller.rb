@@ -63,20 +63,19 @@ class Members::MembersController < Members::BaseController
   end
 
   def set_basket_complements
-    complement_ids =
+    complements =
       BasketComplement
         .visible
+        .preload(:future_deliveries, :current_deliveries)
         .member_ordered
-        .select { |bc| bc.deliveries_count.positive? }
-        .map(&:id)
-    mbcs = @member.members_basket_complements.to_a
-    @member.members_basket_complements.clear
-    complement_ids.each do |id|
-      quantity_params = params.dig(:basket_complements, id.to_s)
-      quantity = mbcs.find { |mbc| mbc.basket_complement_id == id }&.quantity
-      @member.members_basket_complements.build(
-        quantity: quantity_params || quantity || 0,
-        basket_complement_id: id)
+        .select { |complement| complement.deliveries_count.positive? }
+    members_basket_complements = @member.members_basket_complements.load
+    quantities = members_basket_complements.index_by(&:basket_complement_id)
+    members_basket_complements.clear
+    complements.each do |complement|
+      quantity = params.dig(:basket_complements, complement.id.to_s)
+      quantity ||= quantities[complement.id]&.quantity || 0
+      members_basket_complements.build(quantity: quantity, basket_complement: complement)
     end
   end
 

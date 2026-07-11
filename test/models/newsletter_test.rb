@@ -99,6 +99,30 @@ class NewsletterTest < ActiveSupport::TestCase
     assert_equal [ n1.id, n2.id ], Newsletter.schedulable.pluck(:id)
   end
 
+  test "reuse generated preview YAML until it is replaced" do
+    org(languages: %w[en fr])
+    newsletter = build_newsletter
+
+    generated_yamls = newsletter.liquid_data_preview_yamls
+    assert_same generated_yamls, newsletter.liquid_data_preview_yamls
+
+    newsletter.liquid_data_preview_yamls = {
+      "en" => "member:\n  name: Ada\n",
+      "fr" => "member:\n  name: Ada\n"
+    }
+
+    assert_not_same generated_yamls, newsletter.liquid_data_preview_yamls
+    assert_includes newsletter.liquid_data_preview_yamls.fetch("en"), "Ada"
+  end
+
+  test "preview blocks only parse the selected template" do
+    selected_template = newsletter_templates(:dual)
+    newsletter_templates(:simple).update_column(:contents, { "en" => "{% if" })
+    newsletter = build_newsletter(template: selected_template)
+
+    assert_equal %w[first second], newsletter.relevant_blocks.map(&:block_id)
+  end
+
   test "mailpreview" do
     newsletter = build_newsletter(
       subject: "My Super Newsletter",

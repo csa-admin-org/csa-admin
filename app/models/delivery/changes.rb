@@ -255,15 +255,18 @@ class Delivery::Changes
   end
 
   def load_previous_cycle_deliveries
-    @previous_cycle_delivery_basket_membership_ids = {}
+    previous_delivery_ids_by_cycle_id = @included_cycles.filter_map do |cycle|
+      previous_delivery = cycle.deliveries(@delivery.fy_year).select { |d| d.date < @delivery.date }.last
+      [ cycle.id, previous_delivery.id ] if previous_delivery
+    end.to_h
 
-    @included_cycles.each do |cycle|
-      cycle_deliveries = cycle.deliveries(@delivery.fy_year).select { |d| d.date < @delivery.date }
-      prev_delivery = cycle_deliveries.last
-      next unless prev_delivery
+    membership_ids_by_delivery_id = Hash.new { |hash, key| hash[key] = Set.new }
+    Basket.where(delivery_id: previous_delivery_ids_by_cycle_id.values)
+      .pluck(:delivery_id, :membership_id)
+      .each { |delivery_id, membership_id| membership_ids_by_delivery_id[delivery_id] << membership_id }
 
-      basket_membership_ids = prev_delivery.baskets.pluck(:membership_id).to_set
-      @previous_cycle_delivery_basket_membership_ids[cycle.id] = basket_membership_ids
+    @previous_cycle_delivery_basket_membership_ids = previous_delivery_ids_by_cycle_id.transform_values do |delivery_id|
+      membership_ids_by_delivery_id[delivery_id]
     end
   end
 

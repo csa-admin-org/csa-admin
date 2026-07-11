@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_10_144000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_10_145000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -358,6 +358,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_10_144000) do
     t.integer "quantity", default: 1, null: false
     t.datetime "updated_at", null: false
     t.index ["basket_complement_id", "basket_id"], name: "baskets_basket_complements_unique_index", unique: true
+    t.index ["basket_id"], name: "index_baskets_basket_complements_on_basket_id"
   end
 
   create_table "bidding_round_pledges", force: :cascade do |t|

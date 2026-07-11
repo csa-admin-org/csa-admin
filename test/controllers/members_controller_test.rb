@@ -19,6 +19,23 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     MailDelivery.where(mailable_type: "Member", action: action).count
   end
 
+  test "index renders membership scopes, shop mode, and CSV" do
+    login admins(:super)
+
+    get members_path
+    assert_response :success
+
+    get members_path(scope: :waiting)
+    assert_response :success
+
+    org(member_form_mode: "shop")
+    get members_path
+    assert_response :success
+
+    get members_path(format: :csv)
+    assert_response :success
+  end
+
   test "show hides membership request panel for support-only pending member" do
     member = members(:mary)
     member.update!(

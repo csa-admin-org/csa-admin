@@ -89,7 +89,12 @@ ActiveAdmin.register Delivery do
           complement_counts = delivery.basket_complement_counts
           if counts.present? || complement_counts.present?
             render partial: "active_admin/deliveries/baskets",
-              locals: { delivery: delivery, scope: :active }
+              locals: {
+                delivery: delivery,
+                scope: :active,
+                counts: counts,
+                complement_counts: complement_counts
+              }
 
             div class: "mt-4" do
               render partial: "active_admin/deliveries/absences", locals: { delivery: delivery }

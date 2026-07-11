@@ -15,6 +15,20 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     get "/sessions/#{session.generate_token_for(:redeem)}"
   end
 
+  test "index renders activity and billing sidebars" do
+    travel_to "2024-05-01"
+    login admins(:super)
+
+    get memberships_path, params: {
+      q: {
+        activity_participations_accepted_gt: 0,
+        during_year: 2024
+      }
+    }
+
+    assert_response :success
+  end
+
   test "show displays stop action and icon-only destroy action with confirmations" do
     travel_to "2024-05-01"
     membership = memberships(:jane)

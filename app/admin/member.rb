@@ -50,7 +50,6 @@ ActiveAdmin.register Member do
     if: proc { feature?("annual_fee") }
   filter :sepa, as: :boolean, if: proc { Current.org.sepa_configured? }
 
-  includes :shop_depot, :shop_delivery_cycle, next_basket: [ :basket_size, :depot, :membership, baskets_basket_complements: :basket_complement ]
   index do
     column :id
     if params[:scope] == "waiting"
@@ -128,7 +127,7 @@ ActiveAdmin.register Member do
     if BasketComplement.kept.any?
       column(:waiting_basket_complements) { |m|
         basket_complements_description(
-          m.members_basket_complements.includes(:basket_complement),
+          m.members_basket_complements,
           text_only: true,
           public_name: false)
       }
@@ -965,13 +964,38 @@ ActiveAdmin.register Member do
     def scoped_collection
       collection = Member.kept
       if request.format.csv?
-        collection = collection.includes(
+        return collection.preload(
           :waiting_basket_size,
           :waiting_depot,
           :waiting_delivery_cycle,
-          :waiting_basket_complements)
+          :waiting_alternative_depots,
+          :shop_depot,
+          :shop_delivery_cycle,
+          members_basket_complements: :basket_complement)
       end
-      collection
+
+      return collection unless params[:action] == "index"
+
+      case Current.org.member_form_mode
+      when "membership"
+        if params[:scope].in?(%w[pending waiting])
+          collection.preload(:waiting_depot, :waiting_alternative_depots)
+        elsif params[:scope].in?([ nil, "all", "active" ])
+          collection.preload(
+            next_basket: [ :basket_size, :depot, :membership,
+              baskets_basket_complements: :basket_complement ])
+        else
+          collection
+        end
+      when "shop"
+        if params[:scope] == "inactive"
+          collection
+        else
+          collection.preload(:shop_depot, current_or_future_membership: :depot)
+        end
+      else
+        collection
+      end
     end
 
     def create_resource(object)

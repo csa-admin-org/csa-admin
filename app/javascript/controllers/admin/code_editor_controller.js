@@ -20,7 +20,8 @@ export default class extends Controller {
   }
 
   initialize() {
-    this.updatePreview = debounce(500, this.updatePreview)
+    this.fetchPreview = debounce(500, this.fetchPreview.bind(this))
+    this.previewRevision = 0
   }
 
   editorTargetConnected(element) {
@@ -70,28 +71,51 @@ export default class extends Controller {
   }
 
   disconnect() {
+    this.fetchPreview.cancel?.()
+    this.invalidatePreview()
     this.jar?.destroy()
   }
 
   updatePreview() {
+    this.invalidatePreview()
+    this.fetchPreview(this.previewRevision)
+  }
+
+  invalidatePreview() {
+    this.previewRevision += 1
+    this.previewAbortController?.abort()
+    this.previewAbortController = null
+  }
+
+  async fetchPreview(revision) {
     const path = this.previewPathValue
 
-    if (this.hasFormTarget && path) {
-      const formData = new FormData(this.formTarget)
-      formData.delete("_method") // remove PATCH Rails form _method
-      const params = new URLSearchParams(formData)
-      fetch(path, {
+    if (!this.hasFormTarget || !path) return
+
+    const abortController = new AbortController()
+    this.previewAbortController = abortController
+
+    const formData = new FormData(this.formTarget)
+    formData.delete("_method") // remove PATCH Rails form _method
+    const params = new URLSearchParams(formData)
+
+    try {
+      const response = await fetch(path, {
         method: "POST",
-        body: params
+        body: params,
+        signal: abortController.signal
       })
-        .then((response) => response.text())
-        .then((js) => {
-          try {
-            eval(js)
-          } catch (e) {
-            console.error(e)
-          }
-        })
+      const js = await response.text()
+
+      if (abortController.signal.aborted || revision !== this.previewRevision) return
+
+      eval(js)
+    } catch (error) {
+      if (error.name !== "AbortError") console.error(error)
+    } finally {
+      if (this.previewAbortController === abortController) {
+        this.previewAbortController = null
+      }
     }
   }
 }

@@ -7,6 +7,13 @@ class DeliveryCycle::DeliveriesTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
   end
 
+  test "for preloads cycle periods" do
+    cycles = DeliveryCycle.for(deliveries(:monday_1))
+
+    assert_predicate cycles, :any?
+    assert cycles.all? { |cycle| cycle.association(:periods).loaded? }
+  end
+
   test "only mondays" do
     cycle = delivery_cycles(:mondays)
 

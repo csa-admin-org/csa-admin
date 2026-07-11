@@ -28,7 +28,12 @@ ActiveAdmin.register_page "Dashboard" do
               complement_counts = next_delivery.basket_complement_counts
               if counts.present? || complement_counts.present?
                 render partial: "active_admin/deliveries/baskets",
-                  locals: { delivery: next_delivery, scope: :active }
+                  locals: {
+                    delivery: next_delivery,
+                    scope: :active,
+                    counts: counts,
+                    complement_counts: complement_counts
+                  }
 
                 if next_delivery.note?
                   para class: "mt-4 p-2 px-2.5 text-sm rounded-md bg-green-200 dark:bg-green-900" do

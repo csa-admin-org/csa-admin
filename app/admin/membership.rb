@@ -71,7 +71,7 @@ ActiveAdmin.register Membership do
   filter :activity_participations_demanded, if: proc { feature?("activity") }
   filter :activity_participations_missing, as: :numeric, if: proc { feature?("activity") }
 
-  includes :member, :baskets, :delivery_cycle
+  includes :member
   index do
     column :id
     column :member, sortable: "members.name"
@@ -107,18 +107,23 @@ ActiveAdmin.register Membership do
     ].any? { |a| params.dig(:q, a).present? }
   } do
     side_panel activities_human_name do
-      ids = collection.offset(nil).limit(nil).unscope(:includes, :joins, :order).pluck(:id)
-      all = Membership.where(id: ids)
-      %w[ accepted demanded missing ].each do |state|
-        div number_line t("states.activity_participation.#{state}").capitalize, all.sum(&"activity_participations_#{state}".to_sym)
+      all = Membership.where(id: collection.offset(nil).limit(nil).unscope(:includes, :joins, :order).select(:id))
+      accepted, demanded = all.pick(
+        Arel.sql("COALESCE(SUM(activity_participations_accepted), 0)"),
+        Arel.sql("COALESCE(SUM(activity_participations_demanded), 0)"))
+      {
+        accepted: accepted,
+        demanded: demanded,
+        missing: all.sum(&:activity_participations_missing)
+      }.each do |state, count|
+        div number_line t("states.activity_participation.#{state}").capitalize, count
       end
     end
   end
 
   sidebar :billing, only: :index, if: -> { params.dig(:q, :during_year).present? } do
     side_panel t(".billing"), action: handbook_icon_link("billing", anchor: "memberships") do
-      ids = collection.offset(nil).limit(nil).unscope(:includes, :joins, :order).pluck(:id)
-      all = Membership.where(id: ids)
+      all = Membership.where(id: collection.offset(nil).limit(nil).unscope(:includes, :joins, :order).select(:id))
       total = all.sum(:price)
       invoiced = all.sum(:invoices_amount)
       missing = [ total - invoiced, 0 ].max
@@ -134,7 +139,7 @@ ActiveAdmin.register Membership do
             div do
               panel_button t("active_admin.resource.show.future_billing"), future_billing_all_memberships_path,
                 icon: "banknotes",
-                params: { ids: ids },
+                params: { ids: all.ids },
                 form: { class: "flex justify-center", data: { disable_with_value: t(".invoicing") } },
                 data: { confirm: t(".future_billing#{"_with_annual_fee" if feature?("annual_fee")}_confirm") }
             end

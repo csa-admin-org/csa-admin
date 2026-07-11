@@ -93,15 +93,20 @@ class Newsletter
     end
 
     def blocks
-      content_block_ids.map { |block_id|
+      content_blocks_by_locale = content_blocks
+      block_ids =
+        @content_block_ids ||=
+          content_blocks_by_locale.flat_map { |_locale, blocks| blocks.map(&:id) }.uniq
+
+      block_ids.map { |block_id|
         Newsletter::Block.new(
           block_id: block_id,
           template_id: id,
-          contents: content_blocks.map { |locale, blocks|
+          contents: content_blocks_by_locale.map { |locale, blocks|
             block = blocks.find { |b| b.id == block_id }
             [ locale, block.raw_body ]
           }.to_h,
-          titles: content_blocks.map { |locale, blocks|
+          titles: content_blocks_by_locale.map { |locale, blocks|
             block = blocks.find { |b| b.id == block_id }
             [ locale, block.title ]
           }.to_h)

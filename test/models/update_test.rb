@@ -8,6 +8,14 @@ class UpdateTest < ActiveSupport::TestCase
     assert_not_includes updates.first.name, ".#{I18n.locale}"
   end
 
+  test "all instantiates fresh updates from cached metadata" do
+    first_update = Update.all.first
+    second_update = Update.all.first
+
+    assert_equal first_update.name, second_update.name
+    assert_not_same first_update, second_update
+  end
+
   test "unread_count" do
     updates = Update.all
 

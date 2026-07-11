@@ -48,6 +48,15 @@ class BasketComplementTest < ActiveSupport::TestCase
     end
   end
 
+  test "deliveries_count supports preloaded deliveries" do
+    travel_to "2024-01-01"
+    complement = BasketComplement.preload(:future_deliveries, :current_deliveries).find(bread_id)
+
+    assert_predicate complement.association(:future_deliveries), :loaded?
+    assert_predicate complement.association(:current_deliveries), :loaded?
+    assert_equal 10, complement.deliveries_count
+  end
+
   test "adds/removes basket_complement on subscribed baskets" do
     travel_to "2024-01-01"
     eggs = basket_complements(:eggs)

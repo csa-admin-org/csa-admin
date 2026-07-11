@@ -5,19 +5,21 @@ require "kramdown"
 class Update
   include Comparable
 
+  Metadata = Data.define(:path, :name, :date)
+
   def self.all
-    path = Rails.root.join("app/views/updates", "*.#{I18n.locale}.md.erb")
-    Dir.glob(path).map { |path| new(path) }.sort.reverse
+    metadata.map { |update| new(update.path) }
   end
 
   def self.unread_count(admin)
-    return all.size unless admin.latest_update_read?
+    updates = metadata
+    return updates.size unless admin.latest_update_read?
 
-    all.map(&:name).index(admin.latest_update_read) || 1
+    updates.index { |update| update.name == admin.latest_update_read } || 1
   end
 
   def self.mark_as_read!(admin)
-    admin.update!(latest_update_read: all.first.name)
+    admin.update!(latest_update_read: metadata.first.name)
   end
 
   def initialize(filepath)
@@ -42,6 +44,24 @@ class Update
 
   def <=>(other)
     date <=> other.date
+  end
+
+  class << self
+    private
+
+    def metadata
+      @metadata_by_locale ||= {}
+      @metadata_by_locale[I18n.locale] ||= begin
+        path = Rails.root.join("app/views/updates", "*.#{I18n.locale}.md.erb")
+        Dir.glob(path).map { |filepath|
+          filename = File.basename(filepath, ".md.erb")
+          Metadata.new(
+            path: filepath,
+            name: filename.sub(/\A_\d{8}_/, "").sub(/\.#{I18n.locale}\z/, ""),
+            date: Date.parse(filename[/\d+/]))
+        }.sort_by(&:date).reverse.freeze
+      end
+    end
   end
 
   private

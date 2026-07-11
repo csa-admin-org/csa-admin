@@ -150,6 +150,7 @@ class Newsletter < ApplicationRecord
   end
 
   def liquid_data_preview_yamls=(hash)
+    @liquid_data_preview_yamls = nil
     @liquid_data_previews = hash.map { |locale, yaml|
       data = begin
         YAML.load("---\n#{yaml}")
@@ -160,7 +161,7 @@ class Newsletter < ApplicationRecord
   end
 
   def liquid_data_preview_yamls
-    Current.org.languages.map { |locale|
+    @liquid_data_preview_yamls ||= Current.org.languages.map { |locale|
       data =
         @liquid_data_previews&.dig(locale)
           || I18n.with_locale(locale) { Liquid::DataPreview.for(self) }
@@ -179,22 +180,11 @@ class Newsletter < ApplicationRecord
   def email_method; :newsletter_email end
 
   def relevant_blocks
-    blocks.select { |b| b.template_id == template.id }
+    @relevant_blocks ||= blocks_for([ template ])
   end
 
   def blocks
-    @blocks ||= begin
-      blocks = super
-      Newsletter::Template.all.flat_map(&:blocks).map do |t_block|
-        if block = blocks.find { |b| b.block_id == t_block.block_id }
-          t_block.contents = block.contents
-          if t_block.template_id == newsletter_template_id
-            t_block.id = block.id
-          end
-        end
-        t_block
-      end
-    end
+    @blocks ||= blocks_for(Newsletter::Template.all)
   end
 
   def can_destroy?
@@ -218,6 +208,18 @@ class Newsletter < ApplicationRecord
   end
 
   private
+
+  def blocks_for(templates)
+    newsletter_blocks = association(:blocks).load_target
+
+    templates.flat_map(&:blocks).map do |template_block|
+      if block = newsletter_blocks.find { |b| b.block_id == template_block.block_id }
+        template_block.contents = block.contents
+        template_block.id = block.id if template_block.template_id == newsletter_template_id
+      end
+      template_block
+    end
+  end
 
   def subjects_must_be_valid
     validate_liquid(:subjects)

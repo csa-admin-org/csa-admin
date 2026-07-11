@@ -12,12 +12,11 @@ cal.url = Current.org.members_url
 cal.image = org_logo_url
 cal.refresh_interval = "P1W"
 
-last_modified = @baskets.maximum(:updated_at) || Time.current
 tzid = Time.zone.tzinfo.name
 tz = TZInfo::Timezone.get(tzid)
-timezone = tz.ical_timezone(last_modified)
+timezone = tz.ical_timezone(@calendar_last_modified)
 cal.add_timezone timezone
-cal.last_modified = last_modified
+cal.last_modified = @calendar_last_modified
 
 green = "#19A24A"
 cal.color = green

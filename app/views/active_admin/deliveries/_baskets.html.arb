@@ -2,19 +2,25 @@
 
 require "ostruct"
 
-counts = delivery.basket_counts(scope: scope)
 bs_names = counts.basket_sizes.map(&:name).map { |name| content_tag :span, name, class: "whitespace-nowrap" }
 show_shop_orders = feature?("shop") && delivery.shop_open && scope != :absent
+counts_by_depot = counts.all
 summary_sections = delivery.basket_summary_sections.filter_map do |section|
   rows = section.rows.filter_map do |row|
-    row_counts = BasketCounts.new(delivery, row.depot_ids, scope: scope)
-    next if row_counts.sum.zero? && (!show_shop_orders || row_counts.sum_shop_orders.zero?)
+    row_counts = counts_by_depot.select { |count| row.depot_ids.include?(count.depot_id) }
+    basket_count = row_counts.sum(&:count)
+    shop_orders_count = row_counts.sum(&:shop_orders_count)
+    next if basket_count.zero? && (!show_shop_orders || shop_orders_count.zero?)
+
+    baskets_count = counts.basket_sizes.each_with_index.map do |_basket_size, index|
+      row_counts.sum { |count| count.basket_sizes_count[index] }
+    end.join(" / ")
 
     OpenStruct.new(
       title: row.title,
-      count: row_counts.sum,
-      baskets_count: row_counts.sum_detail,
-      shop_orders_count: row_counts.sum_shop_orders)
+      count: basket_count,
+      baskets_count: baskets_count,
+      shop_orders_count: shop_orders_count)
   end
   rows if rows.any?
 end
@@ -67,9 +73,8 @@ end
 
 if BasketComplement.kept.any?
   div class: "mt-6" do
-    counts = delivery.basket_complement_counts(scope: scope)
-    if counts.any?
-      table_for counts, class: "" do
+    if complement_counts.any?
+      table_for complement_counts, class: "" do
         column BasketsBasketComplement.model_name.human, :title, class: "w-2/5"
         if show_shop_orders
           column link_to(t("shop.title"), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: "text-right"

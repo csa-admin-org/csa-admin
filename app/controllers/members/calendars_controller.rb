@@ -2,20 +2,22 @@
 
 class Members::CalendarsController < Members::BaseController
   def show
-    @baskets = @member.baskets.filled.between(period_range)
-    @participations = @member.activity_participations.between(period_range)
+    range = period_range
+    baskets = @member.baskets.filled.between(range)
+    participations = @member.activity_participations.between(range)
 
     last_changed = [
-      @baskets,
-      @participations
-    ].map { |rel| rel.maximum(:updated_at) }.compact.max
-    fresh_when last_modified: last_changed
+      baskets.maximum(:updated_at),
+      participations.maximum(:updated_at)
+    ].compact.max
+    return unless stale?(last_modified: last_changed)
 
+    @calendar_last_modified = last_changed || Time.current
     @baskets =
-      @baskets.includes(:delivery, :basket_size, :depot,
+      baskets.includes(:delivery, :basket_size, :depot,
         baskets_basket_complements: :basket_complement)
     @activity_participations =
-      ActivityParticipationGroup.group(@participations.includes(:activity))
+      ActivityParticipationGroup.group(participations.includes(:activity))
   end
 
   private

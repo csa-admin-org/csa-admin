@@ -83,8 +83,8 @@ class BasketComplement < ApplicationRecord
 
   def deliveries_count
     @deliveries_count ||= begin
-      future_count = future_deliveries.count
-      future_count.positive? ? future_count : current_deliveries.count
+      future_count = future_deliveries.size
+      future_count.positive? ? future_count : current_deliveries.size
     end
   end
 

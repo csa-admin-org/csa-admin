@@ -263,6 +263,35 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_equal [ 3, 2 ], member.members_basket_complements.map(&:quantity)
   end
 
+  test "keeps custom complement quantities after an invalid registration" do
+    org(member_form_complement_quantities: true)
+
+    visit "/new"
+
+    fill_in "Name and surname", with: "John Doe"
+    fill_in "Address", with: "Nowhere street 2"
+    fill_in "ZIP", with: "2042"
+    fill_in "City", with: "Moon City"
+    fill_in "Email(s)", with: "john@doe.com"
+    fill_in "Phone(s)", with: "077 142 42 42"
+
+    choose "Large basket"
+    fill_in "Bread", with: "3"
+    fill_in "Eggs", with: "2"
+    choose "Base price"
+    choose "Our farm"
+    choose "Mondays"
+    choose "Annual"
+    check "I have read and agree to the rules."
+    fill_in_cap
+
+    click_button "Submit"
+
+    assert_text "An active account already exists for this email address!"
+    assert_field "Bread", with: "3"
+    assert_field "Eggs", with: "2"
+  end
+
   test "creates a new member with custom activity participations" do
     org(activity_participations_form_min: 0)
     basket_complements(:eggs).update!(activity_participations_demanded_annually: 1)
