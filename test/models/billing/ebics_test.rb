@@ -87,26 +87,41 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     assert_equal "pain.008.001.08", Billing::EBICS.new(credentials, settings: settings).sepa_direct_debit_schema
   end
 
-  test "explicit BTF settings use the H005 direct debit upload operation" do
-    settings = {
-      "uploads" => {
-        "sepa_direct_debit" => {
-          "mode" => "btf",
-          "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload
-        }
-      }
-    }
+  test "explicit BTF settings send raw PAIN through the non-container upload operation" do
     client = BtfClientStub.new([])
 
     assert_equal [ "TX123", "A001" ], Billing::EBICS
-      .new(credentials, settings: settings, ebics_client: client)
+      .new(credentials, settings: upload_btf_settings, ebics_client: client)
       .sepa_direct_debit_upload("pain-xml")
 
     method, operation, document = client.calls.first
     assert_equal :upload, method
     assert_equal "BTU", operation.order_type
     assert_equal "pain.008", operation.btf.fetch("message_name")
+    assert_not operation.btf.key?("scope")
+    assert_not operation.btf.key?("container")
     assert_equal "pain-xml", document
+  end
+
+  test "SEPA direct debit upload refuses XML-container settings before sending raw PAIN" do
+    settings = upload_btf_settings.deep_merge(
+      "uploads" => {
+        "sepa_direct_debit" => {
+          "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(
+            scope: "DE",
+            container: "XML",
+            version: nil)
+        }
+      })
+    client = BtfClientStub.new([])
+
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+      Billing::EBICS.new(credentials, settings: settings, ebics_client: client)
+        .sepa_direct_debit_upload("pain-xml")
+    end
+
+    assert_equal "EBICS BTF SEPA direct debit uploads require a non-container service", error.message
+    assert_empty client.calls
   end
 
   test "process payments uses ACK-after-processor for BTF downloads" do
@@ -224,7 +239,7 @@ class Billing::EBICSTest < ActiveSupport::TestCase
         "sepa_direct_debit" => {
           "mode" => "btf",
           "schema" => "pain.008.001.08",
-          "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML", version: nil)
+          "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(version: nil)
         }
       })
   end

@@ -4274,6 +4274,12 @@ _:
             _de: muss bei Aktivierung das EBICS-Protokoll H005 verwenden
             _it: deve utilizzare il protocollo EBICS H005 quando è attiva
             _nl: moet het EBICS-protocol H005 gebruiken wanneer actief
+          must_use_non_container_btu_sepa_direct_debit_upload:
+            _en: must use a non-container BTU service for SEPA direct debit uploads
+            _fr: doit utiliser un service BTU sans conteneur pour l'envoi des prélèvements SEPA
+            _de: muss einen containerfreien BTU-Dienst für den SEPA-Lastschriftversand verwenden
+            _it: deve utilizzare un servizio BTU senza contenitore per l'invio degli addebiti diretti SEPA
+            _nl: moet een BTU-service zonder container gebruiken voor het verzenden van SEPA-incasso's
           must_use_pain_008_for_btu:
             _en: must use pain.008 for BTU SEPA direct debit uploads
             _fr: doit utiliser pain.008 pour les envois BTU de prélèvements SEPA

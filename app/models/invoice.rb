@@ -46,7 +46,16 @@ class Invoice < ApplicationRecord
     open? || (date.present? && date >= self.class.search_min_date)
   end
 
-  audited_attributes :state, :sent_at, :sepa_direct_debit_order_uploaded_at
+  audited_attributes \
+    :state,
+    :sent_at,
+    :sepa_direct_debit_order_uploaded_at,
+    :sepa_direct_debit_order_id,
+    :sepa_direct_debit_transaction_id,
+    :sepa_direct_debit_submission_state,
+    :sepa_direct_debit_submission_attempted_at,
+    :sepa_direct_debit_pain_message_id,
+    :sepa_direct_debit_pain_payload_sha256
 
   belongs_to :member
   has_many :items, class_name: "InvoiceItem", dependent: :destroy

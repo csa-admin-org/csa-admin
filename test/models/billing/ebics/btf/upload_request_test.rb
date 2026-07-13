@@ -12,7 +12,7 @@ class Billing::EBICS::Btf::UploadRequestTest < ActiveSupport::TestCase
   test "builds a deterministic H005 BTU initialisation request" do
     request = Billing::EBICS::Btf::UploadRequest.new(
       client: FakeClient.new,
-      operation: operation(Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML")),
+      operation: operation(Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(version: nil)),
       document: "<Document>pain</Document>",
       nonce: "0123456789abcdef0123456789abcdef",
       timestamp: "2026-07-01T12:00:00Z",
@@ -24,11 +24,11 @@ class Billing::EBICS::Btf::UploadRequestTest < ActiveSupport::TestCase
     assert_equal "BTU", text(xml, "//h:AdminOrderType")
     assert_equal "1", text(xml, "//h:NumSegments")
     assert_equal "SDD", text(xml, "//h:ServiceName")
-    assert_equal "DE", text(xml, "//h:Scope")
     assert_equal "COR", text(xml, "//h:ServiceOption")
-    assert_equal "XML", xml.at_xpath("//h:Container", h: H005_NAMESPACE)["containerType"]
+    assert_nil xml.at_xpath("//h:Scope", h: H005_NAMESPACE)
+    assert_nil xml.at_xpath("//h:Container", h: H005_NAMESPACE)
     assert_equal "pain.008", text(xml, "//h:MsgName")
-    assert_equal "08", xml.at_xpath("//h:MsgName", h: H005_NAMESPACE)["version"]
+    assert_nil xml.at_xpath("//h:MsgName", h: H005_NAMESPACE)["version"]
     assert xml.at_xpath("//h:SignatureFlag", h: H005_NAMESPACE)
     assert_equal "ENCRYPTED-TRANSACTION-KEY", text(xml, "//h:TransactionKey")
     assert_equal "ENCRYPTED-SIGNATURE-DATA", text(xml, "//h:SignatureData")
@@ -41,7 +41,7 @@ class Billing::EBICS::Btf::UploadRequestTest < ActiveSupport::TestCase
     client = Billing::EBICS::KeyStore.new(synthetic_ebics_credentials)
     request = Billing::EBICS::Btf::UploadRequest.new(
       client: client,
-      operation: operation(Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML")),
+      operation: operation(Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(version: nil)),
       document: "<Document>pain</Document>",
       nonce: "0123456789abcdef0123456789abcdef",
       timestamp: "2026-07-01T12:00:00Z",

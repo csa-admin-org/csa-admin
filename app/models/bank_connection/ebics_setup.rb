@@ -52,10 +52,7 @@ class BankConnection::EBICSSetup
           "sepa_direct_debit" => {
             "mode" => "btf",
             "schema" => "pain.008.001.08",
-            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(
-              scope: "DE",
-              container: "XML",
-              version: nil)
+            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(version: nil)
           }
         }
       end

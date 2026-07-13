@@ -65,11 +65,14 @@ class BankConnection::EBICSSetupTest < ActiveSupport::TestCase
     assert_equal "camt.053", settings.dig("downloads", "payments", "btf", "message_name")
     assert_equal "btf", settings.dig("uploads", "sepa_direct_debit", "mode")
     assert_equal "pain.008.001.08", settings.dig("uploads", "sepa_direct_debit", "schema")
-    assert_equal "BTU", settings.dig("uploads", "sepa_direct_debit", "btf", "order_type")
-    assert_equal "SDD", settings.dig("uploads", "sepa_direct_debit", "btf", "service_name")
-    assert_equal "DE", settings.dig("uploads", "sepa_direct_debit", "btf", "scope")
-    assert_equal "XML", settings.dig("uploads", "sepa_direct_debit", "btf", "container")
-    assert_equal "pain.008", settings.dig("uploads", "sepa_direct_debit", "btf", "message_name")
+    btf = settings.dig("uploads", "sepa_direct_debit", "btf")
+    assert_equal "BTU", btf.fetch("order_type")
+    assert_equal "SDD", btf.fetch("service_name")
+    assert_equal "COR", btf.fetch("service_option")
+    assert_equal "pain.008", btf.fetch("message_name")
+    assert_not btf.key?("scope")
+    assert_not btf.key?("container")
+    assert_not btf.key?("version")
   end
 
   test "adds live endpoint check errors" do

@@ -75,6 +75,22 @@ class Billing::EBICS::OperationConfigTest < ActiveSupport::TestCase
     assert_equal "Active EBICS sepa_direct_debit_upload must use BTU BTF settings", error.message
   end
 
+  test "rejects XML-container settings for raw direct debit uploads" do
+    config = Billing::EBICS::OperationConfig.new({
+      "uploads" => {
+        "sepa_direct_debit" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(
+            scope: "DE",
+            container: "XML")
+        }
+      }
+    })
+
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) { config.sepa_direct_debit_upload }
+    assert_equal "EBICS BTF SEPA direct debit uploads require a non-container service", error.message
+  end
+
   test "requires direct debit upload schema from explicit schema or BTF version" do
     config = Billing::EBICS::OperationConfig.new({
       "uploads" => {

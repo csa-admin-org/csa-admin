@@ -12,7 +12,12 @@ module Billing
       end
 
       def sepa_direct_debit_upload
-        btf_operation(sepa_direct_debit_upload_settings, kind: "sepa_direct_debit_upload", order_type: "BTU")
+        operation = btf_operation(sepa_direct_debit_upload_settings, kind: "sepa_direct_debit_upload", order_type: "BTU")
+        if operation.btf.values_at("scope", "container").any?(&:present?)
+          raise UnsupportedOperation, "EBICS BTF SEPA direct debit uploads require a non-container service"
+        end
+
+        operation
       end
 
       def sepa_direct_debit_upload_schema

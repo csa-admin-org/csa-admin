@@ -271,7 +271,7 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
   end
 
   def upload_operation
-    Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", service_option: "COR", container: "XML", version: nil)
+    Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(service_option: "COR", version: nil)
   end
 
   def payment_service

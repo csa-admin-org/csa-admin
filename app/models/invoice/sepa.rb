@@ -80,19 +80,23 @@ module Invoice::SEPA
     (sent_at + Billing::SEPADirectDebit::AUTOMATIC_ORDER_UPLOAD_DELAY).to_date
   end
 
-  def upload_sepa_direct_debit_order
+  def upload_sepa_direct_debit_order(force: false)
     return if Rails.env.development?
-    return unless sepa_direct_debit_order_uploadable?
+    return unless force || sepa_direct_debit_order_uploadable?
 
     bank_connection = Current.org.bank_connection
     return unless bank_connection
 
-    message_id, generated_at = sepa_direct_debit_order_submission_attempt
-    pain_xml = sepa_direct_debit_pain_xml(message_id: message_id, generated_at: generated_at)
-    ensure_sepa_direct_debit_submission_payload_matches!(pain_xml)
-
-    submission_claimed = claim_sepa_direct_debit_order_submission(message_id, pain_xml, generated_at)
-    return unless submission_claimed
+    if force
+      pain_xml = claim_forced_sepa_direct_debit_order_submission
+      submission_claimed = true
+    else
+      message_id, generated_at = sepa_direct_debit_order_submission_attempt
+      pain_xml = sepa_direct_debit_pain_xml(message_id: message_id, generated_at: generated_at)
+      ensure_sepa_direct_debit_submission_payload_matches!(pain_xml)
+      submission_claimed = claim_sepa_direct_debit_order_submission(message_id, pain_xml, generated_at)
+      return unless submission_claimed
+    end
 
     transaction_id, order_id = bank_connection.sepa_direct_debit_upload(pain_xml)
     record_sepa_direct_debit_order_submission!(transaction_id, order_id)
@@ -100,6 +104,8 @@ module Invoice::SEPA
       invoice_id: id,
       order_id: order_id)
     true
+  rescue SubmissionReconciliationError
+    raise
   rescue => e
     mark_sepa_direct_debit_order_submission_uncertain! if submission_claimed
     context = sepa_direct_debit_upload_context(error_class: e.class.name)
@@ -190,6 +196,52 @@ module Invoice::SEPA
       sepa_direct_debit_pain_message_id: message_id,
       sepa_direct_debit_pain_payload_sha256: Digest::SHA256.hexdigest(pain_xml),
       updated_at: Time.current) == 1
+  end
+
+  def claim_forced_sepa_direct_debit_order_submission
+    with_lock do
+      ensure_sepa_direct_debit_order_force_uploadable!
+      message_id = "CSAADMIN/#{SecureRandom.hex(11)}"
+      generated_at = Time.current
+      pain_xml = sepa_direct_debit_pain_xml(message_id: message_id, generated_at: generated_at)
+      update!(
+        sepa_direct_debit_transaction_id: nil,
+        sepa_direct_debit_order_id: nil,
+        sepa_direct_debit_order_uploaded_at: nil,
+        sepa_direct_debit_submission_state: "submitting",
+        sepa_direct_debit_submission_attempted_at: generated_at,
+        sepa_direct_debit_pain_message_id: message_id,
+        sepa_direct_debit_pain_payload_sha256: Digest::SHA256.hexdigest(pain_xml))
+      pain_xml
+    end
+  end
+
+  def ensure_sepa_direct_debit_order_force_uploadable!
+    return if open? && sepa? && sent? && payments.none? &&
+      sepa_direct_debit_order_id? && sepa_direct_debit_order_uploaded_at? &&
+      sepa_direct_debit_force_identity_reconcilable? &&
+      Current.org.bank_connection_sepa_direct_debit_upload?
+
+    raise SubmissionReconciliationError,
+      "Forced SEPA direct debit resubmission requires a bank-confirmed rejected submitted order"
+  end
+
+  def sepa_direct_debit_force_identity_reconcilable?
+    if sepa_direct_debit_submission_state.nil?
+      [
+        sepa_direct_debit_transaction_id,
+        sepa_direct_debit_submission_attempted_at,
+        sepa_direct_debit_pain_message_id,
+        sepa_direct_debit_pain_payload_sha256
+      ].all?(&:blank?)
+    elsif sepa_direct_debit_submission_state == "submitted"
+      sepa_direct_debit_transaction_id? &&
+        sepa_direct_debit_submission_attempted_at? &&
+        sepa_direct_debit_pain_message_id? &&
+        sepa_direct_debit_pain_payload_sha256?
+    else
+      false
+    end
   end
 
   def record_sepa_direct_debit_order_submission!(transaction_id, order_id)

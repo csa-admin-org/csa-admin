@@ -51,7 +51,9 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_includes transport.requests.first, "<BTUOrderParams>"
     assert_includes transport.requests.first, "<ServiceName>SDD</ServiceName>"
     assert_includes transport.requests.first, "<ServiceOption>COR</ServiceOption>"
-    assert_includes transport.requests.first, "<MsgName version=\"08\">pain.008</MsgName>"
+    assert_not_includes transport.requests.first, "<Scope>"
+    assert_not_includes transport.requests.first, "<Container"
+    assert_includes transport.requests.first, "<MsgName>pain.008</MsgName>"
     assert_includes transport.requests.first, "<SignatureData authenticate=\"true\">"
     assert_includes transport.requests.first, "<DataDigest SignatureVersion=\"A006\">"
     assert_includes transport.requests.second, "<TransactionPhase>Transfer</TransactionPhase>"
@@ -702,7 +704,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
   end
 
   def btu_operation
-    Billing::EBICS::Operation.btf(Billing::EBICS::Btf::Presets.sepa_direct_debit_upload)
+    Billing::EBICS::Operation.btf(Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(version: nil))
   end
 
   def credentials

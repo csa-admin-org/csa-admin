@@ -94,13 +94,18 @@ SEPA direct-debit upload example. Keep the same top-level
   "sepa_direct_debit" => {
     "mode" => "btf",
     "schema" => "pain.008.001.08",
-    "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(
-      scope: "DE",
-      container: "XML",
-      version: nil)
+    "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(version: nil)
   }
 }
 ```
+
+CSA Admin uploads a bare `pain.008` document and therefore requires the
+non-container `BTU / SDD / COR / pain.008` service. Do not add `scope: "DE"`
+or `container: "XML"`: that tuple declares the German DK XML-container
+variant, whose payload format CSA Admin does not generate. Confirm that the
+bank advertises the non-container service before activating direct-debit
+uploads. CSA Admin keeps EBICS direct-debit uploads unavailable until the stored
+HTD capabilities contain that service.
 
 A successful H005 `BTU` direct-debit upload means the EBICS transport accepted
 the file and returned a transaction/order identifier. It is not final proof that

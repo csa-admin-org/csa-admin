@@ -255,9 +255,10 @@ class Invoice::SEPATest < ActiveSupport::TestCase
           "sepa_direct_debit" => {
             "mode" => "btf",
             "schema" => "pain.008.001.08",
-            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML", version: nil)
+            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(version: nil)
           }
-        }))
+        }),
+      capabilities: sepa_direct_debit_upload_capabilities)
     member = members(:anna)
     member.update!(language: "de", country_code: "DE")
     member.sepa_mandates.create!(
@@ -362,6 +363,138 @@ class Invoice::SEPATest < ActiveSupport::TestCase
     assert invoice.sepa_direct_debit_pain_message_id?
     assert invoice.sepa_direct_debit_pain_payload_sha256?
     assert_not invoice.sepa_direct_debit_order_uploadable?
+  end
+
+  test "forced upload audits the rejected submission and claims a new PAIN identity before upload" do
+    invoice = sepa_uploadable_invoice
+    old_uploaded_at = Time.zone.parse("2026-07-03 10:35:26")
+    old_attempted_at = Time.zone.parse("2026-07-03 10:35:25")
+    invoice.update_columns(
+      sepa_direct_debit_submission_state: "submitted",
+      sepa_direct_debit_submission_attempted_at: old_attempted_at,
+      sepa_direct_debit_transaction_id: "OLD-TRANSACTION",
+      sepa_direct_debit_order_id: "N0DD",
+      sepa_direct_debit_order_uploaded_at: old_uploaded_at,
+      sepa_direct_debit_pain_message_id: "CSAADMIN/rejected-message",
+      sepa_direct_debit_pain_payload_sha256: "a" * 64)
+    submitted_xml = nil
+    test_case = self
+    connection = Object.new
+    connection.define_singleton_method(:sepa_direct_debit_upload) do |pain_xml|
+      submitted_xml = pain_xml
+      claimed_invoice = Invoice.find(invoice.id)
+      test_case.assert_equal "submitting", claimed_invoice.sepa_direct_debit_submission_state
+      test_case.assert_nil claimed_invoice.sepa_direct_debit_transaction_id
+      test_case.assert_nil claimed_invoice.sepa_direct_debit_order_id
+      test_case.assert_nil claimed_invoice.sepa_direct_debit_order_uploaded_at
+      test_case.refute_equal "CSAADMIN/rejected-message", claimed_invoice.sepa_direct_debit_pain_message_id
+      test_case.assert_equal pain_xml[/<MsgId>([^<]+)/, 1], claimed_invoice.sepa_direct_debit_pain_message_id
+      test_case.assert_equal Digest::SHA256.hexdigest(pain_xml), claimed_invoice.sepa_direct_debit_pain_payload_sha256
+      [ "NEW-TRANSACTION", "NEW-ORDER" ]
+    end
+
+    assert_difference(-> { invoice.audits.count }, 2) do
+      Current.org.stub(:bank_connection, connection) do
+        assert invoice.upload_sepa_direct_debit_order(force: true)
+      end
+    end
+
+    invoice.reload
+    forced_audit = invoice.audits.find { |audit|
+      audit.audited_changes.dig("sepa_direct_debit_order_id", 0) == "N0DD"
+    }
+    assert_equal System.instance, forced_audit.actor
+    assert_equal [ "N0DD", nil ], forced_audit.audited_changes.fetch("sepa_direct_debit_order_id")
+    assert_equal [ "OLD-TRANSACTION", nil ], forced_audit.audited_changes.fetch("sepa_direct_debit_transaction_id")
+    assert_equal "CSAADMIN/rejected-message",
+      forced_audit.audited_changes.fetch("sepa_direct_debit_pain_message_id").first
+    assert_equal submitted_xml[/<MsgId>([^<]+)/, 1], invoice.sepa_direct_debit_pain_message_id
+    assert_equal "NEW-TRANSACTION", invoice.sepa_direct_debit_transaction_id
+    assert_equal "NEW-ORDER", invoice.sepa_direct_debit_order_id
+    assert_equal "submitted", invoice.sepa_direct_debit_submission_state
+  end
+
+  test "forced upload rejects invoices without a previously submitted order" do
+    invoice = sepa_uploadable_invoice
+
+    error = assert_raises(Invoice::SEPA::SubmissionReconciliationError) do
+      invoice.upload_sepa_direct_debit_order(force: true)
+    end
+
+    assert_equal "Forced SEPA direct debit resubmission requires a bank-confirmed rejected submitted order", error.message
+    assert_empty invoice.audits.select { |audit|
+      audit.audited_changes.key?("sepa_direct_debit_order_id")
+    }
+  end
+
+  test "forced upload rejects partially tracked submitted identities" do
+    invoice = sepa_uploadable_invoice
+    invoice.update_columns(
+      sepa_direct_debit_submission_state: "submitted",
+      sepa_direct_debit_order_id: "N0DD",
+      sepa_direct_debit_order_uploaded_at: Time.zone.parse("2026-07-03 10:35:26"))
+
+    assert_raises(Invoice::SEPA::SubmissionReconciliationError) do
+      invoice.upload_sepa_direct_debit_order(force: true)
+    end
+
+    invoice.reload
+    assert_equal "submitted", invoice.sepa_direct_debit_submission_state
+    assert_equal "N0DD", invoice.sepa_direct_debit_order_id
+  end
+
+  test "forced upload generates PAIN from the locked current invoice state" do
+    invoice = sepa_uploadable_invoice
+    invoice.update_columns(
+      sepa_direct_debit_order_id: "N0DD",
+      sepa_direct_debit_order_uploaded_at: Time.zone.parse("2026-07-03 10:35:26"))
+    Invoice.where(id: invoice.id).update_all(amount: 12.34)
+    submitted_xml = nil
+    connection = Object.new
+    connection.define_singleton_method(:sepa_direct_debit_upload) do |pain_xml|
+      submitted_xml = pain_xml
+      [ "NEW-TRANSACTION", "NEW-ORDER" ]
+    end
+
+    Current.org.stub(:bank_connection, connection) do
+      assert invoice.upload_sepa_direct_debit_order(force: true)
+    end
+
+    assert_includes submitted_xml, '<InstdAmt Ccy="EUR">12.34</InstdAmt>'
+  end
+
+  test "forced upload marks an ambiguous replacement uncertain and cannot be forced again" do
+    invoice = sepa_uploadable_invoice
+    invoice.update_columns(
+      sepa_direct_debit_submission_state: nil,
+      sepa_direct_debit_transaction_id: nil,
+      sepa_direct_debit_order_id: "N0DD",
+      sepa_direct_debit_order_uploaded_at: Time.zone.parse("2026-07-03 10:35:26"),
+      sepa_direct_debit_submission_attempted_at: nil,
+      sepa_direct_debit_pain_message_id: nil,
+      sepa_direct_debit_pain_payload_sha256: nil)
+    calls = 0
+    connection = Object.new
+    connection.define_singleton_method(:sepa_direct_debit_upload) do |_pain_xml|
+      calls += 1
+      raise Timeout::Error, "response lost"
+    end
+
+    Current.org.stub(:bank_connection, connection) do
+      assert_not invoice.upload_sepa_direct_debit_order(force: true)
+    end
+
+    invoice.reload
+    assert_equal 1, calls
+    assert_equal "uncertain", invoice.sepa_direct_debit_submission_state
+    assert_nil invoice.sepa_direct_debit_order_id
+    assert invoice.audits.any? { |audit|
+      audit.audited_changes.dig("sepa_direct_debit_order_id", 0) == "N0DD"
+    }
+    assert_raises(Invoice::SEPA::SubmissionReconciliationError) do
+      invoice.upload_sepa_direct_debit_order(force: true)
+    end
+    assert_equal 1, calls
   end
 
   test "bank-confirmed non-acceptance unlocks an uncertain upload without changing its PAIN identity" do
@@ -482,6 +615,21 @@ class Invoice::SEPATest < ActiveSupport::TestCase
           "mode" => "btf",
           "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
         }
+      }
+    }
+  end
+
+  def sepa_direct_debit_upload_capabilities
+    {
+      "h005" => {
+        "htd_btf_uploads" => [
+          {
+            "admin_order_type" => "BTU",
+            "service" => Billing::EBICS::Btf::Presets
+              .sepa_direct_debit_upload(version: nil)
+              .except("order_type", "signature_flag")
+          }
+        ]
       }
     }
   end

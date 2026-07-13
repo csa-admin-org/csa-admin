@@ -6,6 +6,7 @@ class BankConnection < ApplicationRecord
   PROVIDERS = %w[ebics bas bunq mock]
   HEALTH_STATUSES = %w[unknown healthy warning errored]
   SUPPORTED_EBICS_SEPA_DIRECT_DEBIT_SCHEMAS = %w[pain.008.001.08].freeze
+  EBICS_BTF_SERVICE_KEYS = %w[service_name scope service_option container message_name version].freeze
   FILTERED = "[FILTERED]"
   SENSITIVE_CREDENTIAL_KEYS = %w[
     api_key
@@ -55,9 +56,9 @@ class BankConnection < ApplicationRecord
     case provider
     when "ebics"
       operation_config = Billing::EBICS::OperationConfig.new(settings)
-      operation_config.sepa_direct_debit_upload
+      operation = operation_config.sepa_direct_debit_upload
       operation_config.sepa_direct_debit_upload_schema
-      true
+      ebics_sepa_direct_debit_upload_advertised?(operation)
     when "mock"
       true
     else
@@ -339,10 +340,15 @@ class BankConnection < ApplicationRecord
     return unless validate_btf_operation(
       upload,
       order_type: "BTU",
-      required_fields: %w[service_name scope service_option container message_name],
+      required_fields: %w[service_name service_option message_name],
       message: :incomplete_btu_sepa_direct_debit_upload)
 
     btf = upload.fetch("btf").deep_stringify_keys
+    if btf.values_at("scope", "container").any?(&:present?)
+      errors.add(:settings, :must_use_non_container_btu_sepa_direct_debit_upload)
+      return
+    end
+
     unless btf["message_name"] == "pain.008"
       errors.add(:settings, :must_use_pain_008_for_btu)
       return
@@ -378,6 +384,17 @@ class BankConnection < ApplicationRecord
 
     errors.add(:settings, message) unless complete
     complete
+  end
+
+  def ebics_sepa_direct_debit_upload_advertised?(operation)
+    configured = operation.btf.slice(*EBICS_BTF_SERVICE_KEYS).compact_blank
+    uploads = capabilities.to_h.deep_stringify_keys.dig("h005", "htd_btf_uploads")
+
+    Array(uploads).any? do |info|
+      info = info.to_h.deep_stringify_keys
+      advertised = info["service"].to_h.slice(*EBICS_BTF_SERVICE_KEYS).compact_blank
+      info["admin_order_type"] == "BTU" && advertised == configured
+    end
   end
 
   def ebics_credentials

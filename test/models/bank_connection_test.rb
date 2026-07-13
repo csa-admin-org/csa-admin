@@ -253,15 +253,22 @@ class BankConnectionTest < ActiveSupport::TestCase
     ebics = BankConnection.new(
       provider: "ebics",
       credentials: ebics_credentials,
-      settings: {
-        "uploads" => {
-          "sepa_direct_debit" => {
-            "mode" => "btf",
-            "schema" => "pain.008.001.08",
-            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML", version: nil)
-          }
-        }
-      })
+      settings: sepa_direct_debit_upload_settings,
+      capabilities: sepa_direct_debit_upload_capabilities)
+    unadvertised_upload = BankConnection.new(
+      provider: "ebics",
+      credentials: ebics_credentials,
+      settings: sepa_direct_debit_upload_settings)
+    mismatched_version = BankConnection.new(
+      provider: "ebics",
+      credentials: ebics_credentials,
+      settings: sepa_direct_debit_upload_settings,
+      capabilities: sepa_direct_debit_upload_capabilities(version: "08"))
+    matching_version = BankConnection.new(
+      provider: "ebics",
+      credentials: ebics_credentials,
+      settings: sepa_direct_debit_upload_settings(version: "08"),
+      capabilities: sepa_direct_debit_upload_capabilities(version: "08"))
     missing_upload_settings = BankConnection.new(provider: "ebics", credentials: ebics_credentials)
     legacy_upload_settings = BankConnection.new(
       provider: "ebics",
@@ -279,6 +286,9 @@ class BankConnectionTest < ActiveSupport::TestCase
     mock = BankConnection.new(provider: "mock", credentials: { password: "secret" })
 
     assert ebics.sepa_direct_debit_upload?
+    assert_not unadvertised_upload.sepa_direct_debit_upload?
+    assert_not mismatched_version.sepa_direct_debit_upload?
+    assert matching_version.sepa_direct_debit_upload?
     assert_not missing_upload_settings.sepa_direct_debit_upload?
     assert_not legacy_upload_settings.sepa_direct_debit_upload?
     assert_not bas.sepa_direct_debit_upload?
@@ -356,7 +366,7 @@ class BankConnectionTest < ActiveSupport::TestCase
           "sepa_direct_debit" => {
             "mode" => "btf",
             "schema" => "pain.008.001.02",
-            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML")
+            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload
           }
         }))
     assert_not_predicate inconsistent_btu, :valid?
@@ -400,7 +410,7 @@ class BankConnectionTest < ActiveSupport::TestCase
     assert_includes connection.errors[:settings], "must include a complete BTU SEPA direct debit upload configuration"
   end
 
-  test "accepts the versionless MULTIVIA BTU tuple with an explicit supported schema" do
+  test "rejects XML-container settings for raw SEPA direct debit uploads" do
     connection = BankConnection.new(
       provider: "ebics",
       active: true,
@@ -413,8 +423,29 @@ class BankConnectionTest < ActiveSupport::TestCase
             "schema" => "pain.008.001.08",
             "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(
               scope: "DE",
-              service_option: "COR",
               container: "XML",
+              version: nil)
+          }
+        }))
+
+    assert_not_predicate connection, :valid?
+    assert_includes connection.errors[:settings], "must use a non-container BTU service for SEPA direct debit uploads"
+    assert_not connection.sepa_direct_debit_upload?
+  end
+
+  test "accepts the versionless non-container MULTIVIA BTU tuple with an explicit supported schema" do
+    connection = BankConnection.new(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: h005_settings.deep_merge(
+        "uploads" => {
+          "sepa_direct_debit" => {
+            "mode" => "btf",
+            "schema" => "pain.008.001.08",
+            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(
+              service_option: "COR",
               version: nil)
           }
         }))
@@ -433,9 +464,7 @@ class BankConnectionTest < ActiveSupport::TestCase
           "sepa_direct_debit" => {
             "mode" => "btf",
             "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(
-              scope: "DE",
               service_option: "COR",
-              container: "XML",
               version: nil)
           }
         }))
@@ -542,6 +571,33 @@ class BankConnectionTest < ActiveSupport::TestCase
           "mode" => "btf",
           "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
         }
+      }
+    }
+  end
+
+  def sepa_direct_debit_upload_settings(version: nil)
+    {
+      "uploads" => {
+        "sepa_direct_debit" => {
+          "mode" => "btf",
+          "schema" => "pain.008.001.08",
+          "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(version: version)
+        }
+      }
+    }
+  end
+
+  def sepa_direct_debit_upload_capabilities(version: nil)
+    {
+      "h005" => {
+        "htd_btf_uploads" => [
+          {
+            "admin_order_type" => "BTU",
+            "service" => Billing::EBICS::Btf::Presets
+              .sepa_direct_debit_upload(version: version)
+              .except("order_type", "signature_flag")
+          }
+        ]
       }
     }
   end
