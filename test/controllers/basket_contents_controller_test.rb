@@ -42,6 +42,43 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "5.50"
   end
 
+  test "index uses delivery date as secondary product ordering" do
+    product = basket_content_products(:carrots)
+    earlier_delivery = deliveries(:monday_1)
+    later_delivery = deliveries(:monday_2)
+    create_basket_content(product: product, delivery: later_delivery)
+    create_basket_content(product: product, delivery: earlier_delivery)
+
+    get basket_contents_path(
+      q: { product_id_eq: product.id },
+      order: "product_name_asc")
+
+    assert_response :success
+    assert_equal [ earlier_delivery, later_delivery ].map { |delivery|
+      I18n.l(delivery.date, format: :number)
+    }, delivery_dates
+
+    get basket_contents_path(
+      q: { product_id_eq: product.id },
+      order: "product_name_desc")
+
+    assert_response :success
+    assert_equal [ later_delivery, earlier_delivery ].map { |delivery|
+      I18n.l(delivery.date, format: :number)
+    }, delivery_dates
+  end
+
+  test "product index does not use its collection delivery association for ordering" do
+    product = basket_content_products(:carrots)
+    create_basket_content(product: product, delivery: deliveries(:monday_1))
+    create_basket_content(product: product, delivery: deliveries(:monday_2))
+
+    get basket_content_products_path(order: "name_asc")
+
+    assert_response :success
+    assert_select "tbody tr#basket_content_product_#{product.id}", count: 1
+  end
+
   test "index hides total sidebar when delivery filter is present" do
     product = basket_content_products(:carrots)
     create_basket_content(
@@ -453,6 +490,10 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
   def small_id = basket_sizes(:small).id
   def medium_id = basket_sizes(:medium).id
   def large_id = basket_sizes(:large).id
+
+  def delivery_dates
+    css_select('tbody td[data-column="delivery"]').map { |cell| cell.text.strip }
+  end
 
   def create_basket_content(**attrs)
     BasketContent.create!(

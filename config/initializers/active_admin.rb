@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "active_admin/delivery_order_clause"
+
 ActiveAdmin.setup do |config|
   # == Site Title
   #
@@ -282,5 +284,5 @@ ActiveAdmin.setup do |config|
   # By default ActiveAdmin::OrderClause is used for sorting logic
   # You can inherit it with own class and inject it for all resources
   #
-  # config.order_clause = MyOrderClause
+  config.order_clause = ActiveAdmin::DeliveryOrderClause
 end
