@@ -7,6 +7,7 @@ Rails.application.configure do
 
 
   # Whitelist a test domain
+  config.hosts << /.*\.localhost/
   config.hosts << /.*\..*\.test/
 
   # Make code changes take effect immediately without server restart.
