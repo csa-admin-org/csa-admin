@@ -3,6 +3,8 @@
 require "test_helper"
 
 class Postmark::WebhookHandlerJobTest < ActiveJob::TestCase
+  setup { postmark_client.reset! }
+
   # --- Lookup: MailDelivery::Email by postmark_message_id ---
 
   test "delivery webhook matched by postmark_message_id transitions to delivered" do
@@ -39,6 +41,12 @@ class Postmark::WebhookHandlerJobTest < ActiveJob::TestCase
       member: member, mailable: member, mailable_type: "Member", action: "validated")
     email_record = delivery.emails.first
     email_record.update_column(:postmark_message_id, "pm-msg-002")
+    postmark_client.dump_suppressions_response = [ {
+      email_address: "john@doe.com",
+      suppression_reason: "HardBounce",
+      origin: "Recipient",
+      created_at: Time.current.to_s
+    } ]
 
     payload = {
       record_type: "Bounce",
@@ -65,6 +73,7 @@ class Postmark::WebhookHandlerJobTest < ActiveJob::TestCase
     assert_equal "HardBounce", email_record.bounce_type
     assert_equal 1, email_record.bounce_type_code
     assert_equal "Unknown user", email_record.bounce_description
+    assert EmailSuppression.outbound.active.exists?(email: "john@doe.com")
   end
 
   # --- Idempotency: duplicate webhooks are no-ops ---
@@ -120,8 +129,8 @@ class Postmark::WebhookHandlerJobTest < ActiveJob::TestCase
       bounced_at: "2024-06-10T11:00:00Z",
       details: "Duplicate bounce",
       tag: "invoice-created",
-      type: "SoftBounce",
-      type_code: 4002,
+      type: "HardBounce",
+      type_code: 1,
       description: "Retry"
     }
 
@@ -134,6 +143,7 @@ class Postmark::WebhookHandlerJobTest < ActiveJob::TestCase
     email_record.reload
     assert email_record.bounced?
     assert_equal "HardBounce", email_record.bounce_type
+    assert_empty postmark_client.calls
   end
 
   test "duplicate delivery webhook is a no-op for already delivered newsletter email" do
@@ -172,6 +182,40 @@ class Postmark::WebhookHandlerJobTest < ActiveJob::TestCase
 
   # --- Unmatched webhooks ---
 
+  test "unmatched outbound hard bounce syncs Postmark suppressions" do
+    freeze_time
+    email = members(:john).emails_array.first
+    postmark_client.dump_suppressions_response = [ {
+      email_address: email,
+      suppression_reason: "HardBounce",
+      origin: "Recipient",
+      created_at: Time.current.to_s
+    } ]
+    payload = {
+      record_type: "Bounce",
+      message_stream: "outbound",
+      message_id: "pm-session-bounce-001",
+      email: email,
+      bounced_at: Time.current.to_s,
+      details: "smtp; 554 Message not delivered",
+      tag: "session-member",
+      type: "HardBounce",
+      type_code: 1,
+      description: "Unknown user"
+    }
+
+    assert_difference -> { EmailSuppression.outbound.active.where(email: email).count } do
+      perform_enqueued_jobs do
+        Postmark::WebhookHandlerJob.perform_later(**payload)
+      end
+    end
+
+    assert_equal [
+      [ :dump_suppressions, "outbound", { fromdate: 1.week.ago } ],
+      [ :dump_suppressions, "broadcast", { fromdate: 1.week.ago } ]
+    ], postmark_client.calls
+  end
+
   test "unmatched webhook does not raise" do
     payload = {
       record_type: "Delivery",
@@ -189,6 +233,7 @@ class Postmark::WebhookHandlerJobTest < ActiveJob::TestCase
         Postmark::WebhookHandlerJob.perform_later(**payload)
       end
     end
+    assert_empty postmark_client.calls
   end
 
   test "webhook with nil tag and no postmark_message_id match does not raise" do

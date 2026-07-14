@@ -6,6 +6,7 @@ module Postmark
 
     def perform(payload)
       email = MailDelivery::Email.find_by(postmark_message_id: payload[:message_id])
+      actionable = email.nil? || email.processing?
 
       if email.nil?
         Rails.event.notify(:unmatched_postmark_webhook, **payload)
@@ -15,9 +16,18 @@ module Postmark
       else
         Rails.event.notify(:irrelevant_postmark_webhook, **payload)
       end
+
+      sync_suppressions(payload) if actionable
     end
 
     private
+
+    def sync_suppressions(payload)
+      event = payload.values_at(:record_type, :message_stream, :type)
+      return unless event == %w[Bounce outbound HardBounce]
+
+      EmailSuppression.sync_postmark!(fromdate: 1.week.ago)
+    end
 
     def handle_delivery(email, payload)
       email.delivered!(

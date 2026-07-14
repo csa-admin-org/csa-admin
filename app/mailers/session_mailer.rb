@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class SessionMailer < ApplicationMailer
+  rescue_from Postmark::InactiveRecipientError do
+    EmailSuppression.sync_postmark!(fromdate: 1.week.ago)
+  end
+
   def new_member_session_email
     session = params[:session]
     I18n.with_locale(session.member.language) do

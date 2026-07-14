@@ -85,7 +85,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_no_selector "span.error"
   end
 
-  test "does not disclose suppressed email" do
+  test "shows an error for suppressed email" do
     suppress_email(members(:john).emails_array.first)
 
     visit "/"
@@ -97,7 +97,8 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_equal 0, SessionMailer.deliveries.size
 
     assert_equal "/login", current_path
-    assert_text "If this email is registered, a login link will be sent to you."
+    assert_text "This email address is blocked. Please contact the organization."
+    assert_no_text "If this email is registered, a login link will be sent to you."
     assert_no_selector "span.error"
   end
 

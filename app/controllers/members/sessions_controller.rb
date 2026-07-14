@@ -26,6 +26,8 @@ class Members::SessionsController < Members::BaseController
         session_url: members_session_url(@session.generate_token_for(:redeem), locale: @session.member.language)
       ).new_member_session_email.deliver_later(queue: :critical)
       redirect_to members_login_path, notice: t("sessions.flash.initiated")
+    elsif @session.errors.added?(:email, :suppressed)
+      redirect_to members_login_path, alert: t("members.sessions.flash.suppressed")
     elsif @session.masked_login_error?
       redirect_to members_login_path, notice: t("sessions.flash.initiated")
     else
