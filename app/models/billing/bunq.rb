@@ -13,7 +13,7 @@ module Billing
     AuthenticationError = Class.new(StandardError)
     PaymentData = Class.new(OpenStruct)
 
-    GET_PAYMENTS_FROM = 1.month.ago
+    GET_PAYMENTS_FROM = 1.month
     API_URL = "https://api.bunq.com"
 
     def initialize(credentials)
@@ -99,7 +99,7 @@ module Billing
 
     def reached_cutoff_date?(payment)
       date = parse_date(payment["created"])
-      date && date < GET_PAYMENTS_FROM.to_date
+      date && date < GET_PAYMENTS_FROM.ago.to_date
     end
 
     def get_payments(older_id: nil)

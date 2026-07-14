@@ -12,7 +12,7 @@ module Billing
     MaintenanceError = Class.new(StandardError)
     PaymentData = Class.new(OpenStruct)
 
-    GET_PAYMENTS_FROM = 1.month.ago
+    GET_PAYMENTS_FROM = 1.month
     BASE_URL = "https://wwwsec.abs.ch".freeze
     NO_DATA_INFO_MSG = "<INFO_MSG>Aucune donn\xE9e BVR n'a \xE9t\xE9 trouv\xE9e</INFO_MSG>".dup.force_encoding("ISO-8859-1")
 
@@ -92,7 +92,7 @@ module Billing
         FUNCTION: "CAMT054DATA",
         BANK: "ABS",
         LANGUAGE: "french",
-        VON_DAT: GET_PAYMENTS_FROM.strftime("%-e.%-m.%Y"),
+        VON_DAT: GET_PAYMENTS_FROM.ago.strftime("%-e.%-m.%Y"),
         KONTO: @credentials.fetch(:account_number),
         WITH_OLD: 1)
       if res.body.include?("<FILE>")

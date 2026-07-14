@@ -16,7 +16,7 @@ module Billing
     UnsupportedOperation = Class.new(StandardError)
     MaintenanceError = Class.new(StandardError)
 
-    GET_PAYMENTS_FROM = 1.month.ago
+    GET_PAYMENTS_FROM = 1.month
 
     attr_reader :credentials, :operation_config
 
@@ -87,7 +87,7 @@ module Billing
     end
 
     def payments_from
-      GET_PAYMENTS_FROM.to_date.to_s
+      GET_PAYMENTS_FROM.ago.to_date.to_s
     end
 
     def payments_to

@@ -135,7 +135,7 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     method, operation, range = client.calls.first
     assert_equal :download_and_process, method
     assert_equal "BTD", operation.order_type
-    assert_equal [ Billing::EBICS::GET_PAYMENTS_FROM.to_date.to_s, Date.current.to_s ], range
+    assert_equal [ Billing::EBICS::GET_PAYMENTS_FROM.ago.to_date.to_s, Date.current.to_s ], range
   end
 
   test "process payments updates bank connection import status" do
