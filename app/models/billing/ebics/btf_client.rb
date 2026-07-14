@@ -345,7 +345,7 @@ module Billing
         Btf::AdminRequest.new(
           client: client,
           order_type: order_type,
-          **request_options.merge(overrides))
+          **admin_request_options.merge(overrides))
       end
 
       def initialization_request(order_type, **overrides)
@@ -506,6 +506,10 @@ module Billing
           :certificate_builder,
           :certificate_issued_at,
           :order_data)
+      end
+
+      def admin_request_options
+        request_options.slice(:nonce, :timestamp, :product_name, :language, :signer)
       end
 
       def no_pub_key_digests_request_options

@@ -142,6 +142,22 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_includes error.message, "BTU upload"
   end
 
+  test "filters setup-only options from admin requests" do
+    client = Billing::EBICS::BtfClient.new(
+      credentials,
+      key_store: key_store,
+      request_options: {
+        nonce: "0123456789abcdef0123456789abcdef",
+        timestamp: "2026-07-01T12:00:00Z",
+        signer: FakeSigner.new,
+        certificate_issued_at: Time.zone.parse("2026-07-01T10:00:00Z")
+      })
+
+    xml = client.admin_request_xml("HTD")
+
+    assert_includes xml, "<AdminOrderType>HTD</AdminOrderType>"
+  end
+
   test "fetches H005 admin order data and acknowledges the metadata response" do
     htd_xml = htd_order_data_xml
     assert_valid_ebics_h005_xml htd_xml, :orders
