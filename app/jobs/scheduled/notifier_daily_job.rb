@@ -5,6 +5,7 @@ module Scheduled
     NOTIFICATIONS = [
       Notification::InvoiceOverdueNotice,
       Notification::AdminDeliveryList,
+      Notification::BasketComplementDeliveryCount,
       Notification::AdminMembershipsRenewalPending,
       Notification::BasketInitial,
       Notification::BasketFinal,

@@ -68,6 +68,7 @@ ActiveAdmin.register BasketComplement do
 
     f.inputs Admin.human_attribute_name(:notifications), icon: "mail-check" do
       f.input :emails, as: :string
+      f.input :notify_days_before_delivery, as: :number, input_html: { min: 0 }
       language_input(f)
 
       handbook_button(self, "deliveries", anchor: "complement-notifications")
@@ -121,6 +122,7 @@ ActiveAdmin.register BasketComplement do
     :visible,
     :member_order_priority,
     :emails,
+    :notify_days_before_delivery,
     :language,
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "admin_name_#{l}" },

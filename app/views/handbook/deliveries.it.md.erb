@@ -161,8 +161,8 @@ CSA Admin può inviare automaticamente notifiche e-mail relative alle consegne:
 
 Puoi configurare ogni deposito con indirizzi e-mail (nella sezione " Notifiche " del deposito). Prima di ogni consegna, questi indirizzi ricevono un'e-mail contenente la lista dei soci e delle loro <%= Basket.model_name.human(count: 2).downcase %>, con allegati PDF e XLSX delle schede di consegna. Per impostazione predefinita, l'e-mail viene inviata il giorno prima, ma può essere regolata per deposito (0 per il giorno stesso, 2 per due giorni prima, ecc.).
 
-### Riepilogo settimanale dei <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
+### Notifiche di consegna dei <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
 
-Per ogni <%= BasketComplement.model_name.human.downcase %> puoi configurare indirizzi e-mail (nella sezione " Notifiche " del <%= BasketComplement.model_name.human.downcase %>). Ogni domenica mattina, questi indirizzi ricevono un'e-mail che riepiloga il numero totale di quel complemento necessario per ogni consegna della settimana successiva.
+Per ogni <%= BasketComplement.model_name.human.downcase %> puoi configurare indirizzi e-mail (nella sezione " Notifiche " del <%= BasketComplement.model_name.human.downcase %>). Prima di ogni consegna, questi indirizzi ricevono un'e-mail con la data di consegna e la quantità necessaria di quel complemento. Per impostazione predefinita, l'e-mail viene inviata il giorno prima, ma questo intervallo può essere regolato per ogni <%= BasketComplement.model_name.human.downcase %> (0 per il giorno stesso, 2 per due giorni prima, ecc.).
 
-> Questo è utile per i fornitori esterni (ad es. un panettiere, un casaro) che devono sapere quanto preparare per la settimana successiva.
+> Questo è utile per i fornitori esterni (ad es. un panettiere, un casaro) che devono sapere quanto preparare per ogni consegna.

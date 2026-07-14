@@ -52,6 +52,9 @@ class BasketComplement < ApplicationRecord
   validates :activity_participations_demanded_annually,
     numericality: { greater_than_or_equal_to: 0 },
     presence: true
+  validates :notify_days_before_delivery,
+    numericality: { greater_than_or_equal_to: 0, only_integer: true },
+    presence: true
 
   def self.for(baskets, shop_orders = Shop::Order.none)
     ids =

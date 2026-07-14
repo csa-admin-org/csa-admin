@@ -35,6 +35,19 @@ class BasketComplementTest < ActiveSupport::TestCase
     assert_equal %w[ Eggs Bread Cheese ], member_ordered_names
   end
 
+  test "notify_days_before_delivery defaults to one" do
+    assert_equal 1, BasketComplement.new.notify_days_before_delivery
+  end
+
+  test "notify_days_before_delivery must be a non-negative integer" do
+    complement = basket_complements(:bread)
+
+    assert complement.update(notify_days_before_delivery: 0)
+    assert_not complement.update(notify_days_before_delivery: -1)
+    assert_not complement.update(notify_days_before_delivery: 1.5)
+    assert_not complement.update(notify_days_before_delivery: nil)
+  end
+
   test "deliveries_count counts future deliveries when exists" do
     travel_to "2024-01-01"
     c = basket_complements(:cheese)

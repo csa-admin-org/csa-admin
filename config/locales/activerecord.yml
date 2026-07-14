@@ -439,6 +439,13 @@ _:
           _de: probe
           _it: prova
           _nl: proef
+      basket_complement:
+        notify_days_before_delivery:
+          _en: Days before delivery
+          _fr: Jours avant la livraison
+          _de: Tage vor der Lieferung
+          _it: Giorni prima della consegna
+          _nl: Dagen voor de levering
       basket_content:
         basket_quantities:
           _en: Quantities

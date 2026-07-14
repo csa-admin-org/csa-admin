@@ -164,8 +164,8 @@ CSA Admin kan automatisch e-mailmeldingen versturen met betrekking tot leveringe
 
 Je kunt elk depot configureren met e-mailadressen (in het gedeelte " Notificaties " van het depot). Voor elke levering ontvangen deze adressen een e-mail met de lijst van leden en hun <%= Basket.model_name.human(count: 2).downcase %>, inclusief PDF- en XLSX-bijlagen van de leveringsbladen. Standaard wordt de e-mail de dag ervoor verstuurd, maar dit kan per depot worden aangepast (0 voor dezelfde dag, 2 voor twee dagen ervoor, enz.).
 
-### Wekelijks overzicht van <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
+### Leveringsmeldingen voor <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
 
-Voor elke <%= BasketComplement.model_name.human.downcase %> kun je e-mailadressen configureren (in het gedeelte " Notificaties " van de <%= BasketComplement.model_name.human.downcase %>). Elke zondagochtend ontvangen deze adressen een e-mail met een samenvatting van het totale aantal van die aanvulling dat nodig is voor elke levering van de komende week.
+Voor elke <%= BasketComplement.model_name.human.downcase %> kun je e-mailadressen configureren (in het gedeelte " Notificaties " van de <%= BasketComplement.model_name.human.downcase %>). Voor elke levering ontvangen deze adressen één e-mail met de leveringsdatum en de benodigde hoeveelheid van die aanvulling. Standaard wordt de e-mail de dag ervoor verstuurd, maar dit kan per <%= BasketComplement.model_name.human.downcase %> worden aangepast (0 voor dezelfde dag, 2 voor twee dagen ervoor, enz.).
 
-> Dit is handig voor externe leveranciers (bijv. een bakker, een kaasmaker) die moeten weten hoeveel ze voor de komende week moeten voorbereiden.
+> Dit is handig voor externe leveranciers (bijv. een bakker, een kaasmaker) die moeten weten hoeveel ze voor elke levering moeten voorbereiden.

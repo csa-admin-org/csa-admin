@@ -161,8 +161,8 @@ CSA Admin can automatically send email notifications related to deliveries:
 
 Each depot can be configured with email addresses (in the depot's "Notifications" section). Before each delivery, these addresses receive an email containing the list of members and their <%= Basket.model_name.human(count: 2).downcase %>, along with PDF and XLSX attachments for the delivery sheets. By default, the email is sent the day before, but this can be adjusted per depot (0 for same day, 2 for two days before, etc.).
 
-### <%= BasketComplement.model_name.human %> weekly summary {#complement-notifications}
+### <%= BasketComplement.model_name.human %> delivery notifications {#complement-notifications}
 
-Each <%= BasketComplement.model_name.human.downcase %> can be configured with email addresses (in the <%= BasketComplement.model_name.human.downcase %>'s "Notifications" section). Every Sunday morning, these addresses receive an email summarizing the total count of that complement needed for each delivery of the upcoming week.
+Each <%= BasketComplement.model_name.human.downcase %> can be configured with email addresses (in the <%= BasketComplement.model_name.human.downcase %>'s "Notifications" section). Before each delivery, these addresses receive one email with the delivery date and the count of that complement needed. By default, the email is sent the day before, but this can be adjusted per <%= BasketComplement.model_name.human.downcase %> (0 for the same day, 2 for two days before, etc.).
 
-> This is useful for external suppliers (e.g., a baker, a cheese maker) who need to know how much to prepare for the week ahead.
+> This is useful for external suppliers (e.g., a baker, a cheese maker) who need to know how much to prepare for each delivery.

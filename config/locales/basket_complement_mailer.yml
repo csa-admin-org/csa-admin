@@ -1,21 +1,27 @@
 _:
   basket_complement_mailer:
-    weekly_summary_email:
+    delivery_count_email:
+      count_label:
+        _en: Count
+        _fr: Quantité
+        _de: Menge
+        _it: Quantità
+        _nl: Aantal
+      delivery_date_label:
+        _en: Delivery date
+        _fr: Date de livraison
+        _de: Lieferdatum
+        _it: Data di consegna
+        _nl: Leveringsdatum
       intro_paragraph:
-        _en: 'Here are the counts of {{ basket_complement }} for the upcoming week:'
-        _fr: 'Voici les quantités de {{ basket_complement }} pour la semaine à venir:'
-        _de: 'Hier sind die Mengen von {{ basket_complement }} für die kommende Woche:'
-        _it: 'Ecco le quantità di {{ basket_complement }} per la settimana prossima:'
-        _nl: 'Hier zijn de aantallen van {{ basket_complement }} voor de komende week:'
+        _en: 'Here is the count of {{ basket_complement }} needed for this delivery:'
+        _fr: 'Voici la quantité de {{ basket_complement }} nécessaire pour cette livraison:'
+        _de: 'Hier ist die für diese Lieferung benötigte Menge von {{ basket_complement }}:'
+        _it: 'Ecco la quantità di {{ basket_complement }} necessaria per questa consegna:'
+        _nl: 'Hier is de benodigde hoeveelheid van {{ basket_complement }} voor deze levering:'
       subject:
-        _en: Weekly summary of %{complement} (week %{week})
-        _fr: Résumé hebdomadaire de %{complement} (semaine %{week})
-        _de: Wochenzusammenfassung %{complement} (Woche %{week})
-        _it: Riepilogo settimanale di %{complement} (settimana %{week})
-        _nl: Weekoverzicht van %{complement} (week %{week})
-      total_label:
-        _en: Total
-        _fr: Total
-        _de: Total
-        _it: Totale
-        _nl: Totaal
+        _en: "%{complement} count for %{date}"
+        _fr: Quantité de %{complement} pour le %{date}
+        _de: Menge %{complement} für %{date}
+        _it: Quantità di %{complement} per %{date}
+        _nl: Aantal %{complement} voor %{date}
