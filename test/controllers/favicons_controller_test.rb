@@ -26,8 +26,10 @@ class FaviconsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to %r{\Ahttp://admin\.acme\.test/rails/active_storage/disk/}
     assert_empty downloads
-    assert_match "public", response.headers["Cache-Control"]
-    assert_match "max-age=#{ActiveStorage.service_urls_expire_in.to_i}", response.headers["Cache-Control"]
+    assert_equal "no-cache", response.headers["Cache-Control"]
+    cache_duration = ActiveStorage.service_urls_expire_in - 1.minute
+    assert_equal "public, max-age=#{cache_duration.to_i}, must-revalidate",
+      response.headers["Cloudflare-CDN-Cache-Control"]
   end
 
   test "serves resized bundled logo when tenant has no logo" do

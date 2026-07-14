@@ -7,7 +7,7 @@ class FaviconsController < ActionController::Base
 
   def show
     if Current.org.logo.attached?
-      expires_in ActiveStorage.service_urls_expire_in, public: true
+      cache_active_storage_redirect
       redirect_to favicon_storage_url, allow_other_host: true
     else
       image = Vips::Image.new_from_file(Rails.root.join("app/assets/images/logo.png").to_s)

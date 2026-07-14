@@ -8,7 +8,7 @@ class LogosController < ActionController::Base
 
   def show
     if Current.org.logo.attached?
-      expires_in ActiveStorage.service_urls_expire_in, public: true
+      cache_active_storage_redirect
       redirect_to Current.org.logo.url(disposition: :inline), allow_other_host: true
     else
       File.open(Rails.root.join("app/assets/images/logo.png"), "rb") do |f|
