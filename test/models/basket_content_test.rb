@@ -296,7 +296,7 @@ class BasketContentTest < ActiveSupport::TestCase
 
     assert_equal({
       small_id.to_s => "200.0"
-    }, delivery.basket_content_avg_prices)
+    }, delivery.reload.basket_content_avg_prices)
     assert_equal({
       basket_sizes(:small) => {
         depots(:home) => 200
@@ -318,7 +318,7 @@ class BasketContentTest < ActiveSupport::TestCase
 
     assert_equal({
       medium_id.to_s => "200.0"
-    }, delivery.basket_content_avg_prices)
+    }, delivery.reload.basket_content_avg_prices)
     assert_equal({
       basket_sizes(:medium) => {
         depots(:farm) => 200,
@@ -326,6 +326,66 @@ class BasketContentTest < ActiveSupport::TestCase
         depots(:bakery) => 200
       }
     }, delivery.basket_content_prices)
+  end
+
+  test "moving basket content refreshes both deliveries stored prices" do
+    source = deliveries(:monday_1)
+    destination = deliveries(:monday_2)
+    baskets(:john_1).update_column(:quantity, 1)
+    baskets(:john_2).update_column(:quantity, 1)
+    content = create_basket_content(
+      basket_size_ids_quantities: { medium_id => 100 },
+      delivery: source,
+      depots: [ depots(:farm) ],
+      unit: "pc",
+      unit_price: 2)
+    expected_avg_prices = { medium_id.to_s => "200.0" }
+    expected_depot_ranges = {
+      medium_id.to_s => { depots(:farm).id.to_s => "200.0" }
+    }
+
+    assert_equal expected_avg_prices, source.reload.basket_content_avg_prices
+    assert_equal expected_depot_ranges, source.basket_content_depot_price_ranges
+
+    content.update!(delivery: destination)
+
+    assert_equal({}, source.reload.basket_content_avg_prices)
+    assert_equal({}, source.basket_content_depot_price_ranges)
+    assert_equal expected_avg_prices, destination.reload.basket_content_avg_prices
+    assert_equal expected_depot_ranges, destination.basket_content_depot_price_ranges
+  end
+
+  test "destroying basket content clears its delivery stored prices" do
+    config(medium: 1)
+    delivery = deliveries(:monday_1)
+    content = create_basket_content(
+      basket_size_ids_quantities: { medium_id => 100 },
+      delivery: delivery,
+      depots: [ depots(:farm) ],
+      unit: "pc",
+      unit_price: 2)
+
+    assert_not_empty delivery.reload.basket_content_avg_prices
+    assert_not_empty delivery.basket_content_depot_price_ranges
+
+    content.destroy!
+
+    assert_empty delivery.reload.basket_content_avg_prices
+    assert_empty delivery.basket_content_depot_price_ranges
+  end
+
+  test "destroying delivery with basket content succeeds" do
+    delivery = Delivery.create!(date: Date.new(2022, 7, 1))
+    create_basket_content(
+      basket_size_ids_quantities: { medium_id => 100 },
+      delivery: delivery,
+      depots: [ depots(:farm) ],
+      unit: "pc",
+      unit_price: 2)
+
+    assert_difference [ -> { Delivery.count }, -> { BasketContent.count } ], -1 do
+      delivery.destroy!
+    end
   end
 
   test "duplicate_all copies all basket content from one delivery to another" do

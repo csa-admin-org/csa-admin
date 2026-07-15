@@ -308,7 +308,10 @@ class BasketContent < ApplicationRecord
   end
 
   def update_delivery_basket_content_avg_prices!
-    delivery.update_basket_content_avg_prices!
+    delivery_ids = [ delivery_id ]
+    delivery_ids << delivery_id_before_last_save if saved_change_to_delivery_id?
+
+    Delivery.where(id: delivery_ids.compact.uniq).find_each(&:update_basket_content_avg_prices!)
   end
 
   def sync_product_latest_basket_content!
