@@ -208,7 +208,9 @@ class Basket::CSVExporter
   end
 
   def depot_groups_used?
-    @depot_groups_used ||= baskets.joins(:depot).where.not(depots: { group_id: nil }).exists?
+    return @depot_groups_used if defined?(@depot_groups_used)
+
+    @depot_groups_used = baskets.joins(:depot).where.not(depots: { group_id: nil }).exists?
   end
 
   def feature?(name)

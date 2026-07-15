@@ -103,6 +103,21 @@ class Basket::CSVExporterTest < ActiveSupport::TestCase
     refute_includes csv.headers, Basket.human_attribute_name(:depot_group)
   end
 
+  test "checks for depot groups only once when none are used" do
+    exporter = Basket::CSVExporter.new(delivery: deliveries(:monday_1))
+    queries = []
+    subscriber = ActiveSupport::Notifications.subscribe("sql.active_record") do |*, payload|
+      sql = payload[:sql]
+      queries << sql if sql.include?("SELECT 1 AS one") && sql.include?(%q("depots"."group_id" IS NOT NULL))
+    end
+
+    exporter.generate
+
+    assert_equal 1, queries.size
+  ensure
+    ActiveSupport::Notifications.unsubscribe(subscriber) if subscriber
+  end
+
   test "export includes depot group columns when depot groups are used" do
     travel_to "2024-04-01"
     delivery = deliveries(:monday_1)
