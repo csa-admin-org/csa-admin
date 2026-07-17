@@ -4,6 +4,7 @@ Appsignal.configure do |config|
   config.push_api_key = Rails.application.credentials.appsignal_push_api_key
   config.name = "CSA Admin"
   config.revision = ENV["GIT_REV"] if ENV["GIT_REV"].present?
+  config.activejob_report_errors = "discard"
 
   config.ignore_errors = [
     "ActiveRecord::RecordNotFound",

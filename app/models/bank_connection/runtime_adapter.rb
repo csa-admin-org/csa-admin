@@ -16,8 +16,9 @@ class BankConnection
       mark_import_completed!(payments_data)
       result
     rescue => e
-      connection.mark_error!(e, operation: payment_import_operation, operation_kind: "payment_import")
-      Rails.error.report(e, context: connection.safe_context(operation: payment_import_operation, operation_kind: "payment_import"))
+      operation = payment_import_operation
+      connection.mark_error!(e, operation: operation, operation_kind: "payment_import")
+      add_error_tags(operation: operation, operation_kind: "payment_import")
       raise
     end
 
@@ -35,6 +36,11 @@ class BankConnection
     private
 
     attr_reader :connection, :adapter
+
+    def add_error_tags(operation:, operation_kind:)
+      context = connection.safe_context(operation: operation, operation_kind: operation_kind).except("operation")
+      Appsignal.add_tags(**context)
+    end
 
     def mark_import_completed!(payments_data)
       if payments_data.present?

@@ -109,12 +109,9 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
     assert connection.last_import_attempted_at?
     assert_equal "Billing::Bunq::AuthenticationError", connection.last_error_class
     assert_equal "payment_import", connection.status_details.dig("last_error", "operation_kind")
-    reported_error, context, _options = error.reports.first
-    assert_instance_of Billing::Bunq::AuthenticationError, reported_error
-    assert_equal connection.id, context.fetch("bank_connection_id")
-    assert_equal "bunq", context.fetch("provider")
-    refute_includes context.to_json, bunq_credentials.fetch(:api_key)
-    refute_includes context.to_json, bunq_credentials.fetch(:private_key)
+    assert_empty error.reports
+    refute_includes connection.status_details.to_json, bunq_credentials.fetch(:api_key)
+    refute_includes connection.status_details.to_json, bunq_credentials.fetch(:private_key)
   end
 
   test "creates payment for valid member and invoice" do
