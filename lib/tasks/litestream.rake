@@ -98,18 +98,27 @@ namespace :litestream do
     Rake::Task["litestream:config:local"].invoke
   end
 
-  desc "Restore litestream backups to local storage"
+  desc "Restore litestream backups to local storage (optional TENANT=name1,name2)"
   task restore: :environment do
     raise "Only run this task in dev!" unless Rails.env.development?
 
-    FileUtils.rm_f(Dir.glob(Rails.root.join("storage", "development_*")))
-    Parallel.each(Tenant.all) do |tenant|
+    tenants = Tenant.all
+    puts "Restoring litestream backups for: #{tenants.join(", ")}"
+
+    # Only remove DBs for tenants being restored so TENANT=… leaves others intact
+    tenants.each do |tenant|
+      FileUtils.rm_f(Dir.glob(Rails.root.join("storage", "development_#{tenant}.sqlite3*")))
+    end
+
+    Parallel.each(tenants) do |tenant|
       `litestream restore --config "#{ENV["BACKUP_PATH"]}/litestream.yml" -o "#{Rails.root.join("storage", "development_#{tenant}.sqlite3")}" #{tenant}`
     end
 
     # Remove WAL-mode journal files created during restore
-    FileUtils.rm_f(Dir.glob(Rails.root.join("storage", "development_*.sqlite3.tmp-shm")))
-    FileUtils.rm_f(Dir.glob(Rails.root.join("storage", "development_*.sqlite3.tmp-wal")))
+    tenants.each do |tenant|
+      FileUtils.rm_f(Dir.glob(Rails.root.join("storage", "development_#{tenant}.sqlite3.tmp-shm")))
+      FileUtils.rm_f(Dir.glob(Rails.root.join("storage", "development_#{tenant}.sqlite3.tmp-wal")))
+    end
 
     puts "Litestream backups restored successfully."
   end

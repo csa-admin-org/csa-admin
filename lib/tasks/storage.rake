@@ -4,19 +4,24 @@ require "fileutils"
 require "parallel"
 
 namespace :storage do
-  desc "Copy attachments from local backup to storage directory"
+  desc "Copy attachments from local backup to storage directory (optional TENANT=name1,name2)"
   task restore: :environment do
     raise "Only run this task in dev!" unless Rails.env.development?
+
+    tenants = Tenant.all
+    puts "Restoring storage for: #{tenants.join(", ")}"
 
     backup_folder = ENV.fetch("BACKUP_PATH") + "/storage"
     storage_folder = Rails.root.join("storage")
 
-    # Build a set of expected storage paths from backup and track tenants
-    expected_paths = Set.new
-    backup_tenants = Set.new
-    Parallel.each(Dir.glob("#{backup_folder}/**/*")) do |file|
-      next if File.directory?(file)
+    # Only walk tenant folders in scope (full restore = all config tenants;
+    # TENANT=… limits to those names and leaves other tenants' storage alone).
+    backup_files = tenants.flat_map { |tenant|
+      Dir.glob("#{backup_folder}/#{tenant}/**/*")
+    }.reject { |file| File.directory?(file) }
 
+    expected_paths = Set.new
+    Parallel.each(backup_files) do |file|
       relative_path = file.sub("#{backup_folder}/", "")
       tenant, key = relative_path.split("/")
       first_two = key[0..1]
@@ -24,15 +29,14 @@ namespace :storage do
 
       target_path = File.join(storage_folder, tenant, first_two, next_two, key)
       expected_paths << target_path
-      backup_tenants << tenant
       unless File.exist?(target_path)
         FileUtils.mkdir_p(File.dirname(target_path))
         FileUtils.cp(file, target_path)
       end
     end
 
-    # Remove files in storage that don't exist in backup (only within tenant folders)
-    backup_tenants.each do |tenant|
+    # Remove files in storage that don't exist in backup (only within scoped tenant folders)
+    tenants.each do |tenant|
       tenant_storage = File.join(storage_folder, tenant)
       next unless File.directory?(tenant_storage)
 
@@ -53,7 +57,7 @@ namespace :storage do
 
     # Ensure the tenant shards are connected.
     require Rails.root.join("app/models/application_record")
-    Parallel.each(Tenant.all) do |tenant|
+    Parallel.each(tenants) do |tenant|
       Tenant.switch(tenant) do
         ActiveStorage::Blob.update_all(service_name: "tenant_disk")
       end
