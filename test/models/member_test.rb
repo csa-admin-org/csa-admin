@@ -135,6 +135,13 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal "DE", Member.new.country_code
   end
 
+  test "uses organization time zone without country" do
+    member = members(:mary)
+    member.country_code = nil
+
+    assert_equal Current.org.time_zone, member.time_zone
+  end
+
   test "updates waiting basket_size/depot" do
     member = members(:aria)
     new_basket_size = basket_sizes(:small)

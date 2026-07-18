@@ -31,7 +31,7 @@ class Members::CalendarsController < Members::BaseController
   end
 
   def authenticate_member!
-    @member = Member.find_by_token_for(:calendar, params[:token])
+    @member = Member.kept.find_by_token_for(:calendar, params[:token])
 
     unless @member
       render plain: "unauthorized", status: :unauthorized

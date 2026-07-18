@@ -18,6 +18,16 @@ class Members::CalendarsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
+  test "with a discarded member token" do
+    member = members(:mary)
+    token = member.generate_token_for(:calendar)
+    member.discard
+
+    request token: token
+
+    assert_response :unauthorized
+  end
+
   test "with a good token" do
     request token: members(:john).generate_token_for(:calendar)
 

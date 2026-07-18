@@ -102,7 +102,7 @@ class Member < ApplicationRecord
   end
 
   def time_zone
-    Current.org.time_zone unless country_code?
+    return Current.org.time_zone unless country_code?
 
     country.timezones.zone_info.first.identifier
   end
