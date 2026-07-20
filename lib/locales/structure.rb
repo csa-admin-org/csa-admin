@@ -17,17 +17,17 @@ module Locales
 
     module_function
 
-    def locale_files(root: Rails.root)
+    def locale_files(root: Locales.root)
       Dir[root.join("config/locales/**/*.{yml,yaml}")].sort
     end
 
-    def view_files(root: Rails.root)
+    def view_files(root: Locales.root)
       Dir[root.join("app/views/**/*.erb")].sort
     end
 
     def load_translations(files)
       files.each_with_object({}) do |file, translations|
-        translations.deep_merge!(YAML.load_file(file))
+        Locales.deep_merge!(translations, YAML.load_file(file) || {})
       end
     end
 
@@ -56,7 +56,11 @@ module Locales
       source_violations + cross_file_violations
     end
 
-    def violations(translations, locales: I18n.available_locales, basket_scopes: Organization.basket_i18n_scopes, activity_scopes: Organization.activity_i18n_scopes)
+    def violations(
+      translations,
+      locales: Locales::LOCALES,
+      basket_scopes: Locales::BASKET_SCOPES,
+      activity_scopes: Locales::ACTIVITY_SCOPES)
       groups = translation_groups(translations, locale_keys: locales.map { |locale| "_#{locale}" })
 
       interpolation_violations(groups) +
@@ -73,7 +77,7 @@ module Locales
       groups << [ path, translations ] if translations.any?
 
       value.each do |key, nested|
-        next if key.to_s.in?(locale_keys)
+        next if locale_keys.include?(key.to_s)
 
         translation_groups(nested, [ *path, key ], locale_keys:, groups:)
       end
@@ -168,7 +172,7 @@ module Locales
       end
 
       families.filter_map do |(path, kind), scopes|
-        next if path.in?(base_paths)
+        next if base_paths.include?(path)
 
         missing_scopes = valid_scopes.fetch(kind) - scopes.uniq
         next if missing_scopes.empty?
@@ -192,20 +196,22 @@ module Locales
 
     def scoped_indices(path)
       indices = [ path.length - 1 ]
-      indices << path.length - 2 if path.length > 1 && path.last.to_s.in?(PLURAL_KEYS)
+      indices << path.length - 2 if path.length > 1 && PLURAL_KEYS.include?(path.last.to_s)
       indices
     end
 
     def valid_scoped_index?(path, index)
       index == path.length - 1 ||
-        (index == path.length - 2 && path.last.to_s.in?(PLURAL_KEYS))
+        (index == path.length - 2 && PLURAL_KEYS.include?(path.last.to_s))
     end
 
     def scoped_key(key, valid_scopes)
-      scope = valid_scopes.values.flatten.find { |value| key.to_s.end_with?("/#{value}") || key.to_s.end_with?("/#{value}_html") }
+      scope = valid_scopes.values.flatten.find { |value|
+        key.to_s.end_with?("/#{value}") || key.to_s.end_with?("/#{value}_html")
+      }
       return unless scope
 
-      kind = valid_scopes.find { |_, values| scope.in?(values) }.first
+      kind = valid_scopes.find { |_, values| values.include?(scope) }.first
       match = key.to_s.match(/\A(?<base>.+)\/#{Regexp.escape(scope)}(?<html>_html)?\z/)
       return unless match
 

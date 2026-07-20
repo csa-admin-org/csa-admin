@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Fast locale checks/format without booting Rails.
+# Usage:
+#   bin/locales              # check (missing, structure, format)
+#   bin/locales check
+#   bin/locales format
+
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+require "locales"
+
+command = ARGV[0] || "check"
+
+case command
+when "check"
+  Locales::Checker.check!
+when "format"
+  Locales::Catalog.format!
+else
+  warn "Usage: bin/locales [check|format]"
+  exit 64
+end

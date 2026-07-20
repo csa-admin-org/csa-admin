@@ -74,7 +74,7 @@ matrix for its terminology: every basket scope (`basket`, `bag`, `share`, `packa
 `cone`, `crate`) or every activity scope (`hour_work`, `halfday_work`, `day_work`,
 `basket_preparation`). A complete matrix may omit the base because every organization
 then resolves a valid variant. Every variant must contain all supported locales. The
-`locales:check` task enforces the full contract.
+`bin/locales check` enforces the full contract.
 
 During development, follow the two-phase process below; once wording is finalized, every
 scoped variant needs values for all supported locales. See

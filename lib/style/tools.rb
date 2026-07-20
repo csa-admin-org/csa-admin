@@ -20,7 +20,7 @@ module Style
       def command(mode)
         return if skip?(select(patterns: %w[config/locales/**/*.{yml,yaml}], prefixes: %w[config/locales]))
 
-        check?(mode) ? "bin/rails locales:check" : "bin/rails locales:format"
+        check?(mode) ? "bin/locales check" : "bin/locales format"
       end
     end
 
@@ -79,13 +79,17 @@ module Style
         selected = select(patterns: HerbFormat::PATTERNS)
         return if skip?(selected)
 
-        "bin/herb lint #{scope(selected)}"
+        "bin/herb lint #{scope(selected)}#{github_flag}"
       end
 
       private
 
       def scope(selected)
         selected.empty? ? "." : join(selected)
+      end
+
+      def github_flag
+        ENV["GITHUB_ACTIONS"] ? " --github" : ""
       end
     end
 

@@ -2,7 +2,7 @@
 
 require "test_helper"
 require "fileutils"
-require "locales/structure"
+require "locales"
 require "tmpdir"
 
 class LocaleStructureTest < ActiveSupport::TestCase

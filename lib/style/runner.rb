@@ -43,7 +43,7 @@ module Style
     def run(tool_class)
       tool = tool_class.new(@paths)
       command = tool.command(@mode)
-      return if command.blank?
+      return if command.nil? || command.empty?
 
       output, success = @executor.call(command)
       Outcome.from(name: tool.name, success:, output:)
@@ -59,7 +59,7 @@ module Style
         puts "✅ #{outcome.name}"
       else
         puts "❌ #{outcome.name}"
-        puts outcome.output.rstrip unless outcome.output.blank?
+        puts outcome.output.rstrip unless outcome.output.nil? || outcome.output.empty?
         puts
       end
     end

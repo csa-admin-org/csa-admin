@@ -12,8 +12,8 @@ env:
   BUNDLE_FROZEN: true
 
 jobs:
-  lint:
-    name: Lint
+  style:
+    name: Style
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -27,29 +27,8 @@ jobs:
           bootstrap: true
           cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
 
-      - name: Locales
-        run: bin/rails locales:check
-
-      - name: RuboCop
-        run: bin/rubocop --parallel --format simple
-
-      - name: Herb format
-        run: bin/herb format . --check
-
-      - name: Herb lint
-        run: bin/herb lint . --github
-
-      - name: Oxfmt (JS)
-        run: bin/oxfmt app/javascript --check
-
-      - name: Oxlint (JS)
-        run: bin/oxlint app/javascript
-
-      - name: Prettier (CSS)
-        run: bin/prettier "app/assets/tailwind/**/*.css" --check --cache --log-level warn
-
-      - name: Stylelint (CSS)
-        run: bin/stylelint "app/assets/tailwind/**/*.css"
+      - name: Style
+        run: bin/style
 
       - name: Check Migration Indexes
         uses: speedshop/ids_must_be_indexed@v1

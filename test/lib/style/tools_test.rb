@@ -7,7 +7,7 @@ class Style::ToolsTest < ActiveSupport::TestCase
   test "full check run uses default scopes for every tool" do
     commands = commands_for(:check, [])
 
-    assert_equal "bin/rails locales:check", commands[:locales]
+    assert_equal "bin/locales check", commands[:locales]
     assert_equal "bin/syntax", commands[:syntax]
     assert_equal "bin/rubocop --parallel --format simple", commands[:rubocop]
     assert_equal "bin/herb lint .", commands[:herb_lint]
@@ -19,10 +19,25 @@ class Style::ToolsTest < ActiveSupport::TestCase
     assert_equal 'bin/stylelint "app/assets/tailwind/**/*.css"', commands[:stylelint]
   end
 
+  test "herb lint adds --github under GitHub Actions" do
+    previous = ENV["GITHUB_ACTIONS"]
+    ENV["GITHUB_ACTIONS"] = "true"
+
+    commands = commands_for(:check, [])
+
+    assert_equal "bin/herb lint . --github", commands[:herb_lint]
+  ensure
+    if previous
+      ENV["GITHUB_ACTIONS"] = previous
+    else
+      ENV.delete("GITHUB_ACTIONS")
+    end
+  end
+
   test "full fix run uses fix flags and skips check-only tools" do
     commands = commands_for(:fix, [])
 
-    assert_equal "bin/rails locales:format", commands[:locales]
+    assert_equal "bin/locales format", commands[:locales]
     assert_nil commands[:syntax]
     assert_equal "bin/rubocop --parallel --autocorrect-all --format quiet", commands[:rubocop]
     assert_nil commands[:herb_lint]
@@ -74,7 +89,7 @@ class Style::ToolsTest < ActiveSupport::TestCase
   test "locale path only runs locales" do
     commands = commands_for(:check, %w[config/locales/en.yml])
 
-    assert_equal "bin/rails locales:check", commands[:locales]
+    assert_equal "bin/locales check", commands[:locales]
     assert_only commands, :locales
   end
 
