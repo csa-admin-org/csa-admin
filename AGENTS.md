@@ -22,7 +22,7 @@ CSA Admin is a multi-tenant Rails application for managing Community Supported A
 
 ### Local Browser Access
 
-Development uses puma-dev over HTTPS, not `localhost:3000`. Select an exact development `admin_host` or `members_host` from `config/tenant.yml` and replace its public top-level domain with `.test`. Do not derive hosts from tenant names. Admin and member portals have separate routes and authentication contexts. The `acme` tenant is test-only.
+Development uses puma-dev over HTTPS, not `localhost:3000`. Host mapping, portals, and agent-browser notes: `.agents/browser/README.md`.
 
 ### Jobs
 
