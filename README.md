@@ -85,6 +85,7 @@ Useful commands:
 - Run all tests: `bin/rails test:all`
 - Check style (lint + format): `bin/style`
 - Auto-fix style issues: `bin/style fix`
+- Run security audits: `bin/security`
 - Run final validation: `bin/ci`
 
 ## Contributing

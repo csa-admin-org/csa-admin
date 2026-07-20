@@ -8,6 +8,7 @@ CSA Admin is a multi-tenant Rails application for managing Community Supported A
 
 - `bin/rails test:all` — full unit and system test suite using the `acme` test tenant
 - `bin/style` / `bin/style fix` — style checks and fixes (lint + format); optional paths limit which tools run (`bin/style app/models/foo.rb app/javascript/bar.js`)
+- `bin/security` — gem, importmap, Brakeman, and aube (JS) advisory checks
 - `bin/ci` — final validation: setup, style, security, tests, and seeds; see `config/ci.rb`
 - `mise bootstrap` installs local tools and native packages, then runs `bin/setup --skip-server`; continue using `bin/rails` and `bin/ci` directly.
 - Tests use Minitest, all fixtures in `test/fixtures/`, and Capybara for system tests.

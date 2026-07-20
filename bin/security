@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Usage:
+#   bin/security
+#
+# Runs Security::Runner directly (no Rails boot). Under GitHub Actions,
+# Brakeman writes results.sarif for the workflow upload step.
+
+require "bundler/setup"
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+require "security"
+
+Security::Runner.new.call

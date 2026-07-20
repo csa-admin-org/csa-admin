@@ -53,14 +53,8 @@ jobs:
           bootstrap: true
           cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
 
-      - name: Gem audit
-        run: bin/bundler-audit
-
-      - name: Importmap vulnerability audit
-        run: bin/importmap audit
-
-      - name: Brakeman code analysis
-        run: bin/brakeman -f sarif -o results.sarif
+      - name: Security
+        run: bin/security
 
       - name: Upload SARIF file
         if: always()
