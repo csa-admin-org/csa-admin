@@ -357,8 +357,9 @@ class SearchEntryTest < ActiveSupport::TestCase
     SearchEntry.rebuild!
 
     membership_entries = SearchEntry.where(searchable_type: "Membership")
+    memberships = Membership.where(id: membership_entries.map(&:searchable_id)).index_by(&:id)
     membership_entries.each do |entry|
-      membership = Membership.find(entry.searchable_id)
+      membership = memberships.fetch(entry.searchable_id)
       assert membership.ended_on >= Membership.search_min_date,
         "Membership #{membership.id} (ended_on: #{membership.ended_on}) should not be indexed"
     end

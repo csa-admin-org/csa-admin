@@ -162,8 +162,7 @@ class Newsletter
     def member_ids_must_be_exclusive
       return unless self[:member_ids].any?
 
-      has_blocking_criteria =
-        member_state.present?
+      has_blocking_criteria = member_state.present?
         || city.present?
         || basket_size_ids.any?
         || basket_complement_ids.any?

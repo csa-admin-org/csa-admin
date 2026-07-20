@@ -121,7 +121,6 @@ module Billing
           elsif transaction.debit? && entry.additional_information.in?(REVERSAL_TEXTS)
             if Billing.reference.valid?(ref)
               payload = Billing.reference.payload(ref)
-              ref = Billing.reference.extract_ref(ref)
               PaymentData.new(
                 origin: origin,
                 member_id: payload[:member_id],

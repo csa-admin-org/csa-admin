@@ -63,9 +63,13 @@ class BasketShift < ApplicationRecord
   end
 
   def complements_description(public_name: false)
-    quantities[:basket_complements].map { |id, quantity|
-      describe(BasketComplement.find(id), quantity, public_name: public_name)
-    }.compact.to_sentence.presence
+    complements = quantities[:basket_complements]
+    return if complements.blank?
+
+    by_id = BasketComplement.where(id: complements.map(&:first)).index_by(&:id)
+    complements.filter_map { |id, quantity|
+      describe(by_id[id], quantity, public_name: public_name) if by_id[id]
+    }.to_sentence.presence
   end
 
   # Reverses the effect of this shift on a basket outside the recreate range.

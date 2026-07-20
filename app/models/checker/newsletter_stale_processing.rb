@@ -3,16 +3,16 @@
 module Checker
   class NewsletterStaleProcessing < SimpleDelegator
     def self.check_all!
-      MailDelivery::Email.stale
+      newsletter_ids = MailDelivery::Email.stale
         .joins(:mail_delivery)
         .merge(MailDelivery.newsletters)
         .select(Arel.sql("json_extract(mail_deliveries.mailable_ids, '$[0]') AS newsletter_id"))
         .distinct
         .pluck(Arel.sql("json_extract(mail_deliveries.mailable_ids, '$[0]')"))
-        .each do |newsletter_id|
-          newsletter = Newsletter.find(newsletter_id)
-          new(newsletter).check!
-        end
+
+      Newsletter.where(id: newsletter_ids).find_each do |newsletter|
+        new(newsletter).check!
+      end
     end
 
     def initialize(newsletter)

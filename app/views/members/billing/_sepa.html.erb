@@ -1,4 +1,5 @@
 <% if Current.org.sepa_configured? %>
+  <% mandate = current_member.sepa? ? current_member.current_sepa_mandate : nil %>
   <div class="mt-12 rounded-sm border border-gray-200 p-2 px-4 dark:border-gray-700">
     <div class="relative mb-4">
       <h3 class="text-center text-xl whitespace-nowrap">
@@ -8,8 +9,6 @@
       <% if current_member.sepa? %>
         <div class="top-0 -right-1.5 p-1 md:absolute">
           <div class="flex justify-center gap-1.5 md:justify-between">
-            <% mandate = current_member.current_sepa_mandate %>
-
             <%= button_to members_sepa_mandate_path, method: :delete,
               title: t("members.sepa_mandates.disable.link"),
               form: {

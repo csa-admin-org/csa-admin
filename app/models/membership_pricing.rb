@@ -110,8 +110,8 @@ class MembershipPricing
     return [ 0, 0 ] unless @params[:activity_participations_demanded_annually]
     return [ 0, 0 ] unless basket_size
 
+    fy = Delivery.last.fiscal_year
     counts = delivery_cycles.map { |dc|
-      fy = Delivery.last.fiscal_year
       m = Membership.new(
         started_on: fy.beginning_of_year,
         ended_on: fy.end_of_year,

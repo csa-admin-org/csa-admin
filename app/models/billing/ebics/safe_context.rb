@@ -150,8 +150,10 @@ module Billing
       def self.error_return_code(error)
         current = error
         3.times do
-          response = current.response if current.respond_to?(:response)
-          return response.return_code if response&.respond_to?(:return_code)
+          if current.respond_to?(:response)
+            response = current.response
+            return response.return_code if response&.respond_to?(:return_code)
+          end
           break unless current.respond_to?(:original_error)
 
           current = current.original_error

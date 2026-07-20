@@ -57,12 +57,11 @@ class Newsletter
 
     def liquid_data_preview_yamls
       Current.org.languages.map { |locale|
-        data =
-          @liquid_data_previews&.dig(locale)
-            || I18n.with_locale(locale) {
-              Liquid::DataPreview.for(self).merge(
-                "subject" => I18n.t("newsletters.template.subject"))
-            }
+        data = @liquid_data_previews&.dig(locale)
+          || I18n.with_locale(locale) {
+            Liquid::DataPreview.for(self).merge(
+              "subject" => I18n.t("newsletters.template.subject"))
+          }
         [ locale, data.to_yaml(line_width: -1).gsub("---\n", "") ]
       }.to_h
     end

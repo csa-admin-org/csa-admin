@@ -52,13 +52,12 @@ module Locales
     def verify!
       locale_files = Structure.locale_files
       before = locale_files.to_h { |file| [ file, File.read(file) ] }
-      changed = []
 
-      begin
+      # Always restore: check must not leave reformatted files (or a partial write).
+      changed = begin
         Catalog.convert_and_write(Catalog.load_from_config)
-        changed = locale_files.select { |file| File.read(file) != before[file] }
+        locale_files.select { |file| File.read(file) != before[file] }
       ensure
-        # Always restore: check must not leave reformatted files (or a partial write).
         before.each { |file, content| File.write(file, content) }
       end
 

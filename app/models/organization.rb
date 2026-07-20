@@ -289,8 +289,7 @@ class Organization < ApplicationRecord
   def default_email_footers
     Organization.languages.reduce({}) do |h, locale|
       h[locale] = I18n.with_locale(locale) {
-        txt = I18n.t("organization.default_email_footer")
-        txt += "\n#{creditor_name}, #{creditor_street}, #{creditor_zip} #{creditor_city}"
+        "#{I18n.t("organization.default_email_footer")}\n#{creditor_name}, #{creditor_street}, #{creditor_zip} #{creditor_city}"
       }
       h
     end
@@ -299,8 +298,7 @@ class Organization < ApplicationRecord
   def default_email_signatures
     Organization.languages.reduce({}) do |h, locale|
       h[locale] = I18n.with_locale(locale) {
-        txt = I18n.t("organization.default_email_signature")
-        txt += "\n#{name}"
+        "#{I18n.t("organization.default_email_signature")}\n#{name}"
       }
       h
     end

@@ -68,9 +68,16 @@ class MemberRegistration
     @existing_member ||= begin
       # Only match kept (non-discarded) members for reuse.
       # Discarded members keep their emails "taken" until anonymization clears them.
-      members = @member.emails_array.map { |email|
-        Member.kept.including_email(email).first
-      }.compact.uniq
+      emails = @member.emails_array
+      members = if emails.empty?
+        []
+      else
+        emails
+          .map { |email| Member.kept.including_email(email) }
+          .reduce(&:or)
+          .to_a
+          .uniq
+      end
       raise MultipleMatchingMembersError if members.many?
 
       members.first
