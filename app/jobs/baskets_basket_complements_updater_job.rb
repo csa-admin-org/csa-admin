@@ -2,7 +2,6 @@
 
 class BasketsBasketComplementsUpdaterJob < ApplicationJob
   queue_as :default
-  self.enqueue_after_transaction_commit = true
   limits_concurrency key: ->(complement, delivery_ids, context) { [ complement.id, context["tenant"] ] }
 
   def perform(complement, delivery_ids = {})
