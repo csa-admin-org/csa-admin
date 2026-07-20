@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Usage:
+#   bin/style                  # check everything
+#   bin/style path [path...]   # check specific paths
+#   bin/style check [path...]  # same as default
+#   bin/style fix [path...]    # auto-fix / format
+
+args = ARGV.dup
+task =
+  case args.first
+  when "fix"
+    args.shift
+    "style:fix"
+  when "check"
+    args.shift
+    "style:check"
+  else
+    "style"
+  end
+
+exec File.expand_path("rails", __dir__), task, *args

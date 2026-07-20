@@ -3,7 +3,7 @@
 require "open3"
 require "parallel"
 
-module Lint
+module Style
   class Runner
     def initialize(mode:, paths:, executor: nil, mapper: Parallel.method(:map))
       @mode = mode
@@ -14,7 +14,7 @@ module Lint
 
     def call
       report_all
-      abort("Linting failed") if failures?
+      abort(failure_message) if failures?
     end
 
     private
@@ -27,21 +27,26 @@ module Lint
       outcomes.any? { |outcome| !outcome.success? }
     end
 
+    def failure_message
+      names = outcomes.reject(&:success?).map(&:name).join(", ")
+      "Style #{@mode} failed: #{names}"
+    end
+
     def outcomes
       @outcomes ||= results.compact.sort_by(&:finished_at)
     end
 
     def results
-      @mapper.call(Linters.all) { |linter| run(linter) }
+      @mapper.call(Tools.all) { |tool| run(tool) }
     end
 
-    def run(linter_class)
-      linter = linter_class.new(@paths)
-      command = linter.command(@mode)
+    def run(tool_class)
+      tool = tool_class.new(@paths)
+      command = tool.command(@mode)
       return if command.blank?
 
       output, success = @executor.call(command)
-      Outcome.from(name: linter.name, success:, output:)
+      Outcome.from(name: tool.name, success:, output:)
     end
 
     def execute(command)

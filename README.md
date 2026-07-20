@@ -83,8 +83,8 @@ Development requirements are managed with [Mise](https://mise.jdx.dev) 2026.7 or
 Useful commands:
 
 - Run all tests: `bin/rails test:all`
-- Check linting: `bin/rails lint:check`
-- Auto-fix linting issues: `bin/rails lint:autocorrect`
+- Check style (lint + format): `bin/style`
+- Auto-fix style issues: `bin/style fix`
 - Run final validation: `bin/ci`
 
 ## Contributing

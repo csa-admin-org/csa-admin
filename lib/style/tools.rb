@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Lint
-  module Linters
+module Style
+  module Tools
     def self.all
       [
         Locales,
@@ -15,7 +15,7 @@ module Lint
       ]
     end
 
-    class Locales < Linter
+    class Locales < Tool
       def command(mode)
         return if skip?(select(patterns: %w[config/locales/**/*.{yml,yaml}], prefixes: %w[config/locales]))
 
@@ -23,7 +23,7 @@ module Lint
       end
     end
 
-    class Rubocop < Linter
+    class Rubocop < Tool
       PATTERNS = [
         "**/*.{rb,rake,gemspec,erb}",
         "**/Gemfile",
@@ -52,7 +52,7 @@ module Lint
       end
     end
 
-    class HerbLint < Linter
+    class HerbLint < Tool
       def command(mode)
         return unless check?(mode)
 
@@ -69,7 +69,7 @@ module Lint
       end
     end
 
-    class HerbFormat < Linter
+    class HerbFormat < Tool
       PATTERNS = [
         "**/*.herb",
         "**/*.html.erb",
@@ -98,7 +98,7 @@ module Lint
       end
     end
 
-    class Oxfmt < Linter
+    class Oxfmt < Tool
       def command(mode)
         selected = select(prefixes: %w[app/javascript])
         return if skip?(selected)
@@ -117,7 +117,7 @@ module Lint
       end
     end
 
-    class Oxlint < Linter
+    class Oxlint < Tool
       def command(mode)
         selected = select(prefixes: %w[app/javascript])
         return if skip?(selected)
@@ -136,7 +136,7 @@ module Lint
       end
     end
 
-    class Prettier < Linter
+    class Prettier < Tool
       def command(mode)
         selected = select(patterns: %w[app/assets/tailwind/**/*.css], prefixes: %w[app/assets/tailwind])
         return if skip?(selected)
@@ -155,7 +155,7 @@ module Lint
       end
     end
 
-    class Stylelint < Linter
+    class Stylelint < Tool
       def command(mode)
         selected = select(patterns: %w[app/assets/tailwind/**/*.css], prefixes: %w[app/assets/tailwind])
         return if skip?(selected)

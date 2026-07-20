@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Lint
+module Style
   module PathSelector
     FLAGS = File::FNM_PATHNAME | File::FNM_EXTGLOB
 

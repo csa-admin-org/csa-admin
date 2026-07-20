@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "lint"
+require "style"
 
-class Lint::RunnerTest < ActiveSupport::TestCase
-  test "prints success marks for matching linters only" do
+class Style::RunnerTest < ActiveSupport::TestCase
+  test "prints success marks for matching tools only" do
     commands = []
     executor = ->(command) {
       commands << command
@@ -12,7 +12,7 @@ class Lint::RunnerTest < ActiveSupport::TestCase
     }
 
     out, = capture_io {
-      run_lint(
+      run_style(
         mode: :check,
         paths: %w[app/models/member.rb app/javascript/admin.js],
         executor: executor)
@@ -28,13 +28,13 @@ class Lint::RunnerTest < ActiveSupport::TestCase
     assert commands.any? { |command| command.start_with?("bin/oxlint") }
   end
 
-  test "prints failure output then aborts when a linter fails" do
+  test "prints failure output then aborts with failed tool names" do
     executor = ->(_command) { [ "Layout/LineLength: too long\n", false ] }
 
     error = nil
     out, err = capture_io {
       error = assert_raises(SystemExit) {
-        run_lint(
+        run_style(
           mode: :check,
           paths: %w[app/models/member.rb],
           executor: executor)
@@ -44,16 +44,16 @@ class Lint::RunnerTest < ActiveSupport::TestCase
     assert_equal 1, error.status
     assert_includes out, "❌ rubocop"
     assert_includes out, "Layout/LineLength: too long"
-    assert_includes err, "Linting failed"
+    assert_includes err, "Style check failed: rubocop"
   end
 
   test "prints outcomes in completion order" do
     timed = [
-      Lint::Outcome.new(name: :rubocop, success: true, output: "", finished_at: 3.0),
-      Lint::Outcome.new(name: :oxfmt, success: false, output: "boom\n", finished_at: 1.0),
-      Lint::Outcome.new(name: :oxlint, success: true, output: "", finished_at: 2.0)
+      Style::Outcome.new(name: :rubocop, success: true, output: "", finished_at: 3.0),
+      Style::Outcome.new(name: :oxfmt, success: false, output: "boom\n", finished_at: 1.0),
+      Style::Outcome.new(name: :oxlint, success: true, output: "", finished_at: 2.0)
     ]
-    runner = Lint::Runner.new(
+    runner = Style::Runner.new(
       mode: :check,
       paths: [],
       mapper: ->(_enum, &_block) { timed })
@@ -69,14 +69,14 @@ class Lint::RunnerTest < ActiveSupport::TestCase
       ✅ oxlint
       ✅ rubocop
     OUTPUT
-    assert_includes err, "Linting failed"
+    assert_includes err, "Style check failed: oxfmt"
   end
 
-  test "succeeds when no linter matches the given paths" do
+  test "succeeds when no tool matches the given paths" do
     commands = []
 
     capture_io {
-      run_lint(
+      run_style(
         mode: :check,
         paths: %w[README.md],
         executor: ->(command) {
@@ -90,8 +90,8 @@ class Lint::RunnerTest < ActiveSupport::TestCase
 
   private
 
-  def run_lint(mode:, paths:, executor:)
-    Lint::Runner.new(
+  def run_style(mode:, paths:, executor:)
+    Style::Runner.new(
       mode: mode,
       paths: paths,
       executor: executor,

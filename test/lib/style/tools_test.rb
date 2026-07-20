@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "lint"
+require "style"
 
-class Lint::LintersTest < ActiveSupport::TestCase
-  test "full check run uses default scopes for every linter" do
+class Style::ToolsTest < ActiveSupport::TestCase
+  test "full check run uses default scopes for every tool" do
     commands = commands_for(:check, [])
 
     assert_equal "bin/rails locales:check", commands[:locales]
@@ -18,8 +18,8 @@ class Lint::LintersTest < ActiveSupport::TestCase
     assert_equal 'bin/stylelint "app/assets/tailwind/**/*.css"', commands[:stylelint]
   end
 
-  test "full autocorrect run uses fix flags and skips herb lint" do
-    commands = commands_for(:autocorrect, [])
+  test "full fix run uses fix flags and skips herb lint" do
+    commands = commands_for(:fix, [])
 
     assert_equal "bin/rails locales:format", commands[:locales]
     assert_equal "bin/rubocop --parallel --autocorrect-all --format quiet", commands[:rubocop]
@@ -75,7 +75,7 @@ class Lint::LintersTest < ActiveSupport::TestCase
     assert_only commands, :locales
   end
 
-  test "mixed paths run each matching linter with its own files" do
+  test "mixed paths run each matching tool with its own files" do
     paths = %w[
       app/models/member.rb
       app/javascript/admin.js
@@ -100,7 +100,7 @@ class Lint::LintersTest < ActiveSupport::TestCase
     assert_includes commands[:rubocop], "app/models/my\\ model.rb"
   end
 
-  test "unmatched paths skip every linter" do
+  test "unmatched paths skip every tool" do
     commands = commands_for(:check, %w[README.md docs/notes.txt])
 
     assert_empty commands.compact
@@ -109,14 +109,14 @@ class Lint::LintersTest < ActiveSupport::TestCase
   private
 
   def commands_for(mode, paths)
-    Lint::Linters.all.to_h { |linter|
-      instance = linter.new(paths)
+    Style::Tools.all.to_h { |tool|
+      instance = tool.new(paths)
       [ instance.name, instance.command(mode) ]
     }
   end
 
   def assert_only(commands, *names)
     present = commands.compact.keys
-    assert_equal names.sort, present.sort, "unexpected linters: #{present - names}"
+    assert_equal names.sort, present.sort, "unexpected tools: #{present - names}"
   end
 end

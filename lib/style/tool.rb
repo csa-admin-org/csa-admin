@@ -2,8 +2,8 @@
 
 require "shellwords"
 
-module Lint
-  class Linter
+module Style
+  class Tool
     def initialize(paths)
       @paths = paths
     end

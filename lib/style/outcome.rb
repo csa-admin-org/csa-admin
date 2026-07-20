@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Lint
+module Style
   Outcome = Data.define(:name, :success, :output, :finished_at) do
     def self.from(name:, success:, output:)
       new(

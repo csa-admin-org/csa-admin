@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "lint"
+require "style"
 
-class Lint::PathSelectorTest < ActiveSupport::TestCase
+class Style::PathSelectorTest < ActiveSupport::TestCase
   test "matches extension globs" do
     paths = %w[
       app/models/member.rb
-      lib/tasks/lint.rake
+      lib/tasks/style.rake
       app/javascript/admin.js
     ]
 
-    selected = Lint::PathSelector.call(paths, patterns: %w[**/*.{rb,rake}])
+    selected = Style::PathSelector.call(paths, patterns: %w[**/*.{rb,rake}])
 
-    assert_equal %w[app/models/member.rb lib/tasks/lint.rake], selected
+    assert_equal %w[app/models/member.rb lib/tasks/style.rake], selected
   end
 
   test "matches path prefixes for files and directories" do
@@ -23,7 +23,7 @@ class Lint::PathSelectorTest < ActiveSupport::TestCase
       app/models/member.rb
     ]
 
-    selected = Lint::PathSelector.call(paths, prefixes: %w[app/javascript])
+    selected = Style::PathSelector.call(paths, prefixes: %w[app/javascript])
 
     assert_equal %w[app/javascript/admin.js app/javascript], selected
   end
@@ -35,7 +35,7 @@ class Lint::PathSelectorTest < ActiveSupport::TestCase
       app/views/mailer.text.erb
     ]
 
-    selected = Lint::PathSelector.call(
+    selected = Style::PathSelector.call(
       paths,
       patterns: %w[**/*.html.erb **/*.turbo_stream.erb])
 
@@ -46,7 +46,7 @@ class Lint::PathSelectorTest < ActiveSupport::TestCase
   end
 
   test "returns empty when nothing matches" do
-    selected = Lint::PathSelector.call(
+    selected = Style::PathSelector.call(
       %w[README.md],
       patterns: %w[**/*.rb],
       prefixes: %w[app/javascript])

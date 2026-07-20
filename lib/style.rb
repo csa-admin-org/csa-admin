@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-require "lint/path_selector"
-require "lint/linter"
-require "lint/linters"
-require "lint/outcome"
-require "lint/runner"
+require "style/path_selector"
+require "style/tool"
+require "style/tools"
+require "style/outcome"
+require "style/runner"
 
-module Lint
-  TASK_NAMES = %w[lint:check lint:autocorrect lint].freeze
+module Style
+  TASK_NAMES = %w[style:check style:fix style].freeze
 
   module_function
 
   # Rails rejects unknown top-level tasks, so register path args as no-ops.
-  # Must run at rake load time, outside `namespace :lint`.
+  # Must run at rake load time, outside `namespace :style`.
   def register_path_arguments!
     return unless invoked?
 
