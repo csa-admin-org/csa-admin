@@ -7,7 +7,7 @@ class Security::ToolsTest < ActiveSupport::TestCase
   test "default commands match local CI flags" do
     commands = commands_for
 
-    assert_equal "bin/bundler-audit", commands[:bundler_audit]
+    assert_equal "bin/bundler-audit check --update", commands[:bundler_audit]
     assert_equal "bin/importmap audit", commands[:importmap]
     assert_equal "bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error", commands[:brakeman]
     assert_equal "aube audit", commands[:aube]

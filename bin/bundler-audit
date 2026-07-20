@@ -1,6 +1,14 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require_relative "../config/boot"
 require "bundler/audit/cli"
 
-ARGV.concat %w[ --config config/bundler-audit.yml ] if ARGV.empty? || ARGV.include?("check")
+# Default task is `check`. Always refresh ruby-advisory-db before checking so
+# local runs match CI (which clones a current DB).
+if ARGV.empty? || ARGV.include?("check")
+  ARGV.concat %w[--config config/bundler-audit.yml] unless ARGV.intersect?(%w[-c --config])
+  ARGV.concat %w[--update] unless ARGV.intersect?(%w[-u --update])
+end
+
 Bundler::Audit::CLI.start

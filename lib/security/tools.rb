@@ -14,8 +14,9 @@ module Security
     class BundlerAudit
       def name = :bundler_audit
 
+      # bin/bundler-audit refreshes ruby-advisory-db (--update) before checking.
       def command
-        "bin/bundler-audit"
+        "bin/bundler-audit check --update"
       end
     end
 
