@@ -1,15 +1,15 @@
 {
   "devDependencies": {
     "@dreamsicle.io/stylelint-config-tailwindcss": "^1.2.2",
-    "@herb-tools/formatter": "^0.10.1",
-    "@herb-tools/linter": "^0.10.1",
-    "oxfmt": "^0.58.0",
-    "oxlint": "^1.73.0",
+    "@herb-tools/formatter": "^0.10.2",
+    "@herb-tools/linter": "^0.10.2",
+    "oxfmt": "^0.59.0",
+    "oxlint": "^1.74.0",
     "prettier": "^3.9.5",
-    "prettier-plugin-tailwindcss": "^0.8.0",
-    "stylelint": "^17.14.0",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "stylelint": "^17.14.1",
     "stylelint-config-recommended": "^18.0.0",
     "stylelint-lsp": "^2.0.1",
-    "tailwindcss": "^4.3.2"
+    "tailwindcss": "^4.3.3"
   }
 }
