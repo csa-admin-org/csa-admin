@@ -4,6 +4,19 @@ require "test_helper"
 require "style"
 
 class Style::ToolsTest < ActiveSupport::TestCase
+  setup do
+    @previous_github_actions = ENV["GITHUB_ACTIONS"]
+    ENV.delete("GITHUB_ACTIONS")
+  end
+
+  teardown do
+    if @previous_github_actions
+      ENV["GITHUB_ACTIONS"] = @previous_github_actions
+    else
+      ENV.delete("GITHUB_ACTIONS")
+    end
+  end
+
   test "full check run uses default scopes for every tool" do
     commands = commands_for(:check, [])
 
@@ -20,18 +33,11 @@ class Style::ToolsTest < ActiveSupport::TestCase
   end
 
   test "herb lint adds --github under GitHub Actions" do
-    previous = ENV["GITHUB_ACTIONS"]
     ENV["GITHUB_ACTIONS"] = "true"
 
     commands = commands_for(:check, [])
 
     assert_equal "bin/herb lint . --github", commands[:herb_lint]
-  ensure
-    if previous
-      ENV["GITHUB_ACTIONS"] = previous
-    else
-      ENV.delete("GITHUB_ACTIONS")
-    end
   end
 
   test "full fix run uses fix flags and skips check-only tools" do

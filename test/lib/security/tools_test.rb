@@ -4,6 +4,19 @@ require "test_helper"
 require "security"
 
 class Security::ToolsTest < ActiveSupport::TestCase
+  setup do
+    @previous_github_actions = ENV["GITHUB_ACTIONS"]
+    ENV.delete("GITHUB_ACTIONS")
+  end
+
+  teardown do
+    if @previous_github_actions
+      ENV["GITHUB_ACTIONS"] = @previous_github_actions
+    else
+      ENV.delete("GITHUB_ACTIONS")
+    end
+  end
+
   test "default commands match local CI flags" do
     commands = commands_for
 
@@ -14,18 +27,11 @@ class Security::ToolsTest < ActiveSupport::TestCase
   end
 
   test "brakeman writes SARIF under GitHub Actions" do
-    previous = ENV["GITHUB_ACTIONS"]
     ENV["GITHUB_ACTIONS"] = "true"
 
     commands = commands_for
 
     assert_equal "bin/brakeman -f sarif -o results.sarif", commands[:brakeman]
-  ensure
-    if previous
-      ENV["GITHUB_ACTIONS"] = previous
-    else
-      ENV.delete("GITHUB_ACTIONS")
-    end
   end
 
   private
