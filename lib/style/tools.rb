@@ -5,6 +5,7 @@ module Style
     def self.all
       [
         Locales,
+        Syntax,
         Rubocop,
         HerbLint,
         HerbFormat,
@@ -20,6 +21,25 @@ module Style
         return if skip?(select(patterns: %w[config/locales/**/*.{yml,yaml}], prefixes: %w[config/locales]))
 
         check?(mode) ? "bin/rails locales:check" : "bin/rails locales:format"
+      end
+    end
+
+    # Prism-backed `ruby -cW2` via bin/syntax. Check-only (no auto-fix).
+    class Syntax < Tool
+      # Avoid Gemfile.* / Rakefile.* — those match lockfiles and non-Ruby variants.
+      PATTERNS = [
+        "**/*.{rb,rake,gemspec}",
+        "**/Gemfile",
+        "**/Rakefile"
+      ].freeze
+
+      def command(mode)
+        return unless check?(mode)
+
+        selected = select(patterns: PATTERNS)
+        return if skip?(selected)
+
+        selected.empty? ? "bin/syntax" : "bin/syntax #{join(selected)}"
       end
     end
 

@@ -127,7 +127,6 @@ class Basket::OverridableTest < ActiveSupport::TestCase
 
   test "basket shift via autosave does not create spurious override on source basket" do
     travel_to "2024-01-01"
-    membership = memberships(:jane)
     source_basket = baskets(:jane_5) # absent
     target_basket = baskets(:jane_6)
 

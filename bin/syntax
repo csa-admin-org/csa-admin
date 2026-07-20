@@ -1,0 +1,85 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Fast in-process Prism syntax + warning check.
+# Usage: bin/syntax [path ...]
+
+require "prism"
+
+root = File.expand_path("..", __dir__)
+RUBY_BASENAMES = %w[Gemfile Rakefile].freeze
+RUBY_EXTENSIONS = %w[.rb .rake .gemspec].freeze
+# Prefer these roots over repo-wide ** globs (storage/ has hundreds of thousands of files).
+SOURCE_ROOTS = %w[app bin config db lib script test].freeze
+
+def ruby_source?(path)
+  RUBY_EXTENSIONS.any? { |ext| path.end_with?(ext) } ||
+    RUBY_BASENAMES.include?(File.basename(path))
+end
+
+def git_files(base)
+  output = IO.popen(
+    [ "git", "-C", base, "ls-files", "-z", "--cached", "--others", "--exclude-standard" ],
+    err: File::NULL,
+    &:read)
+  return if !$?.success? || output.nil?
+
+  output.split("\0").reject(&:empty?).select { |path| ruby_source?(path) }
+end
+
+def glob_files(base)
+  files = SOURCE_ROOTS.flat_map { |dir|
+    next [] unless File.directory?(File.join(base, dir))
+
+    Dir.glob("**/*.{rb,rake,gemspec}", base: File.join(base, dir))
+      .map { |path| File.join(dir, path) }
+  }
+  files.concat(%w[Gemfile Rakefile].select { |path| File.file?(File.join(base, path)) })
+  files.uniq
+end
+
+def discover(base)
+  git_files(base) || glob_files(base)
+end
+
+def issues_for(file)
+  result = Prism.parse_file(file)
+  messages = []
+
+  result.errors.each do |error|
+    messages << "#{file}:#{error.location.start_line}: #{error.message}"
+  end
+
+  result.warnings.each do |warning|
+    messages << "#{file}:#{warning.location.start_line}: warning: #{warning.message}"
+  end
+
+  messages
+end
+
+files =
+  if ARGV.empty?
+    discover(root)
+  else
+    ARGV.select { |path| ruby_source?(path) || File.directory?(path) }.flat_map { |path|
+      if File.directory?(path)
+        Dir.glob("**/*.{rb,rake,gemspec}", base: path).map { |f| File.join(path, f) }
+      else
+        path
+      end
+    }
+  end
+
+if files.empty?
+  puts "No Ruby files to check."
+  exit 0
+end
+
+Dir.chdir(root) do
+  issues = files.flat_map { |file| issues_for(file) }
+
+  if issues.any?
+    puts issues
+    exit 1
+  end
+end

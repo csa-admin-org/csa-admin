@@ -18,18 +18,26 @@ class Style::RunnerTest < ActiveSupport::TestCase
         executor: executor)
     }
 
+    assert_includes out, "✅ syntax"
     assert_includes out, "✅ rubocop"
     assert_includes out, "✅ oxfmt"
     assert_includes out, "✅ oxlint"
     assert_not_includes out, "prettier"
-    assert_equal 3, commands.size
+    assert_equal 4, commands.size
+    assert commands.any? { |command| command.start_with?("bin/syntax") }
     assert commands.any? { |command| command.start_with?("bin/rubocop") }
     assert commands.any? { |command| command.start_with?("bin/oxfmt") }
     assert commands.any? { |command| command.start_with?("bin/oxlint") }
   end
 
   test "prints failure output then aborts with failed tool names" do
-    executor = ->(_command) { [ "Layout/LineLength: too long\n", false ] }
+    executor = ->(command) {
+      if command.start_with?("bin/rubocop")
+        [ "Layout/LineLength: too long\n", false ]
+      else
+        [ "", true ]
+      end
+    }
 
     error = nil
     out, err = capture_io {

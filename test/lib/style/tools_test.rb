@@ -8,6 +8,7 @@ class Style::ToolsTest < ActiveSupport::TestCase
     commands = commands_for(:check, [])
 
     assert_equal "bin/rails locales:check", commands[:locales]
+    assert_equal "bin/syntax", commands[:syntax]
     assert_equal "bin/rubocop --parallel --format simple", commands[:rubocop]
     assert_equal "bin/herb lint .", commands[:herb_lint]
     assert_equal "bin/herb format . --check", commands[:herb_format]
@@ -18,10 +19,11 @@ class Style::ToolsTest < ActiveSupport::TestCase
     assert_equal 'bin/stylelint "app/assets/tailwind/**/*.css"', commands[:stylelint]
   end
 
-  test "full fix run uses fix flags and skips herb lint" do
+  test "full fix run uses fix flags and skips check-only tools" do
     commands = commands_for(:fix, [])
 
     assert_equal "bin/rails locales:format", commands[:locales]
+    assert_nil commands[:syntax]
     assert_equal "bin/rubocop --parallel --autocorrect-all --format quiet", commands[:rubocop]
     assert_nil commands[:herb_lint]
     assert_equal "bin/herb format .", commands[:herb_format]
@@ -32,13 +34,14 @@ class Style::ToolsTest < ActiveSupport::TestCase
     assert_equal 'bin/stylelint "app/assets/tailwind/**/*.css" --fix', commands[:stylelint]
   end
 
-  test "ruby path only runs rubocop" do
+  test "ruby path only runs syntax and rubocop" do
     commands = commands_for(:check, %w[app/models/member.rb])
 
+    assert_equal "bin/syntax app/models/member.rb", commands[:syntax]
     assert_equal(
       "bin/rubocop --parallel --format simple --only-recognized-file-types app/models/member.rb",
       commands[:rubocop])
-    assert_only commands, :rubocop
+    assert_only commands, :syntax, :rubocop
   end
 
   test "javascript path only runs oxfmt and oxlint" do
@@ -83,6 +86,7 @@ class Style::ToolsTest < ActiveSupport::TestCase
     ]
     commands = commands_for(:check, paths)
 
+    assert_equal "bin/syntax app/models/member.rb", commands[:syntax]
     assert_includes commands[:rubocop], "app/models/member.rb"
     assert_includes commands[:oxfmt], "app/javascript/admin.js"
     assert_includes commands[:oxlint], "app/javascript/admin.js"
@@ -97,6 +101,7 @@ class Style::ToolsTest < ActiveSupport::TestCase
     path = "app/models/my model.rb"
     commands = commands_for(:check, [ path ])
 
+    assert_includes commands[:syntax], "app/models/my\\ model.rb"
     assert_includes commands[:rubocop], "app/models/my\\ model.rb"
   end
 
