@@ -2,6 +2,7 @@
 
 require "fileutils"
 require "parallel"
+require "set"
 
 namespace :storage do
   desc "Copy attachments from local backup to storage directory (optional TENANT=name1,name2)"
@@ -20,20 +21,19 @@ namespace :storage do
       Dir.glob("#{backup_folder}/#{tenant}/**/*")
     }.reject { |file| File.directory?(file) }
 
-    expected_paths = Set.new
-    Parallel.each(backup_files) do |file|
+    expected_paths = Parallel.map(backup_files) do |file|
       relative_path = file.sub("#{backup_folder}/", "")
       tenant, key = relative_path.split("/")
       first_two = key[0..1]
       next_two = key[2..3]
 
       target_path = File.join(storage_folder, tenant, first_two, next_two, key)
-      expected_paths << target_path
       unless File.exist?(target_path)
         FileUtils.mkdir_p(File.dirname(target_path))
         FileUtils.cp(file, target_path)
       end
-    end
+      target_path
+    end.to_set
 
     # Remove files in storage that don't exist in backup (only within scoped tenant folders)
     tenants.each do |tenant|
