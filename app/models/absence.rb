@@ -18,7 +18,7 @@ class Absence < ApplicationRecord
 
   after_save :clear_conflicting_forced_deliveries!
   after_commit :update_memberships!
-  after_commit -> { MailTemplate.deliver(:absence_created, absence: self) }
+  after_commit -> { MailTemplate.deliver(:absence_created, absence: self) }, on: :create
 
   def self.min_started_on
     Current.org.absence_notice_period_limit_on

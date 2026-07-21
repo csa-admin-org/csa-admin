@@ -66,6 +66,23 @@ class AbsenceTest < ActiveSupport::TestCase
     assert_includes body, "Affected deliveries:</strong> 1"
   end
 
+  test "does not notify member when destroyed" do
+    mail_templates(:absence_created).update!(active: true)
+
+    travel_to "2024-05-01"
+    absence = create_absence(
+      admin: admins(:ultra),
+      member: members(:john),
+      started_on: 1.week.from_now,
+      ended_on: 2.weeks.from_now)
+    clear_enqueued_jobs
+
+    assert_no_difference -> { MailDelivery.count } do
+      absence.destroy!
+    end
+    assert_no_enqueued_jobs only: MailDelivery::ProcessJob
+  end
+
   test "validates started_on and ended_on dates when submitted by member" do
     travel_to "2024-01-15"
     absence = Absence.new(
