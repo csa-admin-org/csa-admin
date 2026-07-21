@@ -5,7 +5,7 @@
     "@herb-tools/linter": "^0.10.2",
     "oxfmt": "^0.59.0",
     "oxlint": "^1.74.0",
-    "prettier": "^3.9.5",
+    "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "stylelint": "^17.14.1",
     "stylelint-config-recommended": "^18.0.0",
