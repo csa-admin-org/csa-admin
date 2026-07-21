@@ -153,7 +153,9 @@ ActiveAdmin.register Depot do
 
             table_for(depot.baskets_for(delivery), **attrs) do
               column Member.model_name.human, ->(b) { auto_link b.member }
-              column Basket.model_name.human, ->(b) { link_to(b.description, b.membership) }, class: "text-right"
+              column Basket.model_name.human, ->(b) {
+                link_to b.description, b.membership, data: { "table-row-action": "show" }
+              }, class: "text-right"
             end
           end
         else
@@ -213,7 +215,9 @@ ActiveAdmin.register Depot do
           end
           if DeliveryCycle.visible?
             table_for depot.delivery_cycles, class: "table-auto" do
-              column DeliveryCycle.model_name.human, ->(dc) { auto_link dc }
+              column DeliveryCycle.model_name.human, ->(dc) {
+                auto_link dc, data: { "table-row-action": "show" }
+              }
               column Current.org.current_fiscal_year, ->(dc) {
                 dc.current_deliveries_count
               }, class: "text-right"

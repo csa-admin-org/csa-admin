@@ -199,7 +199,9 @@ ActiveAdmin.register Invoice do
             div(class: "missing-data") { t(".no_payments") }
           else
             table_for(payments, class: "table-auto") do
-              column(:date) { |p| auto_link p, l(p.date, format: :number) }
+              column(:date) { |p|
+                auto_link p, l(p.date, format: :number), data: { "table-row-action": "show" }
+              }
               column(:amount, class: "text-right tabular-nums") { |p| ccur(p, :amount) }
               column(:type, class: "text-right") { |p| aligned_status_tag(p.type) }
             end

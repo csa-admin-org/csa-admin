@@ -78,7 +78,9 @@ ActiveAdmin.register Shop::SpecialDelivery do
           all.each do |producer, items|
             panel producer.name, icon: "shopping-basket", action: icon_file_link(:xlsx, shop_special_delivery_path(delivery, format: :xlsx, producer_id: producer.id)) do
               table_for items, i18n: Shop::OrderItem, class: "table-auto data-table-total" do
-                column(:product) { |i| auto_link i.product }
+                column(:product) { |i|
+                  auto_link i.product, data: { "table-row-action": "edit" }
+                }
                 column(:product_variant) { |i| i.product_variant }
                 column(:quantity, class: "text-right")
                 column(:amount, class: "text-right") { |i|

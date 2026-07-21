@@ -23,7 +23,7 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
     get membership_path(@membership)
 
     assert_response :success
-    assert_select "a[href=?]", edit_basket_path(@basket)
+    assert_select "a[href=?][data-table-row-action='edit']", edit_basket_path(@basket)
   end
 
   test "edit form only shows shift controls for included absent basket" do

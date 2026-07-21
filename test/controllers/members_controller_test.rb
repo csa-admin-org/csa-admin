@@ -36,6 +36,20 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "show marks each compact table row with its resource link" do
+    member = members(:john)
+
+    login admins(:super)
+    get member_path(member)
+
+    assert_response :success
+    rows = css_select("tbody[data-controller='table-row'] tr[data-table-row-target='row']")
+    assert_not_empty rows
+    rows.each do |row|
+      assert_equal 1, row.css("a[data-table-row-action='show']").size
+    end
+  end
+
   test "show hides membership request panel for support-only pending member" do
     member = members(:mary)
     member.update!(

@@ -430,7 +430,10 @@ ActiveAdmin.register Membership do
                     end
                   end
                   span do
-                    link_to edit_basket_path(b), title: t(".edit"), aria: { label: t(".edit") } do
+                    link_to edit_basket_path(b),
+                      title: t(".edit"),
+                      aria: { label: t(".edit") },
+                      data: { "table-row-action": "edit" } do
                       icon "square-pen", class: "size-5"
                     end
                   end

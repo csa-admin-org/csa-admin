@@ -6,7 +6,9 @@ if mail_deliveries_count > 0
   panel link_to(t("active_admin.resource.show.email_deliveries"), all_path), icon: "mails", count: mail_deliveries_count do
     table_for(mail_deliveries.limit(4), class: "table-auto table-mail-deliveries") do
       column(:subject, sortable: false) { |d|
-        auto_link d, (d.subject || d.source&.display_name)
+        auto_link d,
+          (d.subject || d.source&.display_name),
+          data: { "table-row-action": "show" }
       }
       column(:created_at, class: "text-right whitespace-nowrap") { |d| l(d.created_at, format: :short) }
       column(:state, class: "text-right") { |d| status_tag(d.state) }
