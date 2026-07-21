@@ -103,7 +103,11 @@ namespace :litestream do
     raise "Only run this task in dev!" unless Rails.env.development?
 
     tenants = Tenant.all
-    puts "Restoring litestream backups for: #{tenants.join(", ")}"
+    if ENV["TENANT"].present?
+      puts "Restoring litestream backups for: #{tenants.join(", ")}"
+    else
+      puts "Restoring litestream backups for all tenants..."
+    end
 
     # Only remove DBs for tenants being restored so TENANT=… leaves others intact
     tenants.each do |tenant|

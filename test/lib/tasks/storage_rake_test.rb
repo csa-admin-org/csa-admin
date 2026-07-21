@@ -20,12 +20,25 @@ class StorageRakeTest < ActiveSupport::TestCase
       stale_file = create_stale_file(root)
       create_application_record_stub(root)
 
-      run_restore(root, backup_path)
+      out, = run_restore(root, backup_path)
 
+      assert_includes out, "Restoring storage for all tenants..."
       keys.each do |key|
         assert_equal key, restored_file(root, key).binread
       end
       assert_not stale_file.exist?
+    end
+  end
+
+  test "restore reports selected tenants" do
+    Dir.mktmpdir do |dir|
+      root = Pathname(dir)
+      backup_path = root.join("backup")
+      create_application_record_stub(root)
+
+      out, = run_restore(root, backup_path, tenant: "acme,demo", tenants: %w[acme demo])
+
+      assert_includes out, "Restoring storage for: acme, demo"
     end
   end
 
@@ -52,11 +65,11 @@ class StorageRakeTest < ActiveSupport::TestCase
     file.write("# frozen_string_literal: true\n")
   end
 
-  def run_restore(root, backup_path)
-    with_env("BACKUP_PATH" => backup_path.to_s) do
+  def run_restore(root, backup_path, tenant: nil, tenants: [ "acme" ])
+    with_env("BACKUP_PATH" => backup_path.to_s, "TENANT" => tenant) do
       with_rails_env("development") do
         Rails.stub(:root, root) do
-          Tenant.stub(:all, [ "acme" ]) do
+          Tenant.stub(:all, tenants) do
             Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
               ActiveStorage::Blob.stub(:update_all, nil) do
                 capture_io { Rake::Task["storage:restore"].invoke }

@@ -10,7 +10,11 @@ namespace :storage do
     raise "Only run this task in dev!" unless Rails.env.development?
 
     tenants = Tenant.all
-    puts "Restoring storage for: #{tenants.join(", ")}"
+    if ENV["TENANT"].present?
+      puts "Restoring storage for: #{tenants.join(", ")}"
+    else
+      puts "Restoring storage for all tenants..."
+    end
 
     backup_folder = ENV.fetch("BACKUP_PATH") + "/storage"
     storage_folder = Rails.root.join("storage")
