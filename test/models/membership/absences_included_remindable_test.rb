@@ -283,6 +283,36 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
     assert_equal 3, membership.absences_included_remaining
   end
 
+  test "shifted absence does not count as used and replacement is remindable" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 0, absences_billed: true, basket_shifts_annually: 1)
+    membership = memberships(:john)
+    membership.update!(absences_included_annually: 1)
+    source = membership.baskets.second
+    Absence.create!(
+      member: membership.member,
+      started_on: source.delivery.date,
+      ended_on: source.delivery.date + 1.day)
+    source.reload
+
+    assert_equal 1, membership.absences_included_used
+    assert_equal 0, membership.absences_included_remaining
+
+    source.update!(shift_target_basket_id: membership.baskets.last.id)
+    provisional = membership.baskets.provisionally_absent.sole
+
+    assert_equal 0, membership.absences_included_used
+    assert_equal 1, membership.absences_included_remaining
+    assert_equal provisional.delivery.date - Current.org.absences_included_reminder_period,
+      membership.absences_included_remindable_on
+
+    source.reload.shift_as_source.destroy!
+
+    assert_equal 1, membership.absences_included_used
+    assert_equal 0, membership.absences_included_remaining
+    assert_nil membership.absences_included_remindable_on
+  end
+
   test "absences_included_remaining never goes negative" do
     membership = memberships(:john)
     membership.update!(absences_included_annually: 1)

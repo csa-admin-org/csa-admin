@@ -13,13 +13,22 @@ class Basket::ShiftingTest < ActiveSupport::TestCase
     assert basket.can_be_shifted?
   end
 
-  test "can_be_shifted? returns false for absent non-billable basket" do
-    basket = baskets(:jane_5)
-    basket.update_column(:billable, false)
+  test "can_be_shifted? returns true for definite included absence" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 0, absences_billed: true)
+    membership = memberships(:john)
+    membership.update!(absences_included_annually: 1)
+    basket = membership.baskets.second
+    create_absence(
+      member: membership.member,
+      started_on: basket.delivery.date,
+      ended_on: basket.delivery.date + 1.day)
+    basket.reload
 
     assert basket.absent?
+    assert basket.absence_id?
     assert_not basket.billable?
-    assert_not basket.can_be_shifted?
+    assert basket.can_be_shifted?
   end
 
   test "can_be_shifted? returns false for non-absent basket" do
@@ -41,15 +50,49 @@ class Basket::ShiftingTest < ActiveSupport::TestCase
     assert_not basket.can_be_shifted?
   end
 
-  test "can_be_member_shifted? returns false for non-billable absent basket" do
-    org(basket_shifts_annually: 1)
-    basket = baskets(:jane_5)
-    basket.update_column(:billable, false)
+  test "can_be_member_shifted? returns true for definite included absence" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 0, absences_billed: true, basket_shifts_annually: 1)
+    membership = memberships(:john)
+    membership.update!(absences_included_annually: 1)
+    basket = membership.baskets.second
+    create_absence(
+      member: membership.member,
+      started_on: basket.delivery.date,
+      ended_on: basket.delivery.date + 1.day)
+    basket.reload
 
-    assert basket.absent?
+    assert_not basket.billable?
+    assert basket.can_be_member_shifted?
+  end
+
+  test "can_be_shifted? returns false for provisional absence" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 0, absences_billed: true)
+    membership = memberships(:john)
+    membership.update!(absences_included_annually: 1)
+    basket = membership.baskets.last
+
+    assert basket.provisionally_absent?
     assert_not basket.billable?
     assert_not basket.can_be_shifted?
-    assert_not basket.can_be_member_shifted?
+  end
+
+  test "can_be_shifted? returns false when absences are not billed" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 0, absences_billed: false)
+    membership = memberships(:john)
+    basket = membership.baskets.second
+    create_absence(
+      member: membership.member,
+      started_on: basket.delivery.date,
+      ended_on: basket.delivery.date + 1.day)
+    basket.reload
+
+    assert basket.absent?
+    assert basket.absence_id?
+    assert_not basket.billable?
+    assert_not basket.can_be_shifted?
   end
 
   test "content_forfeited? returns true for non-billable absent basket" do

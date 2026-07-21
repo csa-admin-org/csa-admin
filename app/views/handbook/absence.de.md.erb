@@ -23,7 +23,7 @@ Auf der Mitgliederseite ist die Verschiebung von <%= Basket.model_name.human(cou
 
 Wenn die Abwesenheit storniert wird, wird der Inhalt der <%= Basket.model_name.human %> automatisch zu seiner ursprünglichen Lieferung zurückgebracht.
 
-> Die Verschiebung von <%= Basket.model_name.human(count: 2) %> ist nur für kostenpflichtige Abwesenheiten möglich. Inbegriffene Abwesenheiten (nicht kostenpflichtig) können nicht verschoben werden.
+> Auch eine inbegriffene Abwesenheit kann verschoben werden. Der Inhalt der <%= Basket.model_name.human %> wird dann bei der Ziellieferung in Rechnung gestellt und die Abwesenheit wird nicht auf die im Abonnement inbegriffenen Abwesenheiten angerechnet. Die ungenutzte inbegriffene Abwesenheit bleibt verfügbar und wird, wenn möglich, einer anderen Lieferung vorläufig zugewiesen.
 
 ### Newsletter-Vorlage
 

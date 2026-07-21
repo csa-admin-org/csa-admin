@@ -29,18 +29,11 @@ _:
             _nl: geen levering
       basket_shifts_notice:
         absences_included_footnote_html:
-          one:
-            _en: Shifting is available for absences beyond the <b>1</b> included in your membership.
-            _fr: Le déplacement est disponible pour les absences au-delà de la <b>1</b> incluse dans votre abonnement.
-            _de: Verschieben ist für Abwesenheiten möglich, die über die <b>1</b> in Deinem Abonnement enthaltene hinausgehen.
-            _it: Lo spostamento è disponibile per le assenze oltre alla <b>1</b> inclusa nel tuo abbonamento.
-            _nl: Verschuiven is beschikbaar voor afwezigheden na de <b>1</b> die in je lidmaatschap is inbegrepen.
-          other:
-            _en: Shifting is available for absences beyond the <b>%{count}</b> included in your membership.
-            _fr: Le déplacement est disponible pour les absences au-delà des <b>%{count}</b> incluses dans votre abonnement.
-            _de: Verschieben ist für Abwesenheiten möglich, die über die <b>%{count}</b> in Deinem Abonnement enthaltenen hinausgehen.
-            _it: Lo spostamento è disponibile per le assenze oltre alle <b>%{count}</b> incluse nel tuo abbonamento.
-            _nl: Verschuiven is beschikbaar voor afwezigheden na de <b>%{count}</b> die in je lidmaatschap zijn inbegrepen.
+          _en: Included absences can also be shifted. The shifted delivery will be billed, and your included absence remains available.
+          _fr: Les absences incluses peuvent aussi être déplacées. La livraison déplacée sera facturée et votre absence incluse reste disponible.
+          _de: Auch inbegriffene Abwesenheiten können verschoben werden. Die verschobene Lieferung wird in Rechnung gestellt und Deine inbegriffene Abwesenheit bleibt verfügbar.
+          _it: Anche le assenze incluse possono essere spostate. La consegna spostata sarà fatturata e la tua assenza inclusa rimane disponibile.
+          _nl: Ook inbegrepen afwezigheden kunnen worden verschoven. De verschoven levering wordt gefactureerd en je inbegrepen afwezigheid blijft beschikbaar.
         allowance_notice/bag_html:
           one:
             _en: You have <b>1 bag shift</b> remaining. Once an absence is created, you can shift the delivery to another date.
@@ -244,17 +237,17 @@ _:
       index:
         absences_included_explanation_html:
           one:
-            _en: Your membership includes <b>1 absence</b>. If the absence is not reported, it will be provisionally applied to the last delivery.
-            _fr: Votre abonnement prévoit <b>1 absence</b>. Si l'absence n'est pas annoncée elle est appliquée provisoirement sur la dernière livraison.
-            _de: Dein Abonnement beinhaltet <b>1 Abwesenheit</b>. Wenn die Abwesenheit nicht gemeldet wird, wird sie provisorisch auf die letzte Lieferung angewendet.
-            _it: Il tuo abbonamento prevede <b>1 assenza</b>. Se l'assenza non è annunciata, viene applicata provvisoriamente all'ultima consegna.
-            _nl: Je lidmaatschap omvat <b>1 afwezigheid</b>. Als de afwezigheid niet wordt gemeld, wordt deze voorlopig toegepast op de laatste levering.
+            _en: Your membership includes <b>1 absence</b>. If unused, it is provisionally assigned to the last delivery.
+            _fr: Votre abonnement prévoit <b>1 absence</b>. Si elle n'est pas utilisée, elle est provisoirement attribuée à la dernière livraison.
+            _de: Dein Abonnement beinhaltet <b>1 Abwesenheit</b>. Wenn Du sie nicht nutzt, wird sie provisorisch der letzten Lieferung zugewiesen.
+            _it: Il tuo abbonamento prevede <b>1 assenza</b>. Se non la utilizzi, viene assegnata provvisoriamente all'ultima consegna.
+            _nl: Je lidmaatschap omvat <b>1 afwezigheid</b>. Als je die niet gebruikt, wordt ze voorlopig aan de laatste levering toegewezen.
           other:
-            _en: Your membership includes <b>%{count} absences</b>. Absences that have not yet been reported will be provisionally applied to the last deliveries.
-            _fr: Votre abonnement prévoit <b>%{count} absences</b>. Les absences qui ne sont pas encore annoncées sont appliquées provisoirement sur les dernières livraisons.
-            _de: Dein Abonnement beinhaltet <b>%{count} Abwesenheiten</b>. Die Abwesenheiten, die noch nicht gemeldet wurden, werden provisorisch auf die letzten Lieferungen angewendet.
-            _it: Il tuo abbonamento prevede <b>%{count} assenze</b>. Le assenze non ancora annunciate vengono applicate provvisoriamente alle ultime consegne.
-            _nl: Je lidmaatschap omvat <b>%{count} afwezigheden</b>. Afwezigheden die nog niet zijn gemeld, worden voorlopig toegepast op de laatste leveringen.
+            _en: Your membership includes <b>%{count} absences</b>. Unused included absences are provisionally applied to the last deliveries.
+            _fr: Votre abonnement prévoit <b>%{count} absences</b>. Les absences incluses non utilisées sont appliquées provisoirement sur les dernières livraisons.
+            _de: Dein Abonnement beinhaltet <b>%{count} Abwesenheiten</b>. Ungenutzte inbegriffene Abwesenheiten werden provisorisch auf die letzten Lieferungen angewendet.
+            _it: Il tuo abbonamento prevede <b>%{count} assenze</b>. Le assenze incluse non utilizzate vengono applicate provvisoriamente alle ultime consegne.
+            _nl: Je lidmaatschap omvat <b>%{count} afwezigheden</b>. Ongebruikte inbegrepen afwezigheden worden voorlopig toegepast op de laatste leveringen.
         explanation_billed/bag:
           _en: During your absence, you can give your bag to friends, neighbors, or family. If this is not possible, please inform us of your absence using the form below. Your bag will then be shared among other members. These bags are not refunded.
           _fr: Lors de votre absence, le plus simple est de proposer votre sac à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre sac sera alors partagé avec les autres membres. Ces sacs ne sont pas remboursés.
@@ -716,6 +709,12 @@ _:
           _it: La parte è stata aggiornata con successo.
           _nl: Deel succesvol bijgewerkt.
       new:
+        absences_included_warning:
+          _en: This delivery uses an included absence. If you shift it, the target delivery will be billed and the included absence will remain available.
+          _fr: Cette livraison utilise une absence incluse. Si vous la déplacez, la livraison cible sera facturée et l'absence incluse restera disponible.
+          _de: Diese Lieferung nutzt eine inbegriffene Abwesenheit. Wenn Du sie verschiebst, wird die Ziellieferung in Rechnung gestellt und die inbegriffene Abwesenheit bleibt verfügbar.
+          _it: Questa consegna utilizza un'assenza inclusa. Se la sposti, la consegna di destinazione sarà fatturata e l'assenza inclusa rimarrà disponibile.
+          _nl: Deze levering gebruikt een inbegrepen afwezigheid. Als je deze verschuift, wordt de doellevering gefactureerd en blijft de inbegrepen afwezigheid beschikbaar.
         after_absence:
           _en: After your absence
           _fr: Après votre absence
@@ -1509,29 +1508,29 @@ _:
     deliveries:
       absences_included_notice:
         provisional_absence_html:
-          _en: "<b>%{announced} of %{count}</b> included absences used. Still <b>%{remaining}</b> to announce!"
-          _fr: "<b>%{announced} sur %{count}</b> absences incluses utilisées. Encore <b>%{remaining}</b> à annoncer!"
-          _de: "<b>%{announced} von %{count}</b> enthaltene Abwesenheiten genutzt. Noch <b>%{remaining}</b> anzukündigen!"
-          _it: "<b>%{announced} su %{count}</b> assenze incluse utilizzate. Ancora <b>%{remaining}</b> da annunciare!"
-          _nl: "<b>%{announced} van %{count}</b> inbegrepen afwezigheden gebruikt. Nog <b>%{remaining}</b> te melden!"
+          _en: "<b>%{used} of %{count}</b> included absences used. <b>%{remaining}</b> still unused!"
+          _fr: "<b>%{used} sur %{count}</b> absences incluses utilisées. <b>%{remaining}</b> encore non utilisées!"
+          _de: "<b>%{used} von %{count}</b> inbegriffene Abwesenheiten genutzt. <b>%{remaining}</b> noch ungenutzt!"
+          _it: "<b>%{used} su %{count}</b> assenze incluse utilizzate. <b>%{remaining}</b> ancora non utilizzate!"
+          _nl: "<b>%{used} van %{count}</b> inbegrepen afwezigheden gebruikt. <b>%{remaining}</b> nog ongebruikt!"
         provisional_delivery_html:
-          _en: "<b>%{announced} of %{count}</b> included absences used. Still <b>%{remaining}</b> to announce or they'll be delivered at year end!"
-          _fr: "<b>%{announced} sur %{count}</b> absences incluses utilisées. Encore <b>%{remaining}</b> à annoncer ou elles seront livrées en fin d'année!"
-          _de: "<b>%{announced} von %{count}</b> enthaltene Abwesenheiten genutzt. Noch <b>%{remaining}</b> anzukündigen oder sie werden am Jahresende geliefert!"
-          _it: "<b>%{announced} su %{count}</b> assenze incluse utilizzate. Ancora <b>%{remaining}</b> da annunciare o saranno consegnate a fine anno!"
-          _nl: "<b>%{announced} van %{count}</b> inbegrepen afwezigheden gebruikt. Nog <b>%{remaining}</b> te melden of ze worden aan het einde van het jaar geleverd!"
+          _en: "<b>%{used} of %{count}</b> included absences used. <b>%{remaining}</b> unused included absences will be delivered at year end!"
+          _fr: "<b>%{used} sur %{count}</b> absences incluses utilisées. <b>%{remaining}</b> absences incluses non utilisées seront livrées en fin d'année!"
+          _de: "<b>%{used} von %{count}</b> inbegriffene Abwesenheiten genutzt. <b>%{remaining}</b> ungenutzte inbegriffene Abwesenheiten werden am Jahresende geliefert!"
+          _it: "<b>%{used} su %{count}</b> assenze incluse utilizzate. <b>%{remaining}</b> assenze incluse non utilizzate saranno consegnate a fine anno!"
+          _nl: "<b>%{used} van %{count}</b> inbegrepen afwezigheden gebruikt. <b>%{remaining}</b> ongebruikte inbegrepen afwezigheden worden aan het einde van het jaar geleverd!"
         reminded_provisional_absence_html:
-          _en: "<b>%{announced} of %{count}</b> absences used. Request delivery for the remaining below or confirm your absence!"
-          _fr: "<b>%{announced} sur %{count}</b> absences utilisées. Demandez la livraison des restantes ci-dessous ou confirmez votre absence!"
-          _de: "<b>%{announced} von %{count}</b> Abwesenheiten genutzt. Fordere die Lieferung der verbleibenden unten an oder bestätige Deine Abwesenheit!"
-          _it: "<b>%{announced} su %{count}</b> assenze utilizzate. Richiedi la consegna delle rimanenti qui sotto o conferma la tua assenza!"
-          _nl: "<b>%{announced} van %{count}</b> afwezigheden gebruikt. Vraag levering van de resterende hieronder aan of bevestig je afwezig!"
+          _en: "<b>%{used} of %{count}</b> included absences used. Request delivery for the unused absences below or confirm your absence!"
+          _fr: "<b>%{used} sur %{count}</b> absences incluses utilisées. Demandez la livraison des absences non utilisées ci-dessous ou confirmez votre absence!"
+          _de: "<b>%{used} von %{count}</b> inbegriffene Abwesenheiten genutzt. Fordere die Lieferung der ungenutzten Abwesenheiten unten an oder bestätige Deine Abwesenheit!"
+          _it: "<b>%{used} su %{count}</b> assenze incluse utilizzate. Richiedi la consegna delle assenze non utilizzate qui sotto o conferma la tua assenza!"
+          _nl: "<b>%{used} van %{count}</b> inbegrepen afwezigheden gebruikt. Vraag levering van de ongebruikte afwezigheden hieronder aan of bevestig je afwezigheid!"
         reminded_provisional_delivery_html:
-          _en: "<b>%{remaining}</b> unused absences will be delivered and billed."
-          _fr: "<b>%{remaining}</b> absences non utilisées seront livrées et facturées."
-          _de: "<b>%{remaining}</b> ungenutzte Abwesenheiten werden geliefert und berechnet."
-          _it: "<b>%{remaining}</b> assenze non utilizzate saranno consegnate e fatturate."
-          _nl: "<b>%{remaining}</b> ongebruikte afwezigheden worden geleverd en gefactureerd."
+          _en: "<b>%{remaining}</b> unused included absences will be delivered and billed."
+          _fr: "<b>%{remaining}</b> absences incluses non utilisées seront livrées et facturées."
+          _de: "<b>%{remaining}</b> ungenutzte inbegriffene Abwesenheiten werden geliefert und in Rechnung gestellt."
+          _it: "<b>%{remaining}</b> assenze incluse non utilizzate saranno consegnate e fatturate."
+          _nl: "<b>%{remaining}</b> ongebruikte inbegrepen afwezigheden worden geleverd en gefactureerd."
       index:
         depot_note:
           _en: Information
@@ -1570,11 +1569,11 @@ _:
           _it: Passate
           _nl: Verleden
         provisionally_absent_explanation_html:
-          _en: The last deliveries are provisionally marked as absent until you <a href="/absences">report your final absence</a>.
-          _fr: Les dernières livraisons sont provisoirement marquées comme absentes jusqu'à ce que <a href="/absences">vous annonciez vos absences</a> définitives.
-          _de: Die letzten Lieferungen sind provisorisch als abwesend markiert, bis Du <a href="/absences">Deine endgültige Abwesenheit</a> meldest.
-          _it: Le ultime consegne sono provvisoriamente marcate come assenti fino a quando <a href="/absences">non annuncerai le tue assenze</a> definitive.
-          _nl: De laatste leveringen zijn voorlopig gemarkeerd als afwezig totdat je <a href="/absences">je definitieve afwezigheid meldt</a>.
+          _en: The last deliveries are provisionally marked as absent for your unused included absences. You can <a href="/absences">use them for your final absences</a>.
+          _fr: Les dernières livraisons sont provisoirement marquées comme absentes pour vos absences incluses non utilisées. Vous pouvez <a href="/absences">les utiliser pour vos absences définitives</a>.
+          _de: Die letzten Lieferungen sind für Deine ungenutzten inbegriffenen Abwesenheiten provisorisch als abwesend markiert. Du kannst <a href="/absences">sie für Deine endgültigen Abwesenheiten nutzen</a>.
+          _it: Le ultime consegne sono provvisoriamente marcate come assenti per le tue assenze incluse non utilizzate. Puoi <a href="/absences">utilizzarle per le tue assenze definitive</a>.
+          _nl: De laatste leveringen zijn voorlopig als afwezig gemarkeerd voor je ongebruikte inbegrepen afwezigheden. Je kunt <a href="/absences">ze voor je definitieve afwezigheden gebruiken</a>.
     disable_sepa:
       flash:
         notice:

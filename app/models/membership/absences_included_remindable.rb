@@ -33,7 +33,7 @@ module Membership::AbsencesIncludedRemindable
   end
 
   def absences_included_used
-    baskets.definitely_absent.count
+    baskets_counting_as_absences_included.definitely_absent.count
   end
 
   def absences_included_remaining

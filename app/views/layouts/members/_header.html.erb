@@ -165,7 +165,7 @@
 
               <span>
                 <% if membership.absences_included.positive? %>
-                  <%= t(".absences_used", used: membership.baskets.definitely_absent.count, count: membership.absences_included) %>
+                  <%= t(".absences_used", used: membership.absences_included_used, count: membership.absences_included) %>
                 <% else %>
                   <%= t(".absences_subtitle") %>
                 <% end %>

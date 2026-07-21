@@ -23,7 +23,7 @@ Dal lato del socio, lo spostamento di <%= Basket.model_name.human(count: 2).down
 
 Se l'assenza viene annullata, il contenuto della <%= Basket.model_name.human.downcase %> sarà automaticamente restituito alla sua consegna originale.
 
-> Lo spostamento di <%= Basket.model_name.human(count: 2).downcase %> è possibile solo per le assenze fatturate. Le assenze incluse (non fatturate) non possono essere spostate.
+> Anche un'assenza inclusa può essere spostata. Il contenuto della <%= Basket.model_name.human.downcase %> sarà quindi fatturato sulla consegna di destinazione e l'assenza non viene conteggiata tra quelle incluse nell'abbonamento. L'assenza inclusa non utilizzata rimane disponibile e, quando possibile, viene assegnata provvisoriamente a un'altra consegna.
 
 ### Modello di newsletter
 

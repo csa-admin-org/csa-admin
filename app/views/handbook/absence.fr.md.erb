@@ -23,7 +23,7 @@ Côté membre, le déplacement de <%= Basket.model_name.human(count: 2).downcase
 
 Si l'absence est annulée, le contenu du <%= Basket.model_name.human.downcase %> sera automatiquement restitué à sa livraison d'origine.
 
-> Le déplacement de <%= Basket.model_name.human(count: 2).downcase %> est possible uniquement pour les absences facturées. Les absences incluses (non facturées) ne peuvent pas être déplacées.
+> Une absence incluse peut aussi être déplacée. Le contenu du <%= Basket.model_name.human.downcase %> est alors facturé sur la livraison cible et l'absence n'est pas comptabilisée parmi les absences incluses dans l'abonnement. L'absence incluse non utilisée reste disponible et, si possible, est provisoirement attribuée à une autre livraison.
 
 ### Modèle de newsletter
 

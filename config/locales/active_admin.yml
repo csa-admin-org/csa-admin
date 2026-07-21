@@ -1275,6 +1275,12 @@ _:
           _de: 'Inhalt: %{content}'
           _it: 'Contenuto: %{content}'
           _nl: 'Inhoud: %{content}'
+        basket_shift_absences_included_warning:
+          _en: This delivery uses an included absence and is not billed. Only its shift can be changed; its date, depot, and content cannot be modified. If shifted, it will be billed and the included absence will remain available.
+          _fr: Cette livraison utilise une absence incluse et n'est pas facturée. Seul son déplacement peut être modifié; sa date, son dépôt et son contenu ne peuvent pas l'être. Si elle est déplacée, elle sera facturée et l'absence incluse restera disponible.
+          _de: Diese Lieferung nutzt eine inbegriffene Abwesenheit und wird nicht in Rechnung gestellt. Nur die Verschiebung kann geändert werden; Datum, Depot und Inhalt können nicht geändert werden. Bei einer Verschiebung wird die Lieferung in Rechnung gestellt und die inbegriffene Abwesenheit bleibt verfügbar.
+          _it: Questa consegna utilizza un'assenza inclusa e non viene fatturata. È possibile modificare solo lo spostamento; la data, il deposito e il contenuto non possono essere modificati. Se viene spostata, sarà fatturata e l'assenza inclusa rimarrà disponibile.
+          _nl: Deze levering gebruikt een inbegrepen afwezigheid en wordt niet gefactureerd. Alleen de verplaatsing kan worden gewijzigd; de datum, het depot en de inhoud kunnen niet worden aangepast. Na verplaatsing wordt de levering gefactureerd en blijft de inbegrepen afwezigheid beschikbaar.
         basket_shift_declined:
           _en: Member does not want to shift this absence.
           _fr: Le membre ne désire pas déplacer cette absence.
@@ -2008,17 +2014,17 @@ _:
       show:
         absences_used:
           one:
-            _en: "%{count} of %{limit} reported"
-            _fr: "%{count} sur %{limit} annoncée"
-            _de: "%{count} von %{limit} gemeldet"
-            _it: "%{count} su %{limit} annunciata"
-            _nl: "%{count} van %{limit} gemeld"
+            _en: "%{count} of %{limit} used"
+            _fr: "%{count} sur %{limit} utilisée"
+            _de: "%{count} von %{limit} genutzt"
+            _it: "%{count} su %{limit} utilizzata"
+            _nl: "%{count} van %{limit} gebruikt"
           other:
-            _en: "%{count} of %{limit} reported"
-            _fr: "%{count} sur %{limit} annoncées"
-            _de: "%{count} von %{limit} gemeldet"
-            _it: "%{count} su %{limit} annunciate"
-            _nl: "%{count} van %{limit} gemeld"
+            _en: "%{count} of %{limit} used"
+            _fr: "%{count} sur %{limit} utilisées"
+            _de: "%{count} von %{limit} genutzt"
+            _it: "%{count} su %{limit} utilizzate"
+            _nl: "%{count} van %{limit} gebruikt"
         activity_participations_annual_price_change/basket_preparation:
           _en: Basket preparation adjustment
           _fr: Ajustement mise en panier
@@ -2619,41 +2625,41 @@ _:
           _it: Anteprima
           _nl: Voorbeeld
         provisional_absences/bag:
-          _en: The last bags are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
-          _fr: Les derniers sacs sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
-          _de: Die letzten Taschen werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschliesst, eine enthaltene Abwesenheit nicht zu nutzen.
-          _it: Le ultime borse sono marcate provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
-          _nl: De laatste tassen worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
+          _en: The last bags are provisionally marked as absent for the member's unused included absences. Their delivery can be forced if the member decides not to use an included absence.
+          _fr: Les derniers sacs sont marqués provisoirement comme absents pour les absences incluses non utilisées du membre. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
+          _de: Die letzten Taschen sind für die ungenutzten inbegriffenen Abwesenheiten des Mitglieds provisorisch als abwesend markiert. Die Lieferung kann erzwungen werden, wenn das Mitglied eine inbegriffene Abwesenheit nicht nutzen möchte.
+          _it: Le ultime borse sono marcate provvisoriamente come assenti per le assenze incluse non utilizzate dal socio. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
+          _nl: De laatste tassen zijn voorlopig als afwezig gemarkeerd voor de ongebruikte inbegrepen afwezigheden van het lid. De levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         provisional_absences/basket:
-          _en: The last baskets are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
-          _fr: Les derniers paniers sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
-          _de: Die letzten Körbe werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschliesst, eine enthaltene Abwesenheit nicht zu nutzen.
-          _it: Le ultime ceste sono marcate provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
-          _nl: De laatste manden worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
+          _en: The last baskets are provisionally marked as absent for the member's unused included absences. Their delivery can be forced if the member decides not to use an included absence.
+          _fr: Les derniers paniers sont marqués provisoirement comme absents pour les absences incluses non utilisées du membre. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
+          _de: Die letzten Körbe sind für die ungenutzten inbegriffenen Abwesenheiten des Mitglieds provisorisch als abwesend markiert. Die Lieferung kann erzwungen werden, wenn das Mitglied eine inbegriffene Abwesenheit nicht nutzen möchte.
+          _it: Le ultime ceste sono marcate provvisoriamente come assenti per le assenze incluse non utilizzate dal socio. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
+          _nl: De laatste manden zijn voorlopig als afwezig gemarkeerd voor de ongebruikte inbegrepen afwezigheden van het lid. De levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         provisional_absences/cone:
-          _en: The last cones are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
-          _fr: Les derniers cornets sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
-          _de: Die letzten Tüten werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschliesst, eine enthaltene Abwesenheit nicht zu nutzen.
-          _it: Gli ultimi coni sono marcati provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
-          _nl: De laatste zakken worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
+          _en: The last cones are provisionally marked as absent for the member's unused included absences. Their delivery can be forced if the member decides not to use an included absence.
+          _fr: Les derniers cornets sont marqués provisoirement comme absents pour les absences incluses non utilisées du membre. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
+          _de: Die letzten Tüten sind für die ungenutzten inbegriffenen Abwesenheiten des Mitglieds provisorisch als abwesend markiert. Die Lieferung kann erzwungen werden, wenn das Mitglied eine inbegriffene Abwesenheit nicht nutzen möchte.
+          _it: Gli ultimi coni sono marcati provvisoriamente come assenti per le assenze incluse non utilizzate dal socio. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
+          _nl: De laatste zakken zijn voorlopig als afwezig gemarkeerd voor de ongebruikte inbegrepen afwezigheden van het lid. De levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         provisional_absences/crate:
-          _en: The last crates are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
-          _fr: Les dernières cagettes sont marquées provisoirement comme absentes tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
-          _de: Die letzten Kisten werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschliesst, eine enthaltene Abwesenheit nicht zu nutzen.
-          _it: Le ultime cassette sono marcate provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
-          _nl: De laatste kratten worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
+          _en: The last crates are provisionally marked as absent for the member's unused included absences. Their delivery can be forced if the member decides not to use an included absence.
+          _fr: Les dernières cagettes sont marquées provisoirement comme absentes pour les absences incluses non utilisées du membre. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
+          _de: Die letzten Kisten sind für die ungenutzten inbegriffenen Abwesenheiten des Mitglieds provisorisch als abwesend markiert. Die Lieferung kann erzwungen werden, wenn das Mitglied eine inbegriffene Abwesenheit nicht nutzen möchte.
+          _it: Le ultime cassette sono marcate provvisoriamente come assenti per le assenze incluse non utilizzate dal socio. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
+          _nl: De laatste kratten zijn voorlopig als afwezig gemarkeerd voor de ongebruikte inbegrepen afwezigheden van het lid. De levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         provisional_absences/package:
-          _en: The last packages are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
-          _fr: Les derniers colis sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
-          _de: Die letzten Pakete werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschliesst, eine enthaltene Abwesenheit nicht zu nutzen.
-          _it: Gli ultimi pacchi sono marcati provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
-          _nl: De laatste pakketten worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
+          _en: The last packages are provisionally marked as absent for the member's unused included absences. Their delivery can be forced if the member decides not to use an included absence.
+          _fr: Les derniers colis sont marqués provisoirement comme absents pour les absences incluses non utilisées du membre. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
+          _de: Die letzten Pakete sind für die ungenutzten inbegriffenen Abwesenheiten des Mitglieds provisorisch als abwesend markiert. Die Lieferung kann erzwungen werden, wenn das Mitglied eine inbegriffene Abwesenheit nicht nutzen möchte.
+          _it: Gli ultimi pacchi sono marcati provvisoriamente come assenti per le assenze incluse non utilizzate dal socio. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
+          _nl: De laatste pakketten zijn voorlopig als afwezig gemarkeerd voor de ongebruikte inbegrepen afwezigheden van het lid. De levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         provisional_absences/share:
-          _en: The last shares are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
-          _fr: Les dernières parts sont marquées provisoirement comme absentes tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
-          _de: Die letzten Anteile werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschliesst, eine enthaltene Abwesenheit nicht zu nutzen.
-          _it: Le ultime parti sono marcate provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
-          _nl: De laatste delen worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
+          _en: The last shares are provisionally marked as absent for the member's unused included absences. Their delivery can be forced if the member decides not to use an included absence.
+          _fr: Les dernières parts sont marquées provisoirement comme absentes pour les absences incluses non utilisées du membre. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
+          _de: Die letzten Anteile sind für die ungenutzten inbegriffenen Abwesenheiten des Mitglieds provisorisch als abwesend markiert. Die Lieferung kann erzwungen werden, wenn das Mitglied eine inbegriffene Abwesenheit nicht nutzen möchte.
+          _it: Le ultime parti sono marcate provvisoriamente come assenti per le assenze incluse non utilizzate dal socio. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
+          _nl: De laatste delen zijn voorlopig als afwezig gemarkeerd voor de ongebruikte inbegrepen afwezigheden van het lid. De levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         recipients:
           _en: Recipients
           _fr: Destinataires

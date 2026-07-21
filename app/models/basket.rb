@@ -115,7 +115,7 @@ class Basket < ApplicationRecord
   end
 
   def can_update?
-    membership.can_update? && billable?
+    membership.can_update? && (billable? || can_only_be_shifted?)
   end
 
   def can_member_update?

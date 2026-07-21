@@ -23,7 +23,7 @@ On the member side, <%= Basket.model_name.human.downcase %> shifting is not poss
 
 If the absence is canceled, the <%= Basket.model_name.human.downcase %> content is automatically restored to its original delivery.
 
-> <%= Basket.model_name.human %> shifting is only possible for billable absences. Included absences (non-billable) cannot be shifted.
+> An included absence can also be shifted. Its <%= Basket.model_name.human.downcase %> content is then billed on the target delivery and the absence does not count toward the membership's included absences. The unused included absence remains available and, when possible, is provisionally assigned to another delivery.
 
 ### Newsletter Template
 

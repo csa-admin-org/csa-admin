@@ -78,6 +78,32 @@ class BasketTest < ActiveSupport::TestCase
     assert_equal bread.price, basket.complements_price
   end
 
+  test "can_update? allows only shifting a definite included absence" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 0, absences_billed: true)
+    membership = memberships(:john)
+    membership.update!(absences_included_annually: 2)
+    basket = membership.baskets.second
+    create_absence(
+      member: membership.member,
+      started_on: basket.delivery.date,
+      ended_on: basket.delivery.date + 1.day)
+    basket.reload
+
+    assert_not basket.billable?
+    assert basket.can_only_be_shifted?
+    assert basket.can_update?
+
+    provisional = membership.baskets.last
+    assert provisional.provisionally_absent?
+    assert_not provisional.can_only_be_shifted?
+    assert_not provisional.can_update?
+
+    org(absences_billed: false)
+    assert_not basket.can_only_be_shifted?
+    assert_not basket.can_update?
+  end
+
   test "can_member_update?" do
     org(
       membership_depot_update_allowed: false,

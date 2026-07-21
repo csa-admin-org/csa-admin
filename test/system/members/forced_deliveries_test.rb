@@ -86,7 +86,7 @@ class Members::ForcedDeliveriesTest < ApplicationSystemTestCase
     visit "/deliveries"
 
     # Notice should show X of Y format with call to action
-    assert_selector "a[href='/absences']", text: /1 of 3.*Still.*2.*to announce!/m
+    assert_selector "a[href='/absences']", text: /1 of 3.*2.*still unused!/m
   end
 
   test "shows absences included notice with warning in provisional_delivery mode" do
@@ -112,7 +112,7 @@ class Members::ForcedDeliveriesTest < ApplicationSystemTestCase
     visit "/deliveries"
 
     # Notice should not show when all absences are used (remaining = 0)
-    assert_no_selector "a[href='/absences']", text: /to announce/
+    assert_no_selector "a[href='/absences']", text: /unused/
   end
 
   test "hides absences included notice when all provisional baskets forced" do

@@ -88,7 +88,7 @@ class Members::AbsencesTest < ApplicationSystemTestCase
 
     visit "/absences"
     assert_text "You have 3 basket shifts remaining"
-    assert_text "Shifting is available for absences beyond the 2 included in your membership."
+    assert_text "Included absences can also be shifted. The shifted delivery will be billed, and your included absence remains available."
   end
 
   test "shows basket shift unlimited notice when no annual limit" do
@@ -137,10 +137,10 @@ class Members::AbsencesTest < ApplicationSystemTestCase
 
     member.current_membership.update!(absences_included_annually: 4)
     visit "/absences"
-    assert_includes menu_nav, "Absences\n⤷ 0 of 4 reported"
+    assert_includes menu_nav, "Absences\n⤷ 0 of 4 used"
 
     create_absence(started_on: "2024-04-01", ended_on: "2024-04-06")
     visit "/absences"
-    assert_includes menu_nav, "Absences\n⤷ 1 of 4 reported"
+    assert_includes menu_nav, "Absences\n⤷ 1 of 4 used"
   end
 end

@@ -119,6 +119,87 @@ class Membership::AbsenceTest < ActiveSupport::TestCase
     ], membership.baskets.map { |b| [ b.state, b.billable ] }
   end
 
+  test "shifted definite absence does not consume an included absence" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 0, absences_billed: true, basket_shifts_annually: 2)
+    membership = memberships(:john)
+    membership.update!(absences_included_annually: 1)
+    source = membership.baskets.second
+    source_quantity = source.quantity
+    create_absence(
+      member: membership.member,
+      started_on: source.delivery.date,
+      ended_on: source.delivery.date + 1.day)
+    source.reload
+    target = membership.baskets.last
+    target_quantity = target.quantity
+    billable_quantity = membership.baskets.billable.sum(:quantity)
+
+    assert_not source.billable?
+    assert source.can_be_member_shifted?
+    assert target.normal?
+
+    source.update!(shift_target_basket_id: target.id)
+    shift = source.reload.shift_as_source
+    replacement = membership.baskets.provisionally_absent.sole
+
+    assert source.absent?
+    assert source.billable?
+    assert_empty source
+    assert_equal 0, source.quantity
+    assert target.reload.normal?
+    assert target.billable?
+    assert target.deliverable?
+    assert_equal target_quantity + source_quantity, target.quantity
+    assert_not_equal target, replacement
+    assert_equal membership.baskets[-2], replacement
+    assert_equal billable_quantity, membership.baskets.billable.sum(:quantity)
+    assert_equal 0, membership.absences_included_used
+    assert_equal 1, membership.absences_included_remaining
+
+    shift.destroy!
+
+    assert source.reload.absent?
+    assert_not source.billable?
+    assert_equal source_quantity, source.quantity
+    assert target.reload.normal?
+    assert_equal target_quantity, target.quantity
+    assert_empty membership.baskets.provisionally_absent
+    assert_equal 1, membership.absences_included_used
+    assert_equal 0, membership.absences_included_remaining
+
+    membership.update!(absences_included_annually: 2)
+
+    assert target.reload.provisionally_absent?
+  end
+
+  test "next definite absence consumes included quota after first is shifted" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 0, absences_billed: true, basket_shifts_annually: 2)
+    membership = memberships(:john)
+    membership.update!(absences_included_annually: 1)
+    first_source = membership.baskets.second
+    second_source = membership.baskets.third
+    create_absence(
+      member: membership.member,
+      started_on: first_source.delivery.date,
+      ended_on: second_source.delivery.date + 1.day)
+    first_source.reload
+    second_source.reload
+
+    assert_not first_source.billable?
+    assert second_source.billable?
+    assert first_source.can_be_member_shifted?
+
+    first_source.update!(shift_target_basket_id: membership.baskets.last.id)
+
+    assert first_source.reload.billable?
+    assert_not second_source.reload.billable?
+    assert second_source.can_be_member_shifted?
+    assert_equal 1, membership.absences_included_used
+    assert_equal 0, membership.absences_included_remaining
+  end
+
   test "forced delivery takes priority over provisional absence" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 0, absences_billed: true)

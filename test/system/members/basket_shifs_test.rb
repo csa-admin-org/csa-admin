@@ -27,6 +27,31 @@ class Members::BasketShiftsTest < ApplicationSystemTestCase
     assert_text "Shifted on Thursday 9 May"
   end
 
+  test "shifts an included absence" do
+    org(basket_shifts_annually: 1)
+    @basket.membership.update!(absences_included_annually: 1)
+    target = baskets(:jane_6)
+    travel_to @basket.delivery.date - 1.week
+
+    visit "/deliveries"
+
+    assert_text "Shift the delivery"
+    click_on "Shift the delivery"
+    assert_text "This delivery uses an included absence. If you shift it, the target delivery will be billed and the included absence will remain available."
+
+    select "Thursday 9 may"
+
+    assert_changes -> { @basket.reload.quantity }, to: 0 do
+      click_on "Submit"
+    end
+
+    assert_equal "/deliveries", current_path
+    assert target.reload.normal?
+    assert target.billable?
+    assert_equal 2, target.quantity
+    assert_includes menu_nav, "Absences\n⤷ 0 of 1 used"
+  end
+
   test "declines a basket shift" do
     org(basket_shifts_annually: 1)
     travel_to @basket.delivery.date - 1.week

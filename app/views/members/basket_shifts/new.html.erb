@@ -20,6 +20,10 @@
       </p>
     <% end %>
 
+    <% unless @basket.billable? %>
+      <p><%= t(".absences_included_warning") %></p>
+    <% end %>
+
     <%= form_for @basket, url: members_basket_basket_shifts_path(@basket), method: :post, html: { class: "mt-8" } do |f| %>
       <div class="input">
         <%= f.label :shift_target_basket_id %>

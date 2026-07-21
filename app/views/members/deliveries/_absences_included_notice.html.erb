@@ -12,10 +12,10 @@
     <%= notice_pane("calendar-range") do %>
       <% prefix = membership.absences_included_reminded? ? "reminded_" : "" %>
       <% mode = Current.org.absences_included_mode %>
-      <% announced = membership.absences_included - membership.absences_included_remaining %>
+      <% used = membership.absences_included_used %>
 
       <%= t(".#{prefix}#{mode}_html",
-            announced: announced,
+            used: used,
             count: membership.absences_included,
             remaining: membership.absences_included_remaining) %>
     <% end %>

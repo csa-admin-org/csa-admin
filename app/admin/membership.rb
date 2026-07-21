@@ -478,7 +478,7 @@ ActiveAdmin.register Membership do
             attributes_table do
               if m.absences_included_annually.positive?
                 row(:absences_included) {
-                  used = m.baskets.definitely_absent.count
+                  used = m.absences_included_used
                   link_to absences_path(q: { member_id_eq: m.member_id, during_year: m.fy_year }, scope: :all) do
                     t(".absences_used", count: used, limit: m.absences_included)
                   end

@@ -20,7 +20,11 @@ module Basket::Shifting
   end
 
   def can_be_shifted?
-    absent? && !empty? && !shifted? && billable?
+    absent? && absence_id? && !empty? && !shifted? && (billable? || Current.org.absences_billed?)
+  end
+
+  def can_only_be_shifted?
+    !billable? && can_be_shifted?
   end
 
   # Not billable (absences_included quota) or empty means content won't be received.

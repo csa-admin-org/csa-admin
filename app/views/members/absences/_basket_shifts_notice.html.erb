@@ -7,7 +7,7 @@
 
       <% if absences_included&.positive? %>
         <p class="mt-2 text-xs italic opacity-75">
-          <%= t(".absences_included_footnote_html", count: absences_included) %>
+          <%= t(".absences_included_footnote_html") %>
         </p>
       <% end %>
     <% end %>
@@ -20,7 +20,7 @@
 
     <% if absences_included&.positive? %>
       <p class="mt-2 text-xs italic opacity-75">
-        <%= t(".absences_included_footnote_html", count: absences_included) %>
+        <%= t(".absences_included_footnote_html") %>
       </p>
     <% end %>
   <% end %>

@@ -23,7 +23,7 @@ Voor leden is het verschuiven van <%= Basket.model_name.human(count: 2).downcase
 
 Als de afwezigheid wordt geannuleerd, wordt de inhoud van de <%= Basket.model_name.human.downcase %> automatisch hersteld naar zijn oorspronkelijke levering.
 
-> Het verschuiven van <%= Basket.model_name.human(count: 2).downcase %> is alleen mogelijk voor gefactureerde afwezigheden. Inbegrepen afwezigheden worden niet gefactureerd en kunnen niet worden verschoven.
+> Ook een inbegrepen afwezigheid kan worden verschoven. De inhoud van de <%= Basket.model_name.human.downcase %> wordt dan gefactureerd op de doellevering en de afwezigheid geldt niet als gebruikte inbegrepen afwezigheid. De ongebruikte inbegrepen afwezigheid blijft beschikbaar en wordt, indien mogelijk, voorlopig aan een andere levering toegewezen.
 
 ### Nieuwsbriefsjabloon
 

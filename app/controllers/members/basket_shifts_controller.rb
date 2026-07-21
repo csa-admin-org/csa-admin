@@ -20,7 +20,6 @@ class Members::BasketShiftsController < Members::BaseController
   end
 
   def ensure_member_can_shift_basket!
-    return if @basket.membership.basket_shift_allowed?
     return if @basket.can_be_member_shifted?
 
     redirect_to members_deliveries_path, alert: t(".flash.alert")

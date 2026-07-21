@@ -70,10 +70,9 @@ module Membership::Absence
       end
 
       # 3. Apply provisional absences (lowest priority)
-      remaining = absences_included - baskets.absent_or_forced.count
+      remaining = absences_included - baskets_counting_as_absences_included.absent_or_forced.count
       if remaining.positive?
-        baskets
-          .normal
+        provisional_absence_candidates
           .reorder("deliveries.date DESC")
           .limit(remaining)
           .update_all(state: "absent")
@@ -89,12 +88,26 @@ module Membership::Absence
 
     transaction do
       baskets.not_billable.update_all(billable: true)
-      absent_baskets = baskets.absent
-      if Current.org.absences_billed?
-        absent_baskets = absent_baskets.limit(absences_included)
-      end
+      absent_baskets =
+        if Current.org.absences_billed?
+          baskets_counting_as_absences_included.absent.limit(absences_included)
+        else
+          baskets.absent
+        end
       absent_baskets.update_all(billable: false)
       baskets.find_each(&:update_calculated_price_extra!)
     end
+  end
+
+  # Shifted sources are delivered on their target dates and do not consume the
+  # included absence quota.
+  def baskets_counting_as_absences_included
+    baskets.where.not(delivery_id: basket_shifts.select(:source_delivery_id))
+  end
+
+  # A target receiving shifted content must remain deliverable when the freed
+  # included absence is provisionally allocated elsewhere.
+  def provisional_absence_candidates
+    baskets.normal.where.not(delivery_id: basket_shifts.select(:target_delivery_id))
   end
 end
