@@ -11,7 +11,8 @@ Appsignal.configure do |config|
     "ActionController::InvalidAuthenticityToken",
     "ActionController::BadRequest",
     "ActionController::UnknownFormat",
-    "ActionDispatch::Http::MimeNegotiation::InvalidType"
+    "ActionDispatch::Http::MimeNegotiation::InvalidType",
+    "ActionDispatch::Http::Parameters::ParseError"
   ]
 
   config.active = Rails.env.production?
