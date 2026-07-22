@@ -7,6 +7,18 @@ class MembershipBasketsUpdaterTest < ActiveSupport::TestCase
     membership.deliveries.map(&:date).map(&:to_s)
   end
 
+  def create_delivery_swap!(membership, source:, target:, **attributes)
+    basket = membership.baskets.find_by!(delivery: source)
+    basket.update!(attributes.merge(delivery: target))
+    basket.sync_basket_override!
+    BasketOverride.find_by!(membership: membership, delivery: source)
+  end
+
+  def assert_delivery_swap_applied(membership, source:, target:)
+    assert_not membership.baskets.exists?(delivery: source)
+    assert membership.baskets.exists?(delivery: target)
+  end
+
   test "update membership when cycle updated" do
     travel_to "2024-01-01"
     cycle = delivery_cycles(:mondays)
@@ -60,6 +72,153 @@ class MembershipBasketsUpdaterTest < ActiveSupport::TestCase
      "2024-05-06",
      "2024-06-03"
     ], dates(membership)
+  end
+
+  test "preserves delivery swap during delivery resync" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    source = deliveries(:monday_6)
+    target = Delivery.create!(date: "2024-05-07") # Tuesday, outside the cycle
+    override = create_delivery_swap!(membership, source: source, target: target, quantity: 3)
+
+    deliveries(:monday_10).update!(date: "2024-06-11") # Tuesday
+    perform_enqueued_jobs
+
+    assert_delivery_swap_applied(membership, source: source, target: target)
+    assert_equal 3, membership.baskets.find_by!(delivery: target).quantity
+    assert BasketOverride.exists?(override.id)
+  end
+
+  test "restores delivery swap when source is past and target is future" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    source = deliveries(:monday_5)
+    target = Delivery.create!(date: "2024-05-07") # Tuesday, outside the cycle
+    override = create_delivery_swap!(membership, source: source, target: target, quantity: 3)
+    target_basket = membership.baskets.find_by!(delivery: target)
+    target_basket.update!(depot: depots(:bakery), depot_price: 4)
+    target_basket.sync_basket_override!
+    target_override = BasketOverride.find_by!(membership: membership, delivery: target)
+    assert_equal depots(:bakery).id, target_override.diff["depot_id"]
+    target_basket.destroy!
+
+    travel_to "2024-05-01"
+    MembershipBasketsUpdater.new(membership.reload).perform!
+
+    assert_delivery_swap_applied(membership, source: source, target: target)
+    target_basket = membership.baskets.find_by!(delivery: target)
+    assert_equal 3, target_basket.quantity
+    assert_equal depots(:bakery), target_basket.depot
+    assert BasketOverride.exists?(override.id)
+  end
+
+  test "does not recreate future source when delivery swap target is past" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    source = deliveries(:monday_6)
+    target = Delivery.create!(date: "2024-04-30") # Tuesday, outside the cycle
+    override = create_delivery_swap!(membership, source: source, target: target)
+
+    travel_to "2024-05-01"
+    MembershipBasketsUpdater.new(membership.reload).perform!
+
+    assert_delivery_swap_applied(membership, source: source, target: target)
+    assert BasketOverride.exists?(override.id)
+  end
+
+  test "preserves delivery swap during alternating delivery cycle resync" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    cycle = membership.delivery_cycle
+    period = cycle.periods.first
+    cycle.update!(periods_attributes: [ { id: period.id, results: :odd } ])
+    perform_enqueued_jobs
+    source = deliveries(:monday_5) # Included as the fifth delivery
+    target = deliveries(:monday_6) # Excluded as the sixth delivery
+    override = create_delivery_swap!(membership, source: source, target: target)
+
+    cycle.update!(last_cweek: 53)
+    perform_enqueued_jobs
+
+    assert_delivery_swap_applied(membership, source: source, target: target)
+    assert BasketOverride.exists?(override.id)
+  end
+
+  test "restores chained delivery swaps" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    source = deliveries(:monday_5)
+    intermediate = deliveries(:monday_6)
+    target = Delivery.create!(date: "2024-05-07") # Tuesday, outside the cycle
+    first_override = create_delivery_swap!(membership, source: intermediate, target: target)
+    second_override = create_delivery_swap!(membership, source: source, target: intermediate)
+    membership.baskets.find_by!(delivery: intermediate).destroy!
+
+    MembershipBasketsUpdater.new(membership).perform!
+
+    assert_not membership.baskets.exists?(delivery: source)
+    assert membership.baskets.exists?(delivery: intermediate)
+    assert membership.baskets.exists?(delivery: target)
+    assert BasketOverride.exists?(first_override.id)
+    assert BasketOverride.exists?(second_override.id)
+  end
+
+  test "skips basket resync when delivery swaps share a target" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    target = Delivery.create!(date: "2024-05-07")
+    source_ids = [ deliveries(:monday_6).id, deliveries(:monday_7).id ]
+    BasketOverride.insert_all!(source_ids.map { |source_id|
+      {
+        membership_id: membership.id,
+        delivery_id: source_id,
+        diff: { "override_delivery_id" => target.id },
+        created_at: Time.current,
+        updated_at: Time.current
+      }
+    })
+    basket_ids = membership.basket_ids.sort
+
+    MembershipBasketsUpdater.new(membership).perform!
+
+    assert_equal basket_ids, membership.reload.basket_ids.sort
+    assert_not membership.baskets.exists?(delivery: target)
+  end
+
+  test "skips basket resync when delivery swap target is missing" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    BasketOverride.insert_all!([ {
+      membership_id: membership.id,
+      delivery_id: deliveries(:monday_6).id,
+      diff: { "override_delivery_id" => 999_999 },
+      created_at: Time.current,
+      updated_at: Time.current
+    } ])
+    basket_ids = membership.basket_ids.sort
+
+    MembershipBasketsUpdater.new(membership).perform!
+
+    assert_equal basket_ids, membership.reload.basket_ids.sort
+  end
+
+  test "preserves basket shift during unrelated delivery resync" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    source = baskets(:jane_5)
+    target = baskets(:jane_6)
+    shift = BasketShift.create!(
+      absence: absences(:jane_thursday_5),
+      membership: membership,
+      source_delivery: source.delivery,
+      target_delivery: target.delivery)
+
+    deliveries(:monday_10).update!(date: "2024-06-11") # Tuesday
+    perform_enqueued_jobs
+
+    assert BasketShift.exists?(shift.id)
+    assert_equal 0, source.reload.quantity
+    assert_equal 2, target.reload.quantity
   end
 
   test "deletes basket shifts when delivery cycle update removes the target basket" do
