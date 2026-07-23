@@ -604,11 +604,11 @@ _:
           _it: I periodi dividono l'anno fiscale in segmenti con le proprie regole di filtraggio. Ogni periodo si applica a un intervallo di mesi e può avere i propri criteri di selezione delle consegne.
           _nl: Periodes verdelen het boekjaar in segmenten met hun eigen filterregels. Elke periode is van toepassing op een reeks maanden en kan eigen leveringsselectiecriteria hebben.
         price:
-          _en: Supplement for the management and/or delivery with this cycle.
-          _fr: Supplément pour la gestion et/ou la livraison avec ce cycle.
-          _de: Zuschlag für die Verwaltung und/oder Lieferung mit diesem Zyklus.
-          _it: Supplemento per la gestione e/o la consegna con questo ciclo.
-          _nl: Toeslag voor het beheer en/of levering met deze cyclus.
+          _en: Supplement for the management and/or delivery with this cycle, multiplied by the quantity configured for each delivery.
+          _fr: Supplément pour la gestion et/ou la livraison avec ce cycle, multiplié par la quantité configurée pour chaque livraison.
+          _de: Zuschlag für die Verwaltung und/oder Lieferung mit diesem Zyklus, multipliziert mit der für jede Lieferung festgelegten Menge.
+          _it: Supplemento per la gestione e/o la consegna con questo ciclo, moltiplicato per la quantità configurata per ogni consegna.
+          _nl: Toeslag voor het beheer en/of levering met deze cyclus, vermenigvuldigd met het aantal dat voor elke levering is ingesteld.
         settings_intro:
           _en: These settings define which deliveries are initially selected for this cycle (days, weeks, etc.). The periods below then apply additional filtering.
           _fr: Ces paramètres définissent quelles livraisons sont initialement sélectionnées pour ce cycle (jours, semaines, etc.). Les périodes ci-dessous appliquent ensuite un filtrage supplémentaire.

@@ -200,16 +200,16 @@ ActiveAdmin.register DeliveryCycle do
       handbook_button(self, "registration", anchor: "delivery-cycles")
     end
 
-    if feature?("absence")
-      f.inputs t(".billing"), icon: "banknotes" do
-        f.input :price,
-          min: 0,
-          hint: true,
-          label: DeliveryCycle.human_attribute_name(:price_per_delivery)
-        translated_input(f, :invoice_names,
-          required: false,
-          hint: t("formtastic.hints.delivery_cycle.invoice_name"),
-          input_html: { placeholder: f.object.invoice_description })
+    f.inputs t(".billing"), icon: "banknotes" do
+      f.input :price,
+        min: 0,
+        hint: true,
+        label: DeliveryCycle.human_attribute_name(:price_per_delivery)
+      translated_input(f, :invoice_names,
+        required: false,
+        hint: t("formtastic.hints.delivery_cycle.invoice_name"),
+        input_html: { placeholder: f.object.invoice_description })
+      if feature?("absence")
         f.input :absences_included_annually
         handbook_button(self, "absence", anchor: "absence-included")
       end

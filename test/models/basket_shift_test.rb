@@ -90,17 +90,16 @@ class BasketShiftTest < ActiveSupport::TestCase
     end
   end
 
-  test "charges the delivery price once for the shifted target" do
+  test "keeps the delivery price unchanged when shifting" do
     @membership.baskets.update_all(delivery_cycle_price: 2)
     @membership.touch
+    delivery_price = @membership.reload.deliveries_price
+    price = @membership.price
 
-    assert_difference(
-      -> { @membership.reload.deliveries_price } => -2,
-      -> { @membership.reload.price } => -2
-    ) do
-      build_basket_shift.save!
-    end
+    build_basket_shift.save!
 
-    assert_equal "9x 2.00", delivery_cycle_price_info(@membership.baskets)
+    assert_equal delivery_price, @membership.reload.deliveries_price
+    assert_equal price, @membership.price
+    assert_equal "10x 2.00", delivery_cycle_price_info(@membership.baskets)
   end
 end

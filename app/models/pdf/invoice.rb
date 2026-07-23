@@ -761,10 +761,11 @@ module PDF
       most_used_price =
         entity
           .baskets
-          .pluck(:delivery_cycle_price)
-          .select(&:positive?)
-          .tally
-          .max_by { |_, v| v }
+          .billable
+          .where("baskets.quantity > 0")
+          .group(:delivery_cycle_price)
+          .sum("baskets.quantity")
+          .max_by { |_, quantity| quantity }
           &.first
       if entity.delivery_cycle.price != most_used_price
         cycle = DeliveryCycle.find_by(price: most_used_price)

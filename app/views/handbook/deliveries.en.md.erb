@@ -61,7 +61,7 @@ This way, members see only one "Every other week" option at registration, but yo
 
 Each delivery cycle can have its own billing options:
 
-- **Price (per delivery)**: An additional fee for the management and/or delivery with this cycle.
+- **Price (per delivery, multiplied by quantity)**: An additional fee for the management and/or delivery with this cycle. The fee is multiplied by the number of <%= Basket.model_name.human(count: 2).downcase %>; for example, a quantity of 2 is charged twice.
 - **Name (invoice)**: A custom name displayed on invoices instead of the default delivery cycle name.
 - **Absences included annually**: Automatically exclude a certain number of deliveries, enabling members to plan a limited number of non-billed absences. See [Included Absences](/handbook/absence#absence-included) for more details.
 

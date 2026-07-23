@@ -90,13 +90,12 @@ module Membership::Pricing
         .sum("quantity * depot_price"))
   end
 
-  # Only billable and filled baskets are considered, only one delivery fee
-  # whatever is the quantity
+  # Follow basket quantities, like basket size and depot prices.
   def deliveries_price
     rounded_price(
       baskets
-        .countable
-        .sum(&:delivery_cycle_price))
+        .billable
+        .sum("baskets.quantity * baskets.delivery_cycle_price"))
   end
 
   def missing_invoices_amount

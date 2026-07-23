@@ -81,9 +81,25 @@ class Membership::PricingTest < ActiveSupport::TestCase
     assert_equal 20 * 21, membership.basket_sizes_price
     assert_equal 20 * 3, membership.depots_price
     assert_equal 10 * (3 * 3.5 + 2 * 6.1), membership.basket_complements_price
-    assert_equal 10 * 2, membership.deliveries_price
+    assert_equal 20 * 2, membership.deliveries_price
     assert_equal 0, membership.activity_participations_annual_price_change
-    assert_equal 727, membership.price
+    assert_equal 747, membership.price
+  end
+
+  test "delivery price ignores complement-only baskets" do
+    travel_to "2024-01-01"
+    basket_sizes(:small).update!(price: 0)
+    membership = create_membership(
+      basket_size: basket_sizes(:small),
+      basket_size_price: 0,
+      delivery_cycle: delivery_cycles(:thursdays),
+      delivery_cycle_price: 2,
+      memberships_basket_complements_attributes: {
+        "0" => { basket_complement_id: bread_id, quantity: 1 }
+      })
+
+    assert_equal 0, membership.deliveries_price
+    assert_empty delivery_cycle_price_info(membership.baskets)
   end
 
   test "price with 3-digit precision depot price" do

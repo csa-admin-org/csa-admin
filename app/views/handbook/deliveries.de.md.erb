@@ -61,7 +61,7 @@ So sehen die Mitglieder bei der Anmeldung nur eine einzige Option "Jede zweite W
 
 Jeder Lieferzyklus kann eigene Abrechnungsoptionen haben:
 
-- **Preis (pro Lieferung)**: Ein Zuschlag für die Verwaltung und/oder Lieferung mit diesem Zyklus.
+- **Preis (pro Lieferung, mit der Menge multipliziert)**: Ein Zuschlag für die Verwaltung und/oder Lieferung mit diesem Zyklus. Der Zuschlag wird mit der Anzahl <%= Basket.model_name.human(count: 2).downcase %> multipliziert; bei einer Menge von 2 wird er beispielsweise zweimal berechnet.
 - **Name (Rechnung)**: Ein benutzerdefinierter Name, der auf Rechnungen anstelle des Standard-Lieferzyklusnamens angezeigt wird.
 - **Jährlich enthaltene Abwesenheiten**: Automatisch eine bestimmte Anzahl von Lieferungen ausschliessen, damit Mitglieder eine begrenzte Anzahl nicht berechneter Abwesenheiten planen können. Siehe [Enthaltene Abwesenheiten](/handbook/absence#absence-included) für weitere Details.
 

@@ -62,7 +62,7 @@ Zo zien de leden slechts één optie " Om de week " bij registratie, terwijl je 
 
 Elke leveringscyclus kan eigen facturatieopties hebben:
 
-- **Prijs (per levering)**: Een toeslag voor het beheer en/of levering met deze cyclus.
+- **Prijs (per levering, vermenigvuldigd met het aantal)**: Een toeslag voor het beheer en/of levering met deze cyclus. De toeslag wordt vermenigvuldigd met het aantal <%= Basket.model_name.human(count: 2).downcase %>; bij een aantal van 2 wordt de toeslag bijvoorbeeld twee keer in rekening gebracht.
 - **Naam (factuur)**: Een aangepaste naam die op facturen wordt weergegeven in plaats van de standaard leveringscyclusnaam.
 - **Jaarlijks inbegrepen afwezigheden**: Automatisch een bepaald aantal leveringen uitsluiten, zodat leden een beperkt aantal niet-gefactureerde afwezigheden kunnen plannen. Zie [Inbegrepen afwezigheden](/handbook/absence#absence-included) voor meer details.
 
