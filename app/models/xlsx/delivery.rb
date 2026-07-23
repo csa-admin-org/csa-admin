@@ -146,7 +146,7 @@ module XLSX
 
     def build_depot_worksheet(depot)
       baskets = @baskets.where(depot: depot).includes(:membership, :basket_size, :complements, baskets_basket_complements: :basket_complement)
-      shop_orders = @shop_orders.where(depot: depot).includes(:member, items: { product: :basket_complement })
+      shop_orders = @shop_orders.where(depot: depot).includes(:member, items: { product_variant: :basket_complement })
       member_ids = (baskets.filled.pluck(memberships: :member_id) + shop_orders.pluck(shop_orders: :member_id)).uniq
       members = Member.where(id: member_ids).sort_by { |m| depot.member_sorting(m) }
       members.each do |member|

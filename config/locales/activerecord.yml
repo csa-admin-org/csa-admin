@@ -4065,6 +4065,19 @@ _:
           _it: Stato dell'ordine
           _nl: Bestelling status
       shop/product:
+        display_in_delivery_sheets:
+          _en: Display in delivery sheets (PDF) and summary (XLSX)
+          _fr: Afficher dans les fiches (PDF) et le récapitulatif (XLSX) de livraison
+          _de: In den Blättern (PDF) und der Zusammenfassung (XLSX) der Lieferung anzeigen
+          _it: Mostra nei fogli (PDF) e nel riepilogo (XLSX) di consegna
+          _nl: Tonen in leveringsbladen (PDF) en samenvatting (XLSX)
+        variants:
+          _en: Variants
+          _fr: Variantes
+          _de: Varianten
+          _it: Varianti
+          _nl: Varianten
+      shop/product_variant:
         basket_complement/bag:
           _en: Bag complement
           _fr: Complément sac
@@ -4101,18 +4114,6 @@ _:
           _de: Anteilszusatz
           _it: Aggiunta parte
           _nl: Deelaanvulling
-        display_in_delivery_sheets:
-          _en: Display in delivery sheets (PDF) and summary (XLSX)
-          _fr: Afficher dans les fiches (PDF) et le récapitulatif (XLSX) de livraison
-          _de: In den Blättern (PDF) und der Zusammenfassung (XLSX) der Lieferung anzeigen
-          _it: Mostra nei fogli (PDF) e nel riepilogo (XLSX) di consegna
-          _nl: Tonen in leveringsbladen (PDF) en samenvatting (XLSX)
-        variants:
-          _en: Variants
-          _fr: Variantes
-          _de: Varianten
-          _it: Varianti
-          _nl: Varianten
       shop/special_delivery:
         open:
           _en: Open
@@ -4408,43 +4409,6 @@ _:
                 _de: Kann nicht aktiviert werden, wenn das Produkt mehrere Varianten hat
                 _it: Non può essere attivato se il prodotto ha più varianti
                 _nl: Kan niet worden geactiveerd als het product meerdere varianten heeft
-            variants:
-              single_variant/bag:
-                _en: ": only one variant is allowed when the product is linked to a bag complement"
-                _fr: ": une seule variante est autorisée quand le produit est lié à un complément sac"
-                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Taschenzusatz verbunden ist"
-                _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta borsa"
-                _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een tasaanvulling"
-              single_variant/basket:
-                _en: ": only one variant is allowed when the product is linked to a basket complement"
-                _fr: ": une seule variante est autorisée quand le produit est lié à un complément panier"
-                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Korbzusatz verbunden ist"
-                _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta cesta"
-                _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een mandaanvulling"
-              single_variant/cone:
-                _en: ": only one variant is allowed when the product is linked to a cone complement"
-                _fr: ": une seule variante est autorisée quand le produit est lié à un complément cornet"
-                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Tütenzusatz verbunden ist"
-                _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta cono"
-                _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een zakaanvulling"
-              single_variant/crate:
-                _en: ": only one variant is allowed when the product is linked to a crate complement"
-                _fr: ": une seule variante est autorisée quand le produit est lié à un complément cagette"
-                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Kistenzusatz verbunden ist"
-                _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta cassetta"
-                _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een krataanvulling"
-              single_variant/package:
-                _en: ": only one variant is allowed when the product is linked to a package complement"
-                _fr: ": une seule variante est autorisée quand le produit est lié à un complément colis"
-                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Paketzusatz verbunden ist"
-                _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta pacco"
-                _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een pakketaanvulling"
-              single_variant/share:
-                _en: ": only one variant is allowed when the product is linked to a share complement"
-                _fr: ": une seule variante est autorisée quand le produit est lié à un complément part"
-                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Anteilszusatz verbunden ist"
-                _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta parte"
-                _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een deelaanvulling"
     models:
       absence:
         one:

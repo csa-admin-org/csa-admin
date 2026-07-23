@@ -40,7 +40,7 @@ ActiveAdmin.register Shop::Product do
     label: -> { Shop::ProductVariant.human_attribute_name(:stock) },
     as: :numeric
 
-  includes :variants, :basket_complement, :uninvoiced_orders, :order_items
+  includes :uninvoiced_orders, :order_items, variants: :basket_complement
   index do
     selectable_column(class: "w-px")
     column :name, ->(product) { auto_link product }, sortable: true
@@ -58,7 +58,9 @@ ActiveAdmin.register Shop::Product do
     column(:id)
     column(:producer) { |p| p.producer&.name }
     column(:name)
-    column(:basket_complement) { |p| p.basket_complement&.name }
+    column(:basket_complement) { |p|
+      p.variants.find { |variant| variant.id == p["variant_id"] }&.basket_complement&.name
+    }
     column(:product_variant)  { |p| p[:variant_name] }
     column(:price) { |p| p["variant_price"] }
     column(:weight_in_kg) { |p| p["variant_weight_in_kg"] }
@@ -81,21 +83,23 @@ ActiveAdmin.register Shop::Product do
         collection: Shop::Tag.kept.order_by_name,
         toggle_all: false
       f.input :producer, collection: Shop::Producer.kept
-      f.input :basket_complement,
-        collection: BasketComplement.includes(:shop_product).ordered.map { |bc|
-          [ bc.name, bc.id, disabled: !!bc.shop_product && bc.shop_product != f.object ]
-        }
       f.input :display_in_delivery_sheets,
         as: :boolean,
-        input_html: { disabled: f.object.basket_complement_id? },
+        input_html: { disabled: f.object.linked_to_basket_complement? },
         hint: t("formtastic.hints.shop/product.display_in_delivery_sheets")
     end
     f.inputs Shop::ProductVariant.model_name.human(count: 2), icon: "list-tree" do
+      basket_complements = BasketComplement.includes(:shop_product_variant).ordered
       f.has_many :variants, allow_destroy: ->(pv) { pv.can_destroy? }, heading: nil do |ff|
         translated_input(ff, :names)
         ff.input :price, as: :number, step: 0.01, min: 0, max: 99999.99
         ff.input :weight_in_kg, as: :number, step: 0.001, min: 0, required: false
         ff.input :stock, as: :number, step: 1, min: 0, required: false
+        ff.input :basket_complement,
+          collection: basket_complements.map { |bc|
+            linked_variant = bc.shop_product_variant
+            [ bc.name, bc.id, disabled: linked_variant && linked_variant != ff.object ]
+          }
         ff.input :available, as: :boolean, required: false
       end
       f.semantic_errors :variants
@@ -136,7 +140,6 @@ ActiveAdmin.register Shop::Product do
 
   permit_params(
     :producer_id,
-    :basket_complement_id,
     :available,
     :display_in_delivery_sheets,
     *I18n.available_locales.map { |l| "name_#{l}" },
@@ -146,6 +149,7 @@ ActiveAdmin.register Shop::Product do
     available_for_delivery_ids: [],
     variants_attributes: [
       :id,
+      :basket_complement_id,
       :price,
       :weight_in_kg,
       :stock,
@@ -180,6 +184,7 @@ ActiveAdmin.register Shop::Product do
       if params[:format] == "csv"
         collection = collection.left_joins(:variants).select(<<-SQL)
           shop_products.*,
+          shop_product_variants.id as variant_id,
           json_extract(shop_product_variants.names, '$.#{I18n.locale}') as variant_name,
           shop_product_variants.price as variant_price,
           shop_product_variants.weight_in_kg as variant_weight_in_kg,

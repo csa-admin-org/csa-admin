@@ -30,9 +30,9 @@ La disponibilité d'un produit peut–être définie pour lui-même ou pour chac
 
 ### Compléments
 
-Il est possible de lier un produit à un [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements) existant; les commandes de ce produit seront alors automatiquement ajoutées au nombre de ce complément dans le récapitulatif (XLSX) et les fiches (PDF) de la livraison des <%= Basket.model_name.human(count: 2).downcase %>.
+Chaque variante de produit peut être liée à un [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements) existant. Les commandes d'une variante liée ajoutent sa quantité à ce complément dans le récapitulatif (XLSX) et les fiches (PDF) de la livraison des <%= Basket.model_name.human(count: 2).downcase %>.
 
-Ce produit ne sera également disponible que les jours de livraison du complément.
+Un même produit peut ainsi regrouper des variantes liées à différents compléments. Chaque variante liée n'est disponible que les jours de livraison de son complément; les autres variantes conservent leur propre disponibilité.
 
 ## Commandes {#orders}
 

@@ -1,5 +1,6 @@
 bread_500:
   product: bread
+  basket_complement: bread
   names:
     en: 500g
   price: 5

@@ -30,9 +30,9 @@ The availability of a product can be defined for itself or for each of its varia
 
 ### Complements
 
-It's possible to link a product to an existing [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements); orders for this product will then be automatically added to the number of this complement in the summary (XLSX) and sheets (PDF) of the <%= Basket.model_name.human.downcase %> delivery.
+Each product variant can be linked to one existing [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements). Orders for a linked variant add its quantity to that complement in the summary (XLSX) and sheets (PDF) of the <%= Basket.model_name.human.downcase %> delivery.
 
-The product is available only on the complement's delivery days.
+One product can therefore group variants linked to different complement choices. Each linked variant is available only on its complement's delivery days; other variants retain their own availability.
 
 ## Orders {#orders}
 

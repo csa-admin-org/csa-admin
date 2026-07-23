@@ -30,9 +30,9 @@ Die Verfügbarkeit eines Produkts kann für sich selbst oder für jede seiner Va
 
 ### Ergänzungen
 
-Es ist möglich, ein Produkt mit einer bestehenden [<%= BasketComplement.model_name.human %>](/handbook/deliveries#basket-complements) zu verknüpfen; Bestellungen dieses Produkts werden dann automatisch zur Anzahl dieser Ergänzung in der Zusammenfassung (XLSX) und den Blättern (PDF) der Lieferung der <%= Basket.model_name.human(count: 2) %> hinzugefügt.
+Jede Produktvariante kann mit einer bestehenden [<%= BasketComplement.model_name.human %>](/handbook/deliveries#basket-complements) verknüpft werden. Bestellungen einer verknüpften Variante fügen ihre Menge dieser Ergänzung in der Zusammenfassung (XLSX) und den Blättern (PDF) der Lieferung der <%= Basket.model_name.human(count: 2) %> hinzu.
 
-Dieses Produkt wird auch nur an den Liefertagen der Ergänzung verfügbar sein.
+Ein Produkt kann so Varianten mit verschiedenen Ergänzungen zusammenfassen. Jede verknüpfte Variante ist nur an den Liefertagen ihrer Ergänzung verfügbar; andere Varianten behalten ihre eigene Verfügbarkeit.
 
 ## Bestellungen {#orders}
 

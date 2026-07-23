@@ -8,7 +8,7 @@ ActiveAdmin.register BasketComplement do
   scope :visible, group: :visibility, default: true
   scope :hidden, group: :visibility
 
-  includes :memberships_basket_complements, :baskets_basket_complement, :shop_product
+  includes :memberships_basket_complements, :baskets_basket_complement, :shop_product_variant
   index download_links: false do
     column :id
     column :name, ->(bc) { display_name_with_public_name(bc) }, sortable: true

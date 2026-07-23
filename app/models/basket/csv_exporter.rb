@@ -176,7 +176,7 @@ class Basket::CSVExporter
     if @basket_complements_exist
       complement_columns.each do |c|
         basket_qty = basket.baskets_basket_complements.select { |bc| bc.basket_complement_id == c.id }.sum(&:quantity)
-        shop_qty = shop_order&.items&.select { |i| i.product.basket_complement_id == c.id }&.sum(&:quantity) || 0
+        shop_qty = shop_order&.items&.select { |i| i.product_variant.basket_complement_id == c.id }&.sum(&:quantity) || 0
         cols << (basket_qty + shop_qty)
       end
       cols << basket.complements_description(public_name: true)
@@ -201,7 +201,7 @@ class Basket::CSVExporter
 
   def load_shop_orders
     if feature?("shop")
-      Shop::Order.where(delivery: @deliveries).includes(items: { product: :basket_complement })
+      Shop::Order.where(delivery: @deliveries).includes(items: { product_variant: :basket_complement })
     else
       Shop::Order.none
     end

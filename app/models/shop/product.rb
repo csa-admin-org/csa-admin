@@ -15,7 +15,6 @@ module Shop
     translated_rich_texts :description
 
     belongs_to :producer, class_name: "Shop::Producer", optional: true
-    belongs_to :basket_complement, optional: true
     has_many :variants,
       -> { kept },
       class_name: "Shop::ProductVariant"
@@ -50,14 +49,14 @@ module Shop
       where.not("EXISTS (SELECT 1 FROM json_each(unavailable_for_delivery_ids) WHERE json_each.value = ?)", delivery_id.to_i)
     }
     scope :displayed_in_delivery_sheets, -> {
-      # Does not include product linked to a basket complement as they are
-      # always displayed in delivery sheets (see #display_in_delivery_sheets).
-      where(basket_complement_id: nil, display_in_delivery_sheets: true)
+      # Variants linked to basket complements are displayed in their
+      # complement columns instead of regular shop product columns.
+      where(display_in_delivery_sheets: true)
+        .where.not(id: ProductVariant.where.not(basket_complement_id: nil).select(:product_id))
     }
 
     validates :available, inclusion: [ true, false ]
     validates :variants, presence: true
-    validates :variants, length: { is: 1, message: :single_variant }, if: :basket_complement_id?
     validate :ensure_at_least_one_available_depot
     validate :ensure_at_least_one_available_variant
     validate :display_in_delivery_sheets_only_one_variant
@@ -72,9 +71,8 @@ module Shop
     def self.available_for(delivery, depot = nil)
       products =
         available
-          .left_joins(basket_complement: :deliveries)
+          .where(id: ProductVariant.available_for(delivery).reorder(nil).select(:product_id))
           .delivery_eq(delivery.id)
-          .where("shop_products.basket_complement_id IS NULL OR basket_complements_deliveries.delivery_id = ?", delivery)
       if depot
         products = products.where.not("EXISTS (SELECT 1 FROM json_each(unavailable_for_depot_ids) WHERE json_each.value = ?)", depot)
       end
@@ -113,13 +111,17 @@ module Shop
 
     def display_name(producer: false)
       txt = name
-      txt += "*" if basket_complement_id?
+      txt += "*" if linked_to_basket_complement?
       txt += " (#{send(:producer).name})" if producer && producer_id?
       txt
     end
 
     def display_in_delivery_sheets
-      basket_complement_id? || super
+      linked_to_basket_complement? || super
+    end
+
+    def linked_to_basket_complement?
+      variants.any?(&:basket_complement_id?)
     end
 
     def name_with_single_variant
@@ -165,7 +167,7 @@ module Shop
     end
 
     def display_in_delivery_sheets_only_one_variant
-      if display_in_delivery_sheets? && variants.many?
+      if display_in_delivery_sheets? && variants.many? && !linked_to_basket_complement?
         self.errors.add(:display_in_delivery_sheets, :only_one_variant)
       end
     end

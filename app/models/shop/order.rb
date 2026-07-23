@@ -75,8 +75,8 @@ module Shop
     end
 
     def self.complement_count(complement)
-      joins(items: :product)
-        .where(shop_products: { basket_complement_id: complement.id })
+      joins(items: :product_variant)
+        .where(shop_product_variants: { basket_complement_id: complement.id })
         .sum("shop_order_items.quantity")
     end
 
@@ -215,7 +215,7 @@ module Shop
 
     def complements_description(public_name: true)
       items.map { |item|
-        next unless complement = item.product.basket_complement
+        next unless complement = item.product_variant.basket_complement
 
         describe(complement, item.quantity, public_name: public_name)
       }.compact.to_sentence.presence

@@ -55,7 +55,11 @@ class Members::Shop::BaseController < Members::BaseController
 
   def all_available_products(pparams = params)
     products = delivery.available_shop_products(current_member.shop_depot)
-    products = products.preload(:variants, :tags, :producer, "rich_text_description_#{I18n.locale}".to_sym)
+    products = products.preload(
+      :tags,
+      :producer,
+      { variants: { basket_complement: :deliveries } },
+      "rich_text_description_#{I18n.locale}".to_sym)
     if pparams[:producer_id].present?
       products = products.where(producer_id: pparams[:producer_id])
     end

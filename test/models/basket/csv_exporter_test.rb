@@ -103,6 +103,27 @@ class Basket::CSVExporterTest < ActiveSupport::TestCase
     refute_includes csv.headers, Basket.human_attribute_name(:depot_group)
   end
 
+  test "adds shop variant quantities to basket complement columns" do
+    travel_to "2024-04-01"
+    delivery = deliveries(:thursday_1)
+    basket = delivery.baskets.joins(:membership).find_by!(memberships: { member_id: members(:jane).id })
+    create_shop_order(
+      member: members(:jane),
+      delivery: delivery,
+      depot: basket.depot,
+      items_attributes: {
+        "0" => {
+          product_variant_id: shop_product_variants(:bread_500).id,
+          quantity: 3
+        }
+      })
+
+    csv = CSV.parse(Basket::CSVExporter.new(delivery: delivery).generate, headers: true)
+    row = csv.find { |entry| entry[Basket.human_attribute_name(:basket_id)] == basket.id.to_s }
+
+    assert_equal "4", row[basket_complements(:bread).name]
+  end
+
   test "checks for depot groups only once when none are used" do
     exporter = Basket::CSVExporter.new(delivery: deliveries(:monday_1))
     queries = []

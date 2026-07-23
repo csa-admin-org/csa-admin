@@ -3,23 +3,22 @@
 require "test_helper"
 
 class Shop::ProductTest < ActiveSupport::TestCase
-  test "validate single variant when associated to a basket complement" do
-    product = Shop::Product.new(
-      basket_complement: basket_complements(:bread),
+  test "supports variants linked to different basket complements" do
+    product = shop_products(:oil)
+
+    assert product.update(
       variants_attributes: {
         "0" => {
-          name: "100g",
-          price: 5
+          id: shop_product_variants(:oil_500).id,
+          basket_complement_id: basket_complements(:eggs).id
         },
         "1" => {
-          name: "200g",
-          price: 10
+          id: shop_product_variants(:oil_1000).id,
+          basket_complement_id: basket_complements(:cheese).id
         }
       })
-
-    assert_not product.valid?
-    assert_includes product.errors.messages[:variants],
-      ": only one variant is allowed when the product is linked to a basket complement"
+    assert_equal [ basket_complements(:eggs), basket_complements(:cheese) ].sort,
+      product.variants.map(&:basket_complement).sort
   end
 
   test "validate at least one available variant" do
@@ -64,6 +63,25 @@ class Shop::ProductTest < ActiveSupport::TestCase
       Shop::Product.available_for(deliveries(:thursday_1)).sort
   end
 
+  test "returns a product when one of its complement variants is available" do
+    travel_to "2024-01-01"
+    monday = deliveries(:monday_1)
+    thursday = deliveries(:thursday_1)
+    eggs = basket_complements(:eggs)
+    cheese = basket_complements(:cheese)
+    eggs.update!(delivery_ids: [ monday.id ])
+    cheese.update!(delivery_ids: [ thursday.id ])
+    shop_product_variants(:oil_500).update!(basket_complement: eggs)
+    shop_product_variants(:oil_1000).update!(basket_complement: cheese)
+
+    assert_includes Shop::Product.available_for(monday), shop_products(:oil)
+    assert_includes Shop::Product.available_for(thursday), shop_products(:oil)
+    assert_equal [ shop_product_variants(:oil_500) ], Shop::ProductVariant.available_for(monday)
+      .where(product: shop_products(:oil))
+    assert_equal [ shop_product_variants(:oil_1000) ], Shop::ProductVariant.available_for(thursday)
+      .where(product: shop_products(:oil))
+  end
+
   test "returns products that are available for the given depot" do
     travel_to "2024-01-01"
     shop_products(:oil).update(available_for_depot_ids: [ farm_id ])
@@ -98,8 +116,8 @@ class Shop::ProductTest < ActiveSupport::TestCase
 
   test "#display_in_delivery_sheets" do
     product = Shop::Product.new(
-      basket_complement: basket_complements(:bread),
-      display_in_delivery_sheets: false)
+      display_in_delivery_sheets: false,
+      variants: [ Shop::ProductVariant.new(basket_complement: basket_complements(:bread)) ])
     assert product.display_in_delivery_sheets
     assert product.display_in_delivery_sheets
 

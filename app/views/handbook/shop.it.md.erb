@@ -30,9 +30,9 @@ La disponibilità di un prodotto può essere definita per se stesso o per ciascu
 
 ### Complementi
 
-È possibile collegare un prodotto a un [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements) esistente; gli ordini di questo prodotto saranno allora automaticamente aggiunti al numero di questo complemento nel riepilogo (XLSX) e nei fogli (PDF) della consegna delle <%= Basket.model_name.human(count: 2).downcase %>.
+Ogni variante di prodotto può essere collegata a un [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements) esistente. Gli ordini di una variante collegata aggiungono la sua quantità a questo complemento nel riepilogo (XLSX) e nei fogli (PDF) della consegna delle <%= Basket.model_name.human(count: 2).downcase %>.
 
-Questo prodotto sarà anche disponibile solo nei giorni di consegna del complemento.
+Un prodotto può così raggruppare varianti collegate a complementi diversi. Ogni variante collegata è disponibile solo nei giorni di consegna del proprio complemento; le altre varianti mantengono la propria disponibilità.
 
 ## Ordini {#orders}
 

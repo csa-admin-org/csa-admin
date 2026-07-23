@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_14_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_23_120000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -1080,6 +1080,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_120000) do
 
   create_table "shop_product_variants", force: :cascade do |t|
     t.boolean "available", default: true, null: false
+    t.integer "basket_complement_id"
     t.datetime "discarded_at"
     t.json "names", default: {}, null: false
     t.decimal "price", precision: 8, scale: 2, null: false
@@ -1087,13 +1088,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_120000) do
     t.integer "stock"
     t.decimal "weight_in_kg", precision: 8, scale: 3
     t.index ["available"], name: "index_shop_product_variants_on_available"
+    t.index ["basket_complement_id"], name: "index_shop_product_variants_on_basket_complement_id", unique: true
     t.index ["discarded_at"], name: "index_shop_product_variants_on_discarded_at"
     t.index ["product_id"], name: "index_shop_product_variants_on_product_id"
   end
 
   create_table "shop_products", force: :cascade do |t|
     t.boolean "available", default: true, null: false
-    t.bigint "basket_complement_id"
     t.datetime "discarded_at"
     t.boolean "display_in_delivery_sheets", default: false, null: false
     t.json "names", default: {}, null: false
@@ -1101,7 +1102,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_120000) do
     t.json "unavailable_for_delivery_ids", default: [], null: false
     t.json "unavailable_for_depot_ids", default: [], null: false
     t.index ["available"], name: "index_shop_products_on_available"
-    t.index ["basket_complement_id"], name: "index_shop_products_on_basket_complement_id", unique: true
     t.index ["discarded_at"], name: "index_shop_products_on_discarded_at"
     t.index ["producer_id"], name: "index_shop_products_on_producer_id"
     t.check_constraint "JSON_TYPE(unavailable_for_delivery_ids) = 'array'", name: "shop_products_unavailable_for_delivery_ids_is_array"
@@ -1205,8 +1205,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_14_120000) do
   add_foreign_key "shop_order_items", "shop_products", column: "product_id"
   add_foreign_key "shop_orders", "depots"
   add_foreign_key "shop_orders", "members"
+  add_foreign_key "shop_product_variants", "basket_complements"
   add_foreign_key "shop_product_variants", "shop_products", column: "product_id"
-  add_foreign_key "shop_products", "basket_complements"
   add_foreign_key "shop_products", "shop_producers", column: "producer_id"
   add_foreign_key "shop_products_special_deliveries", "shop_products", column: "product_id"
   add_foreign_key "shop_products_special_deliveries", "shop_special_deliveries", column: "special_delivery_id"

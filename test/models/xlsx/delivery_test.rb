@@ -14,6 +14,28 @@ class XLSX::DeliveryTest < ActiveSupport::TestCase
     end
   end
 
+  test "summary adds shop variant quantities to basket complements" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:thursday_1)
+    create_shop_order(
+      member: members(:jane),
+      delivery: delivery,
+      depot: depots(:bakery),
+      items_attributes: {
+        "0" => {
+          product_variant_id: shop_product_variants(:bread_500).id,
+          quantity: 3
+        }
+      })
+
+    rows = summary_rows_for(delivery)
+    bread_column = rows.first.index(basket_complements(:bread).name)
+    total_row = rows.reverse.find { |row| row.first == I18n.t("delivery.total") }
+    expected = delivery.baskets.active.complement_count(basket_complements(:bread)) + 3
+
+    assert_equal expected, total_row[bread_column]
+  end
+
   test "summary includes depot-group and price sections when they partition depots differently" do
     travel_to "2024-01-01"
     delivery = deliveries(:monday_1)

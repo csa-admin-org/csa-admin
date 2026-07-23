@@ -24,7 +24,9 @@ class BasketComplement < ApplicationRecord
   has_many :baskets, through: :baskets_basket_complement
   has_many :memberships_basket_complements, dependent: :destroy
   has_many :memberships, through: :memberships_basket_complements
-  has_one :shop_product, class_name: "Shop::Product"
+  has_one :shop_product_variant,
+    class_name: "Shop::ProductVariant",
+    inverse_of: :basket_complement
   has_and_belongs_to_many :deliveries, validate: false
   has_and_belongs_to_many :current_deliveries, -> { current_year },
     class_name: "Delivery",
@@ -64,8 +66,8 @@ class BasketComplement < ApplicationRecord
         .pluck(:basket_complement_id)
     ids +=
       shop_orders
-        .joins(:products)
-        .pluck(shop_products: :basket_complement_id)
+        .joins(items: :product_variant)
+        .pluck(shop_product_variants: :basket_complement_id)
     where(id: ids.uniq).ordered
   end
 
@@ -103,11 +105,11 @@ class BasketComplement < ApplicationRecord
   end
 
   def can_delete?
-    memberships_basket_complements.none? && baskets_basket_complement.none? && !shop_product
+    memberships_basket_complements.none? && baskets_basket_complement.none? && !shop_product_variant
   end
 
   def can_discard?
-    memberships.current_and_future_year.none? && baskets.current_and_future_year.none? && !shop_product
+    memberships.current_and_future_year.none? && baskets.current_and_future_year.none? && !shop_product_variant
   end
 
   private

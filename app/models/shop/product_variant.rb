@@ -12,14 +12,30 @@ module Shop
     default_scope { order(:price).order_by_name }
 
     belongs_to :product, class_name: "Shop::Product", optional: true
+    belongs_to :basket_complement, inverse_of: :shop_product_variant, optional: true
     has_many :order_items, class_name: "Shop::OrderItem", inverse_of: :product_variant
     has_many :orders, through: :order_items
     has_many :uninvoiced_orders, -> { uninvoiced }, through: :order_items, source: :order
 
     scope :available, -> { where(available: true) }
     scope :unavailable, -> { where(available: false) }
+    scope :available_for, ->(delivery) {
+      variants = kept.available
+      if delivery.is_a?(::Delivery)
+        variants
+          .left_joins(basket_complement: :deliveries)
+          .where(<<~SQL.squish, delivery.id)
+            shop_product_variants.basket_complement_id IS NULL
+              OR basket_complements_deliveries.delivery_id = ?
+          SQL
+          .distinct
+      else
+        variants
+      end
+    }
 
     validates :available, inclusion: [ true, false ]
+    validates :basket_complement_id, uniqueness: true, allow_nil: true
     validates :price,
       presence: true,
       numericality: { greater_than_or_equal_to: 0 }
@@ -34,6 +50,14 @@ module Shop
 
     def out_of_stock?
       stock&.zero?
+    end
+
+    def available_for_delivery?(delivery)
+      return false unless kept? && available?
+      return true unless delivery.is_a?(::Delivery)
+      return true unless basket_complement
+
+      basket_complement.deliveries.include?(delivery)
     end
 
     def available_stock?(quantity = 1)

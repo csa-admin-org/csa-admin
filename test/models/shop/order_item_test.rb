@@ -86,18 +86,38 @@ class Shop::OrderItemTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     delivery = deliveries(:thursday_1)
     delivery.update!(basket_complements: [])
-    product = shop_products(:bread)
-    product.update!(basket_complement_id: bread_id)
+    product = shop_products(:oil)
+    variant = shop_product_variants(:oil_500)
+    variant.update!(basket_complement: basket_complements(:eggs))
+
+    assert_includes delivery.available_shop_products(depots(:farm)), product
 
     order = build_shop_order(
       delivery: delivery,
       items_attributes: {
         "0" => {
-          product_id: shop_products(:bread).id,
-          product_variant_id: shop_product_variants(:bread_500).id,
+          product_id: product.id,
+          product_variant_id: variant.id,
           quantity: 1
         }
       })
+
+    order.validate
+    assert_includes order.items.first.errors[:product], "Not available for this delivery"
+  end
+
+  test "validate selected variant is available" do
+    product = shop_products(:oil)
+    variant = shop_product_variants(:oil_500)
+    variant.update!(available: false)
+
+    order = build_shop_order(items_attributes: {
+      "0" => {
+        product_id: product.id,
+        product_variant_id: variant.id,
+        quantity: 1
+      }
+    })
 
     order.validate
     assert_includes order.items.first.errors[:product], "Not available for this delivery"

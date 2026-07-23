@@ -2790,42 +2790,6 @@ _:
           _it: Lasciare vuoto per il prezzo standard.
           _nl: Laat leeg voor de standaardprijs.
       shop/product:
-        basket_complement/bag:
-          _en: Manages the product as a bag supplement, orders for this product will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX). Only one variant per product is allowed.
-          _fr: Gère le produit comme un complément sac, les commandes de ce produit seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des sacs. Une seule variante par produit est autorisée.
-          _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Taschenlieferung gezählt. Nur eine Variante pro Produkt ist erlaubt.
-          _it: Gestisce il prodotto come componente aggiuntivo della borsa. Gli ordini per questo prodotto saranno quindi conteggiati nel foglio di consegna della borsa (PDF) e nel riepilogo (XLSX). È consentita una sola variante per prodotto.
-          _nl: Beheert het product als tasaanvulling, bestellingen voor dit product worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX). Slechts één variant per product is toegestaan.
-        basket_complement/basket:
-          _en: Manages the product as a basket supplement, orders for this product will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX). Only one variant per product is allowed.
-          _fr: Gère le produit comme un complément panier, les commandes de ce produit seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des paniers. Une seule variante par produit est autorisée.
-          _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Körbelieferung gezählt. Nur eine Variante pro Produkt ist erlaubt.
-          _it: Gestisce il prodotto come componente aggiuntivo della cesta. Gli ordini per questo prodotto saranno quindi conteggiati nel foglio di consegna della cesta (PDF) e nel riepilogo (XLSX). È consentita una sola variante per prodotto.
-          _nl: Beheert het product als mandaanvulling, bestellingen voor dit product worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX). Slechts één variant per product is toegestaan.
-        basket_complement/cone:
-          _en: Manages the product as a cone supplement, orders for this product will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX). Only one variant per product is allowed.
-          _fr: Gère le produit comme un complément cornet, les commandes de ce produit seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des cornets. Une seule variante par produit est autorisée.
-          _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Tütenlieferung gezählt. Nur eine Variante pro Produkt ist erlaubt.
-          _it: Gestisce il prodotto come componente aggiuntivo del cono. Gli ordini per questo prodotto saranno quindi conteggiati nel foglio di consegna del cono (PDF) e nel riepilogo (XLSX). È consentita una sola variante per prodotto.
-          _nl: Beheert het product als zakaanvulling, bestellingen voor dit product worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX). Slechts één variant per product is toegestaan.
-        basket_complement/crate:
-          _en: Manages the product as a crate supplement, orders for this product will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX). Only one variant per product is allowed.
-          _fr: Gère le produit comme un complément cagette, les commandes de ce produit seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des cagettes. Une seule variante par produit est autorisée.
-          _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Kistenlieferung gezählt. Nur eine Variante pro Produkt ist erlaubt.
-          _it: Gestisce il prodotto come componente aggiuntivo della cassetta. Gli ordini per questo prodotto saranno quindi conteggiati nel foglio di consegna della cassetta (PDF) e nel riepilogo (XLSX). È consentita una sola variante per prodotto.
-          _nl: Beheert het product als krataanvulling, bestellingen voor dit product worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX). Slechts één variant per product is toegestaan.
-        basket_complement/package:
-          _en: Manages the product as a package supplement, orders for this product will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX). Only one variant per product is allowed.
-          _fr: Gère le produit comme un complément colis, les commandes de ce produit seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des colis. Une seule variante par produit est autorisée.
-          _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Paketelieferung gezählt. Nur eine Variante pro Produkt ist erlaubt.
-          _it: Gestisce il prodotto come componente aggiuntivo del pacco. Gli ordini per questo prodotto saranno quindi conteggiati nel foglio di consegna del pacco (PDF) e nel riepilogo (XLSX). È consentita una sola variante per prodotto.
-          _nl: Beheert het product als pakketaanvulling, bestellingen voor dit product worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX). Slechts één variant per product is toegestaan.
-        basket_complement/share:
-          _en: Manages the product as a share supplement, orders for this product will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX). Only one variant per product is allowed.
-          _fr: Gère le produit comme un complément part, les commandes de ce produit seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des parts. Une seule variante par produit est autorisée.
-          _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Anteilslieferung gezählt. Nur eine Variante pro Produkt ist erlaubt.
-          _it: Gestisce il prodotto come componente aggiuntivo della parte. Gli ordini per questo prodotto saranno quindi conteggiati nel foglio di consegna della parte (PDF) e nel riepilogo (XLSX). È consentita una sola variante per prodotto.
-          _nl: Beheert het product als deelaanvulling, bestellingen voor dit product worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX). Slechts één variant per product is toegestaan.
         display_in_delivery_sheets:
           _en: Only possible if the product has only one variant.
           _fr: Uniquement possible si le produit n'a qu'une seule variante.
@@ -2833,6 +2797,42 @@ _:
           _it: Possibile solo se il prodotto ha una sola variante.
           _nl: Alleen mogelijk als het product slechts één variant heeft.
       shop/product_variant:
+        basket_complement/bag:
+          _en: Manages the variant as a bag supplement. Orders for this variant will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX).
+          _fr: Gère la variante comme un complément sac. Les commandes de cette variante seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des sacs.
+          _de: Verwaltet die Variante als Zusatz. Bestellungen für diese Variante werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Taschenlieferung gezählt.
+          _it: Gestisce la variante come componente aggiuntivo della borsa. Gli ordini per questa variante saranno quindi conteggiati nel foglio di consegna della borsa (PDF) e nel riepilogo (XLSX).
+          _nl: Beheert de variant als tasaanvulling. Bestellingen voor deze variant worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX).
+        basket_complement/basket:
+          _en: Manages the variant as a basket supplement. Orders for this variant will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX).
+          _fr: Gère la variante comme un complément panier. Les commandes de cette variante seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des paniers.
+          _de: Verwaltet die Variante als Zusatz. Bestellungen für diese Variante werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Körbelieferung gezählt.
+          _it: Gestisce la variante come componente aggiuntivo della cesta. Gli ordini per questa variante saranno quindi conteggiati nel foglio di consegna della cesta (PDF) e nel riepilogo (XLSX).
+          _nl: Beheert de variant als mandaanvulling. Bestellingen voor deze variant worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX).
+        basket_complement/cone:
+          _en: Manages the variant as a cone supplement. Orders for this variant will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX).
+          _fr: Gère la variante comme un complément cornet. Les commandes de cette variante seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des cornets.
+          _de: Verwaltet die Variante als Zusatz. Bestellungen für diese Variante werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Tütenlieferung gezählt.
+          _it: Gestisce la variante come componente aggiuntivo del cono. Gli ordini per questa variante saranno quindi conteggiati nel foglio di consegna del cono (PDF) e nel riepilogo (XLSX).
+          _nl: Beheert de variant als zakaanvulling. Bestellingen voor deze variant worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX).
+        basket_complement/crate:
+          _en: Manages the variant as a crate supplement. Orders for this variant will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX).
+          _fr: Gère la variante comme un complément cagette. Les commandes de cette variante seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des cagettes.
+          _de: Verwaltet die Variante als Zusatz. Bestellungen für diese Variante werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Kistenlieferung gezählt.
+          _it: Gestisce la variante come componente aggiuntivo della cassetta. Gli ordini per questa variante saranno quindi conteggiati nel foglio di consegna della cassetta (PDF) e nel riepilogo (XLSX).
+          _nl: Beheert de variant als krataanvulling. Bestellingen voor deze variant worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX).
+        basket_complement/package:
+          _en: Manages the variant as a package supplement. Orders for this variant will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX).
+          _fr: Gère la variante comme un complément colis. Les commandes de cette variante seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des colis.
+          _de: Verwaltet die Variante als Zusatz. Bestellungen für diese Variante werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Paketelieferung gezählt.
+          _it: Gestisce la variante come componente aggiuntivo del pacco. Gli ordini per questa variante saranno quindi conteggiati nel foglio di consegna del pacco (PDF) e nel riepilogo (XLSX).
+          _nl: Beheert de variant als pakketaanvulling. Bestellingen voor deze variant worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX).
+        basket_complement/share:
+          _en: Manages the variant as a share supplement. Orders for this variant will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX).
+          _fr: Gère la variante comme un complément part. Les commandes de cette variante seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des parts.
+          _de: Verwaltet die Variante als Zusatz. Bestellungen für diese Variante werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Anteilslieferung gezählt.
+          _it: Gestisce la variante come componente aggiuntivo della parte. Gli ordini per questa variante saranno quindi conteggiati nel foglio di consegna della parte (PDF) e nel riepilogo (XLSX).
+          _nl: Beheert de variant als deelaanvulling. Bestellingen voor deze variant worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX).
         stock:
           _en: Leave blank if stock is not managed.
           _fr: Laisser vide si le stock n'est pas géré.

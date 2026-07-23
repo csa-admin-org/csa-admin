@@ -91,9 +91,9 @@ module PDF
           .sum("baskets_basket_complements.quantity")
       @shop_complement_counts_by_depot =
         @shop_orders
-          .joins(items: :product)
-          .where.not(shop_products: { basket_complement_id: nil })
-          .group(:depot_id, "shop_products.basket_complement_id")
+          .joins(items: :product_variant)
+          .where.not(shop_product_variants: { basket_complement_id: nil })
+          .group(:depot_id, "shop_product_variants.basket_complement_id")
           .sum("shop_order_items.quantity")
       @total_basket_complement_counts =
         @baskets
@@ -103,9 +103,9 @@ module PDF
           .sum("baskets_basket_complements.quantity")
       @total_shop_complement_counts =
         @shop_orders
-          .joins(items: :product)
-          .where.not(shop_products: { basket_complement_id: nil })
-          .group("shop_products.basket_complement_id")
+          .joins(items: :product_variant)
+          .where.not(shop_product_variants: { basket_complement_id: nil })
+          .group("shop_product_variants.basket_complement_id")
           .sum("shop_order_items.quantity")
     end
 
@@ -153,8 +153,8 @@ module PDF
           .pluck(:basket_complement_id)
       complement_ids +=
         @shop_orders
-          .joins(:products)
-          .pluck(shop_products: :basket_complement_id)
+          .joins(items: :product_variant)
+          .pluck(shop_product_variants: :basket_complement_id)
       @all_basket_complements = BasketComplement.where(id: complement_ids.uniq).ordered.to_a
 
       @all_shop_products = @shop_orders.products_displayed_in_delivery_sheets.to_a
@@ -179,8 +179,8 @@ module PDF
         .where(baskets_basket_complements: { quantity: 1.. })
         .pluck(:basket_complement_id)
       complement_ids += shop_orders
-        .joins(:products)
-        .pluck(shop_products: :basket_complement_id)
+        .joins(items: :product_variant)
+        .pluck(shop_product_variants: :basket_complement_id)
       complement_ids = complement_ids.uniq
       @all_basket_complements.select { |bc| complement_ids.include?(bc.id) }
     end
@@ -665,7 +665,7 @@ module PDF
 
       # Members
       baskets = baskets.includes(:membership, :baskets_basket_complements).to_a
-      shop_orders = shop_orders.includes(items: :product).to_a
+      shop_orders = shop_orders.includes(items: [ :product, { product_variant: :basket_complement } ]).to_a
       members.each do |member|
         column_content =
           if depot.delivery_sheets_mode == "home_delivery"
@@ -722,8 +722,9 @@ module PDF
         basket_complements.each do |c|
           quantity = basket&.baskets_basket_complements&.find { |bbc| bbc.basket_complement_id == c.id }&.quantity || 0
           if shop_order
-            shop_order_item = shop_order.items.find { |i| i.product.basket_complement_id == c.id }
-            quantity += shop_order_item&.quantity || 0
+            quantity += shop_order.items
+              .select { |item| item.product_variant.basket_complement_id == c.id }
+              .sum(&:quantity)
           end
           content = display_quantity(quantity)
           line << counter_line(content, basket)

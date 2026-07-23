@@ -136,6 +136,35 @@ class Shop::OrderTest < ActiveSupport::TestCase
     assert_equal 15, order.amount
   end
 
+  test "counts and describes basket complements linked to variants" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:thursday_1)
+    eggs = basket_complements(:eggs)
+    cheese = basket_complements(:cheese)
+    delivery.update!(basket_complements: [ eggs, cheese ])
+    shop_product_variants(:oil_500).update!(basket_complement: eggs)
+    shop_product_variants(:oil_1000).update!(basket_complement: cheese)
+
+    order = create_shop_order(
+      delivery: delivery,
+      items_attributes: {
+        "0" => {
+          product_variant_id: shop_product_variants(:oil_500).id,
+          quantity: 2
+        },
+        "1" => {
+          product_variant_id: shop_product_variants(:oil_1000).id,
+          quantity: 3
+        }
+      })
+    orders = Shop::Order.where(id: order.id)
+
+    assert_equal 2, orders.complement_count(eggs)
+    assert_equal 3, orders.complement_count(cheese)
+    assert_includes order.complements_description, "2x Eggs"
+    assert_includes order.complements_description, "3x Cheese"
+  end
+
   test "support polymorphic delivery association" do
     delivery = deliveries(:monday_1)
     order = shop_orders(:john)

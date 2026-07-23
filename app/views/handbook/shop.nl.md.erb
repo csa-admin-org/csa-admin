@@ -30,9 +30,9 @@ De beschikbaarheid van een product kan worden gedefinieerd voor zichzelf of voor
 
 ### Aanvullingen
 
-Het is mogelijk om een product te koppelen aan een bestaande [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements); bestellingen voor dit product worden dan automatisch toegevoegd aan het aantal van deze aanvulling in de samenvatting (XLSX) en bladen (PDF) van de levering van <%= Basket.model_name.human(count: 2).downcase %>.
+Elke productvariant kan worden gekoppeld aan een bestaande [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements). Bestellingen voor een gekoppelde variant voegen de hoeveelheid ervan toe aan die aanvulling in de samenvatting (XLSX) en bladen (PDF) van de levering van <%= Basket.model_name.human(count: 2).downcase %>.
 
-Dit product zal ook alleen beschikbaar zijn op de leveringsdagen van de aanvulling.
+Een product kan zo varianten met verschillende aanvullingen groeperen. Elke gekoppelde variant is alleen beschikbaar op de leveringsdagen van de eigen aanvulling; andere varianten behouden hun eigen beschikbaarheid.
 
 ## Bestellingen {#orders}
 
