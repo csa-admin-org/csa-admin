@@ -89,4 +89,18 @@ class BasketShiftTest < ActiveSupport::TestCase
       makeup.destroy!
     end
   end
+
+  test "charges the delivery price once for the shifted target" do
+    @membership.baskets.update_all(delivery_cycle_price: 2)
+    @membership.touch
+
+    assert_difference(
+      -> { @membership.reload.deliveries_price } => -2,
+      -> { @membership.reload.price } => -2
+    ) do
+      build_basket_shift.save!
+    end
+
+    assert_equal "9x 2.00", delivery_cycle_price_info(@membership.baskets)
+  end
 end

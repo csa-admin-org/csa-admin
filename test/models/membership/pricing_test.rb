@@ -71,6 +71,7 @@ class Membership::PricingTest < ActiveSupport::TestCase
       depot: depots(:bakery),
       depot_price: 3,
       delivery_cycle: delivery_cycles(:thursdays),
+      delivery_cycle_price: 2,
       memberships_basket_complements_attributes: {
         "0" => { basket_complement_id: bread_id, price: "3.5", quantity: 3 },
         "1" => { basket_complement_id: eggs_id, price: "6.1", quantity: 2 }
@@ -80,9 +81,9 @@ class Membership::PricingTest < ActiveSupport::TestCase
     assert_equal 20 * 21, membership.basket_sizes_price
     assert_equal 20 * 3, membership.depots_price
     assert_equal 10 * (3 * 3.5 + 2 * 6.1), membership.basket_complements_price
-    assert_equal 0, membership.deliveries_price
+    assert_equal 10 * 2, membership.deliveries_price
     assert_equal 0, membership.activity_participations_annual_price_change
-    assert_equal 707, membership.price
+    assert_equal 727, membership.price
   end
 
   test "price with 3-digit precision depot price" do

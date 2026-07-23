@@ -143,7 +143,7 @@ module MembershipsHelper
   def delivery_cycle_price_info(baskets)
     baskets
       .countable
-      .map { |b| [ b.quantity, b.delivery_cycle_price ] }
+      .map { |b| [ 1, b.delivery_cycle_price ] }
       .select { |_, p| p.positive? }
       .group_by { |_, p| p }
       .sort
