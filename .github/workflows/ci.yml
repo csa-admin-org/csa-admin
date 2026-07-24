@@ -78,7 +78,7 @@ jobs:
           cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
 
       - name: Set timezone
-        run: echo "TZ=Europe/Zurich" >> $GITHUB_ENV
+        run: echo "TZ=Europe/Zurich" >> "$GITHUB_ENV"
 
       - name: Rails
         env:

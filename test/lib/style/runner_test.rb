@@ -7,6 +7,19 @@ require "rbconfig"
 require "tmpdir"
 
 class Style::RunnerTest < ActiveSupport::TestCase
+  setup do
+    @previous_github_actions = ENV["GITHUB_ACTIONS"]
+    ENV.delete("GITHUB_ACTIONS")
+  end
+
+  teardown do
+    if @previous_github_actions
+      ENV["GITHUB_ACTIONS"] = @previous_github_actions
+    else
+      ENV.delete("GITHUB_ACTIONS")
+    end
+  end
+
   test "returns outcomes for matching check tools only" do
     commands = []
     result = run_style(
