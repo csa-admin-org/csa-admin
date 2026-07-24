@@ -14,13 +14,13 @@ a img {
 }
 
 td {
-  word-break: break-word;
+  word-break: break-word; /* stylelint-disable-line declaration-property-value-keyword-no-deprecated -- Required by older email clients */
 }
 
 .preheader {
   display: none !important;
   visibility: hidden;
-  mso-hide: all;
+  mso-hide: all; /* stylelint-disable-line property-no-unknown -- Outlook-specific property */
   font-size: 1px;
   line-height: 1px;
   max-height: 0;

@@ -51,18 +51,37 @@ class Style::RunnerTest < ActiveSupport::TestCase
     assert_equal [
       [ Style::Tools::Locales, Style::Tools::HerbFormat, Style::Tools::Oxfmt, Style::Tools::Prettier ],
       [ Style::Tools::Rubocop, Style::Tools::Oxlint, Style::Tools::Stylelint ],
-      [ Style::Tools::Syntax, Style::Tools::HerbLint ]
+      [ Style::Tools::Syntax, Style::Tools::HerbLint, Style::Tools::Actionlint ]
     ], groups
     assert_equal [
       %w[bin/locales format],
       %w[bin/herb format .],
       %w[bin/oxfmt app/javascript],
-      %w[bin/prettier app/assets/tailwind/**/*.css --write --cache --log-level warn],
+      [
+        "bin/prettier",
+        "app/assets/tailwind/**/*.css",
+        "app/assets/stylesheets/mailer.css",
+        "package.json",
+        ".prettierrc",
+        ".stylelintrc.json",
+        ".oxfmtrc.json",
+        ".oxlintrc.json",
+        "--write",
+        "--cache",
+        "--log-level",
+        "warn"
+      ],
       %w[bin/rubocop --parallel --autocorrect-all --format quiet],
       %w[bin/oxlint app/javascript --fix],
-      %w[bin/stylelint app/assets/tailwind/**/*.css --fix],
+      %w[
+        bin/stylelint
+        app/assets/tailwind/**/*.css
+        app/assets/stylesheets/mailer.css
+        --fix
+      ],
       %w[bin/syntax],
-      %w[bin/herb lint .]
+      %w[bin/herb lint .],
+      %w[bin/actionlint]
     ], commands
   end
 
@@ -80,6 +99,7 @@ class Style::RunnerTest < ActiveSupport::TestCase
     assert_equal %i[locales], result.outcomes.reject(&:success?).map(&:name)
     assert_includes commands, %w[bin/syntax]
     assert_includes commands, %w[bin/herb lint .]
+    assert_includes commands, %w[bin/actionlint]
   end
 
   test "captures spawn errors and continues later fix phases" do
@@ -99,6 +119,7 @@ class Style::RunnerTest < ActiveSupport::TestCase
     assert_includes result.outcomes.first.output, "Errno::ENOENT"
     assert_includes commands, %w[bin/syntax]
     assert_includes commands, %w[bin/herb lint .]
+    assert_includes commands, %w[bin/actionlint]
   end
 
   test "uses a bounded thread pool for checks" do

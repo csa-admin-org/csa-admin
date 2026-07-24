@@ -11,5 +11,10 @@
     "stylelint-config-recommended": "^18.0.0",
     "stylelint-lsp": "^2.0.1",
     "tailwindcss": "^4.3.3"
+  },
+  "aube": {
+    "overrides": {
+      "postcss": "^8.5.18"
+    }
   }
 }

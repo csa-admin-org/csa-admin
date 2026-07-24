@@ -2,6 +2,7 @@
 
 require "style/paths"
 require "style/path_selector"
+require "style/ruby_source"
 require "style/tool"
 require "style/tools"
 require "style/outcome"
