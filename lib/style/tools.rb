@@ -2,17 +2,21 @@
 
 module Style
   module Tools
+    Phase = Data.define(:mode, :tools)
+
     def self.all
+      [ Locales, Syntax, Rubocop, HerbLint, HerbFormat, Oxfmt, Oxlint, Prettier, Stylelint ]
+    end
+
+    def self.phases(mode)
+      mode == :check ? [ Phase.new(mode: :check, tools: all) ] : fix_phases
+    end
+
+    def self.fix_phases
       [
-        Locales,
-        Syntax,
-        Rubocop,
-        HerbLint,
-        HerbFormat,
-        Oxfmt,
-        Oxlint,
-        Prettier,
-        Stylelint
+        Phase.new(mode: :fix, tools: [ Locales, HerbFormat, Oxfmt, Prettier ]),
+        Phase.new(mode: :fix, tools: [ Rubocop, Oxlint, Stylelint ]),
+        Phase.new(mode: :check, tools: [ Syntax, HerbLint ])
       ]
     end
 
@@ -20,7 +24,7 @@ module Style
       def command(mode)
         return if skip?(select(patterns: %w[config/locales/**/*.{yml,yaml}], prefixes: %w[config/locales]))
 
-        check?(mode) ? "bin/locales check" : "bin/locales format"
+        [ "bin/locales", check?(mode) ? "check" : "format" ]
       end
     end
 
@@ -39,7 +43,7 @@ module Style
         selected = select(patterns: PATTERNS)
         return if skip?(selected)
 
-        selected.empty? ? "bin/syntax" : "bin/syntax #{join(selected)}"
+        [ "bin/syntax", *selected ]
       end
     end
 
@@ -56,19 +60,17 @@ module Style
         selected = select(patterns: PATTERNS)
         return if skip?(selected)
 
-        "bin/rubocop #{flags(mode)}#{targets(selected)}"
+        [ "bin/rubocop", *flags(mode), *targets(selected) ]
       end
 
       private
 
       def flags(mode)
-        check?(mode) ? "--parallel --format simple" : "--parallel --autocorrect-all --format quiet"
+        check?(mode) ? %w[--parallel --format simple] : %w[--parallel --autocorrect-all --format quiet]
       end
 
       def targets(selected)
-        return "" if selected.empty?
-
-        " --only-recognized-file-types #{join(selected)}"
+        selected.empty? ? [] : [ "--only-recognized-file-types", *selected ]
       end
     end
 
@@ -79,17 +81,17 @@ module Style
         selected = select(patterns: HerbFormat::PATTERNS)
         return if skip?(selected)
 
-        "bin/herb lint #{scope(selected)}#{github_flag}"
+        [ "bin/herb", "lint", *scope(selected), *github_flag ]
       end
 
       private
 
       def scope(selected)
-        selected.empty? ? "." : join(selected)
+        selected.empty? ? [ "." ] : selected
       end
 
       def github_flag
-        ENV["GITHUB_ACTIONS"] ? " --github" : ""
+        ENV["GITHUB_ACTIONS"] ? [ "--github" ] : []
       end
     end
 
@@ -108,17 +110,17 @@ module Style
         selected = select(patterns: PATTERNS)
         return if skip?(selected)
 
-        "bin/herb format #{scope(selected)}#{suffix(mode)}"
+        [ "bin/herb", "format", *scope(selected), *suffix(mode) ]
       end
 
       private
 
       def scope(selected)
-        selected.empty? ? "." : join(selected)
+        selected.empty? ? [ "." ] : selected
       end
 
       def suffix(mode)
-        check?(mode) ? " --check" : ""
+        check?(mode) ? [ "--check" ] : []
       end
     end
 
@@ -127,17 +129,17 @@ module Style
         selected = select(prefixes: %w[app/javascript])
         return if skip?(selected)
 
-        "bin/oxfmt #{scope(selected)}#{suffix(mode)}"
+        [ "bin/oxfmt", *scope(selected), *suffix(mode) ]
       end
 
       private
 
       def scope(selected)
-        selected.empty? ? "app/javascript" : join(selected)
+        selected.empty? ? [ "app/javascript" ] : selected
       end
 
       def suffix(mode)
-        check?(mode) ? " --check" : ""
+        check?(mode) ? [ "--check" ] : []
       end
     end
 
@@ -146,32 +148,32 @@ module Style
         selected = select(prefixes: %w[app/javascript])
         return if skip?(selected)
 
-        "bin/oxlint #{scope(selected)}#{suffix(mode)}"
+        [ "bin/oxlint", *scope(selected), *suffix(mode) ]
       end
 
       private
 
       def scope(selected)
-        selected.empty? ? "app/javascript" : join(selected)
+        selected.empty? ? [ "app/javascript" ] : selected
       end
 
       def suffix(mode)
-        check?(mode) ? "" : " --fix"
+        check?(mode) ? [] : [ "--fix" ]
       end
     end
 
     class Prettier < Tool
       def command(mode)
-        selected = select(patterns: %w[app/assets/tailwind/**/*.css], prefixes: %w[app/assets/tailwind])
+        selected = select(prefixes: %w[app/assets/tailwind])
         return if skip?(selected)
 
-        "bin/prettier #{scope(selected)} #{flag(mode)} --cache --log-level warn"
+        [ "bin/prettier", *scope(selected), flag(mode), "--cache", "--log-level", "warn" ]
       end
 
       private
 
       def scope(selected)
-        selected.empty? ? '"app/assets/tailwind/**/*.css"' : join(selected)
+        selected.empty? ? [ "app/assets/tailwind/**/*.css" ] : selected
       end
 
       def flag(mode)
@@ -181,20 +183,20 @@ module Style
 
     class Stylelint < Tool
       def command(mode)
-        selected = select(patterns: %w[app/assets/tailwind/**/*.css], prefixes: %w[app/assets/tailwind])
+        selected = select(prefixes: %w[app/assets/tailwind])
         return if skip?(selected)
 
-        "bin/stylelint #{scope(selected)}#{suffix(mode)}"
+        [ "bin/stylelint", *scope(selected), *suffix(mode) ]
       end
 
       private
 
       def scope(selected)
-        selected.empty? ? '"app/assets/tailwind/**/*.css"' : join(selected)
+        selected.empty? ? [ "app/assets/tailwind/**/*.css" ] : selected
       end
 
       def suffix(mode)
-        check?(mode) ? "" : " --fix"
+        check?(mode) ? [] : [ "--fix" ]
       end
     end
   end

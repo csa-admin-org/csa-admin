@@ -1,40 +1,29 @@
 # frozen_string_literal: true
 
+require "style/paths"
 require "style/path_selector"
 require "style/tool"
 require "style/tools"
 require "style/outcome"
+require "style/result"
 require "style/runner"
+require "style/reporter"
 
 module Style
-  TASK_NAMES = %w[style:check style:fix style].freeze
+  ROOT = File.expand_path("..", __dir__)
 
   module_function
 
-  # Rails rejects unknown top-level tasks, so register path args as no-ops.
-  # Must run at rake load time, outside `namespace :style`.
-  def register_path_arguments!
-    return unless invoked?
-
-    path_arguments.each { |name| define_noop_task(name) }
+  def run(mode, paths: [])
+    Runner.new(mode:, paths:, root: ROOT).call
   end
 
-  def run(mode)
-    Runner.new(mode:, paths: path_arguments).call
+  def run!(mode, paths: [])
+    run(mode, paths:).tap do |result|
+      Reporter.new(result).call
+      abort(result.failure_message) if result.failure?
+    end
+  rescue Paths::OutsideRootError => error
+    abort "Style #{mode} failed: #{error.message}"
   end
-
-  def path_arguments
-    Rake.application.top_level_tasks - TASK_NAMES - %w[default]
-  end
-
-  def invoked?
-    (Rake.application.top_level_tasks & TASK_NAMES).any?
-  end
-
-  def define_noop_task(name)
-    base = name[/[^\[]+/]
-    Rake::Task.define_task(name) unless Rake.application.lookup(base)
-  end
-
-  private_class_method :invoked?, :define_noop_task
 end

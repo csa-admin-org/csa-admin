@@ -2,17 +2,15 @@
 
 require "style"
 
-Style.register_path_arguments!
-
 namespace :style do
-  desc "Run all style tools to check code (no fixes). Optional paths: bin/rails style:check path [path...]"
+  desc "Run all style tools to check code (no fixes)"
   task :check do
-    Style.run(:check)
+    Style.run!(:check)
   end
 
-  desc "Run all style tools with auto-fix/format. Optional paths: bin/rails style:fix path [path...]"
+  desc "Run all style tools with auto-fix/format"
   task :fix do
-    Style.run(:fix)
+    Style.run!(:fix)
   end
 end
 

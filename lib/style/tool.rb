@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-require "shellwords"
-
 module Style
   class Tool
-    def initialize(paths)
+    def initialize(paths, root:)
       @paths = paths
+      @root = root
     end
 
     def name
@@ -23,14 +22,10 @@ module Style
 
     private
 
-    attr_reader :paths
+    attr_reader :paths, :root
 
     def select(patterns: [], prefixes: [])
-      PathSelector.call(paths, patterns:, prefixes:)
-    end
-
-    def join(selected)
-      Shellwords.join(selected)
+      PathSelector.call(paths, patterns:, prefixes:, root:)
     end
 
     def skip?(selected)
