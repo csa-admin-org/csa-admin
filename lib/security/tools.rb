@@ -16,7 +16,7 @@ module Security
 
       # bin/bundler-audit refreshes ruby-advisory-db (--update) before checking.
       def command
-        "bin/bundler-audit check --update"
+        [ "bin/bundler-audit", "check", "--update" ]
       end
     end
 
@@ -24,7 +24,7 @@ module Security
       def name = :importmap
 
       def command
-        "bin/importmap audit"
+        [ "bin/importmap", "audit" ]
       end
     end
 
@@ -33,9 +33,9 @@ module Security
 
       def command
         if ENV["GITHUB_ACTIONS"]
-          "bin/brakeman -f sarif -o results.sarif"
+          [ "bin/brakeman", "-f", "sarif", "-o", "results.sarif" ]
         else
-          "bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error"
+          [ "bin/brakeman", "--quiet", "--no-pager", "--exit-on-warn", "--exit-on-error" ]
         end
       end
     end
@@ -45,7 +45,7 @@ module Security
       def name = :aube
 
       def command
-        "aube audit"
+        [ "bin/aube", "audit" ]
       end
     end
   end

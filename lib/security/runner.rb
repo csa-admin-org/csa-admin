@@ -5,37 +5,22 @@ require "parallel"
 
 module Security
   class Runner
-    def initialize(executor: nil, mapper: Parallel.method(:map))
+    MAX_THREADS = 3
+
+    def initialize(root:, executor: nil, mapper: nil)
+      @root = File.expand_path(root)
       @executor = executor || method(:execute)
-      @mapper = mapper
+      @mapper = mapper || method(:map)
     end
 
     def call
-      report_all
-      abort(failure_message) if failures?
+      Result.new(outcomes: outcomes)
     end
 
     private
 
-    def report_all
-      outcomes.each { |outcome| report(outcome) }
-    end
-
-    def failures?
-      outcomes.any? { |outcome| !outcome.success? }
-    end
-
-    def failure_message
-      names = outcomes.reject(&:success?).map(&:name).join(", ")
-      "Security check failed: #{names}"
-    end
-
     def outcomes
-      @outcomes ||= results.compact.sort_by(&:finished_at)
-    end
-
-    def results
-      @mapper.call(Tools.all) { |tool| run(tool) }
+      @mapper.call(Tools.all) { |tool| run(tool) }.compact
     end
 
     def run(tool_class)
@@ -43,23 +28,23 @@ module Security
       command = tool.command
       return if command.nil? || command.empty?
 
+      execute_tool(tool, command)
+    end
+
+    def execute_tool(tool, command)
       output, success = @executor.call(command)
       Outcome.from(name: tool.name, success:, output:)
+    rescue SystemCallError => error
+      Outcome.from(name: tool.name, success: false, output: "#{error.class}: #{error.message}")
+    end
+
+    def map(tools, &block)
+      Parallel.map(tools, in_threads: MAX_THREADS, &block)
     end
 
     def execute(command)
-      output, status = Open3.capture2e(command)
+      output, status = Open3.capture2e(*command, chdir: @root)
       [ output, status.success? ]
-    end
-
-    def report(outcome)
-      if outcome.success?
-        puts "✅ #{outcome.name}"
-      else
-        puts "❌ #{outcome.name}"
-        puts outcome.output.rstrip unless outcome.output.nil? || outcome.output.empty?
-        puts
-      end
     end
   end
 end

@@ -125,7 +125,7 @@ class Style::RunnerTest < ActiveSupport::TestCase
       output, success = runner.send(:execute, [ RbConfig.ruby, "-e", "print Dir.pwd" ])
 
       assert success
-      assert_equal root, output
+      assert_equal File.realpath(root), output
     end
   end
 
