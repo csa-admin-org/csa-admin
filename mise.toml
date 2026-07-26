@@ -3,7 +3,7 @@ min_version = { hard = "2026.7.0" }
 [tools]
 ruby = "4.0.6"
 node = "24"
-aube = "1.32.0"
+aube = "1.33.1"
 actionlint = "1.7.12"
 
 [tasks.bootstrap]
