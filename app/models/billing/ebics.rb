@@ -115,8 +115,9 @@ module Billing
     end
 
     def report_technical_error(error, operation, operation_kind)
-      error_summary = SafeContext.error_summary(error, operation_kind: operation_kind).except("error_message")
-      Rails.error.report(error.original_error,
+      original_error = error.original_error
+      error_summary = SafeContext.error_summary(original_error, operation_kind: operation_kind).except("error_message")
+      Rails.error.report(original_error,
         context: safe_context(
           operation: operation,
           operation_kind: operation_kind,

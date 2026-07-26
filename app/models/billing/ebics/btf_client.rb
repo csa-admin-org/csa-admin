@@ -22,7 +22,26 @@ module Billing
       MAX_CUMULATIVE_RESPONSE_BYTES = Btf::Transport::MAX_RESPONSE_BYTES
       MAX_CUMULATIVE_ENCODED_ORDER_DATA_BYTES = Btf::Response::MAX_ENCODED_ORDER_DATA_BYTES
       MAX_CUMULATIVE_ENCRYPTED_ORDER_DATA_BYTES = Btf::Payload::MAX_ENCRYPTED_ORDER_DATA_BYTES
-      InvalidResponseError = Class.new(StandardError)
+      SAFE_RESPONSE_ROOTS = %w[ebicsResponse ebicsKeyManagementResponse].index_by(&:itself).freeze
+      SAFE_RESPONSE_NAMESPACES = {
+        "http://www.ebics.org/H000" => "H000",
+        "urn:org:ebics:H001" => "H001",
+        "urn:org:ebics:H002" => "H002",
+        "urn:org:ebics:H003" => "H003",
+        "urn:org:ebics:H004" => "H004",
+        Btf::Response::H005_NAMESPACE => "H005"
+      }.freeze
+      SAFE_RESPONSE_VERSIONS = %w[H000 H001 H002 H003 H004 H005].index_by(&:itself).freeze
+
+      class InvalidResponseError < StandardError
+        attr_reader :safe_context
+
+        def initialize(message, safe_context: {})
+          @safe_context = safe_context
+          super(message)
+        end
+      end
+
       SetupOrderResult = Data.define(:order_type, :transaction_id, :order_id) do
         def to_h
           {
@@ -446,17 +465,36 @@ module Billing
       end
 
       def validate_response_profile!(response)
-        unless response.h005? && response.schema_valid?
-          raise_invalid_response!("Invalid EBICS H005 response")
+        h005 = response.h005?
+        schema_valid = h005 && response.schema_valid?
+        unless h005 && schema_valid
+          raise_invalid_response!("Invalid EBICS H005 response",
+            response: invalid_response_context(response, schema_valid:))
         end
 
         return if response.standard_h005? || !verify_signatures
 
-        raise_invalid_response!("Unexpected EBICS key-management response")
+        raise_invalid_response!("Unexpected EBICS key-management response",
+          response: response_context(response, schema_valid:))
       end
 
-      def raise_invalid_response!(message)
-        raise TechnicalError.new(InvalidResponseError.new(message))
+      def invalid_response_context(response, schema_valid:)
+        response_context(response, schema_valid:).merge(
+          "validation_failure" => validation_failure(response, schema_valid:))
+      end
+
+      def validation_failure(response, schema_valid:)
+        return "malformed_xml" if response.doc.errors.any?
+        return "unexpected_root" unless SAFE_RESPONSE_ROOTS.key?(response.doc.root&.name)
+        return "unexpected_namespace" unless response.doc.root&.namespace&.href == Btf::Response::H005_NAMESPACE
+        return "unexpected_version" unless response.doc.root&.[]("Version") == "H005"
+        return "schema_invalid" unless schema_valid
+
+        "invalid"
+      end
+
+      def raise_invalid_response!(message, **safe_context)
+        raise TechnicalError.new(InvalidResponseError.new(message, safe_context: safe_context))
       end
 
       def transfer_request(transaction_id, segment_number)
@@ -548,15 +586,47 @@ module Billing
               **extra)))
       end
 
-      def response_context(response)
+      def response_context(response, schema_valid: nil)
         return unless response
 
+        schema_valid = response.schema_valid? if schema_valid.nil?
+        root = response.doc.root
         {
-          "return_code" => response.return_code,
-          "response_category" => response.no_download_data? ? "no_data" : response.ok? ? "ok" : "error",
+          "bytes" => response.response_bytesize,
+          "document_valid" => response.doc.errors.empty?,
+          "root" => safe_profile_value(root&.name, SAFE_RESPONSE_ROOTS),
+          "namespace" => safe_profile_value(root&.namespace&.href, SAFE_RESPONSE_NAMESPACES),
+          "version" => safe_profile_value(root&.[]("Version"), SAFE_RESPONSE_VERSIONS),
+          "revision" => safe_profile_value(root&.[]("Revision"), { "1" => "1" }),
+          "auth_signature_count" => root&.xpath("./*[local-name()='AuthSignature']")&.size.to_i,
+          "h005" => response.h005?,
+          "schema_valid" => schema_valid,
+          "return_code" => safe_return_code(response.return_code),
+          "technical_return_code" => safe_return_code(response.technical_code),
+          "business_return_code" => safe_return_code(response.business_code),
+          "response_category" => schema_valid ? response_category(response) : "invalid",
           "transaction_id_present" => response.transaction_id.present?,
           "order_id_present" => response.order_id.present?
-        }
+        }.compact
+      end
+
+      def safe_profile_value(value, allowed_values)
+        return "missing" if value.blank?
+
+        allowed_values.fetch(value, "unexpected")
+      end
+
+      def safe_return_code(value)
+        return if value.blank?
+
+        value.to_s.match?(/\A\d{6}\z/) ? value.to_s : "unexpected"
+      end
+
+      def response_category(response)
+        return "no_data" if response.no_download_data?
+        return "ok" if response.ok?
+
+        "error"
       end
 
       def raise_response_error!(response)

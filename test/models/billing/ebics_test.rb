@@ -213,6 +213,55 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     assert_not_includes payload.to_json, "EBICS_INTERNAL_ERROR"
   end
 
+  test "reports and persists sanitized invalid response diagnostics" do
+    BankConnection.delete_all
+    provider_text = "secret-member@example.test-payment-data"
+    response_xml = <<~XML
+      <ebicsResponse xmlns="#{Billing::EBICS::Btf::Response::H005_NAMESPACE}" Version="#{provider_text}">
+        <header authenticate="true">
+          <static/>
+          <mutable><ReturnCode>000000</ReturnCode><ReportText>#{provider_text}</ReportText></mutable>
+        </header>
+        <body><ReturnCode authenticate="true">090005</ReturnCode></body>
+      </ebicsResponse>
+    XML
+    transport = Object.new
+    transport.define_singleton_method(:post) { |_url, _request| response_xml }
+    connection = bank_connection(settings: btf_settings)
+    client = Billing::EBICS::BtfClient.new(credentials, transport: transport)
+    event = EventRecorder.new
+    reporter = ErrorRecorder.new
+
+    with_rails_error(reporter) do
+      with_rails_event(event) do
+        with_rails_env("production") do
+          assert Billing::EBICS
+            .new(credentials, settings: btf_settings, ebics_client: client, bank_connection: connection)
+            .process_payments!
+        end
+      end
+    end
+
+    reported_error, context, = reporter.reports.first
+    assert_instance_of Billing::EBICS::BtfClient::InvalidResponseError, reported_error
+    assert_equal reported_error.class.name, context.fetch("error_class")
+    assert_equal "unexpected_version", context.dig("response", "validation_failure")
+    assert_equal "unexpected", context.dig("response", "version")
+
+    _name, payload = event.notifications.find { |name, _payload| name == :ebics_technical_error }
+    assert_equal "unexpected_version", payload.dig(:response, "validation_failure")
+    assert_equal "unexpected", payload.dig(:response, "version")
+
+    persisted_response = connection.reload.status_details.dig("last_error", "response")
+    assert_equal "unexpected_version", persisted_response.fetch("validation_failure")
+    assert_equal "unexpected", persisted_response.fetch("version")
+
+    [ context, payload, connection.status_details ].each do |sink|
+      assert_not_includes sink.to_json, provider_text
+      assert_not_includes sink.to_json, "ReportText"
+    end
+  end
+
   private
 
   def credentials

@@ -292,6 +292,15 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     end
 
     assert_equal "Invalid EBICS H005 response", error.message
+    response = Billing::EBICS::SafeContext.error_summary(error).fetch("response")
+    assert_equal "malformed_xml", response.fetch("validation_failure")
+    assert_equal "ebicsResponse", response.fetch("root")
+    assert_equal "missing", response.fetch("namespace")
+    assert_equal "missing", response.fetch("version")
+    assert_equal 0, response.fetch("auth_signature_count")
+    assert_not response.fetch("document_valid")
+    assert_not response.fetch("h005")
+    assert_not response.fetch("schema_valid")
   end
 
   test "rejects schema-invalid standard H005 responses" do
@@ -305,6 +314,16 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     end
 
     assert_equal "Invalid EBICS H005 response", error.message
+    response = Billing::EBICS::SafeContext.error_summary(error).fetch("response")
+    assert_equal "schema_invalid", response.fetch("validation_failure")
+    assert_equal "ebicsResponse", response.fetch("root")
+    assert_equal "H005", response.fetch("namespace")
+    assert_equal "H005", response.fetch("version")
+    assert_equal "missing", response.fetch("revision")
+    assert_equal 1, response.fetch("auth_signature_count")
+    assert response.fetch("document_valid")
+    assert response.fetch("h005")
+    assert_not response.fetch("schema_valid")
   end
 
   test "rejects ebicsUnsecuredResponse" do
@@ -318,6 +337,36 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     end
 
     assert_equal "Invalid EBICS H005 response", error.message
+    response = Billing::EBICS::SafeContext.error_summary(error).fetch("response")
+    assert_equal "unexpected_root", response.fetch("validation_failure")
+    assert_equal "unexpected", response.fetch("root")
+    assert_equal "H005", response.fetch("namespace")
+    assert_equal "H005", response.fetch("version")
+    assert_equal 1, response.fetch("auth_signature_count")
+    assert response.fetch("document_valid")
+    assert_not response.fetch("h005")
+    assert_not response.fetch("schema_valid")
+  end
+
+  test "invalid response diagnostics do not expose provider-controlled values" do
+    provider_text = "secret member@example.test <Document>payment data</Document>"
+    xml = signed_h005_response_xml(
+      bank_x: bank_x,
+      report_text: provider_text) do |doc|
+      doc.root["Version"] = provider_text
+    end
+    client = btf_client(transport: TransportStub.new([ xml ]))
+
+    error = assert_raises(Billing::EBICS::TechnicalError) do
+      client.submit_initialization_order("INI")
+    end
+
+    response = Billing::EBICS::SafeContext.error_summary(error).fetch("response")
+    assert_equal "unexpected_version", response.fetch("validation_failure")
+    assert_equal "unexpected", response.fetch("version")
+    assert_not_includes response.to_json, provider_text
+    assert_not_includes response.to_json, "ReportText"
+    assert_not_includes response.to_json, "Document"
   end
 
   test "accepts schema-valid key-management responses only in the bootstrap client" do
@@ -585,6 +634,11 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
 
     assert_instance_of Billing::EBICS::BtfClient::InvalidResponseError, error.original_error
     assert_equal "Invalid EBICS H005 response", error.message
+    response = Billing::EBICS::SafeContext.error_summary(error).fetch("response")
+    assert_equal "schema_invalid", response.fetch("validation_failure")
+    assert_equal "090005", response.fetch("return_code")
+    assert_equal "090005", response.fetch("business_return_code")
+    assert_equal 0, response.fetch("auth_signature_count")
   end
 
   test "signature verification rejects invalidly signed no-data responses" do

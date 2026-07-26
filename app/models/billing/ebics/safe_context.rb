@@ -61,7 +61,7 @@ module Billing
           "error_class" => error.class.name,
           "error_message" => safe_error_message(error, operation_kind: operation_kind),
           "return_code" => error_return_code(error)
-        }.compact_blank
+        }.compact_blank.merge(error_safe_context(error))
       end
 
       def self.payload(payload)
@@ -161,6 +161,18 @@ module Billing
         nil
       end
       private_class_method :error_return_code
+
+      def self.error_safe_context(error)
+        current = error
+        3.times do
+          return sanitize(current.safe_context) if current.respond_to?(:safe_context) && current.safe_context.is_a?(Hash)
+          break unless current.respond_to?(:original_error)
+
+          current = current.original_error
+        end
+        {}
+      end
+      private_class_method :error_safe_context
 
       def self.current_connection
         Current.org.active_bank_connection
