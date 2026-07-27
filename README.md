@@ -86,10 +86,8 @@ Development requirements are managed with [Mise](https://mise.jdx.dev) 2026.7 or
 Useful commands:
 
 - Run all tests: `bin/rails test:all`
-- Check style (lint + format): `bin/style`
-- Auto-fix style issues: `bin/style fix`
-- Run security audits: `bin/security`
-- Run final validation: `bin/ci`
+- Run final validation (setup, style, security, tests, seeds): `bin/ci`
+- Individual linters/formatters remain available (`bin/rubocop`, `bin/syntax`, `bin/herb`, …)
 
 ## Contributing
 

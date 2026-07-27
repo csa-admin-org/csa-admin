@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Locales
-  # Full locales:check pipeline without booting Rails.
+  # Full bin/locales check pipeline without booting Rails.
   module Checker
     module_function
 

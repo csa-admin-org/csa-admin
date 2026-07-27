@@ -9,7 +9,7 @@ class SyntaxWrapperTest < ActiveSupport::TestCase
       app/views/active_admin/attachments/_form.html.arb
       app/views/activity_participations_calendar/show.ics.ruby
       config.ru
-      bin/style
+      bin/ci
     ]
 
     output, error, status = Open3.capture3(

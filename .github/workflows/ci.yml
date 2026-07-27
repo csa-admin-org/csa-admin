@@ -27,8 +27,49 @@ jobs:
           bootstrap: true
           cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
 
-      - name: Style
-        run: bin/style
+      - name: Locales
+        run: bin/locales check
+
+      - name: Herb format
+        run: bin/herb format . --check
+
+      - name: Oxfmt
+        run: bin/oxfmt app/javascript --check
+
+      - name: Prettier
+        run: >
+          bin/prettier
+          app/assets/tailwind/**/*.css
+          app/assets/stylesheets/mailer.css
+          package.json
+          .prettierrc
+          .stylelintrc.json
+          .oxfmtrc.json
+          .oxlintrc.json
+          --check
+          --cache
+          --log-level warn
+
+      - name: RuboCop
+        run: bin/rubocop --parallel --format simple
+
+      - name: Oxlint
+        run: bin/oxlint app/javascript
+
+      - name: Stylelint
+        run: >
+          bin/stylelint
+          app/assets/tailwind/**/*.css
+          app/assets/stylesheets/mailer.css
+
+      - name: Syntax
+        run: bin/syntax
+
+      - name: Herb lint
+        run: bin/herb lint . --github
+
+      - name: Actionlint
+        run: bin/actionlint
 
       - name: Check Migration Indexes
         uses: speedshop/ids_must_be_indexed@v1
@@ -53,8 +94,17 @@ jobs:
           bootstrap: true
           cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
 
-      - name: Security
-        run: bin/security
+      - name: Bundler audit
+        run: bin/bundler-audit check --update
+
+      - name: Importmap
+        run: bin/importmap audit
+
+      - name: Brakeman
+        run: bin/brakeman -f sarif -o results.sarif
+
+      - name: Aube
+        run: bin/aube audit
 
       - name: Upload SARIF file
         if: always()

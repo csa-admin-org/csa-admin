@@ -5,7 +5,41 @@
 # Usage: bin/syntax [path ...]
 
 require "prism"
-require_relative "../lib/style/ruby_source"
+
+module RubySource
+  BASENAMES = %w[Gemfile Rakefile].freeze
+  EXTENSIONS = %w[.arb .gemspec .rake .rb .ru .ruby].freeze
+  RUBY_SHEBANG = /\A#!.*(?:\/|\s)ruby(?:\s|$)/n
+
+  module_function
+
+  def select(paths, root:)
+    paths.select { |path| source?(path, root:) }
+  end
+
+  def source?(path, root:)
+    absolute_path = File.expand_path(path, root)
+    return directory_contains_source?(absolute_path) if File.directory?(absolute_path)
+
+    known_name?(path) || File.extname(path).empty? && ruby_shebang?(absolute_path)
+  end
+
+  def known_name?(path)
+    BASENAMES.include?(File.basename(path)) || EXTENSIONS.include?(File.extname(path))
+  end
+
+  def directory_contains_source?(directory)
+    Dir.glob("**/*", base: directory).any? { |path|
+      absolute_path = File.join(directory, path)
+      File.file?(absolute_path) && source?(absolute_path, root: directory)
+    }
+  end
+
+  def ruby_shebang?(path)
+    File.file?(path) && File.binread(path, 256)&.match?(RUBY_SHEBANG) || false
+  end
+  private_class_method :directory_contains_source?, :ruby_shebang?
+end
 
 root = File.expand_path("..", __dir__)
 # Prefer these roots over repo-wide ** globs (storage/ has hundreds of thousands of files).
@@ -18,7 +52,7 @@ def git_files(base)
     &:read)
   return if !$?.success? || output.nil?
 
-  Style::RubySource.select(output.split("\0").reject(&:empty?), root: base)
+  RubySource.select(output.split("\0").reject(&:empty?), root: base)
 end
 
 def glob_files(base)
@@ -29,11 +63,11 @@ def glob_files(base)
     Dir.glob("**/*", base: directory).filter_map { |path|
       relative_path = File.join(dir, path)
       relative_path if File.file?(File.join(base, relative_path)) &&
-        Style::RubySource.source?(relative_path, root: base)
+        RubySource.source?(relative_path, root: base)
     }
   }
   files.concat(Dir.children(base).select { |path|
-    File.file?(File.join(base, path)) && Style::RubySource.source?(path, root: base)
+    File.file?(File.join(base, path)) && RubySource.source?(path, root: base)
   })
   files.uniq
 end
@@ -68,9 +102,9 @@ files =
         Dir.glob("**/*", base: absolute_path).filter_map { |file|
           selected = File.join(path, file)
           selected if File.file?(File.join(absolute_path, file)) &&
-            Style::RubySource.source?(selected, root: root)
+            RubySource.source?(selected, root: root)
         }
-      elsif Style::RubySource.source?(path, root: root)
+      elsif RubySource.source?(path, root: root)
         path
       end
     }.compact.uniq
@@ -82,7 +116,14 @@ if files.empty?
 end
 
 Dir.chdir(root) do
-  issues = files.flat_map { |file| issues_for(file) }
+  # git ls-files can still list index paths removed from the worktree.
+  existing = files.select { |file| File.file?(file) }
+  if existing.empty?
+    puts "No Ruby files to check."
+    exit 0
+  end
+
+  issues = existing.flat_map { |file| issues_for(file) }
 
   if issues.any?
     puts issues
