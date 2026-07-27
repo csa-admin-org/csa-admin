@@ -87,7 +87,7 @@ Useful commands:
 
 - Run all tests: `bin/rails test:all`
 - Run final validation (setup, style, security, tests, seeds): `bin/ci`
-- Individual linters/formatters remain available (`bin/rubocop`, `bin/syntax`, `bin/herb`, …)
+- Individual linters/formatters remain available (`bin/rubocop`, `bin/locales`, `bin/herb`, …)
 
 ## Contributing
 

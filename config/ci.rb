@@ -31,7 +31,6 @@ CI.run do
     "bin/stylelint",
     "app/assets/tailwind/**/*.css",
     "app/assets/stylesheets/mailer.css"
-  step "Style: Syntax", "bin/syntax"
   step "Style: Herb lint", "bin/herb", "lint", "."
   step "Style: Actionlint", "bin/actionlint"
 

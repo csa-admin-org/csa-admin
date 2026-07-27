@@ -8,7 +8,7 @@ CSA Admin is a multi-tenant Rails application for managing Community Supported A
 
 - `bin/rails test:all` — full unit and system test suite using the `acme` test tenant
 - `bin/ci` — final validation: setup, style, security, tests, and seeds; see `config/ci.rb`
-- While iterating, run individual tools as needed (`bin/rubocop`, `bin/locales`, `bin/syntax`, `bin/herb`, …). 
+- While iterating, run individual tools as needed (`bin/rubocop`, `bin/locales`, `bin/herb`, …). 
 - `mise bootstrap` installs local tools and native packages, then runs `bin/setup --skip-server`; continue using `bin/rails` and `bin/ci` directly.
 - Tests use Minitest, all fixtures in `test/fixtures/`, and Capybara for system tests.
 - Tests run in parallel and block real HTTP through WebMock. Stub external requests and avoid mutable process-global test state.

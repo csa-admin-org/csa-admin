@@ -62,9 +62,6 @@ jobs:
           app/assets/tailwind/**/*.css
           app/assets/stylesheets/mailer.css
 
-      - name: Syntax
-        run: bin/syntax
-
       - name: Herb lint
         run: bin/herb lint . --github
 
