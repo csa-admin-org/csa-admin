@@ -1,0 +1,320 @@
+# frozen_string_literal: true
+
+# Temporary Rails edge polyfill for ActiveSupport::ContinuousIntegration.
+# Vendors parallel/nested groups (rails/rails#56774) plus local --group/--step
+# filtering. Keep until upstream Rails provides both APIs, then delete this
+# directory and restore bin/ci to require the framework implementation.
+#
+# Source: rails main + local rails task rails-ci-group-step-filtering.md.
+
+if defined?(ActiveSupport::ContinuousIntegration)
+  ActiveSupport.send(:remove_const, :ContinuousIntegration)
+end
+
+require "optparse"
+
+module ActiveSupport
+  # Provides a DSL for declaring a continuous integration workflow that can be run either locally or in the cloud.
+  # Each step is timed, reports success/error, and is aggregated into a collective report that reports total runtime,
+  # as well as whether the entire run was successful or not.
+  #
+  # Example:
+  #
+  #   ActiveSupport::ContinuousIntegration.run do
+  #     step "Setup", "bin/setup --skip-server"
+  #     step "Style: Ruby", "bin/rubocop"
+  #     step "Security: Gem audit", "bin/bundler-audit"
+  #     step "Tests: Rails", "bin/rails test test:system"
+  #
+  #     if success?
+  #       step "Signoff: Ready for merge and deploy", "gh signoff"
+  #     else
+  #       failure "Skipping signoff; CI failed.", "Fix the issues and try again."
+  #     end
+  #   end
+  #
+  # Starting with Rails 8.1, a default +bin/ci+ and +config/ci.rb+ file are created to provide out-of-the-box CI.
+  class ContinuousIntegration
+    COLORS = {
+      banner: "\033[1;32m",   # Green
+      title: "\033[1;35m",    # Purple
+      subtitle: "\033[1;90m", # Medium Gray
+      error: "\033[1;31m",    # Red
+      success: "\033[1;32m",  # Green
+      progress: "\033[1;36m"  # Cyan
+    }.freeze
+
+    attr_reader :results
+
+    # Perform a CI run. Execute each step, show their results and runtime, and exit with a non-zero status if there are any failures.
+    #
+    # Pass an optional title, subtitle, and a block that declares the steps to be executed.
+    #
+    # Sets the CI environment variable to "true" to allow for conditional behavior in the app, like enabling eager loading and disabling logging.
+    #
+    # Use +-g+ or +--group+ to run all steps in a named group, and +-s+ or +--step+ to run a named step.
+    # Names are matched exactly and case-insensitively. Options can be repeated, and group and step filters can be combined.
+    # A filtered run exits with a non-zero status if no steps match.
+    #
+    # A 'fail fast' option can be passed as a CLI argument (+-f+ or +--fail-fast+). This exits with a non-zero status directly after a step fails.
+    # Use +-h+ or +--help+ to see all available options.
+    #
+    # Example:
+    #
+    #   ActiveSupport::ContinuousIntegration.run do
+    #     step "Setup", "bin/setup --skip-server"
+    #     step "Style: Ruby", "bin/rubocop"
+    #     step "Security: Gem audit", "bin/bundler-audit"
+    #     step "Tests: Rails", "bin/rails test test:system"
+    #
+    #     if success?
+    #       step "Signoff: Ready for merge and deploy", "gh signoff"
+    #     else
+    #       failure "Skipping signoff; CI failed.", "Fix the issues and try again."
+    #     end
+    #   end
+    def self.run(title = "Continuous Integration", subtitle = "Running tests, style checks, and security audits", &block)
+      ENV["CI"] = "true"
+      new.tap { |ci| ci.run(title, subtitle, &block) }
+    end
+
+    def run(title, subtitle, &block)
+      options = parse_options
+      return puts(options) if @show_help
+
+      heading title, subtitle, padding: false
+      success, seconds = execute(title, &block)
+      ensure_steps_ran!
+      result_line(title, success, seconds)
+      abort unless success?
+    end
+
+    def initialize
+      @results = []
+      @groups = []
+      @steps = []
+      @fail_fast = false
+      @show_help = false
+      @group_selected = false
+    end
+
+    # Declare a step with a title and a command. The command can either be given as a single string or as multiple
+    # strings that will be passed to +system+ as individual arguments (and therefore correctly escaped for paths etc).
+    #
+    # Examples:
+    #
+    #   step "Setup", "bin/setup"
+    #   step "Single test", "bin/rails", "test", "--name", "test_that_is_one"
+    def step(title, *command)
+      return unless selected_step?(title, group_selected: @group_selected)
+
+      previous_trap = Signal.trap("INT") { abort colorize("\n❌ #{title} interrupted", :error) }
+      begin
+        report_step(title, command) do
+          started = Time.now.to_f
+          [ system(*command), Time.now.to_f - started ]
+        end
+        abort if failing_fast?
+      ensure
+        Signal.trap("INT", previous_trap || "-")
+      end
+    end
+
+    # Declare a group of steps that can be run in parallel. Steps within the group are collected first,
+    # then executed either concurrently (when +parallel+ > 1) or sequentially (when +parallel+ is 1).
+    #
+    # When running in parallel, each step's output is captured to avoid interleaving, and a progress
+    # display shows which steps are currently running.
+    #
+    # Sub-groups within a parallel group occupy a single parallel slot and run their steps sequentially.
+    #
+    # Examples:
+    #
+    #   group "Checks", parallel: 3 do
+    #     step "Style: Ruby", "bin/rubocop"
+    #     step "Security: Brakeman", "bin/brakeman --quiet"
+    #     step "Security: Gem audit", "bin/bundler-audit"
+    #   end
+    #
+    #   group "Tests" do
+    #     step "Unit tests", "bin/rails test"
+    #     step "System tests", "bin/rails test:system"
+    #   end
+    def group(name, parallel: 1, &block)
+      group_selected = selected_group?(name, parent_selected: @group_selected)
+      if parallel <= 1
+        within_group(group_selected, &block)
+      else
+        Group.new(self, name, parallel: parallel, group_selected: group_selected, &block).run
+      end
+      abort if failing_fast?
+    end
+
+    # Returns true if all steps were successful.
+    def success?
+      results.map(&:first).all?
+    end
+
+    # Display an error heading with the title and optional subtitle to reflect that the run failed.
+    def failure(title, subtitle = nil)
+      heading title, subtitle, type: :error
+    end
+
+    # Display a colorized heading followed by an optional subtitle.
+    #
+    # Examples:
+    #
+    #   heading "Smoke Testing", "End-to-end tests verifying key functionality", padding: false
+    #   heading "Skipping video encoding tests", "Install FFmpeg to run these tests", type: :error
+    #
+    # See ActiveSupport::ContinuousIntegration::COLORS for a complete list of options.
+    def heading(heading, subtitle = nil, type: :banner, padding: true)
+      echo "#{padding ? "\n\n" : ""}#{heading}", type: type
+      echo "#{subtitle}#{padding ? "\n" : ""}", type: :subtitle if subtitle
+    end
+
+    # Echo text to the terminal in the color corresponding to the type of the text.
+    #
+    # Examples:
+    #
+    #   echo "This is going to be green!", type: :success
+    #   echo "This is going to be red!", type: :error
+    #
+    # See ActiveSupport::ContinuousIntegration::COLORS for a complete list of options.
+    def echo(text, type:)
+      puts colorize(text, type)
+    end
+
+    # :nodoc:
+    def report_step(title, command)
+      heading title, command.join(" "), type: :title
+      success, seconds = yield
+      result_line(title, success, seconds)
+      results << [ success, title ]
+      success
+    end
+
+    # :nodoc:
+    def colorize(text, type)
+      "#{COLORS.fetch(type)}#{text}\033[0m"
+    end
+
+    # :nodoc:
+    def selected_group?(name, parent_selected:)
+      parent_selected || @groups.empty? || selected?(@groups, name)
+    end
+
+    # :nodoc:
+    def selected_step?(name, group_selected:)
+      (@groups.empty? || group_selected) && (@steps.empty? || selected?(@steps, name))
+    end
+
+    # :nodoc:
+    def fail_fast?
+      @fail_fast
+    end
+
+    # :nodoc:
+    def failing_fast?
+      fail_fast? && failures.any?
+    end
+
+    private
+    def parse_options
+      @groups = []
+      @steps = []
+      @fail_fast = false
+      @show_help = false
+
+      parser = OptionParser.new do |options|
+        options.banner = "Usage: bin/ci [options]"
+        options.on("-g", "--group NAME", "Run all steps in the named group (case-insensitive).") { |name| @groups << name }
+        options.on("-s", "--step NAME", "Run the named step (case-insensitive).") { |name| @steps << name }
+        options.on("-f", "--fail-fast", "Abort after the first failure.") { @fail_fast = true }
+        options.on("-h", "--help", "Show this help.") { @show_help = true }
+      end
+      parser.parse!(ARGV.dup)
+      parser
+    rescue OptionParser::ParseError => error
+      abort "#{error.message}\n\n#{parser}"
+    end
+
+    def ensure_steps_ran!
+      if filtered? && results.empty?
+        abort colorize("No CI steps matched #{selection}.", :error)
+      end
+    end
+
+    def filtered?
+      @groups.any? || @steps.any?
+    end
+
+    def selected?(names, candidate)
+      names.any? { |name| candidate.to_s.casecmp?(name) }
+    end
+
+    def selection
+      selectors = @groups.map { |group| "--group #{group.inspect}" }
+      selectors.concat @steps.map { |step| "--step #{step.inspect}" }
+      selectors.join(" and ")
+    end
+
+    def within_group(group_selected, &block)
+      previous_group_selected = @group_selected
+      @group_selected = group_selected
+      instance_eval(&block)
+    ensure
+      @group_selected = previous_group_selected
+    end
+
+    def failures
+      results.reject(&:first)
+    end
+
+    def multiple_results?
+      results.size > 1
+    end
+
+    def execute(title, &block)
+      previous_trap = Signal.trap("INT") { abort colorize("\n❌ #{title} interrupted", :error) }
+
+      seconds = timing { instance_eval(&block) }
+
+      unless success?
+        if multiple_results?
+          failures.each do |success, title|
+            unless success
+              echo "   ↳ #{title} failed", type: :error
+            end
+          end
+        end
+      end
+
+      [ success?, seconds ]
+    ensure
+      Signal.trap("INT", previous_trap || "-")
+    end
+
+    def result_line(title, success, seconds)
+      elapsed = format_elapsed(seconds)
+      if success
+        echo "\n✅ #{title} passed in #{elapsed}", type: :success
+      else
+        echo "\n❌ #{title} failed in #{elapsed}", type: :error
+      end
+    end
+
+    def format_elapsed(seconds)
+      min, sec = seconds.divmod(60)
+      "#{"#{min.to_i}m" if min > 0}%.2fs" % sec
+    end
+
+    def timing
+      started_at = Time.now.to_f
+      yield
+      Time.now.to_f - started_at
+    end
+  end
+end
+
+require_relative "continuous_integration/group"

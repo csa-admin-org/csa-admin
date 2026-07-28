@@ -1,6 +1,11 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require_relative "../config/boot"
-require "active_support/continuous_integration"
+require "active_support"
+# Temporary: Rails edge ContinuousIntegration polyfill (groups + --group/--step).
+# Restore `require "active_support/continuous_integration"` once upstream provides both.
+require_relative "../lib/rails_edge/continuous_integration"
 
 CI = ActiveSupport::ContinuousIntegration
 require_relative "../config/ci.rb"

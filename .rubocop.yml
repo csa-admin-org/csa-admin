@@ -10,6 +10,8 @@ AllCops:
   Exclude:
     - "**/*.tmp"
     - "agents/*"
+    # Temporary Rails edge ContinuousIntegration polyfill
+    - "lib/rails_edge/**/*"
 
 Layout/LineLength:
   Max: 100

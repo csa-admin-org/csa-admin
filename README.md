@@ -87,6 +87,10 @@ Useful commands:
 
 - Run all tests: `bin/rails test:all`
 - Run final validation (setup, style, security, tests, seeds): `bin/ci`
+- Run part of the CI workflow declared in `config/ci.rb`:
+  - `bin/ci -g style` / `bin/ci -g security` / `bin/ci -g tests`
+  - `bin/ci -s "Style: RuboCop"` (exact step title; case-insensitive)
+  - `bin/ci -h` for all options
 - Individual linters/formatters remain available (`bin/rubocop`, `bin/locales`, `bin/herb`, …)
 
 ## Contributing
