@@ -5,7 +5,8 @@ require "rounding"
 class Membership < ApplicationRecord
   include HasDescription
   include Timeframe, Absence, AbsencesIncludedRemindable,
-          BasketShifts, BasketOverrides, Trial, Renewal, Pricing, Activity
+          BasketShifts, BasketOverrides, Trial, Renewal, Pricing, Activity,
+          MemberUpdatable
   include Auditing # Must come after all other concerns
   include Searchable
 
@@ -131,43 +132,6 @@ class Membership < ApplicationRecord
 
   def can_send_email?
     member.emails?
-  end
-
-  def can_member_update?
-    return false unless can_member_update_depot? ||
-                        Current.org.membership_complements_update_allowed?
-
-    member_updatable_baskets.any?
-  end
-
-  def can_member_update_depot?
-    return false unless Current.org.membership_depot_update_allowed?
-
-    @can_member_update_depot ||=
-      Depot.visible
-        .joins(:delivery_cycles)
-        .where(delivery_cycles: { id: delivery_cycle_id })
-        .count > 1
-  end
-
-  def member_updatable_baskets
-    baskets.includes(:delivery).select(&:can_member_update?)
-  end
-
-  def member_update!(params)
-    raise "update not allowed" unless can_member_update?
-    return unless params.key?(:depot_id)
-
-    depot = Depot.find(params[:depot_id])
-    params[:depot_price] = depot.price
-    params = params.to_h.slice(:depot_id, :depot_price)
-
-    transaction do
-      update_columns(params)
-      updatable = member_updatable_baskets
-      updatable.each { |b| b.update!(params) }
-      reapply_alternate_depot!(updatable) if alternate_depot_id?
-    end
   end
 
   def state

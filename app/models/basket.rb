@@ -143,13 +143,7 @@ class Basket < ApplicationRecord
   def member_update!(params)
     raise "update not allowed" unless can_member_update?
 
-    if params.key?(:depot_id)
-      self.depot_price = nil
-    end
-    transaction do
-      update!(params)
-      sync_basket_override!
-    end
+    apply_member_update!(params.to_h.symbolize_keys)
   end
 
   def can_force?
@@ -172,6 +166,25 @@ class Basket < ApplicationRecord
   end
 
   private
+
+  def apply_member_update!(params)
+    assign_member_depot!(params) if params.key?(:depot_id)
+
+    transaction do
+      update!(params)
+      sync_basket_override!
+    end
+  end
+
+  def assign_member_depot!(params)
+    raise "update not allowed" unless can_member_update_depot?
+
+    depot = membership.find_member_updatable_depot!(
+      params[:depot_id],
+      extra_depot_id: depot_id)
+    params[:depot_id] = depot.id
+    params[:depot_price] = depot.price
+  end
 
   def add_complements
     complement_ids =

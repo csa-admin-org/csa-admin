@@ -185,6 +185,29 @@ class BasketTest < ActiveSupport::TestCase
     end
   end
 
+  test "member_update! rejects hidden depot" do
+    travel_to "2024-01-01"
+    org(membership_depot_update_allowed: true, basket_update_limit_in_days: 1)
+    basket = baskets(:john_1)
+    depots(:bakery).update!(visible: false)
+
+    assert_raises(RuntimeError, "update not allowed") do
+      basket.member_update!(depot_id: depots(:bakery).id)
+    end
+    assert_equal depots(:farm).id, basket.reload.depot_id
+  end
+
+  test "member_update! allows keeping current depot even when hidden" do
+    travel_to "2024-01-01"
+    org(membership_depot_update_allowed: true, basket_update_limit_in_days: 1)
+    basket = baskets(:john_1)
+    farm = depots(:farm)
+    farm.update!(visible: false)
+
+    assert_no_changes -> { basket.reload.depot_id } do
+      basket.member_update!(depot_id: farm.id)
+    end
+  end
 
   test "calculate_price_extra without basket_price_extra feature" do
     org(features: [])

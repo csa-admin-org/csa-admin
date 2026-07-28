@@ -346,6 +346,55 @@ class MembershipTest < ActiveSupport::TestCase
     end
   end
 
+  test "member_update! audits depot change with member session" do
+    travel_to "2024-01-01"
+    org(membership_depot_update_allowed: true, basket_update_limit_in_days: 1)
+    membership = memberships(:john)
+    session = sessions(:john)
+    Current.session = session
+
+    travel_to membership.baskets.last.delivery.date - 8.days
+    first_updatable_date = membership.member_updatable_baskets.first.delivery.date
+
+    assert_difference -> { membership.audits.count }, 1 do
+      membership.member_update!(depot_id: home_id)
+    end
+
+    audit = membership.audits.last
+    assert_equal session, audit.session
+    assert_equal [ farm_id, home_id ], audit.changes[:depot_id]
+    assert_equal [ 0, 9 ], audit.changes[:depot_price].map { |v| v.to_d }
+    assert_equal first_updatable_date.to_s, audit.metadata["new_config_from"]
+  end
+
+  test "member_update! rejects hidden depot" do
+    travel_to "2024-01-01"
+    org(membership_depot_update_allowed: true, basket_update_limit_in_days: 1)
+    membership = memberships(:john)
+    depots(:home).update!(visible: false)
+
+    travel_to membership.baskets.last.delivery.date - 8.days
+
+    assert_raises(RuntimeError, "update not allowed") do
+      membership.member_update!(depot_id: home_id)
+    end
+    assert_equal farm_id, membership.reload.depot_id
+  end
+
+  test "member_update! allows keeping current depot even when hidden" do
+    travel_to "2024-01-01"
+    org(membership_depot_update_allowed: true, basket_update_limit_in_days: 1)
+    membership = memberships(:john)
+    depots(:farm).update!(visible: false)
+
+    travel_to membership.baskets.last.delivery.date - 8.days
+
+    assert_no_difference -> { membership.audits.count } do
+      membership.member_update!(depot_id: farm_id)
+    end
+    assert_equal farm_id, membership.reload.depot_id
+  end
+
   test "activates pending member on creation" do
     travel_to "2024-01-01"
     member = members(:aria)
