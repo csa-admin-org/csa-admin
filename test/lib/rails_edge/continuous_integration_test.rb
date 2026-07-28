@@ -171,19 +171,34 @@ class RailsEdgeContinuousIntegrationTest < ActiveSupport::TestCase
     group_class.define_method(:pty_available?, original)
   end
 
-  test "parallel group timing" do
-    capture_io do
-      started = Time.now.to_f
-      @CI.group("Checks", parallel: 2) do
-        step "Sleep 1", "sleep 0.2"
-        step "Sleep 2", "sleep 0.2"
+  test "parallel group runs steps concurrently" do
+    Dir.mktmpdir do |dir|
+      script = File.join(dir, "step.rb")
+      File.write(script, <<~'RUBY')
+        dir = ARGV.fetch(0)
+        id = ARGV.fetch(1)
+        File.write(File.join(dir, "started-#{id}"), Process.pid.to_s)
+
+        deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + 2
+        until Dir.glob(File.join(dir, "started-*")).size >= 2
+          if Process.clock_gettime(Process::CLOCK_MONOTONIC) > deadline
+            warn "timeout waiting for concurrent peer"
+            exit 1
+          end
+          sleep 0.01
+        end
+      RUBY
+
+      capture_io do
+        @CI.group("Checks", parallel: 2) do
+          step "One", RbConfig.ruby, script, dir, "1"
+          step "Two", RbConfig.ruby, script, dir, "2"
+        end
       end
-      elapsed = Time.now.to_f - started
 
-      assert elapsed < 0.35, "Expected parallel execution to complete in ~0.2s, took #{elapsed}s"
+      assert @CI.success?
+      assert_equal 2, Dir.glob(File.join(dir, "started-*")).size
     end
-
-    assert @CI.success?
   end
 
   test "sub-groups cannot be parallelized" do
