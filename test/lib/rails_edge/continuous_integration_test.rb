@@ -278,17 +278,21 @@ class RailsEdgeContinuousIntegrationTest < ActiveSupport::TestCase
   end
 
   test "parallel group cleans up temp files on completion" do
-    temp_files_before = Dir.glob(File.join(Dir.tmpdir, "ci-*.log"))
+    Dir.mktmpdir do |dir|
+      original_tmpdir = ENV["TMPDIR"]
+      ENV["TMPDIR"] = dir
 
-    capture_io do
-      @CI.group("Checks", parallel: 2) do
-        step "Pass", "true"
-        step "Fail", "false"
+      capture_io do
+        @CI.group("Checks", parallel: 2) do
+          step "Pass", "true"
+          step "Fail", "false"
+        end
       end
-    end
 
-    temp_files_after = Dir.glob(File.join(Dir.tmpdir, "ci-*.log"))
-    assert_equal temp_files_before, temp_files_after
+      assert_empty Dir.glob(File.join(dir, "ci-*.log"))
+    ensure
+      ENV["TMPDIR"] = original_tmpdir
+    end
   end
 
   %w[-g --group].each do |flag|

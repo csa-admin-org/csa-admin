@@ -3,7 +3,7 @@
 # Part of the temporary Rails edge ContinuousIntegration polyfill.
 # Remove with lib/rails_edge/ once upstream provides groups and filters.
 
-require "tmpdir"
+require "tempfile"
 
 module ActiveSupport
   class ContinuousIntegration
@@ -119,21 +119,28 @@ module ActiveSupport
       end
 
       def capture_output(command)
-        log_path = Dir::Tmpname.create([ "ci-", ".log" ]) { }
+        # Create exclusively so the path cannot be replaced before we open it.
+        log = Tempfile.create([ "ci-", ".log" ])
+        log.binmode
+        log_path = log.path
         @mutex.synchronize { @log_files << log_path }
 
-        success = spawn_process(command) do |output|
-          File.open(log_path, "w") do |f|
-            loop { f.write(output.readpartial(8192)) }
+        begin
+          success = spawn_process(command) do |output|
+            loop { log.write(output.readpartial(8192)) }
           rescue EOFError, Errno::EIO
             # Expected when process exits
           end
-        end
+          log.flush
 
-        [ success, log_path ]
-      rescue SystemCallError => e
-        File.write(log_path, "#{e.message}: #{command.join(" ")}\n")
-        [ false, log_path ]
+          [ success, log_path ]
+        rescue SystemCallError => e
+          log.write("#{e.message}: #{command.join(" ")}\n")
+          log.flush
+          [ false, log_path ]
+        ensure
+          log.close
+        end
       end
 
       def spawn_process(command, &block)
