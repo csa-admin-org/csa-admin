@@ -195,7 +195,7 @@
   }
 
   .text-right {
-    &th a {
+    & th a {
       @apply flex flex-row-reverse;
     }
   }
@@ -333,7 +333,7 @@
   }
 
   .partially-hidden {
-    &table {
+    & table {
       tr:nth-child(n + 10) {
         @apply border-0;
       }
