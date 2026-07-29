@@ -109,6 +109,11 @@ class Membership < ApplicationRecord
     during_year(year).distinct.pluck(:delivery_cycle_id)
   end
 
+  def self.basket_price_extra_used?
+    where.not(basket_price_extra: 0).exists? ||
+      Basket.unscoped.where.not(price_extra: 0).exists?
+  end
+
   def basket_description(public_name: false)
     describe(basket_size, basket_quantity, public_name: public_name)
   end
@@ -150,7 +155,7 @@ class Membership < ApplicationRecord
   def populate_from_waiting_member!(member)
     self.member_id ||= member.id
     self.basket_size_id ||= member.waiting_basket_size_id
-    if member.waiting_basket_price_extra
+    if Current.org.feature?("basket_price_extra") && member.waiting_basket_price_extra
       self.basket_price_extra = member.waiting_basket_price_extra
     end
     if member.waiting_activity_participations_demanded_annually

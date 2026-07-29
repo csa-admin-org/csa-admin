@@ -35,7 +35,7 @@
   </li>
 <% end %>
 
-<% if feature?("basket_price_extra") && (membership.basket_price_extra.nonzero? || membership.baskets.any? { |b| b.price_extra.nonzero? }) %>
+<% if basket_price_extra_present?(membership) %>
   <li class="price-line">
     <span class="me-2 font-light">
       <%= Current.org.basket_price_extra_title %>

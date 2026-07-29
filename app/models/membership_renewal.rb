@@ -68,15 +68,19 @@ class MembershipRenewal
       .merge(
         started_on: fiscal_year.beginning_of_year,
         ended_on: fiscal_year.end_of_year)
-      .merge(
-        attrs.slice(*%i[
-          basket_size_id
-          basket_price_extra
-          depot_id
-          delivery_cycle_id
-          activity_participations_demanded_annually
-          billing_year_division
-        ]))
+      .merge(attrs.slice(*renewable_override_keys))
+  end
+
+  def renewable_override_keys
+    keys = %i[
+      basket_size_id
+      depot_id
+      delivery_cycle_id
+      activity_participations_demanded_annually
+      billing_year_division
+    ]
+    keys << :basket_price_extra if Current.org.feature?("basket_price_extra")
+    keys
   end
 
   def renew_complements(new_membership, attrs)

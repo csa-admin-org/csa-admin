@@ -256,8 +256,8 @@ class Basket < ApplicationRecord
   end
 
   def calculate_price_extra
-    return 0 unless Current.org.feature?("basket_price_extra")
     return 0 unless billable?
+    return 0 if price_extra.zero?
     return 0 if basket_size_price.zero? && complements_price.zero?
 
     Current.org.calculate_basket_price_extra(

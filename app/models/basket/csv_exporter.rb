@@ -108,7 +108,7 @@ class Basket::CSVExporter
     cols << :state
     cols << :absence_id
     cols << :provisionally_absent
-    cols << Current.org.basket_price_extra_title if feature?("basket_price_extra")
+    cols << Current.org.basket_price_extra_title if basket_price_extra_column?
     cols << :description
 
     if @basket_complements_exist
@@ -170,7 +170,7 @@ class Basket::CSVExporter
     cols << basket.state
     cols << basket.absence_id
     cols << basket.provisionally_absent?
-    cols << cur(basket.calculated_price_extra) if feature?("basket_price_extra")
+    cols << cur(basket.calculated_price_extra) if basket_price_extra_column?
     cols << basket.basket_description(public_name: true)
 
     if @basket_complements_exist
@@ -215,6 +215,13 @@ class Basket::CSVExporter
 
   def feature?(name)
     Current.org.feature?(name)
+  end
+
+  def basket_price_extra_column?
+    return @basket_price_extra_column if defined?(@basket_price_extra_column)
+
+    @basket_price_extra_column =
+      feature?("basket_price_extra") || Membership.basket_price_extra_used?
   end
 
   def cur(number)

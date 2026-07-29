@@ -72,7 +72,7 @@ class MembershipPricing
   end
 
   def calculate_price_extra(extra, basket_size, complements_price, deliveries_count)
-    return 0 unless Current.org.feature?("basket_price_extra")
+    return 0 if extra.to_f.zero?
     return 0 unless basket_size
 
     Current.org.calculate_basket_price_extra(

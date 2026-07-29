@@ -45,9 +45,12 @@ salaire ~{{ extra | plus: 20 | ceil }}.- net/heure, ~{{ extra | plus: 20 | times
 Ce qui donnera cette présentation plus détaillée (avec 40 livraisons):
 ![Affichage labels détaillés](<%= image_url("handbook/basket_price_extra/label_with_details.fr.png") %>)
 
-
 ## Rapport {#report}
 
 Le montant total de tous les extras est affiché en bas à droite de [la liste des abonnements](/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&order=started_on_desc), en dessous des filtres. N'oubliez pas de filtrer les abonnements par année fiscale pour avoir le bon montant.
 
 Vous pouvez facilement filtrer [la liste des abonnements](/memberships?q%5Bbasket_price_extra_gt%5D=0&order=started_on_desc) avec un extra en utilisant le filtre à droite prévu à cet effet. Cette information se retrouve également dans [l'export CSV des abonnements](/memberships.csv).
+
+## Désactivation {#disable}
+
+Désactiver cette fonctionnalité empêche seulement de proposer de nouveaux extras à l'inscription et au renouvellement. Les abonnements et paniers qui ont déjà un extra le conservent pour la facturation, les factures et l'édition admin tant que vous ne les modifiez pas vous-même.

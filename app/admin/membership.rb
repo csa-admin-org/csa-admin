@@ -66,7 +66,7 @@ ActiveAdmin.register Membership do
     }
   filter :basket_price_extra,
     label: proc { Current.org.basket_price_extra_title },
-    if: proc { feature?("basket_price_extra") }
+    if: proc { basket_price_extra_feature_or_used? }
   filter :activity_participations_accepted, if: proc { feature?("activity") }
   filter :activity_participations_demanded, if: proc { feature?("activity") }
   filter :activity_participations_missing, as: :numeric, if: proc { feature?("activity") }
@@ -161,7 +161,7 @@ ActiveAdmin.register Membership do
     redirect_to collection_path, notice: t("active_admin.shared.sidebar_section.invoicing")
   end
 
-  sidebar :basket_price_extra_title, only: :index, if: -> { feature?("basket_price_extra") && params.dig(:q, :during_year).present? } do
+  sidebar :basket_price_extra_title, only: :index, if: -> { basket_price_extra_feature_or_used? && params.dig(:q, :during_year).present? } do
     side_panel Current.org.basket_price_extra_title, action: handbook_icon_link("basket_price_extra") do
       coll =
         collection
@@ -299,7 +299,7 @@ ActiveAdmin.register Membership do
     end
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
     column(:basket_size_price) { |m| cur(m.basket_size_price, precision: 3) }
-    if feature?("basket_price_extra")
+    if basket_price_extra_feature_or_used?
       column(Current.org.basket_price_extra_title) { |m|
         if Current.org.basket_price_extra_dynamic_pricing?
           m.basket_price_extra
@@ -592,7 +592,7 @@ ActiveAdmin.register Membership do
                   cur(m.basket_complements_annual_price_change, unit: false)
                 }
               end
-              if feature?("basket_price_extra") && (m.basket_price_extra.nonzero? || m.baskets.any? { |b| b.price_extra.nonzero? })
+              if basket_price_extra_present?(m)
                 row(:basket_price_extra_title, class: "tabular-nums") {
                   description = baskets_price_extra_info(m, m.baskets, highlight: true)
                   display_price_description(m.baskets_price_extra, description)
@@ -839,7 +839,7 @@ ActiveAdmin.register Membership do
       if f.object.fiscal_year_has_basket_size_price_percentage?
         f.input :apply_basket_size_price_percentage, hint: true
       end
-      if feature?("basket_price_extra")
+      if basket_price_extra_for?(f.object)
         f.input :basket_price_extra, required: true, label: Current.org.basket_price_extra_title
       end
       f.input :basket_quantity

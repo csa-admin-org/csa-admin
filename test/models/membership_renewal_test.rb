@@ -71,6 +71,19 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     assert_equal 4, renewed_membership.basket_price_extra
   end
 
+  test "keeps committed basket_price_extra when feature is disabled" do
+    membership = memberships(:jane)
+    membership.update!(basket_price_extra: 3)
+    org(features: Current.org.features - [ :basket_price_extra ])
+
+    assert_difference "Membership.count", 1 do
+      MembershipRenewal.new(membership).renew!(basket_price_extra: 9)
+    end
+
+    renewed_membership = membership.reload.renewed_membership
+    assert_equal 3, renewed_membership.basket_price_extra
+  end
+
   test "renews a membership with a new depot and delivery cycle" do
     membership = memberships(:jane)
     delivery_cycles(:mondays).update!(price: 2)

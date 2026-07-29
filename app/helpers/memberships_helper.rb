@@ -57,6 +57,26 @@ module MembershipsHelper
       && Current.org.basket_price_extras?
   end
 
+  def basket_price_extra_feature_or_used?
+    feature?("basket_price_extra") || Membership.basket_price_extra_used?
+  end
+
+  def basket_price_extra_for?(record)
+    feature?("basket_price_extra") || basket_price_extra_present?(record)
+  end
+
+  def basket_price_extra_present?(record)
+    case record
+    when Basket
+      record.price_extra&.nonzero?
+    when Membership
+      record.basket_price_extra&.nonzero? ||
+        record.baskets.any? { |b| b.price_extra.nonzero? }
+    else
+      false
+    end
+  end
+
   def show_activity_participations?
     feature?("activity") && Current.org.activity_participations_form?
   end

@@ -123,7 +123,7 @@ ActiveAdmin.register Basket do
             hint: true,
             required: false,
             input_html: { data: { form_reset_target: "input" } }
-          if feature?("basket_price_extra")
+          if basket_price_extra_for?(f.object)
             f.input :price_extra, required: true, label: Current.org.basket_price_extra_title
           end
           f.input :quantity

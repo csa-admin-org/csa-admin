@@ -74,22 +74,27 @@ class Members::MembershipRenewalsController < Members::BaseController
   def renewal_params
     permitted = params
       .require(:membership)
-      .permit(*%i[
-        renewal_annual_fee
-        renewal_note
-        basket_size_id
-        basket_price_extra
-        activity_participations_demanded_annually
-        depot_id
-        delivery_cycle_id
-        billing_year_division
-      ], memberships_basket_complements_attributes: [
+      .permit(*renewal_permitted_keys, memberships_basket_complements_attributes: [
         :basket_complement_id, :quantity
       ])
     permitted[:memberships_basket_complements_attributes]&.select! { |i, attrs|
       attrs["quantity"].to_i > 0
     }
     permitted
+  end
+
+  def renewal_permitted_keys
+    keys = %i[
+      renewal_annual_fee
+      renewal_note
+      basket_size_id
+      activity_participations_demanded_annually
+      depot_id
+      delivery_cycle_id
+      billing_year_division
+    ]
+    keys << :basket_price_extra if Current.org.feature?("basket_price_extra")
+    keys
   end
   helper_method :renewal_params
 end

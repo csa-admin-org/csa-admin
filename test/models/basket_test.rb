@@ -209,12 +209,22 @@ class BasketTest < ActiveSupport::TestCase
     end
   end
 
-  test "calculate_price_extra without basket_price_extra feature" do
+  test "calculate_price_extra keeps committed extra when feature is disabled" do
     org(features: [])
     basket = build_basket(
       quantity: 2,
       basket_size_price: 19,
       price_extra: 2.42)
+
+    assert_equal 2.42, basket.send(:calculate_price_extra)
+  end
+
+  test "calculate_price_extra is zero when price_extra is zero even if feature is enabled" do
+    org(features: [ :basket_price_extra ])
+    basket = build_basket(
+      quantity: 2,
+      basket_size_price: 19,
+      price_extra: 0)
 
     assert_equal 0, basket.send(:calculate_price_extra)
   end

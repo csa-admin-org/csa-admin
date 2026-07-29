@@ -151,7 +151,7 @@ module PDF
               cur(entity.basket_complements_annual_price_change)
             ]
           end
-          if Current.org.feature?("basket_price_extra") && !entity.baskets_price_extra.zero?
+          if entity.baskets_price_extra.nonzero?
             data << [
               membership_baskets_price_extra_description,
               cur(entity.baskets_price_extra)

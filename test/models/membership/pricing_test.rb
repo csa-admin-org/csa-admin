@@ -133,6 +133,30 @@ class Membership::PricingTest < ActiveSupport::TestCase
     assert_equal 130, membership.price
   end
 
+  test "keeps committed basket price extras after feature is disabled" do
+    travel_to "2024-01-01"
+    membership = create_membership(basket_price_extra: 3)
+    assert_equal 30, membership.baskets_price_extra
+
+    org(features: Current.org.features - [ :basket_price_extra ])
+    membership.baskets.find_each(&:update_calculated_price_extra!)
+    membership.send(:update_price_and_invoices_amount!)
+
+    assert_equal 30, membership.reload.baskets_price_extra
+    assert_equal 130, membership.price
+    assert_equal 3, membership.baskets.first.calculated_price_extra
+  end
+
+  test "basket_price_extra_used? detects committed extras" do
+    travel_to "2024-01-01"
+    Membership.update_all(basket_price_extra: 0)
+    Basket.unscoped.update_all(price_extra: 0)
+    assert_not Membership.basket_price_extra_used?
+
+    create_membership(basket_price_extra: 2)
+    assert Membership.basket_price_extra_used?
+  end
+
   test "with basket complement with deliveries cycle" do
     travel_to "2024-01-01"
     cycle = delivery_cycles(:thursdays)
