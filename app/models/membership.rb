@@ -231,6 +231,11 @@ class Membership < ApplicationRecord
     save!(validate: false)
   end
 
+  def refresh_after_complements_change!
+    update_baskets_counts!
+    update_price_and_invoices_amount!
+  end
+
   def fiscal_year_has_basket_size_price_percentage?
     return false unless started_on
 

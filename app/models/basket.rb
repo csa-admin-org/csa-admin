@@ -165,6 +165,12 @@ class Basket < ApplicationRecord
     save!
   end
 
+  def write_calculated_price_extra!
+    update_columns(
+      calculated_price_extra: calculate_price_extra,
+      updated_at: Time.current)
+  end
+
   private
 
   def apply_member_update!(params)

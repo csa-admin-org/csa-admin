@@ -13,10 +13,12 @@ class MembershipBasketsUpdater
     return if @membership.past?
     return log_basket_override_conflicts if overrides.conflicts.any?
 
-    @membership.transaction do
-      destroy_basket_shifts_for_obsolete_deliveries!
-      baskets.where(delivery_id: obsolete_delivery_ids).find_each(&:destroy!)
-      overrides.reapply!(create_missing_baskets!)
+    ActiveRecord::Base.no_touching do
+      @membership.transaction do
+        destroy_basket_shifts_for_obsolete_deliveries!
+        baskets.where(delivery_id: obsolete_delivery_ids).find_each(&:destroy!)
+        overrides.reapply!(create_missing_baskets!)
+      end
     end
     @membership.refresh_after_baskets_update!
   end
