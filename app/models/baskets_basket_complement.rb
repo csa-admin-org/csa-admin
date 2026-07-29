@@ -27,12 +27,13 @@ class BasketsBasketComplement < ApplicationRecord
 
   class << self
     def handle_deliveries_addition!(delivery, complement)
-      basket_ids = []
-      baskets_missing_complement(delivery, complement).find_each do |basket|
-        create_from_subscription!(basket, complement)
-        basket_ids << basket.id
-      end
-      basket_ids
+      return [] unless delivery.id.in?(complement.current_and_future_delivery_ids)
+
+      rows = missing_subscription_rows(delivery, complement)
+      return [] if rows.empty?
+
+      bulk_insert_from_subscriptions!(rows, complement)
+      rows.map(&:first)
     end
 
     def handle_deliveries_removal!(delivery, complement)
@@ -44,27 +45,31 @@ class BasketsBasketComplement < ApplicationRecord
 
     private
 
-    def baskets_missing_complement(delivery, complement)
+    def missing_subscription_rows(delivery, complement)
       already = where(basket_complement_id: complement.id).select(:basket_id)
 
-      delivery
-        .baskets
-        .unscope(:order)
+      delivery.baskets.unscope(:order)
         .joins(membership: :memberships_basket_complements)
         .where(memberships_basket_complements: { basket_complement_id: complement.id })
         .where.not(id: already)
-        .includes(membership: :memberships_basket_complements)
+        .pluck(
+          "baskets.id",
+          "memberships_basket_complements.quantity",
+          "memberships_basket_complements.price")
     end
 
-    def create_from_subscription!(basket, complement)
-      subscription = basket.membership.memberships_basket_complements
-        .detect { |mbc| mbc.basket_complement_id == complement.id }
-
-      create!(
-        basket: basket,
-        basket_complement: complement,
-        quantity: subscription.quantity,
-        price: subscription.price)
+    def bulk_insert_from_subscriptions!(rows, complement)
+      now = Time.current
+      insert_all!(rows.map { |basket_id, quantity, price|
+        {
+          basket_id: basket_id,
+          basket_complement_id: complement.id,
+          quantity: quantity,
+          price: price,
+          created_at: now,
+          updated_at: now
+        }
+      })
     end
   end
 

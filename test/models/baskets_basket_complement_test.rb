@@ -17,10 +17,12 @@ class BasketsBasketComplementTest < ActiveSupport::TestCase
     schedule_complement_on_delivery!(eggs, delivery)
     basket = membership.baskets.find_by!(delivery: delivery)
 
+    basket_ids = nil
     assert_difference -> { BasketsBasketComplement.where(basket: basket, basket_complement: eggs).count }, 1 do
-      BasketsBasketComplement.handle_deliveries_addition!(delivery, eggs)
+      basket_ids = BasketsBasketComplement.handle_deliveries_addition!(delivery, eggs)
     end
 
+    assert_equal [ basket.id ], basket_ids
     bbc = basket.baskets_basket_complements.find_by!(basket_complement: eggs)
     assert_equal 2, bbc.quantity
     assert_equal 7.5, bbc.price
@@ -50,6 +52,16 @@ class BasketsBasketComplementTest < ActiveSupport::TestCase
       BasketsBasketComplement.handle_deliveries_addition!(delivery, eggs)
     end
     assert_empty memberships(:john).baskets.find_by!(delivery: delivery).complement_ids
+  end
+
+  test "handle_deliveries_addition! is a no-op when delivery is no longer scheduled" do
+    eggs = basket_complements(:eggs)
+    memberships(:john).update!(subscribed_basket_complement_ids: [ eggs.id ])
+    delivery = deliveries(:monday_1)
+
+    assert_no_difference -> { BasketsBasketComplement.count } do
+      BasketsBasketComplement.handle_deliveries_addition!(delivery, eggs)
+    end
   end
 
   test "handle_deliveries_addition! only affects the given delivery" do

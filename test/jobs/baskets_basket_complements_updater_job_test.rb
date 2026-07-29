@@ -195,8 +195,30 @@ class BasketsBasketComplementsUpdaterJobTest < ActiveJob::TestCase
       end
     end
 
-    assert_operator sql_count, :<, 100,
+    assert_operator sql_count, :<, 80,
       "expected bulk complement add to stay lean (got #{sql_count} SQL statements)"
+  end
+
+  test "bulk addition inserts join rows in one statement per delivery" do
+    eggs = basket_complements(:eggs)
+    memberships(:john).update!(subscribed_basket_complement_ids: [ eggs.id ])
+    memberships(:bob).update!(subscribed_basket_complement_ids: [ eggs.id ])
+    delivery_ids = deliveries(:monday_1, :monday_2).map(&:id)
+
+    inserts = 0
+    callback = ->(_name, _start, _finish, _id, payload) {
+      sql = payload[:sql].to_s
+      inserts += 1 if sql.match?(/INSERT INTO "baskets_basket_complements"/i)
+    }
+
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
+      perform_enqueued_jobs only: BasketsBasketComplementsUpdaterJob do
+        eggs.update!(current_delivery_ids: delivery_ids)
+      end
+    end
+
+    assert_equal delivery_ids.size, inserts,
+      "expected one bulk insert per delivery (got #{inserts})"
   end
 
   test "bulk addition does not touch memberships via cascade" do
