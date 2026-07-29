@@ -214,6 +214,45 @@ class Membership::PricingTest < ActiveSupport::TestCase
     assert_equal 0, membership.price
   end
 
+  test "basket_complements_price rounds each complement total to five cents" do
+    travel_to "2024-01-01"
+    # One delivery each at 1.02: per-complement rounds to 1.00+1.00; one global
+    # round of 2.04 would yield 2.05.
+    membership = create_membership(
+      delivery_cycle: delivery_cycles(:thursdays),
+      memberships_basket_complements_attributes: {
+        "0" => { basket_complement_id: bread_id, price: "1.02", quantity: 1 },
+        "1" => { basket_complement_id: eggs_id, price: "1.02", quantity: 1 }
+      })
+    membership.baskets.billable.offset(1).find_each do |basket|
+      basket.baskets_basket_complements.delete_all
+    end
+
+    assert_equal 1.0, membership.basket_complement_total_price(basket_complements(:bread))
+    assert_equal 1.0, membership.basket_complement_total_price(basket_complements(:eggs))
+    assert_equal 2.0, membership.basket_complements_price
+    assert_equal 2.05, (2 * 1.02).to_d.round_to_five_cents
+  end
+
+  test "basket_complements_price uses one grouped query" do
+    travel_to "2024-01-01"
+    membership = create_membership(
+      delivery_cycle: delivery_cycles(:thursdays),
+      memberships_basket_complements_attributes: {
+        "0" => { basket_complement_id: bread_id, quantity: 1 },
+        "1" => { basket_complement_id: eggs_id, quantity: 1 }
+      })
+
+    queries = 0
+    callback = ->(*) { queries += 1 }
+    price = ActiveSupport::Notifications.subscribed(callback, "sql.active_record") {
+      membership.basket_complements_price
+    }
+
+    assert_equal 10 * (4 + 6), price
+    assert_equal 1, queries
+  end
+
   test "#cancel_overcharged_invoice! membership period is reduced" do
     member = members(:jane)
     member.update!(annual_fee: 0)

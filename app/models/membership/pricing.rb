@@ -65,8 +65,12 @@ module Membership::Pricing
   end
 
   def basket_complements_price
-    ids = baskets.joins(:baskets_basket_complements).pluck(:basket_complement_id).uniq
-    BasketComplement.find(ids).sum { |bc| basket_complement_total_price(bc) }
+    baskets.billable
+      .joins(:baskets_basket_complements)
+      .group("baskets_basket_complements.basket_complement_id")
+      .sum("baskets_basket_complements.quantity * baskets_basket_complements.price")
+      .values
+      .sum { |total| rounded_price(total) }
   end
 
   def basket_complement_total_price(basket_complement)
