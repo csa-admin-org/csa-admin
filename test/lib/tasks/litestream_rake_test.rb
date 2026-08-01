@@ -26,7 +26,7 @@ class LitestreamRakeTest < ActiveSupport::TestCase
     assert_includes out, "Restoring litestream backups for: acme, demo"
   end
 
-  test "local config uses singular replica and no snapshot-interval" do
+  test "local config points at litestream-restore file layout" do
     Dir.mktmpdir do |dir|
       with_env("BACKUP_PATH" => dir) do
         with_rails_env("development") do
@@ -43,7 +43,7 @@ class LitestreamRakeTest < ActiveSupport::TestCase
         assert db.key?("replica"), "expected singular replica key"
         assert_not db.key?("replicas"), "v0.3 replicas array must not be generated"
         assert_not db["replica"].key?("snapshot-interval")
-        assert_equal "#{dir}/litestream/#{db["path"]}", db["replica"]["path"]
+        assert_equal "#{dir}/litestream-restore/#{db["path"]}", db["replica"]["path"]
       end
     end
   end
@@ -130,10 +130,67 @@ class LitestreamRakeTest < ActiveSupport::TestCase
     assert_not_includes paths, "/storage/csa-admin/production_old.sqlite3"
   end
 
+  test "materialize leaves S3 mirror intact and writes file layout restore tree" do
+    Dir.mktmpdir do |dir|
+      source = File.join(dir, "litestream", "ragedevert")
+      dest = File.join(dir, "litestream-restore", "ragedevert")
+      FileUtils.mkdir_p(File.join(source, "0000"))
+      FileUtils.mkdir_p(File.join(source, "0009"))
+      File.write(File.join(source, "0000", "0000000000000001-0000000000000001.ltx"), "l0")
+      File.write(File.join(source, "0009", "0000000000000001-0000000000000009.ltx"), "l9")
+
+      moved = LitestreamConfig.materialize_file_replica!(source, dest)
+
+      assert_equal 2, moved
+      assert_path_exists File.join(source, "0000", "0000000000000001-0000000000000001.ltx")
+      assert_path_exists File.join(source, "0009", "0000000000000001-0000000000000009.ltx")
+      assert_not File.exist?(File.join(dest, "0000"))
+      assert_path_exists File.join(dest, "ltx", "0", "0000000000000001-0000000000000001.ltx")
+      assert_path_exists File.join(dest, "ltx", "9", "0000000000000001-0000000000000009.ltx")
+    end
+  end
+
+  test "prepare_local_replicas materializes each tenant under litestream-restore/" do
+    Dir.mktmpdir do |dir|
+      %w[acme demo].each do |name|
+        replica = File.join(dir, "litestream", name)
+        FileUtils.mkdir_p(File.join(replica, "0009"))
+        File.write(File.join(replica, "0009", "0000000000000001-0000000000000001.ltx"), "x")
+      end
+
+      moved = LitestreamConfig.prepare_local_replicas!(dir, %w[acme demo])
+
+      assert_equal 2, moved
+      assert_path_exists File.join(dir, "litestream", "acme", "0009", "0000000000000001-0000000000000001.ltx")
+      assert_path_exists File.join(dir, "litestream-restore", "acme", "ltx", "9", "0000000000000001-0000000000000001.ltx")
+      assert_path_exists File.join(dir, "litestream-restore", "demo", "ltx", "9", "0000000000000001-0000000000000001.ltx")
+    end
+  end
+
+  test "restore materializes file layout before calling litestream" do
+    out, = run_restore(s3_layout: true)
+
+    assert_includes out, "Materialized file-layout restore tree"
+  end
+
   private
 
-  def run_restore(tenant: nil)
+  def run_restore(tenant: nil, s3_layout: false)
     Dir.mktmpdir do |dir|
+      %w[acme demo].each do |name|
+        mirror = File.join(dir, "litestream", name)
+        if s3_layout
+          FileUtils.mkdir_p(File.join(mirror, "0009"))
+          File.write(File.join(mirror, "0009", "0000000000000001-0000000000000001.ltx"), "x")
+        else
+          # Already-materialized restore tree is enough for messaging tests
+          FileUtils.mkdir_p(File.join(dir, "litestream-restore", name, "ltx", "9"))
+          File.write(File.join(dir, "litestream-restore", name, "ltx", "9", "x.ltx"), "x")
+          FileUtils.mkdir_p(mirror) # empty mirror ok
+        end
+      end
+      File.write(File.join(dir, "litestream.yml"), LitestreamConfig.local(backup_path: dir, db_names: %w[acme demo]).to_yaml)
+
       with_env("BACKUP_PATH" => dir, "TENANT" => tenant) do
         with_rails_env("development") do
           Rails.stub(:root, Pathname(dir)) do

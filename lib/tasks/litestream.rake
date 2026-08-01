@@ -84,7 +84,14 @@ namespace :litestream do
       FileUtils.rm_f(Dir.glob(Rails.root.join("storage", "development_#{tenant}.sqlite3*")))
     end
 
-    backup_config = "#{ENV.fetch("BACKUP_PATH")}/litestream.yml"
+    backup_path = ENV.fetch("BACKUP_PATH")
+    backup_config = "#{backup_path}/litestream.yml"
+
+    # Materialize litestream-restore/ (file layout) from litestream/ (S3 mirror).
+    # Mirror is never rewritten so rclone can incremental-sync cleanly.
+    moved = LitestreamConfig.prepare_local_replicas!(backup_path, tenants)
+    puts "Materialized file-layout restore tree (#{moved} LTX files)" if moved.positive?
+
     Parallel.each(tenants) do |tenant|
       output = Rails.root.join("storage", "development_#{tenant}.sqlite3")
       ok = system(
