@@ -85,6 +85,8 @@ Development requirements are managed with [Mise](https://mise.jdx.dev) 2026.7 or
 
 Useful commands:
 
+- Bootstrap / refresh the local environment: `mise bootstrap` or `bin/setup --skip-server`
+- Update toolchains and dependency lockfiles: `bin/update`
 - Run all tests: `bin/rails test:all`
 - Run final validation (setup, style, security, tests, seeds): `bin/ci`
 - Run part of the CI workflow declared in `config/ci.rb`:

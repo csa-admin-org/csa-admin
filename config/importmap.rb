@@ -53,5 +53,10 @@ pin "codejar-linenumbers", preload: false # @1.0.1
 # ActiveAdmin
 pin "@rails/ujs", to: "@rails--ujs.js", preload: false # @7.1.3
 pin_all_from File.join(`bundle show activeadmin`.strip, "app/javascript/active_admin"), under: "active_admin", preload: false
-# Floating UI (tooltip/popover positioning) — single self-contained bundle
-pin "@floating-ui/dom", to: "@floating-ui--dom.js", preload: false # @1.7.6
+# Floating UI (tooltip/popover positioning).
+# Pinned from unpkg (`bin/importmap pin "@floating-ui/dom@VERSION" --from unpkg`)
+# because jspm currently 404s on @floating-ui/core@1.8.x.
+pin "@floating-ui/dom", to: "@floating-ui--dom.js", preload: false # @1.8.0
+pin "@floating-ui/core", to: "@floating-ui--core.js", preload: false # @1.8.0
+pin "@floating-ui/utils", to: "@floating-ui--utils.js", preload: false # @0.2.12
+pin "@floating-ui/utils/dom", to: "@floating-ui--utils--dom.js", preload: false # @0.2.12

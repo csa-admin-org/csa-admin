@@ -16,11 +16,11 @@ importers:
         specifier: ^1.2.2
         version: 1.2.2(stylelint@17.14.1)
       '@herb-tools/formatter':
-        specifier: ^0.10.2
-        version: 0.10.2(tailwindcss@4.3.3)
+        specifier: ^0.10.3
+        version: 0.10.3(tailwindcss@4.3.3)
       '@herb-tools/linter':
-        specifier: ^0.10.2
-        version: 0.10.2(tailwindcss@4.3.3)
+        specifier: ^0.10.3
+        version: 0.10.3(tailwindcss@4.3.3)
       oxfmt:
         specifier: ^0.59.0
         version: 0.59.0
@@ -134,36 +134,36 @@ packages:
     peerDependencies:
       stylelint: ^16.17.0 || ^17.0.0
 
-  '@herb-tools/config@0.10.2':
-    resolution: {integrity: sha512-hNyNpspNoeiwO7VEorXrr827byq8hCMk6jP24X5d/RAVoVlzlRssqux5zDu3d8MG69J+Zb4EN3hkPDiVhkkELw==}
+  '@herb-tools/config@0.10.3':
+    resolution: {integrity: sha512-cSaOwuWnij1wiB4Xh9Zfx/s+lhis7cN/+PXssanT/mXQLSRU2QeYasivyCQ1tRnpIVdGGOC/rqHVJQeNmj4pqg==}
 
-  '@herb-tools/core@0.10.2':
-    resolution: {integrity: sha512-gAZjcgFO0UcQXiRG1hkPAnn6SAX/Jj//Bq2QcFUCLMcbAY0uaF13g7QDiY+ntg9LqmdT5Lka0TXC8mv1ehTk8w==}
+  '@herb-tools/core@0.10.3':
+    resolution: {integrity: sha512-rtDoh6C/EMYLEtFwYpuY+IlnV7PLsF5hQszq7uMDE/bwEpLVBlPFd2Wlk9E0RB31PVQKV1MwgGqstte87XqF9g==}
 
-  '@herb-tools/formatter@0.10.2':
-    resolution: {integrity: sha512-1fwHjc5ezYKZ6CbASwdpT3m8AEU3a5l/wdxiI8fp76hX8NbsFaCxiIty44YrFR34oNTt7vkEUJRHoKXyOEcvPA==}
+  '@herb-tools/formatter@0.10.3':
+    resolution: {integrity: sha512-3YHtybrrRjXqbBE1+gv4/ksxmbnQbwJHA2IlMYUaLriCKUN02oN6t0Stwoxrude+gE7XICNR9EmBt1kH7QzlqA==}
     hasBin: true
 
-  '@herb-tools/highlighter@0.10.2':
-    resolution: {integrity: sha512-dO73MHogYflARek8PZQ/TYCkIeXxB353/KA+/w0fPf18jmNGVpHc6J1hC+Lsqo+k4runjCmvaPLN7ETWoI/ndA==}
+  '@herb-tools/highlighter@0.10.3':
+    resolution: {integrity: sha512-vyBPl/oWalPcXrhni6RrQzeizzC0i7An3yMAg/Xx+4HDhgU/zOlRqSUYLU7SpzjfK4OU5QhRDdc3OBI8dT5qmg==}
     hasBin: true
 
-  '@herb-tools/linter@0.10.2':
-    resolution: {integrity: sha512-0B8kT3jrSJwwmjjW0IFOreloF/9yrGm9ti931TxVG54u0PYDNI8ONRLub0sSzbPlKqPFtJXhjN7lPRqQdGz3Ow==}
+  '@herb-tools/linter@0.10.3':
+    resolution: {integrity: sha512-uNwJZkzswJ/IcpsjbuEzOXQQcfc40KGy8Ao1L69na2J6H7b4LFig2OIZ22vJasGdv4jODWJWnMDozRvWuv1vFA==}
     hasBin: true
 
-  '@herb-tools/node-wasm@0.10.2':
-    resolution: {integrity: sha512-gSu674UiuxCL5ypQveQqGd4GMk+iKSmI7Hk2nLIs/L132exrfumVg+Jxd+Nqg6z7lzDbx+/yXLKdMoLIh1OFaw==}
+  '@herb-tools/node-wasm@0.10.3':
+    resolution: {integrity: sha512-KUwHUMB6kluyvRiW0A9wbTiuO/qlvXLlSAnewmH2za7yePvYRSiThfAZEmXPqEmpmMRcIksFxaNaxUc6nBqyuA==}
 
-  '@herb-tools/printer@0.10.2':
-    resolution: {integrity: sha512-xFMtZg+fY/+/uSgGRL+gC0J0bi690EPKg6sz0fc+HmEkLZFs1gB5sK4BZ0aiYu1kvQQ0E2e6G52Ic1huKi0fsQ==}
+  '@herb-tools/printer@0.10.3':
+    resolution: {integrity: sha512-OuuIisERq3TLnms/Wm5N6w/ITYqlBPPLsc1FNHdN3qedPOA/ey1dF2rKewUzQAsAZheRCs5nem7tDYRhPb2D/Q==}
     hasBin: true
 
-  '@herb-tools/rewriter@0.10.2':
-    resolution: {integrity: sha512-V2TmCHwZNt2o8GDnkkc/UTViJDX8vxjAMHNs7S5X1alZfB6Rc8hxLNAkEP0iAaoaGm7Dx6+ih2e/jfnAU6sS4g==}
+  '@herb-tools/rewriter@0.10.3':
+    resolution: {integrity: sha512-UsqWOJVcmB7lptLtjUeFpVvOn44LFae+I44p5ixQ9nDLNnZiN/2+R52tJmVLOWijQORvtMInCWOHrSvXF6Bf/g==}
 
-  '@herb-tools/tailwind-class-sorter@0.10.2':
-    resolution: {integrity: sha512-4LQKxfNB0Xem8iMZHOWVMs21YOj8Onqq3kMepcI7Aafoua7k7hdR4aUEfX6+SXCWPXZbCJxVqfsEjz/PRZfu9A==}
+  '@herb-tools/tailwind-class-sorter@0.10.3':
+    resolution: {integrity: sha512-KAowwSS6NmcRTQrQ591DR6dGI675KB0o/yxZt113BNDWiBB+bl4xdnd3hT19JV6Jsh3sS/0e90hYGUj/6PBW0g==}
     engines: {node: '>=14.21.3'}
     peerDependencies:
       tailwindcss: ^3.0 || ^4.0
@@ -416,6 +416,9 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
+
+  '@ruby/prism@1.9.0':
+    resolution: {integrity: sha512-/j+JfP1eA0nCjx6c/8L6K/ENErmsqc6RMAba8rKYNz4RadrT7AW20u4WrjpWYWzdlk6k1YWHxoW9OS68w02+Vw==}
 
   '@sindresorhus/merge-streams@4.0.0':
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
@@ -1382,55 +1385,61 @@ snapshots:
     dependencies:
       stylelint: 17.14.1
 
-  '@herb-tools/config@0.10.2':
+  '@herb-tools/config@0.10.3':
     dependencies:
-      '@herb-tools/core': 0.10.2
+      '@herb-tools/core': 0.10.3
       picomatch: 4.0.5
       tinyglobby: 0.2.17
       yaml: 2.9.0
 
-  '@herb-tools/core@0.10.2': {}
-
-  '@herb-tools/formatter@0.10.2(tailwindcss@4.3.3)':
+  '@herb-tools/core@0.10.3':
     dependencies:
-      '@herb-tools/config': 0.10.2
-      '@herb-tools/core': 0.10.2
-      '@herb-tools/printer': 0.10.2
-      '@herb-tools/rewriter': 0.10.2(tailwindcss@4.3.3)
+      '@ruby/prism': 1.9.0
+
+  '@herb-tools/formatter@0.10.3(tailwindcss@4.3.3)':
+    dependencies:
+      '@herb-tools/config': 0.10.3
+      '@herb-tools/core': 0.10.3
+      '@herb-tools/printer': 0.10.3
+      '@herb-tools/rewriter': 0.10.3(tailwindcss@4.3.3)
+      '@ruby/prism': 1.9.0
       tinyglobby: 0.2.17
 
-  '@herb-tools/highlighter@0.10.2':
+  '@herb-tools/highlighter@0.10.3':
     dependencies:
-      '@herb-tools/core': 0.10.2
-      '@herb-tools/node-wasm': 0.10.2
+      '@herb-tools/core': 0.10.3
+      '@herb-tools/node-wasm': 0.10.3
 
-  '@herb-tools/linter@0.10.2(tailwindcss@4.3.3)':
+  '@herb-tools/linter@0.10.3(tailwindcss@4.3.3)':
     dependencies:
-      '@herb-tools/config': 0.10.2
-      '@herb-tools/core': 0.10.2
-      '@herb-tools/highlighter': 0.10.2
-      '@herb-tools/node-wasm': 0.10.2
-      '@herb-tools/printer': 0.10.2
-      '@herb-tools/rewriter': 0.10.2(tailwindcss@4.3.3)
+      '@herb-tools/config': 0.10.3
+      '@herb-tools/core': 0.10.3
+      '@herb-tools/highlighter': 0.10.3
+      '@herb-tools/node-wasm': 0.10.3
+      '@herb-tools/printer': 0.10.3
+      '@herb-tools/rewriter': 0.10.3(tailwindcss@4.3.3)
+      '@ruby/prism': 1.9.0
       picomatch: 4.0.5
       tinyglobby: 0.2.17
 
-  '@herb-tools/node-wasm@0.10.2':
+  '@herb-tools/node-wasm@0.10.3':
     dependencies:
-      '@herb-tools/core': 0.10.2
+      '@herb-tools/core': 0.10.3
+      '@ruby/prism': 1.9.0
 
-  '@herb-tools/printer@0.10.2':
+  '@herb-tools/printer@0.10.3':
     dependencies:
-      '@herb-tools/core': 0.10.2
+      '@herb-tools/core': 0.10.3
       tinyglobby: 0.2.17
 
-  '@herb-tools/rewriter@0.10.2(tailwindcss@4.3.3)':
+  '@herb-tools/rewriter@0.10.3(tailwindcss@4.3.3)':
     dependencies:
-      '@herb-tools/core': 0.10.2
-      '@herb-tools/tailwind-class-sorter': 0.10.2(tailwindcss@4.3.3)
+      '@herb-tools/core': 0.10.3
+      '@herb-tools/tailwind-class-sorter': 0.10.3(tailwindcss@4.3.3)
+      '@ruby/prism': 1.9.0
       tinyglobby: 0.2.17
 
-  '@herb-tools/tailwind-class-sorter@0.10.2(tailwindcss@4.3.3)':
+  '@herb-tools/tailwind-class-sorter@0.10.3(tailwindcss@4.3.3)':
     dependencies:
       clear-module: 4.1.3
       escalade: 3.2.0
@@ -1572,6 +1581,8 @@ snapshots:
 
   '@oxlint/binding-win32-x64-msvc@1.76.0':
     optional: true
+
+  '@ruby/prism@1.9.0': {}
 
   '@sindresorhus/merge-streams@4.0.0': {}
 

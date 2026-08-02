@@ -1,8 +1,8 @@
 {
   "devDependencies": {
     "@dreamsicle.io/stylelint-config-tailwindcss": "^1.2.2",
-    "@herb-tools/formatter": "^0.10.2",
-    "@herb-tools/linter": "^0.10.2",
+    "@herb-tools/formatter": "^0.10.3",
+    "@herb-tools/linter": "^0.10.3",
     "oxfmt": "^0.59.0",
     "oxlint": "^1.76.0",
     "prettier": "^3.9.6",

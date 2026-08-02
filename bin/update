@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "fileutils"
+
+APP_ROOT = File.expand_path("..", __dir__)
+
+def system!(*args)
+  system(*args, exception: true)
+end
+
+FileUtils.chdir APP_ROOT do
+  # Update local toolchains and dependency lockfiles.
+  # Review the diff afterward — this is intentionally non-conservative.
+
+  puts "== Updating mise =="
+  system! "mise", "self-update", "-y"
+
+  puts "\n== Upgrading mise tools =="
+  system! "mise", "upgrade"
+
+  puts "\n== Updating bundler =="
+  system! "bundle", "update", "--bundler"
+
+  puts "\n== Updating gems =="
+  system! "bundle", "update", "--all"
+
+  puts "\n== Updating JS packages =="
+  system! "bin/aube", "update"
+
+  puts "\n== Updating importmap pins =="
+  system! "bin/importmap", "update"
+end
