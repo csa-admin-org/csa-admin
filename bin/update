@@ -2,11 +2,85 @@
 # frozen_string_literal: true
 
 require "fileutils"
+require "json"
 
 APP_ROOT = File.expand_path("..", __dir__)
+HERB_NPM_PACKAGES = %w[@herb-tools/linter @herb-tools/formatter].freeze
 
 def system!(*args)
   system(*args, exception: true)
+end
+
+def mise_ruby_version
+  File.read("mise.toml")[/^ruby\s*=\s*"([^"]+)"/, 1] or
+    abort "Could not read ruby version from mise.toml"
+end
+
+def sync_dockerfile_ruby!
+  ruby = mise_ruby_version
+  path = "Dockerfile"
+  contents = File.read(path)
+
+  unless contents.match?(/^ARG RUBY_VERSION=/)
+    abort "Could not find ARG RUBY_VERSION in Dockerfile"
+  end
+
+  updated = contents.sub(/^ARG RUBY_VERSION=.*$/, "ARG RUBY_VERSION=#{ruby}")
+  if updated == contents
+    puts "Dockerfile RUBY_VERSION already #{ruby}"
+  else
+    File.write(path, updated)
+    puts "Synced Dockerfile RUBY_VERSION → #{ruby}"
+  end
+end
+
+def herb_gem_version
+  out = IO.popen(
+    [ "bundle", "exec", "ruby", "-e", 'print Gem.loaded_specs.fetch("herb").version' ],
+    err: %i[child out],
+    &:read
+  )
+  abort "Failed to resolve herb gem version:\n#{out}" unless $?.success?
+  abort "herb gem version was empty" if out.strip.empty?
+
+  out.strip
+end
+
+def align_herb_npm_to_gem!
+  version = herb_gem_version
+  package = JSON.parse(File.read("package.json"))
+  deps = package.fetch("devDependencies")
+  changed = false
+
+  HERB_NPM_PACKAGES.each do |name|
+    desired = "^#{version}"
+    current = deps[name]
+    next if current == desired
+
+    puts "Aligning #{name}: #{current.inspect} → #{desired}"
+    deps[name] = desired
+    changed = true
+  end
+
+  if changed
+    File.write("package.json", JSON.pretty_generate(package) + "\n")
+    system! "bin/prettier", "--write", "package.json"
+    system! "bin/aube", "install"
+  else
+    puts "Herb npm packages already aligned to gem #{version}"
+  end
+
+  HERB_NPM_PACKAGES.each do |name|
+    installed = JSON.parse(File.read(File.join("node_modules", name, "package.json"))).fetch("version")
+    next if installed == version
+
+    abort "Installed #{name}@#{installed} does not match herb gem #{version}"
+  end
+end
+
+def upgrade_herb_yml!
+  # Bumps .herb.yml version; enables clean new rules, disables offending ones.
+  system! "bin/herb", "lint", "--upgrade"
 end
 
 FileUtils.chdir APP_ROOT do
@@ -19,6 +93,9 @@ FileUtils.chdir APP_ROOT do
   puts "\n== Upgrading mise tools =="
   system! "mise", "upgrade"
 
+  puts "\n== Syncing Dockerfile Ruby version =="
+  sync_dockerfile_ruby!
+
   puts "\n== Updating bundler =="
   system! "bundle", "update", "--bundler"
 
@@ -27,6 +104,12 @@ FileUtils.chdir APP_ROOT do
 
   puts "\n== Updating JS packages =="
   system! "bin/aube", "update"
+
+  puts "\n== Aligning Herb npm packages to gem =="
+  align_herb_npm_to_gem!
+
+  puts "\n== Upgrading .herb.yml ruleset =="
+  upgrade_herb_yml!
 
   puts "\n== Updating importmap pins =="
   system! "bin/importmap", "update"
