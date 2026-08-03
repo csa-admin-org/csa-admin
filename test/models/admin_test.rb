@@ -12,6 +12,23 @@ class AdminTest < ActiveSupport::TestCase
     end
   end
 
+  test "nullifies support tickets when destroyed" do
+    admin = admins(:external)
+    ticket = Support::Ticket.create!(
+      admin: admin,
+      subject: "Need help",
+      content: "Please delete this admin",
+      priority: :normal)
+
+    assert_difference "Admin.count", -1 do
+      assert_no_difference "Support::Ticket.count" do
+        admin.destroy!
+      end
+    end
+
+    assert_nil ticket.reload.admin_id
+  end
+
   test "sets latest_update_read on create" do
     admin = Admin.create!(
       name: "New Admin",

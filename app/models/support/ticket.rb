@@ -12,7 +12,7 @@ module Support
 
     enum :priority, %i[normal medium high]
 
-    belongs_to :admin
+    belongs_to :admin, optional: true
 
     validates :subject, presence: true
     validates :content, presence: true

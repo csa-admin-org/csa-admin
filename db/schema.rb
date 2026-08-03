@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_23_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_03_190000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -1143,7 +1143,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_23_120000) do
   end
 
   create_table "support_tickets", force: :cascade do |t|
-    t.integer "admin_id", null: false
+    t.integer "admin_id"
     t.text "content", null: false
     t.text "context"
     t.datetime "created_at", null: false
