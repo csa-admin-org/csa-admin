@@ -40,8 +40,12 @@ module SessionTracking
   end
 
   def session_cookie(session)
+    # Explicit Expires is required: a session cookie (no Expires/Max-Age) is
+    # dropped when Mobile Safari suspends or kills the tab process, so admins
+    # on iPhone must re-login on every visit. Align with server-side TTL.
     {
       value: session.id,
+      expires: session.expires_at,
       httponly: true,
       secure: Rails.env.production?,
       same_site: :lax,

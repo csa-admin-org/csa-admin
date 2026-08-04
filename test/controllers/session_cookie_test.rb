@@ -57,7 +57,7 @@ class SessionCookieTest < ActionDispatch::IntegrationTest
 
     get "/sessions/#{session.generate_token_for(:redeem)}"
 
-    assert_session_cookie
+    assert_session_cookie(session)
   end
 
   test "admin-originated member login writes auth cookie with explicit policy" do
@@ -66,7 +66,7 @@ class SessionCookieTest < ActionDispatch::IntegrationTest
 
     get "/sessions/#{session.generate_token_for(:redeem)}"
 
-    assert_session_cookie
+    assert_session_cookie(session)
   end
 
   test "admin magic-link redeem response does not allow referrers" do
@@ -242,7 +242,7 @@ class SessionCookieTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to members_member_path
-    assert_session_cookie
+    assert_session_cookie(session)
 
     follow_redirect!
     assert_not_equal members_login_url, response.location
@@ -254,7 +254,7 @@ class SessionCookieTest < ActionDispatch::IntegrationTest
 
   private
 
-  def assert_session_cookie
+  def assert_session_cookie(session = nil)
     cookie = session_cookie_header
 
     assert cookie
@@ -262,7 +262,14 @@ class SessionCookieTest < ActionDispatch::IntegrationTest
     assert_includes cookie_attributes, "path=/"
     assert_includes cookie_attributes, "httponly"
     assert_includes cookie_attributes, "samesite=lax"
-    assert_not cookie_attributes.any? { |attribute| attribute.start_with?("expires=", "max-age=") }
+    # Persistent cookie: session cookies are dropped by Mobile Safari between visits.
+    assert cookie_attributes.any? { |attribute| attribute.start_with?("expires=") }
+
+    if session
+      expires_attr = cookie_attributes.find { |attribute| attribute.start_with?("expires=") }
+      cookie_expires = Time.httpdate(expires_attr.delete_prefix("expires="))
+      assert_in_delta session.expires_at, cookie_expires, 2.seconds
+    end
   end
 
   def assert_no_referrer_policy
