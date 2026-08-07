@@ -129,3 +129,11 @@ _:
         _de: Newsletter-Titel
         _it: Titolo della newsletter
         _nl: Titel van de nieuwsbrief
+    withdraw_publication:
+      flash:
+        notice:
+          _en: Newsletter withdrawn from the public feed.
+          _fr: Newsletter retirée du flux public.
+          _de: Newsletter aus dem öffentlichen Feed entfernt.
+          _it: Newsletter ritirata dal feed pubblico.
+          _nl: Nieuwsbrief uit de openbare feed gehaald.

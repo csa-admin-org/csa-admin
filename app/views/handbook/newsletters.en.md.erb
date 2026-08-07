@@ -33,7 +33,7 @@ To facilitate the creation of your newsletters, CSA Admin offers a sophisticated
 By default, [2 templates](/newsletter_templates) are available:
 
 - <strong>Free text</strong>: a simple template with a single content block without a title.
-- <strong>Next delivery</strong>: a more complex template with multiple content blocks, as well as dynamic information ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [next activity](/handbook/activity), ...).
+- <strong>Next delivery</strong>: a more complex template with multiple content blocks, as well as dynamic information ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [next activity](/handbook/activity), ...). Its editorial blocks (`intro`, `events`, `recipe`) are marked `public: true` by default so you can expose them through a [public feed](#feed) with one checkbox; the public feed stays off until you opt in.
 
 Feel free to duplicate and modify them as you wish or [create new ones](/newsletter_templates/new).
 
@@ -66,6 +66,8 @@ Templates use the Liquid template language to insert dynamic member-specific dat
 ## Attachments {#attachments}
 
 You can add attachments to your newsletters, but the total weight of these attachments should not exceed 5 MB.
+
+If the template has the [public feed](#feed) enabled, those attachments are also published with the feed entry. Do not attach private or member-specific files to newsletters that use a public feed.
 
 If you wish to send heavier attachments, you can use an external service such as [SwissTransfer](https://www.swisstransfer.com) or host them on your website and simply add a link to these files in your newsletter.
 
@@ -100,3 +102,57 @@ All members are subscribed to newsletters by default. Each member can unsubscrib
 Members who have unsubscribed can easily subscribe again from [their account](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) in the "Newsletters" section.
 
 > Please note that the newsletter resubscription link only appears in the member's account if they have logged in themselves, and not when an admin has logged into their account on their behalf.
+
+## Public feed {#feed}
+
+You can expose selected editorial parts of sent newsletters through a public [Atom feed](https://en.wikipedia.org/wiki/Atom_(web_standard)). This is useful to automatically publish weekly newsletter content on your website, for example, or to let another tool import that content. Member-specific data is never included.
+
+### Enable the public feed on a template
+
+1. Open the [newsletter template](/newsletter_templates).
+2. Mark the `content` blocks that may be published with `public: true` (the default **Next delivery** template already does this for `intro`, `events`, and `recipe`):
+
+~~~ liquid
+{% content id: 'intro', public: true %}{% endcontent %}
+{% content id: 'echo', title: 'Field notes', public: true %}{% endcontent %}
+~~~
+
+3. Check **Public feed** on the template and save.
+
+Only `content` blocks marked `public: true` are published. Signature, unsubscribe link, audience, deliveries, and member Liquid data (`member`, `membership`, `basket`, …) are never included.
+
+The **subject** is also rendered for the public feed without member data. Personalized subjects such as `Hello {{ member.name }}` are incompatible with the public feed and will fail validation.
+
+### Feed URL
+
+When the public feed is enabled, the template shows its feed URL:
+
+<% feed_template = Newsletter::Template.find_by(feed_enabled: true) || Newsletter::Template.order(:id).first %>
+```text
+<%= members_newsletter_feed_url(host: Newsletter::Template.members_feed_host, protocol: "https", template_id: feed_template&.id || 1) %>
+```
+
+That URL lists the **10 most recent published** issues for that template (sent newsletters only). Drafts and scheduled newsletters are excluded. Enabling the public feed does **not** backfill past issues; only newsletters sent after it is enabled appear.
+
+If your organization uses several languages, add `locale=` with a supported language code to get that language version (for example `locale=fr`). Without it, the feed uses the default language.
+
+If you later **uncheck Public feed**, the URL is no longer accessible. Withdraw individual issues when you only want to remove some entries.
+
+### Sending with the public feed enabled
+
+If the template has **Public feed** enabled:
+
+- public content (including the subject) is validated before save/send in every language;
+- on send, a publication snapshot is created with the rendered public sections for each language;
+- if every public block is empty, the email is still sent but **no feed entry** is created;
+- if public Liquid cannot be rendered safely, sending is blocked until you fix it.
+
+### Images and attachments
+
+Inline images from content blocks are included in the feed. File attachments added to the newsletter are also published as Atom enclosures.
+
+External consumers (for example a website importer) should **download and re-host those files promptly** when reading the feed, rather than linking to them permanently. Active Storage URLs are temporary.
+
+### Withdraw from the feed
+
+From a sent newsletter that was published to the feed, you can **Withdraw from public feed**. The entry disappears from the feed URL. External consumers that already copied the content are not updated automatically.

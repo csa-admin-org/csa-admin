@@ -10,6 +10,11 @@ class Liquid::ContentBlock < Liquid::Block
     raise "missing content id, please specify one with (id: 'my_id')" unless @id
 
     @title = attrs[:title].presence
+    @public = parse_public(attrs[:public])
+  end
+
+  def public?
+    @public
   end
 
   def raw_body
@@ -36,6 +41,17 @@ class Liquid::ContentBlock < Liquid::Block
       value = value.gsub(/\A['":]|['"]\z/, "").strip if value
       [ key, value ]
     end.to_h.symbolize_keys
+  end
+
+  def parse_public(value)
+    return false if value.blank?
+
+    case value.to_s.downcase
+    when "true" then true
+    when "false" then false
+    else
+      raise Liquid::SyntaxError, "public must be true or false"
+    end
   end
 
   def nodelist_to_string(nodelist)

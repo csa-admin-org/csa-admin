@@ -2994,6 +2994,25 @@ _:
           _de: Betreff
           _it: Soggeto
           _nl: Onderwerp
+      newsletter/publication:
+        published_at:
+          _en: Published at
+          _fr: Publiée le
+          _de: Veröffentlicht am
+          _it: Pubblicata il
+          _nl: Gepubliceerd op
+        status:
+          _en: Status
+          _fr: Statut
+          _de: Status
+          _it: Stato
+          _nl: Status
+        withdrawn_at:
+          _en: Withdrawn at
+          _fr: Retirée le
+          _de: Zurückgezogen am
+          _it: Ritirata il
+          _nl: Ingetrokken op
       newsletter/segment:
         coming_deliveries_in_days/bag:
           _en: Next bag in at least (in days)
@@ -3062,6 +3081,12 @@ _:
           _de: Inhalt
           _it: Contenuto
           _nl: Inhoud
+        feed_enabled:
+          _en: Public feed
+          _fr: Flux public
+          _de: Öffentlicher Feed
+          _it: Feed pubblico
+          _nl: Openbare feed
       organization:
         absence_extra_text:
           _en: Additional explanation

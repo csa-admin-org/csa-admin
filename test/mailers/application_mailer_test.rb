@@ -35,13 +35,13 @@ class ApplicationMailerTest < ActionMailer::TestCase
       </action-text-attachment>
     HTML
 
-    mailer = ApplicationMailer.new
-    result = mailer.send(:sanitize_action_text_for_email, content)
+    result = ActionTextHtml.unwrap_attachments(content)
 
     assert_no_match(/<action-text-attachment/, result)
     assert_no_match(%r{</action-text-attachment>}, result)
     assert_includes result, '<div class="attachment attachment--preview">'
     assert_includes result, '<img src="https://example.com/image.jpg" />'
+    assert_equal result, ApplicationMailer.new.send(:sanitize_action_text_for_email, content)
   end
 
   test "unwraps multiple action-text-attachments" do
@@ -50,8 +50,7 @@ class ApplicationMailerTest < ActionMailer::TestCase
       <action-text-attachment width="800" height="600"><div class="attachment">img2</div></action-text-attachment>
     HTML
 
-    mailer = ApplicationMailer.new
-    result = mailer.send(:sanitize_action_text_for_email, content)
+    result = ActionTextHtml.unwrap_attachments(content)
 
     assert_no_match(/<action-text-attachment/, result)
     assert_includes result, "img1"
@@ -61,8 +60,7 @@ class ApplicationMailerTest < ActionMailer::TestCase
   test "does not affect other elements" do
     content = '<img src="logo.png" width="100" height="100" />'
 
-    mailer = ApplicationMailer.new
-    result = mailer.send(:sanitize_action_text_for_email, content)
+    result = ActionTextHtml.unwrap_attachments(content)
 
     assert_equal content, result
   end

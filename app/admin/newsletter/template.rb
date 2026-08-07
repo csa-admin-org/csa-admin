@@ -18,6 +18,9 @@ ActiveAdmin.register Newsletter::Template do
     column :newsletters, ->(t) {
       link_to t.newsletters.count, newsletters_path(q: { template_id_eq: t.id })
     }, class: "text-right"
+    column :feed_enabled, ->(t) {
+      aligned_status_tag(t.feed_enabled?)
+    }, class: "text-right"
     actions do |template|
       link_to(new_newsletter_template_path(template_id: template.id), title: t(".duplicate")) do
         icon "copy", class: "size-5"
@@ -46,6 +49,18 @@ ActiveAdmin.register Newsletter::Template do
           data: { mode: "liquid", code_editor_target: "editor" }
         })
 
+      f.input :feed_enabled, as: :boolean,
+        hint: t("formtastic.hints.newsletter/template.feed_enabled_html")
+
+      if newsletter_template.persisted? && newsletter_template.feed_url
+        li class: "input" do
+          label t("active_admin.resources.newsletter_template.feed_url"), class: "label"
+          div class: "inline-hints break-all" do
+            a newsletter_template.feed_url, href: newsletter_template.feed_url, target: "_blank", rel: "noopener"
+          end
+        end
+      end
+
       handbook_button(self, "emails")
     end
     mail_preview_inputs(self, f, newsletter_template)
@@ -53,6 +68,7 @@ ActiveAdmin.register Newsletter::Template do
   end
 
   permit_params(
+    :feed_enabled,
     *I18n.available_locales.map { |l| "title_#{l}" },
     *I18n.available_locales.map { |l| "content_#{l}" },
     liquid_data_preview_yamls: I18n.available_locales)
@@ -70,6 +86,7 @@ ActiveAdmin.register Newsletter::Template do
         [ locale, "#{title} (#{copy_word})" ]
       }.to_h
       resource.contents = template.contents
+      resource.feed_enabled = template.feed_enabled
     end
   end
 

@@ -5,7 +5,7 @@ class Newsletter
     include TranslatedRichTexts
     include Liquidable
 
-    attr_accessor :titles, :template_id
+    attr_accessor :titles, :template_id, :public_content, :public_feed
 
     self.table_name = "newsletter_blocks"
 
@@ -17,6 +17,14 @@ class Newsletter
 
     def data_name
       "#{block_id}_content"
+    end
+
+    def public_content?
+      !!public_content
+    end
+
+    def public_feed?
+      !!public_feed
     end
 
     private

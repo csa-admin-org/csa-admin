@@ -70,6 +70,10 @@ Rails.application.routes.draw do
       get "/login" => "sessions#new", as: :login
       delete "/logout" => "sessions#destroy", as: :logout
 
+      get "newsletters.atom",
+        to: "newsletter_feeds#index",
+        as: :newsletter_feed,
+        defaults: { format: :atom }
       resources :newsletter_deliveries, only: [ :index, :show ], path: "newsletters"
       get "/newsletters/unsubscribe/:token" => "newsletter_subscriptions#destroy", as: "unsubscribe_newsletter"
       #  List-Unsubscribe-Post

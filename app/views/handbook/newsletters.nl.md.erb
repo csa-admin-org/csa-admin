@@ -33,7 +33,7 @@ Om het aanmaken van je nieuwsbrieven te vergemakkelijken, biedt CSA Admin een ge
 Standaard zijn [2 sjablonen](/newsletter_templates) beschikbaar:
 
 - <strong>Vrije tekst</strong>: een eenvoudige sjabloon met een enkel inhoudsblok zonder titel.
-- <strong>Volgende levering</strong>: een meer complexe sjabloon met meerdere inhoudsblokken, evenals dynamische informatie ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [volgende activiteit](/handbook/activity), ...).
+- <strong>Volgende levering</strong>: een meer complexe sjabloon met meerdere inhoudsblokken, evenals dynamische informatie ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [volgende activiteit](/handbook/activity), ...). De redactionele blokken (`intro`, `events`, `recipe`) zijn standaard gemarkeerd met `public: true`, zodat je ze met één selectievakje via een [openbare feed](#feed) beschikbaar kunt maken; de openbare feed blijft uit tot je die activeert.
 
 Je kunt ze gerust dupliceren en naar wens wijzigen of [nieuwe aanmaken](/newsletter_templates/new).
 
@@ -66,6 +66,8 @@ Sjablonen gebruiken de Liquid-sjabloontaal om dynamische lidspecifieke gegevens 
 ## Bijlagen {#attachments}
 
 Je kunt bijlagen toevoegen aan je nieuwsbrieven, maar het totale gewicht van deze bijlagen mag niet meer dan 5 MB bedragen.
+
+Als het sjabloon de [openbare feed](#feed) heeft ingeschakeld, worden die bijlagen ook met het feed-item gepubliceerd. Voeg geen privé- of ledenspecifieke bestanden toe aan nieuwsbrieven met een openbare feed.
 
 Als je zwaardere bijlagen wilt verzenden, kun je een externe dienst zoals [SwissTransfer](https://www.swisstransfer.com) gebruiken of ze hosten op je website en eenvoudig een link naar deze bestanden toevoegen in je nieuwsbrief.
 
@@ -100,3 +102,57 @@ Alle leden zijn standaard ingeschreven voor nieuwsbrieven. Elk lid kan zich op e
 Leden die zich hebben uitgeschreven kunnen zich eenvoudig opnieuw inschrijven vanaf [hun account](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) in de sectie "Nieuwsbrieven".
 
 > Let op dat de nieuwsbrief herinschrijflink alleen verschijnt in het account van het lid als zij zelf zijn ingelogd, en niet wanneer een admin in hun account is ingelogd namens hen.
+
+## Openbare feed {#feed}
+
+Je kunt geselecteerde redactionele delen van verzonden nieuwsbrieven beschikbaar maken via een openbare [Atom-feed](https://nl.wikipedia.org/wiki/Atom_(formaat)). Dit is handig om wekelijkse nieuwsbriefinhoud automatisch op je website te publiceren, bijvoorbeeld, of om een andere tool die inhoud te laten importeren. Ledenspecifieke gegevens worden nooit meegenomen.
+
+### Openbare feed op een sjabloon inschakelen
+
+1. Open het [nieuwsbriefsjabloon](/newsletter_templates).
+2. Markeer de publiceerbare `content`-blokken met `public: true` (het standaardsjabloon **Volgende levering** doet dat al voor `intro`, `events` en `recipe`):
+
+~~~ liquid
+{% content id: 'intro', public: true %}{% endcontent %}
+{% content id: 'echo', title: 'Veldnotities', public: true %}{% endcontent %}
+~~~
+
+3. Vink **Openbare feed** op het sjabloon aan en sla op.
+
+Alleen `content`-blokken met `public: true` worden gepubliceerd. Handtekening, uitschrijflink, doelgroep, afleveringen en leden-Liquid-gegevens (`member`, `membership`, `basket`, …) worden nooit meegenomen.
+
+Ook het **onderwerp** wordt voor de openbare feed zonder ledgegevens gerenderd. Gepersonaliseerde onderwerpen zoals `Hallo {{ member.name }}` zijn daarmee niet compatibel en falen bij validatie.
+
+### Feed-URL
+
+Als de openbare feed is ingeschakeld, toont het sjabloon de feed-URL:
+
+<% feed_template = Newsletter::Template.find_by(feed_enabled: true) || Newsletter::Template.order(:id).first %>
+```text
+<%= members_newsletter_feed_url(host: Newsletter::Template.members_feed_host, protocol: "https", template_id: feed_template&.id || 1) %>
+```
+
+Die URL toont de **10 meest recente gepubliceerde** nummers van dat sjabloon (alleen verzonden nieuwsbrieven). Concepten en geplande nieuwsbrieven zijn uitgesloten. De openbare feed inschakelen vult het verleden **niet** aan; alleen nieuwsbrieven die daarna worden verzonden verschijnen.
+
+Als je organisatie meerdere talen gebruikt, voeg dan `locale=` toe met een ondersteunde taalcode om die taalversie te krijgen (bijvoorbeeld `locale=nl`). Zonder die parameter gebruikt de feed de standaardtaal.
+
+Als je later **Openbare feed uitvinkt**, is de URL niet meer toegankelijk. Haal afzonderlijke nummers uit de feed als je alleen sommige items wilt verwijderen.
+
+### Verzenden met openbare feed ingeschakeld
+
+Als het sjabloon **Openbare feed** heeft ingeschakeld:
+
+- openbare inhoud (inclusief het onderwerp) wordt in elke taal gevalideerd vóór opslaan/verzenden;
+- bij verzenden wordt een publicatie-snapshot gemaakt met de gerenderde openbare secties voor elke taal;
+- als alle openbare blokken leeg zijn, wordt de e-mail nog steeds verzonden maar wordt **geen feed-item** aangemaakt;
+- als openbare Liquid niet veilig kan worden gerenderd, wordt verzenden geblokkeerd tot je het corrigeert.
+
+### Afbeeldingen en bijlagen
+
+Ingesloten afbeeldingen uit contentblokken worden in de feed opgenomen. Bijlagen die aan de nieuwsbrief zijn toegevoegd worden ook als Atom-enclosures gepubliceerd.
+
+Externe consumers (bijvoorbeeld een website-importer) moeten die bestanden bij het lezen van de feed **snel downloaden en opnieuw hosten**, in plaats van ze permanent op afstand te koppelen. Active Storage-URL's zijn tijdelijk.
+
+### Uit de feed halen
+
+Vanaf een verzonden nieuwsbrief die in de feed is gepubliceerd kun je **Uit openbare feed halen**. Het item verdwijnt uit de feed-URL. Externe consumers die de inhoud al hebben gekopieerd worden niet automatisch bijgewerkt.

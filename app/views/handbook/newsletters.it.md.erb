@@ -33,7 +33,7 @@ Per facilitare la creazione delle tue newsletter, CSA Admin offre un sistema di 
 Per impostazione predefinita, sono disponibili [due modelli](/newsletter_templates):
 
 - <strong>Testo libero</strong>: un modello semplice con un solo blocco di contenuto senza titolo.
-- <strong>Prossima consegna</strong>: un modello più completo con più blocchi di contenuto e informazioni dinamiche ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [prossima attività](/handbook/activity), ...).
+- <strong>Prossima consegna</strong>: un modello più completo con più blocchi di contenuto e informazioni dinamiche ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [prossima attività](/handbook/activity), ...). I blocchi editoriali (`intro`, `events`, `recipe`) sono contrassegnati `public: true` per impostazione predefinita, così puoi esporli tramite un [feed pubblico](#feed) con una sola casella; il feed pubblico resta disattivato finché non lo attivi.
 
 Sentiti libero di duplicarli e modificarli come desideri o [crearne di nuovi](/newsletter_templates/new).
 
@@ -66,6 +66,8 @@ I modelli utilizzano il linguaggio Liquid per inserire dati dinamici specifici p
 ## Allegati {#attachments}
 
 Puoi aggiungere allegati alle tue newsletters, ma il peso totale di questi allegati non deve superare i 5 MB.
+
+Se il modello ha il [feed pubblico](#feed) attivo, quegli allegati vengono pubblicati anche con la voce del feed. Non allegare file privati o specifici dei soci alle newsletter che usano un feed pubblico.
 
 Se desideri inviare allegati più pesanti, puoi utilizzare un servizio esterno come [SwissTransfer](https://www.swisstransfer.com) oppure ospitarli sul tuo sito e aggiungere un collegamento ai file nella newsletter.
 
@@ -100,3 +102,57 @@ Tutti i soci sono iscritti alle newsletter per impostazione predefinita. Ogni so
 I soci che si sono disiscritti possono facilmente iscriversi nuovamente dal [loro account](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) nella sezione "Newsletters".
 
 > Nota che il collegamento per reiscriversi alle newsletter appare nell'account del socio solo dopo che il socio vi ha effettuato personalmente l'accesso, non quando un amministratore accede per suo conto.
+
+## Feed pubblico {#feed}
+
+Puoi esporre parti editoriali selezionate delle newsletter inviate tramite un [feed Atom](https://it.wikipedia.org/wiki/Atom) pubblico. È utile per pubblicare automaticamente i contenuti settimanali della newsletter sul tuo sito web, ad esempio, o per consentire a un altro strumento di importare quel contenuto. I dati specifici dei soci non sono mai inclusi.
+
+### Attivare il feed pubblico su un modello
+
+1. Apri il [modello di newsletter](/newsletter_templates).
+2. Contrassegna i blocchi `content` pubblicabili con `public: true` (il modello predefinito **Prossima consegna** lo fa già per `intro`, `events` e `recipe`):
+
+~~~ liquid
+{% content id: 'intro', public: true %}{% endcontent %}
+{% content id: 'echo', title: 'Note dal campo', public: true %}{% endcontent %}
+~~~
+
+3. Spunta **Feed pubblico** sul modello e salva.
+
+Solo i blocchi `content` contrassegnati `public: true` vengono pubblicati. Firma, link di disiscrizione, pubblico, consegne e dati Liquid dei soci (`member`, `membership`, `basket`, …) non sono mai inclusi.
+
+Anche l'**oggetto** viene reso per il feed pubblico senza dati del socio. Oggetti personalizzati come `Ciao {{ member.name }}` sono incompatibili con il feed pubblico e falliscono la convalida.
+
+### URL del feed
+
+Quando il feed pubblico è attivo, il modello mostra il suo URL del feed:
+
+<% feed_template = Newsletter::Template.find_by(feed_enabled: true) || Newsletter::Template.order(:id).first %>
+```text
+<%= members_newsletter_feed_url(host: Newsletter::Template.members_feed_host, protocol: "https", template_id: feed_template&.id || 1) %>
+```
+
+Quell'URL elenca le **10 pubblicazioni più recenti** di quel modello (solo newsletter inviate). Bozze e newsletter programmate sono escluse. Attivare il feed pubblico **non** ripubblica lo storico; compaiono solo le newsletter inviate dopo l'attivazione.
+
+Se la tua organizzazione usa più lingue, aggiungi `locale=` con un codice lingua supportato per ottenere quella versione (ad esempio `locale=it`). Senza questo parametro, il feed usa la lingua predefinita.
+
+Se in seguito **disattivi Feed pubblico**, l'URL non è più accessibile. Ritira le uscite una per una quando vuoi rimuovere solo alcune voci.
+
+### Invio con il feed pubblico attivo
+
+Se il modello ha **Feed pubblico** attivo:
+
+- il contenuto pubblico (incluso l'oggetto) è convalidato prima del salvataggio/invio in ogni lingua;
+- all'invio viene creato uno snapshot di pubblicazione con le sezioni pubbliche rese per ogni lingua;
+- se tutti i blocchi pubblici sono vuoti, l'email viene comunque inviata ma **nessuna voce del feed** è creata;
+- se il Liquid pubblico non può essere reso in modo sicuro, l'invio è bloccato finché non lo correggi.
+
+### Immagini e allegati
+
+Le immagini incorporate nei blocchi di contenuto sono incluse nel feed. Gli allegati aggiunti alla newsletter sono pubblicati anche come enclosure Atom.
+
+I consumatori esterni (ad esempio un importatore del sito) dovrebbero **scaricare e ripubblicare quei file tempestivamente** quando leggono il feed, invece di collegarli permanentemente in remoto. Gli URL di Active Storage sono temporanei.
+
+### Ritiro dal feed
+
+Da una newsletter inviata pubblicata nel feed puoi **Ritirare dal feed pubblico**. La voce scompare dall'URL del feed. I consumatori esterni che hanno già copiato il contenuto non vengono aggiornati automaticamente.

@@ -27,7 +27,8 @@ class Ability
       Newsletter,
       MailDelivery,
       Newsletter::Segment,
-      Newsletter::Template
+      Newsletter::Template,
+      Newsletter::Publication
     ]
   }
 
@@ -175,6 +176,7 @@ class Ability
       can :preview, [ Newsletter, Newsletter::Template ]
       can :unschedule, Newsletter
       can :send_email, Newsletter, can_send_email?: true
+      can :withdraw_publication, Newsletter, can_withdraw_publication?: true
       can :deliver_missing_email, MailDelivery
     end
 
@@ -188,6 +190,10 @@ class Ability
     can :update, writable_models, can_update?: true
     can :destroy, writable_models, can_destroy?: true
     can :batch_action, writable_models
+
+    # Publications are side-effects of Newsletter#send!, not admin-created records.
+    cannot :create, Newsletter::Publication
+    cannot :batch_action, Newsletter::Publication
 
     if admin.permission.can_write?(:bidding_round) && !BiddingRound.can_create?
       cannot :create, BiddingRound

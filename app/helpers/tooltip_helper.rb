@@ -1,16 +1,23 @@
 # frozen_string_literal: true
 
 module TooltipHelper
-  def tooltip(id, text, icon_name: "info", icon_class: "size-5")
+  def tooltip(id, text, icon_name: "info", icon_class: "size-5", trigger_class: nil, &block)
     tooltip_id = "tooltip-#{id}"
+    # Use a span (not button) so the trigger stays valid inside Formtastic
+    # <p class="inline-hints"> wrappers and similar phrasing contexts.
+    trigger_classes = [
+      trigger_class || "block",
+      "z-20 cursor-default hover:text-gray-900 dark:hover:text-gray-100"
+    ].join(" ")
 
     content_tag(:span,
       class: "relative inline-flex",
       data: { controller: "tooltip" }
     ) do
-      content_tag(:button,
-        type: "button",
-        class: "block z-20 hover:text-gray-900 dark:hover:text-gray-100",
+      content_tag(:span,
+        class: trigger_classes,
+        tabindex: 0,
+        role: "button",
         data: {
           "tooltip-target" => "trigger",
           action: "mouseenter->tooltip#show mouseleave->tooltip#hide focus->tooltip#show blur->tooltip#hide"
@@ -18,7 +25,11 @@ module TooltipHelper
         aria: { describedby: tooltip_id },
         onclick: "event.stopPropagation()"
       ) {
-        icon icon_name, class: icon_class
+        if block
+          capture(&block)
+        else
+          icon icon_name, class: icon_class
+        end
       } +
       tooltip_element(text, id: tooltip_id)
     end
@@ -55,7 +66,8 @@ module TooltipHelper
   end
 
   def tooltip_element(content, id: nil)
-    _floating_element(id: id) { content_tag(:p, content) }
+    # span (not p/div): valid phrasing content inside Formtastic <p class="inline-hints">
+    _floating_element(id: id) { content_tag(:span, content, class: "block") }
   end
 
   def popover_element(id: nil, hover: false, &block)
@@ -66,12 +78,12 @@ module TooltipHelper
       focusout->tooltip#hidePreview
     ] if hover
 
-    _floating_element(id: id, action: actions&.join(" ")) { capture(&block) }
+    _floating_element(id: id, action: actions&.join(" "), tag: :div) { capture(&block) }
   end
 
   private
 
-  def _floating_element(id: nil, action: nil)
+  def _floating_element(id: nil, action: nil, tag: :span)
     data = { "tooltip-target" => "content" }
     data[:action] = action if action
 
@@ -81,8 +93,8 @@ module TooltipHelper
       data: data
     }
     html_options[:id] = id if id
-    content_tag(:div, **html_options) do
-      yield + content_tag(:div, nil, class: "tooltip-arrow", data: { "tooltip-target" => "arrow" })
+    content_tag(tag, **html_options) do
+      yield + content_tag(:span, nil, class: "tooltip-arrow", data: { "tooltip-target" => "arrow" })
     end
   end
 end

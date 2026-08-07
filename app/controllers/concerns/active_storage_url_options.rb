@@ -6,6 +6,10 @@ module ActiveStorageUrlOptions
   CLOUDFLARE_REDIRECT_CACHE_DURATION =
     ActiveStorage.service_urls_expire_in - 1.minute
 
+  included do
+    helper_method :active_storage_url_options
+  end
+
   private
 
   def cache_active_storage_redirect

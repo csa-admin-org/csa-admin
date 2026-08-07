@@ -13,6 +13,10 @@ class Newsletter
     attr_accessor :no_preview
 
     has_many :newsletters, foreign_key: "newsletter_template_id"
+    has_many :publications,
+      class_name: "Newsletter::Publication",
+      foreign_key: "newsletter_template_id",
+      dependent: :restrict_with_exception
 
     audited_attributes :contents
 
@@ -22,6 +26,7 @@ class Newsletter
     validate :contents_must_be_valid
     validate :content_block_ids_must_be_unique
     validate :content_block_ids_must_be_equal_for_all_languages
+    validate :feed_enabled_requires_public_content_block
 
     def self.create_defaults!
       DEFAULTS.each do |key|
@@ -91,6 +96,32 @@ class Newsletter
         content_blocks.flat_map { |_locale, blocks| blocks.map(&:id) }.uniq
     end
 
+    def public_content_block_ids
+      content_blocks.flat_map { |_locale, blocks|
+        blocks.select(&:public?).map(&:id)
+      }.uniq
+    end
+
+    def self.members_feed_host
+      host = Tenant.members_host
+      if Rails.env.local?
+        # Match ApplicationMailer#mailer_host: production TLD → .test
+        # e.g. membres.ragedevert.ch → membres.ragedevert.test
+        parsed = PublicSuffix.parse(host)
+        host = [ parsed.trd, parsed.sld, "test" ].compact.join(".")
+      end
+      host
+    end
+
+    def feed_url
+      return unless feed_enabled?
+
+      Rails.application.routes.url_helpers.members_newsletter_feed_url(
+        host: self.class.members_feed_host,
+        protocol: "https",
+        template_id: id)
+    end
+
     def blocks
       content_blocks_by_locale = content_blocks
       block_ids =
@@ -98,17 +129,16 @@ class Newsletter
           content_blocks_by_locale.flat_map { |_locale, blocks| blocks.map(&:id) }.uniq
 
       block_ids.map { |block_id|
+        locale_blocks = content_blocks_by_locale.map { |locale, blocks|
+          [ locale, blocks.find { |b| b.id == block_id } ]
+        }
         Newsletter::Block.new(
           block_id: block_id,
           template_id: id,
-          contents: content_blocks_by_locale.map { |locale, blocks|
-            block = blocks.find { |b| b.id == block_id }
-            [ locale, block.raw_body ]
-          }.to_h,
-          titles: content_blocks_by_locale.map { |locale, blocks|
-            block = blocks.find { |b| b.id == block_id }
-            [ locale, block.title ]
-          }.to_h)
+          public_content: locale_blocks.any? { |_locale, block| block&.public? },
+          public_feed: feed_enabled?,
+          contents: locale_blocks.to_h { |locale, block| [ locale, block&.raw_body ] },
+          titles: locale_blocks.to_h { |locale, block| [ locale, block&.title ] })
       }
     end
 
@@ -146,6 +176,15 @@ class Newsletter
         if ids != content_block_ids
           errors.add("content_#{locale}".to_sym, :content_block_ids_must_be_equal_for_all_languages)
         end
+      end
+    rescue Liquid::SyntaxError
+    end
+
+    def feed_enabled_requires_public_content_block
+      return unless feed_enabled?
+
+      if public_content_block_ids.empty?
+        errors.add(:feed_enabled, :requires_public_content_block)
       end
     rescue Liquid::SyntaxError
     end

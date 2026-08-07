@@ -46,9 +46,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def sanitize_action_text_for_email(content)
-    content
-      .gsub(/<action-text-attachment\b[^>]*>/i, "")
-      .gsub(%r{</action-text-attachment>}i, "")
+    ActionTextHtml.unwrap_attachments(content)
   end
 
   def set_postmark_server_token

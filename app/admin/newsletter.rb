@@ -100,6 +100,25 @@ ActiveAdmin.register Newsletter do
           end
         end
 
+        if publication = newsletter.publication
+          panel t(".publication"),
+            icon: "rss",
+            action: newsletter_publication_panel_action(publication) do
+              attributes_table_for publication do
+                row(:status) {
+                  if publication.withdrawn?
+                    aligned_status_tag(:withdrawn)
+                  else
+                    aligned_status_tag(:published)
+                  end
+                }
+                if publication.withdrawn?
+                  row(:withdrawn_at) { I18n.l(publication.withdrawn_at, format: :medium) }
+                end
+              end
+            end
+        end
+
         deliveries_count = newsletter.mail_deliveries.count
         deliveries_purged = newsletter.sent? && deliveries_count == 0
         deliveries_count = nil if deliveries_purged
@@ -194,7 +213,7 @@ ActiveAdmin.register Newsletter do
             label = b.object.titles[locale] || b.object.block_id.titleize
             label_with_language(label, locale)
           },
-          hint: t("formtastic.hints.liquid_html"),
+          hint: newsletter_block_content_hint(b.object),
           wrapper_html: {
             data: {
               form_select_hidder_target: "element",
@@ -260,6 +279,14 @@ ActiveAdmin.register Newsletter do
       icon: "send-horizontal"
   end
 
+  action_item :withdraw_publication, class: "left-margin", only: :show,
+    if: -> { authorized?(:withdraw_publication, resource) && resource.can_withdraw_publication? } do
+    action_button t(".withdraw_publication"), withdraw_publication_newsletter_path(resource),
+      data: { confirm: t(".newsletter.withdraw_publication_confirm") },
+      class: "destructive",
+      icon: "circle-off"
+  end
+
   member_action :unschedule, method: :put do
     resource.unschedule!
     redirect_to resource_path
@@ -267,6 +294,11 @@ ActiveAdmin.register Newsletter do
 
   member_action :send_email, method: :post do
     resource.send!
+    redirect_to resource_path, notice: t(".flash.notice")
+  end
+
+  member_action :withdraw_publication, method: :post do
+    resource.withdraw_publication!
     redirect_to resource_path, notice: t(".flash.notice")
   end
 

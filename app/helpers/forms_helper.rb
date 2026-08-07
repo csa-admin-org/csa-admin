@@ -1,6 +1,30 @@
 # frozen_string_literal: true
 
 module FormsHelper
+  def newsletter_block_content_hint(block)
+    if block.public_content? && block.public_feed?
+      content_tag(:span, class: "flex flex-wrap items-start justify-between gap-x-3 gap-y-1") do
+        safe_join([
+          content_tag(:span,
+            t("formtastic.hints.newsletter/block.public_content_html").html_safe),
+          tooltip(
+            "newsletter-block-#{block.template_id}-#{block.block_id}-public",
+            t("active_admin.resource.form.newsletter.public_content_tooltip"),
+            trigger_class: "inline-flex shrink-0 items-center gap-1.5 text-gray-600 dark:text-gray-300") do
+            safe_join([
+              icon("eye", class: "size-4"),
+              content_tag(:span,
+                t("active_admin.resource.form.newsletter.public_content"),
+                class: "font-medium")
+            ])
+          end
+        ])
+      end
+    else
+      t("formtastic.hints.liquid_html").html_safe
+    end
+  end
+
   def mail_preview_inputs(arbre, form, record)
     param_key = record.class.model_name.param_key
     arbre.div "data-controller" => "iframe", class: "w-full flex flex-wrap gap-5" do

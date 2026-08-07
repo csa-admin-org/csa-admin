@@ -164,4 +164,19 @@ module ApplicationHelper
       icon "book-open", class: "size-5"
     end
   end
+
+  def newsletter_publication_panel_action(publication)
+    feed_url = publication.template.feed_url
+    return if feed_url.blank?
+
+    label = t("active_admin.resources.newsletter_template.feed_url")
+    link_to(
+      feed_url,
+      title: label,
+      aria: { label: label },
+      target: "_blank",
+      rel: "noopener") do
+      icon "external-link", class: "size-5"
+    end
+  end
 end

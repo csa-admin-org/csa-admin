@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_03_190000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_05_120100) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -800,6 +800,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_03_190000) do
     t.index ["newsletter_id"], name: "index_newsletter_blocks_on_newsletter_id"
   end
 
+  create_table "newsletter_publications", force: :cascade do |t|
+    t.string "atom_id", null: false
+    t.string "content_digest", null: false
+    t.datetime "created_at", null: false
+    t.integer "newsletter_id", null: false
+    t.integer "newsletter_template_id", null: false
+    t.json "payload", default: {}, null: false
+    t.datetime "published_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "withdrawn_at"
+    t.index ["atom_id"], name: "index_newsletter_publications_on_atom_id", unique: true
+    t.index ["newsletter_id"], name: "index_newsletter_publications_on_newsletter_id", unique: true
+    t.index ["newsletter_template_id", "published_at"], name: "index_newsletter_publications_on_template_and_published_at"
+    t.index ["newsletter_template_id"], name: "index_newsletter_publications_on_newsletter_template_id"
+  end
+
   create_table "newsletter_segments", force: :cascade do |t|
     t.json "basket_complement_ids", default: [], null: false
     t.json "basket_size_ids", default: [], null: false
@@ -826,6 +842,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_03_190000) do
   create_table "newsletter_templates", force: :cascade do |t|
     t.json "contents", default: {}, null: false
     t.datetime "created_at", null: false
+    t.boolean "feed_enabled", default: false, null: false
     t.json "titles", default: {}, null: false
     t.datetime "updated_at", null: false
   end
@@ -1195,6 +1212,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_03_190000) do
   add_foreign_key "memberships", "depots", column: "alternate_depot_id"
   add_foreign_key "memberships_basket_complements", "delivery_cycles"
   add_foreign_key "newsletter_blocks", "newsletters"
+  add_foreign_key "newsletter_publications", "newsletter_templates"
+  add_foreign_key "newsletter_publications", "newsletters"
   add_foreign_key "newsletters", "newsletter_templates"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "members"

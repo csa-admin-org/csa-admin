@@ -2248,6 +2248,14 @@ _:
           _de: Mehr anzeigen
           _it: Mostra altro
           _nl: Meer tonen
+    newsletter_feeds:
+      index:
+        subtitle:
+          _en: Latest %{limit} public newsletters from %{organization}
+          _fr: Les %{limit} dernières newsletters publiques de %{organization}
+          _de: Die neuesten %{limit} öffentlichen Newsletter von %{organization}
+          _it: Le ultime %{limit} newsletter pubbliche di %{organization}
+          _nl: De nieuwste %{limit} openbare nieuwsbrieven van %{organization}
     newsletter_subscriptions:
       create:
         title:

@@ -27,6 +27,12 @@ _:
           _de: Das Mandats-PDF konnte nicht erzeugt werden. Bitte erneut versuchen.
           _it: Non è stato possibile generare il PDF del mandato. Riprova.
           _nl: De machtiging-PDF kon niet worden gegenereerd. Probeer het opnieuw.
+        public_projection_invalid:
+          _en: Public feed content could not be rendered. Fix Liquid in public content blocks or the subject.
+          _fr: Le contenu du flux public n'a pas pu être généré. Corrigez le Liquid des blocs publics ou du sujet.
+          _de: Der Inhalt für den öffentlichen Feed konnte nicht gerendert werden. Liquid in öffentlichen Inhaltsblöcken oder im Betreff korrigieren.
+          _it: Il contenuto del feed pubblico non può essere generato. Correggete il Liquid nei blocchi pubblici o nell'oggetto.
+          _nl: De inhoud voor de openbare feed kon niet worden gerenderd. Corrigeer de Liquid in openbare contentblokken of in het onderwerp.
     format:
       _en: "%{attribute} %{message}"
       _fr: "%{attribute} %{message}"
@@ -232,6 +238,12 @@ _:
         _de: Abonnement bereits erneuert
         _it: Abbonamento già rinnovato
         _nl: Lidmaatschap al vernieuwd
+      requires_public_content_block:
+        _en: 'requires at least one content block marked with public: true'
+        _fr: 'nécessite au moins un bloc de contenu marqué avec public: true'
+        _de: 'erfordert mindestens einen Inhaltsblock mit public: true'
+        _it: 'richiede almeno un blocco di contenuto contrassegnato con public: true'
+        _nl: 'vereist minstens één contentblok gemarkeerd met public: true'
       same_fiscal_year:
         _en: must be in the same fiscal year
         _fr: doit être dans la même année fiscale

@@ -19,6 +19,7 @@ class Newsletter < ApplicationRecord
     class_name: "Newsletter::Template",
     foreign_key: "newsletter_template_id"
   has_many :blocks, class_name: "Newsletter::Block", dependent: :destroy
+  has_one :publication, class_name: "Newsletter::Publication", dependent: :destroy
 
   accepts_nested_attributes_for :blocks, allow_destroy: true
 
@@ -35,6 +36,7 @@ class Newsletter < ApplicationRecord
   validates :audience, presence: true
   validate :subjects_must_be_valid
   validate :at_least_one_block_must_be_present
+  validate :public_projection_must_be_valid, if: :validate_public_projection?
   validates :scheduled_at,
     date: { after: proc { Date.current } },
     allow_nil: true,
@@ -127,8 +129,21 @@ class Newsletter < ApplicationRecord
       self.scheduled_at = nil
       self.sent_at = Time.current
       save!
+      create_publication_if_needed!
       create_deliveries!(draft: false)
     end
+  end
+
+  def public_projection(locale: nil)
+    PublicProjection.new(self, locale: locale)
+  end
+
+  def can_withdraw_publication?
+    publication.present? && !publication.withdrawn?
+  end
+
+  def withdraw_publication!
+    publication&.withdraw!
   end
 
   def mail_preview(locale)
@@ -247,5 +262,24 @@ class Newsletter < ApplicationRecord
         self.send "audience_name_#{locale}=", Audience.name(audience_segment)
       end
     end
+  end
+
+  def validate_public_projection?
+    !sent? && template&.feed_enabled?
+  end
+
+  def public_projection_must_be_valid
+    Current.org.languages.each do |locale|
+      public_projection(locale: locale).payload
+    end
+  rescue PublicProjection::Error
+    errors.add(:base, :public_projection_invalid)
+  end
+
+  def create_publication_if_needed!
+    return unless template.feed_enabled?
+
+    # Fail closed: feed-enabled templates must project safely (raises PublicProjection::Error).
+    Publication.create_from_newsletter!(self)
   end
 end

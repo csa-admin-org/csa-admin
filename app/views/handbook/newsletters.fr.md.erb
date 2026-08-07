@@ -33,7 +33,7 @@ Pour faciliter la création de vos newsletters, CSA Admin propose un système de
 Par défaut, [deux modèles](/newsletter_templates) sont disponibles:
 
 - <strong>Texte libre</strong>: un modèle simple avec un seul bloc de contenu sans titre.
-- <strong>Prochaine livraison</strong>: un modèle plus complet avec plusieurs blocs de contenu et des informations dynamiques ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [prochaine activité](/handbook/activity), ...).
+- <strong>Prochaine livraison</strong>: un modèle plus complet avec plusieurs blocs de contenu et des informations dynamiques ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [prochaine activité](/handbook/activity), ...). Ses blocs éditoriaux (`intro`, `events`, `recipe`) sont marqués `public: true` par défaut, pour les exposer via un [flux public](#feed) en une case à cocher; le flux public reste désactivé tant que vous ne l'activez pas.
 
 N'hésitez pas à les dupliquer et à les modifier à votre guise ou en [créer de nouveaux](/newsletter_templates/new).
 
@@ -66,6 +66,8 @@ Les modèles utilisent le langage Liquid pour insérer des données dynamiques p
 ## Pièces jointes {#attachments}
 
 Vous pouvez ajouter des pièces jointes à vos newsletters, mais le poids total de ces pièces jointes ne doit pas dépasser 5 Mo.
+
+Si le modèle a le [flux public](#feed) activé, ces pièces jointes sont aussi publiées avec l'entrée du flux. N'attachez pas de fichiers privés ou spécifiques aux membres aux newsletters qui utilisent un flux public.
 
 Si vous souhaitez envoyer des pièces jointes plus lourdes, vous pouvez utiliser un service externe tel que [SwissTransfer](https://www.swisstransfer.com) ou les héberger sur votre site et simplement ajouter un lien vers ces fichiers dans votre newsletter.
 
@@ -100,3 +102,57 @@ Tous les membres sont inscrits par défaut aux newsletters. Chaque membre peut s
 Les membres qui se sont désinscrits peuvent facilement s'abonner à nouveau depuis [leur compte](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) dans la section "Newsletters".
 
 > Merci de noter que le lien de réinscription aux newsletters n'apparaît dans le compte du membre que si celui-ci s'est connecté lui-même, et non lorsqu'un admin accède au compte à sa place.
+
+## Flux public {#feed}
+
+Vous pouvez exposer certaines parties éditoriales des newsletters envoyées via un [flux Atom](https://fr.wikipedia.org/wiki/Atom_Syndication_Format) public. C'est utile pour publier automatiquement le contenu hebdomadaire de vos newsletters sur votre site web, par exemple, ou pour permettre à un autre outil d'importer ce contenu. Les données spécifiques aux membres ne sont jamais incluses.
+
+### Activer le flux public sur un modèle
+
+1. Ouvrez le [modèle de newsletter](/newsletter_templates).
+2. Marquez les blocs `content` publiables avec `public: true` (le modèle par défaut **Prochaine livraison** le fait déjà pour `intro`, `events` et `recipe`):
+
+~~~ liquid
+{% content id: 'intro', public: true %}{% endcontent %}
+{% content id: 'echo', title: 'Écho des champs', public: true %}{% endcontent %}
+~~~
+
+3. Cochez **Flux public** sur le modèle et enregistrez.
+
+Seuls les blocs `content` marqués `public: true` sont publiés. La signature, le lien de désinscription, l'audience, les envois et les données Liquid membres (`member`, `membership`, `basket`, …) ne sont jamais inclus.
+
+Le **sujet** est aussi rendu pour le flux public sans données membre. Les sujets personnalisés comme `Bonjour {{ member.name }}` sont incompatibles avec le flux public et échoueront à la validation.
+
+### URL du flux
+
+Lorsque le flux public est activé, le modèle affiche son URL de flux:
+
+<% feed_template = Newsletter::Template.find_by(feed_enabled: true) || Newsletter::Template.order(:id).first %>
+```text
+<%= members_newsletter_feed_url(host: Newsletter::Template.members_feed_host, protocol: "https", template_id: feed_template&.id || 1) %>
+```
+
+Cette URL liste les **10 publications les plus récentes** pour ce modèle (newsletters envoyées uniquement). Les brouillons et newsletters planifiées sont exclus. Activer le flux public ne republie **pas** l'historique; seules les newsletters envoyées après l'activation apparaissent.
+
+Si votre organisation utilise plusieurs langues, ajoutez `locale=` avec un code de langue supporté pour obtenir cette version (par exemple `locale=fr`). Sans ce paramètre, le flux utilise la langue par défaut.
+
+Si vous **décochez Flux public** plus tard, l'URL n'est plus accessible. Retirez les numéros un par un lorsque vous ne voulez supprimer que certaines entrées.
+
+### Envoi avec le flux public activé
+
+Si le modèle a **Flux public** activé:
+
+- le contenu public (y compris le sujet) est validé avant l'enregistrement/l'envoi dans chaque langue;
+- à l'envoi, un instantané de publication est créé avec les sections publiques rendues pour chaque langue;
+- si tous les blocs publics sont vides, l'email est quand même envoyé mais **aucune entrée de flux** n'est créée;
+- si le Liquid public ne peut pas être rendu sans risque, l'envoi est bloqué jusqu'à correction.
+
+### Images et pièces jointes
+
+Les images intégrées des blocs de contenu sont incluses dans le flux. Les pièces jointes ajoutées à la newsletter sont aussi publiées comme enclosures Atom.
+
+Les consommateurs externes (par exemple un importateur de site web) doivent **télécharger et republier ces fichiers rapidement** lors de la lecture du flux, plutôt que de les lier en permanence à distance. Les URLs Active Storage sont temporaires.
+
+### Retrait du flux
+
+Depuis une newsletter envoyée publiée dans le flux, vous pouvez **Retirer du flux public**. L'entrée disparaît de l'URL du flux. Les consommateurs externes qui ont déjà copié le contenu ne sont pas mis à jour automatiquement.

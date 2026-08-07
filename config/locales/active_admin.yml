@@ -1719,6 +1719,19 @@ _:
           _de: Abo-Änderungen
           _it: Modifiche all'abbonamento
           _nl: Lidmaatschapswijzigingen
+        newsletter:
+          public_content:
+            _en: Public content
+            _fr: Contenu public
+            _de: Öffentlicher Inhalt
+            _it: Contenuto pubblico
+            _nl: Openbare inhoud
+          public_content_tooltip:
+            _en: This content can appear in the public feed after the newsletter is sent. Avoid private or member-specific information.
+            _fr: Ce contenu peut apparaître dans le flux public après l'envoi de la newsletter. Évitez les informations privées ou spécifiques aux membres.
+            _de: Dieser Inhalt kann nach dem Versand im öffentlichen Feed erscheinen. Private oder mitgliederspezifische Angaben vermeiden.
+            _it: Questo contenuto può comparire nel feed pubblico dopo l'invio della newsletter. Evitate informazioni private o specifiche dei soci.
+            _nl: Deze inhoud kan na verzending in de openbare feed verschijnen. Vermijd privé- of ledenspecifieke informatie.
         no_features_selected:
           _en: No features selected yet for your organization.
           _fr: Aucune fonctionnalité sélectionnée pour votre organisation.
@@ -2660,6 +2673,12 @@ _:
           _de: Die letzten Anteile sind für die ungenutzten inbegriffenen Abwesenheiten des Mitglieds provisorisch als abwesend markiert. Die Lieferung kann erzwungen werden, wenn das Mitglied eine inbegriffene Abwesenheit nicht nutzen möchte.
           _it: Le ultime parti sono marcate provvisoriamente come assenti per le assenze incluse non utilizzate dal socio. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
           _nl: De laatste delen zijn voorlopig als afwezig gemarkeerd voor de ongebruikte inbegrepen afwezigheden van het lid. De levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
+        publication:
+          _en: Public feed
+          _fr: Flux public
+          _de: Öffentlicher Feed
+          _it: Feed pubblico
+          _nl: Openbare feed
         recipients:
           _en: Recipients
           _fr: Destinataires
@@ -3789,6 +3808,13 @@ _:
             _de: Gesendete
             _it: Inviato
             _nl: Verzonden
+      newsletter_template:
+        feed_url:
+          _en: Public feed URL
+          _fr: URL du flux public
+          _de: URL des öffentlichen Feeds
+          _it: URL del feed pubblico
+          _nl: URL van de openbare feed
       organization:
         activate_feature:
           _en: Activate this feature
@@ -4495,6 +4521,12 @@ _:
             _de: Der Newsletter wird sofort an %{members_count} Mitglieder gesendet; das geplante Datum wird ignoriert. Fortfahren?
             _it: La newsletter sarà inviata immediatamente a %{members_count} soci, ignorando la data pianificata. Siete sicuri?
             _nl: De nieuwsbrief wordt onmiddellijk naar %{members_count} leden verzonden; de geplande datum wordt genegeerd. Doorgaan?
+          withdraw_publication_confirm:
+            _en: Withdraw this newsletter from the public feed? External copies already made are not removed automatically.
+            _fr: Retirer cette newsletter du flux public? Les copies déjà réalisées à l'extérieur ne sont pas supprimées automatiquement.
+            _de: Diesen Newsletter aus dem öffentlichen Feed entfernen? Bereits erstellte externe Kopien werden nicht automatisch entfernt.
+            _it: Ritirare questa newsletter dal feed pubblico? Le copie esterne già realizzate non vengono rimosse automaticamente.
+            _nl: Deze nieuwsbrief uit de openbare feed halen? Extern gemaakte kopieën worden niet automatisch verwijderd.
         open:
           _en: Open
           _fr: Ouvrir
@@ -4543,6 +4575,12 @@ _:
           _de: Auf die Warteliste setzen
           _it: Mettere in lista d'attesa
           _nl: Op wachtlijst plaatsen
+        withdraw_publication:
+          _en: Withdraw from public feed
+          _fr: Retirer du flux public
+          _de: Aus öffentlichem Feed entfernen
+          _it: Ritirare dal feed pubblico
+          _nl: Uit openbare feed halen
       sidebar_section:
         activity_participation_ical_text_html:
           _en: Feed <a href="https://en.wikipedia.org/wiki/ICalendar">iCalendar</a> containing all upcoming activity participations.
@@ -5237,6 +5275,12 @@ _:
         _de: in Bearbeitung
         _it: elaborazione
         _nl: verwerken
+      published:
+        _en: published
+        _fr: publiée
+        _de: veröffentlicht
+        _it: pubblicata
+        _nl: gepubliceerd
       rejected:
         _en: rejected
         _fr: refusée
@@ -5327,6 +5371,12 @@ _:
         _de: warteliste
         _it: lista d'attesa
         _nl: wachtlijst
+      withdrawn:
+        _en: withdrawn
+        _fr: retirée
+        _de: zurückgezogen
+        _it: ritirata
+        _nl: ingetrokken
     unknown:
       _en: Unknown
       _fr: Inconnu

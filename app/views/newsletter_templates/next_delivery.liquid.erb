@@ -11,7 +11,7 @@
   {% endhighlight %}
 {% endif %}
 
-{% content id: "intro" %}{% endcontent %}
+{% content id: "intro", public: true %}{% endcontent %}
 
 {% if basket and basket.contents.size > 0 and basket.quantity > 0 %}
   <h2><%= t(".basket_contents_title") %></h2>
@@ -28,9 +28,9 @@
   {% endif %}
 {% endif %}
 
-{% content id: "events", title: "<%= t(".events_title") %>" %}{% endcontent %}
+{% content id: "events", title: "<%= t(".events_title") %>", public: true %}{% endcontent %}
 
-{% content id: "recipe", title: "<%= t(".recipe_title") %>" %}{% endcontent %}
+{% content id: "recipe", title: "<%= t(".recipe_title") %>", public: true %}{% endcontent %}
 
 {% if member.activities_url %}
   {% lowlight %}

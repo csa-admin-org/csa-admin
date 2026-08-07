@@ -102,6 +102,41 @@ class AbilityTest < ActiveSupport::TestCase
     assert ability.can?(:send_email, invoice)
   end
 
+  test "newsletter write permissions include withdraw publication" do
+    admin = admins(:external)
+    admin.permission.update!(rights: { newsletter: :write })
+    ability = Ability.new(admin)
+
+    newsletter = Newsletter.new
+    newsletter.define_singleton_method(:can_withdraw_publication?) { true }
+    assert ability.can?(:withdraw_publication, newsletter)
+
+    newsletter.define_singleton_method(:can_withdraw_publication?) { false }
+    assert_not ability.can?(:withdraw_publication, newsletter)
+  end
+
+  test "newsletter write cannot create or mutate publications directly" do
+    admin = admins(:external)
+    admin.permission.update!(rights: { newsletter: :write })
+    ability = Ability.new(admin)
+    publication = Newsletter::Publication.new
+
+    assert ability.can?(:read, Newsletter::Publication)
+    assert_not ability.can?(:create, Newsletter::Publication)
+    assert_not ability.can?(:update, publication)
+    assert_not ability.can?(:destroy, publication)
+    assert_not ability.can?(:batch_action, Newsletter::Publication)
+  end
+
+  test "newsletter read only cannot withdraw publication" do
+    admin = admins(:external)
+    ability = Ability.new(admin)
+
+    newsletter = Newsletter.new
+    newsletter.define_singleton_method(:can_withdraw_publication?) { true }
+    assert_not ability.can?(:withdraw_publication, newsletter)
+  end
+
   test "shop write permissions" do
     org(features: [ :shop ])
     admin = admins(:external)

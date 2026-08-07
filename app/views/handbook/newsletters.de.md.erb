@@ -33,7 +33,7 @@ Um die Erstellung Deiner Newsletters zu erleichtern, bietet CSA Admin ein ausgek
 Standardmässig sind [2 Vorlagen](/newsletter_templates) verfügbar:
 
 - <strong>Freier Text</strong>: eine einfache Vorlage mit einem einzelnen Inhaltsblock ohne Titel.
-- <strong>Nächste Lieferung</strong>: eine komplexere Vorlage mit mehreren Inhaltsblöcken sowie dynamischen Informationen ([<%= BasketContent.model_name.human %>](/handbook/basket_content), [nächste Aktivität](/handbook/activity), ...).
+- <strong>Nächste Lieferung</strong>: eine komplexere Vorlage mit mehreren Inhaltsblöcken sowie dynamischen Informationen ([<%= BasketContent.model_name.human %>](/handbook/basket_content), [nächste Aktivität](/handbook/activity), ...). Die redaktionellen Blöcke (`intro`, `events`, `recipe`) sind standardmässig mit `public: true` markiert, damit Du sie mit einer Checkbox über einen [öffentlichen Feed](#feed) bereitstellen kannst; der öffentliche Feed bleibt aus, bis Du ihn einschaltest.
 
 Zögere nicht, diese zu duplizieren und nach Belieben zu ändern oder [neue zu erstellen](/newsletter_templates/new).
 
@@ -66,6 +66,8 @@ Vorlagen verwenden die Liquid-Vorlagensprache, um dynamische mitgliederspezifisc
 ## Anhänge {#attachments}
 
 Du kannst Deinen Newsletters Anhänge hinzufügen, aber das Gesamtgewicht dieser Anhänge darf 5 MB nicht überschreiten.
+
+Wenn die Vorlage den [öffentlichen Feed](#feed) aktiviert hat, werden diese Anhänge auch mit dem Feed-Eintrag veröffentlicht. Keine privaten oder mitgliederspezifischen Dateien an Newsletters mit öffentlichem Feed anhängen.
 
 Wenn Du schwerere Anhänge versenden möchtest, kannst Du einen externen Dienst wie [SwissTransfer](https://www.swisstransfer.com) verwenden oder sie auf Deiner Website hosten und einfach einen Link zu diesen Dateien in Deinem Newsletter hinzufügen.
 
@@ -100,3 +102,57 @@ Alle Mitglieder sind standardmässig für Newsletters angemeldet. Jedes Mitglied
 Mitglieder, die sich abgemeldet haben, können sich problemlos wieder anmelden über [ihr Konto](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) im Bereich "Newsletters".
 
 > Bitte beachte, dass der Link zur Wiederanmeldung für Newsletter nur im Konto des Mitglieds erscheint, wenn sich dieses selbst angemeldet hat, und nicht wenn ein Administrator sich in sein Konto eingeloggt hat.
+
+## Öffentlicher Feed {#feed}
+
+Du kannst ausgewählte redaktionelle Teile gesendeter Newsletter über einen öffentlichen [Atom-Feed](https://de.wikipedia.org/wiki/Atom_(Format)) bereitstellen. Das ist nützlich, um wöchentliche Newsletter-Inhalte automatisch auf Deiner Website zu veröffentlichen, zum Beispiel, oder damit ein anderes Tool diesen Inhalt importieren kann. Mitgliedsspezifische Daten sind nie enthalten.
+
+### Öffentlichen Feed auf einer Vorlage aktivieren
+
+1. Öffne die [Newsletter-Vorlage](/newsletter_templates).
+2. Markiere die veröffentlichbaren `content`-Blöcke mit `public: true` (die Standardvorlage **Nächste Lieferung** macht das bereits für `intro`, `events` und `recipe`):
+
+~~~ liquid
+{% content id: 'intro', public: true %}{% endcontent %}
+{% content id: 'echo', title: 'Feldnotizen', public: true %}{% endcontent %}
+~~~
+
+3. Aktiviere **Öffentlicher Feed** auf der Vorlage und speichere.
+
+Nur `content`-Blöcke mit `public: true` werden veröffentlicht. Signatur, Abmeldelink, Zielgruppe, Zustellungen und Mitglieder-Liquid-Daten (`member`, `membership`, `basket`, …) sind nie enthalten.
+
+Der **Betreff** wird für den öffentlichen Feed ebenfalls ohne Mitgliederdaten gerendert. Personalisierte Betreffzeilen wie `Hallo {{ member.name }}` sind damit inkompatibel und scheitern an der Validierung.
+
+### Feed-URL
+
+Wenn der öffentliche Feed aktiviert ist, zeigt die Vorlage ihre Feed-URL:
+
+<% feed_template = Newsletter::Template.find_by(feed_enabled: true) || Newsletter::Template.order(:id).first %>
+```text
+<%= members_newsletter_feed_url(host: Newsletter::Template.members_feed_host, protocol: "https", template_id: feed_template&.id || 1) %>
+```
+
+Diese URL listet die **10 neuesten veröffentlichten** Ausgaben dieser Vorlage (nur gesendete Newsletter). Entwürfe und geplante Newsletter sind ausgeschlossen. Das Aktivieren des öffentlichen Feeds füllt die Vergangenheit **nicht** nach; nur Newsletter, die danach gesendet werden, erscheinen.
+
+Wenn Deine Organisation mehrere Sprachen nutzt, füge `locale=` mit einem unterstützten Sprachcode hinzu, um diese Sprachversion zu erhalten (zum Beispiel `locale=de`). Ohne diesen Parameter nutzt der Feed die Standardsprache.
+
+Wenn Du **Öffentlicher Feed** später deaktivierst, ist die URL nicht mehr zugänglich. Entferne einzelne Ausgaben, wenn Du nur manche Einträge entfernen willst.
+
+### Versand mit aktiviertem öffentlichem Feed
+
+Wenn die Vorlage **Öffentlicher Feed** aktiviert hat:
+
+- öffentlicher Inhalt (einschließlich Betreff) wird vor dem Speichern/Senden in jeder Sprache validiert;
+- beim Senden entsteht ein Veröffentlichungs-Snapshot mit den gerenderten öffentlichen Abschnitten für jede Sprache;
+- sind alle öffentlichen Blöcke leer, wird die E-Mail trotzdem gesendet, aber **kein Feed-Eintrag** erstellt;
+- kann öffentliches Liquid nicht sicher gerendert werden, wird der Versand blockiert, bis Du es korrigierst.
+
+### Bilder und Anhänge
+
+Eingebettete Bilder aus Inhaltsblöcken sind im Feed enthalten. Dateianhänge der Newsletter werden ebenfalls als Atom-Enclosures veröffentlicht.
+
+Externe Konsumenten (z. B. ein Website-Importer) sollten diese Dateien beim Lesen des Feeds **zügig herunterladen und neu hosten**, statt sie dauerhaft remote zu verlinken. Active-Storage-URLs sind zeitlich begrenzt.
+
+### Aus dem Feed entfernen
+
+Bei einem gesendeten Newsletter, der im Feed veröffentlicht wurde, kannst Du **Aus öffentlichem Feed entfernen** wählen. Der Eintrag verschwindet aus der Feed-URL. Externe Konsumenten, die den Inhalt bereits kopiert haben, werden nicht automatisch aktualisiert.
