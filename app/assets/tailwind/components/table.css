@@ -76,7 +76,7 @@
   }
 
   .attributes-table :where(tbody > tr) {
-    @apply flex items-center space-y-0.5 border-b dark:border-gray-800;
+    @apply flex items-start space-y-0.5 border-b dark:border-gray-800;
   }
 
   .attributes-table :where(tbody > tr > th) {
@@ -204,11 +204,7 @@
     @apply table-fixed;
 
     td {
-      @apply align-baseline leading-10;
-    }
-
-    td details > summary {
-      @apply leading-10;
+      @apply py-2 align-top leading-snug;
     }
 
     td details {
@@ -229,6 +225,10 @@
     tr:last-child td {
       @apply font-bold;
     }
+  }
+
+  .data-table-total:not(.data-table) td {
+    @apply py-2 align-top leading-snug;
   }
 
   .data-table-total {

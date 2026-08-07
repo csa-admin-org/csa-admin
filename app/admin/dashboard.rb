@@ -108,7 +108,7 @@ ActiveAdmin.register_page "Dashboard" do
                   invoice_totals = InvoiceTotal.all(Current.fiscal_year)
                   invoice_totals.each_with_index do |total, i|
                     is_total = i == invoice_totals.size - 1
-                    tr class: "px-2 h-10 border-dotted border-b border-gray-200 dark:border-gray-700" do
+                    tr class: "px-2 border-dotted border-b border-gray-200 dark:border-gray-700" do
                       td total.title
                       td class: "text-right tabular-nums w-36" do
                         previsional_details(self, total.price, total.try(:previsional_amounts_by_month), unit: is_total)
@@ -126,7 +126,7 @@ ActiveAdmin.register_page "Dashboard" do
                   payment_totals = PaymentTotal.all(Current.fiscal_year)
                   payment_totals.each_with_index do |total, i|
                     is_total = i == payment_totals.size - 1
-                    tr class: "h-10 border-dotted border-b border-gray-200 dark:border-gray-700" do
+                    tr class: "border-dotted border-b border-gray-200 dark:border-gray-700" do
                       td total.title
                       td class: "text-right tabular-nums w-36" do
                        cur(total.price, unit: is_total)
