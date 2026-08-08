@@ -26,9 +26,20 @@ ActiveAdmin.register Newsletter do
     action_link Newsletter::Template.model_name.human(count: 2), newsletter_templates_path, icon: "notepad-text"
   end
 
+  includes :publication
   index download_links: false do
     column :id
-    column :subject, sortable: true
+    column :subject, ->(n) {
+      span class: "inline-flex items-center gap-2" do
+        span n.subject
+        if n.can_withdraw_publication?
+          span title: t("active_admin.resource.show.publication"),
+            class: "inline-flex shrink-0 text-gray-400 dark:text-gray-500" do
+            icon "rss", class: "size-4.5"
+          end
+        end
+      end
+    }, sortable: true
     column :audience, ->(n) { n.audience_name }
     column :sent_at, ->(n) {
       span class: "whitespace-nowrap" do
