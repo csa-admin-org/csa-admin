@@ -250,6 +250,9 @@
 .disabled a,
 .disabled .text-sm,
 .disabled .member-depot-map-hint,
+/* Beat body.members b/strong color so bold copy grays out when disabled */
+body.members .disabled b,
+body.members .disabled strong,
 input.string:disabled {
   @apply pointer-events-auto cursor-not-allowed border-gray-200 text-gray-300 dark:border-gray-900 dark:text-gray-600;
 }
