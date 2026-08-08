@@ -23,6 +23,7 @@ class CapHelperTest < ActionView::TestCase
         assert_includes html, "data-cap-failed-message-value=\"Security verification failed. Please reload the page.\""
         assert_includes html, "data-cap-target=\"tooltipTemplate\""
         assert_includes html, "data-tooltip-target=\"content\""
+        assert_match %r{<span class="block"></span>}, html
       end
     end
   end

@@ -98,7 +98,8 @@ export default class extends Controller {
     const tooltip = this.ensureSubmitTooltip()
     if (!tooltip) return
 
-    tooltip.querySelector("p").textContent = message
+    const messageEl = tooltip.querySelector(".block")
+    if (messageEl) messageEl.textContent = message
   }
 
   ensureSubmitTooltip() {
