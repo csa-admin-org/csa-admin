@@ -36,13 +36,17 @@ Jeder Zeitraum hat folgende Optionen:
 
 Dies ermöglicht flexible Konfigurationen, wie wöchentliche Lieferungen in den Sommermonaten und zweiwöchentliche Lieferungen im Winter, alles innerhalb desselben Lieferzyklus.
 
-### Depotverfügbarkeit
+### Depotverfügbarkeit {#depot-availability}
 
 Die Verfügbarkeit jedes Lieferzyklus kann pro Depot konfiguriert werden; ein Depot kann beispielsweise nur Montagslieferungen anbieten, ein anderes nur Donnerstagslieferungen, während ein letztes den Mitgliedern bei der Anmeldung die Wahl lässt.
+
+Dieselbe Depot-Zyklus-Verknüpfung steuert auch, welche Depots Mitglieder später in ihrem Konto wählen können, wenn [Abonnement-Depotänderungen](/handbook/members#membership-updates) erlaubt sind. Eine Mitgliedschaft auf einem bestimmten Zyklus sieht nur Depots, die mit diesem Zyklus verknüpft sind (plus das aktuelle Depot). Der Lieferplan der <%= Basket.model_name.human(count: 2).downcase %> folgt weiterhin dem Zyklus der **Mitgliedschaft**: Ein Depot mit einem Zyklus zu verknüpfen bedeutet nicht von allein, dass dieses Depot nur an diesen Tagen bedient wird.
 
 Die Auswahl eines Lieferzyklus im Anmeldeformular hängt von der Konfiguration seiner Verfügbarkeit pro Depot ab. In jedem Fall wird die Auswahl des Lieferzyklus den Mitgliedern nur angeboten, wenn mindestens zwei Lieferzyklen für ein sichtbares Depot verfügbar sind.
 
 > Bei der Erstellung einer Mitgliedschaft durch einen Administrator ist es immer möglich, jeden beliebigen Lieferzyklus zu wählen. Die <%= Basket.model_name.human(count: 2) %> werden automatisch basierend auf den Lieferungen dieses Zyklus zwischen dem Start- und Enddatum erstellt ✨.
+
+Für ein Depot, das nur in manchen Wochen eines breiteren (z.B. wöchentlichen) Zyklus bedient wird, ein [alternatives Depot](#alternate-depot) auf der Mitgliedschaft vorsehen. Damit Mitglieder dieses Depot auf dem breiteren Zyklus nicht selbst wählen können, es nur mit dem passenden engeren Zyklus verknüpfen, nicht mit dem wöchentlichen.
 
 ### Gleichmässige Verteilung (jede zweite Woche) {#even-odd-distribution}
 
@@ -83,6 +87,7 @@ Einige wichtige Punkte:
 - Die **Preisberechnung** funktioniert automatisch — jede <%= Basket.model_name.human.downcase %> wird mit dem Preis des jeweiligen Depots abgerechnet.
 - Bei der **Erneuerung** einer Mitgliedschaft wird die Konfiguration des alternativen Depots automatisch übernommen.
 - Wenn ein Mitglied sein **Hauptdepot** über den Mitgliederbereich ändert, bleibt die Konfiguration des alternativen Depots erhalten.
+- Wenn Mitglieder das Depot über ihr Konto ändern dürfen, den alle-zwei-Wochen-Halt unter [Depotverfügbarkeit](#depot-availability) nicht zusätzlich mit dem wöchentlichen Hauptzyklus verknüpfen. Sonst können sie ihn in Wochen wählen, in denen nicht geliefert wird. Dieses Depot idealerweise nur mit dem Zyklus verknüpfen, der den bedienten Wochen entspricht.
 
 ## Individuelle Änderungen der <%= Basket.model_name.human(count: 2) %> {#basket-overrides}
 

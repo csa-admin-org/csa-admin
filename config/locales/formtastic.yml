@@ -548,11 +548,11 @@ _:
           _it: Consente di escludere automaticamente un certo numero di consegne, consentendo ai soci di pianificare un numero limitato di assenze non fatturate.
           _nl: Maakt het mogelijk om automatisch een bepaald aantal leveringen uit te sluiten, waardoor leden een beperkt aantal niet-gefactureerde afwezigheden kunnen plannen.
         depots:
-          _en: Select the depots where this delivery cycle is available at registration.
-          _fr: Sélectionnez les dépôts pour lesquels ce cycle de livraisons est disponible à l'inscription.
-          _de: Die Depots auswählen, für die dieser Lieferzyklus bei der Anmeldung verfügbar ist.
-          _it: Selezionate i punti di ritiro per i quali questo ciclo di consegna è disponibile al momento della registrazione.
-          _nl: De depots selecteren waarvoor deze leveringscyclus beschikbaar is bij registratie.
+          _en: Depots members may select with this cycle at registration and when changing depot from their account (if allowed).
+          _fr: Dépôts que les membres peuvent choisir avec ce cycle à l'inscription et lors d'un changement de dépôt depuis leur compte (si autorisé).
+          _de: Depots, die Mitglieder mit diesem Zyklus bei der Anmeldung und bei einer Depotänderung im Mitgliederkonto wählen können (falls erlaubt).
+          _it: Punti di ritiro che i soci possono scegliere con questo ciclo in iscrizione e quando cambiano deposito dal proprio account (se consentito).
+          _nl: Depots die leden met deze cyclus mogen kiezen bij registratie en bij een depotwijziging via hun account (indien toegestaan).
         exclude_cweek_range:
           _en: Exclude deliveries within the week range instead of outside.
           _fr: Exclure les livraisons à l'intérieur de la plage de semaines plutôt qu'à l'extérieur.
@@ -642,11 +642,11 @@ _:
           _nl: Binnen het maandbereik van deze periode bepaalt welke leveringen worden behouden (bijv. alle, om de andere, eerste van elke maand).
       depot:
         delivery_cycles:
-          _en: Delivery cycles available to members at registration for this depot. In any case, the choice of delivery cycle is only offered to members if at least two delivery cycles are available for a depot.
-          _fr: Cycles de livraisons disponibles aux membres les membres lors de l'inscription pour ce dépôt. Dans tous les cas, le choix du cycle de livraisons est proposé aux membres uniquement si au moins deux cycles de livraisons sont disponibles pour un dépôt.
-          _de: Lieferzyklen, die bei der Anmeldung für Mitglieder für dieses Depot verfügbar sind. In jedem Fall wird die Auswahl des Lieferzyklus den Mitgliedern nur angeboten, wenn mindestens zwei Lieferzyklen für ein Depot verfügbar sind.
-          _it: Cicli di consegna disponibili per i soci al momento della registrazione per questo punto di ritiro. In ogni caso, la scelta del ciclo di consegna viene proposta ai soci solo se sono disponibili almeno due cicli di consegna per un punto di ritiro.
-          _nl: Leveringscycli beschikbaar voor leden bij registratie voor dit depot. In elk geval wordt de keuze van leveringscyclus alleen aan leden voorgesteld als er minstens twee leveringscycli beschikbaar zijn voor een depot.
+          _en: Cycles for which members can choose this depot at registration and when changing depot from their account (if allowed). Cycle choice appears at registration only if at least two cycles are available for a depot.
+          _fr: Cycles pour lesquels les membres peuvent choisir ce dépôt à l'inscription et lors d'un changement de dépôt depuis leur compte (si autorisé). Le choix du cycle n'apparaît à l'inscription que si au moins deux cycles sont disponibles pour un dépôt.
+          _de: Zyklen, für die Mitglieder dieses Depot bei der Anmeldung und bei einer Depotänderung im Mitgliederkonto wählen können (falls erlaubt). Die Zyklusauswahl erscheint bei der Anmeldung nur, wenn mindestens zwei Zyklen für ein Depot verfügbar sind.
+          _it: Cicli per i quali i soci possono scegliere questo deposito in iscrizione e quando cambiano deposito dal proprio account (se consentito). La scelta del ciclo compare in iscrizione solo se sono disponibili almeno due cicli per un deposito.
+          _nl: Cycli waarvoor leden dit depot mogen kiezen bij registratie en bij een depotwijziging via hun account (indien toegestaan). Cycluskeuze verschijnt bij registratie alleen als er minstens twee cycli beschikbaar zijn voor een depot.
         emails:
           _en: These email addresses (separated by a comma) receive the delivery list (PDF and XLSX) before each delivery.
           _fr: Ces adresses e-mail (séparées par une virgule) reçoivent la liste de livraison (PDF et XLSX) avant chaque livraison.
@@ -744,11 +744,11 @@ _:
           _it: Informazioni visualizzate in alto nella lista delle consegne sul conto del socio.
           _nl: Informatie die bovenaan de leveringslijst op het ledenaccount wordt weergegeven.
         visible:
-          _en: Select "No" if the depot is no longer available at registration.
-          _fr: Sélectionner "Non" si le dépôt n'est plus disponible lors de l'inscription.
-          _de: '"Nein" auswählen, wenn das Depot bei der Registrierung nicht mehr verfügbar ist.'
-          _it: Selezionate "No" se il punto di ritiro non è più disponibile durante la registrazione.
-          _nl: '"Nee" selecteren als het depot niet meer beschikbaar is bij registratie.'
+          _en: Select "No" to hide this depot from registration and from depot changes in the member account (if allowed).
+          _fr: Sélectionner "Non" pour masquer ce dépôt à l'inscription et lors des changements de dépôt dans le compte membre (si autorisé).
+          _de: '"Nein" auswählen, um dieses Depot bei der Anmeldung und bei Depotänderungen im Mitgliederkonto auszublenden (falls erlaubt).'
+          _it: Selezionate "No" per nascondere questo deposito in iscrizione e nei cambi di deposito dall'account socio (se consentito).
+          _nl: '"Nee" selecteren om dit depot te verbergen bij registratie en bij depotwijzigingen via het ledenaccount (indien toegestaan).'
       depot_group:
         information_text:
           _en: Information displayed below the group name on the registration form.

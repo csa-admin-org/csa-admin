@@ -36,13 +36,17 @@ Ogni periodo ha le seguenti opzioni:
 
 Questo permette configurazioni flessibili, come consegne settimanali durante i mesi estivi e consegne quindicinali durante l'inverno, tutto all'interno dello stesso ciclo di consegne.
 
-### Disponibilità per deposito
+### Disponibilità per deposito {#depot-availability}
 
 La disponibilità di ogni ciclo di consegne può essere configurata per deposito; per esempio, un deposito può proporre solo consegne il lunedì, un altro solo il giovedì, mentre un ultimo lascerà la scelta ai soci al momento dell'iscrizione.
+
+Lo stesso collegamento deposito-ciclo controlla anche quali depositi i soci possono scegliere in seguito dal proprio account quando le [modifiche del deposito dell'abbonamento](/handbook/members#membership-updates) sono abilitate. Un abbonamento su un dato ciclo vede solo i depositi collegati a quel ciclo (più il deposito attuale). Il calendario delle <%= Basket.model_name.human(count: 2).downcase %> segue sempre il ciclo dell'**abbonamento**: collegare un deposito a un ciclo non significa di per sé che quel deposito sia servito solo in quelle date.
 
 La scelta di un ciclo di consegne sul modulo di iscrizione dipende dalla configurazione della loro disponibilità per deposito. In ogni caso, la scelta del ciclo di consegne è proposta ai soci solo se almeno due cicli di consegne sono disponibili per un deposito visibile.
 
 > Durante la creazione di un abbonamento da parte di un admin, è sempre possibile scegliere qualsiasi ciclo di consegne. Le <%= Basket.model_name.human(count: 2).downcase %> saranno automaticamente create in base alle consegne di questo ciclo comprese tra le date di inizio e fine ✨.
+
+Per un deposito servito solo alcune settimane di un ciclo più ampio (ad es. settimanale), usa un [punto di ritiro alternativo](#alternate-depot) sull'abbonamento. Per impedire ai soci di selezionare da soli quel deposito sul ciclo più ampio, collegalo solo al ciclo più stretto corrispondente, non a quello settimanale.
 
 ### Distribuzione equa (una settimana su due) {#even-odd-distribution}
 
@@ -83,6 +87,7 @@ Alcuni punti importanti:
 - Il **calcolo dei prezzi** funziona automaticamente — ogni <%= Basket.model_name.human.downcase %> viene fatturata con il prezzo del rispettivo deposito.
 - Al **rinnovo** di un abbonamento, la configurazione del punto alternativo viene automaticamente riportata.
 - Se un socio cambia il proprio **deposito principale** dall'area soci, la configurazione del punto alternativo viene mantenuta.
+- Se i soci possono cambiare deposito dal proprio account, evita di collegare anche la fermata a settimane alterne al ciclo settimanale principale sotto [disponibilità per deposito](#depot-availability). Altrimenti possono sceglierla nelle settimane in cui non è servito. Preferisci collegare quel deposito solo al ciclo che corrisponde alle settimane in cui è servito.
 
 ## Modifiche individuali delle <%= Basket.model_name.human(count: 2).downcase %> {#basket-overrides}
 

@@ -206,14 +206,11 @@ ActiveAdmin.register Depot do
           end
         end
 
-        panel t(".member_new_form"), icon: "form", action: handbook_icon_link("registration", anchor: "depots") do
+        panel t("active_admin.resource.form.visibility"), icon: "eye", action: handbook_icon_link("deliveries", anchor: "depot-availability") do
           attributes_table do
             row(:visible) { aligned_status_tag(depot.visible?) }
-            if depot.visible?
-              row(:form_detail) { depot_details(depot) }
-            end
           end
-          if DeliveryCycle.visible?
+          if depot.delivery_cycles.any?
             table_for depot.delivery_cycles, class: "table-auto" do
               column DeliveryCycle.model_name.human, ->(dc) {
                 auto_link dc, data: { "table-row-action": "show" }
@@ -224,6 +221,15 @@ ActiveAdmin.register Depot do
               column Current.org.fiscal_year_for(1.year.from_now), ->(dc) {
                 dc.future_deliveries_count
               }, class: "text-right"
+            end
+          end
+        end
+
+        panel t(".member_new_form"), icon: "form", action: handbook_icon_link("registration", anchor: "depots") do
+          attributes_table do
+            row(:member_order_priority)
+            if depot.visible?
+              row(:form_detail) { depot_details(depot) }
             end
           end
         end
@@ -304,8 +310,18 @@ ActiveAdmin.register Depot do
       handbook_button(self, "deliveries", anchor: "depot-delivery-list-notifications")
     end
 
-    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
+    f.inputs t("active_admin.resource.form.visibility"), icon: "eye" do
       f.input :visible, as: :select, include_blank: false
+      f.input :delivery_cycles,
+        collection: admin_delivery_cycles_collection,
+        input_html: f.object.persisted? ? {} : { checked: true },
+        as: :check_boxes,
+        required: true
+
+      handbook_button(self, "deliveries", anchor: "depot-availability")
+    end
+
+    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
         as: :select,
@@ -318,11 +334,6 @@ ActiveAdmin.register Depot do
             I18n.with_locale(locale) { depot_details(f.object) }
           end
         })
-      f.input :delivery_cycles,
-        collection: admin_delivery_cycles_collection,
-        input_html: f.object.persisted? ? {} : { checked: true },
-        as: :check_boxes,
-        required: true
 
       handbook_button(self, "registration", anchor: "depots")
     end

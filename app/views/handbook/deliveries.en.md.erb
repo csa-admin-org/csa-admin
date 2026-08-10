@@ -36,13 +36,17 @@ Each period has the following options:
 
 This allows for flexible configurations, such as weekly deliveries during summer months and bi-weekly deliveries during winter, all within the same delivery cycle.
 
-### Depot availability
+### Depot availability {#depot-availability}
 
 The availability of each delivery cycle can be configured by depot; for example, one depot may only offer Monday deliveries, another only Thursdays, while a last one will let members choose during registration.
+
+That same depot-cycle link also controls which depots members can choose later from their account when [membership depot updates](/handbook/members#membership-updates) are enabled. A membership on a given cycle only sees depots linked to that cycle (plus its current depot). Basket schedules still follow the **membership** cycle: linking a depot to a cycle does not by itself mean that depot is only served on those dates.
 
 The choice of a delivery cycle on the registration form depends on the configuration of their availability by depot. In any case, the choice of delivery cycle is offered to members only if at least two delivery cycles are available for a visible depot.
 
 > When creating a membership by an admin, it's always possible to choose any delivery cycle. <%= Basket.model_name.human(count: 2) %> will be automatically created based on the deliveries of this cycle between the start and end dates ✨.
+
+For a depot only served some weeks of a broader (e.g. weekly) cycle, use an [alternate depot](#alternate-depot) on the membership. To prevent members from selecting that depot themselves on the broader cycle, link it only to the matching narrower cycle, not to the weekly one.
 
 ### Even distribution (every other week) {#even-odd-distribution}
 
@@ -83,6 +87,7 @@ A few important points:
 - **Pricing** works automatically — each <%= Basket.model_name.human.downcase %> is billed at the price of its respective depot.
 - When a membership is **renewed**, the alternate depot configuration is automatically carried over.
 - If a member changes their **main depot** from the member area, the alternate depot configuration is preserved.
+- If members may change depot from their account, avoid also linking the every-other-week stop to the main weekly cycle under [depot availability](#depot-availability). Otherwise they can pick it on off-weeks. Prefer linking that depot only to the cycle that matches the weeks it is served.
 
 ## Individual <%= Basket.model_name.human.downcase %> modifications {#basket-overrides}
 

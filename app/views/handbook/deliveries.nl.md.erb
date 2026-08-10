@@ -36,13 +36,17 @@ Elke periode heeft de volgende opties:
 
 Dit maakt flexibele configuraties mogelijk, zoals wekelijkse leveringen tijdens de zomermaanden en tweewekelijkse leveringen tijdens de winter, allemaal binnen dezelfde leveringscyclus.
 
-### Depotbeschikbaarheid
+### Depotbeschikbaarheid {#depot-availability}
 
 De beschikbaarheid van elke leveringscyclus kan per depot worden geconfigureerd; bijvoorbeeld, één depot biedt mogelijk alleen maandagleveringen aan, een ander alleen donderdagen, terwijl een laatste leden tijdens registratie laat kiezen.
+
+Diezelfde depot-cyclus-koppeling bepaalt ook welke depots leden later via hun account kunnen kiezen wanneer [depotwijzigingen op het lidmaatschap](/handbook/members#membership-updates) zijn toegestaan. Een lidmaatschap op een gegeven cyclus ziet alleen depots die aan die cyclus zijn gekoppeld (plus het huidige depot). Het leveringsschema van de <%= Basket.model_name.human(count: 2).downcase %> volgt nog steeds de cyclus van het **lidmaatschap**: een depot aan een cyclus koppelen betekent op zichzelf niet dat dat depot alleen op die data wordt bediend.
 
 De keuze van een leveringscyclus op het registratieformulier hangt af van de configuratie van hun beschikbaarheid per depot. In elk geval wordt de keuze van leveringscyclus alleen aan leden aangeboden als ten minste twee leveringscycli beschikbaar zijn voor een zichtbaar depot.
 
 > Bij het aanmaken van een lidmaatschap door een admin is het altijd mogelijk om elke leveringscyclus te kiezen. <%= Basket.model_name.human(count: 2) %> worden automatisch aangemaakt op basis van de leveringen van deze cyclus tussen de start- en einddatums ✨.
+
+Voor een depot dat slechts in sommige weken van een bredere (bijv. wekelijkse) cyclus wordt bediend, gebruik een [alternatief depot](#alternate-depot) op het lidmaatschap. Om te voorkomen dat leden dat depot zelf op de bredere cyclus selecteren, koppel het alleen aan de bijpassende smallere cyclus, niet aan de wekelijkse.
 
 
 ### Gelijke verdeling (om de week) {#even-odd-distribution}
@@ -84,6 +88,7 @@ Enkele belangrijke punten:
 - De **prijsberekening** werkt automatisch — elke <%= Basket.model_name.human.downcase %> wordt gefactureerd met de prijs van het bijbehorende depot.
 - Bij de **vernieuwing** van een lidmaatschap wordt de configuratie van het alternatieve depot automatisch overgenomen.
 - Als een lid het **hoofddepot** wijzigt via het ledengedeelte, blijft de configuratie van het alternatieve depot behouden.
+- Als leden het depot via hun account mogen wijzigen, vermijd om de om-de-week-halte onder [depotbeschikbaarheid](#depot-availability) ook aan de wekelijkse hoofdcyclus te koppelen. Anders kunnen ze die kiezen in weken waarin er niet wordt geleverd. Koppel dat depot bij voorkeur alleen aan de cyclus die overeenkomt met de weken waarin het wordt bediend.
 
 ## Individuele wijzigingen van <%= Basket.model_name.human(count: 2).downcase %> {#basket-overrides}
 

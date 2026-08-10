@@ -85,21 +85,27 @@ ActiveAdmin.register DeliveryCycle do
           end
         end
 
+        panel t("active_admin.resource.form.visibility"), icon: "eye", action: handbook_icon_link("deliveries", anchor: "depot-availability") do
+          if DeliveryCycle.visible?
+            attributes_table do
+              row(:visible) { aligned_status_tag(dc.visible?) }
+            end
+          end
+          table_for dc.depots, class: (DeliveryCycle.visible? ? "mt-4" : nil) do
+            column Depot.model_name.human, ->(d) {
+              auto_link d, data: { "table-row-action": "show" }
+            }, class: "text-left"
+            column :visible, ->(d) { aligned_status_tag(d.visible?) }, class: "text-right"
+          end
+        end
+
         if DeliveryCycle.visible?
           panel t(".member_new_form"), icon: "form", action: handbook_icon_link("registration", anchor: "delivery-cycles") do
             attributes_table do
-              row(:visible) { aligned_status_tag(dc.visible?) }
+              row(:member_order_priority)
               if dc.visible?
                 row(:form_detail) { delivery_cycle_details(dc) }
               end
-            end
-            if dc.visible?
-                table_for dc.depots, class: "mt-4" do
-                  column Depot.model_name.human, ->(d) {
-                    auto_link d, data: { "table-row-action": "show" }
-                  }, class: "text-left"
-                  column :visible, ->(d) { aligned_status_tag(d.visible?) }, class: "text-right"
-                end
             end
           end
         end
@@ -172,32 +178,36 @@ ActiveAdmin.register DeliveryCycle do
       render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end
 
-    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
-      f.input :member_order_priority,
-        collection: member_order_priorities_collection,
-        as: :select,
-        prompt: true,
-        hint: t("formtastic.hints.organization.member_order_priority_html")
-      translated_input(f, :form_details,
-        hint: t("formtastic.hints.delivery_cycle.form_detail"),
-        placeholder: ->(locale) {
-          if f.object.persisted? && !f.object.form_detail?(locale)
-            I18n.with_locale(locale) {
-              delivery_cycle_details(f.object, force_default: true)
-            }
-          end
-        })
-      li class: "subtitle" do
-        h2 t(".visibility")
-        para t(".visibility_hint"), class: "description"
-      end
+    f.inputs t("active_admin.resource.form.visibility"), icon: "eye" do
+      para t("active_admin.resource.form.visibility_hint"), class: "description -mt-2 mb-4"
       f.input :depots,
         as: :check_boxes,
         hint: true,
         disabled: depot_ids_with_only(f.object),
         grouped_collection: admin_depots_grouped_collection
 
-      handbook_button(self, "registration", anchor: "delivery-cycles")
+      handbook_button(self, "deliveries", anchor: "depot-availability")
+    end
+
+    if DeliveryCycle.visible?
+      f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
+        f.input :member_order_priority,
+          collection: member_order_priorities_collection,
+          as: :select,
+          prompt: true,
+          hint: t("formtastic.hints.organization.member_order_priority_html")
+        translated_input(f, :form_details,
+          hint: t("formtastic.hints.delivery_cycle.form_detail"),
+          placeholder: ->(locale) {
+            if f.object.persisted? && !f.object.form_detail?(locale)
+              I18n.with_locale(locale) {
+                delivery_cycle_details(f.object, force_default: true)
+              }
+            end
+          })
+
+        handbook_button(self, "registration", anchor: "delivery-cycles")
+      end
     end
 
     f.inputs t(".billing"), icon: "banknotes" do

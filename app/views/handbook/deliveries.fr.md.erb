@@ -36,13 +36,17 @@ Chaque période dispose des options suivantes:
 
 Cela permet des configurations flexibles, comme des livraisons hebdomadaires pendant les mois d'été et bimensuelles pendant l'hiver, le tout au sein du même cycle de livraisons.
 
-### Disponibilité par dépôt
+### Disponibilité par dépôt {#depot-availability}
 
 La disponibilité de chaque cycle de livraisons peut être configurée par dépôt; par exemple, un dépôt peut ne proposer que des livraisons les lundis, un autre que les jeudis, alors qu'un dernier laissera le choix aux membres lors de l'inscription.
+
+Ce même lien dépôt-cycle contrôle aussi les dépôts que les membres peuvent choisir plus tard depuis leur compte lorsque les [modifications de dépôt d'abonnement](/handbook/members#membership-updates) sont activées. Un abonnement sur un cycle donné ne voit que les dépôts liés à ce cycle (plus son dépôt actuel). Le calendrier des paniers suit toujours le cycle de l'**abonnement**: lier un dépôt à un cycle ne signifie pas à lui seul que ce dépôt n'est desservi que ces jours-là.
 
 Le choix d'un cycle de livraisons sur le formulaire d'inscription dépend de la configuration de leur disponibilité par dépôt. Dans tous les cas, le choix du cycle de livraisons est proposé aux membres uniquement si au moins deux cycles de livraisons sont disponibles pour un dépôt visible.
 
 > Lors de la création d'un abonnement par un admin, il est toujours possible de choisir n'importe quel cycle de livraisons. Les <%= Basket.model_name.human(count: 2).downcase %> seront automatiquement créés en fonction des livraisons de ce cycle comprises entre les dates de début et de fin ✨.
+
+Pour un dépôt desservi seulement certaines semaines d'un cycle plus large (p. ex. hebdomadaire), utilisez un [dépôt alternatif](#alternate-depot) sur l'abonnement. Pour empêcher les membres de sélectionner eux-mêmes ce dépôt sur le cycle large, liez-le uniquement au cycle plus étroit correspondant, pas au cycle hebdomadaire.
 
 ### Répartition équitable (une semaine sur deux) {#even-odd-distribution}
 
@@ -83,6 +87,7 @@ Quelques points importants:
 - La **facturation** fonctionne automatiquement — chaque <%= Basket.model_name.human.downcase %> est facturé(e) au prix du dépôt correspondant.
 - Lors du **renouvellement** d'un abonnement, la configuration du dépôt alternatif est automatiquement reprise.
 - Si un membre change son **dépôt principal** depuis son espace membre, la configuration du dépôt alternatif est préservée.
+- Si les membres peuvent changer de dépôt depuis leur compte, évitez aussi de lier le point desservi une semaine sur deux au cycle hebdomadaire principal sous [disponibilité par dépôt](#depot-availability). Sinon ils peuvent le choisir les semaines où il n'est pas desservi. Préférez lier ce dépôt uniquement au cycle qui correspond aux semaines où il est desservi.
 
 ## Modifications individuelles des <%= Basket.model_name.human(count: 2).downcase %> {#basket-overrides}
 
