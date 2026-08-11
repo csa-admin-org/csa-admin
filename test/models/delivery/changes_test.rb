@@ -645,16 +645,17 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
 
   # == Sorting ==
 
-  test "entries are sorted by depot name then member name" do
+  test "entries are sorted by depot position then member name" do
     travel_to "2024-01-01"
     delivery = deliveries(:monday_2)
 
     changes = Delivery::Changes.new(delivery)
 
-    depot_names = changes.entries.map(&:depot_name)
+    depot_positions = changes.entries.map(&:depot_position)
     member_names_by_depot = changes.entries.group_by(&:depot_name).transform_values { |es| es.map { |e| e.member.name } }
 
-    assert_equal depot_names.sort, depot_names
+    assert_equal depot_positions.sort, depot_positions
+    assert_equal changes.entries.map(&:depot_name).uniq, changes.entries_by_depot.keys
 
     member_names_by_depot.each_value do |names|
       assert_equal names.sort, names

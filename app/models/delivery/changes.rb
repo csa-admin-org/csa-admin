@@ -6,7 +6,7 @@ class Delivery::Changes
   EMPTY_LABEL = /⌀(.+?)⌀/
   ADDRESS_ATTRIBUTES = %w[street zip city].freeze
 
-  Entry = Data.define(:member, :depot_name, :changes) do
+  Entry = Data.define(:member, :depot_name, :depot_position, :changes) do
     ARROW = " => "
     UNICODE_ARROW = " → "
     DIMMED_HTML = "text-gray-400 dark:text-gray-600"
@@ -111,7 +111,7 @@ class Delivery::Changes
       end
     end
 
-    entries.sort_by { |e| [ e.depot_name.to_s, e.member.name ] }
+    entries.sort_by { |e| [ e.depot_position, e.member.name ] }
   end
 
   def load_data
@@ -289,7 +289,7 @@ class Delivery::Changes
     prev_basket = @previous_basket_by_member[membership.member_id]
 
     if prev_basket.nil?
-      return [ build_entry(membership.member, basket.depot.name, [ build_change(:new, details: basket.description) ]) ]
+      return [ build_entry(membership.member, basket.depot, [ build_change(:new, details: basket.description) ]) ]
     end
 
     changes = []
@@ -309,7 +309,7 @@ class Delivery::Changes
 
     return [] if changes.empty?
 
-    [ build_entry(membership.member, basket.depot.name, changes) ]
+    [ build_entry(membership.member, basket.depot, changes) ]
   end
 
   def detect_audited_member_changes(membership, basket)
@@ -446,7 +446,7 @@ class Delivery::Changes
     prev_cycle_membership_ids = @previous_cycle_delivery_basket_membership_ids[membership.delivery_cycle_id]
     return unless prev_cycle_membership_ids&.include?(membership.id)
 
-    build_entry(membership.member, prev_basket.depot.name, [ build_change(:ended, details: prev_basket.description) ])
+    build_entry(membership.member, prev_basket.depot, [ build_change(:ended, details: prev_basket.description) ])
   end
 
   def build_change(type, details: nil)
@@ -467,10 +467,11 @@ class Delivery::Changes
     Change.new(type: type, label: label, details: details)
   end
 
-  def build_entry(member, depot_name, changes)
+  def build_entry(member, depot, changes)
     Entry.new(
       member: member,
-      depot_name: depot_name,
+      depot_name: depot.name,
+      depot_position: depot.position,
       changes: changes)
   end
 end
