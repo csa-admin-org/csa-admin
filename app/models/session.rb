@@ -148,7 +148,7 @@ class Session < ApplicationRecord
   end
 
   def truemail
-    if email.present? && !Truemail.valid?(email)
+    if email.present? && !Truemail.valid?(email, with: :regex)
       errors.add(:email, :invalid)
     end
   end

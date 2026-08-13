@@ -1,8 +1,37 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "minitest/mock"
 
 class SessionTest < ActiveSupport::TestCase
+  test "validates email format with regex only" do
+    session = Session.new(
+      remote_addr: "127.0.0.1",
+      user_agent: "Test Browser")
+    session.admin_email = admins(:ultra).email
+    called_with = nil
+
+    Truemail.stub(:valid?, ->(email, with: nil) {
+      called_with = { email: email, with: with }
+      true
+    }) do
+      assert session.valid?
+    end
+
+    assert_equal admins(:ultra).email, called_with[:email]
+    assert_equal :regex, called_with[:with]
+  end
+
+  test "rejects invalid email format" do
+    session = Session.new(
+      remote_addr: "127.0.0.1",
+      user_agent: "Test Browser")
+    session.admin_email = "@foo"
+
+    assert_not session.valid?
+    assert_includes session.errors[:email], "is invalid"
+  end
+
   test "email must not be suppressed" do
     session = sessions(:john)
     assert session.valid?
