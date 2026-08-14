@@ -33,7 +33,7 @@ To facilitate the creation of your newsletters, CSA Admin offers a sophisticated
 By default, [2 templates](/newsletter_templates) are available:
 
 - <strong>Free text</strong>: a simple template with a single content block without a title.
-- <strong>Next delivery</strong>: a more complex template with multiple content blocks, as well as dynamic information ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [next activity](/handbook/activity), ...). Its editorial blocks (`intro`, `events`, `recipe`) are marked `public: true` by default so you can expose them through a [public feed](#feed) with one checkbox; the public feed stays off until you opt in.
+- <strong>Next delivery</strong>: a more complex template with multiple content blocks, as well as dynamic information ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [next activity](/handbook/activity), ...).
 
 Feel free to duplicate and modify them as you wish or [create new ones](/newsletter_templates/new).
 
@@ -110,7 +110,7 @@ You can expose selected editorial parts of sent newsletters through a public [At
 ### Enable the public feed on a template
 
 1. Open the [newsletter template](/newsletter_templates).
-2. Mark the `content` blocks that may be published with `public: true` (the default **Next delivery** template already does this for `intro`, `events`, and `recipe`):
+2. Mark the `content` blocks that may be published with `public: true`:
 
 ~~~ liquid
 {% content id: 'intro', public: true %}{% endcontent %}

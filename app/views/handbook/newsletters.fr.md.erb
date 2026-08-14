@@ -33,7 +33,7 @@ Pour faciliter la création de vos newsletters, CSA Admin propose un système de
 Par défaut, [deux modèles](/newsletter_templates) sont disponibles:
 
 - <strong>Texte libre</strong>: un modèle simple avec un seul bloc de contenu sans titre.
-- <strong>Prochaine livraison</strong>: un modèle plus complet avec plusieurs blocs de contenu et des informations dynamiques ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [prochaine activité](/handbook/activity), ...). Ses blocs éditoriaux (`intro`, `events`, `recipe`) sont marqués `public: true` par défaut, pour les exposer via un [flux public](#feed) en une case à cocher; le flux public reste désactivé tant que vous ne l'activez pas.
+- <strong>Prochaine livraison</strong>: un modèle plus complet avec plusieurs blocs de contenu et des informations dynamiques ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [prochaine activité](/handbook/activity), ...).
 
 N'hésitez pas à les dupliquer et à les modifier à votre guise ou en [créer de nouveaux](/newsletter_templates/new).
 
@@ -110,7 +110,7 @@ Vous pouvez exposer certaines parties éditoriales des newsletters envoyées via
 ### Activer le flux public sur un modèle
 
 1. Ouvrez le [modèle de newsletter](/newsletter_templates).
-2. Marquez les blocs `content` publiables avec `public: true` (le modèle par défaut **Prochaine livraison** le fait déjà pour `intro`, `events` et `recipe`):
+2. Marquez les blocs `content` publiables avec `public: true`:
 
 ~~~ liquid
 {% content id: 'intro', public: true %}{% endcontent %}

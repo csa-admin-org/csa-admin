@@ -33,7 +33,7 @@ Um die Erstellung Deiner Newsletters zu erleichtern, bietet CSA Admin ein ausgek
 Standardmässig sind [2 Vorlagen](/newsletter_templates) verfügbar:
 
 - <strong>Freier Text</strong>: eine einfache Vorlage mit einem einzelnen Inhaltsblock ohne Titel.
-- <strong>Nächste Lieferung</strong>: eine komplexere Vorlage mit mehreren Inhaltsblöcken sowie dynamischen Informationen ([<%= BasketContent.model_name.human %>](/handbook/basket_content), [nächste Aktivität](/handbook/activity), ...). Die redaktionellen Blöcke (`intro`, `events`, `recipe`) sind standardmässig mit `public: true` markiert, damit Du sie mit einer Checkbox über einen [öffentlichen Feed](#feed) bereitstellen kannst; der öffentliche Feed bleibt aus, bis Du ihn einschaltest.
+- <strong>Nächste Lieferung</strong>: eine komplexere Vorlage mit mehreren Inhaltsblöcken sowie dynamischen Informationen ([<%= BasketContent.model_name.human %>](/handbook/basket_content), [nächste Aktivität](/handbook/activity), ...).
 
 Zögere nicht, diese zu duplizieren und nach Belieben zu ändern oder [neue zu erstellen](/newsletter_templates/new).
 
@@ -110,7 +110,7 @@ Du kannst ausgewählte redaktionelle Teile gesendeter Newsletter über einen öf
 ### Öffentlichen Feed auf einer Vorlage aktivieren
 
 1. Öffne die [Newsletter-Vorlage](/newsletter_templates).
-2. Markiere die veröffentlichbaren `content`-Blöcke mit `public: true` (die Standardvorlage **Nächste Lieferung** macht das bereits für `intro`, `events` und `recipe`):
+2. Markiere die veröffentlichbaren `content`-Blöcke mit `public: true`:
 
 ~~~ liquid
 {% content id: 'intro', public: true %}{% endcontent %}

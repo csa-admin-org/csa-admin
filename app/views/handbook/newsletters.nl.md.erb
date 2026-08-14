@@ -33,7 +33,7 @@ Om het aanmaken van je nieuwsbrieven te vergemakkelijken, biedt CSA Admin een ge
 Standaard zijn [2 sjablonen](/newsletter_templates) beschikbaar:
 
 - <strong>Vrije tekst</strong>: een eenvoudige sjabloon met een enkel inhoudsblok zonder titel.
-- <strong>Volgende levering</strong>: een meer complexe sjabloon met meerdere inhoudsblokken, evenals dynamische informatie ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [volgende activiteit](/handbook/activity), ...). De redactionele blokken (`intro`, `events`, `recipe`) zijn standaard gemarkeerd met `public: true`, zodat je ze met één selectievakje via een [openbare feed](#feed) beschikbaar kunt maken; de openbare feed blijft uit tot je die activeert.
+- <strong>Volgende levering</strong>: een meer complexe sjabloon met meerdere inhoudsblokken, evenals dynamische informatie ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [volgende activiteit](/handbook/activity), ...).
 
 Je kunt ze gerust dupliceren en naar wens wijzigen of [nieuwe aanmaken](/newsletter_templates/new).
 
@@ -110,7 +110,7 @@ Je kunt geselecteerde redactionele delen van verzonden nieuwsbrieven beschikbaar
 ### Openbare feed op een sjabloon inschakelen
 
 1. Open het [nieuwsbriefsjabloon](/newsletter_templates).
-2. Markeer de publiceerbare `content`-blokken met `public: true` (het standaardsjabloon **Volgende levering** doet dat al voor `intro`, `events` en `recipe`):
+2. Markeer de publiceerbare `content`-blokken met `public: true`:
 
 ~~~ liquid
 {% content id: 'intro', public: true %}{% endcontent %}
