@@ -21,6 +21,10 @@
       @apply my-4 leading-6 text-gray-900 dark:text-gray-100;
     }
 
+    code {
+      @apply rounded-sm bg-neutral-100 px-1 py-0.5 text-sm text-gray-900 dark:bg-neutral-800 dark:text-gray-100;
+    }
+
     blockquote {
       @apply my-4 px-4 py-2 text-gray-900 dark:text-gray-100;
       @apply border-l-2 border-yellow-400 bg-yellow-100 dark:border-yellow-600 dark:bg-yellow-900;
@@ -32,7 +36,7 @@
       @apply overflow-x-auto;
 
       code {
-        @apply text-sm text-gray-900 dark:text-gray-100;
+        @apply bg-transparent p-0 text-sm text-gray-900 dark:bg-transparent dark:text-gray-100;
       }
     }
 

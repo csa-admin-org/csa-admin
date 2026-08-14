@@ -128,9 +128,9 @@ Le **sujet** est aussi rendu pour le flux public sans données membre. Les sujet
 Lorsque le flux public est activé, le modèle affiche son URL de flux:
 
 <% feed_template = Newsletter::Template.find_by(feed_enabled: true) || Newsletter::Template.order(:id).first %>
-```text
+~~~
 <%= members_newsletter_feed_url(host: Newsletter::Template.members_feed_host, protocol: "https", template_id: feed_template&.id || 1) %>
-```
+~~~
 
 Cette URL liste les **10 publications les plus récentes** pour ce modèle (newsletters envoyées uniquement). Les brouillons et newsletters planifiées sont exclus. Activer le flux public ne republie **pas** l'historique; seules les newsletters envoyées après l'activation apparaissent.
 

@@ -128,9 +128,9 @@ Der **Betreff** wird für den öffentlichen Feed ebenfalls ohne Mitgliederdaten 
 Wenn der öffentliche Feed aktiviert ist, zeigt die Vorlage ihre Feed-URL:
 
 <% feed_template = Newsletter::Template.find_by(feed_enabled: true) || Newsletter::Template.order(:id).first %>
-```text
+~~~
 <%= members_newsletter_feed_url(host: Newsletter::Template.members_feed_host, protocol: "https", template_id: feed_template&.id || 1) %>
-```
+~~~
 
 Diese URL listet die **10 neuesten veröffentlichten** Ausgaben dieser Vorlage (nur gesendete Newsletter). Entwürfe und geplante Newsletter sind ausgeschlossen. Das Aktivieren des öffentlichen Feeds füllt die Vergangenheit **nicht** nach; nur Newsletter, die danach gesendet werden, erscheinen.
 

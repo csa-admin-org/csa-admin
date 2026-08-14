@@ -128,9 +128,9 @@ Ook het **onderwerp** wordt voor de openbare feed zonder ledgegevens gerenderd. 
 Als de openbare feed is ingeschakeld, toont het sjabloon de feed-URL:
 
 <% feed_template = Newsletter::Template.find_by(feed_enabled: true) || Newsletter::Template.order(:id).first %>
-```text
+~~~
 <%= members_newsletter_feed_url(host: Newsletter::Template.members_feed_host, protocol: "https", template_id: feed_template&.id || 1) %>
-```
+~~~
 
 Die URL toont de **10 meest recente gepubliceerde** nummers van dat sjabloon (alleen verzonden nieuwsbrieven). Concepten en geplande nieuwsbrieven zijn uitgesloten. De openbare feed inschakelen vult het verleden **niet** aan; alleen nieuwsbrieven die daarna worden verzonden verschijnen.
 

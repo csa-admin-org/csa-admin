@@ -128,9 +128,9 @@ Anche l'**oggetto** viene reso per il feed pubblico senza dati del socio. Oggett
 Quando il feed pubblico è attivo, il modello mostra il suo URL del feed:
 
 <% feed_template = Newsletter::Template.find_by(feed_enabled: true) || Newsletter::Template.order(:id).first %>
-```text
+~~~
 <%= members_newsletter_feed_url(host: Newsletter::Template.members_feed_host, protocol: "https", template_id: feed_template&.id || 1) %>
-```
+~~~
 
 Quell'URL elenca le **10 pubblicazioni più recenti** di quel modello (solo newsletter inviate). Bozze e newsletter programmate sono escluse. Attivare il feed pubblico **non** ripubblica lo storico; compaiono solo le newsletter inviate dopo l'attivazione.
 

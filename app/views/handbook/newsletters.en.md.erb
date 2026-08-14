@@ -128,9 +128,9 @@ The **subject** is also rendered for the public feed without member data. Person
 When the public feed is enabled, the template shows its feed URL:
 
 <% feed_template = Newsletter::Template.find_by(feed_enabled: true) || Newsletter::Template.order(:id).first %>
-```text
+~~~
 <%= members_newsletter_feed_url(host: Newsletter::Template.members_feed_host, protocol: "https", template_id: feed_template&.id || 1) %>
-```
+~~~
 
 That URL lists the **10 most recent published** issues for that template (sent newsletters only). Drafts and scheduled newsletters are excluded. Enabling the public feed does **not** backfill past issues; only newsletters sent after it is enabled appear.
 
