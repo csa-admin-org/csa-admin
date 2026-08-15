@@ -156,11 +156,11 @@ _:
         _it: Accedere alla demo
         _nl: Naar de demo
       demo_explore_paragraph:
-        _en: Your account is ready. Feel free to click around, create members, and experiment with the settings. Everything resets weekly, so you can't break anything.
-        _fr: Votre compte est prêt. N'hésitez pas à explorer, à créer des membres et à tester les réglages. Tout est réinitialisé chaque semaine, donc impossible de casser quoi que ce soit.
-        _de: Das Konto ist bereit. Einfach durchklicken, Mitglieder erstellen und die Einstellungen ausprobieren. Alles wird wöchentlich zurückgesetzt, es kann also nichts kaputt gehen.
-        _it: Il vostro account è pronto. Esplorate liberamente, create soci e provate le impostazioni. Tutto viene reimpostato ogni settimana, quindi non potete rompere nulla.
-        _nl: Het account is klaar. Gerust rondklikken, leden aanmaken en de instellingen uitproberen. Alles wordt wekelijks gereset, dus er kan niets kapotgaan.
+        _en: Your account is ready. This login link stays valid for one week. Feel free to click around, create members, and experiment with the settings. Everything resets weekly, so you can't break anything.
+        _fr: Votre compte est prêt. Ce lien de connexion reste valable une semaine. N'hésitez pas à explorer, à créer des membres et à tester les réglages. Tout est réinitialisé chaque semaine, donc impossible de casser quoi que ce soit.
+        _de: Das Konto ist bereit. Dieser Anmeldelink bleibt eine Woche gültig. Einfach durchklicken, Mitglieder erstellen und die Einstellungen ausprobieren. Alles wird wöchentlich zurückgesetzt, es kann also nichts kaputt gehen.
+        _it: Il vostro account è pronto. Questo link di accesso resta valido una settimana. Esplorate liberamente, create soci e provate le impostazioni. Tutto viene reimpostato ogni settimana, quindi non potete rompere nulla.
+        _nl: Het account is klaar. Deze inloglink blijft een week geldig. Gerust rondklikken, leden aanmaken en de instellingen uitproberen. Alles wordt wekelijks gereset, dus er kan niets kapotgaan.
       demo_questions_paragraph:
         _en: If you have any questions or would like a personal walkthrough, just reply to this email. I'm always happy to help.
         _fr: Si vous avez des questions ou souhaitez une présentation personnalisée, répondez simplement à cet e-mail. Je suis là pour vous aider.

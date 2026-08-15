@@ -11,6 +11,10 @@ class Session < ApplicationRecord
     Tenant.current || raise("Cannot generate session redeem token outside tenant context")
   end
 
+  generates_token_for :demo_invite, expires_in: 1.week do
+    Tenant.current || raise("Cannot generate session redeem token outside tenant context")
+  end
+
   belongs_to :member, optional: true
   belongs_to :admin, optional: true
   has_many :absences, dependent: :nullify
@@ -45,7 +49,7 @@ class Session < ApplicationRecord
   end
 
   def self.redeem_token(token, owner_type:)
-    find_by_token_for(:redeem, token)&.redeem_as(owner_type)
+    (find_by_token_for(:redeem, token) || find_by_token_for(:demo_invite, token))&.redeem_as(owner_type)
   end
 
   def self.clear_stale!

@@ -143,23 +143,36 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
     end
   end
 
-  test "creates a session for direct access via magic link" do
+  test "creates a browser session and a week-long invite session" do
     in_demo_tenant do
       registration = Demo::Registration.new(
         name: "Frank Test",
         email: "frank@example.com")
 
-      assert_difference "Session.count", 1 do
+      assert_difference "Session.count", 2 do
         assert_enqueued_emails 1 do
-          registration.save
+          assert registration.save
         end
       end
 
-      admin = Admin.find_by(email: "frank@example.com")
-      session = admin.sessions.last
-      assert session
-      assert_equal "127.0.0.1", session.remote_addr
-      assert_equal "-", session.user_agent
+      admin = Admin.find_by!(email: "frank@example.com")
+      sessions = admin.sessions.order(:id)
+      assert_equal 2, sessions.size
+      assert_equal registration.session, sessions.first
+      sessions.each do |session|
+        assert_equal "127.0.0.1", session.remote_addr
+        assert_equal "-", session.user_agent
+        assert_nil session.last_used_at
+      end
+
+      invite_session = sessions.last
+      token = invite_session.generate_token_for(:demo_invite)
+      assert_equal invite_session, Session.redeem_token(token, owner_type: :admin)
+      assert_nil Session.find_by_token_for(:redeem, token)
+
+      job = enqueued_jobs.find { |j| j["job_class"] == "ActionMailer::MailDeliveryJob" }
+      assert_equal "critical", job["queue_name"]
+      assert_equal "invitation_email", job["arguments"][1]
     end
   end
 

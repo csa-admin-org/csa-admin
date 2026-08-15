@@ -1,6 +1,13 @@
 _:
   demo:
     registrations:
+      flash:
+        created:
+          _en: You're in. A login link, valid for one week, has been sent to your email.
+          _fr: Vous y êtes. Un lien de connexion, valable une semaine, vous a été envoyé par e-mail.
+          _de: Anmeldung erfolgt. Ein Anmeldelink, eine Woche gültig, wurde per E-Mail gesendet.
+          _it: Siete dentro. Un link di accesso, valido una settimana, è stato inviato alla vostra e-mail.
+          _nl: Aangemeld. Een inloglink, een week geldig, is per e-mail verzonden.
       new:
         already_have_account_html:
           _en: Already have an account? <a href="%{login_path}">Log in</a>
@@ -9,11 +16,11 @@ _:
           _it: Avete già un account? <a href="%{login_path}">Accedere</a>
           _nl: Al een account? <a href="%{login_path}">Inloggen</a>
         description:
-          _en: Thanks for your interest! Simply fill in this short form and you'll receive a login link by email to access the demo right away.
-          _fr: Merci pour votre intérêt! Remplissez simplement ce court formulaire et vous recevrez un lien de connexion par e-mail pour accéder à la démo immédiatement.
-          _de: Vielen Dank für das Interesse! Einfach dieses kurze Formular ausfüllen und per E-Mail wird ein Anmeldelink für den sofortigen Zugang zur Demo zugesendet.
-          _it: Grazie per il vostro interesse! Compilate semplicemente questo breve modulo e riceverete un link di accesso via e-mail per accedere alla demo immediatamente.
-          _nl: Bedankt voor de interesse! Vul gewoon dit korte formulier in om per e-mail een inloglink te ontvangen voor directe toegang tot de demo.
+          _en: Thanks for your interest! Fill in this short form to get access to the demo. A login link, valid for one week, will be sent to your email.
+          _fr: Merci pour votre intérêt! Remplissez ce court formulaire pour accéder à la démo. Un lien de connexion, valable une semaine, vous sera envoyé par e-mail.
+          _de: Vielen Dank für das Interesse! Dieses kurze Formular ausfüllen, um Zugang zur Demo zu erhalten. Ein Anmeldelink, eine Woche gültig, wird per E-Mail gesendet.
+          _it: Grazie per il vostro interesse! Compilate questo breve modulo per accedere alla demo. Un link di accesso, valido una settimana, verrà inviato alla vostra e-mail.
+          _nl: Bedankt voor de interesse! Vul dit korte formulier in om toegang tot de demo te krijgen. Een inloglink, een week geldig, wordt per e-mail verstuurd.
         email_input:
           _en: Email
           _fr: Email

@@ -16,7 +16,8 @@ class Demo::RegistrationsController < ApplicationController
     @registration = Demo::Registration.new(registration_params)
     @registration.request = request
     if @registration.save
-      redirect_to login_path, notice: t("sessions.flash.initiated")
+      sign_in_session(@registration.session)
+      redirect_to root_path, notice: t("demo.registrations.flash.created")
     else
       render :new, status: :unprocessable_entity
     end

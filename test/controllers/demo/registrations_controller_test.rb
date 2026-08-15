@@ -34,7 +34,7 @@ class Demo::RegistrationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path
   end
 
-  test "POST /demo with valid params creates admin and redirects" do
+  test "POST /demo with valid params signs in immediately and keeps the invite redeemable" do
     in_demo_tenant do
       assert_enqueued_emails 1 do
         post demo_registrations_path, params: {
@@ -48,10 +48,20 @@ class Demo::RegistrationsControllerTest < ActionDispatch::IntegrationTest
       end
 
       admin = Admin.find_by!(email: "alice@example.com")
+      browser_session, invite_session = admin.sessions.order(:id)
       assert_equal "Green Valley CSA", admin.demo_message
       assert_nil admin.demo_registration_notification_sent_at
-      assert_redirected_to login_path
-      assert_equal I18n.t("sessions.flash.initiated"), flash[:notice]
+      assert_redirected_to root_path
+      assert_equal I18n.t("demo.registrations.flash.created"), flash[:notice]
+      assert cookies[:session_id].present?
+
+      follow_redirect!
+      assert_response :success
+      assert_predicate browser_session.reload, :last_used_at?
+      assert_nil invite_session.reload.last_used_at
+
+      token = invite_session.generate_token_for(:demo_invite)
+      assert_equal invite_session, Session.redeem_token(token, owner_type: :admin)
     end
   end
 

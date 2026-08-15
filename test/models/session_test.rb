@@ -86,6 +86,45 @@ class SessionTest < ActiveSupport::TestCase
     assert_equal "Cannot generate session redeem token outside tenant context", error.message
   end
 
+  test "demo invite token lasts one week and stays tenant-bound" do
+    session = create_session(admins(:ultra))
+    token = session.generate_token_for(:demo_invite)
+
+    travel 15.minutes + 1.second do
+      assert_equal session, Session.redeem_token(token, owner_type: :admin)
+      assert_nil Session.find_by_token_for(:redeem, token)
+    end
+
+    with_tenant("other") do
+      assert_nil Session.find_by_token_for(:demo_invite, token)
+      assert_nil Session.redeem_token(token, owner_type: :admin)
+    end
+
+    travel 1.week + 1.second do
+      assert_nil Session.find_by_token_for(:demo_invite, token)
+      assert_nil Session.redeem_token(token, owner_type: :admin)
+    end
+  end
+
+  test "redeem token still expires after 15 minutes" do
+    session = create_session(admins(:ultra))
+    token = session.generate_token_for(:redeem)
+
+    travel 15.minutes + 1.second do
+      assert_nil Session.find_by_token_for(:redeem, token)
+      assert_nil Session.redeem_token(token, owner_type: :admin)
+    end
+  end
+
+  test "demo invite token generation requires a tenant context" do
+    session = create_session(admins(:ultra))
+
+    error = assert_raises(RuntimeError) do
+      with_tenant(nil) { session.generate_token_for(:demo_invite) }
+    end
+    assert_equal "Cannot generate session redeem token outside tenant context", error.message
+  end
+
   test "redeem token can be reused until the session is used" do
     session = create_session(admins(:ultra))
     token = session.generate_token_for(:redeem)

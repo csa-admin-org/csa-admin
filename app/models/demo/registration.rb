@@ -9,6 +9,7 @@ class Demo::Registration
   attribute :message, :string
 
   attr_accessor :request
+  attr_reader :session
 
   validate :admin_must_be_valid
 
@@ -16,6 +17,7 @@ class Demo::Registration
     return false unless valid?
 
     admin = create_admin!
+    @session = create_session!(admin)
     send_invitation_email!(admin)
     true
   end
@@ -46,14 +48,18 @@ class Demo::Registration
       demo_message: message.presence)
   end
 
+  def create_session!(admin)
+    Session.create!(admin_email: admin.email, request: request)
+  end
+
   def send_invitation_email!(admin)
-    session = Session.create!(admin_email: admin.email, request: request)
+    invite_session = create_session!(admin)
     action_url = Rails.application.routes.url_helpers.session_url(
-      session.generate_token_for(:redeem),
+      invite_session.generate_token_for(:demo_invite),
       host: Tenant.admin_host)
     AdminMailer.with(
       admin: admin,
       action_url: action_url
-    ).invitation_email.deliver_later
+    ).invitation_email.deliver_later(queue: :critical)
   end
 end

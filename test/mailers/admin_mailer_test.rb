@@ -72,6 +72,7 @@ class AdminMailerTest < ActionMailer::TestCase
       assert_equal "Invitation to the CSA Admin demo", mail.subject
 
       body = mail.body.to_s
+      assert_includes body, "This login link stays valid for one week."
       assert_match %r{<p class="closing">Best regards,\n<br />Thibaud</p>}, body
     end
   end

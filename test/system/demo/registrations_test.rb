@@ -24,7 +24,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
     end
   end
 
-  test "successful registration redirects with flash and sends login email" do
+  test "successful registration opens the demo and keeps the emailed invite" do
     with_demo_tenant do
       visit new_demo_registration_path
 
@@ -35,12 +35,14 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
       click_button "Send"
       perform_enqueued_jobs
 
-      assert_equal "/login", current_path
-      assert_text "If this email is registered, a login link will be sent to you."
+      assert_equal "/", current_path
+      assert_text "You're in. A login link, valid for one week, has been sent to your email."
 
+      Capybara.reset_sessions!
       open_email("alice@example.com")
       current_email.click_link "Access the demo"
 
+      assert_equal "/", current_path
       assert_text "You are now logged in."
     end
   end
