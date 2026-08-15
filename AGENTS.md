@@ -30,6 +30,10 @@ CSA Admin is a multi-tenant Rails application for managing Community Supported A
 
 Development uses puma-dev over HTTPS, not `localhost:3000`. Host mapping, portals, and agent-browser notes: `.agents/browser/README.md`.
 
+### Deploy
+
+Production deploys from `master` after CI is green via `.github/workflows/deploy.yml` (`ubuntu-24.04-arm`, `kamal deploy`). Tenant and queue migrations run from `.kamal/hooks/pre-deploy` on the new image before boot. Do not re-enable `db:prepare` in `bin/docker-entrypoint`. GitHub Environment `production` needs `RAILS_MASTER_KEY`, `CAP_ADMIN_KEY`, and `KAMAL_SSH_PRIVATE_KEY` (root SSH to `isle.thibaud.gg`).
+
 ### Jobs
 
 Tenant-scoped jobs inherit from `ApplicationJob`, which serializes `Tenant.current` and `Current`. Enqueue them with `perform_later` from inside a tenant context; do not call `perform_now` on them. Cross-tenant orchestrators may inherit from `ActiveJob::Base`, switch tenants, and enqueue tenant-scoped jobs. Use `TenantSwitchEachJob.perform_later("MyJobClassName")` for the standard fan-out pattern.

@@ -1,0 +1,27 @@
+#!/bin/sh
+set -eu
+
+# Migrate every tenant + the queue DB with the image that is about to boot.
+# Skip rollbacks: never migrate down automatically.
+# kamal app exec does not take the deploy lock, so this is safe inside deploy.
+
+if [ "${KAMAL_COMMAND:-}" = "rollback" ]; then
+  echo "Skipping migrate on rollback"
+  exit 0
+fi
+
+run_kamal() {
+  if command -v kamal >/dev/null 2>&1; then
+    kamal "$@"
+  else
+    bundle exec kamal "$@"
+  fi
+}
+
+echo "Migrating databases with ${KAMAL_VERSION}..."
+
+run_kamal app exec \
+  --version "${KAMAL_VERSION}" \
+  --roles web \
+  --primary \
+  "bin/rails db:migrate"

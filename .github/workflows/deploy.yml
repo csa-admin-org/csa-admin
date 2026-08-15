@@ -1,0 +1,82 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Production
+    if: >-
+      github.repository == 'csa-admin-org/csa-admin' &&
+      (
+        (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/master') ||
+        (github.event.workflow_run.conclusion == 'success' &&
+         github.event.workflow_run.head_repository.full_name == github.repository)
+      )
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 45
+    environment: production
+
+    env:
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      ADMIN_KEY: ${{ secrets.CAP_ADMIN_KEY }}
+
+    steps:
+      - name: Check secrets
+        run: |
+          if [ -z "${RAILS_MASTER_KEY:-}" ] || [ -z "${ADMIN_KEY:-}" ]; then
+            echo "Missing GitHub Environment secrets on 'production'."
+            echo "Set RAILS_MASTER_KEY, CAP_ADMIN_KEY, and KAMAL_SSH_PRIVATE_KEY."
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          persist-credentials: false
+
+      - name: Setup Ruby
+        uses: jdx/mise-action@v4
+        env:
+          MISE_DISABLE_TOOLS: node,aube,actionlint
+
+      - name: Install Kamal
+        run: |
+          kamal_version="$(awk '/^    kamal \(/ { gsub(/[()]/, "", $2); print $2; exit }' Gemfile.lock)"
+          gem install kamal -v "$kamal_version"
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.KAMAL_SSH_PRIVATE_KEY }}
+
+      - name: Trust isle
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          for attempt in 1 2 3 4 5; do
+            ssh-keyscan -H isle.thibaud.gg >> ~/.ssh/known_hosts && break
+            if [ "$attempt" -eq 5 ]; then
+              echo "ssh-keyscan failed after ${attempt} attempts"
+              exit 1
+            fi
+            sleep 2
+          done
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy
+        run: |
+          echo "Deploying $(git rev-parse HEAD)"
+          kamal deploy
