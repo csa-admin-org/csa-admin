@@ -83,7 +83,7 @@ Cela peut être modifié dans [les paramètres](/settings#billing) en activant "
 Chaque jour de facturation, le système vérifie chaque membre et détermine si une facture est due:
 
 1. L'année fiscale est découpée en périodes selon l'intervalle de paiement (par ex. trimestriel = 4 périodes de 3 mois).
-2. Si la **période en cours a déjà été facturée**, la prochaine facture est planifiée pour le début de la période suivante.
+2. Si la **période en cours a déjà été facturée**, la prochaine facture est planifiée pour le début de la période suivante. Si l'abonnement est déjà trop facturé, elle est planifiée pour le prochain jour de facturation afin d'annuler et recréer la dernière facture.
 3. Si la **période en cours n'a pas encore été facturée**, la facture est créée au prochain jour de facturation, en respectant le paramètre " première livraison " ou " début de l'abonnement " décrit ci-dessus.
 4. Si la date calculée tombe **après la fin de l'année fiscale**, aucune facture supplémentaire n'est générée pour cette année.
 
@@ -115,8 +115,8 @@ Vous pouvez facturer à l'avance un abonnement futur depuis sa page en cliquant 
 
 Si la configuration d'un abonnement (dates, <%= BasketSize.model_name.human.downcase %>, ...) est modifiée, plusieurs cas sont possibles:
 
-- Une facture future doit encore être envoyée (c'est le milieu de l'année et le membre est facturé chaque trimestre); dans ce cas, le changement de prix (positif ou négatif) sera simplement appliqué à la prochaine facture.
-- La dernière facture a déjà été envoyée (c'est la fin de l'année ou le membre est facturé en une fois), il y a alors 2 possibilités:
+- Une facture future doit encore être envoyée (c'est le milieu de l'année et le membre est facturé chaque trimestre) et le montant restant est encore positif; dans ce cas, le changement de prix (positif ou négatif) sera simplement appliqué à la prochaine facture.
+- La dernière facture a déjà été envoyée, ou l'abonnement est déjà trop facturé (aucune facture positive restante n'est possible), il y a alors 2 possibilités:
   - Le changement de prix est positif, une nouvelle facture (avec un montant plus élevé) sera simplement créée le prochain jour de facturation afin de facturer le montant manquant.
   - Le changement de prix est négatif, la/les dernière(s) facture(s) de l'abonnement sera/seront alors automatiquement annulée(s) et une nouvelle facture (avec un montant moins élevé) sera recréée le prochain jour de facturation. Si l'ancienne facture annulée était déjà payée, alors la nouvelle facture sera automatiquement fermée et le membre se retrouvera avec une balance positive. Au besoin, vous pouvez refléter un remboursement du solde du membre en lui [créant un paiement négatif](/payments/new).
 

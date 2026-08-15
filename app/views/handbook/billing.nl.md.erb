@@ -83,7 +83,7 @@ Dit kan worden gewijzigd in [de instellingen](/settings#billing) door "Factureer
 Elke factureringsdag controleert het systeem elk lid en bepaalt of een factuur verschuldigd is:
 
 1. Het boekjaar wordt opgedeeld in perioden op basis van het betalingsinterval (bijv. driemaandelijks = 4 perioden van 3 maanden).
-2. Als de **huidige periode al is gefactureerd**, wordt de volgende factuur gepland voor het begin van de volgende periode.
+2. Als de **huidige periode al is gefactureerd**, wordt de volgende factuur gepland voor het begin van de volgende periode. Als het lidmaatschap al te veel is gefactureerd, wordt die gepland op de volgende factureringsdag, zodat de laatste factuur kan worden geannuleerd en opnieuw aangemaakt.
 3. Als de **huidige periode nog niet is gefactureerd**, wordt de factuur aangemaakt op de volgende factureringsdag, met inachtneming van de instelling "eerste levering" of "start lidmaatschap" zoals hierboven beschreven.
 4. Als de berekende datum **na het einde van het boekjaar** valt, wordt er geen verdere factuur meer gegenereerd voor dit jaar.
 
@@ -115,8 +115,8 @@ De jaarlijkse bijdrage die overeenkomt met het boekjaar van het lidmaatschap wor
 
 Als een lidmaatschapsconfiguratie (datums, <%= BasketSize.model_name.human.downcase %>, ...) wordt gewijzigd, zijn verschillende gevallen mogelijk:
 
-- Een toekomstige factuur moet nog worden verzonden (het is het midden van het jaar en het lid wordt elk kwartaal gefactureerd); in dit geval wordt de prijswijziging (positief of negatief) eenvoudig toegepast op de volgende factuur.
-- De laatste factuur is al verzonden (het is het einde van het jaar of het lid wordt eenmaal gefactureerd), er zijn dan 2 mogelijkheden:
+- Een toekomstige factuur moet nog worden verzonden (het is het midden van het jaar en het lid wordt elk kwartaal gefactureerd) en het resterende bedrag is nog positief; in dit geval wordt de prijswijziging (positief of negatief) eenvoudig toegepast op de volgende factuur.
+- De laatste factuur is al verzonden, of het lidmaatschap is al te veel gefactureerd (geen resterende positieve factuur is mogelijk), er zijn dan 2 mogelijkheden:
   - De prijswijziging is positief, een nieuwe factuur (met een hoger bedrag) wordt eenvoudig aangemaakt op de volgende factureringsdag om het ontbrekende bedrag te factureren.
   - De prijswijziging is negatief, de laatste factuur/facturen van het lidmaatschap worden dan automatisch geannuleerd en een nieuwe factuur (met een lager bedrag) wordt opnieuw aangemaakt op de volgende factureringsdag. Als de oude geannuleerde factuur al was betaald, dan wordt de nieuwe factuur automatisch gesloten en eindigt het lid met een positief saldo. Indien nodig kun je een terugbetaling van het saldo van het lid weergeven door [een negatieve betaling aan te maken](/payments/new) voor hen.
 

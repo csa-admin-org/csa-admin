@@ -83,7 +83,7 @@ This can be changed in [the settings](/settings#billing) by enabling "Bill membe
 Each billing day, the system checks every member and determines whether an invoice is due:
 
 1. The fiscal year is divided into periods based on the payment interval (e.g. quarterly = 4 periods of 3 months).
-2. If the **current period has already been billed**, the next invoice is scheduled for the beginning of the next period.
+2. If the **current period has already been billed**, the next invoice is scheduled for the beginning of the next period. If the membership is already over-invoiced, it is scheduled for the next billing day instead, so the last invoice can be canceled and recreated.
 3. If the **current period has not been billed yet**, the invoice is created on the next billing day, respecting the "first delivery" or "membership start" setting described above.
 4. If the calculated next invoice date falls **after the fiscal year end**, no further invoice is generated for this year.
 
@@ -115,8 +115,8 @@ Advance invoicing can be done from the page of a future subscription by clicking
 
 If a membership configuration (dates, <%= BasketSize.model_name.human.downcase %>, ...) is modified, several cases are possible:
 
-- A future invoice still needs to be sent (it's the middle of the year and the member is billed each quarter); in this case, the price change (positive or negative) will simply be applied to the next invoice.
-- The last invoice has already been sent (it's the end of the year or the member is billed once), there are then 2 possibilities:
+- A future invoice still needs to be sent (it's the middle of the year and the member is billed each quarter) and the remaining amount is still positive; in this case, the price change (positive or negative) will simply be applied to the next invoice.
+- The last invoice has already been sent, or the membership is already over-invoiced (no remaining positive invoice is possible), there are then 2 possibilities:
   - The price change is positive, a new invoice (with a higher amount) will simply be created on the next billing day to bill the missing amount.
   - If the price change is negative, the membership's most recent invoice or invoices are automatically canceled. A new invoice with the lower amount is created on the next billing day. If a canceled invoice was already paid, the new invoice is automatically closed and the member has a positive balance. To record a refund, [create a negative payment](/payments/new).
 

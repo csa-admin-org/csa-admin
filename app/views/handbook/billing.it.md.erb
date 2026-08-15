@@ -83,7 +83,7 @@ Questo può essere modificato nelle [impostazioni](/settings#billing) attivando 
 Ogni giorno di fatturazione, il sistema verifica ogni socio e determina se una fattura è dovuta:
 
 1. L'anno fiscale è suddiviso in periodi in base all'intervallo di pagamento (ad es. trimestrale = 4 periodi di 3 mesi).
-2. Se il **periodo corrente è già stato fatturato**, la prossima fattura è pianificata per l'inizio del periodo successivo.
+2. Se il **periodo corrente è già stato fatturato**, la prossima fattura è pianificata per l'inizio del periodo successivo. Se è già stato fatturato in eccesso, è pianificata per il prossimo giorno di fatturazione, così l'ultima fattura può essere annullata e ricreata.
 3. Se il **periodo corrente non è ancora stato fatturato**, la fattura viene creata al prossimo giorno di fatturazione, rispettando l'impostazione "prima consegna" o "inizio dell'abbonamento" descritta sopra.
 4. Se la data calcolata cade **dopo la fine dell'anno fiscale**, nessuna fattura aggiuntiva viene generata per quest'anno.
 
@@ -115,8 +115,8 @@ La fatturazione anticipata può essere effettuata dalla pagina di un abbonamento
 
 Se la configurazione di un abbonamento (date, <%= BasketSize.model_name.human.downcase %>, ...) viene modificata, sono possibili diversi casi:
 
-- Una fattura futura deve ancora essere inviata (è la metà dell'anno e il socio viene fatturato ogni trimestre); in questo caso, il cambiamento di prezzo (positivo o negativo) sarà semplicemente applicato alla prossima fattura.
-- L'ultima fattura è già stata inviata (è la fine dell'anno o il socio viene fatturato una volta), ci sono allora 2 possibilità:
+- Una fattura futura deve ancora essere inviata (è la metà dell'anno e il socio viene fatturato ogni trimestre) e l'importo restante è ancora positivo; in questo caso, il cambiamento di prezzo (positivo o negativo) sarà semplicemente applicato alla prossima fattura.
+- L'ultima fattura è già stata inviata, o è già stato fatturato in eccesso (nessuna fattura positiva restante è possibile), ci sono allora 2 possibilità:
   - Il cambiamento di prezzo è positivo, una nuova fattura (con un importo più elevato) sarà semplicemente creata il prossimo giorno di fatturazione per fatturare l'importo mancante.
   - Il cambiamento di prezzo è negativo, l'ultima/e fattura/e dell'abbonamento sarà/saranno quindi automaticamente annullata/e e una nuova fattura (con un importo inferiore) sarà ricreata il prossimo giorno di fatturazione. Se la vecchia fattura annullata era già stata pagata, allora la nuova fattura sarà automaticamente chiusa e il socio si troverà con un saldo positivo. Se necessario, puoi riflettere un rimborso del saldo del socio [creando un pagamento negativo](/payments/new).
 

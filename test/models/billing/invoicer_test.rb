@@ -374,6 +374,42 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     end
   end
 
+  test "creates an invoice on the next billing day for overcharged quarterly membership ended early" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    membership.update!(billing_year_division: 4)
+    force_invoice(member)
+
+    travel_to "2024-04-01"
+    force_invoice(member)
+
+    travel_to "2024-07-01"
+    overcharged_invoice = force_invoice(member, send_email: true)
+    perform_enqueued_jobs
+
+    membership.update_column(:renewed_at, nil)
+    membership.reload.update!(ended_on: "2024-05-15")
+    remaining_invoices_amount = membership.reload.invoices.not_canceled.where.not(id: overcharged_invoice.id).sum(:memberships_amount)
+
+    travel_to "2024-08-01"
+    invoicer = Billing::Invoicer.new(member.reload)
+    assert membership.overcharged_invoices_amount?
+    assert invoicer.billable?
+    assert_equal Date.new(2024, 8, 5), invoicer.next_date
+
+    travel_to "2024-08-05"
+    invoice = nil
+    assert_difference "Invoice.count", 1 do
+      invoice = Billing::Invoicer.invoice(member.reload)
+    end
+
+    assert_equal membership, invoice.entity
+    assert_equal membership.price - remaining_invoices_amount, invoice.memberships_amount
+    assert invoice.memberships_amount.positive?
+    assert_equal "canceled", overcharged_invoice.reload.state
+  end
+
   test "creates an invoice for active member billed quarterly for quarter #4" do
     travel_to "2024-01-01"
     member = members(:john)

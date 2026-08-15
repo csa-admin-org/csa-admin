@@ -45,7 +45,7 @@ module Billing
         if membership&.billable?
           n_date =
             if current_period_billed?
-              if current_period == periods.last
+              if current_period == periods.last || membership.overcharged_invoices_amount?
                 next_billing_day
               else
                 next_billing_day(beginning_of_next_period)

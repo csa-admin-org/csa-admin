@@ -83,7 +83,7 @@ Dies kann in [den Einstellungen](/settings#billing) geändert werden, indem "Abo
 An jedem Abrechnungstag überprüft das System jedes Mitglied und bestimmt, ob eine Rechnung fällig ist:
 
 1. Das Geschäftsjahr wird in Perioden auf Basis des Zahlungsintervalls aufgeteilt (z.B. quartalweise = 4 Perioden à 3 Monate).
-2. Wenn die **aktuelle Periode bereits abgerechnet** wurde, wird die nächste Rechnung für den Beginn der nächsten Periode geplant.
+2. Wenn die **aktuelle Periode bereits abgerechnet** wurde, wird die nächste Rechnung für den Beginn der nächsten Periode geplant. Ist bereits zu viel abgerechnet, wird sie stattdessen für den nächsten Abrechnungstag geplant, damit die letzte Rechnung storniert und neu erstellt werden kann.
 3. Wenn die **aktuelle Periode noch nicht abgerechnet** wurde, wird die Rechnung am nächsten Abrechnungstag erstellt, unter Berücksichtigung der oben beschriebenen Einstellung "erste Lieferung" oder "Abonnement-Beginn".
 4. Wenn das berechnete Datum **nach dem Ende des Geschäftsjahres** liegt, wird keine weitere Rechnung für dieses Jahr erstellt.
 
@@ -115,8 +115,8 @@ Die Vorausabrechnung kann von der Seite eines zukünftigen Abonnements aus erfol
 
 Wenn eine Abonnementskonfiguration (Daten, <%= BasketSize.model_name.human %>, ...) geändert wird, sind mehrere Fälle möglich:
 
-- Eine zukünftige Rechnung muss noch gesendet werden (es ist Mitte des Jahres und das Mitglied wird vierteljährlich abgerechnet); in diesem Fall wird die Preisänderung (positiv oder negativ) einfach auf die nächste Rechnung angewendet.
-- Die letzte Rechnung wurde bereits gesendet (es ist das Ende des Jahres oder das Mitglied wird einmal abgerechnet), dann gibt es 2 Möglichkeiten:
+- Eine zukünftige Rechnung muss noch gesendet werden (es ist Mitte des Jahres und das Mitglied wird vierteljährlich abgerechnet) und der verbleibende Betrag ist noch positiv; in diesem Fall wird die Preisänderung (positiv oder negativ) einfach auf die nächste Rechnung angewendet.
+- Die letzte Rechnung wurde bereits gesendet oder es ist bereits zu viel abgerechnet (keine verbleibende positive Rechnung ist möglich), dann gibt es 2 Möglichkeiten:
   - Die Preisänderung ist positiv, eine neue Rechnung (mit einem höheren Betrag) wird einfach am nächsten Abrechnungstag erstellt, um den fehlenden Betrag in Rechnung zu stellen.
   - Die Preisänderung ist negativ, die letzte(n) Rechnung(en) des Abonnements wird/werden dann automatisch storniert und eine neue Rechnung (mit einem niedrigeren Betrag) wird am nächsten Abrechnungstag neu erstellt. Wenn die alte stornierte Rechnung bereits bezahlt war, wird die neue Rechnung automatisch geschlossen und das Mitglied hat einen positiven Saldo. Bei Bedarf kannst Du eine Rückerstattung des Mitgliedersaldos durch [Erstellung einer negativen Zahlung](/payments/new) vornehmen.
 
