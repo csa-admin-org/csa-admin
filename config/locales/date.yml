@@ -1,5 +1,76 @@
 _:
   date:
+    abbr_month_names:
+      _en:
+      -
+      - Jan
+      - Feb
+      - Mar
+      - Apr
+      - May
+      - Jun
+      - Jul
+      - Aug
+      - Sep
+      - Oct
+      - Nov
+      - Dec
+      _fr:
+      -
+      - Jan
+      - Fév
+      - Mar
+      - Avr
+      - Mai
+      - Jun
+      - Jul
+      - Aoû
+      - Sep
+      - Oct
+      - Nov
+      - Déc
+      _de:
+      -
+      - Jan
+      - Feb
+      - Mär
+      - Apr
+      - Mai
+      - Jun
+      - Jul
+      - Aug
+      - Sep
+      - Okt
+      - Nov
+      - Dez
+      _it:
+      -
+      - gen
+      - feb
+      - mar
+      - apr
+      - mag
+      - giu
+      - lug
+      - ago
+      - set
+      - ott
+      - nov
+      - dic
+      _nl:
+      -
+      - jan
+      - feb
+      - mrt
+      - apr
+      - mei
+      - jun
+      - jul
+      - aug
+      - sep
+      - okt
+      - nov
+      - dec
     formats:
       day_month:
         _en: "%-d %B"
