@@ -604,7 +604,11 @@ class EbicsRakeTest < ActiveSupport::TestCase
   def key_rotation_batch_stub(expected_method:, expected_tenants: %w[tapatate clefdeschamps], expected_provider: "RAIFCHEC", expected_all: true, expected_verify_payments: true)
     ->(tenant_names:, provider:, all:, verify_payments:) {
       assert_equal expected_tenants, tenant_names
-      assert_equal expected_provider, provider
+      if expected_provider.nil?
+        assert_nil provider
+      else
+        assert_equal expected_provider, provider
+      end
       assert_equal expected_all, all
       assert_equal expected_verify_payments, verify_payments
 

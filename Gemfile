@@ -118,9 +118,6 @@ group :development do
 end
 
 group :test do
-  # https://github.com/minitest/minitest/issues/1040
-  gem "minitest", "~> 5.27"
-
   # Integration Testing
   gem "capybara"
   gem "capybara-email"
@@ -133,4 +130,5 @@ group :test do
 
   # Test Output
   gem "minitest-difftastic"
+  gem "minitest-mock"
 end

@@ -7,6 +7,7 @@ require "rails/test_help"
 
 require "capybara/email"
 require "webmock/minitest"
+require "minitest/mock"
 
 # Disable all real HTTP connections in tests (WebMock will raise on any attempt)
 WebMock.disable_net_connect!
