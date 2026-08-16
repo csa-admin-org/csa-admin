@@ -9,7 +9,7 @@ ActiveAdmin.register_page "Dashboard" do
   }
 
   content title: proc { onboarding? ? "" : t("active_admin.dashboard") } do
-    if Tenant.demo?
+    if Tenant.demo? && params[:welcome] != "false"
       info_pane do
         t("active_admin.demo.welcome_html").html_safe
       end

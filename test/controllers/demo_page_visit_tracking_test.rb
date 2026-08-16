@@ -28,6 +28,28 @@ class DemoPageVisitTrackingTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "shows demo welcome pane by default" do
+    with_demo_tenant do
+      login(@admin)
+
+      get root_path
+
+      assert_response :success
+      assert_select "strong", text: /Welcome to the demo/
+    end
+  end
+
+  test "hides demo welcome pane when welcome is false" do
+    with_demo_tenant do
+      login(@admin)
+
+      get root_path(welcome: false)
+
+      assert_response :success
+      assert_select "strong", text: /Welcome to the demo/, count: 0
+    end
+  end
+
   test "does not track outside demo tenants" do
     login(@admin)
 
