@@ -580,10 +580,10 @@ GEM
     ruby-vips (2.3.0)
       ffi (~> 1.12)
       logger
-    rubyXL (3.4.34)
+    rubyXL (3.4.38)
       nokogiri (>= 1.10.8)
-      rubyzip (~> 2.4)
-    rubyzip (2.4.1)
+      rubyzip (>= 3.2.2)
+    rubyzip (3.4.1)
     securerandom (0.4.1)
     sepa_file_parser (0.11.1)
       bigdecimal
@@ -743,7 +743,7 @@ DEPENDENCIES
   ruby-lsp-rails
   ruby-vips
   rubyXL
-  rubyzip (~> 2.4)
+  rubyzip
   sepa_file_parser
   simple_form
   solid_queue
@@ -976,8 +976,8 @@ CHECKSUMS
   ruby-lsp-rails (0.4.8) sha256=f09d1f926d4063deeb2f3049311925c20dfe6c912371e3bcd04a265a865c44ae
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
   ruby-vips (2.3.0) sha256=e685ec02c13969912debbd98019e50492e12989282da5f37d05f5471442f5374
-  rubyXL (3.4.34) sha256=347d797af36ecea729296ab9497e697c3c2471f9b1909cb5294a89bbabbe8931
-  rubyzip (2.4.1) sha256=8577c88edc1fde8935eb91064c5cb1aef9ad5494b940cf19c775ee833e075615
+  rubyXL (3.4.38) sha256=6b3f46a5ff8ec9903a562604a379a6b79b67cdec73515162b1785bd6092e6ce6
+  rubyzip (3.4.1) sha256=0a79e745b5c25872ebd148457df5665da8530ed8626c993b01457128f173ca02
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   sepa_file_parser (0.11.1) sha256=7a843d4e4401f31f22bb88b166039b3fe22e26337c7c9e5dd2e2e508f1f03e7c
   simple_form (5.4.1) sha256=58c3d229034c7e5545035c3271b6f030ef730c340b9d7d8eb730e0a385b20808

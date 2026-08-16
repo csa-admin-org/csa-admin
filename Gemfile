@@ -68,8 +68,7 @@ gem "public_suffix", require: false
 gem "rubyXL", require: false
 gem "ruby-vips"
 gem "rexml"
-# https://github.com/weshatheleopard/rubyXL/issues/473
-gem "rubyzip", "~> 2.4", require: false
+gem "rubyzip", require: false
 gem "parallel", require: false
 
 # Email
