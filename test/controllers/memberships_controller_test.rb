@@ -27,9 +27,44 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_response :success
+    assert_select "label[for=q_member_city]", text: Member.human_attribute_name(:city)
 
     get memberships_path(format: :csv)
     assert_response :success
+  end
+
+  test "index filters memberships by member city" do
+    travel_to "2024-05-01"
+    members(:jane).update!(city: "Lausanne")
+    login admins(:super)
+
+    get memberships_path, params: {
+      q: { member_city_eq: "Lausanne" },
+      scope: :all
+    }
+
+    assert_response :success
+    assert_select "td a[href='#{membership_path(memberships(:jane))}']"
+    assert_select "td a[href='#{membership_path(memberships(:john))}']", false
+  end
+
+  test "index CSV includes member city" do
+    travel_to "2024-05-01"
+    members(:jane).update!(city: "Lausanne")
+    login admins(:super)
+
+    get memberships_path(format: :csv), params: {
+      q: { during_year: 2024 },
+      scope: :all
+    }
+
+    assert_response :success
+    csv = CSV.parse(response.body.delete_prefix("\uFEFF"), headers: true)
+    city_header = Member.human_attribute_name(:city)
+    jane_row = csv.find { |row| row[Member.human_attribute_name(:name)] == members(:jane).name }
+
+    assert_includes csv.headers, city_header
+    assert_equal "Lausanne", jane_row[city_header]
   end
 
   test "show displays stop action and icon-only destroy action with confirmations" do

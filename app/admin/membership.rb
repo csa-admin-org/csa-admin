@@ -41,6 +41,10 @@ ActiveAdmin.register Membership do
   filter :member,
     as: :select,
     collection: -> { members_collection(collection) }
+  filter :member_city,
+    as: :select,
+    collection: -> { member_cities_collection },
+    label: -> { Member.human_attribute_name(:city) }
   filter :basket_size,
     as: :select,
     collection: -> { admin_basket_sizes_collection }
@@ -287,6 +291,7 @@ ActiveAdmin.register Membership do
     column(:name) { |m| m.member.name }
     column(:emails) { |m| m.member.emails_array.join(", ") }
     column(:phones) { |m| m.member.phones_array.map { |p| display_phone(p) }.join(", ") }
+    column(:city) { |m| m.member.city }
     column(:note) { |m| m.member.note }
     column(:started_on)
     column(:ended_on)
