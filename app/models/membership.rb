@@ -197,18 +197,6 @@ class Membership < ApplicationRecord
     baskets.last&.delivery
   end
 
-  def basket_size
-    return unless basket_size_id
-
-    @basket_size ||= BasketSize.find(basket_size_id)
-  end
-
-  def depot
-    return unless depot_id
-
-    @depot ||= Depot.find(depot_id)
-  end
-
   def update_baskets_counts!
     return if destroyed?
 

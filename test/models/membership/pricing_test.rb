@@ -232,6 +232,9 @@ class Membership::PricingTest < ActiveSupport::TestCase
     assert_equal 1.0, membership.basket_complement_total_price(basket_complements(:eggs))
     assert_equal 2.0, membership.basket_complements_price
     assert_equal 2.05, (2 * 1.02).to_d.round_to_five_cents
+
+    preloaded = Membership.preload(baskets: :baskets_basket_complements).find(membership.id)
+    assert_equal 2.0, preloaded.basket_complements_price
   end
 
   test "basket_complements_price uses one grouped query" do
@@ -242,6 +245,7 @@ class Membership::PricingTest < ActiveSupport::TestCase
         "0" => { basket_complement_id: bread_id, quantity: 1 },
         "1" => { basket_complement_id: eggs_id, quantity: 1 }
       })
+    membership.association(:baskets).reset
 
     queries = 0
     callback = ->(*) { queries += 1 }
@@ -251,6 +255,33 @@ class Membership::PricingTest < ActiveSupport::TestCase
 
     assert_equal 10 * (4 + 6), price
     assert_equal 1, queries
+  end
+
+  test "preloaded baskets_price_extra and basket_complements_price match SQL without extra queries" do
+    travel_to "2024-01-01"
+    membership = create_membership(
+      basket_price_extra: 3,
+      delivery_cycle: delivery_cycles(:thursdays),
+      memberships_basket_complements_attributes: {
+        "0" => { basket_complement_id: bread_id, price: "1.02", quantity: 1 },
+        "1" => { basket_complement_id: eggs_id, price: "1.02", quantity: 1 }
+      })
+    sql_membership = Membership.find(membership.id)
+    extra = sql_membership.baskets_price_extra
+    complements = sql_membership.basket_complements_price
+
+    preloaded = Membership.preload(
+      :member,
+      baskets: :baskets_basket_complements).find(membership.id)
+    queries = 0
+    callback = ->(*) { queries += 1 }
+    preloaded_extra, preloaded_complements = ActiveSupport::Notifications.subscribed(callback, "sql.active_record") {
+      [ preloaded.baskets_price_extra, preloaded.basket_complements_price ]
+    }
+
+    assert_equal extra, preloaded_extra
+    assert_equal complements, preloaded_complements
+    assert_equal 0, queries
   end
 
   test "#cancel_overcharged_invoice! membership period is reduced" do

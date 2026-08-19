@@ -58,19 +58,35 @@ module Membership::Pricing
   end
 
   def baskets_price_extra
-    rounded_price(
-      baskets
-        .billable
-        .sum("quantity * calculated_price_extra"))
+    if association(:baskets).loaded?
+      rounded_price(
+        baskets
+          .select(&:billable)
+          .sum { |basket| basket.quantity * basket.calculated_price_extra })
+    else
+      rounded_price(
+        baskets
+          .billable
+          .sum("quantity * calculated_price_extra"))
+    end
   end
 
   def basket_complements_price
-    baskets.billable
-      .joins(:baskets_basket_complements)
-      .group("baskets_basket_complements.basket_complement_id")
-      .sum("baskets_basket_complements.quantity * baskets_basket_complements.price")
-      .values
-      .sum { |total| rounded_price(total) }
+    if baskets_with_complements_loaded?
+      baskets
+        .select(&:billable)
+        .flat_map(&:baskets_basket_complements)
+        .group_by(&:basket_complement_id)
+        .values
+        .sum { |complements| rounded_price(complements.sum { |c| c.quantity * c.price }) }
+    else
+      baskets.billable
+        .joins(:baskets_basket_complements)
+        .group("baskets_basket_complements.basket_complement_id")
+        .sum("baskets_basket_complements.quantity * baskets_basket_complements.price")
+        .values
+        .sum { |total| rounded_price(total) }
+    end
   end
 
   def basket_complement_total_price(basket_complement)
@@ -152,5 +168,10 @@ module Membership::Pricing
     return 0 if member.salary_basket?
 
     price.round_to_five_cents
+  end
+
+  def baskets_with_complements_loaded?
+    association(:baskets).loaded? &&
+      (baskets.empty? || baskets.first.association(:baskets_basket_complements).loaded?)
   end
 end

@@ -291,7 +291,7 @@ ActiveAdmin.register Membership do
     column(:started_on)
     column(:ended_on)
     column(:baskets_count)
-    column(:baskets_trial_count) { |m| m.baskets.count(&:trial?) }
+    column(:baskets_trial_count, &:trial_baskets_count)
     if feature?("absence")
       column(:absences_included)
       column(:baskets_absent_count) { |m| m.baskets.count(&:absent?) }
@@ -312,7 +312,7 @@ ActiveAdmin.register Membership do
     column(:basket_quantity)
     if BasketComplement.kept.any?
       column(:basket_complements) { |m|
-        basket_complements_description(m.memberships_basket_complements.includes(:basket_complement),
+        basket_complements_description(m.memberships_basket_complements,
           text_only: true,
           public_name: false)
       }
@@ -964,6 +964,21 @@ ActiveAdmin.register Membership do
   controller do
     include ApplicationHelper
     include TranslatedCSVFilename
+
+    def scoped_collection
+      collection = super
+      return collection unless request.format.csv?
+
+      collection.preload(
+        :member,
+        :basket_size,
+        :depot,
+        :delivery_cycle,
+        :alternate_depot,
+        :alternate_delivery_cycle,
+        memberships_basket_complements: :basket_complement,
+        baskets: :baskets_basket_complements)
+    end
 
     def apply_filtering(chain)
       super(chain).distinct

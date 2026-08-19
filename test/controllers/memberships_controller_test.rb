@@ -27,6 +27,9 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_response :success
+
+    get memberships_path(format: :csv)
+    assert_response :success
   end
 
   test "show displays stop action and icon-only destroy action with confirmations" do
