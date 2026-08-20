@@ -21,10 +21,4 @@ class Liquid::BasketComplementDrop < Liquid::Drop
   def description
     @config.description(public_name: true)
   end
-
-  private
-
-  def helpers
-    ApplicationController.helpers
-  end
 end

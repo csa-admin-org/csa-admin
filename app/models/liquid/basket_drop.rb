@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Liquid::BasketDrop < Liquid::Drop
+  include MembershipsHelper
+
+  private(*MembershipsHelper.public_instance_methods)
+
   def initialize(basket)
     @basket = basket
   end
@@ -12,11 +16,11 @@ class Liquid::BasketDrop < Liquid::Drop
   end
 
   def description
-    helpers.basket_size_description(@basket, text_only: true)
+    basket_size_description(@basket, text_only: true)
   end
 
   def complements_description
-    helpers.basket_complements_description(@basket.baskets_basket_complements, text_only: true)
+    basket_complements_description(@basket.baskets_basket_complements, text_only: true)
   end
 
   def size
@@ -59,11 +63,5 @@ class Liquid::BasketDrop < Liquid::Drop
     @basket.baskets_basket_complements.map { |bbc|
       Liquid::BasketComplementDrop.new(bbc)
     }
-  end
-
-  private
-
-  def helpers
-    ApplicationController.helpers
   end
 end

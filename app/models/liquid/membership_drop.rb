@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Liquid::MembershipDrop < Liquid::Drop
+  include MembershipsHelper
+
+  private(*MembershipsHelper.public_instance_methods)
+
   def initialize(membership)
     @membership = membership
   end
@@ -88,7 +92,7 @@ class Liquid::MembershipDrop < Liquid::Drop
   end
 
   def basket_complements_description
-    helpers.basket_complements_description(@membership.memberships_basket_complements, text_only: true)
+    super(@membership.memberships_basket_complements, text_only: true)
   end
 
   def depot
@@ -137,11 +141,5 @@ class Liquid::MembershipDrop < Liquid::Drop
     @membership.baskets.forced.map do |basket|
       Liquid::BasketDrop.new(basket)
     end
-  end
-
-  private
-
-  def helpers
-    ApplicationController.helpers
   end
 end

@@ -2,6 +2,8 @@
 
 module XLSX
   class Billing < Base
+    include ActivitiesHelper
+
     def initialize(year)
       @year = year
       @invoices = Invoice.not_canceled.during_year(year)
@@ -75,7 +77,7 @@ module XLSX
       if basket_complements.any?
         add_line("#{t('adjustments')}: #{BasketComplement.model_name.human}", @memberships.sum(:basket_complements_annual_price_change))
       end
-      add_line("#{t('adjustments')}: #{ApplicationController.helpers.activities_human_name}", @memberships.sum(:activity_participations_annual_price_change))
+      add_line("#{t('adjustments')}: #{activities_human_name}", @memberships.sum(:activity_participations_annual_price_change))
 
       add_empty_line
       add_line((t("memberships_total")), @memberships.sum(:price))
@@ -109,7 +111,7 @@ module XLSX
       end
       if Current.org.feature?("activity")
         @invoices.activity_participation_type.group(:missing_activity_participations_fiscal_year).sum(:amount).sort.each do |year, amount|
-          add_line(t_invoice_with_year(ApplicationController.helpers.activities_human_name, year), amount)
+          add_line(t_invoice_with_year(activities_human_name, year), amount)
         end
       end
       if Current.org.feature?("new_member_fee")
