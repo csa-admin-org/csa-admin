@@ -76,4 +76,33 @@ class InvoicesTest < ApplicationSystemTestCase
     assert_text "Amount CHF 100.00"
     assert_text "Comment\nForgot to come."
   end
+
+  test "updates an unsent other invoice without waiting for the PDF" do
+    enable_invoice_pdf
+    invoice = create_other_invoice(amount: 10)
+    original_blob_id = invoice.pdf_file.blob_id
+    travel 2.seconds
+
+    login admins(:ultra)
+    visit edit_invoice_path(invoice)
+
+    fill_in "invoice_items_attributes_0_amount", with: "25"
+    click_button "Update Invoice"
+
+    assert_current_path invoice_path(invoice)
+    assert_text "Successfully updated."
+    assert_text "Amount CHF 25.00"
+    assert_selector "[data-controller='auto-refresh']"
+    assert_no_button "Send"
+    assert_equal 25, invoice.reload.amount
+    assert_enqueued_jobs 1, only: Billing::InvoiceRefreshJob
+
+    perform_enqueued_jobs only: Billing::InvoiceRefreshJob
+    visit invoice_path(invoice)
+
+    assert_text "Amount CHF 25.00"
+    assert_button "Send"
+    assert_not_equal original_blob_id, invoice.reload.pdf_file.blob_id
+    assert invoice.pdf_current?
+  end
 end

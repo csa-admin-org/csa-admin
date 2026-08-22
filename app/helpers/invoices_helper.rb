@@ -37,6 +37,7 @@ module InvoicesHelper
   def link_to_invoice_pdf(invoice, title: "PDF", **options, &block)
     return unless invoice
     return if invoice.processing?
+    return unless invoice.pdf_current?
 
     link_to pdf_invoice_path(invoice), **options, title: title, target: "_blank", class: "inline-flex flex-col items-center no-underline" do
       if block

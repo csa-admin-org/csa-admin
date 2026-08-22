@@ -23,14 +23,14 @@ module Invoice::Processing
 
     Billing::PaymentsRedistributor.redistribute!(member_id)
     handle_shares_change!
-    reload # ensure that paid_amount/state change are reflected.
-    attach_pdf
+    reload
     Billing::PaymentsRedistributor.redistribute!(member_id)
     transaction do
       update!(state: Invoice::OPEN_STATE)
       close_or_open!
-      send! if send_email && (Current.org.send_closed_invoice? || open?)
     end
+    attach_pdf
+    send! if send_email && (Current.org.send_closed_invoice? || open?)
   end
 
   def send!
@@ -50,7 +50,7 @@ module Invoice::Processing
 
   def mark_as_sent!
     return if sent_at?
-    invalid_transition(:mark_as_sent!) if processing?
+    invalid_transition(:mark_as_sent!) unless can_be_mark_as_sent?
 
     update!(sent_at: Time.current)
     close_or_open!
@@ -129,7 +129,7 @@ module Invoice::Processing
   end
 
   def can_be_mark_as_sent?
-    !processing? && !sent_at? && !canceled?
+    !processing? && !sent_at? && !canceled? && pdf_current?
   end
 
   def can_update?
@@ -162,6 +162,26 @@ module Invoice::Processing
         filename: pdf_filename,
         content_type: "application/pdf")
     end
+  end
+
+  def pdf_current?
+    return true unless can_update?
+    return false unless pdf_file.attached?
+
+    pdf_file.blob.created_at >= updated_at - 1.second
+  end
+
+  def refresh!(expected_updated_at = nil)
+    return unless can_refresh?
+    return if expected_updated_at && updated_at.to_i != expected_updated_at.to_i
+
+    attach_pdf
+  end
+
+  def refresh_later
+    return unless can_refresh?
+
+    Billing::InvoiceRefreshJob.perform_later(self, updated_at.to_i)
   end
 
   def pdf_filename
@@ -197,6 +217,10 @@ module Invoice::Processing
   end
 
   private
+
+  def can_refresh?
+    can_update? && !processing?
+  end
 
   def cancelable_without_entity_order?
     !can_destroy?

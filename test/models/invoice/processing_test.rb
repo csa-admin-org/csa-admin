@@ -13,6 +13,69 @@ class Invoice::ProcessingTest < ActiveSupport::TestCase
     assert invoice.pdf_file.byte_size.positive?
   end
 
+  test "refresh! regenerates the PDF after an amount change" do
+    enable_invoice_pdf
+    invoice = create_other_invoice(amount: 10)
+    original_blob_id = invoice.pdf_file.blob_id
+    invoice.items.first.update!(amount: 25)
+    invoice.update_column(:amount, 25)
+
+    invoice.refresh!(invoice.updated_at.to_i)
+
+    assert_not_equal original_blob_id, invoice.reload.pdf_file.blob_id
+    assert invoice.pdf_current?
+  end
+
+  test "refresh! is a no-op when the invoice cannot be updated" do
+    enable_invoice_pdf
+    invoice = invoices(:annual_fee)
+    invoice.attach_pdf
+    original_blob_id = invoice.pdf_file.blob_id
+
+    assert_no_changes -> { invoice.reload.pdf_file.blob_id }, from: original_blob_id do
+      invoice.refresh!
+    end
+  end
+
+  test "refresh! is a no-op when expected updated_at is stale" do
+    enable_invoice_pdf
+    invoice = create_other_invoice(amount: 10)
+    original_blob_id = invoice.pdf_file.blob_id
+    stale_updated_at = invoice.updated_at.to_i - 1
+
+    assert_no_changes -> { invoice.reload.pdf_file.blob_id }, from: original_blob_id do
+      invoice.refresh!(stale_updated_at)
+    end
+  end
+
+  test "refresh_later enqueues InvoiceRefreshJob" do
+    invoice = create_other_invoice
+
+    assert_enqueued_with(job: Billing::InvoiceRefreshJob) do
+      invoice.refresh_later
+    end
+  end
+
+  test "refresh_later is a no-op for invoices that cannot be updated" do
+    assert_no_enqueued_jobs only: Billing::InvoiceRefreshJob do
+      invoices(:annual_fee).refresh_later
+    end
+  end
+
+  test "pdf_current? is false after an editable invoice changes" do
+    enable_invoice_pdf
+    invoice = create_other_invoice(amount: 10)
+
+    assert invoice.pdf_current?
+
+    travel 2.seconds
+    invoice.touch
+
+    assert_not invoice.reload.pdf_current?
+    assert_not invoice.can_send_email?
+    assert_not invoice.can_be_mark_as_sent?
+  end
+
   test "sends email when send_email is true on creation" do
     mail_templates(:invoice_created)
 

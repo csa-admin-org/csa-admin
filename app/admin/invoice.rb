@@ -215,7 +215,7 @@ ActiveAdmin.register Invoice do
             end
           end
         end
-        if invoice.processing?
+        if invoice.processing? || !invoice.pdf_current?
           panel "PDF", icon: "eye", data: { controller: "auto-refresh" } do
             div class: "p-2" do
               render "invoice_preview", invoice: invoice
@@ -383,13 +383,15 @@ ActiveAdmin.register Invoice do
       icon: "square-pen"
   end
 
-  action_item :pdf, only: :show, if: -> { resource.processed? } do
+  action_item :pdf, only: :show, if: -> { resource.processed? && resource.pdf_current? } do
     action_link "PDF", pdf_invoice_path(resource),
       target: "_blank",
       icon: "file-down"
   end
 
   member_action :pdf, method: :get do
+    return redirect_to resource_path unless resource.pdf_current?
+
     redirect_to rails_blob_path(resource.pdf_file, disposition: "inline")
   end
 
@@ -562,7 +564,6 @@ ActiveAdmin.register Invoice do
     include ApplicationHelper
 
     before_action :regenerate_pdf!, only: [ :show, :pdf ]
-    after_action :refresh_invoice, only: :update
 
     def index
       super do |format|
@@ -571,6 +572,16 @@ ActiveAdmin.register Invoice do
           send_file zip.path,
             type: "application/zip",
             filename: "invoices-#{Date.current}.zip"
+        end
+      end
+    end
+
+    def update
+      update! do |success, failure|
+        success.html do
+          Billing::PaymentsRedistributor.redistribute!(resource.member_id)
+          resource.reload.refresh_later
+          redirect_to resource_path
         end
       end
     end
@@ -587,16 +598,10 @@ ActiveAdmin.register Invoice do
       super(chain).joins(:member).merge(Member.order_by_name)
     end
 
-    def refresh_invoice
-      if resource.valid?
-        resource.attach_pdf
-        Billing::PaymentsRedistributor.redistribute!(resource.member_id)
-      end
-    end
-
     def regenerate_pdf!
       return unless Rails.env.development?
       return if resource.processing?
+      return unless resource.pdf_current?
       return if resource.pdf_file.attachment.created_at > 1.hour.ago
 
       Tempfile.open do |file|

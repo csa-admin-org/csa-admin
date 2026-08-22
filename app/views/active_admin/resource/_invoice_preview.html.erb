@@ -3,7 +3,7 @@
     <%= render "shared/spinner" %>
   </div>
 
-  <% unless invoice.processing? %>
+  <% if invoice.pdf_current? && !invoice.processing? %>
     <%= image_tag invoice.pdf_file.preview(resize_to_limit: [ 2000, 2000 ]), alt: "", class: "absolute inset-0 z-20 h-full w-full object-contain object-top" %>
   <% end %>
 </div>
