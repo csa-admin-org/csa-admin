@@ -12,8 +12,8 @@ require "faker"
 # 1. Clears all transactional data (members, invoices, etc.)
 # 2. Resets organization settings with all features enabled
 # 3. Recreates reference data (basket sizes, depots, delivery cycles)
-# 4. Populates with realistic demo members and memberships
-# 5. Adds basket content, invoices, and payments for realism
+# 4. Populates members with 3 fiscal years of memberships (growth, churn, mix drift)
+# 5. Adds basket content, invoices, shop orders, and payments for realism
 #
 # Usage:
 #   Tenant.switch("demo-fr") { Demo::Seeder.new.seed! }
@@ -105,6 +105,17 @@ class Demo::Seeder
   WAITING_MEMBERS_COUNT = 3
   SUPPORT_MEMBERS_COUNT = 2
   PENDING_MEMBERS_COUNT = 2
+
+  # Current-year actives split across a 3-year cohort (must sum to ACTIVE_MEMBERS_COUNT)
+  HISTORICAL_YEAR_COUNT = 3
+  FOUNDING_MEMBERS_COUNT = 10
+  YEAR_MINUS_ONE_JOINERS_COUNT = 5
+  CURRENT_YEAR_JOINERS_COUNT = 5
+  YEAR_MINUS_TWO_CHURNED_COUNT = 3
+  YEAR_MINUS_ONE_CHURNED_COUNT = 3
+  EARLY_EXITS_PER_CHURN_YEAR = 2
+  ABSENCES_PER_YEAR = 3
+  CONTENTS_COVERAGE_BY_OFFSET = { 2 => 0.70, 1 => 0.80, 0 => 0.90 }.freeze
 
   # Basket content products with typical units and prices
   PRODUCTS = [
@@ -678,11 +689,11 @@ class Demo::Seeder
   end
 
   def create_deliveries!
-    current_fy = Current.fiscal_year
-
-    # Create deliveries for the full current fiscal year (including past dates)
-    # This gives a complete picture of the year for demo purposes
-    @current_year_deliveries = create_deliveries_for_year!(current_fy)
+    @deliveries_by_year = {}
+    seed_fiscal_years.each do |fy|
+      @deliveries_by_year[fy.year] = create_deliveries_for_year!(fy)
+    end
+    @current_year_deliveries = @deliveries_by_year[Current.fiscal_year.year]
   end
 
   def create_deliveries_for_year!(fiscal_year)
@@ -697,7 +708,7 @@ class Demo::Seeder
     while date <= end_date
       # Only create deliveries April through November (typical growing season)
       if date.month.between?(4, 11)
-        delivery = Delivery.new(date: date)
+        delivery = Delivery.new(date: date, shop_open: false)
         # Skip date validation for past deliveries (demo data includes full year)
         delivery.save!(validate: date >= Date.current)
         deliveries << delivery
@@ -777,7 +788,7 @@ class Demo::Seeder
           names: translated_text(variant_data[:key]),
           price: variant_data[:price],
           available: true,
-          stock: rand(10..20)
+          stock: rand(40..80)
         )
       end
 
@@ -785,38 +796,56 @@ class Demo::Seeder
       product
     end
 
-    # Mark some deliveries as shop_open (coming or recent past)
+    open_shop_deliveries!
+  end
+
+  def open_shop_deliveries!
     deliveries_to_open = Delivery.coming.limit(8)
     if deliveries_to_open.empty?
-      # No coming deliveries, use the most recent past deliveries
       deliveries_to_open = Delivery.order(date: :desc).limit(8)
     end
     deliveries_to_open.each do |delivery|
       delivery.shop_open = true
       delivery.save!(validate: delivery.date >= Date.current)
     end
+
+    seed_fiscal_years.each do |fy|
+      past = Delivery.during_year(fy).where(date: ...Date.current).order(:date).to_a
+      next if past.size < 3
+
+      [ past.size / 3, (past.size * 2) / 3 ].uniq.each do |index|
+        delivery = past[index]
+        delivery.shop_open = true
+        delivery.save!(validate: false)
+      end
+    end
   end
 
   def seed_members!
     log "Seeding members..."
 
-    @active_members = []
-    ACTIVE_MEMBERS_COUNT.times { @active_members << create_active_member! }
+    @founding_members = create_members!(FOUNDING_MEMBERS_COUNT, state: "active", trial_baskets_count: 0)
+    @year_minus_one_joiners = create_members!(YEAR_MINUS_ONE_JOINERS_COUNT, state: "active", trial_baskets_count: 0)
+    @current_year_joiners = create_members!(CURRENT_YEAR_JOINERS_COUNT, state: "active", trial_baskets_count: 0)
+    @year_minus_two_churned = create_members!(YEAR_MINUS_TWO_CHURNED_COUNT, state: "inactive", trial_baskets_count: 0)
+    @year_minus_one_churned = create_members!(YEAR_MINUS_ONE_CHURNED_COUNT, state: "inactive", trial_baskets_count: 0)
+
+    @active_members = @founding_members + @year_minus_one_joiners + @current_year_joiners
     TRIAL_MEMBERS_COUNT.times { @active_members << create_trial_member! }
     WAITING_MEMBERS_COUNT.times { create_waiting_member! }
     SUPPORT_MEMBERS_COUNT.times { create_support_member! }
     PENDING_MEMBERS_COUNT.times { create_pending_member! }
+
+    seed_membership_history!
   end
 
-  def create_active_member!
-    member = create_member!(state: "active", trial_baskets_count: 0)
-    create_membership!(member)
-    member
+  def create_members!(count, **attrs)
+    Array.new(count) { create_member!(**attrs) }
   end
 
   def create_trial_member!
     member = create_member!(state: "active")
-    create_membership!(member)
+    create_membership!(member, late_start: true)
     member
   end
 
@@ -885,66 +914,195 @@ class Demo::Seeder
     retry
   end
 
-  def create_membership!(member)
-    current_fy = Current.fiscal_year
-    basket_size = [ @small, @medium, @large ].sample
-    depot = @all_depots.sample
-    delivery_cycle = depot.delivery_cycles.sample
+  def seed_membership_history!
+    fy2, fy1, fy0 = seed_fiscal_years
 
-    # Membership starts at beginning of fiscal year (or random delivery date)
-    started_on = rand < 0.15 ? delivery_cycle.deliveries(current_fy).sample.date : current_fy.beginning_of_year
+    founding_fy2 = @founding_members.map { |member| create_membership!(member, fiscal_year: fy2) }
+    @year_minus_two_churned.each_with_index do |member, index|
+      create_membership!(member, fiscal_year: fy2, early_exit: index < EARLY_EXITS_PER_CHURN_YEAR)
+    end
+
+    founding_fy1 = @founding_members.zip(founding_fy2).map { |member, previous|
+      create_membership!(member, fiscal_year: fy1, previous: previous)
+    }
+    joiners_fy1 = @year_minus_one_joiners.map { |member|
+      create_membership!(member, fiscal_year: fy1, late_start: rand < 0.3)
+    }
+    @year_minus_one_churned.each_with_index do |member, index|
+      create_membership!(member, fiscal_year: fy1, early_exit: index < EARLY_EXITS_PER_CHURN_YEAR)
+    end
+    founding_fy2.zip(founding_fy1).each { |previous, current| mark_renewed!(previous, current) }
+
+    founding_fy0 = @founding_members.zip(founding_fy1).map { |member, previous|
+      create_membership!(member, fiscal_year: fy0, previous: previous)
+    }
+    joiners_current = @year_minus_one_joiners.zip(joiners_fy1).map { |member, previous|
+      create_membership!(member, fiscal_year: fy0, previous: previous)
+    }
+    @current_year_joiners.each { |member|
+      create_membership!(member, fiscal_year: fy0, late_start: rand < 0.4)
+    }
+    founding_fy1.zip(founding_fy0).each { |previous, current| mark_renewed!(previous, current) }
+    joiners_fy1.zip(joiners_current).each { |previous, current| mark_renewed!(previous, current) }
+  end
+
+  def create_membership!(member, fiscal_year: Current.fiscal_year, previous: nil, early_exit: false, late_start: false)
+    basket_size, depot, delivery_cycle, extra, division = membership_config_for(fiscal_year, previous)
+    deliveries = delivery_cycle.deliveries(fiscal_year.year)
+    raise "No deliveries for #{fiscal_year.year} (#{delivery_cycle.name})" if deliveries.empty?
+
+    started_on =
+      if late_start && deliveries.size > 4
+        deliveries[rand(1...(deliveries.size / 3))].date
+      else
+        fiscal_year.beginning_of_year
+      end
+
+    ended_on =
+      if early_exit && deliveries.size > 6
+        deliveries[-(deliveries.size / 3)].date
+      else
+        fiscal_year.end_of_year
+      end
 
     membership = Membership.create!(
       member: member,
       basket_size: basket_size,
-      basket_size_price: basket_size.price,
-      basket_price_extra: Current.org[:basket_price_extras].sample.to_f,
+      basket_size_price: basket_size_price_for(basket_size, fiscal_year),
+      basket_price_extra: extra,
       depot: depot,
       depot_price: depot.price,
       delivery_cycle: delivery_cycle,
       delivery_cycle_price: delivery_cycle.price,
       started_on: started_on,
-      ended_on: current_fy.end_of_year,
-      billing_year_division: [ 1, 4, 12 ].sample
+      ended_on: ended_on,
+      billing_year_division: division
     )
 
-    # Add basket complements to some memberships
-    if rand < 0.4
-      MembershipsBasketComplement.create!(
-        membership: membership,
-        basket_complement: @all_complements.sample,
-        quantity: 1
-      )
-    end
-
+    add_membership_complement!(membership, fiscal_year, previous)
     membership
+  end
+
+  def membership_config_for(fiscal_year, previous)
+    offset = fy_offset(fiscal_year)
+    if previous
+      basket_size = rand < 0.3 ? upgrade_basket_size(previous.basket_size) : previous.basket_size
+      depot = rand < 0.8 ? previous.depot : depot_for_offset(offset)
+      delivery_cycle =
+        if depot.delivery_cycles.include?(previous.delivery_cycle) && rand < 0.8
+          previous.delivery_cycle
+        else
+          depot.delivery_cycles.sample
+        end
+      extra = extra_for_offset(offset, previous: previous)
+      division = rand < 0.2 ? division_for_offset(offset) : previous.billing_year_division
+    else
+      basket_size = size_for_offset(offset)
+      depot = depot_for_offset(offset)
+      delivery_cycle = depot.delivery_cycles.sample
+      extra = extra_for_offset(offset)
+      division = division_for_offset(offset)
+    end
+    [ basket_size, depot, delivery_cycle, extra, division ]
+  end
+
+  def size_for_offset(offset)
+    weights =
+      case offset
+      when 2 then { @small => 5, @medium => 3, @large => 1 }
+      when 1 then { @small => 3, @medium => 4, @large => 2 }
+      else { @small => 2, @medium => 3, @large => 3 }
+      end
+    pick_weighted(weights)
+  end
+
+  def depot_for_offset(offset)
+    weights =
+      case offset
+      when 2 then { @farm_depot => 5, @market_depot => 3, @home_depot => 1 }
+      when 1 then { @farm_depot => 3, @market_depot => 3, @home_depot => 2 }
+      else { @farm_depot => 2, @market_depot => 3, @home_depot => 3 }
+      end
+    pick_weighted(weights)
+  end
+
+  def extra_for_offset(offset, previous: nil)
+    extras = Current.org[:basket_price_extras].map(&:to_f)
+    return previous.basket_price_extra.to_f if previous && rand < 0.7
+
+    weights =
+      case offset
+      when 2 then extras.each_with_index.to_h { |extra, index| [ extra, index.zero? ? 5 : 1 ] }
+      when 1 then extras.each_with_index.to_h { |extra, index| [ extra, [ 4 - index, 1 ].max ] }
+      else extras.each_with_index.to_h { |extra, index| [ extra, index + 1 ] }
+      end
+    pick_weighted(weights)
+  end
+
+  def division_for_offset(offset)
+    weights =
+      case offset
+      when 2 then { 1 => 5, 4 => 2, 12 => 1 }
+      when 1 then { 1 => 3, 4 => 3, 12 => 2 }
+      else { 1 => 2, 4 => 3, 12 => 3 }
+      end
+    pick_weighted(weights)
+  end
+
+  def upgrade_basket_size(size)
+    return @medium if size.id == @small.id
+    return @large if size.id == @medium.id
+
+    size
+  end
+
+  def basket_size_price_for(basket_size, fiscal_year)
+    (basket_size.price * (1 - (0.05 * fy_offset(fiscal_year)))).round(2)
+  end
+
+  def add_membership_complement!(membership, fiscal_year, previous)
+    previous_complement = previous&.memberships_basket_complements&.first
+    keep = previous_complement && rand < 0.7
+    chance = { 2 => 0.2, 1 => 0.3 }.fetch(fy_offset(fiscal_year), 0.45)
+    return unless keep || rand < chance
+
+    MembershipsBasketComplement.create!(
+      membership: membership,
+      basket_complement: keep ? previous_complement.basket_complement : @all_complements.sample,
+      quantity: 1
+    )
+  end
+
+  def mark_renewed!(previous, current)
+    previous.update_columns(
+      renew: true,
+      renewed_at: current.created_at,
+      renewal_opened_at: nil)
   end
 
   def seed_absences!
     log "Seeding absences..."
 
-    return if @active_members.blank?
+    seed_fiscal_years.each do |fy|
+      memberships = Membership.during_year(fy).to_a
+      next if memberships.size < ABSENCES_PER_YEAR
 
-    # Create 3 absences for random active members
-    members_with_absences = @active_members.sample(3)
+      memberships.sample(ABSENCES_PER_YEAR).each do |membership|
+        deliveries = membership.deliveries.order(:date).select { |delivery|
+          fy.range.cover?(delivery.date)
+        }
+        next if deliveries.size < 3
 
-    members_with_absences.each do |member|
-      membership = member.memberships.current&.first
-      next unless membership
+        start_index = rand(0...(deliveries.size - 3))
+        end_index = [ start_index + rand(1..2), deliveries.size - 1 ].min
 
-      deliveries = membership.deliveries.order(:date)
-      next if deliveries.size < 3
-
-      # Pick a random range of 1-3 consecutive deliveries
-      start_index = rand(0...(deliveries.size - 3))
-      end_index = [ start_index + rand(1..2), deliveries.size - 1 ].min
-
-      Absence.create!(
-        member: member,
-        started_on: deliveries[start_index].date,
-        ended_on: deliveries[end_index].date,
-        admin: true # Skip notice period validation
-      )
+        Absence.create!(
+          member: membership.member,
+          started_on: deliveries[start_index].date,
+          ended_on: deliveries[end_index].date,
+          admin: true
+        )
+      end
     end
   end
 
@@ -1094,75 +1252,66 @@ class Demo::Seeder
       { description: { "en" => "Farm visit donation", "fr" => "Don visite de la ferme", "de" => "Spende Hofbesuch" }, amount: 50 }
     ]
 
-    # For demo-de, ensure we have members with SEPA info for invoices
     sepa_members = germany? ? @active_members.select(&:sepa?) : []
 
-    # Create 5 "Other" invoices spread across active members
-    invoice_items.each_with_index do |item_data, i|
-      # For the first invoice in Germany, use a SEPA member if available
-      member = if i == 0 && sepa_members.any?
-        sepa_members.first
-      else
-        @active_members[i % @active_members.size]
-      end
-      next unless member
+    seed_fiscal_years.each do |fy|
+      members = members_with_membership_in(fy)
+      next if members.empty?
 
-      description = item_data[:description][Current.org.default_locale] || item_data[:description]["en"]
+      count = fy.past? ? 3 : invoice_items.size
+      count.times do |i|
+        item_data = invoice_items[i % invoice_items.size]
+        member = if i.zero? && sepa_members.any? && members.include?(sepa_members.first)
+          sepa_members.first
+        else
+          members[i % members.size]
+        end
 
-      # Ensure invoice date falls within the current fiscal year
-      fiscal_year = Current.fiscal_year
-      earliest_date = [ fiscal_year.beginning_of_year, Date.current - 60.days ].max
-      latest_date = Date.current - 10.days
-      # If the range is invalid (e.g., too early in fiscal year), use today
-      invoice_date = if earliest_date <= latest_date
-        rand(earliest_date..latest_date)
-      else
-        Date.current
-      end
+        description = item_data[:description][Current.org.default_locale] || item_data[:description]["en"]
+        invoice_date = random_date_in_year(fy, latest: Date.current - 10.days)
+        next unless invoice_date
 
-      invoice = Invoice.new(
-        member: member,
-        date: invoice_date,
-        sent_at: invoice_date
-      )
-      invoice[:entity_type] = "Other"
-      invoice[:amount] = item_data[:amount]
-      invoice[:vat_rate] = 0
-      invoice[:vat_amount] = 0
+        invoice = Invoice.new(
+          member: member,
+          date: invoice_date,
+          sent_at: invoice_date
+        )
+        invoice[:entity_type] = "Other"
+        invoice[:amount] = item_data[:amount]
+        invoice[:vat_rate] = 0
+        invoice[:vat_amount] = 0
 
-      if invoice.save
+        next unless invoice.save
+
         InvoiceItem.create!(
           invoice: invoice,
           description: description,
           amount: item_data[:amount]
         )
-
-        # Process the invoice immediately (normally async) so it's visible in UI
         invoice.process!(send_email: false)
 
-        # Create payment for some invoices with explicit invoice reference
-        if i < 3 # First 3 invoices are fully paid
-          payment_date = [ invoice_date + rand(5..20).days, Date.current ].min
-          Payment.create!(
-            member: member,
-            invoice: invoice,
-            amount: item_data[:amount],
-            date: payment_date,
-            origin: "camt"
-          )
-        elsif i == 3 # Fourth invoice is partially paid
-          payment_date = [ invoice_date + rand(5..15).days, Date.current ].min
-          Payment.create!(
-            member: member,
-            invoice: invoice,
-            amount: (item_data[:amount] * 0.5).round,
-            date: payment_date,
-            origin: "camt"
-          )
-        end
-        # Fifth invoice remains unpaid
+        # Closed years are fully paid. Current year keeps a partial and an unpaid invoice.
+        pay_other_invoice!(invoice, member, invoice_date, item_data[:amount], i, fy)
       end
     end
+  end
+
+  def pay_other_invoice!(invoice, member, invoice_date, amount, index, fy)
+    fully_paid = fy.past? || index < 3
+    partially_paid = !fy.past? && index == 3
+    return unless fully_paid || partially_paid
+
+    payment_amount = fully_paid ? amount : (amount * 0.5).round
+    payment_date = [ invoice_date + rand(5..20).days, Date.current ].min
+    payment_date = invoice_date if payment_date < invoice_date
+
+    Payment.create!(
+      member: member,
+      invoice: invoice,
+      amount: payment_amount,
+      date: payment_date,
+      origin: "camt"
+    )
   end
 
   def create_advance_payments!
@@ -1193,53 +1342,69 @@ class Demo::Seeder
   def seed_basket_contents!
     log "Seeding basket contents..."
 
-    return if @products.blank? || @current_year_deliveries.blank?
+    deliveries = seed_deliveries_for_contents
+    return if @products.blank? || deliveries.blank?
 
-    # Find deliveries that have active baskets (from memberships)
-    deliveries_with_baskets = @current_year_deliveries.select do |delivery|
-      delivery.baskets.active.any?
-    end
-
+    deliveries_with_baskets = deliveries.select { |delivery| delivery.baskets.active.any? }
     return if deliveries_with_baskets.empty?
 
-    # Add basket content to the first few deliveries with baskets
-    deliveries_to_fill = deliveries_with_baskets.select { |delivery| delivery.date <= 1.week.from_now }
-
-    # Get basket size IDs for setting up basket content
     basket_sizes = BasketSize.paid.reorder(:id)
     return if basket_sizes.empty?
 
-    # Pro-rate quantities based on price ratios
+    eligible_for_coverage = deliveries_with_baskets.select { |delivery|
+      delivery.date <= 1.week.from_now
+    }
+    deliveries_to_fill = eligible_for_coverage.group_by { |delivery|
+      Analytics.year_for(delivery.date)
+    }.flat_map { |year, year_deliveries|
+      rate = CONTENTS_COVERAGE_BY_OFFSET.fetch(fy_offset_for_year(year), 0.90)
+      fill_count = [ (year_deliveries.size * rate).ceil, 1 ].max
+      year_deliveries.sort_by(&:date).first(fill_count)
+    }
+    deliveries_to_fill.concat(basket_content_deliveries_to_always_fill(deliveries_with_baskets))
+
+    deliveries_to_fill.uniq(&:id).each { |delivery| fill_basket_content!(delivery, basket_sizes) }
+  end
+
+  def seed_deliveries_for_contents
+    if @deliveries_by_year.present?
+      @deliveries_by_year.values.flatten
+    else
+      Array(@current_year_deliveries)
+    end
+  end
+
+  # Basket contents defaults to Delivery.next; prev is the last past delivery.
+  # Coverage fills from the start of each year, so those two are often in the
+  # unfilled tail unless we add them explicitly.
+  def basket_content_deliveries_to_always_fill(candidates)
+    last_past = candidates.select { |delivery| delivery.date <= Date.current }.max_by(&:date)
+    upcoming = candidates.select { |delivery| delivery.date > Date.current }.min_by(&:date)
+    [ last_past, upcoming ].compact
+  end
+
+  def fill_basket_content!(delivery, basket_sizes)
     total_price = basket_sizes.sum(&:price)
-
-    deliveries_to_fill.each do |delivery|
-      # Add 6 products per delivery
-      products_for_delivery = @products.sample(6)
-
-      products_for_delivery.each do |product|
-        # Build per-basket-size quantities using price ratios
-        base_qty = product.unit == "kg" ? rand(1700..2000) : rand(9..12)
-        quantities = basket_sizes.each_with_object({}) do |bs, h|
-          ratio = bs.price / total_price.to_f
-          qty = (base_qty * ratio).round
-          h[bs.id.to_s] = qty if qty > 0
-        end
-
-        if quantities.empty?
-          # Piece quantities can all round down to zero; keep one allocation so
-          # demo resets don't fail validation.
-          largest_basket_size = basket_sizes.max_by(&:price)
-          quantities[largest_basket_size.id.to_s] = [ base_qty, 1 ].max
-        end
-
-        BasketContent.create!(
-          delivery: delivery,
-          product: product,
-          unit_price: product.default_price,
-          depot_ids: @all_depots.map(&:id),
-          basket_size_ids_quantities: quantities
-        )
+    @products.sample(6).each do |product|
+      base_qty = product.unit == "kg" ? rand(1700..2000) : rand(9..12)
+      quantities = basket_sizes.each_with_object({}) do |bs, hash|
+        ratio = bs.price / total_price.to_f
+        qty = (base_qty * ratio).round
+        hash[bs.id.to_s] = qty if qty > 0
       end
+
+      if quantities.empty?
+        largest_basket_size = basket_sizes.max_by(&:price)
+        quantities[largest_basket_size.id.to_s] = [ base_qty, 1 ].max
+      end
+
+      BasketContent.create!(
+        delivery: delivery,
+        product: product,
+        unit_price: product.default_price,
+        depot_ids: @all_depots.map(&:id),
+        basket_size_ids_quantities: quantities
+      )
     end
   end
 
@@ -1251,18 +1416,22 @@ class Demo::Seeder
     presets = ActivityPreset.all.to_a
     return if presets.empty?
 
-    # When org uses "hour_work" scope, each activity must be exactly 1 hour
     hour_work = Current.org.activity_i18n_scope == "hour_work"
 
-    # Create past activities (for validated participations)
-    create_activities_for_period!(
-      presets: presets,
-      hour_work: hour_work,
-      start_date: Date.current - 3.months,
-      count: 8
-    )
+    seed_fiscal_years.each do |fy|
+      range_end = [ fy.end_of_year, Date.current - 1.day ].min
+      range_start = fy.beginning_of_year + 1.month
+      next if range_start > range_end
 
-    # Create future activities (for upcoming participations)
+      create_activities_for_period!(
+        presets: presets,
+        hour_work: hour_work,
+        start_date: range_start,
+        count: fy.past? ? 10 : 8,
+        max_date: range_end
+      )
+    end
+
     create_activities_for_period!(
       presets: presets,
       hour_work: hour_work,
@@ -1270,20 +1439,23 @@ class Demo::Seeder
       count: 8
     )
 
-    # Create activity participations for some members
     seed_activity_participations!
   end
 
-  def create_activities_for_period!(presets:, hour_work:, start_date:, count:)
+  def create_activities_for_period!(presets:, hour_work:, start_date:, count:, max_date: nil)
     date = start_date
-    # Skip to weekday if starting on weekend
     date += 1.day while date.saturday? || date.sunday?
+    spacing =
+      if max_date
+        [ ((max_date - date).to_i / [ count, 1 ].max), 14 ].max
+      end
 
     count.times do
+      break if max_date && date > max_date
+
       preset = presets.sample
 
       if hour_work
-        # Create multiple 1-hour slots for the morning
         [ 9, 10, 11 ].each do |hour|
           activity = Activity.new(
             date: date,
@@ -1294,7 +1466,6 @@ class Demo::Seeder
             place_urls: preset.place_urls,
             participants_limit: rand(4..10)
           )
-          # Skip validation for past activities
           activity.save!(validate: date >= Date.current)
           @activities << activity
         end
@@ -1308,13 +1479,11 @@ class Demo::Seeder
           place_urls: preset.place_urls,
           participants_limit: rand(4..10)
         )
-        # Skip validation for past activities
         activity.save!(validate: date >= Date.current)
         @activities << activity
       end
 
-      # Move to next date, spacing out activities
-      date += rand(3..7).days
+      date += spacing || rand(3..7).days
       date += 1.day while date.saturday? || date.sunday?
     end
   end
@@ -1322,25 +1491,24 @@ class Demo::Seeder
   def seed_activity_participations!
     log "Seeding activity participations..."
 
-    return if @activities.blank? || @active_members.blank?
+    return if @activities.blank?
 
-    # Get members with memberships that demand activity participations
-    members_with_memberships = @active_members.select do |member|
-      member.current_membership&.activity_participations_demanded&.positive?
-    end
-
-    return if members_with_memberships.empty?
-
-    # Create participations for about half of the activities
-    activities_to_fill = @activities.sample(@activities.size / 2)
+    past, upcoming = @activities.partition { |activity| activity.date < Date.current }
+    activities_to_fill = past + upcoming.sample([ upcoming.size / 2, 1 ].max)
 
     activities_to_fill.each do |activity|
-      # Add 1-3 participants per activity
-      participants_count = rand(1..[ 3, activity.participants_limit || 3 ].min)
+      members = members_with_demanded_participations_on(activity.date)
+      next if members.empty?
 
-      participants_count.times do
-        member = members_with_memberships.sample
-        next unless member
+      max_participants = [ activity.participants_limit || 4, members.size ].min
+      participants_count =
+        if activity.date < Date.current
+          [ 3, max_participants ].min
+        else
+          rand(1..max_participants)
+        end
+
+      members.sample(participants_count).each do |member|
         next if ActivityParticipation.exists?(activity: activity, member: member)
 
         participation = ActivityParticipation.new(
@@ -1349,11 +1517,9 @@ class Demo::Seeder
           participants_count: 1
         )
 
-        # Skip validation for past activities
         if activity.date < Date.current
           participation.save!(validate: false)
-          # Validate some past participations
-          if rand < 0.7
+          if rand < 0.85
             participation.update_columns(
               state: "validated",
               validated_at: activity.date + rand(1..3).days
@@ -1371,56 +1537,81 @@ class Demo::Seeder
 
     return if @shop_products.blank? || @active_members.blank?
 
-    # Get deliveries that are shop_open (either coming or recent past)
+    seed_coming_shop_orders!
+    seed_historical_shop_orders!
+  end
+
+  def seed_coming_shop_orders!
     shop_deliveries = Delivery.where(shop_open: true).order(:date)
-    return if shop_deliveries.empty?
+    delivery = shop_deliveries.coming.first || shop_deliveries.where(date: Date.current..).first
+    return unless delivery
 
-    # Prefer coming delivery, but fall back to past if none available
-    delivery = shop_deliveries.coming.first || shop_deliveries.last
-
-    # Create orders for some members
     members_to_order = @active_members.sample([ @active_members.size / 2, 3 ].max)
-
     members_to_order.each do |member|
-      next unless delivery
-      next if Shop::Order.exists?(member: member, delivery: delivery)
-
-      # Build order with 1-3 random products
-      order = Shop::Order.new(
-        member: member,
-        delivery: delivery,
-        state: Shop::Order::CART_STATE
-      )
-
-      products_to_add = @shop_products.sample(rand(1..3))
-      products_to_add.each do |product|
-        variant = product.variants.available.sample
-        next unless variant
-        next if variant.out_of_stock?
-
-        order.items.build(
-          product: product,
-          product_variant: variant,
-          item_price: variant.price,
-          quantity: rand(1..variant.stock)
-        )
-      end
-
-      next if order.items.empty?
+      order = build_shop_order(member, delivery, quantity: rand(1..3))
+      next unless order
 
       order.save!
+      order.confirm! if rand < 0.8
+    end
+  end
 
-      # Confirm most orders (move from cart to pending)
-      if rand < 0.8
+  def seed_historical_shop_orders!
+    Delivery.where(shop_open: true).where(date: ...Date.current).order(:date).each do |delivery|
+      members = members_with_basket_on(delivery)
+      next if members.empty?
+
+      members.sample([ 4, members.size ].min).each do |member|
+        next if Shop::Order.exists?(member: member, delivery: delivery)
+
+        order = build_shop_order(member, delivery, quantity: 1)
+        next unless order
+
+        order.save!
         order.confirm!
+        invoice = order.invoice!
+        invoice.update_columns(date: delivery.date, sent_at: delivery.date)
+        invoice.process!(send_email: false)
+        invoice.reload
 
-        # Invoice some of the confirmed orders (for past deliveries)
-        if delivery.date < Date.current && rand < 0.5
-          invoice = order.invoice!
-          invoice.process!
-        end
+        payment_date = [ delivery.date + rand(5..20).days, Date.current ].min
+        Payment.create!(
+          member: member,
+          invoice: invoice,
+          amount: invoice.amount,
+          date: payment_date,
+          origin: "camt"
+        )
       end
     end
+  end
+
+  def build_shop_order(member, delivery, quantity:)
+    return if Shop::Order.exists?(member: member, delivery: delivery)
+
+    order = Shop::Order.new(
+      member: member,
+      delivery: delivery,
+      state: Shop::Order::CART_STATE
+    )
+
+    @shop_products.sample(rand(1..3)).each do |product|
+      variant = product.variants.available.sample
+      next unless variant
+      next if variant.out_of_stock?
+
+      max_qty = [ quantity, variant.stock ].min
+      next unless max_qty.positive?
+
+      order.items.build(
+        product: product,
+        product_variant: variant,
+        item_price: variant.price,
+        quantity: max_qty
+      )
+    end
+
+    order.items.any? ? order : nil
   end
 
   # def default_email_signature
@@ -1431,6 +1622,56 @@ class Demo::Seeder
   #   creditor = CREDITOR_INFO[@org_language]
   #   { @org_language => I18n.t("organization.default_email_footer", locale: @org_language) + "\n#{creditor[:name]}, #{creditor[:street]}, #{creditor[:city]} #{creditor[:zip]}" }
   # end
+
+  def seed_fiscal_years
+    @seed_fiscal_years ||= begin
+      current = Current.fiscal_year
+      (0...HISTORICAL_YEAR_COUNT).map { |index|
+        Current.org.fiscal_year_for(current.year - (HISTORICAL_YEAR_COUNT - 1 - index))
+      }
+    end
+  end
+
+  def fy_offset(fiscal_year)
+    Current.fiscal_year.year - fiscal_year.year
+  end
+
+  def fy_offset_for_year(year)
+    Current.fiscal_year.year - year
+  end
+
+  def pick_weighted(weights)
+    total = weights.values.sum
+    cursor = rand * total
+    weights.each do |item, weight|
+      cursor -= weight
+      return item if cursor <= 0
+    end
+    weights.keys.last
+  end
+
+  def members_with_membership_in(fy)
+    Member.joins(:memberships).merge(Membership.during_year(fy)).distinct.to_a
+  end
+
+  def members_with_basket_on(delivery)
+    Member.joins(memberships: :baskets).where(baskets: { delivery_id: delivery.id }).distinct.to_a
+  end
+
+  def members_with_demanded_participations_on(date)
+    Member.joins(:memberships)
+      .where("memberships.started_on <= ? AND memberships.ended_on >= ?", date, date)
+      .where("memberships.activity_participations_demanded > 0")
+      .distinct.to_a
+  end
+
+  def random_date_in_year(fy, latest: Date.current)
+    earliest = fy.beginning_of_year
+    latest = [ latest, fy.end_of_year, Date.current ].min
+    return if earliest > latest
+
+    rand(earliest..latest)
+  end
 
   # Returns a hash with translations for all org languages
   def translated_text(key)
