@@ -5,7 +5,11 @@ class Current < ActiveSupport::CurrentAttributes
 
   delegate :year, :range, to: :fiscal_year, prefix: :fy
 
-  resets { @org = nil; @fiscal_year = nil }
+  resets { @org = nil; @fiscal_year = nil; @analytics_cache = nil }
+
+  def analytics_cache
+    @analytics_cache ||= {}
+  end
 
   def org
     @org ||= Organization.instance

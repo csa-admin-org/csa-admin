@@ -3,7 +3,17 @@
 ActiveAdmin.register_page "Handbook" do
   menu false
 
-  content title: proc { t("active_admin.site_footer.handbook") } do
+  breadcrumb do
+    [ t("active_admin.site_header.handbook") ]
+  end
+
+  content title: proc {
+    if params[:id].present?
+      Handbook.new(params[:id], binding).title
+    else
+      t("active_admin.site_header.handbook")
+    end
+  } do
     handbook = Handbook.new(params[:id], binding)
     feature = params[:id].to_sym
     if Current.org.inactive_feature?(feature)
@@ -84,8 +94,6 @@ ActiveAdmin.register_page "Handbook" do
       para t("active_admin.page.index.handbook_questions_html")
     end
   end
-
-  config.breadcrumb = false
 
   controller do
     before_action do

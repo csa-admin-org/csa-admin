@@ -25,5 +25,6 @@
 @import "./components/kbd.css";
 @import "./components/search.css";
 @import "./components/mobile_drawer.css";
+@import "./components/analytics.css";
 @import "./components/flatpickr.css";
 @import "./components/direct_upload.css";

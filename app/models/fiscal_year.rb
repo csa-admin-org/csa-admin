@@ -19,6 +19,10 @@ class FiscalYear
     end
   end
 
+  def self.year_for(date, start_month: 1)
+    date.month >= start_month ? date.year : date.year - 1
+  end
+
   def initialize(date, start_month: 1)
     @start_month = start_month
     @date = date

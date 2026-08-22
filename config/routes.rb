@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     get "deliveries/next" => "next_delivery#next"
     get "handbook/search" => "handbook_search#show", as: :handbook_search
     get "handbook/:id" => "handbook#index", as: :handbook_page
+    get "analytics/:id" => "analytics#index", as: :analytics_page
 
     get "support" => "support_tickets#new", as: :support
 

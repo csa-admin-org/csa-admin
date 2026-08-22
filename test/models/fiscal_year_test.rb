@@ -73,6 +73,14 @@ class FiscalYearTest < ActiveSupport::TestCase
     assert_equal Date.new(2019, 3, 31), fy.end_of_year
   end
 
+  test "year_for matches #year without allocating a FiscalYear" do
+    assert_equal 2017, FiscalYear.year_for(Date.new(2017, 1, 1))
+    assert_equal 2017, FiscalYear.year_for(Date.new(2017, 12, 31))
+    assert_equal 2016, FiscalYear.year_for(Date.new(2017, 3, 31), start_month: 4)
+    assert_equal 2017, FiscalYear.year_for(Date.new(2017, 4, 1), start_month: 4)
+    assert_equal 2017, FiscalYear.year_for(Date.new(2018, 3, 31), start_month: 4)
+  end
+
   test "fy_month returns same month number with start_month 1" do
     today = Date.current
     fy = FiscalYear.current

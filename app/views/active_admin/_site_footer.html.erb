@@ -1,16 +1,16 @@
 <footer class="pt-40">
   <ul class="flex flex-wrap justify-center" role="group">
     <li>
-      <%= link_to support_path, class: "action-item-button px-2.5 py-1 gap-1.5 rounded-e-none text-gray-400 dark:text-gray-500", data: { turbo_prefetch: false } do %>
+      <%= link_to support_path, class: "action-item-button px-2.5 py-1 gap-1.5 rounded-e-none text-gray-400 dark:text-gray-500" do %>
         <%= icon "life-buoy", class: "size-5" %>
         <%= t(".support") %>
       <% end %>
     </li>
 
     <li>
-      <%= link_to updates_path, class: "action-item-button px-2.5 py-1 gap-1.5 rounded-none border-x-0 text-gray-400 dark:text-gray-500" do %>
-        <%= icon "gift", class: "size-5" %>
-        <%= t(".updates") %>
+      <%= link_to analytics_path, class: "action-item-button px-2.5 py-1 gap-1.5 rounded-none border-x-0 text-gray-400 dark:text-gray-500", data: { turbo_prefetch: "false" } do %>
+        <%= icon "chart-no-axes-combined", class: "size-5" %>
+        <%= t(".analytics") %>
       <% end %>
     </li>
 
@@ -22,9 +22,25 @@
     </li>
   </ul>
 
-  <div class="mt-4 flex justify-center py-8">
-    <%= link_to csa_admin_website_url, class: "inline-flex items-center text-sm py-1 px-2 text-gray-300 dark:text-gray-600 hover:text-green-600 dark:hover:text-green-500 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium focus:outline-hidden rounded-md no-underline" do %>
-      <%= icon "logo", class: "size-4 me-2 fill-current" %> CSA Admin
+  <div class="mt-5 flex justify-center">
+    <%= link_to updates_path, class: "relative inline-flex items-center py-0.5 px-2 gap-1.5 rounded-md text-sm font-medium text-gray-400 no-underline hover:bg-gray-100 hover:text-green-600 focus:outline-hidden dark:text-gray-500 dark:hover:bg-gray-800 dark:hover:text-green-500", data: { turbo_prefetch: false } do %>
+      <%= icon "gift", class: "size-4" %>
+      <%= t(".updates") %>
+
+      <% if Update.unread_count(current_active_admin_user).positive? %>
+        <div
+          class="
+            absolute -top-1.25 -right-1.25 size-2.5 rounded-full bg-red-400
+            text-xs font-semibold dark:border-gray-900 dark:bg-red-600
+          "
+        ></div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="flex justify-center py-8">
+    <%= link_to csa_admin_website_url, class: "inline-flex items-center text-sm py-1 px-2 gap-2 text-gray-300 dark:text-gray-600 hover:text-green-600 dark:hover:text-green-500 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium focus:outline-hidden rounded-md no-underline" do %>
+      <%= icon "logo", class: "size-4 fill-current" %> CSA Admin
     <% end %>
   </div>
 </footer>

@@ -60,3 +60,6 @@ pin "@floating-ui/dom", to: "@floating-ui--dom.js", preload: false # @1.8.0
 pin "@floating-ui/core", to: "@floating-ui--core.js", preload: false # @1.8.0
 pin "@floating-ui/utils", to: "@floating-ui--utils.js", preload: false # @0.2.12
 pin "@floating-ui/utils/dom", to: "@floating-ui--utils--dom.js", preload: false # @0.2.12
+# Chart.js UMD (analytics page). The ESM graph needs an unpinned helpers chunk.
+# Downloaded from unpkg: chart.js@4.5.1/dist/chart.umd.min.js
+pin "chart.js", preload: false # @4.5.1

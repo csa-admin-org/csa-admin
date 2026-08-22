@@ -58,20 +58,24 @@ class Handbook
   end
 
   def body
-    @body ||= begin
-      body = File.read(filepath)
-      body = self.class.filter_country_sections(body)
-      result = ERB.new(body).result(@context)
-      Kramdown::Document.new(result).to_html.html_safe
-    end
+    @body ||= doc.children
+      .reject { |node| node.element? && node.name == "h1" }
+      .map(&:to_html)
+      .join
+      .html_safe
   end
 
   def doc
-    @doc ||= Nokogiri::HTML::DocumentFragment.parse(body)
+    @doc ||= begin
+      markdown = File.read(filepath)
+      markdown = self.class.filter_country_sections(markdown)
+      html = Kramdown::Document.new(ERB.new(markdown).result(@context)).to_html
+      Nokogiri::HTML::DocumentFragment.parse(html)
+    end
   end
 
   def title
-    @title ||= doc.css("h1").map(&:text).first
+    @title ||= doc.at_css("h1")&.text
   end
 
   def subtitles

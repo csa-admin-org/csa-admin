@@ -5081,6 +5081,12 @@ _:
         _it: Filtri
         _nl: Filters
     site_footer:
+      analytics:
+        _en: Analytics
+        _fr: Statistiques
+        _de: Statistiken
+        _it: Statistiche
+        _nl: Statistieken
       handbook:
         _en: Handbook
         _fr: Manuel
@@ -5100,6 +5106,12 @@ _:
         _it: Aggiornamenti
         _nl: Updates
     site_header:
+      analytics:
+        _en: Analytics
+        _fr: Statistiques
+        _de: Statistiken
+        _it: Statistiche
+        _nl: Statistieken
       handbook:
         _en: Handbook
         _fr: Manuel

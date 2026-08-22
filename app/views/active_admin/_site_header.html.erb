@@ -123,15 +123,6 @@
     <div class="order-2 ms-auto flex gap-x-1 pe-3 md:order-3 md:gap-x-0 md:pe-4">
       <%= render "search/modal" %>
 
-      <a
-        href="<%= support_path %>"
-        class="admin-header-action relative"
-        data-turbo-prefetch="false"
-        title="<%= t(".support") %>"
-      >
-        <%= icon "life-buoy", class: "size-6 md:size-5" %>
-      </a>
-
       <% if Update.unread_count(current_active_admin_user).positive? %>
         <a
           href="<%= updates_path %>"
@@ -151,9 +142,26 @@
       <% end %>
 
       <a
+        href="<%= support_path %>"
+        class="admin-header-action relative"
+        title="<%= t(".support") %>"
+        data-turbo-prefetch="false"
+      >
+        <%= icon "life-buoy", class: "size-6 md:size-5" %>
+      </a>
+
+      <a
+        href="<%= analytics_path %>"
+        class="admin-header-action relative"
+        title="<%= t(".analytics") %>"
+        data-turbo-prefetch="false"
+      >
+        <%= icon "chart-no-axes-combined", class: "size-6 md:size-5" %>
+      </a>
+
+      <a
         href="<%= handbook_path %>"
         class="admin-header-action relative"
-        data-turbo-prefetch="false"
         title="<%= t(".handbook") %>"
       >
         <%= icon "book-open", class: "size-6 md:size-5" %>

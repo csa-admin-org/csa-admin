@@ -85,6 +85,7 @@ The panel icon for a concept **must** match the nav icon when one exists.
 | Missing Deliveries     | `triangle-alert`                 | Warning/missing data         |
 | Support                | `life-buoy`                      | Help / support               |
 | Updates                | `gift`                           | What's new                   |
+| Analytics              | `chart-no-axes-combined`         | Historical year-over-year    |
 
 ### Custom Icons
 

@@ -212,6 +212,20 @@ class HandbookTest < ActiveSupport::TestCase
     assert_includes nl_result, "Everyone except Swiss."
   end
 
+  test "title reads the markdown H1" do
+    handbook = Handbook.new("announcements", binding)
+
+    assert_equal "Announcements", handbook.title
+  end
+
+  test "body omits the page H1" do
+    handbook = Handbook.new("announcements", binding)
+
+    assert_not_includes handbook.body, "<h1"
+    assert_includes handbook.body, "Announcements are short messages"
+    assert_includes handbook.body, "How It Works"
+  end
+
   test "demo_only? returns true for setup page" do
     handbook = Handbook.new("setup", binding)
     assert handbook.demo_only?

@@ -1,0 +1,553 @@
+_:
+  analytics:
+    charts:
+      absences:
+        _en: Absences
+        _fr: Absences
+        _de: Abwesenheiten
+        _it: Assenze
+        _nl: Afwezigheden
+      absent_basket_rate:
+        _en: Absent basket rate
+        _fr: Taux de paniers absents
+        _de: Quote abwesender Körbe
+        _it: Tasso di ceste assenti
+        _nl: Percentage afwezige manden
+      absent_basket_rate/bag:
+        _en: Absent bag rate
+        _fr: Taux de sacs absents
+        _de: Quote abwesender Taschen
+        _it: Tasso di borse assenti
+        _nl: Percentage afwezige tassen
+      absent_basket_rate/cone:
+        _en: Absent cone rate
+        _fr: Taux de cornets absents
+        _de: Quote abwesender Tüten
+        _it: Tasso di coni assenti
+        _nl: Percentage afwezige zakken
+      absent_basket_rate/crate:
+        _en: Absent crate rate
+        _fr: Taux de cagettes absentes
+        _de: Quote abwesender Kisten
+        _it: Tasso di cassette assenti
+        _nl: Percentage afwezige kratten
+      absent_basket_rate/package:
+        _en: Absent package rate
+        _fr: Taux de colis absents
+        _de: Quote abwesender Pakete
+        _it: Tasso di pacchi assenti
+        _nl: Percentage afwezige pakketten
+      absent_basket_rate/share:
+        _en: Absent share rate
+        _fr: Taux de parts absentes
+        _de: Quote abwesender Anteile
+        _it: Tasso di parti assenti
+        _nl: Percentage afwezige delen
+      accepted_mix:
+        _en: Accepted mix
+        _fr: Répartition des participations
+        _de: Zusammensetzung der erfüllten Einsätze
+        _it: Composizione delle partecipazioni
+        _nl: Samenstelling van inzet
+      announcement_delay:
+        _en: Announcement delay
+        _fr: Délai d'annonce
+        _de: Ankündigungsfrist
+        _it: Preavviso
+        _nl: Aankondigingstermijn
+      content_price_gap:
+        _en: Gap to planned price
+        _fr: Écart au prix planifié
+        _de: Abweichung vom geplanten Preis
+        _it: Scarto dal prezzo pianificato
+        _nl: Afwijking van de geplande prijs
+      content_value:
+        _en: Content value
+        _fr: Valeur du contenu
+        _de: Inhaltswert
+        _it: Valore del contenuto
+        _nl: Inhoudswaarde
+      demanded_accepted:
+        _en: Demanded and accepted
+        _fr: Demandées et acceptées
+        _de: Gefordert und erfüllt
+        _it: Richieste e accettate
+        _nl: Gevraagd en voldaan
+      early_exits:
+        _en: Early exits
+        _fr: Départs anticipés
+        _de: Vorzeitige Austritte
+        _it: Uscite anticipate
+        _nl: Vroegtijdige beëindigingen
+      filled_deliveries:
+        _en: Filled deliveries
+        _fr: Livraisons renseignées
+        _de: Ausgefüllte Lieferungen
+        _it: Consegne compilate
+        _nl: Ingevulde leveringen
+      fulfillment_rate:
+        _en: Fulfillment rate
+        _fr: Taux de réalisation
+        _de: Erfüllungsquote
+        _it: Tasso di adempimento
+        _nl: Vervullingspercentage
+      included_quota:
+        _en: Included absences
+        _fr: Absences incluses
+        _de: Inbegriffene Abwesenheiten
+        _it: Assenze incluse
+        _nl: Inbegrepen afwezigheden
+      invoice_amounts:
+        _en: Invoiced amounts
+        _fr: Montants facturés
+        _de: Fakturierte Beträge
+        _it: Importi fatturati
+        _nl: Gefactureerde bedragen
+      memberships:
+        _en: Memberships
+        _fr: Abonnements
+        _de: Abonnements
+        _it: Abbonamenti
+        _nl: Lidmaatschappen
+      overdue_notices:
+        _en: Overdue notices
+        _fr: Rappels de paiement
+        _de: Mahnungen
+        _it: Solleciti di pagamento
+        _nl: Betalingsherinneringen
+      payments:
+        _en: Payments
+        _fr: Paiements
+        _de: Zahlungen
+        _it: Pagamenti
+        _nl: Betalingen
+      prices:
+        _en: Membership price
+        _fr: Prix de l'abonnement
+        _de: Abonnementpreis
+        _it: Prezzo dell'abbonamento
+        _nl: Lidmaatschapsprijs
+      shop_amounts:
+        _en: Amounts by delivery year
+        _fr: Montants par année de livraison
+        _de: Beträge nach Lieferjahr
+        _it: Importi per anno di consegna
+        _nl: Bedragen per leveringsjaar
+      shop_average:
+        _en: Average order
+        _fr: Commande moyenne
+        _de: Durchschnittliche Bestellung
+        _it: Ordine medio
+        _nl: Gemiddelde bestelling
+      shop_orders:
+        _en: Orders
+        _fr: Commandes
+        _de: Bestellungen
+        _it: Ordini
+        _nl: Bestellingen
+      shop_products:
+        _en: Products
+        _fr: Produits
+        _de: Produkte
+        _it: Prodotti
+        _nl: Producten
+      size_mix:
+        _en: Basket sizes
+        _fr: Tailles de panier
+        _de: Korbgrössen
+        _it: Dimensioni delle ceste
+        _nl: Mandgroottes
+      size_mix/bag:
+        _en: Bag sizes
+        _fr: Tailles de sac
+        _de: Taschengrössen
+        _it: Dimensioni delle borse
+        _nl: Tasgroottes
+      size_mix/cone:
+        _en: Cone sizes
+        _fr: Tailles de cornet
+        _de: Tütengrössen
+        _it: Dimensioni dei coni
+        _nl: Zakgroottes
+      size_mix/crate:
+        _en: Crate sizes
+        _fr: Tailles de cagette
+        _de: Kistengrössen
+        _it: Dimensioni delle cassette
+        _nl: Kratgroottes
+      size_mix/package:
+        _en: Package sizes
+        _fr: Tailles de colis
+        _de: Paketgrössen
+        _it: Dimensioni dei pacchi
+        _nl: Pakketgroottes
+      size_mix/share:
+        _en: Share sizes
+        _fr: Tailles de part
+        _de: Anteilsgrössen
+        _it: Dimensioni delle parti
+        _nl: Deelgroottes
+      time_to_pay:
+        _en: Time to pay
+        _fr: Délai de paiement
+        _de: Zahlungsfrist
+        _it: Tempo di pagamento
+        _nl: Betalingstermijn
+      top_products:
+        _en: Products
+        _fr: Produits
+        _de: Produkte
+        _it: Prodotti
+        _nl: Producten
+    empty:
+      absences:
+        _en: No absences for these years.
+        _fr: Aucune absence pour ces années.
+        _de: Keine Abwesenheiten für diese Jahre.
+        _it: Nessuna assenza per questi anni.
+        _nl: Geen afwezigheden voor deze jaren.
+      activities:
+        _en: No participations for these years.
+        _fr: Aucune participation pour ces années.
+        _de: Keine Einsätze für diese Jahre.
+        _it: Nessuna partecipazione per questi anni.
+        _nl: Geen inzet voor deze jaren.
+      basket_content:
+        _en: No filled deliveries for these years.
+        _fr: Aucune livraison renseignée pour ces années.
+        _de: Keine ausgefüllten Lieferungen für diese Jahre.
+        _it: Nessuna consegna compilata per questi anni.
+        _nl: Geen ingevulde leveringen voor deze jaren.
+      billing:
+        _en: No invoices for these years.
+        _fr: Aucune facture pour ces années.
+        _de: Keine Rechnungen für diese Jahre.
+        _it: Nessuna fattura per questi anni.
+        _nl: Geen facturen voor deze jaren.
+      memberships:
+        _en: No memberships for these years.
+        _fr: Aucun abonnement pour ces années.
+        _de: Keine Abonnements für diese Jahre.
+        _it: Nessun abbonamento per questi anni.
+        _nl: Geen lidmaatschappen voor deze jaren.
+      shop:
+        _en: No invoiced orders for these years.
+        _fr: Aucune commande facturée pour ces années.
+        _de: Keine fakturierten Bestellungen für diese Jahre.
+        _it: Nessun ordine fatturato per questi anni.
+        _nl: Geen gefactureerde bestellingen voor deze jaren.
+    in_progress:
+      _en: in progress
+      _fr: en cours
+      _de: laufend
+      _it: in corso
+      _nl: lopend
+    metrics:
+      absences:
+        _en: Absences
+        _fr: Absences
+        _de: Abwesenheiten
+        _it: Assenze
+        _nl: Afwezigheden
+      absent_basket_rate:
+        _en: Absence rate
+        _fr: Taux d'absence
+        _de: Abwesenheitsquote
+        _it: Tasso di assenza
+        _nl: Afwezigheidspercentage
+      absent_baskets:
+        _en: Absent baskets
+        _fr: Paniers absents
+        _de: Abwesende Körbe
+        _it: Ceste assenti
+        _nl: Afwezige manden
+      absent_baskets/bag:
+        _en: Absent bags
+        _fr: Sacs absents
+        _de: Abwesende Taschen
+        _it: Borse assenti
+        _nl: Afwezige tassen
+      absent_baskets/cone:
+        _en: Absent cones
+        _fr: Cornets absents
+        _de: Abwesende Tüten
+        _it: Coni assenti
+        _nl: Afwezige zakken
+      absent_baskets/crate:
+        _en: Absent crates
+        _fr: Cagettes absentes
+        _de: Abwesende Kisten
+        _it: Cassette assenti
+        _nl: Afwezige kratten
+      absent_baskets/package:
+        _en: Absent packages
+        _fr: Colis absents
+        _de: Abwesende Pakete
+        _it: Pacchi assenti
+        _nl: Afwezige pakketten
+      absent_baskets/share:
+        _en: Absent shares
+        _fr: Parts absentes
+        _de: Abwesende Anteile
+        _it: Parti assenti
+        _nl: Afwezige delen
+      absent_members:
+        _en: Members
+        _fr: Membres
+        _de: Mitglieder
+        _it: Soci
+        _nl: Leden
+      accepted:
+        _en: Accepted
+        _fr: Acceptées
+        _de: Erfüllt
+        _it: Accettate
+        _nl: Voldaan
+      announcement_delay:
+        _en: Median delay
+        _fr: Délai médian d'annonce
+        _de: Mittlere Ankündigungsfrist
+        _it: Preavviso mediano
+        _nl: Mediane aankondigingstermijn
+      average_order:
+        _en: Average order
+        _fr: Commande moyenne
+        _de: Durchschnittliche Bestellung
+        _it: Ordine medio
+        _nl: Gemiddelde bestelling
+      average_price:
+        _en: Average price
+        _fr: Prix moyen
+        _de: Durchschnittspreis
+        _it: Prezzo medio
+        _nl: Gemiddelde prijs
+      billed_missing:
+        _en: Billed missing
+        _fr: Manquantes facturées
+        _de: Abgerechnete Fehlstunden
+        _it: Mancanti fatturate
+        _nl: Gefactureerde ontbrekende
+      coverage_rate:
+        _en: Coverage
+        _fr: Couverture
+        _de: Abdeckung
+        _it: Copertura
+        _nl: Dekking
+      days:
+        one:
+          _en: "%{count} day"
+          _fr: "%{count} jour"
+          _de: "%{count} Tag"
+          _it: "%{count} giorno"
+          _nl: "%{count} dag"
+        other:
+          _en: "%{count} days"
+          _fr: "%{count} jours"
+          _de: "%{count} Tage"
+          _it: "%{count} giorni"
+          _nl: "%{count} dagen"
+      declared_included:
+        _en: Declared
+        _fr: Déclarées
+        _de: Gemeldet
+        _it: Dichiarate
+        _nl: Aangegeven
+      delivered:
+        _en: Delivered
+        _fr: Livré
+        _de: Geliefert
+        _it: Consegnato
+        _nl: Geleverd
+      demanded:
+        _en: Demanded
+        _fr: Demandées
+        _de: Gefordert
+        _it: Richieste
+        _nl: Gevraagd
+      early_exits:
+        _en: Early exits
+        _fr: Départs anticipés
+        _de: Vorzeitige Austritte
+        _it: Uscite anticipate
+        _nl: Vroegtijdige beëindigingen
+      filled_deliveries:
+        _en: Filled
+        _fr: Renseignées
+        _de: Ausgefüllt
+        _it: Compilate
+        _nl: Ingevuld
+      fulfillment_rate:
+        _en: Fulfilled
+        _fr: Réalisées
+        _de: Erfüllt
+        _it: Adempiute
+        _nl: Voldaan
+      invoiced:
+        _en: Invoiced
+        _fr: Facturé
+        _de: Fakturiert
+        _it: Fatturato
+        _nl: Gefactureerd
+      median_content_value:
+        _en: Median value
+        _fr: Valeur médiane
+        _de: Medianwert
+        _it: Valore mediano
+        _nl: Mediane waarde
+      median_price:
+        _en: Median price
+        _fr: Prix médian
+        _de: Medianpreis
+        _it: Prezzo mediano
+        _nl: Mediane prijs
+      memberships:
+        _en: Memberships
+        _fr: Abonnements
+        _de: Abonnements
+        _it: Abbonamenti
+        _nl: Lidmaatschappen
+      new:
+        _en: New
+        _fr: Nouveaux
+        _de: Neu
+        _it: Nuovi
+        _nl: Nieuw
+      no_extra:
+        _en: None
+        _fr: Aucun
+        _de: Keiner
+        _it: Nessuno
+        _nl: Geen
+      overdue_rate:
+        _en: Overdue rate
+        _fr: Taux de rappel
+        _de: Mahnungsquote
+        _it: Tasso di solleciti
+        _nl: Herinneringspercentage
+      participated:
+        _en: Participated
+        _fr: Participé
+        _de: Teilgenommen
+        _it: Partecipato
+        _nl: Deelgenomen
+      products:
+        _en: Products
+        _fr: Produits
+        _de: Produkte
+        _it: Prodotti
+        _nl: Producten
+      renewal:
+        _en: Renewal
+        _fr: Renouvellement
+        _de: Verlängerung
+        _it: Rinnovo
+        _nl: Verlenging
+      renewal_rate:
+        _en: Renewed
+        _fr: Renouvelés
+        _de: Erneuert
+        _it: Rinnovati
+        _nl: Verlengd
+      shop_members:
+        _en: Members
+        _fr: Membres
+        _de: Mitglieder
+        _it: Soci
+        _nl: Leden
+      shop_orders:
+        _en: Orders
+        _fr: Commandes
+        _de: Bestellungen
+        _it: Ordini
+        _nl: Bestellingen
+      time_to_pay_median:
+        _en: Median time to pay
+        _fr: Délai médian
+        _de: Mittlere Zahlungsfrist
+        _it: Tempo mediano di pagamento
+        _nl: Mediane betalingstermijn
+      time_to_pay_p90:
+        _en: 90th percentile
+        _fr: 90e percentile
+        _de: 90. Perzentil
+        _it: 90º percentile
+        _nl: 90e percentiel
+      unfilled_deliveries:
+        _en: Unfilled
+        _fr: Non renseignées
+        _de: Nicht ausgefüllt
+        _it: Non compilate
+        _nl: Niet ingevuld
+      unused_included:
+        _en: Unused
+        _fr: Non utilisées
+        _de: Ungenutzt
+        _it: Non utilizzate
+        _nl: Ongebruikt
+    sections:
+      absences:
+        _en: Absences
+        _fr: Absences
+        _de: Abwesenheiten
+        _it: Assenze
+        _nl: Afwezigheden
+      basket_content:
+        _en: Basket content
+        _fr: Contenu panier
+        _de: Korbinhalt
+        _it: Contenuto cesta
+        _nl: Mandinhoud
+      basket_content/bag:
+        _en: Bag content
+        _fr: Contenu sac
+        _de: Tascheninhalt
+        _it: Contenuto borsa
+        _nl: Tasinhoud
+      basket_content/cone:
+        _en: Cone content
+        _fr: Contenu cornet
+        _de: Tüteninhalt
+        _it: Contenuto cono
+        _nl: Zakinhoud
+      basket_content/crate:
+        _en: Crate content
+        _fr: Contenu cagette
+        _de: Kisteninhalt
+        _it: Contenuto cassetta
+        _nl: Kratinhoud
+      basket_content/package:
+        _en: Package content
+        _fr: Contenu colis
+        _de: Paketinhalt
+        _it: Contenuto pacco
+        _nl: Pakketinhoud
+      basket_content/share:
+        _en: Share content
+        _fr: Contenu part
+        _de: Anteilsinhalt
+        _it: Contenuto parte
+        _nl: Deelinhoud
+      billing:
+        _en: Billing
+        _fr: Facturation
+        _de: Rechnungsstellung
+        _it: Fatturazione
+        _nl: Facturering
+      memberships:
+        _en: Memberships
+        _fr: Abonnements
+        _de: Abonnements
+        _it: Abbonamenti
+        _nl: Lidmaatschappen
+      shop:
+        _en: Shop
+        _fr: Épicerie
+        _de: Hofladen
+        _it: Bottega
+        _nl: Winkel
+    top_n:
+      _en: top %{count}
+      _fr: "%{count} premiers"
+      _de: Top %{count}
+      _it: primi %{count}
+      _nl: top %{count}

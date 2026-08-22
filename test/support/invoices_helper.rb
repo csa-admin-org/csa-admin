@@ -16,6 +16,16 @@ module InvoicesHelper
     }.merge(attrs))
   end
 
+  def create_other_invoice(attrs = {})
+    amount = attrs.delete(:amount) || 10
+    create_invoice({
+      entity_type: "Other",
+      items_attributes: {
+        "0" => { description: "Other", amount: amount }
+      }
+    }.merge(attrs))
+  end
+
   def create_invoice(attrs = {})
     invoice = Invoice.create!({
       member: members(:john),
