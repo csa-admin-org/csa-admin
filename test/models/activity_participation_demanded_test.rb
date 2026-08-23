@@ -174,4 +174,46 @@ class ActivityParticipationDemandedTest < ActiveSupport::TestCase
 
     assert_equal 2, demanded_for(membership)
   end
+
+  test "exposes fiscal-year start month and calendar day" do
+    travel_to "2024-01-01"
+    org(activity_participations_demanded_logic: <<-LIQUID)
+      {% if membership.started_fy_month == 4 and membership.started_day == 13 %}
+        0
+      {% else %}
+        {{ membership.full_year_activity_participations }}
+      {% endif %}
+    LIQUID
+    membership = memberships(:jane)
+    membership.update!(activity_participations_demanded_annually: 4)
+
+    assert_equal 4, demanded_for(membership.reload)
+
+    membership.update!(started_on: "2024-04-13")
+    assert_equal 0, demanded_for(membership.reload)
+  end
+
+  test "custom logic with basket_size_id and delivery_cycle_id" do
+    travel_to "2024-01-01"
+    org(activity_participations_demanded_logic: <<-LIQUID)
+      {% if membership.basket_size_id == #{basket_sizes(:large).id} and membership.delivery_cycle_id == #{delivery_cycles(:thursdays).id} %}
+        1
+      {% else %}
+        {{ membership.full_year_activity_participations }}
+      {% endif %}
+    LIQUID
+    membership = memberships(:jane)
+    membership.update!(activity_participations_demanded_annually: 4)
+
+    assert_equal 1, demanded_for(membership.reload)
+  end
+
+  test "full_year_max_deliveries is the longest kept cycle" do
+    travel_to "2024-01-01"
+    org(activity_participations_demanded_logic: "{{ full_year_max_deliveries }}")
+    membership = memberships(:jane)
+
+    assert_equal DeliveryCycle.kept.map { |dc| dc.deliveries_count_for(membership.fy_year) }.max,
+      demanded_for(membership)
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_05_120100) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_23_120000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -868,6 +868,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_05_120100) do
     t.boolean "absence_extra_text_only", default: false, null: false
     t.integer "absence_notice_period_in_days", default: 7, null: false
     t.boolean "absences_billed", default: true, null: false
+    t.text "absences_included_logic", null: false
     t.string "absences_included_mode", default: "provisional_absence", null: false
     t.integer "absences_included_reminder_weeks_before", default: 4, null: false
     t.integer "activity_availability_limit_in_days", default: 3, null: false

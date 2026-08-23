@@ -50,6 +50,20 @@ Es ist möglich, eine Anzahl von Abwesenheiten zu konfigurieren, die im Abonneme
 
 > Die Anzahl der inbegriffenen Abwesenheiten wird auf der Ebene eines [Lieferzyklus](/handbook/deliveries#delivery-cycles) eingestellt, um Abonnements mit einer Anzahl von inbegriffenen Abwesenheiten (und damit Lieferungen) auf [Deinem Anmeldeformular](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) anzubieten.
 
+### Berechnung der inbegriffenen Abwesenheiten {#absence-included-logic}
+
+Die Zykluszahl gilt für ein ganzes Geschäftsjahr. Standardmässig wird das Kontingent der Mitgliedschaft anteilig zur Anzahl der <%= Basket.model_name.human(count: 2) %> berechnet.
+
+Diese Logik kannst Du mit [Liquid-Syntax](https://shopify.github.io/liquid) in [den Einstellungen](/settings#absence) ändern. Details und Beispiele findest Du in der englischen oder französischen Version dieser Seite.
+
+Standard:
+
+~~~ liquid
+{{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_absences_included | round }}
+~~~
+
+Eine Änderung der Logik schreibt bestehende Mitgliedschaften erst um, wenn sie geändert oder durch eine Liefer- oder Zyklusaktualisierung neu synchronisiert werden.
+
 ### Jahresendmodus {#absence-included-mode}
 
 Wenn Mitglieder nicht alle ihre inbegriffenen Abwesenheiten bis zum Ende ihres Abonnements nutzen, bleiben die verbleibenden Abwesenheiten vorläufig auf den letzten Lieferungen markiert. Um diese Situation zu handhaben, kannst Du einen **Jahresendmodus** in [den Einstellungen](/settings#absence) konfigurieren:

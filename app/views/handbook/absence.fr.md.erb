@@ -50,6 +50,41 @@ Il est possible de configurer un nombre d'absences incluses dans l'abonnement. C
 
 > Le nombre d'absences incluses est paramétré au niveau d'un [cycle de livraison](/handbook/deliveries#delivery-cycles), afin de proposer des abonnements avec un nombre d'absences incluses (et donc de livraisons) sur [votre formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
 
+### Calcul des absences incluses {#absence-included-logic}
+
+Le nombre du cycle vaut pour une année fiscale complète. Par défaut, le quota de l'abonnement est calculé au prorata du nombre de <%= Basket.model_name.human(count: 2).downcase %>.
+
+Cette logique peut être modifiée avec [la syntaxe Liquid](https://shopify.github.io/liquid) dans [les paramètres](/settings#absence).
+
+Valeur par défaut:
+
+~~~ liquid
+{{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_absences_included | round }}
+~~~
+
+Variables disponibles:
+
+- **membership.baskets**: <%= Basket.model_name.human(count: 2) %> de l'abonnement
+- **membership.full_year_deliveries**: livraisons d'une année complète pour ce cycle
+- **membership.full_year_absences_included**: absences incluses pour une année complète (défaut du cycle ou surcharge de l'abonnement)
+- **membership.started_fy_month**: mois de la date de début dans l'année fiscale (1-12, 1 est le premier mois de l'année fiscale configurée)
+- **membership.started_day**: jour civil de la date de début (1-31)
+- **membership.basket_size_id** / **membership.depot_id** / **membership.depot_group_id** / **membership.delivery_cycle_id**: identifiants liés
+
+`started_fy_month` suit l'année fiscale de l'organisation. Pour une année qui commence en mai, mai vaut 1 et août vaut 4.
+
+Exemple: aucune absence incluse après le 13 du quatrième mois fiscal (avril si l'année commence en janvier, août si elle commence en mai):
+
+~~~ liquid
+{% if membership.started_fy_month > 4 or membership.started_fy_month == 4 and membership.started_day >= 13 %}
+  0
+{% else %}
+  {{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_absences_included | round }}
+{% endif %}
+~~~
+
+Modifier la logique ne réécrit pas les abonnements existants tant que chacun n'est pas modifié, ou qu'une mise à jour de livraison ou de cycle ne les resynchronise. Cela peut modifier les <%= Basket.model_name.human(count: 2).downcase %> facturé(e)s. La date du rappel d'absences incluses n'est pas réinitialisée.
+
 ### Mode de fin d'année {#absence-included-mode}
 
 Lorsque les membres n'utilisent pas toutes leurs absences incluses à la fin de leur abonnement, les absences restantes restent provisoirement marquées sur les dernières livraisons. Pour gérer cette situation, vous pouvez configurer un **mode de fin d'année** dans [les paramètres](/settings#absence):

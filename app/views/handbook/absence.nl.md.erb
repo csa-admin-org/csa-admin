@@ -50,6 +50,20 @@ Je kunt een aantal afwezigheden opnemen in het lidmaatschap. Deze afwezigheden w
 
 > Het aantal inbegrepen afwezigheden wordt ingesteld op het niveau van een [leveringscyclus](/handbook/deliveries#delivery-cycles), zodat je op [je registratieformulier](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) lidmaatschappen met een bepaald aantal inbegrepen afwezigheden en leveringen kunt aanbieden.
 
+### Berekening van inbegrepen afwezigheden {#absence-included-logic}
+
+Het cyclusgetal geldt voor een volledig boekjaar. Standaard wordt het quotum van het lidmaatschap berekend naar rato van het aantal <%= Basket.model_name.human(count: 2).downcase %>.
+
+Je kunt deze logica aanpassen met [Liquid-syntax](https://shopify.github.io/liquid) in [de instellingen](/settings#absence). Details en voorbeelden staan in de Engelse of Franse versie van deze pagina.
+
+Standaard:
+
+~~~ liquid
+{{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_absences_included | round }}
+~~~
+
+Het aanpassen van de logica herschrijft bestaande lidmaatschappen pas wanneer ze worden gewijzigd, of wanneer een leverings- of cyclusupdate ze opnieuw synchroniseert.
+
 ### Eindejaarmodus {#absence-included-mode}
 
 Wanneer leden aan het einde van hun lidmaatschap niet al hun inbegrepen afwezigheden gebruiken, blijven de resterende afwezigheden voorlopig op de laatste leveringen gemarkeerd. Om dit te beheren, kun je in [de instellingen](/settings#absence) een **eindejaarmodus** configureren:

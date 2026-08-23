@@ -50,6 +50,20 @@ Quando una <%= Basket.model_name.human.downcase %> è stata spostata, puoi visua
 
 > Il numero di assenze incluse è impostato a livello di [ciclo di consegna](/handbook/deliveries#delivery-cycles), per offrire abbonamenti con un numero di assenze incluse (e quindi di consegne) sul [tuo modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
 
+### Calcolo delle assenze incluse {#absence-included-logic}
+
+Il numero del ciclo vale per un anno fiscale completo. Di default, la quota dell'abbonamento è calcolata in proporzione al numero di <%= Basket.model_name.human(count: 2).downcase %>.
+
+Puoi modificare questa logica con [la sintassi Liquid](https://shopify.github.io/liquid) nelle [impostazioni](/settings#absence). Trovi dettagli ed esempi nella versione inglese o francese di questa pagina.
+
+Valore predefinito:
+
+~~~ liquid
+{{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_absences_included | round }}
+~~~
+
+Modificare la logica non riscrive gli abbonamenti esistenti finché ciascuno non viene modificato, o finché un aggiornamento di consegne o di ciclo non li risincronizza.
+
 ### Modalità di fine anno {#absence-included-mode}
 
 Quando i soci non utilizzano tutte le loro assenze incluse entro la fine del loro abbonamento, le assenze rimanenti restano provvisoriamente segnate sulle ultime consegne. Per gestire questa situazione, puoi configurare una **modalità di fine anno** nelle [impostazioni](/settings#absence):

@@ -1098,6 +1098,21 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_includes member_account_fieldset.to_html, "organization_absence_notice_period_in_days"
     assert_includes basket_shifts_fieldset.to_html, "organization_basket_shifts_annually"
     assert_includes included_fieldset.to_html, "organization_absences_included_mode"
+    assert_includes included_fieldset.to_html, "organization_absences_included_logic"
+    assert_includes included_fieldset.to_html, "membership.full_year_absences_included"
+    assert_includes included_fieldset.to_html, "/handbook/absence#absence-included-logic"
+    assert_includes included_fieldset.to_html, "Changing this logic"
+  end
+
+  test "absence settings overview hides included absences liquid" do
+    org(absences_included_logic: "{{ membership.baskets }}")
+    login admins(:super)
+
+    get organization_path
+
+    assert_response :success
+    assert_select "#absence tr[data-row='absences_included_logic']", false
+    assert_select "#absence", text: /\{\{ membership.baskets \}\}/, count: 0
   end
 
   test "activity settings overview summarizes registration form choice" do
@@ -1218,6 +1233,9 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_includes registration_form_fieldset.to_html, "organization_activity_participations_form_step"
     assert_includes registration_form_fieldset.to_html, "organization_member_form_activity_participations_text_#{locale}"
     assert_includes registration_form_fieldset.to_html, "organization_activity_participations_form_detail_#{locale}"
+    assert_includes logic_fieldset.to_html, "membership.full_year_activity_participations"
+    assert_not_includes logic_fieldset.to_html, "member.full_year_activity_participations"
+    assert_includes logic_fieldset.to_html, "Changing this logic"
   end
 
   test "focused edit page uses settings breadcrumb and section title" do

@@ -51,5 +51,11 @@ context.instance_eval do
       }
     f.input :absences_included_reminder_weeks_before,
       hint: t("formtastic.hints.organization.absences_included_reminder_weeks_before_html")
+    f.input :absences_included_logic,
+      as: :text,
+      hint: t("formtastic.hints.organization.absences_included_logic_html"),
+      input_html: {
+        data: { mode: "liquid", code_editor_target: "editor" }
+      }
   end
 end

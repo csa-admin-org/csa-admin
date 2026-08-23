@@ -1,0 +1,11 @@
+# Calcul des absences incluses
+
+Il est désormais possible de modifier le calcul des absences incluses, avec [la syntaxe Liquid](https://shopify.github.io/liquid), dans [les paramètres des absences](/settings#absence).
+
+Par défaut, rien ne change: le quota reste au prorata du nombre de <%= Basket.model_name.human(count: 2).downcase %> de l'abonnement.
+
+Vous pouvez maintenant tenir compte de la date de début, du dépôt, de la <%= BasketSize.model_name.human.downcase %> ou du cycle de livraisons. Par exemple, n'accorder aucune absence incluse aux abonnements qui commencent après une certaine date.
+
+Les mêmes variables de mois de début et d'identifiants sont aussi disponibles pour la logique des participations demandées dans [les paramètres des activités](/settings#activity).
+
+Plus de détails et d'exemples dans [le manuel](/handbook/absence#absence-included-logic).

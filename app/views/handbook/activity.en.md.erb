@@ -26,11 +26,78 @@ However, it is possible to let members choose the number of participations they 
 
 > If a participation price is defined, the difference between the default number and the chosen number will be automatically added to or subtracted from the total membership amount (fields "Membership price adjustment").
 
-### Logic for Calculating Requested Participations
+### Logic for Calculating Requested Participations {#activity-participations-logic}
 
 The configuration of the number of requested participations is always understood for a complete fiscal year; by default, the final number requested will be calculated pro-rata based on the number of deliveries in the membership.
 
 This logic can be modified using [Liquid syntax](https://shopify.github.io/liquid) in the "Logic for calculating requested participations" field in [the settings](/settings#activity).
+
+Default:
+
+~~~ liquid
+{% if member.salary_basket %}
+  0
+{% else %}
+  {{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_activity_participations | round }}
+{% endif %}
+~~~
+
+Available variables:
+
+- **member.salary_basket**: member with a salary basket
+- **full_year_max_deliveries**: maximum number of deliveries for a whole year, all cycles combined
+- **membership.full_year_deliveries**: deliveries in a full year for this membership (the greater of the cycle year and the membership period)
+- **membership.baskets**: deliveries of the membership period
+- **membership.full_year_activity_participations**: participations requested for a full year
+- **membership.started_fy_month**: month of the start date in the fiscal year (1-12, 1 is the first month of the configured fiscal year)
+- **membership.started_day**: calendar day of the start date (1-31)
+- **membership.basket_size_id** / **membership.depot_id** / **membership.depot_group_id** / **membership.delivery_cycle_id**: related IDs
+
+`membership.baskets` and `membership.full_year_deliveries` count cycle deliveries, not persisted basket rows.
+
+Changing the logic does not rewrite existing memberships until each one is updated, or until a delivery or cycle update resyncs them.
+
+Examples:
+
+No pro-rata, use the full-year number:
+
+~~~ liquid
+{% if member.salary_basket %}
+  0
+{% else %}
+  {{ membership.full_year_activity_participations }}
+{% endif %}
+~~~
+
+Pro-rata against the longest cycle:
+
+~~~ liquid
+{% if member.salary_basket %}
+  0
+{% else %}
+  {{ membership.baskets | divided_by: full_year_max_deliveries | times: membership.full_year_activity_participations | round }}
+{% endif %}
+~~~
+
+No participations below 16 baskets:
+
+~~~ liquid
+{% if member.salary_basket or membership.baskets <= 16 %}
+  0
+{% else %}
+  {{ membership.full_year_activity_participations }}
+{% endif %}
+~~~
+
+Exempt one depot, keep the default formula otherwise:
+
+~~~ liquid
+{% if member.salary_basket or membership.depot_id == 12 %}
+  0
+{% else %}
+  {{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_activity_participations | round }}
+{% endif %}
+~~~
 
 ### Signing Up for Activities
 

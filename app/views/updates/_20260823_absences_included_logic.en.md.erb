@@ -1,0 +1,11 @@
+# Included absences calculation
+
+It is now possible to change how included absences are calculated, with [Liquid syntax](https://shopify.github.io/liquid), in [the absence settings](/settings#absence).
+
+By default nothing changes: the quota stays proportional to the number of <%= Basket.model_name.human(count: 2).downcase %> of the membership.
+
+You can now branch on the start date, depot, <%= BasketSize.model_name.human.downcase %>, or delivery cycle. For example, give no included absences to memberships that start after a given date.
+
+The same start-month and ID variables are also available for the requested participations logic in [the activity settings](/settings#activity).
+
+More details and examples are in [the handbook](/handbook/absence#absence-included-logic).

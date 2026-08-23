@@ -35,13 +35,7 @@ module Membership::Absence
   def update_absences_included!
     return unless Current.org.feature?("absence")
 
-    full_year = delivery_cycle.deliveries_in(fiscal_year.range).size
-    total =
-      if full_year.positive? && absences_included_annually.positive?
-        (baskets.count / full_year.to_f * absences_included_annually).round
-      else
-        0
-      end
+    total = AbsencesIncluded.new(self).count
     update_column(:absences_included, total) unless total == absences_included
   end
 

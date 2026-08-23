@@ -3142,6 +3142,12 @@ _:
           _de: Fakturierung von Anteile bei Abwesenheiten
           _it: Fatturazione delle parti durante le assenze
           _nl: Facturering van delen tijdens afwezigheid
+        absences_included_logic:
+          _en: Logic for calculating included absences
+          _fr: Logique de calcul des absences incluses
+          _de: Logik zur Berechnung der enthaltenen Abwesenheiten
+          _it: Logica di calcolo delle assenze incluse
+          _nl: Logica voor berekening inbegrepen afwezigheden
         absences_included_mode:
           _en: Absences included mode
           _fr: Mode des absences incluses

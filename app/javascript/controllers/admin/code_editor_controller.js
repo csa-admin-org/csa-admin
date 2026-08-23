@@ -22,9 +22,17 @@ export default class extends Controller {
   initialize() {
     this.fetchPreview = debounce(500, this.fetchPreview.bind(this))
     this.previewRevision = 0
+    this.editors = new Map()
+    this.beforeCache = this.teardownEditors.bind(this)
+  }
+
+  connect() {
+    document.addEventListener("turbo:before-cache", this.beforeCache)
   }
 
   editorTargetConnected(element) {
+    this.teardownEditor(element)
+    this.removeCachedWrappers(element)
     hide(element)
 
     const editDiv = document.createElement("div")
@@ -46,7 +54,7 @@ export default class extends Controller {
       editor.innerHTML = Prism.highlight(code, grammar, mode)
     }
 
-    this.jar = CodeJar(
+    const jar = CodeJar(
       editDiv,
       withLineNumbers(highlight, {
         width: "45px",
@@ -62,18 +70,28 @@ export default class extends Controller {
       }
     )
 
-    this.jar.updateCode(element.value)
+    jar.updateCode(element.value)
 
-    this.jar.onUpdate((code) => {
+    jar.onUpdate((code) => {
       element.value = code
       this.updatePreview()
     })
+
+    this.editors.set(element, {
+      jar,
+      wrap: editDiv.closest(".codejar-wrap") || editDiv
+    })
+  }
+
+  editorTargetDisconnected(element) {
+    this.teardownEditor(element)
   }
 
   disconnect() {
+    document.removeEventListener("turbo:before-cache", this.beforeCache)
+    this.teardownEditors()
     this.fetchPreview.cancel?.()
     this.invalidatePreview()
-    this.jar?.destroy()
   }
 
   updatePreview() {
@@ -117,5 +135,36 @@ export default class extends Controller {
         this.previewAbortController = null
       }
     }
+  }
+
+  teardownEditors() {
+    for (const element of [...this.editors.keys()]) {
+      this.teardownEditor(element)
+    }
+    this.editorTargets.forEach((element) => this.removeCachedWrappers(element))
+  }
+
+  teardownEditor(element) {
+    const editor = this.editors.get(element)
+    if (!editor) return
+
+    editor.jar.destroy()
+    editor.wrap.remove()
+    this.editors.delete(element)
+  }
+
+  removeCachedWrappers(element) {
+    let prev = element.previousElementSibling
+    while (prev && this.isEditorWrapper(prev)) {
+      const stale = prev
+      prev = prev.previousElementSibling
+      stale.remove()
+    }
+  }
+
+  isEditorWrapper(element) {
+    return (
+      element.classList.contains("codejar-wrap") || element.classList.contains("codejar-editor")
+    )
   }
 }

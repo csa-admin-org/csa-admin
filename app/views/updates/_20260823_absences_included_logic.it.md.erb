@@ -1,0 +1,11 @@
+# Calcolo delle assenze incluse
+
+Ora puoi modificare il calcolo delle assenze incluse, con [la sintassi Liquid](https://shopify.github.io/liquid), nelle [impostazioni delle assenze](/settings#absence).
+
+Di default non cambia nulla: la quota resta proporzionale al numero di <%= Basket.model_name.human(count: 2).downcase %> dell'abbonamento.
+
+Ora puoi tenere conto della data di inizio, del deposito, della <%= BasketSize.model_name.human.downcase %> o del ciclo di consegne. Per esempio, non concedere assenze incluse agli abbonamenti che iniziano dopo una certa data.
+
+Le stesse variabili di mese di inizio e di identificativi sono disponibili anche per la logica delle partecipazioni richieste nelle [impostazioni delle attività](/settings#activity).
+
+Maggiori dettagli ed esempi nel [manuale](/handbook/absence#absence-included-logic).

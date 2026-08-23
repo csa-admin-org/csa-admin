@@ -104,6 +104,7 @@ ActiveAdmin.register Organization do
     :absences_billed, :absence_extra_text_only,
     :absence_notice_period_in_days,
     :absences_included_mode, :absences_included_reminder_weeks_before,
+    :absences_included_logic,
     :basket_shifts_annually, :basket_shift_deadline_in_weeks,
     :bidding_round_basket_size_price_min_percentage, :bidding_round_basket_size_price_max_percentage,
     :open_bidding_round_reminder_sent_after_in_days,

@@ -12,6 +12,8 @@ class ActivityParticipationDemanded
   end
 
   class MembershipDrop < Liquid::Drop
+    include MembershipLiquidIdentifiers
+
     def initialize(membership)
       @membership = membership
     end

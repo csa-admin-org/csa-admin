@@ -343,6 +343,15 @@ class Membership::AbsenceTest < ActiveSupport::TestCase
     assert_equal 0, membership.reload.absences_included
   end
 
+  test "saves the liquid included absences on membership" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+
+    membership.update!(absences_included_annually: 4)
+
+    assert_equal 4, membership.reload.absences_included
+  end
+
   test "destroying forced delivery reverts basket to provisional absence" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 0, absences_billed: true)

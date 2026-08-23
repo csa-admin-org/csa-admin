@@ -1,0 +1,11 @@
+# Berechnung der enthaltenen Abwesenheiten
+
+Du kannst jetzt festlegen, wie enthaltene Abwesenheiten berechnet werden, mit [Liquid-Syntax](https://shopify.github.io/liquid), in [den Abwesenheitseinstellungen](/settings#absence).
+
+Standardmässig ändert sich nichts: Das Kontingent bleibt anteilig zur Anzahl der <%= Basket.model_name.human(count: 2) %> der Mitgliedschaft.
+
+Du kannst jetzt nach Startdatum, Depot, <%= BasketSize.model_name.human %> oder Lieferzyklus unterscheiden. Zum Beispiel keine enthaltenen Abwesenheiten für Mitgliedschaften, die nach einem bestimmten Datum beginnen.
+
+Dieselben Startmonats- und ID-Variablen stehen auch für die Logik der angeforderten Teilnahmen in [den Aktivitätseinstellungen](/settings#activity) zur Verfügung.
+
+Mehr Details und Beispiele im [Handbuch](/handbook/absence#absence-included-logic).

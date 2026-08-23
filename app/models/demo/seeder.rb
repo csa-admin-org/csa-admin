@@ -345,6 +345,7 @@ class Demo::Seeder
       basket_shift_deadline_in_weeks: 4,
       absences_included_mode: "provisional_absence",
       absences_included_reminder_weeks_before: 4,
+      absences_included_logic: Organization::AbsenceFeature::ABSENCES_INCLUDED_LOGIC_DEFAULT,
 
       # ============================================
       # Activity feature settings

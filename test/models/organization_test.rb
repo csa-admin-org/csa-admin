@@ -32,6 +32,22 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_not org.valid?
   end
 
+  test "validates absences_included_logic liquid syntax" do
+    org = Organization.new(absences_included_logic: <<~LIQUID)
+      {% if membership.started_month > 4 %}
+    LIQUID
+
+    assert_not org.valid?
+    assert_includes org.errors[:absences_included_logic], "Liquid syntax error: 'if' tag was never closed"
+  end
+
+  test "rejects a blank absences_included_logic" do
+    org = Organization.new(absences_included_logic: "")
+
+    assert_not org.valid?
+    assert_includes org.errors[:absences_included_logic], "can't be blank"
+  end
+
   test "validates activity_participations_demanded_logic liquid syntax" do
     org = Organization.new(activity_participations_demanded_logic: <<~LIQUID)
       {% if member.salary_basket %}

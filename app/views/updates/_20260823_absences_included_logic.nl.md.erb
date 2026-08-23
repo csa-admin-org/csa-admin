@@ -1,0 +1,11 @@
+# Berekening van inbegrepen afwezigheden
+
+Je kunt nu de berekening van inbegrepen afwezigheden aanpassen met [Liquid-syntax](https://shopify.github.io/liquid) in [de afwezigheidsinstellingen](/settings#absence).
+
+Standaard verandert er niets: het quotum blijft evenredig aan het aantal <%= Basket.model_name.human(count: 2).downcase %> van het lidmaatschap.
+
+Je kunt nu rekening houden met de startdatum, het depot, de <%= BasketSize.model_name.human.downcase %> of de leveringscyclus. Bijvoorbeeld geen inbegrepen afwezigheden voor lidmaatschappen die na een bepaalde datum starten.
+
+Dezelfde startmaand- en ID-variabelen zijn ook beschikbaar voor de logica van gevraagde deelnames in [de activiteitsinstellingen](/settings#activity).
+
+Meer details en voorbeelden in [het handboek](/handbook/absence#absence-included-logic).

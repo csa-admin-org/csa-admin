@@ -121,4 +121,15 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to membership_path(membership)
     assert_equal I18n.t("active_admin.flash.membership_stop_notice"), flash[:notice]
   end
+
+  test "new form points included absences hint at absence settings" do
+    travel_to "2024-01-01"
+    login admins(:super)
+
+    get new_membership_path
+
+    assert_response :success
+    assert_includes response.body, "/settings#absence"
+    assert_not_includes response.body, "href='/delivery_cycles'"
+  end
 end
