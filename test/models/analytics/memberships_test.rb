@@ -217,11 +217,108 @@ class Analytics::MembershipsTest < ActiveSupport::TestCase
     end
   end
 
+  test "enrollment chart uses month labels and disables year sync" do
+    panel = enrollment_panel
+
+    assert_equal ("0".."12").to_a, panel.config.dig(:data, :labels)
+    refute panel.config.dig(:options, :syncYear)
+    assert_equal I18n.t("analytics.charts.enrollment"), panel.title
+  end
+
+  test "keeps only the last palette of enrollment years" do
+    years = (2015..2026).map { |year|
+      Object.new.tap { |entry|
+        entry.define_singleton_method(:count) { 10 }
+        entry.define_singleton_method(:new_count) { 4 }
+        entry.define_singleton_method(:fiscal_year) { year }
+      }
+    }
+    memberships = Analytics::Memberships.new
+
+    memberships.stub(:series, years) do
+      memberships.stub(:pace_counts_for, ->(_fy) { [ 0 ] * 13 }) do
+        assert_equal (2019..2026).map(&:to_s), memberships.send(:pace_series).map(&:first)
+        assert_equal "#{I18n.t("analytics.charts.enrollment")} (#{I18n.t("analytics.last_n", count: Analytics::PALETTE_SIZE)})",
+          memberships.send(:pace_title, I18n.t("analytics.charts.enrollment"))
+      end
+    end
+  end
+
+  test "builds enrollment from new memberships created after the fiscal year start" do
+    Membership.update_all(created_at: Time.zone.parse("2023-01-01"))
+    memberships(:john).update_column(:created_at, Time.zone.parse("2024-02-01"))
+    memberships(:jane).update_column(:created_at, Time.zone.parse("2024-03-15"))
+    memberships(:bob).update_column(:created_at, Time.zone.parse("2024-06-01"))
+    memberships(:anna).update_column(:created_at, Time.zone.parse("2024-06-01"))
+    memberships(:john_future).update_column(:created_at, Time.zone.parse("2025-01-10"))
+
+    panel = enrollment_panel
+
+    assert_equal [ 0, 0, 0, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3 ], enrollment_data(panel, "2024")
+    assert_equal [ 0, 0 ] + [ nil ] * 11, enrollment_data(panel, "2025")
+  end
+
+  test "skips new memberships created during the tenant bootstrap window" do
+    fy = Current.org.fiscal_year_for(2024)
+    page = Analytics::Memberships.new
+    wave = enrollment_row(Time.zone.parse("2024-01-28"), started_on: Date.new(2024, 1, 1))
+    later = enrollment_row(Time.zone.parse("2024-03-15"), started_on: Date.new(2024, 1, 1))
+
+    page.stub(:during, [ wave, later ]) do
+      page.stub(:first_started_on_by_member, {
+        wave.member_id => wave.started_on,
+        later.member_id => later.started_on
+      }) do
+        page.stub(:bootstrap_created_on, Date.new(2024, 1, 28)) do
+          assert_equal [ 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+            page.send(:pace_counts_for, fy)
+        end
+      end
+    end
+  end
+
+  test "ignores pre-year new memberships for a non-January fiscal year" do
+    org(fiscal_year_start_month: 4)
+    travel_to "2025-06-15"
+    fy = Current.org.fiscal_year_for(2024)
+    page = Analytics::Memberships.new
+    early = enrollment_row(Time.zone.parse("2024-02-10"), started_on: Date.new(2024, 4, 1))
+    mid = enrollment_row(Time.zone.parse("2024-07-10"), started_on: Date.new(2024, 4, 1))
+
+    page.stub(:during, [ early, mid ]) do
+      page.stub(:first_started_on_by_member, {
+        early.member_id => early.started_on,
+        mid.member_id => mid.started_on
+      }) do
+        assert_equal [ 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+          page.send(:pace_counts_for, fy)
+      end
+    end
+  end
+
   test "hides extra mix when snapped extras exceed the palette" do
     memberships = Analytics::Memberships.new
     extras = (1..9).map(&:to_d)
     memberships.stub(:extras, extras) do
       assert_not memberships.extras?
     end
+  end
+
+  private
+
+  def enrollment_panel
+    Analytics::Memberships.new.charts.find { |chart| chart.id == "enrollment" }
+  end
+
+  def enrollment_data(panel, year)
+    panel.config[:data][:datasets].find { |dataset| dataset[:label] == year }[:data]
+  end
+
+  def enrollment_row(created_at, started_on: Date.new(2024, 4, 1))
+    Object.new.tap { |row|
+      row.define_singleton_method(:created_at) { created_at }
+      row.define_singleton_method(:started_on) { started_on }
+      row.define_singleton_method(:member_id) { object_id }
+    }
   end
 end

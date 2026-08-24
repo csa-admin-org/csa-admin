@@ -37,6 +37,21 @@ class Analytics::ActivitiesTest < ActiveSupport::TestCase
     assert_in_delta 100.0, year.fulfillment_rate, 0.01
   end
 
+  test "signup chart uses month labels and counts accepted participants" do
+    ActivityParticipation.update_all(created_at: Time.zone.parse("2023-01-01"))
+    activity_participations(:john_harvest).update_column(:created_at, Time.zone.parse("2024-03-15"))
+    activity_participations(:jane_harvest).update_columns(
+      created_at: Time.zone.parse("2024-06-01"),
+      state: "rejected")
+    panel = Analytics::Activities.new.charts.find { |chart| chart.id == "signups" }
+    data = panel.config[:data][:datasets].find { |dataset| dataset[:label] == "2024" }[:data]
+
+    assert_equal ("0".."12").to_a, panel.config.dig(:data, :labels)
+    refute panel.config.dig(:options, :syncYear)
+    assert_equal I18n.t("analytics.charts.signups"), panel.title
+    assert_equal [ 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ], data
+  end
+
   test "defaults to the last past year with demanded participations" do
     Membership.during_year(2024).update_all(activity_participations_demanded: 0)
     years = [ 2023, 2024, 2025 ].map { |year| Current.org.fiscal_year_for(year) }

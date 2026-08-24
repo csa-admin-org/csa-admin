@@ -2,6 +2,9 @@
 
 class Analytics::Memberships
   include Analytics::Series
+  include Analytics::Pace
+
+  BOOTSTRAP_DAYS = 14
 
   def self.available? = Membership.exists?
   def self.icon = "calendar-range"
@@ -91,6 +94,9 @@ class Analytics::Memberships
           [ I18n.t("analytics.metrics.new"), series.map(&:new_count) ],
           [ I18n.t("analytics.metrics.renewal"), series.map(&:returning_count) ]
         ])
+      if (panel = pace_chart("enrollment", I18n.t("analytics.charts.enrollment"), "calendar-days"))
+        panels << panel
+      end
       if early_exits?
         panels << chart.grouped_bar(
           "early-exits", I18n.t("analytics.charts.early_exits"), "calendar-x",
@@ -166,12 +172,38 @@ class Analytics::Memberships
     extra.to_d.zero? ? I18n.t("analytics.metrics.no_extra") : cur(extra)
   end
 
+  def pace_events_for(fiscal_year)
+    firsts = first_started_on_by_member
+    during(fiscal_year).filter_map { |row|
+      next unless firsts[row.member_id] == row.started_on
+
+      created_on = row.created_at.to_date
+      next if bootstrapped?(created_on)
+
+      Event.new(row.created_at, 1)
+    }
+  end
+
+  def pace_created_dates
+    rows.map { |row| row.created_at.to_date }
+  end
+
+  def bootstrap_created_on
+    @bootstrap_created_on ||= pace_created_dates.min
+  end
+
+  def bootstrapped?(created_on)
+    start = bootstrap_created_on
+    start && created_on >= start && created_on < start + BOOTSTRAP_DAYS
+  end
+
   MembershipRow = Data.define(
     :id,
     :member_id,
     :started_on,
     :ended_on,
     :renewed_at,
+    :created_at,
     :price,
     :basket_size_id,
     :basket_size_price,
@@ -195,6 +227,7 @@ class Analytics::Memberships
       :started_on,
       :ended_on,
       :renewed_at,
+      "memberships.created_at",
       :price,
       :basket_size_id,
       :basket_size_price,

@@ -25,6 +25,12 @@ class Analytics::Chart
       line_options(currency: currency, percentage: percentage, max: max))
   end
 
+  def comparison_line(id, title, icon, datasets, labels:)
+    panel(id, title, icon, "line", line_datasets(datasets),
+      line_options.merge(syncYear: false),
+      labels: labels)
+  end
+
   def rate_line(id, title, icon, datasets)
     values = datasets.flat_map(&:last)
     line(id, title, icon, datasets, percentage: true, max: tens_axis_max(values))
@@ -42,8 +48,8 @@ class Analytics::Chart
 
   private
 
-  def panel(id, title, icon, type, datasets, options)
-    Panel.new(id, title, icon, { type: type, data: { labels: @labels, datasets: datasets }, options: options })
+  def panel(id, title, icon, type, datasets, options, labels: @labels)
+    Panel.new(id, title, icon, { type: type, data: { labels: labels, datasets: datasets }, options: options })
   end
 
   def stacked_datasets(rows)

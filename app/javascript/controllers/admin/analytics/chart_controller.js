@@ -215,17 +215,21 @@ export default class extends Controller {
       attributes: true,
       attributeFilter: ["class"]
     })
-    this.handleMouseLeave = () => this.dispatchYear([])
-    this.element.addEventListener("mouseleave", this.handleMouseLeave)
     this.headlinesEl = this.element.closest("[data-controller~='analytics--headlines']")
-    this.headlinesEl?.addEventListener("analytics:year", this.handleYearEvent)
-    this.activeYearIndex = this.configValue.options?.defaultYearIndex ?? null
+    if (this.syncsYear()) {
+      this.handleMouseLeave = () => this.dispatchYear([])
+      this.element.addEventListener("mouseleave", this.handleMouseLeave)
+      this.headlinesEl?.addEventListener("analytics:year", this.handleYearEvent)
+      this.activeYearIndex = this.configValue.options?.defaultYearIndex ?? null
+    }
     this.renderChart()
   }
 
   disconnect() {
     this.themeObserver?.disconnect()
-    this.element.removeEventListener("mouseleave", this.handleMouseLeave)
+    if (this.handleMouseLeave) {
+      this.element.removeEventListener("mouseleave", this.handleMouseLeave)
+    }
     this.headlinesEl?.removeEventListener("analytics:year", this.handleYearEvent)
     this.destroyChart()
   }
@@ -256,13 +260,15 @@ export default class extends Controller {
 
     const config = structuredClone(this.configValue)
     this.applyTheme(config)
-    this.applyActiveYearFont(config)
     this.applyNumberFormatting(config)
     this.applySingleYearBars(config)
-    this.applyOpenYearFade(config)
-    config.plugins = [...(config.plugins || []), activeYearPlugin, openYearFadePlugin]
+    if (this.syncsYear()) {
+      this.applyActiveYearFont(config)
+      this.applyOpenYearFade(config)
+      config.plugins = [...(config.plugins || []), activeYearPlugin, openYearFadePlugin]
+      config.options.onHover = (_event, elements) => this.dispatchYear(elements)
+    }
     config.options.animation = false
-    config.options.onHover = (_event, elements) => this.dispatchYear(elements)
 
     this.chart = new Chart(canvas, config)
     this.chart.$analyticsActiveYear = this.activeYearIndex
@@ -272,6 +278,10 @@ export default class extends Controller {
   async chartConstructor() {
     if (!globalThis.Chart) await import("chart.js")
     return globalThis.Chart
+  }
+
+  syncsYear() {
+    return this.configValue.options?.syncYear !== false
   }
 
   destroyChart() {

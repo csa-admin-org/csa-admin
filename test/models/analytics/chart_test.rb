@@ -30,6 +30,17 @@ class Analytics::ChartTest < ActiveSupport::TestCase
     refute panel.config.dig(:data, :datasets, 0, :spanGaps)
   end
 
+  test "comparison lines use custom labels and disable year sync" do
+    panel = chart.comparison_line(
+      "enrollment", "Enrollment", "calendar-days",
+      [ [ "2024", [ 1, 2 ] ] ],
+      labels: %w[0 1])
+
+    assert_equal %w[0 1], panel.config.dig(:data, :labels)
+    refute panel.config.dig(:options, :syncYear)
+    assert panel.config.dig(:options, :scales, :y, :beginAtZero)
+  end
+
   test "omits share totals when the mix is complete" do
     panel = chart.stacked_area(
       "size-mix", "Size mix", "shopping-bag",

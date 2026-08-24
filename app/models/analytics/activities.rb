@@ -2,6 +2,7 @@
 
 class Analytics::Activities
   include Analytics::Series
+  include Analytics::Pace
 
   def self.available?
     return false unless Current.org.feature?(:activity)
@@ -41,6 +42,9 @@ class Analytics::Activities
           [ I18n.t("analytics.metrics.demanded"), series.map(&:count) ],
           [ I18n.t("analytics.metrics.accepted"), series.map(&:accepted) ]
         ])
+      if (panel = pace_chart("signups", I18n.t("analytics.charts.signups"), "calendar-days"))
+        panels << panel
+      end
       panels << chart.line(
         "fulfillment-rate", I18n.t("analytics.charts.fulfillment_rate"), "clipboard-check",
         [ [ I18n.t("analytics.metrics.fulfillment_rate"), series.map { |year| decimal_or_nil(year.fulfillment_rate) } ] ],
@@ -68,6 +72,7 @@ class Analytics::Activities
   private
 
   MembershipRow = Data.define(:started_on, :ended_on, :demanded, :accepted)
+  ParticipationRow = Data.define(:activity_date, :created_at, :participants_count, :state)
 
   def rows
     @rows ||= Membership.pluck(
@@ -76,6 +81,37 @@ class Analytics::Activities
       :activity_participations_demanded,
       :activity_participations_accepted
     ).map { |values| MembershipRow.new(*values) }
+  end
+
+  def participation_rows
+    @participation_rows ||= ActivityParticipation.joins(:activity).pluck(
+      "activities.date",
+      "activity_participations.created_at",
+      :participants_count,
+      :state
+    ).map { |values| ParticipationRow.new(*values) }
+  end
+
+  def participation_rows_by_year
+    @participation_rows_by_year ||= begin
+      grouped = Hash.new { |hash, year| hash[year] = [] }
+      participation_rows.each do |row|
+        grouped[Analytics.year_for(row.activity_date)] << row
+      end
+      grouped
+    end
+  end
+
+  def pace_events_for(fiscal_year)
+    (participation_rows_by_year[fiscal_year.year] || []).filter_map { |row|
+      next if row.state == "rejected"
+
+      Event.new(row.created_at, row.participants_count)
+    }
+  end
+
+  def pace_created_dates
+    participation_rows.map { |row| row.created_at.to_date }
   end
 
   def billed_missing_by_year

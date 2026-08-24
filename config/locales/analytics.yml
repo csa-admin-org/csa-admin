@@ -79,6 +79,12 @@ _:
         _de: Vorzeitige Austritte
         _it: Uscite anticipate
         _nl: Vroegtijdige beëindigingen
+      enrollment:
+        _en: Enrollment
+        _fr: Inscriptions
+        _de: Einschreibungen
+        _it: Iscrizioni
+        _nl: Inschrijvingen
       filled_deliveries:
         _en: Filled deliveries
         _fr: Livraisons renseignées
@@ -151,6 +157,12 @@ _:
         _de: Produkte
         _it: Prodotti
         _nl: Producten
+      signups:
+        _en: Sign-ups
+        _fr: Inscriptions
+        _de: Anmeldungen
+        _it: Iscrizioni
+        _nl: Aanmeldingen
       size_mix:
         _en: Basket sizes
         _fr: Tailles de panier
@@ -242,6 +254,12 @@ _:
       _de: laufend
       _it: in corso
       _nl: lopend
+    last_n:
+      _en: last %{count} years
+      _fr: "%{count} dernières années"
+      _de: letzte %{count} Jahre
+      _it: ultimi %{count} anni
+      _nl: laatste %{count} jaar
     metrics:
       absences:
         _en: Absences

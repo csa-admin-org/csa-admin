@@ -70,6 +70,12 @@ module Analytics::Series
     "#{title} (#{I18n.t("analytics.top_n", count: Analytics::PALETTE_SIZE)})"
   end
 
+  def last_n_title(title, total)
+    return title unless total > Analytics::PALETTE_SIZE
+
+    "#{title} (#{I18n.t("analytics.last_n", count: Analytics::PALETTE_SIZE)})"
+  end
+
   def format_currency(amount)
     return if amount.nil?
 
