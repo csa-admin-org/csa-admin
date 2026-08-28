@@ -14,11 +14,14 @@
     </ul>
 
     <% if @next_basket&.depot&.public_note? %>
-      <h3 class="heading-sm">
-        <%= t(".depot_note", depot: @next_basket.depot.public_name) %>
-      </h3>
-      <div class="form-copy-gap">
-        <%= @next_basket.depot.public_note %>
+      <div class="depot-note">
+        <h3 class="depot-note-title">
+          <%= t(".depot_note", depot: @next_basket.depot.public_name) %>
+        </h3>
+
+        <div class="depot-note-body">
+          <%= @next_basket.depot.public_note %>
+        </div>
       </div>
     <% end %>
 
