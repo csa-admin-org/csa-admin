@@ -7,6 +7,19 @@ module Shop
     include TranslatedAttributes
     include Discardable
 
+    EMOJIS = %w[
+      🍇 🍈 🍉 🍊 🍋 🍋‍🟩 🍌 🍍
+      🥭 🍎 🍏 🍐 🍑 🍒 🍓 🫐
+      🥝 🍅 🫒 🥥 🥑 🍆 🥔 🥕
+      🌽 🌶️ 🫑 🥒 🥬 🥦 🧄 🧅
+      🥜 🫘 🌰 🫚 🫛 🍄 🍄‍🟫 🫜
+      🍞 🥖 🥐 🧀 🥚 🧈 🥛 🥩
+      🍗 🥓 🐟 🧂 🍯 🥗 🫕 🍚
+      🥫 🧃 ☕ 🍵 🫖 🍷 🍺 🏺
+      🌾 🌱 🌿 🍀 🪴 🌻 💐 🌷
+      🌸 🌹 🌼 🎁 ❗ ⚕️
+    ].freeze
+
     translated_attributes :name, required: true
 
     has_and_belongs_to_many :products, class_name: "Shop::Product"

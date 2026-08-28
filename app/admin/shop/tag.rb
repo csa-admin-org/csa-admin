@@ -36,8 +36,12 @@ ActiveAdmin.register Shop::Tag do
 
   form do |f|
     f.inputs t(".details"), icon: "notebook-text" do
-      translated_input(f, :names)
-      f.input :emoji, input_html: { data: { controller: "emoji-button", emoji_button_target: "button", action: "click->emoji-button#toggle" }, class: "emoji-button", size: 1 }
+      div class: "single-line shop-tag-fields" do
+        render partial: "shared/shop_tag_emoji", locals: { shop_tag: f.object }
+        div class: "is-grow" do
+          translated_input(f, :names)
+        end
+      end
     end
     f.actions
   end

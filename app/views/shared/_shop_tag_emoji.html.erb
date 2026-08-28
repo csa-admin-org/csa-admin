@@ -1,0 +1,65 @@
+<%#
+  Shop::Tag emoji picker. Hidden field plus a button that opens a farm/food grid.
+  Used on the admin tag form; paste onto the focused button still writes the value.
+
+  Locals:
+    shop_tag – Shop::Tag (or a new record)
+-%>
+<% selected_emoji = shop_tag.emoji %>
+
+<li
+  class="input string shop-tag-emoji"
+  data-controller="shop-tag-emoji"
+  data-action="click@document->shop-tag-emoji#closeOnClickOutside keydown.esc@document->shop-tag-emoji#close"
+  data-shop-tag-emoji-open-value="false"
+>
+  <label id="shop_tag_emoji_label" for="shop_tag_emoji" class="label sr-only">
+    <%= Shop::Tag.human_attribute_name(:emoji) %>
+  </label>
+
+  <input
+    type="hidden"
+    name="shop_tag[emoji]"
+    id="shop_tag_emoji"
+    value="<%= selected_emoji %>"
+    data-shop-tag-emoji-target="input"
+  >
+
+  <button
+    type="button"
+    class="shop-tag-emoji-button<%= " is-empty" if selected_emoji.blank? %>"
+    aria-labelledby="shop_tag_emoji_label"
+    aria-haspopup="true"
+    aria-expanded="false"
+    data-shop-tag-emoji-target="button"
+    data-action="shop-tag-emoji#toggle paste->shop-tag-emoji#paste"
+  >
+    <span class="shop-tag-emoji-placeholder">
+      <%= icon("face-slightly-smiling") %>
+    </span>
+
+    <span class="shop-tag-emoji-glyph" data-shop-tag-emoji-target="glyph"><%= selected_emoji %></span>
+  </button>
+
+  <div class="shop-tag-emoji-grid is-hidden" data-shop-tag-emoji-target="grid">
+    <button
+      type="button"
+      class="shop-tag-emoji-cell shop-tag-emoji-clear"
+      data-action="shop-tag-emoji#clear"
+      data-value
+    >
+      <%= icon("x") %>
+    </button>
+
+    <% Shop::Tag::EMOJIS.each do |emoji| %>
+      <button
+        type="button"
+        class="shop-tag-emoji-cell"
+        data-action="shop-tag-emoji#pick"
+        data-value="<%= emoji %>"
+      >
+        <%= emoji %>
+      </button>
+    <% end %>
+  </div>
+</li>
