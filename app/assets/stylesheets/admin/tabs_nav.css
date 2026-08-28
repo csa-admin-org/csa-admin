@@ -77,7 +77,7 @@
       }
     }
 
-    & > :where(a.hidden) {
+    & > :where(a.is-hidden) {
       display: none !important;
     }
   }

@@ -724,11 +724,6 @@
     .newsletter-feed-url a {
       overflow-wrap: anywhere;
     }
-
-    /* Visibility */
-    .hidden .tabs-nav > a {
-      display: none;
-    }
   }
 
   .waiting-notice {

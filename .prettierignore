@@ -2,6 +2,3 @@
 *.yml
 *.tmp
 vendor/**
-
-app/assets/tailwind/components/flatpickr.css
-app/assets/tailwind/components/codejar.css

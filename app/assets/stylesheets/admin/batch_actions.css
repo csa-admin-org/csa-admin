@@ -84,6 +84,15 @@
       background-color: var(--color-gray-800);
       color: var(--color-gray-200);
     }
+
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 150ms;
+
+    &.is-visible {
+      visibility: visible;
+      opacity: 1;
+    }
   }
 
   .batch-actions-dropdown-menu li > a {
