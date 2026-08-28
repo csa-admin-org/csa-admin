@@ -23,10 +23,9 @@ pin "tslib", preload: false # @2.8.1
 # Members
 pin "members", preload: false
 pin_all_from "app/javascript/controllers/members", under: "controllers/members", preload: false
-pin "flatpickr", preload: false # @4.6.13
-pin "flatpickr/dist/l10n/fr", to: "flatpickr--dist--l10n--fr.js", preload: false
-pin "flatpickr/dist/l10n/de", to: "flatpickr--dist--l10n--de.js", preload: false
-pin "flatpickr/dist/l10n/it", to: "flatpickr--dist--l10n--it.js", preload: false
+# Pinned from unpkg (`bin/importmap pin vanilla-calendar-pro@3.3.1 --from unpkg`)
+# because jspm still serves 3.2.0.
+pin "vanilla-calendar-pro", preload: false # @3.3.1
 
 # Admin
 pin "admin", preload: false

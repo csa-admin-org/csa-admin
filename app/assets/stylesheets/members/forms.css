@@ -555,6 +555,10 @@
     gap: 1.5rem;
   }
 
+  .activity-fields > .actions:last-child {
+    margin-top: 0;
+  }
+
   .activity-choice {
     display: inline-block;
     flex-grow: 1;
@@ -602,6 +606,7 @@
     display: inline-flex;
     flex-direction: row;
     align-items: center;
+    gap: 0.25rem;
   }
 
   .activity-choice-meta {
@@ -611,11 +616,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: center;
-    color: var(--color-gray-400);
-
-    &:where(.dark, .dark *) {
-      color: var(--color-gray-800);
-    }
+    color: var(--color-ink-muted);
 
     &.is-booked {
       font-weight: 600;
@@ -690,10 +691,19 @@
     &.is-rejected {
       color: var(--color-gray-300);
 
+      .activity-when {
+        color: inherit;
+      }
+
       &:where(.dark, .dark *) {
         color: var(--color-gray-600);
       }
     }
+  }
+
+  .activity-when {
+    font-weight: 500;
+    color: var(--color-ink-secondary);
   }
 
   .activity-body {
@@ -766,6 +776,7 @@
   }
 
   .activity-cancel-icon {
+    display: block;
     width: 0.875rem;
     height: 0.875rem;
   }

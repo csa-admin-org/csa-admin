@@ -1,0 +1,213 @@
+/* CSA skin on Vanilla Calendar Pro. Unlayered so it can override vendor.
+   Chrome matches members form fields (select, checkbox, input). Green is
+   selection only. */
+
+.activity-calendar {
+  --vc-bg: var(--color-white);
+  --vc-color: var(--color-ink-secondary);
+  --vc-header-color: var(--color-ink-secondary);
+  --vc-title-color: var(--color-ink-secondary);
+  --vc-title-color-hover: var(--color-ink-secondary);
+  --vc-title-color-disabled: var(--color-ink-secondary);
+  --vc-week-day-color: var(--color-gray-500);
+  --vc-week-day-off-color: var(--color-gray-500);
+  --vc-date-bg: transparent;
+  --vc-date-color: var(--color-gray-400);
+  --vc-date-bg-hover: var(--color-green-50);
+  --vc-date-disabled-color: var(--color-gray-300);
+  --vc-date-selected-bg: var(--color-green-500);
+  --vc-date-selected-color: var(--color-white);
+  --vc-date-today-bg: transparent;
+  --vc-date-today-color: var(--color-gray-400);
+  --vc-focus-outline-color: var(--color-green-500);
+
+  .vc {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--color-gray-300);
+    border-radius: 0.375rem;
+    box-shadow: none;
+    background-color: var(--color-white);
+  }
+
+  [data-vc="header"] {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    height: 2.75rem;
+    min-height: 0;
+    margin-bottom: 0;
+    padding-block: 0;
+    padding-right: 0.375rem;
+    padding-left: 0.375rem;
+    background-color: var(--color-gray-50);
+  }
+
+  [data-vc="month"],
+  [data-vc="year"] {
+    cursor: default;
+    font-weight: 500;
+    line-height: 1.5rem;
+    padding-block: 0;
+
+    &:disabled {
+      color: var(--color-ink-secondary);
+      opacity: 1;
+    }
+  }
+
+  [data-vc-arrow] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  [data-vc-arrow]::before {
+    background-image: none;
+    background-color: var(--color-gray-500);
+    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath fill='%23000' d='M12 16c-.3 0-.5-.1-.7-.3l-6-6c-.4-.4-.4-1 0-1.4s1-.4 1.4 0l5.3 5.3 5.3-5.3c.4-.4 1-.4 1.4 0s.4 1 0 1.4l-6 6c-.2.2-.4.3-.7.3'/%3e%3c/svg%3e");
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+  }
+
+  [data-vc="controls"] {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    height: 2.75rem;
+    padding-top: 0;
+    padding-right: 0.375rem;
+    padding-bottom: 0;
+    padding-left: 0.375rem;
+  }
+
+  [data-vc="grid"] {
+    gap: 0;
+  }
+
+  [data-vc="column"] {
+    min-width: 0;
+  }
+
+  [data-vc="column"] + [data-vc="column"] {
+    border-left: 1px solid var(--color-gray-200);
+  }
+
+  [data-vc="wrapper"] {
+    padding: 0;
+  }
+
+  [data-vc="week"] {
+    margin-bottom: 0;
+    padding: 0 0.5rem 0.375rem;
+    background-color: var(--color-gray-50);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  [data-vc-week-day] {
+    font-weight: 400;
+  }
+
+  [data-vc="dates"] {
+    padding: 0.5rem;
+  }
+
+  [data-vc-date-btn] {
+    width: 2.25rem;
+    height: 2.25rem;
+    max-width: 2.25rem;
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  [data-vc-date][data-vc-date-selected] [data-vc-date-btn],
+  [data-vc-date][data-vc-date-hover] [data-vc-date-btn],
+  [data-vc-date][data-vc-date-disabled] + [data-vc-date-selected] [data-vc-date-btn],
+  [data-vc-date][data-vc-date-selected]:has(+ [data-vc-date-disabled]) [data-vc-date-btn],
+  [data-vc-date-btn]:focus-visible {
+    border-top-left-radius: 9999px;
+    border-top-right-radius: 9999px;
+    border-bottom-right-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+  }
+
+  [data-vc-date-disabled] [data-vc-date-btn] {
+    opacity: 1;
+    border: 1px solid var(--color-gray-100);
+  }
+
+  [data-vc-date]:not([data-vc-date-disabled]) [data-vc-date-btn] {
+    border: 1px solid currentcolor;
+  }
+
+  .not-full [data-vc-date-btn] {
+    color: var(--color-ink-secondary);
+  }
+
+  [data-vc-date][data-vc-date-selected]:not([data-vc-date-disabled]) [data-vc-date-btn] {
+    border-color: var(--vc-date-selected-bg);
+  }
+
+  &:where(.dark, .dark *) {
+    --vc-bg: var(--color-canvas);
+    --vc-color: var(--color-ink-secondary);
+    --vc-header-color: var(--color-ink-secondary);
+    --vc-title-color: var(--color-ink-secondary);
+    --vc-title-color-hover: var(--color-ink-secondary);
+    --vc-title-color-disabled: var(--color-ink-secondary);
+    --vc-week-day-color: var(--color-gray-400);
+    --vc-week-day-off-color: var(--color-gray-400);
+    --vc-date-color: var(--color-gray-500);
+    --vc-date-bg-hover: color-mix(in oklch, var(--color-green-950) 30%, transparent);
+    --vc-date-disabled-color: var(--color-gray-600);
+    --vc-date-selected-bg: var(--color-green-600);
+    --vc-date-today-color: var(--color-gray-500);
+    --vc-focus-outline-color: var(--color-green-600);
+
+    .vc {
+      border-color: var(--color-gray-600);
+      background-color: var(--color-canvas);
+    }
+
+    [data-vc="header"],
+    [data-vc="week"] {
+      background-color: var(--color-gray-800);
+    }
+
+    [data-vc="column"] + [data-vc="column"] {
+      border-left-color: var(--color-gray-700);
+    }
+
+    [data-vc="month"]:disabled,
+    [data-vc="year"]:disabled {
+      color: var(--color-ink-secondary);
+    }
+
+    [data-vc-arrow]::before {
+      background-color: var(--color-gray-400);
+    }
+
+    [data-vc="week"] {
+      border-bottom-color: var(--color-gray-700);
+    }
+
+    [data-vc-date-disabled] [data-vc-date-btn] {
+      border-color: var(--color-gray-900);
+    }
+
+    .not-full [data-vc-date-btn] {
+      color: var(--color-ink-secondary);
+    }
+
+    [data-vc-date][data-vc-date-selected]:not([data-vc-date-disabled]) [data-vc-date-btn] {
+      border-color: var(--vc-date-selected-bg);
+    }
+  }
+}

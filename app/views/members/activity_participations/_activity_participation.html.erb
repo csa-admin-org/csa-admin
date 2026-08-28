@@ -1,6 +1,6 @@
 <li class="activity-item <%= " is-rejected" if activity_participation.rejected? %>">
   <span class="activity-body">
-    <span>
+    <span class="activity-when">
       <%= l(activity_participation.activity.date, format: :medium).capitalize %>,
       <%= activity_participation.activity.period %>
     </span>
