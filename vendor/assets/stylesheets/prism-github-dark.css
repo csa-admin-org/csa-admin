@@ -1,0 +1,69 @@
+/*!
+ * Prism GitHub dark tokens for CodeJar.
+ * Extracted from admin/codejar.css (GitHub dark-dimmed hex, not Primer dark).
+ * Color map only. Dark ancestors already on every selector: @import cannot wrap.
+ */
+:where(.dark, .dark *) .codejar-editor .token.comment,
+:where(.dark, .dark *) .codejar-editor .token.prolog,
+:where(.dark, .dark *) .codejar-editor .token.doctype,
+:where(.dark, .dark *) .codejar-editor .token.cdata {
+  color: #8b949e;
+}
+
+:where(.dark, .dark *) .codejar-editor .token.punctuation {
+  color: #c9d1d9;
+}
+
+:where(.dark, .dark *) .codejar-editor .token.string,
+:where(.dark, .dark *) .codejar-editor .token.attr-value {
+  color: #a5d6ff;
+}
+
+:where(.dark, .dark *) .codejar-editor .token.keyword,
+:where(.dark, .dark *) .codejar-editor .token.atrule {
+  color: #ff7b72;
+}
+
+:where(.dark, .dark *) .codejar-editor .token.function,
+:where(.dark, .dark *) .codejar-editor .token.builtin {
+  color: #d2a8ff;
+}
+
+:where(.dark, .dark *) .codejar-editor .token.property,
+:where(.dark, .dark *) .codejar-editor .token.tag,
+:where(.dark, .dark *) .codejar-editor .token.selector {
+  color: #7ee787;
+}
+
+:where(.dark, .dark *) .codejar-editor .token.attr-name {
+  color: #d2a8ff;
+}
+
+:where(.dark, .dark *) .codejar-editor .token.variable,
+:where(.dark, .dark *) .codejar-editor .token.constant,
+:where(.dark, .dark *) .codejar-editor .token.symbol {
+  color: #79c0ff;
+}
+
+:where(.dark, .dark *) .codejar-editor .token.number,
+:where(.dark, .dark *) .codejar-editor .token.boolean {
+  color: #79c0ff;
+}
+
+:where(.dark, .dark *) .codejar-editor .token.operator,
+:where(.dark, .dark *) .codejar-editor .token.entity,
+:where(.dark, .dark *) .codejar-editor .token.url {
+  color: #ff7b72;
+}
+
+:where(.dark, .dark *) .codejar-editor .token.regex {
+  color: #a5d6ff;
+}
+
+:where(.dark, .dark *) .codejar-editor .token.inserted {
+  color: #7ee787;
+}
+
+:where(.dark, .dark *) .codejar-editor .token.deleted {
+  color: #ff7b72;
+}

@@ -37,6 +37,8 @@
 @import url("admin/analytics.css");
 @import url("admin/menu_badge.css");
 @import url("admin/markdown.css");
+@import url("prism-github-light.css");
+@import url("prism-github-dark.css");
 @import url("admin/codejar.css");
 @import url("admin/basket_content.css");
 @import url("admin/maps.css");
