@@ -76,8 +76,7 @@
   }
 
   ::-webkit-date-and-time-value {
-    min-height: 1.5rem;
-
+    min-height: 1lh;
     text-align: inherit;
   }
 

@@ -5,9 +5,7 @@
 
   <p><%= t(".text", from: I18n.l(from_delivery.date, format: :long)) %></p>
 
-  <div class="form-group">
-    <%= f.select :to_delivery_id, deliveries.map { |d| [ I18n.l(d.date, format: :medium), d.id ] }, {}, { class: "btn is-compact text-sm" } %>
-  </div>
+  <%= f.select :to_delivery_id, deliveries.map { |d| [ I18n.l(d.date, format: :medium), d.id ] }, {}, { class: "btn is-compact text-sm" } %>
 
   <div class="cluster is-end">
     <button type="submit" class="btn btn-sm">

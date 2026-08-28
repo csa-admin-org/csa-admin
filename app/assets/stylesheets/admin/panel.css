@@ -157,6 +157,16 @@
     line-height: 1.25rem;
   }
 
+  .sidebar_form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .file-field {
+      margin-top: 0;
+    }
+  }
+
   .admin-page-menu {
     margin-top: 1.5rem;
     display: flex;

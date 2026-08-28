@@ -181,6 +181,24 @@
       line-height: 1.25rem;
     }
 
+    input[type="date"] {
+      display: flex;
+      align-items: center;
+      line-height: 1.75rem;
+      text-align: center;
+    }
+
+    input[type="date"]::-webkit-datetime-edit {
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+
+    input[type="date"]::-webkit-date-and-time-value {
+      min-height: 1lh;
+      text-align: center;
+    }
+
     .active {
       input,
       select {
