@@ -75,7 +75,7 @@ export default class extends Controller {
     }
 
     if (this.hasNoResultsTarget) {
-      this.noResultsTarget.classList.toggle("hidden", totalVisible > 0)
+      this.noResultsTarget.classList.toggle("is-hidden", totalVisible > 0)
     }
 
     this.dispatchChange()
@@ -102,7 +102,7 @@ export default class extends Controller {
       }
     }
     if (this.hasNoResultsTarget) {
-      this.noResultsTarget.classList.add("hidden")
+      this.noResultsTarget.classList.add("is-hidden")
     }
 
     this.dispatchChange()
@@ -180,8 +180,7 @@ export default class extends Controller {
 
   toggleClearButton(visible) {
     if (this.hasClearButtonTarget) {
-      this.clearButtonTarget.classList.toggle("hidden", !visible)
-      this.clearButtonTarget.classList.toggle("flex", visible)
+      this.clearButtonTarget.classList.toggle("is-hidden", !visible)
     }
   }
 

@@ -39,24 +39,16 @@
     data-icon-select-target="input"
   >
 
-  <div class="relative mt-1">
+  <div class="icon-select">
     <button
       type="button"
       data-icon-select-target="button"
       data-action="icon-select#toggle"
-      class="
-        select-chevron flex w-full cursor-pointer items-center rounded-md
-        border border-gray-300 bg-gray-50 p-2 px-3 text-left text-base
-        text-gray-900 focus:z-10 focus:border-green-500 focus:shadow-none
-        focus:ring-1 focus:ring-green-500 focus:ring-offset-0
-        focus:outline-hidden dark:border-gray-600 dark:bg-gray-800
-        dark:text-white focus:dark:border-green-600
-        focus:dark:ring-green-600
-      "
+      class="icon-select-button select-chevron"
     >
-      <span class="inline-flex items-center gap-2">
+      <span class="icon-select-label">
         <span data-icon-select-target="iconSlot">
-          <%= icon(selected[:icon_name], class: "size-4") %>
+          <%= icon(selected[:icon_name], class: "icon-select-icon") %>
         </span>
 
         <span data-icon-select-target="label"><%= selected[:label] %></span>
@@ -65,11 +57,7 @@
 
     <ul
       data-icon-select-target="dropdown"
-      class="
-        absolute z-50 mt-1 hidden w-full overflow-auto rounded-md border
-        border-gray-200 bg-white shadow-lg dark:border-gray-600
-        dark:bg-gray-800
-      "
+      class="icon-select-dropdown is-hidden"
     >
       <% options.each do |opt| %>
         <li
@@ -77,9 +65,9 @@
           data-value="<%= opt[:value] %>"
           data-label="<%= opt[:label] %>"
           data-icon-name="<%= opt[:icon_name] %>"
-          class="flex cursor-pointer items-center gap-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 <%= "bg-gray-100 dark:bg-gray-700" if opt[:value] == value %>"
+          class="icon-select-option <%= " is-selected" if opt[:value] == value %>"
         >
-          <%= icon(opt[:icon_name], class: "size-4") %>
+          <%= icon(opt[:icon_name], class: "icon-select-icon") %>
           <span><%= opt[:label] %></span>
         </li>
       <% end %>

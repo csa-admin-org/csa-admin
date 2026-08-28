@@ -30,9 +30,9 @@ class BasketContent
       column(:unit) { |p| I18n.t("units.#{p.unit}.long") }
       column(:default_price, class: "text-right") { |p|
         if p.default_price.present?
-          span class: "inline-flex items-baseline gap-x-1" do
+          span class: "cluster" do
             span cur(p.default_price, unit: false), class: "tabular-nums"
-            span "/#{t("units.#{p.unit}.short")}", class: "text-gray-500 w-5 text-sm text-left"
+            span "/#{t("units.#{p.unit}.short")}", class: "bc-unit"
           end
         end
       }
@@ -96,14 +96,14 @@ class BasketContent
           }
         li class: "input number" do
           label BasketContent::Product.human_attribute_name(:default_price), for: "basket_content_product_default_price", class: "label"
-          div class: "inline-flex items-baseline" do
+          div class: "cluster" do
             text_node helpers.tag.input(
               type: "number", min: 0, step: 0.01,
               id: "basket_content_product_default_price",
               name: "basket_content_product[default_price]",
               value: f.object.default_price)
             span "/#{t("units.#{f.object.unit || 'kg'}.flex")}",
-              class: "text-sm text-gray-500 dark:text-gray-400 ms-2",
+              class: "text-sm is-muted",
               data: { "price-unit-suffix-target" => "text" }
           end
           para t("formtastic.hints.basket_content/product.default_price"), class: "inline-hints"

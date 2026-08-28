@@ -31,7 +31,7 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "select#basket_shift_target_basket_id"
-    assert_select "p.description.mt-2.mb-4",
+    assert_select "p.description.is-tight",
       text: I18n.t("active_admin.resource.form.basket_shift_absences_included_warning")
     assert_select "select#basket_delivery_id", count: 0
     assert_select "select#basket_depot_id", count: 0

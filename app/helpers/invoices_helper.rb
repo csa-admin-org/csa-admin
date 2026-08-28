@@ -39,11 +39,11 @@ module InvoicesHelper
     return if invoice.processing?
     return unless invoice.pdf_current?
 
-    link_to pdf_invoice_path(invoice), **options, title: title, target: "_blank", class: "inline-flex flex-col items-center no-underline" do
+    link_to pdf_invoice_path(invoice), **options, title: title, target: "_blank", class: "invoice-pdf-link" do
       if block
         block.call
       else
-        icon("file-down", class: "size-5")
+        icon("file-down", class: "icon-5")
       end
     end
   end

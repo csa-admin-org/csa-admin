@@ -175,7 +175,7 @@ module MembershipsHelper
   def renewal_decisions_collection
     [
       [
-        content_tag(:span, class: "flex flex-col") {
+        content_tag(:span, class: "renewal-option") {
           content_tag(:span, t("members.memberships.renewal.options.renew"),
             class: "") +
           content_tag(:span, t("members.memberships.renewal.options.renew_hint"),

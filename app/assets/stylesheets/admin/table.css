@@ -1,0 +1,894 @@
+@layer components {
+  .empty-state {
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 2px dashed var(--color-gray-300);
+    padding: 3rem 1.5rem;
+    text-align: center;
+
+    &:hover {
+      border-color: var(--color-gray-400);
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-700);
+
+      &:hover {
+        border-color: var(--color-gray-600);
+      }
+    }
+
+    &.is-short {
+      min-height: 5rem;
+    }
+  }
+
+  .empty-state-title {
+    margin-bottom: 1rem;
+    display: block;
+    line-height: 1.5rem;
+    font-weight: 600;
+    color: var(--color-gray-900);
+
+    &:only-child {
+      margin-bottom: 0;
+    }
+
+    &:where(.dark, .dark *) {
+      color: var(--color-gray-200);
+    }
+
+    &.is-empty {
+      font-weight: 500;
+      color: var(--color-gray-400);
+      font-style: italic;
+
+      &:where(.dark, .dark *) {
+        color: var(--color-gray-500);
+      }
+    }
+  }
+
+  .index-data-table-toolbar {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media (width >= 64rem) {
+      flex-direction: row;
+    }
+
+    &:not(:has(.index-button-group > *)) {
+      margin-bottom: 0;
+    }
+  }
+
+  .index-button-group {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    border-radius: 0.375rem;
+  }
+
+  .index-button-group > :where(*:not(:first-child)) {
+    margin-block: 0;
+    margin-inline-start: -1px;
+  }
+
+  .index-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-gray-200);
+    background-color: var(--color-white);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    color: var(--color-gray-900);
+    text-decoration-line: none;
+
+    &:first-child {
+      border-start-start-radius: 0.375rem;
+      border-end-start-radius: 0.375rem;
+    }
+
+    &:last-child {
+      border-start-end-radius: 0.375rem;
+      border-end-end-radius: 0.375rem;
+    }
+
+    &:hover {
+      background-color: var(--color-gray-100);
+    }
+
+    &:focus {
+      z-index: 10;
+      color: var(--color-blue-700);
+      box-shadow: 0 0 0 2px var(--color-blue-700);
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-700);
+      background-color: var(--color-gray-900);
+      color: var(--color-gray-100);
+
+      &:hover {
+        background-color: var(--color-gray-800);
+        color: var(--color-gray-200);
+      }
+
+      &:focus {
+        color: var(--color-white);
+        box-shadow: 0 0 0 2px var(--color-blue-500);
+      }
+    }
+  }
+
+  .index-button-selected {
+    background-color: var(--color-gray-100);
+
+    &:hover {
+      background-color: var(--color-gray-100);
+    }
+
+    &:where(.dark, .dark *) {
+      background-color: var(--color-gray-700);
+
+      &:hover {
+        background-color: var(--color-gray-700);
+      }
+    }
+  }
+
+  .index-as-table {
+    position: relative;
+    overflow-x: auto;
+  }
+
+  .data-table {
+    width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-gray-800);
+
+    &:where(.dark, .dark *) {
+      color: var(--color-gray-200);
+    }
+  }
+
+  .data-table :where(thead > tr > th) {
+    border-bottom-width: 1px;
+    background-color: var(--color-gray-50);
+    padding: 0.875rem 0.75rem;
+    text-align: start;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+    color: var(--color-gray-700);
+    text-transform: uppercase;
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-800);
+      background-color: color-mix(in oklch, var(--color-gray-800) 30%, transparent);
+      color: var(--color-gray-300);
+    }
+  }
+
+  .data-table :where(thead > tr > th > a) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: inherit;
+    text-decoration-line: none;
+  }
+
+  .data-table-sorted-icon {
+    height: 0.3125rem;
+    width: 0.5rem;
+    opacity: 0.25;
+  }
+
+  :where(th[data-sort-direction]) {
+    color: var(--color-gray-900) !important;
+
+    &:where(.dark, .dark *) {
+      color: var(--color-white) !important;
+    }
+
+    .data-table-sorted-icon {
+      opacity: 1;
+    }
+  }
+
+  :where(th[data-sort-direction="asc"]) .data-table-sorted-icon {
+    transform: rotate(180deg);
+  }
+
+  .data-table :where(tbody > tr) {
+    border-bottom-width: 1px;
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-800);
+    }
+  }
+
+  .data-table :where(td) {
+    padding: 1rem 0.75rem;
+  }
+
+  .data-table-resource-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .attributes-table {
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-gray-200);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-800);
+    }
+  }
+
+  .attributes-table > :where(table) {
+    width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-gray-800);
+
+    &:where(.dark, .dark *) {
+      color: var(--color-gray-200);
+    }
+  }
+
+  .attributes-table :where(tbody > tr) {
+    display: flex;
+    align-items: flex-start;
+    border-bottom-width: 1px;
+
+    & > :not(:last-child) {
+      margin-bottom: 0.125rem;
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-800);
+    }
+  }
+
+  .attributes-table :where(tbody > tr > th) {
+    width: 8rem;
+    background-color: var(--color-gray-50);
+    text-align: start;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: var(--color-gray-700);
+    text-transform: uppercase;
+
+    @media (width >= 40rem) {
+      width: 10rem;
+    }
+
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in oklch, var(--color-gray-800) 60%, transparent);
+      color: var(--color-gray-300);
+    }
+  }
+
+  .attributes-table :where(tbody > tr > th, tbody > tr > td) {
+    padding: 0.75rem;
+  }
+
+  .attributes-table
+    :where(
+      tbody > tr[data-row="membership_renewed_attributes"],
+      tbody > tr[data-row="delivery_pdf_footer"],
+      tbody > tr[data-row="email_footer"],
+      tbody > tr[data-row="invoice_sepa_info"]
+    ) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .attributes-table
+    :where(
+      tbody > tr[data-row="membership_renewed_attributes"] > th,
+      tbody > tr[data-row="delivery_pdf_footer"] > th,
+      tbody > tr[data-row="email_footer"] > th,
+      tbody > tr[data-row="invoice_sepa_info"] > th
+    ) {
+    width: 100%;
+
+    @media (width >= 40rem) {
+      width: 100%;
+    }
+  }
+
+  .attributes-table
+    :where(
+      tbody > tr[data-row="membership_renewed_attributes"] > td,
+      tbody > tr[data-row="delivery_pdf_footer"] > td,
+      tbody > tr[data-row="email_footer"] > td,
+      tbody > tr[data-row="invoice_sepa_info"] > td
+    ) {
+    width: 100%;
+    padding-top: 0;
+    text-align: start;
+  }
+
+  .attributes-table-empty-value {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-style: italic;
+    color: var(--color-gray-400);
+
+    &:where(.dark, .dark *) {
+      color: color-mix(in oklch, var(--color-gray-400) 70%, transparent);
+    }
+  }
+
+  .data-table {
+    table-layout: fixed;
+
+    &.table-auto {
+      table-layout: auto;
+    }
+
+    :where(thead > tr > th) {
+      border-width: 0;
+      background-color: transparent;
+      padding: 0.5rem;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      font-weight: 700;
+      white-space: normal;
+      text-transform: none;
+    }
+
+    :where(td) {
+      padding: 0.5rem;
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+
+    :where(tbody > tr > td a) {
+      white-space: nowrap;
+
+      @media (width >= 48rem) {
+        white-space: normal;
+      }
+    }
+
+    tbody tr {
+      border-style: dotted;
+    }
+
+    :where(tbody > tr) {
+      border-bottom-width: 1px;
+      border-style: dotted;
+      border-color: var(--color-line);
+    }
+
+    tbody tr:first-child {
+      border-top-width: 1px;
+      border-top-color: var(--color-line);
+    }
+
+    tbody tr:last-child {
+      border-bottom-width: 0;
+    }
+  }
+
+  .full-table {
+    & table tr th {
+      width: 100%;
+    }
+  }
+
+  .index-as-table {
+    table {
+      table-layout: auto;
+      border-style: none;
+      box-shadow: none;
+    }
+
+    thead {
+      background-color: transparent;
+      padding: 1rem;
+
+      &:where(.dark, .dark *) {
+        background-color: transparent;
+      }
+    }
+
+    .data-table :where(thead > tr > th) {
+      background-color: transparent;
+      padding-inline: 0.75rem;
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .data-table :where(tbody > tr > td) {
+      padding-inline: 0.75rem;
+    }
+
+    :where(.data-table tbody > tr > td) {
+      white-space: nowrap;
+
+      @media (width >= 48rem) {
+        white-space: normal;
+      }
+    }
+
+    .data-table tbody tr:nth-child(odd) {
+      border-style: dotted;
+      background-color: var(--color-neutral-50);
+
+      &:where(.dark, .dark *) {
+        background-color: color-mix(in oklch, var(--color-gray-800) 30%, transparent);
+      }
+    }
+
+    .data-table tbody tr td input[type="checkbox"] {
+      position: relative;
+      width: 1.25rem;
+      height: 1.25rem;
+
+      &::before {
+        position: absolute;
+        content: "";
+        top: -1rem;
+        left: -1rem;
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+  }
+
+  .text-right {
+    & th a {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+  }
+
+  .data-table-invoice-total {
+    table-layout: fixed;
+
+    td {
+      padding-block: 0.5rem;
+      vertical-align: top;
+      line-height: 1.375;
+    }
+
+    td details {
+      margin-bottom: 0.375rem;
+      margin-left: -6rem;
+    }
+
+    tr:last-child,
+    tr:nth-last-child(2),
+    tr:nth-last-child(4) {
+      border-style: none !important;
+    }
+
+    tr:nth-last-child(2) td:last-child,
+    tr:nth-last-child(4) td:last-child {
+      border-bottom-width: 1px;
+      border-color: var(--color-black);
+
+      &:where(.dark, .dark *) {
+        border-color: var(--color-white);
+      }
+    }
+
+    tr:last-child td {
+      font-weight: 700;
+    }
+  }
+
+  .data-table-total:not(.data-table) td {
+    padding-block: 0.5rem;
+    vertical-align: top;
+    line-height: 1.375;
+  }
+
+  .data-table-total {
+    tr:last-child,
+    tr:nth-last-child(2) {
+      border-style: none !important;
+    }
+
+    tr:nth-last-child(2) td:last-child {
+      border-bottom-width: 1px;
+      border-color: var(--color-black);
+
+      &:where(.dark, .dark *) {
+        border-color: var(--color-white);
+      }
+    }
+
+    tr:last-child td {
+      font-weight: 700;
+    }
+  }
+
+  .data-table-resource-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+
+    a {
+      color: var(--color-gray-400);
+      text-decoration-line: none;
+
+      &:hover {
+        color: var(--color-green-600);
+      }
+
+      &:where(.dark, .dark *) {
+        color: var(--color-gray-400);
+
+        &:hover {
+          color: var(--color-green-400);
+        }
+      }
+    }
+  }
+
+  .attributes-table {
+    margin-bottom: 0;
+    border-style: none;
+    padding-inline: 0.5rem;
+    box-shadow: none;
+
+    & > :where(table) {
+      display: block;
+    }
+
+    & :where(tbody) {
+      display: block;
+    }
+
+    & :where(tbody > tr) {
+      display: flex;
+      border-style: dotted;
+      border-color: var(--color-line);
+    }
+
+    & :where(tbody > tr:last-child) {
+      border-style: none;
+    }
+
+    & :where(tbody > tr > th) {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    & :where(tbody > tr > th, tbody > tr > td) {
+      padding: 0;
+      padding-block: 0.375rem;
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+
+    & :where(tbody > tr > th) {
+      width: auto;
+      max-width: 50%;
+      min-width: 6rem;
+      flex-shrink: 0;
+      background-color: transparent;
+      text-align: start;
+      font-size: 1rem;
+      line-height: 1.25rem;
+      font-weight: 600;
+      color: var(--color-gray-700);
+      text-transform: none;
+
+      &:where(.dark, .dark *) {
+        background-color: transparent;
+        color: var(--color-gray-300);
+      }
+    }
+
+    & :where(tbody > tr > td) {
+      min-width: 0;
+      flex: 1 1 0%;
+      padding-left: 1rem;
+      text-align: right;
+      line-height: 1.25rem;
+      overflow-wrap: anywhere;
+
+      & :where(.cluster) {
+        justify-content: flex-end;
+      }
+    }
+
+    &.organization :where(tbody > tr > th) {
+      @media (width >= 48rem) {
+        max-width: 80%;
+      }
+    }
+    &.organization :where(tbody > tr > td) {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.25rem;
+    }
+  }
+
+  :is(.attributes-table, .data-table-invoice-total) td details > summary {
+    justify-content: flex-end;
+  }
+
+  :is(.attributes-table, .data-table-invoice-total) td details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      block-size 200ms ease,
+      opacity 200ms ease,
+      content-visibility 200ms allow-discrete;
+  }
+
+  :is(.attributes-table, .data-table-invoice-total) td details[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+
+  :is(.attributes-table, .data-table-invoice-total) td details > .details-grid {
+    margin-top: 0.25rem;
+    display: grid;
+    min-width: 0;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    column-gap: 1rem;
+    line-height: 1.5rem;
+
+    .details-month {
+      text-align: right;
+      font-size: 0.75rem;
+      line-height: 1rem;
+      white-space: nowrap;
+      color: var(--color-ink-muted);
+    }
+
+    .details-amount {
+      text-align: right;
+      white-space: nowrap;
+      color: var(--color-ink-muted);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
+  .partially-hidden {
+    & table {
+      tr:nth-child(n + 10) {
+        border-width: 0;
+      }
+
+      tr:nth-child(n + 11) {
+        display: none;
+      }
+    }
+  }
+
+  tr[data-table-row-target="row"] {
+    &:focus-within {
+      background-color: var(--color-neutral-100) !important;
+    }
+
+    &:hover {
+      background-color: var(--color-neutral-100) !important;
+    }
+
+    &:focus {
+      background-color: var(--color-neutral-100) !important;
+      outline-style: none;
+    }
+
+    &:where(.dark, .dark *) {
+      &:focus-within {
+        background-color: var(--color-gray-800) !important;
+      }
+
+      &:hover {
+        background-color: var(--color-gray-800) !important;
+      }
+
+      &:focus {
+        background-color: var(--color-gray-800) !important;
+      }
+    }
+  }
+
+  .data-no-hover {
+    & tbody tr {
+      &:focus-within {
+        background-color: transparent !important;
+      }
+
+      &:hover {
+        background-color: transparent !important;
+      }
+
+      &:focus {
+        background-color: transparent !important;
+      }
+    }
+  }
+
+  tbody[data-controller="sortable"] {
+    cursor: move;
+  }
+
+  tbody[data-controller="sortable"] tr {
+    &:hover {
+      background-color: var(--color-neutral-100);
+    }
+
+    &:where(.dark, .dark *) {
+      &:hover {
+        background-color: var(--color-gray-800);
+      }
+    }
+  }
+
+  .is-shift-hovered {
+    background-color: var(--color-teal-100);
+
+    &:where(.dark, .dark *) {
+      background-color: var(--color-teal-900);
+    }
+  }
+
+  .col-delivery {
+    @media (width >= 48rem) {
+      width: 8rem;
+    }
+  }
+
+  .row-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .table-more {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .row-next {
+    background-color: var(--color-gray-200);
+
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in oklch, var(--color-gray-700) 75%, transparent);
+    }
+  }
+
+  .row-absent {
+    color: var(--color-gray-300);
+
+    a {
+      color: var(--color-gray-300);
+      text-decoration-color: var(--color-gray-300);
+    }
+
+    &:where(.dark, .dark *) {
+      color: var(--color-gray-500);
+
+      a {
+        color: var(--color-gray-500);
+        text-decoration-color: var(--color-gray-500);
+      }
+    }
+  }
+
+  .row-canceled {
+    color: var(--color-gray-400);
+
+    &:where(.dark, .dark *) {
+      color: var(--color-gray-600);
+    }
+  }
+
+  .row-rule {
+    border-top: 1px solid var(--color-gray-800);
+
+    &:where(.dark, .dark *) {
+      border-top-color: var(--color-gray-200);
+    }
+  }
+
+  .dotted-row {
+    border-bottom: 1px dotted var(--color-line);
+  }
+
+  .pair-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 1rem;
+  }
+
+  .col-name {
+    width: 40%;
+  }
+
+  .col-variants {
+    width: 58.333%;
+  }
+
+  .col-num {
+    width: 9rem;
+  }
+
+  .delivery-summary {
+    font-weight: 500;
+
+    tbody tr:first-child {
+      border-top-width: 0;
+    }
+  }
+
+  .delivery-totals {
+    margin-top: -0.5rem;
+    font-weight: 700;
+
+    tbody tr {
+      border-style: none;
+    }
+  }
+
+  .audit-list > :not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  .audit-change {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .audit-arrow {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .audit-meta {
+    margin-bottom: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .invoice-pdf-link {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration-line: none;
+  }
+
+  .override-actions {
+    display: flex;
+    justify-content: flex-end;
+    min-width: 15rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--color-gray-700);
+    padding-top: 0.5rem;
+
+    &:where(.dark, .dark *) {
+      border-top-color: var(--color-gray-600);
+    }
+  }
+}

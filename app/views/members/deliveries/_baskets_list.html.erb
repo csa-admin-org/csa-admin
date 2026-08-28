@@ -4,9 +4,9 @@
   <p class="nocontent"><%= empty_text %></p>
 <% else %>
   <% limit = params[:"all_#{anchor}"] ? 10_000 : 4 %>
-  <ul class="mt-4 flex flex-col gap-4">
+  <ul class="list">
     <% baskets.first(limit).each do |basket| %>
-      <li class="w-full"><%= render basket %></li>
+      <li class="list-item"><%= render basket %></li>
     <% end %>
   </ul>
   <%= render "members/shared/show_all_button", collection: baskets, limit: limit, anchor: anchor %>

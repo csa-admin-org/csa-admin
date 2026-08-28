@@ -40,11 +40,11 @@ ActiveAdmin.register Depot do
       column :group
     end
     if Depot.prices?
-      column :price, ->(d) { cur(d.price, precision: 3) }, class: "text-right tabular-nums whitespace-nowrap"
+      column :price, ->(d) { cur(d.price, precision: 3) }, class: "text-right tabular-nums is-nowrap"
     end
     if DeliveryCycle.visible?
       column :delivery_cycles, ->(d) {
-        div class: "flex justify-end flex-wrap gap-1" do
+        div class: "cluster is-end is-snug" do
           d.delivery_cycles.ordered.map { |cycle|
             delivery_cycle_link(cycle)
           }.join.html_safe
@@ -144,7 +144,7 @@ ActiveAdmin.register Depot do
             icon_file_link(:pdf, delivery_path(delivery, format: :pdf, depot_id: depot.id), title: Delivery.human_attribute_name(:sheets), target: "_blank")) do
             attrs = {}
             if authorized?(:update, depot) && depot.delivery_sheets_mode == "home_delivery"
-              attrs[:class] = "cursor-move table-auto"
+              attrs[:class] = "table-auto"
               attrs[:tbody_html] = { data: { controller: "sortable" } }
               attrs[:row_html] = ->(b) {
                 { data: { "sortable-update-url" => "/depots/#{b.depot_id}/move_member_to?delivery_id=#{b.delivery_id}&member_id=#{b.member.id}" } }
@@ -293,8 +293,8 @@ ActiveAdmin.register Depot do
         required: false,
         collection: Depot::DELIVERY_SHEETS_MODES.map { |mode|
           [
-            content_tag(:span, class: "ms-2 py-0.5 leading-5") {
-              content_tag(:span, t("delivery.sheets_mode.#{mode}"), class: "block font-medium") +
+            content_tag(:span, class: "text-sm") {
+              content_tag(:span, t("delivery.sheets_mode.#{mode}"), class: "is-block font-medium") +
               content_tag(:span, t("delivery.sheets_mode.#{mode}_hint").html_safe, class: "inline-hints")
             },
             mode
@@ -342,8 +342,8 @@ ActiveAdmin.register Depot do
       f.input :address_name
       f.input :street
       div class: "single-line" do
-        f.input :zip, wrapper_html: { class: "md:w-50" }
-        f.input :city, wrapper_html: { class: "w-full" }
+        f.input :zip, wrapper_html: { class: "col-zip" }
+        f.input :city, wrapper_html: { class: "is-full" }
       end
       if Current.org.feature?("maps")
         f.input :maps_visible, as: :boolean

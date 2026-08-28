@@ -84,7 +84,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
                 column(:product_variant) { |i| i.product_variant }
                 column(:quantity, class: "text-right")
                 column(:amount, class: "text-right") { |i|
-                  span(class: "whitespace-nowrap") { cur(i.amount) }
+                  span(class: "is-nowrap") { cur(i.amount) }
                 }
               end
             end
@@ -121,7 +121,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
           end
         end
         panel Shop::SpecialDelivery.human_attribute_name(:description), icon: "notepad-text" do
-          div class: "p-2" do
+          div class: "panel-inset" do
             if delivery.shop_text?
               delivery.shop_text
             else

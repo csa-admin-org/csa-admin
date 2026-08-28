@@ -110,7 +110,7 @@ ActiveAdmin.register MailDelivery do
     column :member, sortable: "members.name" if source_type != :member
     column :created_at, ->(d) { l(d.created_at, format: :short) }, sortable: true, class: "text-right"
     column :state, ->(d) { aligned_status_tag(d.state) }, class: "text-right"
-    actions class: "hidden"
+    actions class: "is-hidden"
   end
 
   show do |delivery|
@@ -118,7 +118,7 @@ ActiveAdmin.register MailDelivery do
       column "data-controller" => "iframe" do
         if delivery.processing?
           panel t(".preview"), icon: "eye", data: { controller: "auto-refresh" } do
-            div class: "flex min-h-96 items-center justify-center" do
+            div class: "mail-empty" do
               render "shared/spinner"
             end
           end
@@ -170,7 +170,7 @@ ActiveAdmin.register MailDelivery do
         else
           mt = delivery.source
           panel link_to(MailTemplate.model_name.human, mt), icon: "mail" do
-            div class: "mx-2 mb-2" do
+            div class: "panel-copy" do
               para mt.description, class: "text-base description"
             end
           end
@@ -181,17 +181,17 @@ ActiveAdmin.register MailDelivery do
             if member_emails.empty?
               div(class: "missing-data") { t("active_admin.status_tag.no_email") }
             else
-              div(class: "grid gap-y-2") do
+              div(class: "mail-recipient-list") do
                 member_emails.each do |email_address|
                   suppressions = EmailSuppression.visible.where(email: email_address)
                   suppressed = suppressions.any?
                   div do
-                    div(class: "flex flex-wrap items-center justify-between mx-2 mb-2 gap-x-2") do
-                      h4 email_address, class: "m-0 text-lg font-extralight"
-                      div(class: "flex justify-end items-center gap-x-2") do
-                        status_tag(suppressed ? :suppressed : :active, class: "m-0")
+                    div(class: "mail-recipient") do
+                      h4 email_address, class: "mail-recipient-title"
+                      div(class: "mail-recipient-actions") do
+                        status_tag(suppressed ? :suppressed : :active)
                         suppressions.select(&:unsuppressable?).each do |suppression|
-                          span { reactivate_email_suppression_button(suppression, btn_class: "btn btn-xs mt-0.5") }
+                          span { reactivate_email_suppression_button(suppression, btn_class: "btn btn-xs") }
                         end
                       end
                     end
@@ -211,19 +211,19 @@ ActiveAdmin.register MailDelivery do
           elsif delivery.emails.none?
             div(class: "missing-data") { t("active_admin.status_tag.no_email") }
           else
-            div(class: "grid gap-y-6") do
+            div(class: "mail-recipient-list is-spaced") do
               delivery.emails.order(:created_at).each do |email|
                 div do
-                  div(class: "flex flex-wrap items-center justify-between mx-2 mb-2 gap-x-2") do
-                    h4 email.email, class: "m-0 text-lg font-extralight"
-                    div(class: "flex justify-end items-center gap-x-2") do
-                      status_tag(email.state, class: "m-0")
+                  div(class: "mail-recipient") do
+                    h4 email.email, class: "mail-recipient-title"
+                    div(class: "mail-recipient-actions") do
+                      status_tag(email.state)
                       EmailSuppression
                         .visible
                         .unsuppressable
                         .where(email: email.email)
                         .each do |suppression|
-                          span { reactivate_email_suppression_button(suppression, btn_class: "btn btn-xs mt-0.75") }
+                          span { reactivate_email_suppression_button(suppression, btn_class: "btn btn-xs") }
                         end
                     end
                   end
@@ -254,23 +254,23 @@ ActiveAdmin.register MailDelivery do
 
         if delivery.show_missing_emails?
           panel t(".missing_deliveries"), icon: "triangle-alert" do
-            div(class: "grid gap-y-2") do
+            div(class: "mail-recipient-list") do
               delivery.missing_emails.each do |email|
-                div(class: "flex flex-wrap items-center justify-start mx-2 gap-2") do
-                  h4(class: "m-0 text-lg font-extralight") { email }
+                div(class: "mail-recipient is-start") do
+                  h4(class: "mail-recipient-title") { email }
                   if authorized?(:deliver_missing_email, resource)
                     div do
                       panel_button t(".send_email"), deliver_missing_email_mail_delivery_path(resource),
                         params: { email: email },
-                        form: { class: "inline" },
+                        form: { class: "form-inline" },
                         data: { confirm: t(".confirm") }
                     end
                   end
                 end
               end
             end
-            div class: "mt-6 px-2" do
-              para t(".missing_deliveries_description"), class: "italic text-sm text-gray-400 dark:text-gray-600"
+            div class: "panel-copy" do
+              para t(".missing_deliveries_description"), class: "is-italic text-sm is-faint"
             end
           end
         end

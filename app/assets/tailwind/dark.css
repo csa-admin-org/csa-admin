@@ -1,6 +1,0 @@
-@custom-variant dark (&:where(.dark, .dark *));
-
-.content-page img,
-img.logo {
-  @apply dark:hue-rotate-180 dark:invert;
-}

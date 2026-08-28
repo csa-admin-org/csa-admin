@@ -52,7 +52,7 @@ class InvoicesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_includes response.body, 'data-controller="auto-refresh"'
-    assert_includes response.body, "animate-spin"
+    assert_select "svg.spinner"
   end
 
   test "invalid update does not enqueue a PDF refresh" do

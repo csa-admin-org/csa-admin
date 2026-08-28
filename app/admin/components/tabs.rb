@@ -35,7 +35,12 @@ class Tabs < ActiveAdmin::Component
   end
 
   def build_content_item(title, options, &block)
-    options = options.reverse_merge(id: fragmentize(title), class: "hidden", role: "tabpanel", "aria-labelledby": "#{title}-tab")
+    extra_class = options.delete(:class)
+    options = options.reverse_merge(
+      id: fragmentize(title),
+      role: "tabpanel",
+      "aria-labelledby": "#{title}-tab")
+    options[:class] = [ extra_class, "is-hidden" ].flatten.compact.join(" ")
     div(options, &block)
   end
 

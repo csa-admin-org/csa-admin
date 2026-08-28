@@ -1,0 +1,113 @@
+@layer components {
+  .iframe-wrapper {
+    text-align: center;
+
+    @media (width >= 64rem) {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .mail_preview {
+    display: inline-block;
+    height: 100%;
+    min-height: fit-content;
+    width: 100%;
+    max-width: 42rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    border: 2px solid var(--color-gray-200);
+    border-style: dashed;
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-700);
+    }
+  }
+
+  .mail-preview-grid {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+
+  .mail-preview-pane {
+    flex: 1;
+    min-width: 32rem;
+    max-width: 100%;
+  }
+
+  .mail-empty {
+    display: flex;
+    min-height: 24rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mail-recipient-list {
+    display: grid;
+    row-gap: 0.5rem;
+  }
+
+  .mail-recipient-list.is-spaced {
+    row-gap: 1.5rem;
+  }
+
+  .mail-recipient {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-inline: 0.5rem;
+    margin-bottom: 0.5rem;
+    column-gap: 0.5rem;
+  }
+
+  .mail-recipient.is-start {
+    justify-content: flex-start;
+    margin-bottom: 0;
+    gap: 0.5rem;
+  }
+
+  .mail-recipient-title {
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 200;
+  }
+
+  .mail-recipient-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    column-gap: 0.5rem;
+  }
+
+  .invoice-preview {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 210 / 297;
+  }
+
+  .invoice-preview-spinner {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    padding-top: 4rem;
+
+    @media (width >= 48rem) {
+      padding-top: 15rem;
+    }
+  }
+
+  .invoice-preview-page {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top;
+  }
+}

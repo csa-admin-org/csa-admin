@@ -34,7 +34,7 @@ export default class extends Controller {
     if (this.contentTarget.children.length > 0) return
 
     this.contentTarget.append(...this.sourceElement.children)
-    this.sourceElement.closest("[id$='_sidebar_section']")?.classList.add("hidden")
+    this.sourceElement.closest("[id$='_sidebar_section']")?.classList.add("is-hidden")
   }
 
   restoreContent() {
@@ -42,16 +42,16 @@ export default class extends Controller {
     if (this.contentTarget.children.length === 0) return
 
     this.sourceElement.append(...this.contentTarget.children)
-    this.sourceElement.closest("[id$='_sidebar_section']")?.classList.remove("hidden")
+    this.sourceElement.closest("[id$='_sidebar_section']")?.classList.remove("is-hidden")
   }
 
   open() {
-    this.overlayTarget.classList.remove("hidden")
+    this.overlayTarget.classList.remove("is-hidden")
     // Force reflow before adding transition classes
     void this.overlayTarget.offsetHeight
     this.overlayTarget.classList.add("open")
     this.panelTarget.classList.add("open")
-    document.body.classList.add("overflow-hidden")
+    document.body.classList.add("is-scroll-locked")
   }
 
   close() {
@@ -59,8 +59,8 @@ export default class extends Controller {
     this.panelTarget.classList.remove("open")
 
     const handler = () => {
-      this.overlayTarget.classList.add("hidden")
-      document.body.classList.remove("overflow-hidden")
+      this.overlayTarget.classList.add("is-hidden")
+      document.body.classList.remove("is-scroll-locked")
       this.overlayTarget.removeEventListener("transitionend", handler)
     }
     this.overlayTarget.addEventListener("transitionend", handler)
@@ -68,8 +68,8 @@ export default class extends Controller {
     // Fallback in case transitionend doesn't fire
     setTimeout(() => {
       if (!this.overlayTarget.classList.contains("open")) {
-        this.overlayTarget.classList.add("hidden")
-        document.body.classList.remove("overflow-hidden")
+        this.overlayTarget.classList.add("is-hidden")
+        document.body.classList.remove("is-scroll-locked")
       }
     }, 300)
   }

@@ -1,31 +1,21 @@
 <div
   id="<%= dom_id(basket) %>"
-  class="-mx-2 grow scroll-m-4 rounded-md p-2 target:bg-teal-100 hover:bg-gray-100 md:-mx-3 md:px-3 target:dark:bg-teal-950 dark:hover:bg-gray-900 <%= "bg-neutral-50 dark:bg-neutral-900 text-gray-400 dark:text-gray-500" if basket.absent? %> <%= "bg-blue-50 dark:bg-blue-950" if basket.trial? %>"
+  class="basket <%= " is-absent" if basket.absent? %> <%= " is-trial" if basket.trial? %>"
 >
-  <div class="mb-2 flex flex-row items-center justify-between">
-    <h3 class="text-base font-medium <%= basket.absent? ? "text-neutral-400 dark:text-neutral-500" : "text-gray-800 dark:text-gray-200" %>">
+  <div class="basket-header">
+    <h3 class="basket-title">
       <%= l(basket.delivery.date, format: :long_no_year).titleize %>
     </h3>
 
-    <div class="flex flex-row items-center gap-3">
+    <div class="basket-meta">
       <% if basket.trial? %>
-        <span
-          class="
-            rounded-full bg-blue-500 px-2 py-0.5 text-xs font-medium
-            text-white uppercase
-          "
-        >
+        <span class="basket-badge is-trial">
           <%= Basket.human_attribute_name(:trial) %>
         </span>
       <% end %>
 
       <% if basket.absent? %>
-        <span
-          class="
-            rounded-full bg-neutral-400 px-2 py-0.5 text-xs font-medium
-            text-white uppercase dark:bg-neutral-600
-          "
-        >
+        <span class="basket-badge is-absent">
           <%= Absence.model_name.human %>
 
           <% unless basket.absence_id? %>
@@ -35,16 +25,16 @@
       <% end %>
 
       <% if basket.can_member_update? %>
-        <%= link_to edit_members_basket_path(basket), title: t(".edit"), class: "" do %>
-          <%= icon "square-pen", class: "size-5 text-gray-400 dark:text-gray-400 hover:text-green-500 dark:hover:text-green-500" %>
+        <%= link_to edit_members_basket_path(basket), title: t(".edit") do %>
+          <%= icon "square-pen", class: "icon-edit" %>
         <% end %>
       <% end %>
     </div>
   </div>
 
-  <ul class="-ms-0.5 space-y-1.5 <%= "[&_a]:decoration-inherit line-through" if basket.content_forfeited? %>">
-    <li class="flex flex-row items-center gap-2">
-      <%= icon "shopping-bag", class: "member-detail-icon flex-none size-5" %>
+  <ul class="basket-details <%= " is-forfeited" if basket.content_forfeited? %>">
+    <li class="detail-row">
+      <%= icon "shopping-bag", class: "detail-icon icon-inline" %>
 
       <span>
         <% if basket.shifted? %>
@@ -55,67 +45,42 @@
       </span>
     </li>
 
-    <li class="flex flex-row items-center gap-2">
-      <%= icon "map", class: "member-detail-icon flex-none size-5" %>
+    <li class="detail-row">
+      <%= icon "map", class: "detail-icon icon-inline" %>
 
       <span><%= depot_map_link(basket.depot) %></span>
     </li>
   </ul>
 
   <% if basket.shifted? %>
-    <div
-      class="
-        mt-3 flex flex-row items-center justify-center text-sm
-        text-neutral-400 dark:text-neutral-500
-      "
-    >
-      <%= link_to url_for(anchor: dom_id(basket.shift_as_source.target_basket)), class: "flex flex-row items-center gap-2", data: { turbo: false } do %>
-        <%= icon "redo", class: "size-5 w-5" %>
+    <div class="basket-footer is-quiet">
+      <%= link_to url_for(anchor: dom_id(basket.shift_as_source.target_basket)), class: "basket-action", data: { turbo: false } do %>
+        <%= icon "redo", class: "icon-inline" %>
         <%= t(".shifted", target_date: l(basket.shift_as_source.target_basket.delivery.date, format: :long_no_year)) %>
       <% end %>
     </div>
   <% elsif basket.shift_declined? %>
-    <div
-      class="
-        mt-3 flex flex-row items-center justify-center gap-2 text-sm
-        text-neutral-400 italic dark:text-neutral-500
-      "
-    >
-      <%= icon "redo-off", class: "size-5 w-5" %>
+    <div class="basket-footer is-quiet is-italic">
+      <%= icon "redo-off", class: "icon-inline" %>
       <%= t(".shift_declined") %>
     </div>
   <% elsif basket.can_member_force? %>
-    <div
-      class="
-        mt-3 flex flex-row items-center justify-center text-sm
-        text-neutral-500
-      "
-    >
-      <%= button_to members_basket_forced_delivery_path(basket), method: :post, class: "decoration-green-400 dark:decoration-green-600 underline flex flex-row items-center gap-2 cursor-pointer" do %>
-        <%= icon "circle-check-big", class: "size-5 w-5" %>
+    <div class="basket-footer">
+      <%= button_to members_basket_forced_delivery_path(basket), method: :post, class: "basket-force" do %>
+        <%= icon "circle-check-big", class: "icon-inline" %>
         <%= t(".force") %>
       <% end %>
     </div>
   <% elsif Current.org.basket_shift_enabled? %>
     <% if basket.can_be_member_shifted? %>
-      <div
-        class="
-          mt-3 flex flex-row items-center justify-center text-sm
-          text-neutral-500
-        "
-      >
-        <%= link_to new_members_basket_basket_shifts_path(basket), class: "underline flex flex-row items-center gap-2" do %>
-          <%= icon "redo", class: "size-5 w-5" %>
+      <div class="basket-footer">
+        <%= link_to new_members_basket_basket_shifts_path(basket), class: "basket-action" do %>
+          <%= icon "redo", class: "icon-inline" %>
           <%= t(".shift") %>
         <% end %>
       </div>
     <% elsif basket.absent? %>
-      <div
-        class="
-          mt-3 flex flex-row items-center justify-center text-sm
-          text-neutral-400 italic dark:text-neutral-500
-        "
-      >
+      <div class="basket-footer is-quiet is-italic">
         <%= t(".shift_not_possible") %>
       </div>
     <% end %>

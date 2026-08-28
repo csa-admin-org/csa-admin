@@ -30,7 +30,7 @@ class Members::NewsletterDeliveriesTest < ApplicationSystemTestCase
       click_on "Subscribe"
     end
 
-    assert_selector ".flash", text: "Thank you for subscribing to the newsletter!"
+    assert_selector ".member-flash", text: "Thank you for subscribing to the newsletter!"
     assert_no_text "john@doe.com is not subscribed"
   end
 end

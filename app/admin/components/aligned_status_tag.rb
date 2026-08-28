@@ -9,7 +9,7 @@ class AlignedStatusTag < ActiveAdmin::Component
 
   def build(status, options = {})
     super(nil)
-    add_class "flex items-center justify-end"
+    add_class "aligned-status"
     status_tag(status, options)
   end
 end

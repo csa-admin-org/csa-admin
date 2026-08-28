@@ -8,14 +8,14 @@ class SidePanel < ActiveAdmin::Component
     action = args.delete(:action) if args.key?(:action)
     add_class args.delete(:class) if args.key?(:class)
     super(*args)
-    add_class "panel p-4 py-3 shadow-xs"
+    add_class "panel admin-side-panel"
     if title.present?
-      div class: "flex items-top justify-between mb-3 mt-0.5" do
-        @title = h3(title.to_s, class: "text-xl font-extralight")
+      div class: "admin-side-panel-header" do
+        @title = h3(title.to_s, class: "admin-side-panel-title")
         div(class: "panel-actions") { action }  if action
       end
     end
-    @contents = div(class: "text-sm")
+    @contents = div(class: "admin-side-panel-body")
   end
 
   def add_child(child)

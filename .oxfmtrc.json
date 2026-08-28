@@ -1,8 +1,5 @@
 {
   "printWidth": 100,
   "semi": false,
-  "trailingComma": "none",
-  "sortTailwindcss": {
-    "stylesheet": "./app/assets/tailwind/application.css"
-  }
+  "trailingComma": "none"
 }

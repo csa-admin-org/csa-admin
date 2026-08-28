@@ -2,7 +2,7 @@
 
 require "ostruct"
 
-bs_names = counts.basket_sizes.map(&:name).map { |name| content_tag :span, name, class: "whitespace-nowrap" }
+bs_names = counts.basket_sizes.map(&:name).map { |name| content_tag :span, name, class: "is-nowrap" }
 show_shop_orders = feature?("shop") && delivery.shop_open && scope != :absent
 counts_by_depot = counts.all
 summary_sections = delivery.basket_summary_sections.filter_map do |section|
@@ -25,9 +25,8 @@ summary_sections = delivery.basket_summary_sections.filter_map do |section|
   rows if rows.any?
 end
 
-attrs = { class: "" }
+attrs = {}
 if authorized?(:update, Depot)
-  attrs[:class] += " cursor-move"
   attrs[:tbody_html] = { data: { controller: "sortable" } }
   attrs[:row_html] = ->(bc) {
     { data: { "sortable-update-url" => "/depots/#{bc.depot_id}/move_to?delivery_id=#{delivery.id}" } }
@@ -36,19 +35,19 @@ end
 
 if counts.present?
   table_for(counts.all, **attrs) do
-    column(Depot.model_name.human, class: "w-2/5") { |bc| link_to bc.depot.name, depot_path(bc.depot, delivery_id: delivery.id) }
+    column(Depot.model_name.human, class: "col-name") { |bc| link_to bc.depot.name, depot_path(bc.depot, delivery_id: delivery.id) }
     if show_shop_orders
       column link_to(t("shop.title"), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: "text-right"
     end
     if counts.sum.positive?
       column Basket.model_name.human(count: 2), :count, class: "text-right "
-      column "#{bs_names.join("&nbsp;/ ")}".html_safe, :baskets_count, class: "text-right whitespace-normal!"
+      column "#{bs_names.join("&nbsp;/ ")}".html_safe, :baskets_count, class: "text-right"
     end
   end
 
   summary_sections.each_with_index do |rows, index|
-    table_for rows, class: "font-medium [&>tbody>tr:first-child]:border-t-0" do
-      column nil, :title, class: "w-2/5"
+    table_for rows, class: "delivery-summary" do
+      column nil, :title, class: "col-name"
       if show_shop_orders
         column nil, :shop_orders_count, class: "text-right"
       end
@@ -59,28 +58,28 @@ if counts.present?
     end
   end
 
-  table_for nil, class: "font-bold -mt-2 data-no-hover [&>tbody>tr]:border-none" do
-    column(nil, :title, class: "w-2/5 text-lg!") { t("active_admin.page.index.total", number: "") }
+  table_for nil, class: "delivery-totals data-no-hover" do
+    column(nil, :title, class: "col-name text-lg") { t("active_admin.page.index.total", number: "") }
     if show_shop_orders
-      column(class: "text-right text-lg!") { counts.sum_shop_orders }
+      column(class: "text-right text-lg") { counts.sum_shop_orders }
     end
     if counts.sum.positive?
-      column(class: "text-right text-lg!") { counts.sum }
-      column(class: "text-right text-lg!") { counts.sum_detail }
+      column(class: "text-right text-lg") { counts.sum }
+      column(class: "text-right text-lg") { counts.sum_detail }
     end
   end
 end
 
 if BasketComplement.kept.any?
-  div class: "mt-6" do
+  div class: "dashboard-section" do
     if complement_counts.any?
       table_for complement_counts, class: "" do
-        column BasketsBasketComplement.model_name.human, :title, class: "w-2/5"
+        column BasketsBasketComplement.model_name.human, :title, class: "col-name"
         if show_shop_orders
           column link_to(t("shop.title"), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: "text-right"
         end
-        column Membership.model_name.human(count: 2), :memberships_count, class: "text-right truncate"
-        column t("active_admin.page.index.total", number: ""), :count, class: "text-right text-bold"
+        column Membership.model_name.human(count: 2), :memberships_count, class: "text-right"
+        column t("active_admin.page.index.total", number: ""), :count, class: "text-right font-bold"
       end
     else
       em t("delivery.no_basket_complements"), class: "missing-data"

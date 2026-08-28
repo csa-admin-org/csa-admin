@@ -30,7 +30,7 @@ export default class extends Controller {
     hide(element.querySelector("a[data-table-row='hidden']"))
 
     if (this.getRowURL(element)) {
-      addClass(element, "cursor-pointer")
+      addClass(element, "is-clickable")
     }
   }
 

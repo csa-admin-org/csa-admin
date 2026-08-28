@@ -7,7 +7,7 @@ context.instance_eval do
         text_node handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
       end
     end
-    para organization_disabled_setting_section_hint(section), class: "description -mt-2 mb-4"
+    para organization_disabled_setting_section_hint(section), class: "description is-tight"
     f.object.features.map(&:to_s).excluding(section[:key]).each do |feature|
       text_node f.hidden_field(:features, multiple: true, value: feature)
     end

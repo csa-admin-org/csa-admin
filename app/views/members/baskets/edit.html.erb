@@ -1,17 +1,17 @@
 <h1>
-  <%= t(".title_html", date: content_tag(:span, l(@basket.delivery.date), class: "whitespace-nowrap")) %>
+  <%= t(".title_html", date: content_tag(:span, l(@basket.delivery.date), class: "is-nowrap")) %>
 </h1>
 
 <section>
   <h2><%= t(".subtitle") %></h2>
 
   <% if Current.org.membership_update_text? %>
-    <div class="trix-content mt-2 mb-8">
+    <div class="trix-content rich-text">
       <%= Current.org.membership_update_text %>
     </div>
   <% end %>
 
-  <%= simple_form_for @basket, html: { class: "mt-4" } do |f| %>
+  <%= simple_form_for @basket, html: { class: "form-sm" } do |f| %>
     <% if @basket.can_member_update_complements? %>
       <% baskets_basket_complements = baskets_basket_complements(@basket) %>
       <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs" do %>
@@ -23,19 +23,19 @@
     <% end %>
 
     <% if @basket.can_member_update_depot? %>
-      <div class="mt-4 space-y-8">
+      <div class="depot-fields">
         <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(basket: @basket, delivery_cycle: @basket.membership.delivery_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true %>
       </div>
     <% end %>
 
     <div class="actions">
       <%= link_to members_deliveries_path, class: "cancel-link" do %>
-        <%= icon "arrow-left", class: "size-5" %>
+        <%= icon "arrow-left", class: "icon-inline" %>
         <span><%= t(".cancel_link") %></span>
       <% end %>
 
       <%= button_tag type: "submit" do %>
-        <%= icon "check", class: "size-5" %>
+        <%= icon "check", class: "icon-inline" %>
         <span><%= t(".submit") %></span>
       <% end %>
     </div>

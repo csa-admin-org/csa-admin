@@ -39,9 +39,9 @@ export default class extends Controller {
 
       if (count > this.thresholdValue) {
         if (countEl) countEl.textContent = count
-        warningEl.classList.remove("hidden")
+        warningEl.classList.remove("is-hidden")
       } else {
-        warningEl.classList.add("hidden")
+        warningEl.classList.add("is-hidden")
       }
     })
   }

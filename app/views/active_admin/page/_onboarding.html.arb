@@ -1,28 +1,28 @@
 # frozen_string_literal: true
 
-div class: "flex justify-center" do
-  div class: "w-96" do
-    h1 class: "text-5xl text-center py-8" do
+div class: "onboarding" do
+  div class: "onboarding-card" do
+    h1 class: "onboarding-title" do
       t(".welcome")
     end
     panel t(".getting_started"), action: handbook_icon_link("getting_started") do
-      div class: "p-2" do
+      div class: "onboarding-body" do
         para t(".intro_html")
 
-        div class: "pt-8 pb-2 flex justify-center" do
-          ul class: "space-y-4" do
+        div class: "onboarding-list" do
+          ul class: "onboarding-steps" do
             li do
               if Delivery.any?
                 a href: deliveries_path do
-                  span class: "flex items-center line-through text-gray-400 dark:text-gray-600" do
-                    span icon("clipboard-check", class: "h-7 w-7 mr-2")
+                  span class: "onboarding-step is-faint is-struck" do
+                    span icon("clipboard-check", class: "icon-7")
                     span t(".create_deliveries")
                   end
                 end
               else
                 a href: new_delivery_path do
-                  span class: "flex items-center" do
-                    span icon("clipboard", class: "h-7 w-7 mr-2")
+                  span class: "onboarding-step" do
+                    span icon("clipboard", class: "icon-7")
                     span t(".create_deliveries")
                   end
                 end
@@ -32,15 +32,15 @@ div class: "flex justify-center" do
               li do
                 if BasketSize.kept.any?
                   a href: basket_sizes_path do
-                    span class: "flex items-center line-through text-gray-400 dark:text-gray-600" do
-                      span icon("clipboard-check", class: "h-7 w-7 mr-2")
+                    span class: "onboarding-step is-faint is-struck" do
+                      span icon("clipboard-check", class: "icon-7")
                       span t(".create_basket_sizes")
                     end
                   end
                 else
                   a href: new_basket_size_path do
-                    span class: "flex items-center" do
-                      span icon("clipboard", class: "h-7 w-7 mr-2")
+                    span class: "onboarding-step" do
+                      span icon("clipboard", class: "icon-7")
                       span t(".create_basket_sizes")
                     end
                   end
@@ -50,15 +50,15 @@ div class: "flex justify-center" do
             li do
               if Depot.kept.any?
                 a href: depots_path do
-                  span class: "flex items-center line-through text-gray-400 dark:text-gray-600" do
-                    span icon("clipboard-check", class: "h-7 w-7 mr-2")
+                  span class: "onboarding-step is-faint is-struck" do
+                    span icon("clipboard-check", class: "icon-7")
                     span t(".create_depots")
                   end
                 end
               else
                 a href: new_depot_path do
-                  span class: "flex items-center" do
-                    span icon("clipboard", class: "h-7 w-7 mr-2")
+                  span class: "onboarding-step" do
+                    span icon("clipboard", class: "icon-7")
                     span t(".create_depots")
                   end
                 end

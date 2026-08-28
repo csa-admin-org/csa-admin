@@ -1,0 +1,42 @@
+/* Admin + logged-out admin. url() so Propshaft can digest the imported sheets. */
+/* stylelint-disable import-notation */
+@layer reset, base, components, utilities;
+
+@import url("shared/tokens.css");
+@import url("shared/reset.css");
+@import url("shared/base.css");
+@import url("shared/dark.css");
+@import url("shared/utilities.css");
+@import url("shared/buttons.css");
+@import url("shared/status.css");
+@import url("shared/links.css");
+@import url("shared/animation.css");
+@import url("shared/tooltip.css");
+@import url("shared/icon_select.css");
+@import url("admin/layout.css");
+@import url("admin/look.css");
+@import url("admin/panel.css");
+@import url("admin/table.css");
+@import url("admin/formtastic.css");
+@import url("admin/filters.css");
+@import url("admin/batch_actions.css");
+@import url("admin/pagination.css");
+@import url("admin/scopes.css");
+@import url("admin/summary.css");
+@import url("admin/tabs_nav.css");
+@import url("admin/mail_preview.css");
+@import url("admin/settings.css");
+@import url("admin/handbook.css");
+@import url("admin/comments.css");
+@import url("admin/trix.css");
+@import url("admin/kbd.css");
+@import url("admin/search.css");
+@import url("admin/mobile_drawer.css");
+@import url("admin/counts.css");
+@import url("admin/direct_upload.css");
+@import url("admin/analytics.css");
+@import url("admin/menu_badge.css");
+@import url("admin/markdown.css");
+@import url("admin/codejar.css");
+@import url("admin/basket_content.css");
+@import url("admin/maps.css");

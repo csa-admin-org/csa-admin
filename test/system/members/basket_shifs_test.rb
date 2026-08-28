@@ -23,7 +23,7 @@ class Members::BasketShiftsTest < ApplicationSystemTestCase
     end
 
     assert_equal "/deliveries", current_path
-    assert_selector ".flash", text: "Basket updated successfully."
+    assert_selector ".member-flash", text: "Basket updated successfully."
     assert_text "Shifted on Thursday 9 May"
   end
 
@@ -67,7 +67,7 @@ class Members::BasketShiftsTest < ApplicationSystemTestCase
     end
 
     assert_equal "/deliveries", current_path
-    assert_selector ".flash", text: "Basket updated successfully."
+    assert_selector ".member-flash", text: "Basket updated successfully."
     assert_text "Shift declined"
   end
 

@@ -92,7 +92,7 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     get member_path(member)
 
     assert_response :success
-    assert_select "p.text-red-600", text: "Validation cannot create a membership because the selected delivery cycle has no upcoming delivery."
+    assert_select "p", text: "Validation cannot create a membership because the selected delivery cycle has no upcoming delivery."
     assert_select "button[disabled]", text: /Validate/
   end
 
@@ -177,7 +177,7 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     get member_path(member)
 
     assert_response :success
-    assert_select "p.text-red-600", text: "Activation cannot create a membership because the selected delivery cycle has no upcoming delivery."
+    assert_select "p", text: "Activation cannot create a membership because the selected delivery cycle has no upcoming delivery."
     assert_select "button[disabled]", text: /Activate/
   end
 

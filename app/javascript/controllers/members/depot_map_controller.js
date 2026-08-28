@@ -553,7 +553,7 @@ export default class extends Controller {
 
   hideMap() {
     if (this.hasMapTarget) {
-      this.mapTarget.closest(".member-depot-map-panel")?.classList.add("hidden")
+      this.mapTarget.closest(".member-depot-map-panel")?.classList.add("is-hidden")
     }
   }
 }

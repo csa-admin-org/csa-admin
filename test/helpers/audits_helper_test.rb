@@ -292,7 +292,7 @@ class AuditsHelperTest < ActionView::TestCase
 
     # Should show the removed depot with − prefix, grayed out
     assert_includes result, "− #{depot2.name}"
-    assert_includes result, "text-gray-500"
+    assert_includes result, "muted-change"
   end
 
   test "render_audit_diff handles shop_open_for_depot_ids with added depot" do
@@ -319,7 +319,7 @@ class AuditsHelperTest < ActionView::TestCase
 
     # Should show the removed depot with − prefix, grayed out
     assert_includes result, "− #{depot2.name}"
-    assert_includes result, "text-gray-500"
+    assert_includes result, "muted-change"
   end
 
   test "render_audit_diff handles wdays with changes" do

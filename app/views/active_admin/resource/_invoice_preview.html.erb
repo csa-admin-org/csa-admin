@@ -1,9 +1,9 @@
-<div class="relative aspect-[210/297] w-full">
-  <div class="absolute inset-0 z-10 flex justify-center pt-16 md:pt-60">
+<div class="invoice-preview">
+  <div class="invoice-preview-spinner">
     <%= render "shared/spinner" %>
   </div>
 
   <% if invoice.pdf_current? && !invoice.processing? %>
-    <%= image_tag invoice.pdf_file.preview(resize_to_limit: [ 2000, 2000 ]), alt: "", class: "absolute inset-0 z-20 h-full w-full object-contain object-top" %>
+    <%= image_tag invoice.pdf_file.preview(resize_to_limit: [ 2000, 2000 ]), alt: "", class: "invoice-preview-page" %>
   <% end %>
 </div>

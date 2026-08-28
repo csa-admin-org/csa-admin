@@ -30,13 +30,13 @@ ActiveAdmin.register Basket do
     deliveries_collection = basket_deliveries_collection(f.object)
 
     if f.object.shifted?
-      panel t(".basket_shift_title"), class: "basket-shift mb-8", action: handbook_icon_link("absence", anchor: "basket-shift") do
-        div class: "px-2 mb-2" do
+      panel t(".basket_shift_title"), class: "basket-shift is-shift", action: handbook_icon_link("absence", anchor: "basket-shift") do
+        div class: "panel-shift-body" do
           para t(".basket_shifted_description_html",
             target_date: l(f.object.shift_as_source.target_delivery.date, format: :short),
             target_url: edit_basket_path(f.object.shift_as_source.target_basket)
           ), class: "description"
-          para t(".basket_content", content: f.object.shift_as_source.description), class: "mt-2 text-base"
+          para t(".basket_content", content: f.object.shift_as_source.description), class: "text-base"
         end
       end
       f.actions do
@@ -50,37 +50,37 @@ ActiveAdmin.register Basket do
       end
     else
       if f.object.can_be_shifted?
-        panel t(".basket_shift_title"), class: "basket-shift mb-8 list-none", action: handbook_icon_link("absence", anchor: "basket-shift") do
-          div class: "px-2 -mb-2" do
+        panel t(".basket_shift_title"), class: "basket-shift is-shift list-none", action: handbook_icon_link("absence", anchor: "basket-shift") do
+          div class: "panel-shift-body" do
             para t(".basket_shift_explanation"), class: "description"
             f.input :shift_target_basket_id, as: :select, collection: basket_shift_targets_collection(f.object), include_blank: true
           end
         end
         if f.object.can_only_be_shifted?
-          para t(".basket_shift_absences_included_warning"), class: "description mt-2 mb-4 italic text-sm"
+          para t(".basket_shift_absences_included_warning"), class: "description is-tight is-italic text-sm"
         end
       end
 
       if f.object.shifts_as_target.any?
-        panel t(".basket_shift_title"), class: "basket-shift mb-8", action: handbook_icon_link("absence", anchor: "basket-shift") do
-          div class: "px-2 mb-2" do
+        panel t(".basket_shift_title"), class: "basket-shift is-shift", action: handbook_icon_link("absence", anchor: "basket-shift") do
+          div class: "panel-shift-body" do
             para t(".basket_shift_targets_explanation"), class: "description"
-            ul class: "list-disc list-outside mt-4 ml-6 space-y-2 text-base" do
+            ul class: "disc-list is-outside stack is-tight text-base" do
               shifts = f.object.shifts_as_target.includes(:source_delivery)
               shifts.sort_by { |s| s.source_delivery.date }.each do |shift|
                 li do
-                  div class: "flex items-center gap-2" do
+                  div class: "cluster" do
                     span t(".basket_shift_target_description",
                         source_date: l(shift.source_delivery.date, format: :short),
                         description: shift.description)
-                    span class: "flex items-center" do
+                    span do
                       link_to basket_shift_path(shift),
                         method: :delete,
                         class: "btn btn-sm destructive-icon-action",
                         title: t(".destroy"),
                         aria: { label: t(".destroy") },
                         data: { confirm: t("active_admin.delete_confirmation") } do
-                          icon "trash", class: "size-4"
+                          icon "trash", class: "icon-4"
                         end
                     end
                   end

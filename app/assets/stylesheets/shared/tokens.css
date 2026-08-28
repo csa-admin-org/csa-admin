@@ -1,0 +1,288 @@
+/* No-build design tokens. OKLCH sampled from Tailwind v4 compiled :root
+   (master look-lock). Numbered scales stay stable across themes.
+   Semantic tokens flip on html.dark. */
+
+:root {
+  --lch-white: 100% 0 0;
+  --lch-black: 0% 0 0;
+
+  --lch-gray-50: 98.5% 0.002 247.839;
+  --lch-gray-100: 96.7% 0.003 264.542;
+  --lch-gray-200: 92.8% 0.006 264.531;
+  --lch-gray-300: 87.2% 0.01 258.338;
+  --lch-gray-400: 70.7% 0.022 261.325;
+  --lch-gray-500: 55.1% 0.027 264.364;
+  --lch-gray-600: 44.6% 0.03 256.802;
+  --lch-gray-700: 37.3% 0.034 259.733;
+  --lch-gray-800: 27.8% 0.033 256.848;
+  --lch-gray-900: 21% 0.034 264.665;
+  --lch-gray-950: 13% 0.028 261.692;
+
+  --lch-green-50: 98.2% 0.018 155.826;
+  --lch-green-100: 96.2% 0.044 156.743;
+  --lch-green-200: 92.5% 0.084 155.995;
+  --lch-green-300: 87.1% 0.15 154.449;
+  --lch-green-400: 79.2% 0.209 151.711;
+  --lch-green-500: 72.3% 0.219 149.579;
+  --lch-green-600: 62.7% 0.194 149.214;
+  --lch-green-700: 52.7% 0.154 150.069;
+  --lch-green-800: 44.8% 0.119 151.328;
+  --lch-green-900: 39.3% 0.095 152.535;
+  --lch-green-950: 26.6% 0.065 152.934;
+
+  --lch-red-50: 97.1% 0.013 17.38;
+  --lch-red-100: 93.6% 0.032 17.717;
+  --lch-red-200: 88.5% 0.062 18.334;
+  --lch-red-300: 80.8% 0.114 19.571;
+  --lch-red-400: 70.4% 0.191 22.216;
+  --lch-red-500: 63.7% 0.237 25.331;
+  --lch-red-600: 57.7% 0.245 27.325;
+  --lch-red-700: 50.5% 0.213 27.518;
+  --lch-red-800: 44.4% 0.177 26.899;
+  --lch-red-900: 39.6% 0.141 25.723;
+  --lch-red-950: 25.8% 0.092 26.042;
+
+  --lch-yellow-50: 98.7% 0.026 102.212;
+  --lch-yellow-100: 97.3% 0.071 103.193;
+  --lch-yellow-200: 94.5% 0.129 101.54;
+  --lch-yellow-300: 90.5% 0.182 98.111;
+  --lch-yellow-400: 85.2% 0.199 91.936;
+  --lch-yellow-600: 68.1% 0.162 75.834;
+  --lch-yellow-700: 55.4% 0.135 66.442;
+  --lch-yellow-800: 47.6% 0.114 61.907;
+  --lch-yellow-900: 42.1% 0.095 57.708;
+  --lch-yellow-950: 28.6% 0.066 53.813;
+
+  --lch-orange-50: 98% 0.016 73.684;
+  --lch-orange-100: 95.4% 0.038 75.164;
+  --lch-orange-200: 90.1% 0.076 70.697;
+  --lch-orange-300: 83.7% 0.128 66.29;
+  --lch-orange-400: 75% 0.183 55.934;
+  --lch-orange-500: 70.5% 0.213 47.604;
+  --lch-orange-600: 64.6% 0.222 41.116;
+  --lch-orange-700: 55.3% 0.195 38.402;
+  --lch-orange-800: 47% 0.157 37.304;
+  --lch-orange-900: 40.8% 0.123 38.172;
+  --lch-orange-950: 26.6% 0.079 36.259;
+
+  --lch-blue-50: 97% 0.014 254.604;
+  --lch-blue-100: 93.2% 0.032 255.585;
+  --lch-blue-300: 80.9% 0.105 251.813;
+  --lch-blue-400: 70.7% 0.165 254.624;
+  --lch-blue-500: 62.3% 0.214 259.815;
+  --lch-blue-600: 54.6% 0.245 262.881;
+  --lch-blue-700: 48.8% 0.243 264.376;
+  --lch-blue-800: 42.4% 0.199 265.638;
+  --lch-blue-950: 28.2% 0.091 267.935;
+
+  --lch-lime-100: 96.7% 0.067 122.328;
+  --lch-lime-300: 89.7% 0.196 126.665;
+  --lch-lime-400: 84.1% 0.238 128.85;
+  --lch-lime-600: 64.8% 0.2 131.684;
+  --lch-lime-800: 45.3% 0.124 130.933;
+  --lch-lime-900: 40.5% 0.101 131.063;
+  --lch-lime-950: 27.4% 0.072 132.109;
+
+  --lch-amber-50: 98.7% 0.022 95.277;
+  --lch-amber-100: 96.2% 0.059 95.617;
+  --lch-amber-200: 92.4% 0.12 95.746;
+  --lch-amber-400: 82.8% 0.189 84.429;
+  --lch-amber-600: 66.6% 0.179 58.318;
+  --lch-amber-800: 47.3% 0.137 46.201;
+  --lch-amber-900: 41.4% 0.112 45.904;
+  --lch-amber-950: 27.9% 0.077 45.635;
+
+  --lch-zinc-700: 37% 0.013 285.805;
+  --lch-slate-800: 27.9% 0.041 260.031;
+
+  --lch-neutral-50: 98.5% 0 0;
+  --lch-neutral-100: 97% 0 0;
+  --lch-neutral-200: 92.2% 0 0;
+  --lch-neutral-300: 87% 0 0;
+  --lch-neutral-400: 70.8% 0 0;
+  --lch-neutral-500: 55.6% 0 0;
+  --lch-neutral-600: 43.9% 0 0;
+  --lch-neutral-700: 37.1% 0 0;
+  --lch-neutral-800: 26.9% 0 0;
+  --lch-neutral-900: 20.5% 0 0;
+
+  --lch-teal-100: 95.3% 0.051 180.801;
+  --lch-teal-200: 91% 0.096 180.426;
+  --lch-teal-300: 85.5% 0.138 181.071;
+  --lch-teal-500: 70.4% 0.14 182.503;
+  --lch-teal-700: 51.1% 0.096 186.391;
+  --lch-teal-800: 43.7% 0.078 188.216;
+  --lch-teal-900: 38.6% 0.063 188.416;
+  --lch-teal-950: 27.7% 0.046 192.524;
+
+  --color-white: oklch(var(--lch-white));
+  --color-black: oklch(var(--lch-black));
+
+  --color-gray-50: oklch(var(--lch-gray-50));
+  --color-gray-100: oklch(var(--lch-gray-100));
+  --color-gray-200: oklch(var(--lch-gray-200));
+  --color-gray-300: oklch(var(--lch-gray-300));
+  --color-gray-400: oklch(var(--lch-gray-400));
+  --color-gray-500: oklch(var(--lch-gray-500));
+  --color-gray-600: oklch(var(--lch-gray-600));
+  --color-gray-700: oklch(var(--lch-gray-700));
+  --color-gray-800: oklch(var(--lch-gray-800));
+  --color-gray-900: oklch(var(--lch-gray-900));
+  --color-gray-950: oklch(var(--lch-gray-950));
+
+  --color-green-50: oklch(var(--lch-green-50));
+  --color-green-100: oklch(var(--lch-green-100));
+  --color-green-200: oklch(var(--lch-green-200));
+  --color-green-300: oklch(var(--lch-green-300));
+  --color-green-400: oklch(var(--lch-green-400));
+  --color-green-500: oklch(var(--lch-green-500));
+  --color-green-600: oklch(var(--lch-green-600));
+  --color-green-700: oklch(var(--lch-green-700));
+  --color-green-800: oklch(var(--lch-green-800));
+  --color-green-900: oklch(var(--lch-green-900));
+  --color-green-950: oklch(var(--lch-green-950));
+
+  --color-red-50: oklch(var(--lch-red-50));
+  --color-red-100: oklch(var(--lch-red-100));
+  --color-red-200: oklch(var(--lch-red-200));
+  --color-red-300: oklch(var(--lch-red-300));
+  --color-red-400: oklch(var(--lch-red-400));
+  --color-red-500: oklch(var(--lch-red-500));
+  --color-red-600: oklch(var(--lch-red-600));
+  --color-red-700: oklch(var(--lch-red-700));
+  --color-red-800: oklch(var(--lch-red-800));
+  --color-red-900: oklch(var(--lch-red-900));
+  --color-red-950: oklch(var(--lch-red-950));
+
+  --color-yellow-50: oklch(var(--lch-yellow-50));
+  --color-yellow-100: oklch(var(--lch-yellow-100));
+  --color-yellow-200: oklch(var(--lch-yellow-200));
+  --color-yellow-300: oklch(var(--lch-yellow-300));
+  --color-yellow-400: oklch(var(--lch-yellow-400));
+  --color-yellow-600: oklch(var(--lch-yellow-600));
+  --color-yellow-700: oklch(var(--lch-yellow-700));
+  --color-yellow-800: oklch(var(--lch-yellow-800));
+  --color-yellow-900: oklch(var(--lch-yellow-900));
+  --color-yellow-950: oklch(var(--lch-yellow-950));
+
+  --color-orange-50: oklch(var(--lch-orange-50));
+  --color-orange-100: oklch(var(--lch-orange-100));
+  --color-orange-200: oklch(var(--lch-orange-200));
+  --color-orange-300: oklch(var(--lch-orange-300));
+  --color-orange-400: oklch(var(--lch-orange-400));
+  --color-orange-500: oklch(var(--lch-orange-500));
+  --color-orange-600: oklch(var(--lch-orange-600));
+  --color-orange-700: oklch(var(--lch-orange-700));
+  --color-orange-800: oklch(var(--lch-orange-800));
+  --color-orange-900: oklch(var(--lch-orange-900));
+  --color-orange-950: oklch(var(--lch-orange-950));
+
+  --color-blue-50: oklch(var(--lch-blue-50));
+  --color-blue-100: oklch(var(--lch-blue-100));
+  --color-blue-300: oklch(var(--lch-blue-300));
+  --color-blue-400: oklch(var(--lch-blue-400));
+  --color-blue-500: oklch(var(--lch-blue-500));
+  --color-blue-600: oklch(var(--lch-blue-600));
+  --color-blue-700: oklch(var(--lch-blue-700));
+  --color-blue-800: oklch(var(--lch-blue-800));
+  --color-blue-950: oklch(var(--lch-blue-950));
+
+  --color-lime-100: oklch(var(--lch-lime-100));
+  --color-lime-300: oklch(var(--lch-lime-300));
+  --color-lime-400: oklch(var(--lch-lime-400));
+  --color-lime-600: oklch(var(--lch-lime-600));
+  --color-lime-800: oklch(var(--lch-lime-800));
+  --color-lime-900: oklch(var(--lch-lime-900));
+  --color-lime-950: oklch(var(--lch-lime-950));
+
+  --color-amber-50: oklch(var(--lch-amber-50));
+  --color-amber-100: oklch(var(--lch-amber-100));
+  --color-amber-200: oklch(var(--lch-amber-200));
+  --color-amber-400: oklch(var(--lch-amber-400));
+  --color-amber-600: oklch(var(--lch-amber-600));
+  --color-amber-800: oklch(var(--lch-amber-800));
+  --color-amber-900: oklch(var(--lch-amber-900));
+  --color-amber-950: oklch(var(--lch-amber-950));
+
+  --color-zinc-700: oklch(var(--lch-zinc-700));
+  --color-slate-800: oklch(var(--lch-slate-800));
+
+  --color-neutral-50: oklch(var(--lch-neutral-50));
+  --color-neutral-100: oklch(var(--lch-neutral-100));
+  --color-neutral-200: oklch(var(--lch-neutral-200));
+  --color-neutral-300: oklch(var(--lch-neutral-300));
+  --color-neutral-400: oklch(var(--lch-neutral-400));
+  --color-neutral-500: oklch(var(--lch-neutral-500));
+  --color-neutral-600: oklch(var(--lch-neutral-600));
+  --color-neutral-700: oklch(var(--lch-neutral-700));
+  --color-neutral-800: oklch(var(--lch-neutral-800));
+  --color-neutral-900: oklch(var(--lch-neutral-900));
+
+  --color-teal-100: oklch(var(--lch-teal-100));
+  --color-teal-200: oklch(var(--lch-teal-200));
+  --color-teal-300: oklch(var(--lch-teal-300));
+  --color-teal-500: oklch(var(--lch-teal-500));
+  --color-teal-700: oklch(var(--lch-teal-700));
+  --color-teal-800: oklch(var(--lch-teal-800));
+  --color-teal-900: oklch(var(--lch-teal-900));
+  --color-teal-950: oklch(var(--lch-teal-950));
+
+  /* Semantic. Numbered scales stay put. These flip on html.dark / .dark. */
+  --color-canvas: var(--color-white);
+  --color-canvas-admin: color-mix(in oklch, var(--color-green-50) 25%, var(--color-white));
+  --color-ink: var(--color-gray-950);
+  --color-ink-heading: var(--color-gray-900);
+  --color-ink-secondary: var(--color-gray-700);
+  --color-ink-muted: var(--color-gray-500);
+  --color-ink-soft: var(--color-gray-600);
+  --color-fill: var(--color-gray-100);
+  --color-fill-muted: var(--color-gray-200);
+  --color-surface: var(--color-white);
+  --color-line: var(--color-gray-200);
+  --color-danger-soft: var(--color-red-100);
+  --color-accent: var(--color-green-500);
+  --color-accent-strong: var(--color-green-600);
+  --color-negative: var(--color-red-500);
+  --color-border: var(--color-gray-200);
+
+  --spacing: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-full: 9999px;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+
+  --inline-space: 1ch;
+  --block-space: 1rem;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+}
+
+/* Resolved dark. html[data-theme] is the stored preference (system|light|dark).
+   _theme_script.html.erb + theme_controller.js toggle html.dark when resolved.
+   .dark covers mail-preview iframes that copy the class onto body.
+   Do not switch paint to prefers-color-scheme or light-dark(). */
+html.dark,
+.dark {
+  --color-canvas: var(--color-gray-950);
+  --color-canvas-admin: var(--color-gray-950);
+  --color-ink: var(--color-gray-100);
+  --color-ink-heading: var(--color-gray-100);
+  --color-ink-secondary: var(--color-gray-300);
+  --color-ink-muted: var(--color-gray-400);
+  --color-ink-soft: var(--color-gray-300);
+  --color-fill: var(--color-gray-900);
+  --color-fill-muted: var(--color-gray-800);
+  --color-surface: var(--color-gray-900);
+  --color-line: var(--color-gray-700);
+  --color-danger-soft: var(--color-red-900);
+  --color-accent: var(--color-green-600);
+  --color-accent-strong: var(--color-green-700);
+  --color-negative: var(--color-red-600);
+  --color-border: var(--color-gray-600);
+}

@@ -20,13 +20,13 @@ module AuditsIndex
           model_class = controller.auditable_model_class
 
           if a.metadata["new_config_from"].present?
-            div class: "mb-3 text-sm text-gray-600 dark:text-gray-400" do
+            div class: "audit-meta is-muted" do
               span "#{model_class.human_attribute_name(:new_config_from)}: "
               strong l(a.metadata["new_config_from"].to_date, format: :medium)
             end
           end
 
-          ul class: "space-y-4" do
+          ul class: "audit-list" do
             a.changes.each do |attr, change|
               next unless helpers.should_display_audit_change?(attr, change.first, change.last)
 
@@ -35,11 +35,11 @@ module AuditsIndex
                 if (diff_html = helpers.render_audit_diff(attr, change.first, change.last))
                   text_node diff_html
                 else
-                  div class: "flex items-center gap-3 text-sm" do
-                    div class: "text-gray-500 dark:text-gray-400" do
+                  div class: "audit-change" do
+                    div class: "is-muted" do
                       text_node helpers.display_audit_change(model_class, attr, change.first)
                     end
-                    div "→", class: "text-gray-400 dark:text-gray-500 shrink-0 text-xl"
+                    div "→", class: "is-faint is-static audit-arrow"
                     div do
                       text_node helpers.display_audit_change(model_class, attr, change.last)
                     end
@@ -48,8 +48,8 @@ module AuditsIndex
               end
             end
           end
-        }, class: "py-3"
-        column :updated_at, ->(a) { l(a.updated_at, format: :short) }, class: "text-right whitespace-nowrap"
+        }
+        column :updated_at, ->(a) { l(a.updated_at, format: :short) }, class: "text-right is-nowrap"
       end
 
       controller do

@@ -46,7 +46,7 @@ ActiveAdmin.register Shop::Product do
     column :name, ->(product) { auto_link product }, sortable: true
     column Shop::ProductVariant.model_name.human(count: 2), ->(product) {
       display_variants(self, product)
-    }, class: "w-7/12"
+    }, class: "col-variants"
     actions
   end
 

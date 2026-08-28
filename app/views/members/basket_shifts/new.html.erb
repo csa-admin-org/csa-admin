@@ -1,11 +1,11 @@
 <h1>
-  <%= t(".title_html", date: content_tag(:span, l(@basket.delivery.date), class: "whitespace-nowrap")) %>
+  <%= t(".title_html", date: content_tag(:span, l(@basket.delivery.date), class: "is-nowrap")) %>
 </h1>
 
 <section>
   <h2><%= t(".subtitle") %></h2>
 
-  <div class="mt-2 mb-8 space-y-2">
+  <div class="form-copy">
     <p><%= t(".text") %></p>
 
     <% if Current.org.basket_shift_annual_limit? %>
@@ -24,7 +24,7 @@
       <p><%= t(".absences_included_warning") %></p>
     <% end %>
 
-    <%= form_for @basket, url: members_basket_basket_shifts_path(@basket), method: :post, html: { class: "mt-8" } do |f| %>
+    <%= form_for @basket, url: members_basket_basket_shifts_path(@basket), method: :post, html: { class: "form-root" } do |f| %>
       <div class="input">
         <%= f.label :shift_target_basket_id %>
         <%= f.select :shift_target_basket_id, basket_shift_targets_member_collection(@basket), { include_blank: false } %>
@@ -32,12 +32,12 @@
 
       <div class="actions">
         <%= link_to members_deliveries_path, class: "cancel-link" do %>
-          <%= icon "arrow-left", class: "size-5" %>
+          <%= icon "arrow-left", class: "icon-inline" %>
           <span><%= t(".cancel_link") %></span>
         <% end %>
 
         <%= button_tag type: "submit" do %>
-          <%= icon "check", class: "size-5" %>
+          <%= icon "check", class: "icon-inline" %>
           <span><%= t(".submit") %></span>
         <% end %>
       </div>

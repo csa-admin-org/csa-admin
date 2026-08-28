@@ -32,7 +32,7 @@ ActiveAdmin.register Delivery do
       selectable_column(class: "w-px")
     end
     column "#", ->(delivery) { delivery.number }, class: "w-px"
-    column :date, ->(delivery) { l(delivery.date, format: :medium).capitalize }, class: "text-right whitespace-nowrap"
+    column :date, ->(delivery) { l(delivery.date, format: :medium).capitalize }, class: "text-right is-nowrap"
     if BasketComplement.kept.any?
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
@@ -96,7 +96,7 @@ ActiveAdmin.register Delivery do
                 complement_counts: complement_counts
               }
 
-            div class: "mt-4" do
+            div do
               render partial: "active_admin/deliveries/absences", locals: { delivery: delivery }
               render partial: "active_admin/deliveries/changes", locals: { delivery: delivery }
             end
@@ -155,7 +155,7 @@ ActiveAdmin.register Delivery do
           basket_contents = delivery.basket_contents.includes(:product)
           panel link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: delivery.id })), icon: "sprout" do
             if basket_contents.any?
-              div class: "p-2" do
+              div class: "panel-inset" do
                 basket_contents.map { |bc| bc.product.name }.sort.to_sentence.html_safe
               end
             else

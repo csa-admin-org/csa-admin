@@ -95,7 +95,7 @@ module OrganizationsHelper
     label_content = if hint
       content_tag(:span) do
         content_tag(:span, label) +
-        content_tag(:span, hint, class: "block text-gray-500 dark:text-gray-400 text-sm font-normal")
+        content_tag(:span, hint, class: "is-block is-muted text-sm font-normal")
       end
     else
       label

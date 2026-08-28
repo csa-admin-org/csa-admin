@@ -1,21 +1,16 @@
-<div
-  class="
-    mt-14 mb-4 flex flex-col justify-between gap-4 p-5 py-3 md:flex-row
-    md:items-center dark:border-gray-800/50
-  "
->
-  <div class="flex grow flex-col gap-1 pt-1">
+<div class="admin-page-header">
+  <div class="admin-page-header-main">
     <% breadcrumb_links = build_breadcrumb_links(request.path) %>
 
     <% if breadcrumb_links.present? %>
       <nav aria-label="<%= t("accessibility.active_admin.breadcrumb") %>">
-        <ol class="mb-1 flex flex-wrap gap-x-2 gap-y-0.5 text-sm opacity-60">
+        <ol class="admin-breadcrumb-list">
           <% breadcrumb_links.each_with_index do |link, index| %>
-            <li class="inline-flex items-center">
+            <li class="admin-breadcrumb-item">
               <%= link %>
 
               <% if index < breadcrumb_links.size - 1 %>
-                <span class="ml-2 font-thin">/</span>
+                <span class="admin-breadcrumb-sep">/</span>
               <% end %>
             </li>
           <% end %>
@@ -23,19 +18,19 @@
       </nav>
     <% end %>
 
-    <div class="flex flex-wrap items-center gap-2 md:gap-4">
-      <h2 class="text-left text-4xl font-thin">
+    <div class="admin-page-title-row">
+      <h2 class="admin-page-title">
         <%= sanitize(title) %>
       </h2>
 
       <% if params[:action] == "index" && year = params.dig(:q, :during_year).presence %>
-        <span class="inline text-4xl font-thin text-gray-500 dark:text-gray-400">
+        <span class="admin-page-year">
           <%= Current.org.fiscal_year_for(year) %>
         </span>
       <% end %>
 
       <% if params[:action] == "show" && params[:id] && resource&.respond_to?(:state) %>
-        <div class="flex grow items-center text-right md:grow-0">
+        <div class="admin-page-status">
           <span
             class="status-tag large <%= resource.model_name.to_s.underscore %>"
             data-status="<%= resource.state %>"
@@ -46,20 +41,13 @@
       <% end %>
 
       <% if params[:controller] == "dashboard" %>
-        <span
-          class="
-            grow text-right text-4xl font-thin text-gray-500
-            dark:text-gray-400
-          "
-        >
-          <%= Current.fiscal_year %>
-        </span>
+        <span class="admin-page-year is-end"><%= Current.fiscal_year %></span>
       <% end %>
     </div>
   </div>
 
   <% if action_items_for_action.present? %>
-    <div class="flex flex-wrap justify-end gap-2">
+    <div class="admin-page-actions">
       <%= render "active_admin/shared/action_items" %>
     </div>
   <% end %>
@@ -67,7 +55,7 @@
 
 <% if params[:controller] == "invoices" && !Current.org.iban? %>
   <% settings_url = can?(:update, Organization) ? edit_organization_path(:invoice) : organization_path(anchor: :invoice) %>
-  <div class="mx-5">
+  <div class="admin-page-warning">
     <%= warning_pane("triangle-alert") do %>
       <%= t("active_admin.resource.form.iban_missing_warning_html",
             iban_type: Current.org.iban_type_name,

@@ -29,4 +29,24 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unsupported_media_type
   end
+
+  test "admin layout loads the admin stylesheet" do
+    host! "admin.acme.test"
+
+    get login_path
+
+    assert_response :success
+    assert_select "link[rel='stylesheet'][href*='admin']"
+    assert_select "link[rel='stylesheet'][href*='tailwind']", count: 0
+  end
+
+  test "members layout loads the member stylesheet" do
+    host! "members.acme.test"
+
+    get members_login_path
+
+    assert_response :success
+    assert_select "link[rel='stylesheet'][href*='member']"
+    assert_select "link[rel='stylesheet'][href*='tailwind']", count: 0
+  end
 end

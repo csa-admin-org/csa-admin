@@ -1,9 +1,9 @@
 <%# locals: (collection:, limit: 4, anchor:) %>
 
 <% if collection.size > limit && !params[:"all_#{anchor}"] %>
-  <div class="md:w-none mt-6 w-full text-center">
+  <div class="show-more">
     <%= link_to url_for("all_#{anchor}" => true, anchor: anchor), class: "btn btn-sm" do %>
-      <%= icon "plus", class: "size-3.5" %>
+      <%= icon "plus", class: "icon-xs" %>
       <span><%= t(".show_all") %></span>
     <% end %>
   </div>

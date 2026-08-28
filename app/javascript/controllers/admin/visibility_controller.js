@@ -5,7 +5,7 @@ export default class extends Controller {
 
   toggle() {
     this.elementTargets.forEach((element) => {
-      element.classList.toggle("hidden")
+      element.classList.toggle("is-hidden")
       const inputs = element.querySelectorAll("input")
       inputs.forEach((input) => {
         input.disabled = !input.disabled

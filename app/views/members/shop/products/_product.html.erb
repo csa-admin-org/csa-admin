@@ -1,9 +1,9 @@
 <div>
-  <h3 class="flex flex-row items-center font-medium text-gray-800 dark:text-gray-200">
+  <h3 class="shop-product-name">
     <span><%= product.name %></span>
 
     <% if product.tags.any? %>
-      <ul class="ml-2 flex items-center space-x-2">
+      <ul class="shop-product-tags">
         <% product.tags.each do |tag| %>
           <li>
             <%= render partial: "members/shop/products/tag", object: tag %>
@@ -14,15 +14,15 @@
   </h3>
 
   <% if params[:producer_id].blank? && product.producer_id? %>
-    <div class="mt-1 text-sm font-medium">
-      <span class="flex flex-row items-center">
+    <div class="shop-product-producer">
+      <span class="shop-product-producer-row">
         <%= link_to params.merge(producer_id: product.producer_id) do %>
           <%= product.producer.name %>
         <% end %>
 
         <% if product.producer.website_url? %>
-          <%= link_to product.producer.website_url, target: :blank, class: "ml-1 flex flex-row items-center" do %>
-            <%= icon "link", class: "size-4" %>
+          <%= link_to product.producer.website_url, target: :blank, class: "shop-product-site" do %>
+            <%= icon "link", class: "shop-icon-sm" %>
           <% end %>
         <% end %>
       </span>
@@ -30,12 +30,12 @@
   <% end %>
 
   <% if product.description? %>
-    <div class="mt-2 text-sm"><%= product.description %></div>
+    <div class="shop-product-desc"><%= product.description %></div>
   <% end %>
 
-  <ul class="mt-2 divide-y divide-gray-200 dark:divide-gray-700">
+  <ul class="shop-variants">
     <% product.variants.select { |variant| variant.available_for_delivery?(delivery) }.each do |variant| %>
-      <li class="-ml-1 w-full p-1 hover:bg-gray-100 dark:hover:bg-gray-900">
+      <li class="shop-variant-row">
         <%= turbo_frame_tag "product_variant_#{variant.id}" do %>
           <%= render partial: "members/shop/products/variant", object: variant, locals: { order: order } %>
         <% end %>

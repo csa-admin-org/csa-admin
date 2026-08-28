@@ -1,11 +1,11 @@
 <%# locals: (membership:) %>
 <% if membership.baskets_annual_price_change.nonzero? %>
   <li class="price-line">
-    <span class="font-light">
+    <span class="price-label">
       <%= t("invoices.pdf.baskets_annual_price_change") %>
     </span>
 
-    <span class="grow text-right whitespace-nowrap tabular-nums">
+    <span class="price-value">
       <%= cur(membership.baskets_annual_price_change, unit: false) %>
     </span>
   </li>
@@ -13,11 +13,11 @@
 
 <% if membership.basket_complements.any? && membership.basket_complements_price.nonzero? %>
   <li class="price-line">
-    <span class="font-light">
+    <span class="price-label">
       <%= MembershipsBasketComplement.model_name.human(count: membership.basket_complements.count) %>
     </span>
 
-    <span class="grow text-right whitespace-nowrap tabular-nums">
+    <span class="price-value">
       <%= display_price_description(membership.basket_complements_price, membership_basket_complements_price_info(membership)) %>
     </span>
   </li>
@@ -25,11 +25,11 @@
 
 <% if membership.basket_complements_annual_price_change.nonzero? %>
   <li class="price-line">
-    <span class="font-light">
+    <span class="price-label">
       <%= t("invoices.pdf.basket_complements_annual_price_change") %>
     </span>
 
-    <span class="grow text-right whitespace-nowrap tabular-nums">
+    <span class="price-value">
       <%= cur(membership.baskets_annual_price_change, unit: false) %>
     </span>
   </li>
@@ -37,11 +37,9 @@
 
 <% if basket_price_extra_present?(membership) %>
   <li class="price-line">
-    <span class="me-2 font-light">
-      <%= Current.org.basket_price_extra_title %>
-    </span>
+    <span class="price-label"><%= Current.org.basket_price_extra_title %></span>
 
-    <span class="grow text-right whitespace-nowrap tabular-nums">
+    <span class="price-value">
       <% description = baskets_price_extra_info(membership, membership.baskets) %>
       <%= display_price_description(membership.baskets_price_extra, description) %>
     </span>
@@ -50,11 +48,11 @@
 
 <% if membership.depots_price.nonzero? %>
   <li class="price-line">
-    <span class="font-light">
+    <span class="price-label">
       <%= Depot.model_name.human(count: membership.baskets_count) %>
     </span>
 
-    <span class="grow text-right tabular-nums">
+    <span class="price-value">
       <%= display_price_description(membership.depots_price, depots_price_info(membership.baskets)) %>
     </span>
   </li>
@@ -62,11 +60,11 @@
 
 <% if membership.deliveries_price.nonzero? %>
   <li class="price-line">
-    <span class="font-light">
+    <span class="price-label">
       <%= Delivery.model_name.human(count: membership.baskets_count) %>
     </span>
 
-    <span class="grow text-right tabular-nums">
+    <span class="price-value">
       <%= display_price_description(membership.deliveries_price, delivery_cycle_price_info(membership.baskets)) %>
     </span>
   </li>
@@ -74,11 +72,11 @@
 
 <% if feature?("activity") && membership.activity_participations_annual_price_change.nonzero? %>
   <li class="price-line">
-    <span class="font-light">
+    <span class="price-label">
       <%= t("active_admin.resource.show.activity_participations_annual_price_change") %>
     </span>
 
-    <span class="grow text-right whitespace-nowrap tabular-nums">
+    <span class="price-value">
       <%= cur(membership.activity_participations_annual_price_change, unit: false) %>
     </span>
   </li>

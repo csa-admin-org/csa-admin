@@ -13,29 +13,26 @@
         data-action="mobile-drawer#open"
         aria-label="<%= I18n.t("active_admin.sidebars.filters") %>"
       >
-        <%= icon "funnel", class: "size-6" %>
+        <%= icon "funnel", class: "mobile-drawer-btn-icon" %>
       </button>
 
       <div
-        class="mobile-drawer-overlay hidden"
+        class="mobile-drawer-overlay is-hidden"
         data-mobile-drawer-target="overlay"
         data-action="click->mobile-drawer#closeOnOutside"
       >
         <div class="mobile-drawer-panel" data-mobile-drawer-target="panel">
-          <div class="mb-3 flex items-center justify-between">
-            <h3 class="text-xl font-extralight">
+          <div class="admin-drawer-header">
+            <h3 class="admin-drawer-title">
               <%= I18n.t("active_admin.sidebars.filters") %>
             </h3>
 
             <button
               data-action="mobile-drawer#close"
-              class="
-                p-1 text-gray-400 hover:text-gray-600
-                dark:hover:text-gray-300
-              "
+              class="admin-drawer-close"
               aria-label="<%= t("accessibility.active_admin.close") %>"
             >
-              <%= icon "x", class: "size-5" %>
+              <%= icon "x", class: "admin-drawer-close-icon" %>
             </button>
           </div>
 
@@ -44,7 +41,7 @@
       </div>
     </div>
   <% end %>
-  <div class="space-y-6">
+  <div class="admin-sidebar">
     <%= render "active_admin/shared/sidebar_sections" %>
   </div>
 <% end %>

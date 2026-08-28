@@ -3,8 +3,8 @@
 ActiveAdmin.register_page "Dashboard" do
   menu priority: 1, label: -> {
     [
-      icon("house", title: t("active_admin.dashboard"), class: "size-5 md:size-5.5 min-w-5 md:min-w-6 mr-2.5 md:mr-0 inline"),
-      content_tag(:span, t("active_admin.dashboard"), class: "inline md:hidden")
+      icon("house", title: t("active_admin.dashboard"), class: "admin-nav-icon"),
+      content_tag(:span, t("active_admin.dashboard"), class: "admin-nav-label")
     ].join.html_safe
   }
 
@@ -36,7 +36,7 @@ ActiveAdmin.register_page "Dashboard" do
                   }
 
                 if next_delivery.note?
-                  para class: "mt-4 p-2 px-2.5 text-sm rounded-md bg-green-200 dark:bg-green-900" do
+                  para class: "delivery-note" do
                     next_delivery.note
                   end
                 end
@@ -47,12 +47,12 @@ ActiveAdmin.register_page "Dashboard" do
                   bottom_links << link_to(t(".announcements_count", count: announcements_count), announcements_path(scope: :active, q: { deliveries_eq: next_delivery.id }))
                 end
                 if bottom_links.present?
-                  div class: "text-right mt-2 p-2" do
-                    bottom_links.join(content_tag(:span, "/", class: "text-gray-300 dark:text-gray-700 mx-2.5")).html_safe
+                  div class: "dashboard-links" do
+                    bottom_links.join(content_tag(:span, "/", class: "is-faint link-sep")).html_safe
                   end
                 end
 
-                div class: "mt-4" do
+                div class: "dashboard-section" do
                   render partial: "active_admin/deliveries/absences", locals: { delivery: next_delivery }
                   render partial: "active_admin/deliveries/changes", locals: { delivery: next_delivery }
                 end
@@ -102,15 +102,15 @@ ActiveAdmin.register_page "Dashboard" do
           end
 
           panel t(".billing"), icon: "banknotes", action: billing_panel_action do
-            div class: "px-2" do
-              table class: "w-full text-base data-table-invoice-total" do
+            div class: "dashboard-panel-body" do
+              table class: "is-full text-base data-table-invoice-total" do
                 tbody do
                   invoice_totals = InvoiceTotal.all(Current.fiscal_year)
                   invoice_totals.each_with_index do |total, i|
                     is_total = i == invoice_totals.size - 1
-                    tr class: "px-2 border-dotted border-b border-gray-200 dark:border-gray-700" do
+                    tr class: "dotted-row" do
                       td total.title
-                      td class: "text-right tabular-nums w-36" do
+                      td class: "text-right tabular-nums col-num" do
                         previsional_details(self, total.price, total.try(:previsional_amounts_by_month), unit: is_total)
                       end
                     end
@@ -119,16 +119,16 @@ ActiveAdmin.register_page "Dashboard" do
               end
             end
 
-            div class: "px-2" do
-              h4 Payment.model_name.human(count: 2), class: "text-base font-semibold mt-4"
-              table class: "p-2 w-full text-base data-table-total" do
+            div class: "dashboard-panel-body dashboard-section" do
+              h4 Payment.model_name.human(count: 2), class: "text-base font-semibold"
+              table class: "is-full text-base data-table-total" do
                 tbody do
                   payment_totals = PaymentTotal.all(Current.fiscal_year)
                   payment_totals.each_with_index do |total, i|
                     is_total = i == payment_totals.size - 1
-                    tr class: "border-dotted border-b border-gray-200 dark:border-gray-700" do
+                    tr class: "dotted-row" do
                       td total.title
-                      td class: "text-right tabular-nums w-36" do
+                      td class: "text-right tabular-nums col-num" do
                        cur(total.price, unit: is_total)
                       end
                     end

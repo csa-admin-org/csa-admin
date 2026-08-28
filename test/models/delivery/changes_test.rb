@@ -858,7 +858,7 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
     changes = Delivery::Changes.new(delivery)
     john_entry = entries_with_change_type(changes, :absent).find { |e| e.member == members(:john) }
 
-    assert_includes john_entry.html_description, "text-gray-400"
+    assert_includes john_entry.html_description, "muted-change"
     assert john_entry.html_description.html_safe?
   end
 
@@ -871,7 +871,7 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
     changes = Delivery::Changes.new(delivery)
     john_entry = entries_with_change_type(changes, :depot_changed).find { |e| e.member == members(:john) }
 
-    assert_includes john_entry.html_description, "text-gray-400"
+    assert_includes john_entry.html_description, "muted-change"
     assert_includes john_entry.html_description, "→"
     assert john_entry.html_description.html_safe?
   end
@@ -886,7 +886,7 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
     bob_entry = entries_with_change_type(changes, :ended).find { |e| e.member == members(:bob) }
 
     assert_not_includes bob_entry.html_description, "<strong>"
-    assert_not_includes bob_entry.html_description, "text-gray-400"
+    assert_not_includes bob_entry.html_description, "muted-change"
     assert bob_entry.html_description.html_safe?
   end
 

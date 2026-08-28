@@ -5,15 +5,15 @@ module MembersHelper
   DEPOT_FILTER_MIN = 8
 
   def notice_pane(icon_name = nil, &block)
-    content_tag :div, class: "mb-4 flex items-center gap-2 leading-5 rounded border border-dashed border-teal-500 bg-teal-100 p-2 text-teal-700 hover:bg-teal-200 dark:bg-teal-900 dark:text-teal-300 hover:dark:bg-teal-800" do
-      concat icon(icon_name, class: "size-5 w-8 shrink-0") if icon_name
+    content_tag :div, class: "pane pane--notice" do
+      concat icon(icon_name, class: "pane-icon") if icon_name
       concat content_tag(:span, capture(&block))
     end
   end
 
   def warning_pane(icon_name = nil, &block)
-    content_tag :div, class: "mb-4 flex items-center gap-2 leading-5 rounded border border-dashed border-red-400 bg-red-50 p-4 text-red-700 dark:border-red-600 dark:bg-red-900 dark:text-red-300" do
-      concat icon(icon_name, class: "size-5 w-8 shrink-0") if icon_name
+    content_tag :div, class: "pane pane--warning" do
+      concat icon(icon_name, class: "pane-icon") if icon_name
       concat content_tag(:span, capture(&block))
     end
   end
@@ -27,7 +27,7 @@ module MembersHelper
       end
 
       if session && (!session.admin_id? && session.email)
-        link += content_tag(:span, class: "block text-sm text-gray-500", title: Session.human_attribute_name(:email_session)) {
+        link += content_tag(:span, class: "is-block text-sm is-muted", title: Session.human_attribute_name(:email_session)) {
           session.email
         }
       end
@@ -39,9 +39,9 @@ module MembersHelper
     if note.present?
       id = SecureRandom.hex(6)
       Arbre::Context.new({}, self) do
-        div class: "flex items-center justify-between" do
+        div class: "cluster is-spread" do
           div yield
-          div class: "flex items-center ms-3" do
+          div class: "cluster" do
             if reply&.dig(:to).present?
               helpers.note_popover(id, note, reply: reply)
             else
@@ -57,24 +57,23 @@ module MembersHelper
 
   def note_popover(id, note, reply:)
     popover(id, icon_name: "message-square-text", hover: true) do
-      content_tag(:p, note, class: "text-pretty") +
-        content_tag(:div, class: "mt-2 text-right") do
-          note_mail_to(note, reply: reply,
-            class: "inline-flex items-center text-white underline hover:text-green-300")
+      content_tag(:p, note) +
+        content_tag(:div, class: "note-quote-reply") do
+          note_mail_to(note, reply: reply)
         end
     end
   end
 
   def note_panel(note, reply: nil)
-    content = tag.blockquote(class: "italic font-normal tracking-tight text-heading border-s-2 rounded-r-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-2") {
-      tag.p(note, class: "ml-1 whitespace-pre-wrap")
+    content = tag.blockquote(class: "note-quote") {
+      tag.p(note)
     }
     if reply&.dig(:to).present?
-      content += tag.div(class: "flex justify-end mt-2") {
+      content += tag.div(class: "note-quote-reply") {
         note_mail_to(note, reply: reply, class: "btn btn-sm")
       }
     end
-    tag.div content, class: "mx-2 mb-2"
+    tag.div content, class: "panel-copy"
   end
 
   def members_collection(relation = nil)
@@ -326,7 +325,7 @@ module MembersHelper
       docs << document_link(:privacy_policy, Current.org.privacy_policy_url)
     end
 
-    content_tag :span, class: "grow font-normal" do
+    content_tag :span, class: "terms-label" do
       t(".terms_of_service_html", documents: docs.to_sentence.html_safe)
     end
   end
@@ -450,7 +449,7 @@ module MembersHelper
     mail_to(reply[:to],
       **mail_options,
       **options) do
-      icon("message-square-reply", class: "inline size-4 me-1") +
+      icon("message-square-reply", class: "icon-4") +
         I18n.t("active_admin.resource.show.reply")
     end
   end
@@ -544,14 +543,14 @@ module MembersHelper
   end
 
   def collection_text(text, details: nil, icon: nil)
-    txts = [ "<div class='grow flex flex-col'>" ]
-    txts << "<span class='text-sm font-medium text-gray-700 dark:text-gray-300'>#{text}</span>"
+    txts = [ "<div class='choice'>" ]
+    txts << "<span class='choice-title'>#{text}</span>"
     if details.present?
-      txts << "<span class='text-sm'>#{details}</span>"
+      txts << "<span class='choice-details'>#{details}</span>"
     end
     txts << "</div>"
     if icon
-      txts << "<div class='flex-none ml-2 print:hidden'>#{icon}</div>"
+      txts << "<div class='choice-icon'>#{icon}</div>"
     end
     txts.join.html_safe
   end
@@ -560,13 +559,13 @@ module MembersHelper
     return unless location = depot_map_icon_location(depot)
 
     link_to depot_google_maps_url(location), title: depot_map_title(depot), target: :blank do
-      icon "map", class: "inline-block text-gray-300 dark:text-gray-700 hover:text-green-500"
+      icon "map", class: "map-icon"
     end
   end
 
   def depot_map_link(depot)
     if location = depot_map_location(depot)
-      link_to depot_google_maps_url(location), title: depot_map_title(depot), target: :blank, class: "hover:text-green-500" do
+      link_to depot_google_maps_url(location), title: depot_map_title(depot), target: :blank, class: "depot-link" do
         h depot.public_name
       end
     else

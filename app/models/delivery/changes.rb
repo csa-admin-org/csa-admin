@@ -9,7 +9,7 @@ class Delivery::Changes
   Entry = Data.define(:member, :depot_name, :depot_position, :changes) do
     ARROW = " => "
     UNICODE_ARROW = " → "
-    DIMMED_HTML = "text-gray-400 dark:text-gray-600"
+    DIMMED_HTML = "muted-change is-faint"
 
     def description
       format_changes("\n") do |c|
@@ -39,7 +39,7 @@ class Delivery::Changes
           .gsub("\n=>\n", "\n#{UNICODE_ARROW.strip}\n")
           .gsub(ARROW, UNICODE_ARROW)
           .then { |d| ERB::Util.html_escape(d) }
-          .gsub(EMPTY_LABEL) { "<span class=\"missing-data inline! w-auto! py-0! px-1!\">#{$1}</span>" }
+          .gsub(EMPTY_LABEL) { "<span class=\"missing-data is-inline\">#{$1}</span>" }
           .gsub("\n", "<br>")
         label = ERB::Util.html_escape(c.label)
         case c.type

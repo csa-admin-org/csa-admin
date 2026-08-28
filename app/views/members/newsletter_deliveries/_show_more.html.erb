@@ -1,9 +1,9 @@
 <turbo-frame id="show-more">
-  <div class="md:w-none mt-6 w-full text-center">
+  <div class="show-more">
     <%= link_to members_newsletter_deliveries_path(offset: next_offset, format: :turbo_stream),
       class: "btn btn-sm",
       data: { turbo_prefetch: false } do %>
-      <%= icon "plus", class: "size-3.5" %>
+      <%= icon "plus", class: "icon-xs" %>
       <span><%= t(".link") %></span>
     <% end %>
   </div>

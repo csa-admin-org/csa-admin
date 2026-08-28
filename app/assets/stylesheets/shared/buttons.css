@@ -1,0 +1,400 @@
+@layer components {
+  .btn,
+  .action-item-button,
+  .actions .cancel-link,
+  .actions input[type="submit"],
+  .actions button {
+    display: inline-flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    border-radius: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    text-decoration-line: none;
+
+    &:focus {
+      z-index: 10;
+      box-shadow: 0 0 0 4px currentcolor;
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      border-color: var(--color-gray-200);
+      background-color: var(--color-gray-200);
+      color: var(--color-gray-500);
+
+      &:hover {
+        border-color: var(--color-gray-200);
+        background-color: var(--color-gray-200);
+        color: var(--color-gray-500);
+      }
+
+      &:where(.dark, .dark *) {
+        border-color: var(--color-gray-700);
+        background-color: var(--color-gray-700);
+        color: var(--color-gray-400);
+
+        &:hover {
+          border-color: var(--color-gray-700);
+          background-color: var(--color-gray-700);
+          color: var(--color-gray-400);
+        }
+      }
+    }
+
+    &.btn-sm {
+      gap: 0.4375rem;
+      padding: 0.125rem 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+    }
+
+    &.btn-xs {
+      gap: 0.3125rem;
+      padding: 0 0.375rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+    }
+
+    &.btn-light {
+      font-weight: 400;
+      color: var(--color-gray-400);
+    }
+  }
+
+  .admin-header-action {
+    position: relative;
+    display: flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: color-mix(in oklch, var(--color-white) 75%, transparent);
+
+    &:hover {
+      color: var(--color-white);
+    }
+
+    &:focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+
+    &:where(.dark, .dark *) {
+      color: color-mix(in oklch, var(--color-green-100) 75%, transparent);
+
+      &:hover {
+        color: var(--color-white);
+      }
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+
+      @media (width >= 48rem) {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+  }
+
+  .admin-header-action-icon.is-lg {
+    width: 2rem;
+    height: 2rem;
+
+    @media (width >= 48rem) {
+      width: 1.75rem;
+      height: 1.75rem;
+    }
+  }
+
+  a.btn,
+  button.btn,
+  .action-item-button,
+  .actions .cancel-link,
+  button[type="reset"] {
+    border: 1px solid var(--color-gray-200);
+    background-color: var(--color-white);
+    font-weight: 500;
+    color: var(--color-gray-700);
+
+    &:hover {
+      background-color: var(--color-gray-50);
+      color: var(--color-green-600);
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 4px var(--color-gray-200);
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-600);
+      background-color: var(--color-gray-900);
+      color: var(--color-gray-300);
+
+      &:hover {
+        background-color: var(--color-gray-800);
+        color: var(--color-green-400);
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 4px var(--color-gray-700);
+      }
+    }
+  }
+
+  button[type="submit"].btn,
+  input[type="submit"].btn,
+  button.action-item-button,
+  a.action-item-button.destructive,
+  a.action-item-button[data-method="delete"],
+  .actions input[type="submit"],
+  .actions button {
+    border: 1px solid var(--color-green-500);
+    background-color: var(--color-green-500);
+    padding-inline: 1rem;
+    font-weight: 700;
+    color: var(--color-white);
+
+    &:hover {
+      border-color: var(--color-green-600);
+      background-color: var(--color-green-600);
+      color: var(--color-white);
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 4px var(--color-green-300);
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-green-600);
+      background-color: var(--color-green-600);
+      color: var(--color-white);
+
+      &:hover {
+        border-color: var(--color-green-700);
+        background-color: var(--color-green-700);
+        color: var(--color-white);
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 4px var(--color-green-800);
+      }
+    }
+
+    &.destructive {
+      border: 1px solid var(--color-red-500);
+      background-color: var(--color-red-500);
+
+      &:hover {
+        border-color: var(--color-red-600);
+        background-color: var(--color-red-600);
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 4px var(--color-red-300);
+      }
+
+      &:where(.dark, .dark *) {
+        border-color: var(--color-red-600);
+        background-color: var(--color-red-600);
+
+        &:hover {
+          border-color: var(--color-red-700);
+          background-color: var(--color-red-700);
+        }
+
+        &:focus {
+          box-shadow: 0 0 0 4px var(--color-red-800);
+        }
+      }
+    }
+  }
+
+  button.action-item-button.action-item-link-button {
+    border-color: var(--color-gray-200);
+    background-color: var(--color-white);
+    padding-inline: 0.75rem;
+    font-weight: 500;
+    color: var(--color-gray-700);
+
+    &:hover {
+      border-color: var(--color-gray-200);
+      background-color: var(--color-gray-50);
+      color: var(--color-green-600);
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 4px var(--color-gray-200);
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-600);
+      background-color: var(--color-gray-900);
+      color: var(--color-gray-300);
+
+      &:hover {
+        border-color: var(--color-gray-600);
+        background-color: var(--color-gray-800);
+        color: var(--color-green-400);
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 4px var(--color-gray-700);
+      }
+    }
+  }
+
+  .destructive-icon-action,
+  a.destructive-icon-action,
+  button.destructive-icon-action {
+    color: var(--color-red-500);
+
+    &:hover {
+      color: var(--color-red-600);
+    }
+
+    &:active {
+      color: var(--color-red-700);
+    }
+
+    &:where(.dark, .dark *) {
+      color: var(--color-red-400);
+
+      &:hover {
+        color: var(--color-red-300);
+      }
+
+      &:active {
+        color: var(--color-red-200);
+      }
+    }
+  }
+
+  .btn.destructive-icon-action,
+  a.btn.destructive-icon-action,
+  button.btn.destructive-icon-action,
+  .action-item-button.destructive-icon-action,
+  a.action-item-button.destructive-icon-action,
+  button.action-item-button.destructive-icon-action,
+  button[type="submit"].action-item-button.destructive-icon-action {
+    border-color: var(--color-gray-200);
+    background-color: var(--color-white);
+    color: var(--color-red-500);
+
+    &:hover {
+      border-color: var(--color-red-200);
+      background-color: var(--color-red-50);
+      color: var(--color-red-600);
+    }
+
+    &:active {
+      border-color: var(--color-red-300);
+      background-color: var(--color-red-100);
+      color: var(--color-red-700);
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 4px var(--color-red-200);
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-600);
+      background-color: var(--color-gray-900);
+      color: var(--color-red-400);
+
+      &:hover {
+        border-color: var(--color-red-900);
+        background-color: color-mix(in oklch, var(--color-red-950) 50%, transparent);
+        color: var(--color-red-300);
+      }
+
+      &:active {
+        border-color: var(--color-red-800);
+        background-color: var(--color-red-950);
+        color: var(--color-red-200);
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 4px var(--color-red-900);
+      }
+    }
+  }
+
+  .index-destructive-icon-action,
+  a.index-destructive-icon-action {
+    color: var(--color-gray-400);
+
+    &:hover {
+      color: var(--color-red-600);
+    }
+
+    &:active {
+      color: var(--color-red-700);
+    }
+
+    &:where(.dark, .dark *) {
+      color: var(--color-gray-500);
+
+      &:hover {
+        color: var(--color-red-300);
+      }
+
+      &:active {
+        color: var(--color-red-200);
+      }
+    }
+  }
+
+  button[type="submit"].btn:disabled,
+  input[type="submit"].btn:disabled,
+  button[type="submit"].action-item-button:disabled:not(.destructive-icon-action),
+  .actions input[type="submit"]:disabled,
+  .actions button[type="submit"]:disabled {
+    color: var(--color-gray-500);
+
+    &:hover {
+      color: var(--color-gray-500);
+    }
+
+    &:where(.dark, .dark *) {
+      color: var(--color-gray-400);
+
+      &:hover {
+        color: var(--color-gray-400);
+      }
+    }
+  }
+
+  .actions .cancel-link {
+    color: var(--color-gray-500);
+  }
+
+  .action-item-button {
+    height: 2.25rem;
+
+    &.is-idle {
+      opacity: 0.4;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .btn.is-compact {
+    height: 1.75rem;
+    padding-block: 0;
+    padding-inline: 0.5rem;
+  }
+}

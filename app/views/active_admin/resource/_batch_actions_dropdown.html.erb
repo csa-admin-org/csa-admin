@@ -1,6 +1,6 @@
 <% if batch_actions_to_display.any? %>
   <div
-    class="batch-actions-dropdown relative"
+    class="batch-actions-dropdown"
     data-controller="tooltip"
     data-tooltip-dismissible-value="true"
     data-tooltip-placement-value="bottom-start"
@@ -15,14 +15,11 @@
       disabled
     >
       <%= I18n.t("active_admin.batch_actions.button_label") %>
-      <%= icon "chevron-down", class: "mt-0.5 size-3 stroke-3" %>
+      <%= icon "chevron-down", class: "icon-3" %>
     </button>
 
     <ul
-      class="
-        batch-actions-dropdown-menu invisible opacity-0 transition-opacity
-        duration-150
-      "
+      class="batch-actions-dropdown-menu"
       id="batch-action-menu"
       data-tooltip-target="content"
     >

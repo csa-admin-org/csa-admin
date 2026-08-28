@@ -1,0 +1,775 @@
+@layer components {
+  /* Base Form Styles */
+  .formtastic {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+
+    /* Structural Elements */
+    fieldset.inputs {
+      position: relative;
+      margin: 0;
+      margin-bottom: 2rem;
+      width: 100%;
+      min-width: 0;
+      border-radius: 0.5rem;
+      border: 1px solid var(--color-line);
+      background-color: var(--color-surface);
+      padding: 1rem;
+      padding-top: 0.5rem;
+      box-shadow:
+        0 4px 6px -1px rgb(0 0 0 / 0.1),
+        0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+      &:has(> legend) {
+        padding-top: 3.5rem;
+      }
+    }
+
+    .inputs ol,
+    .inputs [role="tabpanel"] {
+      & > :not(:last-child) {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    .inputs ol > p {
+      margin-top: 0.5rem;
+    }
+
+    .inputs ol > li:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .inputs .single-line {
+      gap: 1.5rem;
+
+      & > :not(:last-child) {
+        margin-bottom: 0.5rem;
+      }
+
+      @media (width >= 48rem) {
+        display: inline-flex;
+
+        & > :not(:last-child) {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .inputs .single-line .col-zip {
+      @media (width >= 48rem) {
+        width: 12.5rem;
+      }
+    }
+
+    /* Inline inputs within has-many containers */
+    .has-many-fields .period-months {
+      display: inline-block;
+      padding-block: 0.75rem;
+      padding-inline-end: 1.5rem;
+
+      vertical-align: top;
+    }
+
+    .has-many-fields .period-months label,
+    .has-many-fields .period-months select {
+      vertical-align: top;
+    }
+
+    .has-many-fields .period-months + :not(.period-months) {
+      display: block;
+    }
+
+    /* Navigation */
+    .tabs-nav {
+      margin: 0;
+      margin-top: 0.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      border-bottom-width: 0;
+      border-color: var(--color-line);
+      text-align: center;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+      font-weight: 200;
+      color: var(--color-gray-950);
+
+      &:where(.dark, .dark *) {
+        color: var(--color-white);
+      }
+    }
+
+    .panel-actions {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .panel-actions + li {
+      margin-top: 0;
+    }
+
+    /* Titles and Labels */
+    & > h3 {
+      margin-top: 3rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+      font-weight: 200;
+    }
+
+    & > h3 + p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+
+    .fieldset-title {
+      position: absolute;
+      top: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: transparent;
+      padding-bottom: 1rem;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+      font-weight: 200;
+    }
+
+    .fieldset-title,
+    .has-many-fields-title {
+      margin-bottom: 0.75rem;
+      width: 100%;
+      border-style: none;
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+      font-weight: 700;
+    }
+
+    .fieldset-title-icon {
+      display: flex;
+      align-items: center;
+      opacity: 0.5;
+    }
+
+    li.subtitle {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-top-width: 2px;
+      border-style: dotted;
+      border-color: var(--color-line);
+
+      &.no-border {
+        border-style: none;
+      }
+    }
+
+    li.subtitle h2 {
+      margin-top: 1rem;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+      font-weight: 400;
+    }
+
+    li.subtitle span {
+      color: var(--color-ink-muted);
+    }
+
+    li.subtitle .optional {
+      font-style: italic;
+    }
+
+    li.subtitle p.description {
+      margin-top: 0.5rem;
+    }
+
+    .inputs legend,
+    li.legend-title .checkbox-legend label {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+      font-weight: 200;
+    }
+
+    li.legend-title.check_boxes legend.label {
+      padding-top: 0.5rem;
+    }
+
+    li.legend-title {
+      padding-top: 0;
+
+      ol {
+        margin-top: 0.5rem;
+      }
+    }
+
+    li > label,
+    .checkbox-legend label,
+    .choices label,
+    .has-many-container h3 {
+      margin: 0;
+      display: block;
+      border-style: none;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      font-weight: 600;
+      color: var(--color-ink-secondary);
+    }
+
+    summary {
+      margin-top: 2rem;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      font-weight: 600;
+      color: var(--color-gray-700);
+
+      &::marker {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+      }
+
+      &:where(.dark, .dark *) {
+        color: var(--color-gray-300);
+      }
+    }
+
+    details > li {
+      padding: 0 !important;
+    }
+
+    .label {
+      margin-bottom: 0.375rem;
+      display: block;
+    }
+
+    label abbr {
+      margin-left: 0.125rem;
+      color: var(--color-gray-500);
+      text-decoration-line: none;
+    }
+
+    .label abbr {
+      margin-inline-start: 0.25rem;
+      text-decoration-line: none;
+    }
+
+    .checkbox-legend label {
+      font-size: 1rem;
+      line-height: 1.5rem;
+      font-weight: 600;
+    }
+
+    /* Form Inputs */
+    .input {
+      padding-block: 0.75rem;
+    }
+
+    .checkbox-legend {
+      margin: 0;
+      padding: 0;
+      padding-bottom: 0.25rem;
+    }
+
+    .checkbox-legend > label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .boolean label,
+    .choice label {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      font-weight: 400;
+    }
+
+    .choice {
+      margin-bottom: 0.25rem;
+    }
+
+    .fragments-group {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+    }
+
+    .fragment label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    li.radio {
+      margin: 0;
+      padding-block: 0.75rem;
+    }
+
+    li.radio ol.choices-group {
+      width: 100%;
+
+      & > :not(:last-child) {
+        margin-bottom: 0.25rem;
+      }
+    }
+
+    li.check_boxes ol.choices-group {
+      display: grid;
+      width: 100%;
+      gap: 0.25rem;
+
+      & > :not(:last-child) {
+        margin-bottom: 0;
+      }
+
+      @media (width >= 48rem) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .choices-group-container {
+      width: 100%;
+    }
+
+    .choices-group-container + .choices-group-container {
+      margin-top: 1rem;
+    }
+
+    .choices-group-header {
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 600;
+    }
+
+    li.single-column ol.choices-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    li.features-list {
+      margin-bottom: 1rem;
+      list-style-type: none;
+    }
+
+    li.features-list .checkbox-legend label {
+      margin-bottom: 0.5rem;
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+      font-weight: 200;
+    }
+
+    li.features-list ol.choices-group {
+      margin-left: 0.5rem;
+      row-gap: 1rem;
+    }
+
+    li.features-list input {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    input,
+    textarea,
+    button,
+    select {
+      &:disabled {
+        background-color: var(--color-gray-200);
+
+        &:hover {
+          cursor: not-allowed;
+        }
+
+        &:checked {
+          background-color: var(--color-gray-300);
+        }
+      }
+
+      &:where(.dark, .dark *) {
+        &:disabled {
+          background-color: var(--color-gray-900);
+
+          &:checked {
+            background-color: var(--color-gray-800);
+          }
+        }
+      }
+    }
+
+    [type="number"],
+    [type="date"],
+    [type="time"] {
+      @media (width >= 48rem) {
+        width: 10rem;
+      }
+    }
+
+    /* Has-Many Relationships */
+    .has-many-container h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.125rem;
+      line-height: 1.75rem;
+      font-weight: 600;
+    }
+
+    li.has-many-container {
+      & > :not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    }
+
+    .has-many-container {
+      margin-top: 1rem;
+      row-gap: 1rem;
+    }
+
+    .has-many-fields {
+      border-inline-start-width: 4px;
+      border-inline-start-color: var(--color-gray-200);
+      padding-inline-start: 0.75rem;
+
+      &:where(.dark, .dark *) {
+        border-inline-start-color: var(--color-gray-700);
+      }
+    }
+
+    fieldset.has-many-fields {
+      margin-block: 0.75rem;
+      border-radius: 0.375rem;
+      border: 1px dashed var(--color-gray-300);
+      padding: 1rem;
+      padding-top: 0.5rem;
+      box-shadow: none;
+
+      &:where(.dark, .dark *) {
+        border-color: var(--color-gray-700);
+      }
+    }
+
+    .has-many-add {
+      display: inline-block;
+      padding-block: 0.75rem;
+    }
+
+    a.has-many-add {
+      border-radius: 0.375rem;
+      border: 1px solid var(--color-gray-200);
+      background-color: var(--color-white);
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      font-weight: 500;
+      color: var(--color-gray-900);
+      text-decoration-line: none;
+
+      &:hover {
+        background-color: var(--color-gray-100);
+        color: var(--color-green-700);
+      }
+
+      &:focus {
+        z-index: 10;
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 4px var(--color-gray-200);
+      }
+
+      &:where(.dark, .dark *) {
+        border-color: var(--color-gray-600);
+        background-color: var(--color-gray-800);
+        color: var(--color-gray-400);
+
+        &:hover {
+          background-color: var(--color-gray-700);
+          color: var(--color-white);
+        }
+
+        &:focus {
+          box-shadow: 0 0 0 4px var(--color-gray-700);
+        }
+      }
+    }
+
+    /* Buttons and Actions */
+    .buttons,
+    .actions {
+      margin-top: 0.75rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .actions {
+      position: sticky;
+      bottom: 0;
+      z-index: 10;
+    }
+
+    .actions > ol {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .actions.is-stuck > ol {
+      margin-inline: -1.25rem;
+      border-top-left-radius: 0.75rem;
+      background-color: #fcfefc;
+      padding: 0.625rem;
+      padding-inline: 1.25rem;
+      box-shadow: 0 -4px 16px rgb(0 0 0 / 8%);
+
+      &:where(.dark, .dark *) {
+        border-top-width: 1px;
+        border-left-width: 1px;
+        border-color: var(--color-gray-800);
+        background-color: #030712;
+        box-shadow: 0 -4px 16px rgb(0 0 0 / 40%);
+      }
+    }
+
+    /* Hints and Descriptions */
+    .inline-hints {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      color: var(--color-ink-muted);
+    }
+
+    .inline-hints a {
+      color: var(--color-ink-muted);
+
+      &:hover {
+        color: var(--color-green-600);
+      }
+
+      &:where(.dark, .dark *) {
+        &:hover {
+          color: var(--color-green-400);
+        }
+      }
+    }
+
+    .form-group {
+      margin-top: 1.5rem;
+    }
+
+    .week-numbers-input {
+      p {
+        color: var(--color-red-500);
+      }
+    }
+
+    .week-numbers-input select {
+      width: 10rem;
+    }
+
+    .description {
+      margin: 0;
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      color: var(--color-ink-muted);
+    }
+
+    .description.is-loose {
+      margin-bottom: 1.5rem;
+    }
+
+    .description.is-tight {
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .description.is-flush {
+      margin: 0;
+      padding: 0.5rem;
+    }
+
+    .description a {
+      color: var(--color-ink-muted);
+
+      &:hover {
+        color: var(--color-green-600);
+      }
+
+      &:where(.dark, .dark *) {
+        &:hover {
+          color: var(--color-green-400);
+        }
+      }
+    }
+
+    /* Errors */
+    ul.errors {
+      margin: 0;
+      margin-block: 0.5rem;
+      display: flex;
+      min-height: 3rem;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.25rem;
+      border-radius: 0.375rem;
+      background-color: var(--color-danger-soft);
+      padding: 0.75rem 1rem;
+      font-weight: 700;
+      color: var(--color-red-600);
+
+      &:where(.dark, .dark *) {
+        color: var(--color-red-300);
+      }
+    }
+
+    ul.errors li {
+      margin: 0;
+      list-style-position: inside;
+      list-style-type: disc;
+    }
+
+    .errors {
+      margin-bottom: 1.5rem;
+      border-radius: 0.375rem;
+      background-color: var(--color-red-50);
+      padding: 1rem;
+      font-weight: 700;
+      color: var(--color-red-800);
+
+      & > :not(:last-child) {
+        margin-bottom: 0.5rem;
+      }
+
+      &:where(.dark, .dark *) {
+        background-color: var(--color-red-800);
+        color: var(--color-red-300);
+      }
+    }
+
+    .errors > li {
+      margin-inline-start: 1rem;
+      list-style-type: disc;
+    }
+
+    .inline-errors {
+      margin-top: 0.5rem;
+      font-weight: 700;
+      color: var(--color-red-600);
+
+      &:where(.dark, .dark *) {
+        color: var(--color-red-300);
+      }
+    }
+
+    .error [type="email"],
+    .error [type="number"],
+    .error [type="password"],
+    .error [type="tel"],
+    .error [type="text"],
+    .error [type="url"],
+    .error select,
+    .error textarea {
+      border-width: 2px;
+      border-color: var(--color-red-600);
+
+      &:focus {
+        border-color: var(--color-red-600);
+        box-shadow: 0 0 0 0px;
+      }
+
+      &:where(.dark, .dark *) {
+        border-color: var(--color-red-400);
+
+        &:focus {
+          border-color: var(--color-red-400);
+        }
+      }
+    }
+
+    /* Formtastic marks hidden inputs with li.hidden. Without this they
+       still take the ol sibling gap and blow up Trix fieldsets. */
+    li.hidden {
+      display: none;
+    }
+
+    fieldset.inputs:has(trix-editor) {
+      margin-bottom: 4rem;
+    }
+
+    .newsletter-public-hint {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      column-gap: 0.75rem;
+      row-gap: 0.25rem;
+    }
+
+    .newsletter-feed-url a {
+      overflow-wrap: anywhere;
+    }
+
+    /* Visibility */
+    .hidden .tabs-nav > a {
+      display: none;
+    }
+  }
+
+  .waiting-notice {
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-style: italic;
+    color: var(--color-ink-muted);
+
+    &.is-alert {
+      color: var(--color-red-600);
+
+      &:where(.dark, .dark *) {
+        color: var(--color-red-400);
+      }
+    }
+  }
+
+  .ebics-setup {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.25rem;
+    padding: 0 0.5rem 0.5rem;
+    font-size: 1rem;
+    line-height: 1.75rem;
+    color: var(--color-ink);
+  }
+
+  .ebics-demo-disabled {
+    margin-top: 1rem;
+    border-radius: 0.375rem;
+    background-color: var(--color-yellow-100);
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-yellow-900);
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-yellow-600) 25%, transparent);
+
+    &:where(.dark, .dark *) {
+      background-color: var(--color-yellow-950);
+      color: var(--color-yellow-300);
+      box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-yellow-400) 25%, transparent);
+    }
+  }
+}

@@ -1,24 +1,24 @@
 <% if membership.can_member_cancel_trial? %>
-  <div id="trial-cancelation" class="mt-8">
-    <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100">
+  <div id="trial-cancelation">
+    <h2 class="section-title">
       <%= t(".title") %>
     </h2>
 
     <% last_trial_basket = membership.baskets.trial.order("deliveries.date").last %>
 
-    <p class="justify mt-2">
+    <p class="text-justify copy">
       <%= t(".text_html", last_trial_date: l(last_trial_basket.delivery.date)) %>
     </p>
 
     <div class="actions">
       <%= link_to new_members_trial_cancelation_path, class: "btn btn-primary" do %>
-        <%= icon "circle-x", class: "size-5" %>
+        <%= icon "circle-x", class: "icon-inline-action" %>
         <span><%= t(".cancel_link") %></span>
       <% end %>
     </div>
   </div>
 <% elsif membership.trial_only? && membership.canceled? %>
-  <p class="justify mt-8 italic">
+  <p class="text-justify copy-late">
     <% last_trial_basket = membership.baskets.trial.order("deliveries.date").last %>
     <%= t(".canceled_html", last_trial_date: l(last_trial_basket.delivery.date)) %>
   </p>

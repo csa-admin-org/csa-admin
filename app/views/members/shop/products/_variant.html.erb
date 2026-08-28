@@ -1,46 +1,29 @@
 <% live_stock = live_stock(variant, order) %>
 
-<div class="flex flex-row items-center <%= "text-gray-300 dark:text-gray-600" if live_stock&.zero? %>">
-  <div class="mr-2 flex grow items-center">
+<div class="shop-variant <%= " is-sold-out" if live_stock&.zero? %>">
+  <div class="shop-variant-main">
     <span><%= variant.name %></span>
 
     <% case live_stock %>
     <% when 1..5 %>
-      <span
-        class="
-          ml-2 rounded-full bg-red-100 px-2 text-xs whitespace-nowrap
-          text-red-500 dark:bg-red-800 dark:text-red-400
-        "
-      >
+      <span class="shop-stock is-low">
         <%= t(".live_stock", count: live_stock) %>
       </span>
     <% when ..0 %>
-      <span
-        class="
-          ml-2 rounded-full bg-gray-200 px-2 text-xs whitespace-nowrap
-          text-gray-400 dark:bg-gray-800 dark:text-gray-400
-        "
-      >
-        <%= t(".live_stock", count: 0) %>
-      </span>
+      <span class="shop-stock is-empty"><%= t(".live_stock", count: 0) %></span>
     <% end %>
   </div>
 
-  <div class="ml-2 flex-none"><%= cur(variant.price) %></div>
+  <div class="shop-variant-price"><%= cur(variant.price) %></div>
 
-  <div class="ml-2 flex-none">
+  <div class="shop-variant-action">
     <% if !live_stock || live_stock.positive? %>
-      <%= button_to members_shop_order_order_items_path(order), method: :post, title: t(".add_to_basket"), class: "bg-gray-200 dark:bg-gray-800 hover:bg-green-500 font-medium rounded-md focus:outline-hidden focus:ring-green-500 focus:z-10 text-sm cursor-pointer flex items-center", disabled: live_stock&.zero?, params: { variant_id: variant.id } do %>
-        <%= icon "shopping-basket", class: "p-0.5 h-6 w-10 hover:text-white" %>
+      <%= button_to members_shop_order_order_items_path(order), method: :post, title: t(".add_to_basket"), class: "shop-add", disabled: live_stock&.zero?, params: { variant_id: variant.id } do %>
+        <%= icon "shopping-basket", class: "shop-add-icon" %>
       <% end %>
     <% else %>
-      <span
-        class="
-          flex cursor-not-allowed items-center rounded-md bg-gray-200
-          text-gray-300 dark:bg-gray-800 dark:text-gray-600
-        "
-      >
-        <%= icon "shopping-basket", class: "p-0.5 h-6 w-10" %>
+      <span class="shop-add is-disabled">
+        <%= icon "shopping-basket", class: "shop-add-icon" %>
       </span>
     <% end %>
   </div>

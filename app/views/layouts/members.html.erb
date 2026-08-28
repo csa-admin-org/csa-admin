@@ -8,7 +8,7 @@
     <title><%= [ Current.org.name, t(".title") ].join(" – ") %></title>
 
     <%= javascript_importmap_tags "members" %>
-    <%= stylesheet_link_tag "trix", "tailwind", data: { turbo_track: "reload" } %>
+    <%= stylesheet_link_tag "trix", "member", data: { turbo_track: "reload" } %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -22,29 +22,26 @@
   </head>
 
   <body
-    class="members dark:bg-gray-950"
+    class="members"
     data-controller="menu theme"
     data-theme-preference-value="<%= current_member&.theme || "system" %>"
   >
     <% if current_member %>
       <%= render "layouts/members/read_only_banner" %>
-      <div class="flex flex-col md:mx-auto md:max-w-4xl md:flex-row">
-        <div class="flex flex-col md:w-80">
+      <div class="member-app">
+        <div class="member-sidebar">
           <div>
             <%= render "layouts/members/header" %>
           </div>
 
-          <div class="hidden md:mx-8 md:block" data-menu-target="menu">
+          <div class="member-sidebar-footer">
             <%= render "layouts/members/footer" %>
           </div>
         </div>
 
-        <main
-          class="mx-auto mt-4 mb-24 w-full px-4 md:mt-48 md:max-w-xl md:pl-0"
-          data-menu-target="body"
-        >
-          <div class="relative w-full">
-            <div class="w-full md:absolute md:-mt-24">
+        <main class="member-main member-menu-hide">
+          <div class="member-main-inner">
+            <div class="member-flashes-slot">
               <%= render "layouts/members/flashes" %>
             </div>
 
@@ -53,26 +50,26 @@
         </main>
       </div>
     <% else %>
-      <div class="mx-4 flex h-screen flex-col md:mx-auto md:max-w-xl">
-        <div class="flex grow flex-col">
-          <div class="my-auto">
-            <header class="flex">
-              <div class="mx-auto my-16 print:my-6!">
+      <div class="member-guest">
+        <div class="member-guest-frame">
+          <div class="member-guest-middle">
+            <header class="member-guest-header">
+              <div class="member-guest-logo-wrap">
                 <%= link_to Current.org.url do %>
-                  <%= image_tag(org_logo_url, alt: t("accessibility.members.logo", organization: Current.org.name), class: "member-logo h-32 w-32 md:h-60 md:w-60 print:h-16! print:w-16!") %>
+                  <%= image_tag(org_logo_url, alt: t("accessibility.members.logo", organization: Current.org.name), class: "member-logo member-guest-logo") %>
                 <% end %>
               </div>
             </header>
 
-            <main class="w-full" data-menu-target="body">
-              <div class="w-full">
+            <main class="member-guest-main">
+              <div>
                 <%= render "layouts/members/flashes" %>
                 <%= yield %>
               </div>
             </main>
           </div>
 
-          <div class="mt-48 flex flex-none print:hidden">
+          <div class="member-guest-footer">
             <%= render "layouts/members/footer" %>
           </div>
         </div>

@@ -1,16 +1,13 @@
 {
   "devDependencies": {
-    "@dreamsicle.io/stylelint-config-tailwindcss": "^1.2.2",
     "@herb-tools/formatter": "^0.10.3",
     "@herb-tools/linter": "^0.10.3",
     "oxfmt": "^0.59.0",
     "oxlint": "^1.80.0",
     "prettier": "^3.9.6",
-    "prettier-plugin-tailwindcss": "^0.8.1",
     "stylelint": "^17.14.1",
     "stylelint-config-recommended": "^18.0.0",
-    "stylelint-lsp": "^2.0.1",
-    "tailwindcss": "^4.3.3"
+    "stylelint-lsp": "^2.0.1"
   },
   "aube": {
     "overrides": {

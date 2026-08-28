@@ -39,8 +39,7 @@ jobs:
       - name: Prettier
         run: >
           bin/prettier
-          app/assets/tailwind/**/*.css
-          app/assets/stylesheets/mailer.css
+          app/assets/stylesheets/**/*.css
           package.json
           .prettierrc
           .stylelintrc.json
@@ -59,8 +58,7 @@ jobs:
       - name: Stylelint
         run: >
           bin/stylelint
-          app/assets/tailwind/**/*.css
-          app/assets/stylesheets/mailer.css
+          app/assets/stylesheets/**/*.css
 
       - name: Herb lint
         run: bin/herb lint . --github

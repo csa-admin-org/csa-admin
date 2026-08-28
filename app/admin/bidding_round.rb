@@ -38,7 +38,7 @@ ActiveAdmin.register BiddingRound do
 
   form do |f|
     if f.object.errors.any?
-      div class: "mb-6" do
+      div class: "description is-loose" do
         f.object.errors.attribute_names.each do |attr|
           para f.semantic_errors attr
         end
@@ -60,7 +60,7 @@ ActiveAdmin.register BiddingRound do
     columns do
       column do
         panel nil do
-          ul class: "grid grid-cols-2 gap-4 m-4 " do
+          ul class: "pair-grid" do
             li do
               counter_tag(t(".eligible_memberships").capitalize, bidding_round.eligible_memberships_count)
             end
@@ -83,7 +83,7 @@ ActiveAdmin.register BiddingRound do
         end
         unless bidding_round.draft?
           panel nil do
-            ul class: "grid grid-cols-2 gap-4 m-4" do
+            ul class: "pair-grid" do
               li do
                 counter_tag(t(".total_pledged_percentage").capitalize, bidding_round.total_final_percentage, type: :percentage)
               end
@@ -92,7 +92,7 @@ ActiveAdmin.register BiddingRound do
               end
             end
             if bidding_round.open?
-              para t(".total_final_value_explanation"), class: "m-4 text-center italic text-sm text-gray-500"
+              para t(".total_final_value_explanation"), class: "text-center is-italic text-sm is-muted"
             end
           end
         end
@@ -109,7 +109,7 @@ ActiveAdmin.register BiddingRound do
           end
         end
         panel BiddingRound.human_attribute_name(:information_text), icon: "info" do
-          div class: "px-2 mb-2" do
+          div class: "panel-copy" do
             para bidding_round.information_text
           end
         end

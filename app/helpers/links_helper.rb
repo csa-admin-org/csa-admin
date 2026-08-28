@@ -3,31 +3,31 @@
 module LinksHelper
   def icon_file_link(type, url, size: 6, title: nil, **options)
     title ||= type.upcase
-    content_tag :span do
-      link_to(url, title: title, class: "inline-flex flex-col items-center no-underline", **options) do
-        icon("file-down", class: "h-#{size} w-#{size}") +
-          content_tag(:span, type.upcase, class: "text-[0.575rem] mt-px font-bold leading-none")
+    content_tag :span, class: "icon-file-link" do
+      link_to(url, title: title, class: "icon-file-link-anchor", **options) do
+        icon("file-down", class: "icon-file-link-icon is-#{size}") +
+          content_tag(:span, type.upcase, class: "icon-file-link-label")
       end
     end
   end
 
   def icon_file_links(*links)
-    content_tag(:div, class: "flex items-center gap-2") do
+    content_tag(:div, class: "icon-file-links") do
       safe_join(links)
     end
   end
 
   def show_more_link(url)
-    content_tag :div, class: "mt-2 flex justify-center" do
+    content_tag :div, class: "table-more" do
       link_to url, title: t(".show_more") do
-        icon "ellipsis", class: "size-6"
+        icon "ellipsis", class: "icon-6"
       end
     end
   end
 
   def form_submit_tag(label, icon: "check", icon_class: nil, **options)
     icon_name = icon
-    icon_class ||= "size-5"
+    icon_class ||= "icon-5"
     options[:type] ||= :submit
     content_tag(:button, **options) do
       icon(icon_name, class: icon_class) + label
@@ -35,24 +35,24 @@ module LinksHelper
   end
 
   def action_link(name, url, icon: nil, **options)
-    link_to url, class: "h-9 action-item-button #{options.delete(:class)}", **options do
+    link_to url, class: "action-item-button #{options.delete(:class)}", **options do
       txt = name.to_s.html_safe
-      txt.prepend(icon(icon, class: "size-5")) if icon.present?
+      txt.prepend(icon(icon, class: "icon-5")) if icon.present?
       txt
     end
   end
 
   def action_button(name, url = nil, icon: nil, disabled: false, disabled_tooltip: nil, **options)
     _submit_button(name, url,
-      icon: icon, icon_class: "size-5 #{"-ms-2" if name}",
-      btn_class: "h-9 action-item-button #{options.delete(:class)}",
+      icon: icon, icon_class: "icon-5",
+      btn_class: "action-item-button #{options.delete(:class)}",
       disabled: disabled, disabled_tooltip: disabled_tooltip,
       **options)
   end
 
   def panel_button(name, url = nil, icon: nil, disabled: false, disabled_tooltip: nil, **options, &block)
     _submit_button(name, url,
-      icon: icon, icon_class: "size-4",
+      icon: icon, icon_class: "icon-4",
       btn_class: options.delete(:class) || "btn btn-sm",
       disabled: disabled, disabled_tooltip: disabled_tooltip,
       **options, &block)
@@ -61,9 +61,9 @@ module LinksHelper
   def reactivate_email_suppression_button(suppression, btn_class: "btn btn-sm")
     button_to email_suppression_path(suppression),
       method: :delete,
-      class: "#{btn_class} inline-flex items-center",
+      class: btn_class,
       data: { confirm: t("helpers.email_suppressions.destroy_confirm") } do
-        icon("circle-check-big", class: "size-4") +
+        icon("circle-check-big", class: "icon-4") +
           t("helpers.email_suppressions.destroy")
       end
   end
@@ -105,7 +105,7 @@ module LinksHelper
     icon_class = icon_class&.gsub(/\btext-white\b/, "")&.squish
 
     content_tag(:span,
-      class: "relative inline-flex",
+      class: "cluster",
       tabindex: 0,
       data: {
         controller: "tooltip",
@@ -116,7 +116,7 @@ module LinksHelper
       **options.slice(:title, :aria)
     ) do
       content_tag(:button,
-        class: "#{btn_class} cursor-not-allowed".squish,
+        class: "#{btn_class} is-disabled".squish,
         disabled: true,
         **options
       ) do

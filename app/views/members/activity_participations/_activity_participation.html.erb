@@ -1,11 +1,11 @@
-<li class="-mx-2 my-2 flex flex-col flex-wrap rounded-sm px-2 py-1 hover:bg-gray-100 md:flex-row md:flex-nowrap md:items-center md:justify-between dark:hover:bg-gray-800 <%= "text-gray-300 dark:text-gray-600" if activity_participation.rejected? %>">
-  <span class="flex grow flex-col flex-nowrap">
+<li class="activity-item <%= " is-rejected" if activity_participation.rejected? %>">
+  <span class="activity-body">
     <span>
       <%= l(activity_participation.activity.date, format: :medium).capitalize %>,
       <%= activity_participation.activity.period %>
     </span>
 
-    <span class="flex flex-row items-center">
+    <span class="activity-place">
       <span>
         <%= display_activity(activity_participation.activity, description: true) %>
         ,&nbsp; <%= display_place(activity_participation.activity) %>
@@ -13,22 +13,22 @@
     </span>
   </span>
 
-  <span class="flex flex-none flex-row flex-nowrap gap-2 md:flex-wrap">
-    <span class="flex h-8 flex-row justify-start space-x-2 md:ml-5 md:justify-end">
+  <span class="activity-aside">
+    <span class="activity-stats">
       <span
-        class="ms-1 flex flex-row items-center justify-center"
+        class="activity-count"
         title="<%= t("activities.participant_count", count: activity_participation.participants_count) %>"
       >
         <span><%= activity_participation.participants_count %></span>
-        <%= icon "users", class: "ms-1 size-5" %>
+        <%= icon "users", class: "activity-count-icon" %>
       </span>
 
       <% if activity_participation.carpooling? %>
         <span
-          class="ms-1 flex items-center justify-center"
+          class="activity-car"
           title="<%= t(".carpooling") %>: <%= activity_participation.carpooling_phone.phony_formatted %>"
         >
-          <%= icon "car", class: "size-6" %>
+          <%= icon "car", class: "activity-car-icon" %>
         </span>
       <% end %>
 
@@ -37,10 +37,10 @@
       <% end %>
     </span>
 
-    <span class="flex grow flex-row items-center justify-end">
+    <span class="activity-state">
       <% if activity_participation.destroyable? %>
         <%= button_to [ :members, activity_participation ], method: :delete, class: "btn btn-xs" do %>
-          <%= icon "x", class: "size-3.5" %>
+          <%= icon "x", class: "activity-cancel-icon" %>
           <span><%= t(".cancel_link") %></span>
         <% end %>
       <% elsif activity_participation.validated? || activity_participation.rejected? %>

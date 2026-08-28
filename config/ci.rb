@@ -21,8 +21,7 @@ CI.run do
     step "Style: Oxfmt", "bin/oxfmt", "app/javascript", "--check"
     step "Style: Prettier",
       "bin/prettier",
-      "app/assets/tailwind/**/*.css",
-      "app/assets/stylesheets/mailer.css",
+      "app/assets/stylesheets/**/*.css",
       "package.json",
       ".prettierrc",
       ".stylelintrc.json",
@@ -36,8 +35,7 @@ CI.run do
     step "Style: Oxlint", "bin/oxlint", "app/javascript"
     step "Style: Stylelint",
       "bin/stylelint",
-      "app/assets/tailwind/**/*.css",
-      "app/assets/stylesheets/mailer.css"
+      "app/assets/stylesheets/**/*.css"
     step "Style: Herb lint", "bin/herb", "lint", "."
     step "Style: Actionlint", "bin/actionlint"
   end

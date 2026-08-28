@@ -11,17 +11,17 @@
 %>
 
 <%= link_to url,
-  class: "flex items-center gap-3 px-4 py-2.5 no-underline hover:bg-gray-100 dark:hover:bg-gray-700/50 text-gray-900 dark:text-gray-100",
+  class: "search-hit",
   data: { turbo_frame: "_top", search_result: "", action: "click->search-modal#selectItem" } do %>
-  <%= icon icon_name, class: "size-5 shrink-0 text-gray-400 dark:text-gray-500" %>
+  <%= icon icon_name, class: "search-hit-icon" %>
 
-  <div class="min-w-0 flex-1">
-    <div class="truncate text-sm font-medium">
+  <div class="search-hit-body">
+    <div class="search-hit-title">
       <%= highlight_search(title, query) %>
     </div>
 
     <% if subtitle_parts.any?(&:present?) %>
-      <div class="text-xs text-gray-500 dark:text-gray-400">
+      <div class="search-hit-meta">
         <%= safe_join(subtitle_parts.compact_blank, " · ") %>
       </div>
     <% end %>

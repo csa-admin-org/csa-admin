@@ -23,7 +23,7 @@ module Demo
       column :session, ->(visit) {
         link_to visit.session_id, m_sessions_path(q: { id_eq: visit.session_id }, scope: :all)
       }, class: "text-right tabular-nums"
-      column :created_at, ->(visit) { l(visit.created_at, format: :short) }, class: "text-right whitespace-nowrap"
+      column :created_at, ->(visit) { l(visit.created_at, format: :short) }, class: "text-right is-nowrap"
     end
 
     controller do

@@ -23,7 +23,7 @@ export default class extends Controller {
 
     if (window.matchMedia("(pointer: fine)").matches) {
       const platform = this.isMac ? "mac" : "other"
-      this.hintTarget.querySelector(`[data-platform="${platform}"]`)?.classList.remove("hidden")
+      this.hintTarget.querySelector(`[data-platform="${platform}"]`)?.classList.remove("is-hidden")
     }
 
     this.resultsTarget.addEventListener("mousemove", this.handleResultsMouseMove)
@@ -196,15 +196,15 @@ export default class extends Controller {
   }
 
   lockPage() {
-    document.body.classList.add("overflow-hidden")
+    document.body.classList.add("is-scroll-locked")
   }
 
   unlockPage() {
-    document.body.classList.remove("overflow-hidden")
+    document.body.classList.remove("is-scroll-locked")
   }
 
   toggleHint(visible) {
-    this.hintTarget.classList.toggle("hidden", !visible)
+    this.hintTarget.classList.toggle("is-hidden", !visible)
   }
 
   get resultItems() {

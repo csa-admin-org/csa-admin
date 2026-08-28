@@ -91,21 +91,19 @@ export default class extends Controller {
   _showContent() {
     if (!this.hasContentTarget) return
 
-    this.contentTarget.classList.remove("invisible", "opacity-0")
-    this.contentTarget.classList.add("visible", "opacity-100")
+    this.contentTarget.classList.add("is-visible")
     this._syncExpandedState(true)
   }
 
   _hideContent() {
     if (!this.hasContentTarget) return
 
-    this.contentTarget.classList.add("invisible", "opacity-0")
-    this.contentTarget.classList.remove("visible", "opacity-100")
+    this.contentTarget.classList.remove("is-visible")
     this._syncExpandedState(false)
   }
 
   _isHidden() {
-    return !this.hasContentTarget || this.contentTarget.classList.contains("invisible")
+    return !this.hasContentTarget || !this.contentTarget.classList.contains("is-visible")
   }
 
   _closeOpenDismissibleTooltip() {

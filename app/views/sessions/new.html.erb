@@ -1,19 +1,19 @@
-<div class="panel mt-2">
-  <div class="panel-title pb-1 text-center text-2xl">
+<div class="panel admin-login-panel">
+  <div class="panel-title admin-login-title">
     <h1><%= set_page_title t(".title") %></h1>
   </div>
 
   <div class="panel-body">
-    <p class="px-2 text-sm text-gray-500"><%= t(".form_text") %></p>
+    <p class="admin-login-copy"><%= t(".form_text") %></p>
 
     <%= semantic_form_for @session, as: :session, html: { data: { turbo: false } } do |f| %>
-      <ol class="list-none p-2">
+      <ol class="admin-login-fields">
         <%= f.input :email, label: t(".email_input"), required: true %>
         <%= cap_token_field %>
 
-        <%= tag.li class: "actions mt-2", data: cap_submit_tooltip_data do %>
+        <%= tag.li class: "actions admin-login-actions", data: cap_submit_tooltip_data do %>
           <%= button_tag type: "submit", data: cap_submit_tooltip_target_data do %>
-            <%= icon "send-horizontal", class: "size-5" %>
+            <%= icon "send-horizontal", class: "admin-login-submit-icon" %>
             <span><%= t(".submit") %></span>
           <% end %>
         <% end %>
@@ -23,7 +23,7 @@
 </div>
 
 <% if Tenant.demo? %>
-  <div class="mt-4 text-center text-sm text-gray-500">
+  <div class="admin-login-note">
     <%= t(".no_account_html", register_url: new_demo_registration_path) %>
   </div>
 <% end %>

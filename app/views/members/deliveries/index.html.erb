@@ -1,4 +1,4 @@
-<h1 class="flex items-center justify-between">
+<h1 class="page-heading">
   <%= Delivery.model_name.human(count: 2) %>
   <%= render "members/calendars/subscribe_button" %>
 </h1>
@@ -9,15 +9,17 @@
   <section>
     <h2><%= t(".next_delivery") %></h2>
 
-    <ul class="mt-4 flex flex-col gap-4">
-      <li class="w-full"><%= render @next_basket %></li>
+    <ul class="list">
+      <li class="list-item"><%= render @next_basket %></li>
     </ul>
 
     <% if @next_basket&.depot&.public_note? %>
-      <h3 class="mt-4 text-base font-medium text-gray-900 dark:text-gray-100">
+      <h3 class="heading-sm">
         <%= t(".depot_note", depot: @next_basket.depot.public_name) %>
       </h3>
-      <div class="mt-2"><%= @next_basket.depot.public_note %></div>
+      <div class="form-copy-gap">
+        <%= @next_basket.depot.public_note %>
+      </div>
     <% end %>
 
     <%= render "basket_contents", basket_contents: @basket_contents, basket_size: @next_basket.basket_size if @basket_contents&.any? %>
@@ -30,8 +32,8 @@
   <%= render "baskets_list", baskets: @future_baskets, empty_text: t(".no_future_deliveries"), anchor: "future_deliveries" %>
 
   <% if @future_baskets.provisionally_absent.any? %>
-    <div class="mt-4 mb-4 flex text-sm text-gray-400 dark:text-gray-400">
-      <span class="left mr-2">*</span>
+    <div class="footnote">
+      <span class="footnote-mark">*</span>
       <p><%= t(".provisionally_absent_explanation_html") %></p>
     </div>
   <% end %>

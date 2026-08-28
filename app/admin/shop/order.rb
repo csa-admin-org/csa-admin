@@ -282,12 +282,12 @@ ActiveAdmin.register Shop::Order do
       icon: "file-down"
   end
 
-  action_item :invoice, class: "left-margin", only: :show, if: -> { resource.can_invoice? && Current.org.iban? } do
+  action_item :invoice, only: :show, if: -> { resource.can_invoice? && Current.org.iban? } do
     action_button t(".invoice_action"), invoice_shop_order_path(resource),
       icon: "banknotes"
   end
 
-  action_item :invoice_disabled, class: "left-margin", only: :show, if: -> { resource.can_invoice? && !Current.org.iban? } do
+  action_item :invoice_disabled, only: :show, if: -> { resource.can_invoice? && !Current.org.iban? } do
     action_button t(".invoice_action"),
       disabled: true,
       disabled_tooltip: t(".invoice_disabled_reason", iban_type: Current.org.iban_type_name),

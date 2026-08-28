@@ -5,10 +5,10 @@ ActiveAdmin.before_load do |app|
     class DSL
       def sidebar_handbook_link(page, only: :index)
         section = ActiveAdmin::SidebarSection.new(:handbook, only: only) do
-          div class: "flex justify-center" do
+          div class: "admin-sidebar-center" do
             a href: "/handbook/#{page}", class: "btn btn-sm btn-light" do
               span do
-                icon "book-open", class: "size-4"
+                icon "book-open", class: "icon-4"
               end
               span do
                 t("active_admin.site_footer.handbook")
@@ -30,7 +30,7 @@ ActiveAdmin.before_load do |app|
               t("active_admin.shared.sidebar_section.shop_admin_only_text_html")
             end
             if authorized?(:read, Current.org)
-              div class: "text-center text-sm mt-3" do
+              div class: "admin-sidebar-note" do
                 path = authorized?(:update, Organization) ? edit_organization_path(:shop) : organization_path(anchor: :shop)
                 a(href: path) { t("active_admin.shared.sidebar_section.edit_settings") }
               end

@@ -32,7 +32,7 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
 
     click_on "Confirm"
 
-    assert_selector ".flash", text: "Your membership has been renewed. Thank you!"
+    assert_selector ".member-flash", text: "Your membership has been renewed. Thank you!"
 
     assert_includes menu_nav, "Membership\n⤷ Current"
     within "#2025 ul" do
@@ -81,7 +81,7 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
 
     click_on "Confirm"
 
-    assert_selector ".flash", text: "Your membership has been renewed. Thank you!"
+    assert_selector ".member-flash", text: "Your membership has been renewed. Thank you!"
 
     assert_includes menu_nav, "Membership\n⤷ Current"
     within "#2025 ul" do
@@ -110,7 +110,7 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
 
     click_on "Confirm"
 
-    assert_selector ".flash", text: "Your membership has been renewed. Thank you!"
+    assert_selector ".member-flash", text: "Your membership has been renewed. Thank you!"
     assert_includes menu_nav, "Membership\n⤷ Current"
     within "#2025 ul" do
       assert_text "10 April 2025 – 12 June 2025"
@@ -139,7 +139,7 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
     check "I support you and will continue paying the annual membership fee. CHF\u00A030"
     click_on "Confirm"
 
-    assert_selector ".flash", text: "Your membership has been canceled."
+    assert_selector ".member-flash", text: "Your membership has been canceled."
 
     assert_includes menu_nav, "Membership\n⤷ Current"
     assert_text "Your membership has been canceled and will end after the delivery on 6 June 2024."

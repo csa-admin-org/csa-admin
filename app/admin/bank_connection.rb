@@ -16,24 +16,24 @@ ActiveAdmin.register BankConnection do
         text_node handbook_icon_link("billing", anchor: "automatic_payments_processing")
       end
 
-      li class: "space-y-5 px-2 pb-2 text-base leading-7 text-gray-950 dark:text-gray-100" do
+      li class: "ebics-setup" do
         para sanitize(
           t("active_admin.resources.bank_connection.ebics_setup.intro_html", support_url: support_path),
           tags: %w[a],
           attributes: %w[href]
-        ), class: "m-0"
+        )
 
         para sanitize(
           t("active_admin.resources.bank_connection.ebics_setup.return_html", support_url: support_path),
           tags: %w[a],
           attributes: %w[href]
-        ), class: "m-0 pt-2"
+        ), class: "description"
 
-        div class: "pt-2" do
+        div do
           h4 t("active_admin.resources.bank_connection.ebics_setup.bank_access_title"),
-            class: "mb-2 mt-4 font-semibold"
+            class: "font-semibold"
 
-          ul class: "list-disc space-y-1 pl-5" do
+          ul class: "disc-list is-outside stack is-snug" do
             li t("active_admin.resources.bank_connection.ebics_setup.bank_access.ebics")
             if Current.org.country_code == "CH"
               li t("active_admin.resources.bank_connection.ebics_setup.bank_access.payment_reports_ch")
@@ -52,12 +52,12 @@ ActiveAdmin.register BankConnection do
               support_url: support_path),
             tags: %w[a],
             attributes: %w[href]
-          ), class: "m-0 pt-2 italic text-gray-600 dark:text-gray-400"
+          ), class: "is-italic is-muted"
         end
 
         if Tenant.demo?
           para t("active_admin.resources.bank_connection.ebics_setup.demo_disabled"),
-            class: "mt-4 rounded-md bg-yellow-100 p-3 text-sm text-yellow-900 ring-1 ring-yellow-600/25 ring-inset dark:bg-yellow-950 dark:text-yellow-300 dark:ring-yellow-400/25"
+            class: "ebics-demo-disabled"
         end
       end
     end
@@ -106,7 +106,7 @@ ActiveAdmin.register BankConnection do
     f.actions do
       if Tenant.demo?
         li class: "action input_action" do
-          button type: "submit", disabled: true, class: "cursor-not-allowed" do
+          button type: "submit", disabled: true, class: "is-disabled" do
             text_node t("active_admin.resources.bank_connection.ebics_setup.submit")
           end
         end

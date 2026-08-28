@@ -7,7 +7,7 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
         legend_html <<
         template.content_tag(:div,
           placeholder_content,
-          class: "w-full rounded-lg border mt-1 border-dashed border-gray-300 px-6 py-6 text-center hover:border-gray-400 dark:border-gray-700 dark:hover:border-gray-600"
+          class: "empty-state"
         )
       end
     elsif grouped_collection.present?
@@ -83,12 +83,12 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
         }.join("\n").html_safe,
         class: "choices-group"
       ),
-      class: "w-full not-last:mb-4 choices-group-container"
+      class: "choices-group-container"
     )
   end
 
   def group_header_html(group_label, group_items)
-    template.content_tag(:label, class: "mb-1 flex items-center gap-2 text-sm font-semibold") do
+    template.content_tag(:label, class: "choices-group-header") do
       template.concat(group_toggle_checkbox)
       template.concat(template.content_tag(:span, group_label))
     end
@@ -141,7 +141,7 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
   end
 
   def toggle_html_options(option_name, default_action)
-    html_options = { type: "checkbox", class: "size-4" }.merge((options[option_name] || {}).deep_dup)
+    html_options = { type: "checkbox", class: "icon-4" }.merge((options[option_name] || {}).deep_dup)
     data = (html_options[:data] || {}).dup
     data[:action] = [ default_action, data.delete(:action), data.delete("action") ].compact.uniq.join(" ")
     html_options.merge(data: data)
@@ -150,7 +150,7 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
   def placeholder_content
     content = template.content_tag(:span,
       I18n.t("active_admin.blank_slate.content", resource_name: resource_name),
-      class: "block leading-6 text-gray-900 dark:text-gray-200"
+      class: "empty-state-title"
     )
     content += template.link_to(I18n.t("active_admin.blank_slate.link"), new_path) if new_path
     content

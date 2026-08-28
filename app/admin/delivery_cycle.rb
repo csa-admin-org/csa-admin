@@ -24,15 +24,15 @@ ActiveAdmin.register DeliveryCycle do
     column :id
     column :name, ->(dc) { link_to display_name_with_public_name(dc), dc }, sortable: true
     if DeliveryCycle.prices?
-      column :price, ->(d) { cur(d.price) }, class: "text-right tabular-nums whitespace-nowrap"
+      column :price, ->(d) { cur(d.price) }, class: "text-right tabular-nums is-nowrap"
     end
-    column :next_delivery, ->(dc) { auto_link dc.next_delivery }, class: "text-right whitespace-nowrap"
+    column :next_delivery, ->(dc) { auto_link dc.next_delivery }, class: "text-right is-nowrap"
     column Current.org.current_fiscal_year, ->(dc) {
       deliveries_count_range_with_absences(dc.current_deliveries_count, dc.absences_included_annually)
-    }, class: "text-right whitespace-nowrap"
+    }, class: "text-right is-nowrap"
     column Current.org.fiscal_year_for(1.year.from_now), ->(dc) {
       deliveries_count_range_with_absences(dc.future_deliveries_count, dc.absences_included_annually)
-    }, class: "text-right whitespace-nowrap"
+    }, class: "text-right is-nowrap"
     if DeliveryCycle.visible?
       column :visible, ->(dc) { aligned_status_tag(dc.visible?) }, class: "text-right"
     else
@@ -91,10 +91,10 @@ ActiveAdmin.register DeliveryCycle do
               row(:visible) { aligned_status_tag(dc.visible?) }
             end
           end
-          table_for dc.depots, class: (DeliveryCycle.visible? ? "mt-4" : nil) do
+          table_for dc.depots, class: (DeliveryCycle.visible? ? "dashboard-section" : nil) do
             column Depot.model_name.human, ->(d) {
               auto_link d, data: { "table-row-action": "show" }
-            }, class: "text-left"
+            }, class: "text-start"
             column :visible, ->(d) { aligned_status_tag(d.visible?) }, class: "text-right"
           end
         end
@@ -154,7 +154,7 @@ ActiveAdmin.register DeliveryCycle do
               else
                 [ from_month, to_month ].join(" – ")
               end
-            }, class: "whitespace-nowrap"
+            }, class: "is-nowrap"
             column Delivery.model_name.human(count: 2), ->(p) {
               t("delivery_cycle.results.#{p.results}")
             }, class: "text-right"
@@ -179,7 +179,7 @@ ActiveAdmin.register DeliveryCycle do
     end
 
     f.inputs t("active_admin.resource.form.visibility"), icon: "eye" do
-      para t("active_admin.resource.form.visibility_hint"), class: "description -mt-2 mb-4"
+      para t("active_admin.resource.form.visibility_hint"), class: "description is-tight"
       f.input :depots,
         as: :check_boxes,
         hint: true,
@@ -226,7 +226,7 @@ ActiveAdmin.register DeliveryCycle do
     end
 
     f.inputs t("delivery_cycle.settings"), icon: "sliders-horizontal" do
-      para t("formtastic.hints.delivery_cycle.settings_intro"), class: "description -mt-2 mb-4"
+      para t("formtastic.hints.delivery_cycle.settings_intro"), class: "description is-tight"
       f.input :wdays,
         as: :check_boxes,
         collection: wdays_collection,
@@ -255,15 +255,14 @@ ActiveAdmin.register DeliveryCycle do
           as: :select,
           collection: week_numbers_collection,
           include_blank: false,
-          wrapper_html: { class: "[&>p]:text-red-500" },
-          input_html: { class: "w-40" }
+          wrapper_html: { class: "week-numbers-input" }
       end
 
       handbook_button(self, "deliveries", anchor: "settings")
     end
 
     f.inputs DeliveryCycle::Period.model_name.human(count: 2), icon: "calendar-days" do
-      para t("formtastic.hints.delivery_cycle.periods_intro"), class: "description -mt-2 mb-4"
+      para t("formtastic.hints.delivery_cycle.periods_intro"), class: "description is-tight"
       f.semantic_errors :periods
       f.has_many :periods, allow_destroy: true, new_record: t("delivery_cycle.add_period"), heading: nil do |ff|
         ff.input :from_fy_month,

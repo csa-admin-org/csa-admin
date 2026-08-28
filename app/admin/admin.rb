@@ -37,7 +37,7 @@ ActiveAdmin.register Admin do
 
   form do |f|
     if f.object.new_record?
-      para t(".admin_invitation"), class: "m-0 pt-0 pb-4 text-base"
+      para t(".admin_invitation"), class: "description is-tight text-base"
     end
     f.inputs t(".details"), icon: "notebook-text" do
       f.input :name
@@ -46,9 +46,9 @@ ActiveAdmin.register Admin do
         as: :select,
         collection: org_languages_collection,
         prompt: true,
-        wrapper_html: { id: "languages", class: "scroll-mt-24" }
+        wrapper_html: { id: "languages", class: "settings-anchor" }
       if f.object.persisted? && f.object == current_admin
-        li id: "theme", class: "input scroll-mt-24" do
+        li id: "theme", class: "input settings-anchor" do
           render partial: "shared/icon_select", locals: {
             name: "admin[theme]",
             value: f.object.theme,
@@ -68,9 +68,9 @@ ActiveAdmin.register Admin do
         wrapper_html: { class: "legend-title single-column" },
         collection: Admin.notifications.map { |n|
           [
-            content_tag(:span, class: "ms-1") {
+            content_tag(:span) {
               content_tag(:h3, t("admin.notifications.#{n}"), class: "font-medium") +
-              content_tag(:span, t("admin.notifications.#{n}_hint").html_safe, class: "text-gray-500 dark:text-gray-400")
+              content_tag(:span, t("admin.notifications.#{n}_hint").html_safe, class: "is-muted")
             },
             n
           ]

@@ -1,4 +1,4 @@
-<ul class="flex flex-row flex-wrap justify-between gap-4 gap-y-2">
+<ul class="billing-cards">
   <% balance = current_member.balance_amount %>
 
   <% if balance >= 0 %>
@@ -9,7 +9,7 @@
     <%= render "summary_card",
       label: t("members.billing.index.missing_amount"),
       value: cur(-balance),
-      value_class: "text-red-500" %>
+      value_class: "is-negative" %>
   <% end %>
 
   <% if Current.org.feature?("annual_fee") || !current_member.annual_fee.nil? %>

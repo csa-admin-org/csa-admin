@@ -6,7 +6,7 @@
 
 <div
   data-controller="form-disabler form-min-value form-choice-excluder form-choices-limiter form-activity form-minmax-enforcer form-annual-fee<%= " depot-map" if show_depot_map %>"
-  class="space-y-12"
+  class="form-sections"
   <% if show_depot_map %>
     data-depot-map-markers-value="<%= json_escape(depot_map_markers.to_json) %>"
     data-depot-map-style-url-value="<%= open_free_map_style_url %>"
@@ -17,20 +17,15 @@
   <% end %>
 >
   <div data-form-section-nav-target="section">
-    <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
+    <legend class="form-legend">
       <%= t(".title") %>
     </legend>
 
-    <div class="mt-2 space-y-12">
+    <div class="form-fields-tight">
       <% has_visible_basket_sizes = visible_basket_sizes.any? %>
 
       <% if has_visible_basket_sizes %>
-        <div
-          class="
-            space-y-4 text-sm font-normal text-gray-500
-            print:break-inside-avoid print:break-after-auto
-          "
-        >
+        <div class="form-copy print-break-auto">
           <% unless Current.org.member_form_extra_text_only? %>
             <p>
               <%= t(".text", fiscal_year_months_range: fiscal_year_months_range) %>
@@ -59,37 +54,29 @@
             <div><%= Current.org.member_form_extra_text %></div>
           <% end %>
 
-          <%= f.input :waiting_basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(data: { action: "form-disabler#enableInputs form-min-value#setMinValue form-choices-limiter#limitChoices form-activity#updateInput form-pricing#refresh form-annual-fee#disableInput" }, no_basket_data: { action: "form-disabler#disableInputs form-min-value#setMinValue form-choices-limiter#limitChoices form-pricing#refresh form-annual-fee#enableInput" }), required: true, label: BasketSize.model_name.human, label_html: { class: "text-base" }, wrapper_html: { class: "mt-8" } %>
+          <%= f.input :waiting_basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(data: { action: "form-disabler#enableInputs form-min-value#setMinValue form-choices-limiter#limitChoices form-activity#updateInput form-pricing#refresh form-annual-fee#disableInput" }, no_basket_data: { action: "form-disabler#disableInputs form-min-value#setMinValue form-choices-limiter#limitChoices form-pricing#refresh form-annual-fee#enableInput" }), required: true, label: BasketSize.model_name.human, label_html: { class: "form-label" }, wrapper_html: { class: "form-offset" } %>
         </div>
       <% else %>
         <% if Current.org.member_form_extra_text? %>
-          <div
-            class="
-              space-y-4 text-sm font-normal text-gray-500
-              print:break-inside-avoid print:break-after-auto
-            "
-          >
+          <div class="form-copy print-break-auto">
             <div><%= Current.org.member_form_extra_text %></div>
           </div>
         <% end %>
       <% end %>
 
       <% if Current.org.feature?("annual_fee") && Current.org.annual_fee_member_form? %>
-        <%= f.input :annual_fee, as: :numeric, required: true, label_html: { class: "text-base" }, input_html: { min: 0, value: prefer_integer(f.object.annual_fee), data: { default_value: prefer_integer(Current.org.annual_fee), disabled_value: prefer_integer(!Current.org.annual_fee_support_member_only? && Current.org.annual_fee) }, class: "w-20" }, hint: t(".annual_fee_hint", currency: currency_symbol) %>
+        <%= f.input :annual_fee, as: :numeric, required: true, label_html: { class: "form-label" }, input_html: { min: 0, value: prefer_integer(f.object.annual_fee), data: { default_value: prefer_integer(Current.org.annual_fee), disabled_value: prefer_integer(!Current.org.annual_fee_support_member_only? && Current.org.annual_fee) }, class: "form-narrow" }, hint: t(".annual_fee_hint", currency: currency_symbol) %>
       <% end %>
 
       <% if Current.org.feature?("shares") %>
-        <%= f.input :desired_shares_number, as: :numeric, required: true, label_html: { class: "text-base" }, input_html: { min: Current.org.shares_number, data: { form_min_value_target: "input", action: "blur->form-minmax-enforcer#enforce" }, class: "w-20" }, hint: t(".desired_shares_number_hint") %>
+        <%= f.input :desired_shares_number, as: :numeric, required: true, label_html: { class: "form-label" }, input_html: { min: Current.org.shares_number, data: { form_min_value_target: "input", action: "blur->form-minmax-enforcer#enforce" }, class: "form-narrow" }, hint: t(".desired_shares_number_hint") %>
       <% end %>
 
       <% if member.members_basket_complements.any? %>
-        <div
-          class="print:break-inside-avoid print:break-after-auto"
-          data-form-disabler-target="label"
-        >
-          <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs", label_html: { class: "mb-1 text-base" }, disabled: support_checked do %>
+        <div class="print-break-auto" data-form-disabler-target="label">
+          <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs", label_html: { class: "form-label-tight" }, disabled: support_checked do %>
             <% if Current.org.member_form_complements_text? %>
-              <div class="trix-content mb-4 text-sm">
+              <div class="trix-content form-richtext">
                 <%= Current.org.member_form_complements_text %>
               </div>
             <% end %>
@@ -109,14 +96,14 @@
 
       <% if show_activity_participations? %>
         <div data-form-disabler-target="label">
-          <%= f.input :waiting_activity_participations_demanded_annually, as: :numeric, label: activities_human_name, required: true, disabled: support_checked, label_html: { class: "text-base" } do %>
+          <%= f.input :waiting_activity_participations_demanded_annually, as: :numeric, label: activities_human_name, required: true, disabled: support_checked, label_html: { class: "form-label" } do %>
             <% if Current.org.member_form_activity_participations_text? %>
-              <div class="trix-content mb-2 text-sm">
+              <div class="trix-content form-richtext-sm">
                 <%= Current.org.member_form_activity_participations_text %>
               </div>
             <% end %>
 
-            <%= f.input_field :waiting_activity_participations_demanded_annually, as: :numeric, disabled: support_checked, min: Current.org.activity_participations_form_min || 0, max: Current.org.activity_participations_form_max, step: Current.org.activity_participations_form_step, data: { form_disabler_target: "input", min: Current.org.activity_participations_form_min, max: Current.org.activity_participations_form_max, form_activity_target: "input", action: "blur->form-minmax-enforcer#enforce form-pricing#refresh" }, class: "w-20" %>
+            <%= f.input_field :waiting_activity_participations_demanded_annually, as: :numeric, disabled: support_checked, min: Current.org.activity_participations_form_min || 0, max: Current.org.activity_participations_form_max, step: Current.org.activity_participations_form_step, data: { form_disabler_target: "input", min: Current.org.activity_participations_form_min, max: Current.org.activity_participations_form_max, form_activity_target: "input", action: "blur->form-minmax-enforcer#enforce form-pricing#refresh" }, class: "form-narrow" %>
 
             <% if activity_participations_form_detail %>
               <span class="hint">
@@ -130,11 +117,8 @@
       <% if show_basket_price_extras? %>
         <% basket_price_extra_options = basket_prices_extra_collection(data: { form_disabler_target: "input", action: "form-pricing#refresh" }) %>
         <% use_select_for_price_extra = basket_price_extra_options.size > MembersHelper::RADIO_BUTTONS_MAX %>
-        <div
-          class="print:break-inside-avoid print:break-after-page"
-          data-form-disabler-target="label"
-        >
-          <legend class="mb-1 text-base">
+        <div class="print-avoid-break" data-form-disabler-target="label">
+          <legend class="form-label-tight">
             <%= Current.org.basket_price_extra_public_title %>
 
             <abbr title="<%= t("simple_form.required.text") %>">
@@ -143,7 +127,7 @@
           </legend>
 
           <% if Current.org.basket_price_extra_text? %>
-            <div class="trix-content mb-3 text-sm">
+            <div class="trix-content form-richtext-md">
               <%= Current.org.basket_price_extra_text %>
             </div>
           <% end %>
@@ -157,10 +141,7 @@
       <% end %>
 
       <div
-        class="
-          member-depot-picker-boundary print:break-inside-avoid
-          print:break-after-page
-        "
+        class="depot-picker-boundary print-avoid-break"
         <% if show_depot_filter %>
           data-controller="form-depot-filter"
           data-depot-map-filter-scope="primary"
@@ -173,7 +154,7 @@
             class="<%= [ ("member-depot-picker-sticky" if show_depot_map), ("disabled" if support_checked) ].compact.join(" ") %>"
             data-form-disabler-target="label"
           >
-            <legend class="mb-1 text-base">
+            <legend class="form-label-tight">
               <%= Depot.model_name.human(count: has_groups ? 2 : 1) %>
 
               <abbr title="<%= t("simple_form.required.text") %>">
@@ -190,7 +171,7 @@
             <% end %>
           </div>
           <div
-            class="member-depot-primary-list <%= show_depot_map || show_depot_filter ? "mt-4" : "mt-2" %> <%= "space-y-6" if has_groups %> <%= "disabled" if support_checked %>"
+            class="depot-primary-list <%= " is-padded" if show_depot_map || show_depot_filter %> <%= " has-groups" if has_groups %> <%= " disabled" if support_checked %>"
             data-form-disabler-target="label"
           >
             <% grouped_depots = grouped_depots.sort_by { |g, _d| g&.member_order_priority.to_s + g&.public_name.to_s } %>
@@ -201,7 +182,7 @@
                   <div data-depot-group-header>
                     <legend><%= group.public_name %></legend>
 
-                    <div class="mt-1 mb-3 text-sm">
+                    <div class="depot-group-copy">
                       <%= group.information_text %>
                     </div>
                   </div>
@@ -214,10 +195,7 @@
             <% if show_depot_filter %>
               <p
                 data-form-depot-filter-target="noResults"
-                class="
-                  hidden py-2 text-center text-sm text-gray-500
-                  dark:text-gray-400
-                "
+                class="depot-filter-empty is-hidden"
               >
                 <%= t(".depot_filter_no_results") %>
               </p>
@@ -226,42 +204,42 @@
         <% end %>
 
         <% if DeliveryCycle.visible? %>
-          <div class="<%= "mt-12" if all_visible_depots.any? %>">
+          <div class="form-cycles <%= " is-offset" if all_visible_depots.any? %>">
             <% delivery_cycle_options = visible_delivery_cycles_collection(data: { form_disabler_target: "input", form_choices_limiter_target: "input", action: "form-pricing#refresh" }) %>
             <% use_select_for_cycles = delivery_cycle_options.size > MembersHelper::RADIO_BUTTONS_MAX %>
 
             <% if use_select_for_cycles %>
-              <%= f.input :waiting_delivery_cycle_id, as: :select, collection: collection_as_plain_text(delivery_cycle_options), label: Current.org.member_form_delivery_cycle_label, label_html: { class: "text-base" }, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked, data: { form_disabler_target: "input", form_choices_limiter_target: "input", action: "form-pricing#refresh" } } %>
+              <%= f.input :waiting_delivery_cycle_id, as: :select, collection: collection_as_plain_text(delivery_cycle_options), label: Current.org.member_form_delivery_cycle_label, label_html: { class: "form-label" }, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked, data: { form_disabler_target: "input", form_choices_limiter_target: "input", action: "form-pricing#refresh" } } %>
             <% else %>
-              <%= f.input :waiting_delivery_cycle_id, as: :radio_buttons, collection: delivery_cycle_options, disabled: (f.object.waiting_depot ? (DeliveryCycle.pluck(:id) - (f.object.waiting_depot&.delivery_cycle_ids || [])) : []), label: Current.org.member_form_delivery_cycle_label, label_html: { class: "text-base" }, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked, class: "#{"disabled" if support_checked || !f.object.waiting_depot}" } %>
+              <%= f.input :waiting_delivery_cycle_id, as: :radio_buttons, collection: delivery_cycle_options, disabled: (f.object.waiting_depot ? (DeliveryCycle.pluck(:id) - (f.object.waiting_depot&.delivery_cycle_ids || [])) : []), label: Current.org.member_form_delivery_cycle_label, label_html: { class: "form-label" }, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked, class: "#{"disabled" if support_checked || !f.object.waiting_depot}" } %>
             <% end %>
           </div>
         <% end %>
 
         <% if Current.org.allow_alternative_depots? && Current.org.waiting_list? %>
           <div
-            class="<%= "mt-12" if all_visible_depots.any? || DeliveryCycle.visible? %> <%= "disabled" if support_checked %>"
+            class="alt-depots <%= " is-offset" if all_visible_depots.any? || DeliveryCycle.visible? %> <%= " disabled" if support_checked %>"
             data-form-disabler-target="label"
             <% if show_depot_filter %>
               data-controller="form-depot-filter"
             <% end %>
           >
-            <legend class="text-base">
+            <legend class="form-label">
               <%= Member.human_attribute_name(:waiting_alternative_depot_ids) %>
             </legend>
 
-            <p class="mt-1 mb-3 text-sm">
+            <p class="depot-group-copy">
               <%= t(".alternative_depots_subtitle") %>
             </p>
 
             <% selected = f.object.waiting_alternative_depot_ids.any? %>
 
             <% unless selected %>
-              <div class="flex flex-row justify-center">
+              <div class="alt-depots-show">
                 <button
                   type="button"
                   class="btn btn-sm"
-                  onclick="document.getElementById('alternative-depots').classList.toggle('hidden'); this.classList.toggle('hidden');"
+                  onclick="document.getElementById('alternative-depots').classList.toggle('is-hidden'); this.classList.toggle('is-hidden');"
                 >
                   <%= t(".alternative_depots_show_all") %>
                 </button>
@@ -270,23 +248,20 @@
 
             <div
               id="alternative-depots"
-              class="<%= "hidden" unless selected %>"
+              class="<%= "is-hidden" unless selected %>"
             >
               <% if show_depot_filter %>
                 <%= render "members/members/form_modes/depot_filter", disabled: support_checked %>
               <% end %>
 
               <div data-form-depot-filter-target="group">
-                <%= f.input :waiting_alternative_depot_ids, label: false, as: :check_boxes, collection: depots_collection(data: { form_disabler_target: "input", form_choice_excluder_target: "input", depot_map_target: "alternativeInput" }), disabled: [ f.object.waiting_depot_id ].compact, required: false, hint: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: (depots_collection.map(&:last) if support_checked) }, wrapper_class: "flex flex-col space-y-2" %>
+                <%= f.input :waiting_alternative_depot_ids, label: false, as: :check_boxes, collection: depots_collection(data: { form_disabler_target: "input", form_choice_excluder_target: "input", depot_map_target: "alternativeInput" }), disabled: [ f.object.waiting_depot_id ].compact, required: false, hint: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: (depots_collection.map(&:last) if support_checked) }, wrapper_class: "alt-depot-choices" %>
               </div>
 
               <% if show_depot_filter %>
                 <p
                   data-form-depot-filter-target="noResults"
-                  class="
-                    hidden py-2 text-center text-sm text-gray-500
-                    dark:text-gray-400
-                  "
+                  class="depot-filter-empty is-hidden"
                 >
                   <%= t(".depot_filter_no_results") %>
                 </p>
@@ -302,11 +277,11 @@
     aria-label="<%= t("active_admin.resource.show.billing") %>"
     data-form-section-nav-target="section"
   >
-    <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
+    <legend class="form-legend">
       <%= t("active_admin.resource.show.billing") %>
     </legend>
 
-    <div class="mt-2 space-y-8">
+    <div class="form-fields-loose">
       <% if Current.org.billing_year_divisions.many? %>
         <%= f.input :waiting_billing_year_division, as: :radio_buttons, collection: organization_billing_year_divisions_collection(data: { form_disabler_target: "input", disabled_value: 1 }), wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, label: Organization.human_attribute_name(:billing_year_divisions), required: true %>
       <% end %>
@@ -315,15 +290,15 @@
         <%= f.input :different_billing_info, as: :boolean, input_html: { data: { action: "visibility#toggle" } } %>
 
         <div
-          class="mt-4 space-y-4 <%= f.object.different_billing_info ? "" : "hidden" %>"
+          class="billing-extra <%= " is-hidden" unless f.object.different_billing_info %>"
           data-visibility-target="element"
         >
           <%= f.input :billing_name, required: true, input_html: { disabled: !f.object.different_billing_info } %>
           <%= f.input :billing_street, required: true, input_html: { disabled: !f.object.different_billing_info } %>
 
-          <div class="flex w-full flex-row gap-2">
-            <%= f.input :billing_zip, required: true, label: Member.human_attribute_name(:zip), input_html: { disabled: !f.object.different_billing_info, size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>
-            <%= f.input :billing_city, required: true, label: Member.human_attribute_name(:city), input_html: { disabled: !f.object.different_billing_info }, wrapper_html: { class: "grow" } %>
+          <div class="form-zipcity">
+            <%= f.input :billing_zip, required: true, label: Member.human_attribute_name(:zip), input_html: { disabled: !f.object.different_billing_info, size: 6, maxlength: 6 }, wrapper_html: { class: "form-zip" } %>
+            <%= f.input :billing_city, required: true, label: Member.human_attribute_name(:city), input_html: { disabled: !f.object.different_billing_info }, wrapper_html: { class: "form-grow" } %>
           </div>
         </div>
       </div>

@@ -1,0 +1,122 @@
+@layer components {
+  .handbook-search {
+    position: relative;
+    margin-bottom: 0.75rem;
+  }
+
+  .handbook-search-icon {
+    pointer-events: none;
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    display: flex;
+    align-items: center;
+    padding-inline-start: 0.625rem;
+  }
+
+  .handbook-search-input {
+    margin-top: 0;
+    width: 100%;
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-gray-300);
+    padding: 0.375rem 0.75rem 0.375rem 2rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+
+    &::placeholder {
+      color: var(--color-gray-400);
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-600);
+      background-color: var(--color-gray-800);
+      color: var(--color-gray-100);
+
+      &::placeholder {
+        color: var(--color-gray-500);
+      }
+    }
+
+    &:focus {
+      z-index: 10;
+      border-color: var(--color-green-500);
+      box-shadow: 0 0 0 1px var(--color-green-500);
+      outline: 2px solid transparent;
+    }
+
+    &:where(.dark, .dark *):focus {
+      border-color: var(--color-green-600);
+      box-shadow: 0 0 0 1px var(--color-green-600);
+    }
+
+    @media (width >= 40rem) {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+  }
+
+  .handbook-hit {
+    display: block;
+    border-radius: 0.125rem;
+    padding: 0.375rem 0.5rem;
+    color: var(--color-gray-900);
+    text-decoration-line: none;
+
+    &:hover {
+      background-color: var(--color-gray-100);
+    }
+
+    &:where(.dark, .dark *) {
+      color: var(--color-gray-100);
+
+      &:hover {
+        background-color: color-mix(in oklch, var(--color-gray-700) 50%, transparent);
+      }
+    }
+  }
+
+  .handbook-hit-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+  }
+
+  .handbook-hit-meta,
+  .handbook-hit-snippet {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: var(--color-ink-muted);
+  }
+
+  .handbook-hit-snippet {
+    margin-top: 0.125rem;
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .handbook-hits {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .handbook-hits > :not(:last-child) {
+    margin-bottom: 0.75rem;
+  }
+
+  .handbook-empty {
+    padding: 1rem 0.5rem;
+    text-align: center;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-ink-muted);
+  }
+}

@@ -45,7 +45,7 @@ context.instance_eval do
       end
     end
 
-    div class: "p-2 pt-0 space-y-3" do
+    div class: "panel-inset is-flush stack" do
       if bank_connection.errored?
         para t("active_admin.resources.organization.bank_connection.support_needed_html", support_url: support_path).html_safe,
           class: "description"
@@ -54,13 +54,13 @@ context.instance_eval do
           class: "description"
 
         if organization_settings_bank_connection_letter_available?(bank_connection)
-          div class: "flex justify-center pt-1" do
+          div class: "cluster is-center" do
             link_to ebics_initialization_letter_path,
               class: "btn btn-sm",
               target: "_blank",
               rel: "noopener" do
               safe_join([
-                icon("file-down", class: "size-4"),
+                icon("file-down", class: "icon-4"),
                 t("active_admin.resources.organization.bank_connection.download_initialization_letter")
               ], " ")
             end
@@ -69,7 +69,7 @@ context.instance_eval do
       end
     end
   else
-    div class: "p-2 pt-0 space-y-3" do
+    div class: "panel-inset is-flush stack" do
       para t("active_admin.resources.organization.bank_connection.not_configured_html", support_url: support_path).html_safe,
         class: "description"
 
@@ -82,10 +82,10 @@ context.instance_eval do
       end
 
       if authorized?(:create, BankConnection) && BankConnection::EBICSSetup.supported_country?(org)
-        div class: "flex justify-center pt-1" do
+        div class: "cluster is-center" do
           link_to new_bank_connection_path, class: "btn btn-sm" do
             safe_join([
-              icon("cable", class: "size-4"),
+              icon("cable", class: "icon-4"),
               t("active_admin.resources.organization.bank_connection.start_setup")
             ], " ")
           end

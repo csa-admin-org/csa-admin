@@ -5,9 +5,9 @@ module TablesHelper
     txt = text
     if url.present?
       txt += link_to(url, target: "_blank") do
-        icon("external-link", class: "size-4 ml-1")
+        icon("external-link", class: "icon-4")
       end
     end
-    content_tag(:span, txt.html_safe, class: "flex items-center")
+    content_tag(:span, txt.html_safe, class: "cluster")
   end
 end

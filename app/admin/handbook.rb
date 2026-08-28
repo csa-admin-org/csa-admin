@@ -36,12 +36,12 @@ ActiveAdmin.register_page "Handbook" do
         class: "mobile-drawer-btn",
         data: { action: "mobile-drawer#open" },
         aria: { label: t("active_admin.shared.sidebar_section.pages") } do
-        icon "square-menu", class: "size-6"
+        icon "square-menu", class: "mobile-drawer-btn-icon"
       end
 
       # Modal overlay
       div \
-        class: "mobile-drawer-overlay hidden",
+        class: "mobile-drawer-overlay is-hidden",
         data: {
           "mobile-drawer-target": "overlay",
           action: "click->mobile-drawer#closeOnOutside"
@@ -49,19 +49,17 @@ ActiveAdmin.register_page "Handbook" do
         div \
           class: "mobile-drawer-panel",
           data: { "mobile-drawer-target": "panel" } do
-          # Header with title and close button
-          div class: "flex items-center justify-between mb-3" do
-            h3 t("active_admin.shared.sidebar_section.pages"), class: "text-xl font-extralight"
+          div class: "admin-drawer-header" do
+            h3 t("active_admin.shared.sidebar_section.pages"), class: "admin-drawer-title"
             button \
               data: { action: "mobile-drawer#close" },
-              class: "p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300",
+              class: "admin-drawer-close",
               aria: { label: t("accessibility.active_admin.close") } do
-              icon "x", class: "size-5"
+              icon "x", class: "admin-drawer-close-icon"
             end
           end
 
-          # Menu content
-          div class: "text-sm" do
+          div class: "admin-drawer-menu" do
             handbook_menu self,
               current_page: params[:id],
               turbo_frame_id: "handbook-mobile-results",
@@ -72,7 +70,7 @@ ActiveAdmin.register_page "Handbook" do
     end
 
     div \
-      class: "markdown md:pr-4 content-page",
+      class: "markdown content-page",
       data: {
         turbo: false,
         controller: "handbook-highlight", "handbook-highlight-target": "content"

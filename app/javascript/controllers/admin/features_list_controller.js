@@ -21,7 +21,7 @@ export default class extends Controller {
     const tab = this.tabFor(hash)
     if (!tab) return
 
-    if (hash !== "none") removeClass(tab, "hidden")
+    if (hash !== "none") removeClass(tab, "is-hidden")
     prop(this.allTabRequiredInputs(hash), "required", true)
     tab.click()
   }
@@ -30,7 +30,7 @@ export default class extends Controller {
     const tab = this.tabFor(hash)
     if (!tab) return
 
-    addClass(tab, "hidden")
+    addClass(tab, "is-hidden")
     prop(this.allTabRequiredInputs(hash), "required", false)
     this.showFirstActiveTab()
   }

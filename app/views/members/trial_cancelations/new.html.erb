@@ -3,20 +3,20 @@
 <section>
   <h2><%= t(".title") %></h2>
 
-  <div class="mt-2 mb-8 space-y-2">
+  <div class="form-copy">
     <% last_trial_basket = @membership.baskets.trial.order("deliveries.date").last %>
 
-    <p class="justify">
+    <p class="text-justify">
       <%= t(".text_html", last_trial_date: content_tag(:u, l(last_trial_basket.delivery.date))) %>
     </p>
 
-    <p class="justify text-sm text-gray-500 italic dark:text-gray-400">
+    <p class="text-justify trial-note">
       <%= t(".contact_for_immediate_cancelation_html", contact_link: mail_to(Current.org.email, t(".contact_link"))) %>
     </p>
   </div>
 
   <%= simple_form_for @membership, url: members_trial_cancelation_path, method: :post do |f| %>
-    <div class="space-y-6">
+    <div class="form-fields">
       <%= f.input :renewal_note, as: :text, label: t(".cancelation_note_label"), placeholder: t(".renewal_note_placeholder"), input_html: { rows: 3 } %>
 
       <% if Current.org.feature?("annual_fee") %>
@@ -25,8 +25,8 @@
             <%= f.input :renewal_annual_fee,
               as: :boolean,
               label: t(".renewal_annual_fee_label_html",
-                price_tag: content_tag(:span, cur(Current.org.annual_fee, precision: 0), class: "ml-auto text-lg whitespace-nowrap text-gray-400 dark:text-gray-400")),
-              label_html: { class: "justify-between" } %>
+                price_tag: content_tag(:span, cur(Current.org.annual_fee, precision: 0), class: "annual-fee-tag")),
+              label_html: { class: "fee-label" } %>
           </div>
         </div>
       <% end %>
@@ -34,12 +34,12 @@
 
     <div class="actions">
       <%= link_to members_memberships_path, class: "cancel-link" do %>
-        <%= icon "arrow-left", class: "size-5" %>
+        <%= icon "arrow-left", class: "icon-inline" %>
         <span><%= t(".cancel") %></span>
       <% end %>
 
       <%= button_tag type: "submit" do %>
-        <%= icon "check", class: "size-5" %>
+        <%= icon "check", class: "icon-inline" %>
         <span><%= t(".submit") %></span>
       <% end %>
     </div>

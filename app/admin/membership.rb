@@ -3,7 +3,7 @@
 ActiveAdmin.register Membership do
   menu priority: 3, label: -> {
     [
-      icon("calendar-range", class: "size-5 mr-2.5 md:mr-2 inline"),
+      icon("calendar-range", class: "admin-nav-icon is-text"),
       Membership.model_name.human(count: 2)
     ].join.html_safe
   }
@@ -131,7 +131,7 @@ ActiveAdmin.register Membership do
       total = all.sum(:price)
       invoiced = all.sum(:invoices_amount)
       missing = [ total - invoiced, 0 ].max
-      div class: "space-y-4" do
+      div class: "stack" do
         div do
           div number_line(t(".invoices_done"), cur(invoiced, unit: false), bold: false)
           div number_line(t(".invoices_remaining"), cur(missing, unit: false), bold: false)
@@ -144,7 +144,7 @@ ActiveAdmin.register Membership do
               panel_button t("active_admin.resource.show.future_billing"), future_billing_all_memberships_path,
                 icon: "banknotes",
                 params: { ids: all.ids },
-                form: { class: "flex justify-center", data: { disable_with_value: t(".invoicing") } },
+                form: { class: "cluster is-center", data: { disable_with_value: t(".invoicing") } },
                 data: { confirm: t(".future_billing#{"_with_annual_fee" if feature?("annual_fee")}_confirm") }
             end
           end
@@ -176,11 +176,11 @@ ActiveAdmin.register Membership do
       baskets = Basket.billable.where(membership: coll)
       total = baskets.sum("quantity * price_extra")
       if coll.where("basket_price_extra < 0").any?
-        div class: "flex justify-end" do
+        div class: "cluster is-end" do
           sum = baskets.where("price_extra > 0").sum("quantity * price_extra")
           span cur(sum, unit: false), class: "tabular-nums"
         end
-        div class: "flex justify-end" do
+        div class: "cluster is-end" do
           sum = baskets.where("price_extra < 0").sum("quantity * price_extra")
           span cur(sum, unit: false), class: "tabular-nums"
         end
@@ -200,7 +200,7 @@ ActiveAdmin.register Membership do
           fiscal_year: renewal.next_fy.to_s,
           new_delivery_path: new_delivery_path)
       else
-        div class: "space-y-4" do
+        div class: "stack" do
           ul do
             li do
               link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_pending, during_year: renewal.fy_year }) do
@@ -228,22 +228,22 @@ ActiveAdmin.register Membership do
           end
           if renewal.actionable?
             if renewal.renewing?
-              div class: "flex justify-center items-center italic" do
-                icon("refresh-cw", class: "size-4 mr-2") + t(".renewing")
+              div class: "panel-status is-italic" do
+                icon("refresh-cw", class: "icon-4") + t(".renewing")
               end
             elsif renewal.opening?
-              div class: "flex justify-center items-center italic" do
-                icon("send-horizontal", class: "size-4 mr-2") + t(".opening")
+              div class: "panel-status is-italic" do
+                icon("send-horizontal", class: "icon-4") + t(".opening")
               end
             else
-              div class: "space-y-2" do
+              div class: "stack is-tight" do
                 if renewal.fy == Current.fiscal_year && authorized?(:open_renewal_all, Membership) && MailTemplate.active_template(:membership_renewal)
                   if renewal.openable_count.positive?
                     div do
                       panel_button t(".open_renewal_all_action", count: renewal.openable_count), open_renewal_all_memberships_path,
                         icon: "send-horizontal",
                         params: { year: renewal.fy_year },
-                        form: { class: "flex justify-center", data: { disable_with_value: t(".opening") } },
+                        form: { class: "cluster is-center", data: { disable_with_value: t(".opening") } },
                         data: { confirm: t("active_admin.batch_actions.default_confirmation") }
                     end
                   end
@@ -253,7 +253,7 @@ ActiveAdmin.register Membership do
                     panel_button t(".renew_all_action", count: renewal.renewable_count), renew_all_memberships_path,
                       icon: "refresh-cw",
                       params: { year: renewal.fy_year },
-                      form: { class: "flex justify-center", data: { disable_with_value: t(".renewing") } },
+                      form: { class: "cluster is-center", data: { disable_with_value: t(".renewing") } },
                       data: { confirm: t(".renew_all_confirm") }
                   end
                 end
@@ -370,23 +370,23 @@ ActiveAdmin.register Membership do
           ),
             row_html: ->(b) {
               classes = []
-              classes << "bg-gray-200 dark:bg-gray-700/75" if b == next_basket
-              classes << "text-gray-300 dark:text-gray-500 [&>td>a]:text-gray-300 [&>td>a]:decoration-gray-300 [&>td>a]:dark:text-gray-500 [&>td>a]:dark:decoration-gray-500" if b.absent? || b.empty?
-              classes << "line-through" if !b.billable? || b.empty?
+              classes << "row-next" if b == next_basket
+              classes << "row-absent" if b.absent? || b.empty?
+              classes << "is-struck" if !b.billable? || b.empty?
               { class: classes.join(" "), data: { "hover-id": dom_id(b) } }
             },
             class: "table-auto"
           ) do
-            column(:delivery, class: "md:w-32") { |b| link_to b.delivery.display_name(format: :number), b.delivery }
+            column(:delivery, class: "col-delivery") { |b| link_to b.delivery.display_name(format: :number), b.delivery }
             column(:description) { |b| b.shifted? ? b.shift_as_source.description : b.description }
             column(:depot)
             column do |b|
-              div class: "flex items-center justify-end gap-2" do
+              div class: "row-actions" do
                 ic = "".html_safe
                 if (override = overrides_by_delivery[b.delivery_id]) && override.active?
                   ic += popover(dom_id(b, :override), icon_name: "history") do
                     display_basket_override(override) +
-                      tag.div(class: "flex justify-end min-w-60 mt-2 pt-2 border-t border-gray-700 dark:border-gray-600") do
+                      tag.div(class: "override-actions") do
                         panel_button t(".clear_override"), basket_override_path(override),
                           icon: "undo-2",
                           class: "btn btn-xs destructive",
@@ -399,7 +399,7 @@ ActiveAdmin.register Membership do
                       controller: "hover",
                       action: "mouseenter->hover#show mouseleave->hover#hide",
                       "hover-id-value": dom_id(b.shift_as_source.target_basket),
-                      "hover-class-value": %w[bg-teal-100 dark:bg-teal-900]
+                      "hover-class-value": %w[is-shift-hovered]
                     }) do
                       description = t(".basket_shift_tooltip",
                         target_date: l(b.shift_as_source.target_delivery.date, format: :short))
@@ -420,7 +420,7 @@ ActiveAdmin.register Membership do
                     data: { confirm: t(".force_confirm") },
                     title: t(".force"),
                     aria: { label: t(".force") } do
-                      icon "circle-check-big", class: "size-5"
+                      icon "circle-check-big", class: "icon-5"
                     end
                 elsif authorized?(:update, b)
                   if authorized?(:unforce, b)
@@ -430,7 +430,7 @@ ActiveAdmin.register Membership do
                         data: { confirm: t(".unforce_confirm") },
                         title: t(".unforce"),
                         aria: { label: t(".unforce") } do
-                          icon "circle-off", class: "size-5"
+                          icon "circle-off", class: "icon-5"
                         end
                     end
                   end
@@ -439,7 +439,7 @@ ActiveAdmin.register Membership do
                       title: t(".edit"),
                       aria: { label: t(".edit") },
                       data: { "table-row-action": "edit" } do
-                      icon "square-pen", class: "size-5"
+                      icon "square-pen", class: "icon-5"
                     end
                   end
                 end
@@ -448,7 +448,7 @@ ActiveAdmin.register Membership do
           end
         end
         if feature?("absence") && m.baskets.provisionally_absent.any?
-          div class: "footnote italic text-sm flex gap-1.5 pl-1" do
+          div class: "panel-footnote footnote is-italic text-sm" do
             content_tag(:span, "* ") + content_tag(:span, t(".provisional_absences"))
           end
         end
@@ -527,7 +527,7 @@ ActiveAdmin.register Membership do
                 end
                 row :renewal_note
                 if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:mark_renewal_as_pending, m)
-                  div class: "mt-2 mb-1 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
+                  div class: "panel-action-row" do
                     div do
                       panel_button t(".mark_renewal_as_pending"), mark_renewal_as_pending_membership_path(m),
                         icon: "undo-2",
@@ -545,12 +545,12 @@ ActiveAdmin.register Membership do
                     end
                   }
                 end
-                div class: "mt-2 mb-1 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
+                div class: "panel-action-row" do
                   renew_button(self, m)
                   cancel_renewal_buttons(self, m)
                 end
               else
-                div class: "mt-2 mb-1 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
+                div class: "panel-action-row" do
                   if Delivery.any_in_year?(m.fy_year + 1)
                     if authorized?(:open_renewal, m) && MailTemplate.active_template(:membership_renewal)
                       div do
@@ -618,7 +618,7 @@ ActiveAdmin.register Membership do
                   cur(m.activity_participations_annual_price_change, unit: false)
                 }
               end
-              row(:price, class: "border-solid border-0 border-t border-gray-800 dark:border-gray-200 font-bold tabular-nums") {
+              row(:price, class: "row-rule font-bold tabular-nums") {
                 cur(m.price, format: "%u %n")
               }
             end
@@ -653,12 +653,12 @@ ActiveAdmin.register Membership do
           if authorized?(:future_billing, resource) && resource.future?
             invoicer = Billing::InvoicerFuture.new(resource)
             if invoicer.billable?
-              div class: "mt-2 flex items-center justify-center gap-4" do
+              div class: "panel-action-row" do
                 panel_button t(".future_billing"), future_billing_membership_path(resource),
                   icon: "banknote",
                   disabled: !Current.org.iban?,
                   disabled_tooltip: t(".future_billing_iban_missing", iban_type: Current.org.iban_type_name),
-                  form: { class: "inline" },
+                  form: { class: "form-inline" },
                   data: { confirm: t(".future_billing#{"_with_annual_fee" if resource.member.annual_fee&.positive?}_confirm") }
               end
             end
@@ -667,7 +667,7 @@ ActiveAdmin.register Membership do
 
         if feature?("activity")
           panel activities_human_name, icon: "handshake", action: handbook_icon_link("activity") do
-            ul class: "counts grid-cols-3 grid-flow-row" do
+            ul class: "counts is-rows" do
               li do
                 counter_tag(
                   Membership.human_attribute_name(:activity_participations_demanded_scope),
@@ -691,10 +691,10 @@ ActiveAdmin.register Membership do
               end
             end
             if authorized?(:clear_activity_participations_demanded, m)
-              div class: "mt-3 flex items-center justify-center gap-4" do
+              div class: "panel-action-row" do
                 panel_button t(".clear_activity_participations_demanded"), clear_activity_participations_demanded_membership_path(m),
                   icon: "circle-x",
-                  form: { class: "inline" },
+                  form: { class: "form-inline" },
                   data: { confirm: t(".clear_activity_participations_demanded_confirm") }
               end
             end
@@ -754,9 +754,9 @@ ActiveAdmin.register Membership do
 
     h3 t(".config")
     if resource.new_record?
-      para t(".membership_configuration_text"), class: "description mb-6"
+      para t(".membership_configuration_text"), class: "description is-loose"
     else
-      para t(".membership_configuration_warning_text"), class: "description mb-2"
+      para t(".membership_configuration_warning_text"), class: "description is-tight"
       f.inputs do
         f.input :new_config_from, as: :date_picker, required: true
       end
@@ -775,7 +775,7 @@ ActiveAdmin.register Membership do
             input_html: { data: { form_reset_target: "input" } }
         end
       end
-      ol "data-controller" => "form-reset", class: "mt-6" do
+      ol "data-controller" => "form-reset", class: "form-group" do
         f.input :delivery_cycle,
           collection: admin_delivery_cycles_collection_by_visibility,
           as: :select,
@@ -799,13 +799,13 @@ ActiveAdmin.register Membership do
           handbook_button(self, "absence", anchor: "absence-included")
         end
       end
-      li class: "mt-6" do
+      li class: "form-group" do
         details class: "arrow-details", open: f.object.alternate_depot_id? ? "open" : nil do
           summary do
             t(".alternate_depot_summary")
           end
-          div class: "mt-2" do
-            para t("formtastic.hints.membership.alternate_depot_text_html").html_safe, class: "text-sm text-gray-500 dark:text-gray-400 mb-4"
+          div do
+            para t("formtastic.hints.membership.alternate_depot_text_html").html_safe, class: "text-sm is-muted description is-tight"
             ol "data-controller" => "form-reset" do
               f.input :alternate_depot,
                 collection: admin_depots_collection,

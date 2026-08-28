@@ -2,7 +2,7 @@
 
 <% case @order.state %>
 <% when Shop::Order::CART_STATE %>
-  <p class="mt-2">
+  <p class="shop-lede">
     <%= t("members.shop.products.index.closing_at_html", date: l(@order.delivery.shop_closing_at, format: :long)) %>
 
     <%= t(".finalize_order") %>
@@ -15,7 +15,7 @@
     <% end %>
   </section>
 <% when Shop::Order::PENDING_STATE %>
-  <p class="mt-2">
+  <p class="shop-lede">
     <% if @order.can_member_update? %>
       <%= t(".received_order_html", date: l(@order.delivery.shop_closing_at, format: :long)) %>
     <% else %>
@@ -23,26 +23,15 @@
     <% end %>
   </p>
   <section>
-    <h2 class="flex items-center gap-2">
+    <h2 class="shop-heading">
       <%= Shop::Order.model_name.human %>
 
       <% if @order.can_member_update? %>
-        <span
-          class="
-            flex items-center rounded-full bg-green-300 px-3 text-sm
-            font-normal text-green-700 dark:bg-green-700 dark:text-green-300
-          "
-        >
+        <span class="shop-state is-received">
           <%= t(".order_received_state") %>
         </span>
       <% else %>
-        <span
-          class="
-            flex items-center rounded-full bg-yellow-300 px-3 text-sm
-            font-normal text-yellow-700 dark:bg-yellow-700
-            dark:text-yellow-300
-          "
-        >
+        <span class="shop-state is-pending">
           <%= t(".order_pending_state") %>
         </span>
       <% end %>
@@ -51,34 +40,23 @@
     <%= render partial: "members/shop/orders/finalized_order", locals: { order: @order } %>
   </section>
 <% when Shop::Order::INVOICED_STATE %>
-  <p class="mt-2"><%= t(".invoiced_order_html") %></p>
-  <div class="mt-4 mb-6">
+  <p class="shop-lede"><%= t(".invoiced_order_html") %></p>
+  <div class="shop-invoice">
     <%= link_to rails_blob_path(@order.invoice.pdf_file, disposition: "attachment") do %>
-      <div
-        class="
-          mx-auto flex w-max flex-row items-center rounded-full border
-          border-gray-300 px-4 py-1 text-gray-500 hover:border-green-300
-          hover:text-green-500
-        "
-      >
-        <%= icon "file-down", class: "size-5" %>
+      <div class="shop-invoice-link">
+        <%= icon "file-down", class: "icon-inline" %>
 
-        <span class="ml-1">
+        <span class="shop-invoice-label">
           <%= t(".download_invoice_html", number: @order.invoice.id) %>
         </span>
       </div>
     <% end %>
   </div>
   <section>
-    <h2 class="flex items-center gap-2">
+    <h2 class="shop-heading">
       <%= Shop::Order.model_name.human %>
 
-      <span
-        class="
-          flex items-center rounded-full bg-green-300 px-3 text-sm
-          font-normal text-green-700 dark:bg-green-700 dark:text-green-300
-        "
-      >
+      <span class="shop-state is-invoiced">
         <%= t(".order_invoiced_state") %>
       </span>
     </h2>

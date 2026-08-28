@@ -13,12 +13,12 @@
     data-depot-map-stylesheet-url-value="<%= maplibre_stylesheet_url %>"
   <% end %>
 >
-  <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
+  <legend class="form-legend">
     <%= t("shop.title") %>
   </legend>
 
-  <div class="space-y-6">
-    <div class="mt-2 space-y-2 text-sm font-normal text-gray-500">
+  <div class="shop-fields">
+    <div class="shop-copy">
       <% unless Current.org.member_form_extra_text_only? %>
         <p><%= t(".text") %></p>
       <% end %>
@@ -29,12 +29,12 @@
     </div>
 
     <div>
-      <div class="space-y-6">
+      <div class="shop-fields">
         <% if show_depot_map %>
           <%= render "members/members/form_modes/depot_map", disabled: false %>
         <% end %>
 
-        <%= f.input :shop_depot_id, as: :radio_buttons, collection: depots_collection(depots: all_visible_depots, show_price: false, data: { depot_map_target: "primaryInput" }), label: Depot.model_name.human, label_html: { class: "text-base" }, required: true %>
+        <%= f.input :shop_depot_id, as: :radio_buttons, collection: depots_collection(depots: all_visible_depots, show_price: false, data: { depot_map_target: "primaryInput" }), label: Depot.model_name.human, label_html: { class: "form-label" }, required: true %>
       </div>
     </div>
   </div>

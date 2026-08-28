@@ -1,60 +1,52 @@
 <% if membership = current_member.current_year_membership || current_member.future_membership %>
   <div
-    class="
-      mt-4 flex-col rounded-sm border border-gray-200 p-2 px-4
-      dark:border-gray-700
-    "
+    class="billing-panel"
     data-controller="hover"
     data-action="mouseenter->hover#show mouseleave->hover#hide"
     data-hover-id-value="<%= dom_id(membership) %>"
   >
-    <div class="text-center text-xl whitespace-nowrap">
+    <div class="billing-panel-title">
       <%= Membership.model_name.human %> <%= membership.fiscal_year %>
     </div>
 
-    <ul class="mt-4 w-full space-y-1">
-      <li class="flex w-full flex-row flex-wrap items-center justify-between">
-        <span class="font-light">
+    <ul class="price-rows">
+      <li class="price-row">
+        <span class="price-label">
           <%= Basket.model_name.human(count: membership.baskets_count) %>
         </span>
 
-        <span class="grow text-right tabular-nums">
+        <span class="price-value">
           <%= display_price_description(membership.basket_sizes_price, basket_sizes_price_info(membership, membership.baskets)) %>
         </span>
       </li>
 
       <%= render "members/shared/membership_price_lines", membership: membership %>
 
-      <li class="pt-1 text-right">
-        <span class="w-full border-t border-gray-500 pt-1 tabular-nums">
+      <li class="price-total">
+        <span class="price-total-mark">
           <%= cur(membership.price, format: "%u %n") %>
         </span>
       </li>
 
-      <li class="pt-1 text-right">
-        <span class="text-right font-light">
+      <li class="price-offset">
+        <span class="price-label">
           <%= t("members.billing.index.already_invoiced") %>
         </span>
 
-        <span class="inline-block w-32">
-          <span class="text-right tabular-nums">
+        <span class="price-col">
+          <span class="price-value">
             <%= cur(membership.invoices_amount, format: "- %n") %>
           </span>
         </span>
       </li>
 
-      <li class="text-right">
-        <span class="text-right font-light">
+      <li class="price-balance">
+        <span class="price-label">
           <%= t("members.billing.index.remaining_to_invoice") %>
         </span>
 
-        <span class="inline-block w-32">
-          <span
-            class="
-              border-t border-gray-500 pt-1 text-right font-medium
-              tabular-nums
-            "
-          >
+        <span class="price-col">
+          <span class="price-remaining">
             <%= cur(membership.missing_invoices_amount, format: "%u %n") %>
           </span>
         </span>

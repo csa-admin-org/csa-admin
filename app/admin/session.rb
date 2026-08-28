@@ -21,7 +21,7 @@ ActiveAdmin.register Session, as: "MSession" do
     column :owner
     column :browser, ->(s) { s.last_user_agent&.to_s }, class: "text-right"
     column :os, ->(s) { s.last_user_agent&.os&.to_s }, class: "text-right"
-    column :last_used_at, ->(s) { l(s.last_used_at, format: :short) if s.last_used_at }, class: "text-right whitespace-nowrap"
+    column :last_used_at, ->(s) { l(s.last_used_at, format: :short) if s.last_used_at }, class: "text-right is-nowrap"
     if Tenant.demo? && current_admin.ultra?
       column t("admin.demo_page_visits.visits"), ->(s) {
         count = s.demo_page_visits.count
@@ -34,7 +34,7 @@ ActiveAdmin.register Session, as: "MSession" do
           dom_id(s, key),
           t("active_admin.resources.m_session.status_icons.#{key}", **options),
           icon_name: icon_name,
-          icon_class: "size-5")
+          icon_class: "icon-5")
       }
 
       icons = []
@@ -47,7 +47,7 @@ ActiveAdmin.register Session, as: "MSession" do
       end
       icons << status_icon.call(:member, "user") if s.member
 
-      content_tag(:span, safe_join(icons), class: "flex items-center gap-1 justify-end text-gray-500")
+      content_tag(:span, safe_join(icons), class: "cluster is-end is-muted is-snug")
     }
   end
 

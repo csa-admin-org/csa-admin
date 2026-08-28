@@ -4,30 +4,27 @@
   <h2><%= Depot.model_name.human %>: <%= @depot.public_name %></h2>
 
   <% if current_member.errors.none? && current_member.contact_sharing? %>
-    <p class="mt-2"><%= t(".description") %></p>
+    <p class="contact-blurb"><%= t(".description") %></p>
     <% if @members.empty? %>
-      <p class="nocontent my-12"><%= t(".nobody_sharing_contact") %></p>
+      <p class="nocontent contacts-empty">
+        <%= t(".nobody_sharing_contact") %>
+      </p>
     <% else %>
-      <ul id="members" class="mt-8 mb-4 flex w-full flex-col gap-4">
+      <ul id="members" class="contacts">
         <% @members.each do |member| %>
-          <li
-            class="
-              -mx-2 grow rounded-md p-2 hover:bg-gray-100 md:-mx-3 md:px-3
-              dark:hover:bg-gray-900
-            "
-          >
-            <h3 class="mb-2 text-base font-medium text-gray-800 dark:text-gray-200">
+          <li class="contact">
+            <h3 class="contact-name">
               <%= member.name %>
             </h3>
 
-            <ul class="space-y-1.5">
-              <li class="flex flex-row items-center gap-2">
-                <%= icon "phone", class: "member-detail-icon size-5 w-6" %>
+            <ul class="contact-facts">
+              <li class="contact-fact">
+                <%= icon "phone", class: "detail-icon" %>
                 <span><%= display_phones(member) %></span>
               </li>
 
-              <li class="flex flex-row items-center gap-2">
-                <%= icon "map", class: "member-detail-icon size-5 w-6" %>
+              <li class="contact-fact">
+                <%= icon "map", class: "detail-icon" %>
                 <span><%= display_address(member) %></span>
               </li>
             </ul>
@@ -39,8 +36,8 @@
       <%= t(".cancel_sharing_html", email: Current.org.email) %>
     </p>
   <% else %>
-    <p class="my-2"><%= t(".explanation") %></p>
-    <%= simple_form_for current_member, url: members_contact_sharing_path, method: :post, html: { class: "mt-8" } do |f| %>
+    <p class="contact-prompt"><%= t(".explanation") %></p>
+    <%= simple_form_for current_member, url: members_contact_sharing_path, method: :post, html: { class: "contact-form" } do |f| %>
       <div class="check_boxes">
         <div class="checkbox">
           <%= f.input :contact_sharing, as: :hidden, input_html: { value: true } %>
@@ -50,7 +47,7 @@
 
       <div class="actions">
         <%= button_tag type: "submit" do %>
-          <%= icon "check", class: "size-5" %>
+          <%= icon "check", class: "icon-inline-action" %>
           <span><%= t(".submit") %></span>
         <% end %>
       </div>

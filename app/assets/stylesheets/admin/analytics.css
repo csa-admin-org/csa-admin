@@ -1,0 +1,66 @@
+@layer components {
+  .analytics-headlines-panel .panel-body {
+    padding: 1rem;
+  }
+
+  .analytics-year {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 200;
+    color: var(--color-ink-muted);
+  }
+
+  .counts.analytics-counts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 2.5rem;
+    row-gap: 1rem;
+    grid-template-columns: none;
+    grid-auto-columns: auto;
+    grid-auto-flow: row;
+
+    @media (width >= 40rem) {
+      column-gap: 3.5rem;
+    }
+  }
+
+  .analytics-charts {
+    margin-top: 2rem;
+  }
+
+  .analytics-charts > :not(:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  .analytics-charts .panel-body {
+    padding: 0.5rem 1rem;
+  }
+
+  .settings-anchor {
+    scroll-margin-top: 6rem;
+  }
+
+  .analytics-chart {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 18rem;
+    padding-block: 0.5rem;
+    padding-inline: 0 0.35rem;
+  }
+
+  .analytics-chart canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  @media (width >= 768px) {
+    .analytics-chart {
+      height: 22rem;
+      padding-inline: 0 0.5rem;
+    }
+  }
+}

@@ -71,7 +71,10 @@ class Liquid::DataPreview
   end
 
   def invokable_methods(drop)
-    methods = drop.class.invokable_methods
+    # Own public methods only. Included helpers stay private on the
+    # drop, but test support can reopen those modules after eager load
+    # and leak public factory methods into Liquid::Drop.invokable_methods.
+    methods = drop.class.public_instance_methods(false).map(&:to_s)
     methods -= %w[to_liquid]
     unless Current.org.feature?(:absence)
       methods -= %w[absences_url]

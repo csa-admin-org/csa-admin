@@ -27,8 +27,7 @@ export default class extends Controller {
     }
 
     this.dropdownTarget.querySelectorAll("li").forEach((li) => {
-      li.classList.toggle("bg-gray-100", li.dataset.value === value)
-      li.classList.toggle("dark:bg-gray-700", li.dataset.value === value)
+      li.classList.toggle("is-selected", li.dataset.value === value)
     })
 
     this.close()
@@ -39,6 +38,6 @@ export default class extends Controller {
   }
 
   openValueChanged() {
-    this.dropdownTarget.classList.toggle("hidden", !this.openValue)
+    this.dropdownTarget.classList.toggle("is-hidden", !this.openValue)
   }
 }

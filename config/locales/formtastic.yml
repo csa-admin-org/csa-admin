@@ -1073,47 +1073,47 @@ _:
           _it: Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.<br/>Il numero finale sarà calcolato automaticamente secondo la logica definita nelle <a href='/settings#absence'>impostazioni</a>, per impostazione predefinita in proporzione al numero di cesti.
           _nl: Laat leeg voor het standaardaantal van de leveringscyclus.<br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#absence'>de instellingen</a>, standaard evenredig aan het aantal pakketten.
         activity_participations_annual_price_change/bag_html:
-          _en: <span class="text-red-500">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
-          _fr: <span class="text-red-500">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
-          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
-          _it: <span class="text-red-500">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
-          _nl: <span class="text-red-500">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
+          _en: <span class="is-alert">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
+          _fr: <span class="is-alert">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
+          _de: <span class="is-alert">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
+          _it: <span class="is-alert">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
+          _nl: <span class="is-alert">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
         activity_participations_annual_price_change/basket_html:
-          _en: <span class="text-red-500">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
-          _fr: <span class="text-red-500">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
-          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
-          _it: <span class="text-red-500">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
-          _nl: <span class="text-red-500">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
+          _en: <span class="is-alert">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
+          _fr: <span class="is-alert">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
+          _de: <span class="is-alert">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
+          _it: <span class="is-alert">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
+          _nl: <span class="is-alert">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
         activity_participations_annual_price_change/cone_html:
-          _en: <span class="text-red-500">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
-          _fr: <span class="text-red-500">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
-          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
-          _it: <span class="text-red-500">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
-          _nl: <span class="text-red-500">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
+          _en: <span class="is-alert">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
+          _fr: <span class="is-alert">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
+          _de: <span class="is-alert">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
+          _it: <span class="is-alert">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
+          _nl: <span class="is-alert">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
         activity_participations_annual_price_change/crate_html:
-          _en: <span class="text-red-500">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
-          _fr: <span class="text-red-500">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
-          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
-          _it: <span class="text-red-500">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
-          _nl: <span class="text-red-500">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
+          _en: <span class="is-alert">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
+          _fr: <span class="is-alert">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
+          _de: <span class="is-alert">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
+          _it: <span class="is-alert">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
+          _nl: <span class="is-alert">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
         activity_participations_annual_price_change/package_html:
-          _en: <span class="text-red-500">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
-          _fr: <span class="text-red-500">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
-          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
-          _it: <span class="text-red-500">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
-          _nl: <span class="text-red-500">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
+          _en: <span class="is-alert">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
+          _fr: <span class="is-alert">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
+          _de: <span class="is-alert">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
+          _it: <span class="is-alert">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
+          _nl: <span class="is-alert">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
         activity_participations_annual_price_change/share_html:
-          _en: <span class="text-red-500">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
-          _fr: <span class="text-red-500">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
-          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
-          _it: <span class="text-red-500">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
-          _nl: <span class="text-red-500">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
+          _en: <span class="is-alert">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
+          _fr: <span class="is-alert">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
+          _de: <span class="is-alert">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
+          _it: <span class="is-alert">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
+          _nl: <span class="is-alert">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
         activity_participations_annual_price_change_html:
-          _en: <span class="text-red-500">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
-          _fr: <span class="text-red-500">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
-          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
-          _it: <span class="text-red-500">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
-          _nl: <span class="text-red-500">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
+          _en: <span class="is-alert">Leave blank to calculate the amount automatically.</span><br/>Increase or decrease the membership price based on the number of required activity participations.
+          _fr: <span class="is-alert">Laisser vide pour calculer le montant automatiquement.</span><br/>Augmente ou réduit le prix de l'abonnement en fonction du nombre de participations aux activités demandées.
+          _de: <span class="is-alert">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöht oder verringert den Abonnementpreis anhand der Anzahl der erforderlichen Aktivitätsteilnahmen.
+          _it: <span class="is-alert">Lasciare vuoto per calcolare automaticamente l'importo.</span><br/>Aumenta o riduce il prezzo dell'abbonamento in base al numero di partecipazioni alle attività richieste.
+          _nl: <span class="is-alert">Leeg laten om het bedrag automatisch te laten berekenen.</span><br/>Verhoogt of verlaagt de lidmaatschapsprijs op basis van het aantal vereiste deelnames aan activiteiten.
         activity_participations_demanded_annually/bag_html:
           _en: Leave blank for the default number.<br/>The final number will be calculated automatically based on the logic defined in <a href='/settings#activity'>the settings</a>, by default proportional to the number of bags.
           _fr: Laisser blanc pour le nombre par défaut.<br/>Le nombre final sera calculé automatiquement en fonction de <a href='/settings#activity'>la logique définie dans les paramètres</a>, par défaut au prorata du nombre de sacs.

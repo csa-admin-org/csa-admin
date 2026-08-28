@@ -1,0 +1,148 @@
+@layer utilities {
+  trix-editor {
+    width: 100% !important;
+    border-radius: 0.375rem !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: var(--color-gray-300) !important;
+    background-color: var(--color-gray-50) !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+    color: var(--color-gray-900) !important;
+
+    &:focus {
+      border-color: var(--color-green-500) !important;
+      box-shadow: 0 0 0 1px var(--color-green-500) !important;
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-600) !important;
+      background-color: var(--color-gray-800) !important;
+      color: var(--color-white) !important;
+
+      &::placeholder {
+        color: var(--color-gray-400) !important;
+      }
+
+      &:focus {
+        border-color: var(--color-green-600) !important;
+        box-shadow: 0 0 0 1px var(--color-green-600) !important;
+      }
+    }
+  }
+
+  trix-editor figcaption {
+    display: none !important;
+  }
+
+  trix-editor img,
+  .trix-content .attachment {
+    display: inline-block;
+  }
+
+  .trix-content img {
+    margin-inline: auto;
+    max-width: 50% !important;
+  }
+
+  trix-editor figure {
+    margin-block: 1rem !important;
+  }
+
+  .trix-content figure {
+    margin-block: 0.5rem !important;
+  }
+
+  .trix-content {
+    a {
+      text-decoration-line: underline;
+      text-decoration-color: var(--link-decoration);
+      text-underline-offset: 2px;
+
+      &:hover {
+        color: var(--link-hover);
+        text-decoration-color: var(--link-hover);
+      }
+    }
+
+    ol,
+    ul {
+      margin-block: 0.5rem !important;
+    }
+
+    li {
+      margin-left: 1.5rem !important;
+    }
+
+    ol {
+      list-style-type: decimal;
+    }
+
+    ul {
+      list-style-type: disc;
+    }
+  }
+
+  trix-toolbar {
+    margin-top: 0.5rem;
+  }
+
+  .field_with_errors {
+    & trix-editor {
+      border-width: 2px !important;
+      border-color: var(--color-red-500) !important;
+    }
+  }
+
+  trix-toolbar .trix-button {
+    &:where(.dark, .dark *) {
+      filter: invert();
+    }
+  }
+
+  trix-editor {
+    &:where(.dark, .dark *) {
+      color: white;
+    }
+  }
+
+  trix-toolbar .trix-button:disabled {
+    &:where(.dark, .dark *) {
+      filter: invert() grayscale(1) brightness(2);
+    }
+  }
+
+  trix-toolbar .trix-button--icon::before {
+    &:where(.dark, .dark *) {
+      opacity: 1;
+    }
+  }
+
+  trix-toolbar .trix-button--icon:disabled::before {
+    &:where(.dark, .dark *) {
+      opacity: 0.5;
+    }
+  }
+
+  .trix-dialog .trix-button-group {
+    &:where(.dark, .dark *) {
+      filter: invert();
+    }
+  }
+
+  .trix-input--dialog,
+  .trix-button--dialog {
+    &:where(.dark, .dark *) {
+      color: black;
+    }
+  }
+
+  .trix-button--icon-quote {
+    display: none !important;
+  }
+
+  .trix-button--icon-code {
+    display: none !important;
+  }
+}

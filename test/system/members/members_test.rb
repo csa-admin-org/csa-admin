@@ -118,15 +118,15 @@ class Members::MembersTest < ApplicationSystemTestCase
     map = find("[data-controller~='depot-map']", visible: :all)
     markers = JSON.parse(map["data-depot-map-markers-value"])
 
-    assert_selector ".member-depot-map", visible: :all
+    assert_selector ".depot-map", visible: :all
     assert_equal [ depots(:farm).id, depots(:bakery).id ].sort, markers.map { |marker| marker["id"] }.sort
     assert_selector "input[type='radio'][data-depot-map-target='primaryInput'][value='#{depots(:farm).id}']", visible: :all
     assert_selector "input[type='checkbox'][data-depot-map-target='alternativeInput'][value='#{depots(:farm).id}']", visible: :all
 
     assert_selector ".member-depot-picker-sticky", visible: :all
     assert_selector ".member-depot-map-panel[data-form-disabler-target='label']", visible: :all
-    assert_selector ".member-depot-picker-boundary > .member-depot-picker-sticky", visible: :all
-    assert_selector ".member-depot-picker-boundary input[type='checkbox'][data-depot-map-target='alternativeInput'][value='#{depots(:farm).id}']", visible: :all
+    assert_selector ".depot-picker-boundary > .member-depot-picker-sticky", visible: :all
+    assert_selector ".depot-picker-boundary input[type='checkbox'][data-depot-map-target='alternativeInput'][value='#{depots(:farm).id}']", visible: :all
   end
 
   test "membership registration does not render depot map unless feature and setting are enabled" do
@@ -156,7 +156,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     map = find("[data-controller~='depot-map']", visible: :all)
     markers = JSON.parse(map["data-depot-map-markers-value"])
 
-    assert_selector ".member-depot-map", visible: :all
+    assert_selector ".depot-map", visible: :all
     assert_equal [ depots(:farm).id ], markers.map { |marker| marker["id"] }
     assert_selector "input[type='radio'][data-depot-map-target='primaryInput'][value='#{depots(:farm).id}']", visible: :all
   end

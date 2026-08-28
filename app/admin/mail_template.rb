@@ -45,7 +45,7 @@ ActiveAdmin.register MailTemplate do
   index download_links: false do
     column :title, ->(mt) {
       div mt.display_name
-      span mt.description, class: "block text-sm text-gray-500"
+      span mt.description, class: "is-block text-sm is-muted"
     }
     column :active, ->(mt) { aligned_status_tag(mt.active?) }, sortable: false, class: "text-right"
 
@@ -72,7 +72,7 @@ ActiveAdmin.register MailTemplate do
       end
       column do
         panel t(".details"), icon: "notebook-text" do
-          div class: "mx-2 mb-4" do
+          div class: "panel-copy is-loose" do
             para mail_template.description, class: "text-base description"
           end
           if !mail_template.active? || !mail_template.with_delivery_cycles_scope?
@@ -97,7 +97,7 @@ ActiveAdmin.register MailTemplate do
           panel link_to(MailDelivery.model_name.human(count: 2), mail_deliveries_path(mail_template_id: mail_template.id)), icon: "mails", count: deliveries_count do
             mail_delivery_email_stats(self, deliveries,
               path_params: { mail_template_id: mail_template.id })
-            para t("active_admin.resources.mail_delivery.retention_notice"), class: "mt-4 text-sm missing-data"
+            para t("active_admin.resources.mail_delivery.retention_notice"), class: "missing-data text-sm"
           end
 
           if mail_template.show_missing_delivery_emails?

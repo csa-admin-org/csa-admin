@@ -1,0 +1,110 @@
+@layer components {
+  .batch-actions-dropdown {
+    position: relative;
+  }
+
+  .batch-actions-dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-gray-200);
+    background-color: var(--color-white);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    color: var(--color-gray-900);
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+
+    &:hover {
+      background-color: var(--color-gray-100);
+      color: var(--color-green-700);
+    }
+
+    &:focus {
+      z-index: 10;
+      color: var(--color-green-700);
+      box-shadow: 0 0 0 2px var(--color-green-700);
+    }
+
+    &:disabled {
+      pointer-events: none;
+      border-color: color-mix(in oklch, var(--color-gray-200) 70%, transparent);
+      color: var(--color-gray-400);
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-600);
+      background-color: var(--color-gray-800);
+      color: var(--color-white);
+
+      &:hover {
+        background-color: var(--color-gray-700);
+        color: var(--color-white);
+      }
+
+      &:focus {
+        color: var(--color-white);
+        box-shadow: 0 0 0 2px var(--color-green-500);
+      }
+
+      &:disabled {
+        border-color: var(--color-gray-800);
+        background-color: var(--color-gray-900);
+        color: var(--color-gray-500);
+      }
+    }
+  }
+
+  .batch-actions-dropdown-menu {
+    position: fixed;
+    z-index: 50;
+    min-width: 13rem;
+    border-radius: 0.375rem;
+    background-color: var(--color-white);
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-gray-700);
+    box-shadow:
+      0 0 0 1px color-mix(in oklch, var(--color-black) 5%, transparent),
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    &:focus {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+
+    &:where(.dark, .dark *) {
+      background-color: var(--color-gray-800);
+      color: var(--color-gray-200);
+    }
+  }
+
+  .batch-actions-dropdown-menu li > a {
+    display: block;
+    border-radius: 0.125rem;
+    padding: 0.5rem 0.625rem;
+    color: var(--color-gray-700);
+    text-decoration-line: none;
+
+    &:hover {
+      background-color: var(--color-gray-100);
+      color: var(--color-gray-900);
+    }
+
+    &:where(.dark, .dark *) {
+      color: var(--color-white);
+
+      &:hover {
+        background-color: var(--color-gray-700);
+        color: var(--color-white);
+      }
+    }
+  }
+}

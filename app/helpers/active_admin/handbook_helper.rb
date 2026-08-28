@@ -2,9 +2,9 @@
 
 module ActiveAdmin::HandbookHelper
   def handbook_button(arbre, page, **options)
-    arbre.para class: "mt-6 flex justify-center" do
+    arbre.para class: "handbook-button" do
       arbre.a href: handbook_page_path(page, **options), class: "btn btn-sm btn-light" do
-        arbre.span icon("book-open", class: "size-4", title: I18n.t("active_admin.site_footer.handbook"))
+        arbre.span icon("book-open", class: "icon-4", title: I18n.t("active_admin.site_footer.handbook"))
         arbre.span t(".check_handbook")
       end.html_safe
     end
@@ -19,9 +19,9 @@ module ActiveAdmin::HandbookHelper
       arbre.form action: handbook_search_path, method: :get,
         data: { "turbo-frame" => turbo_frame_id, "handbook-search-target" => "form" } do
         arbre.input type: :hidden, name: :page, value: current_page
-        arbre.div class: "relative mb-3" do
-          arbre.div class: "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5" do
-            icon "search", class: "size-4 text-gray-400 dark:text-gray-500"
+        arbre.div class: "handbook-search" do
+          arbre.div class: "handbook-search-icon" do
+            icon "search", class: "icon-4 is-faint"
           end
           arbre.input type: :text, name: :q,
             placeholder: I18n.t("active_admin.shared.sidebar_section.search_placeholder"),
@@ -31,26 +31,24 @@ module ActiveAdmin::HandbookHelper
               "handbook-search-target" => "input",
               action: "input->handbook-search#search"
             },
-            class: "mt-0 w-full rounded-md border border-gray-300 py-1.5 pl-8 pr-3 text-base sm:text-sm " \
-                   "placeholder-gray-400 " \
-                   "dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
+            class: "handbook-search-input"
         end
       end
 
       arbre.turbo_frame id: turbo_frame_id, target: "_top",
         data: { "handbook-search-target": "frame", action: "turbo:frame-load->handbook-search#resetSelection" } do
-        arbre.ul class: "mt-6 space-y-2 text-base" do
+        arbre.ul class: "admin-page-menu" do
           Handbook.all(binding).each do |handbook|
             next if handbook.restricted? && !current_admin.ultra?
             next if handbook.demo_only? && !Tenant.demo?
 
             arbre.li do
               if handbook.name == current_page
-                arbre.div class: "font-bold flex items-center justify-start" do
-                  arbre.div { icon "chevron-down", class: "size-4 me-1" }
+                arbre.div class: "admin-page-menu-current" do
+                  arbre.div { icon "chevron-down", class: "icon-4" }
                   arbre.span handbook.title
                 end
-                arbre.ol class: "mt-2 mb-6 ml-5 list-inside list-none space-y-1" do
+                arbre.ol class: "admin-page-menu-subs" do
                   handbook.subtitles.each do |subtitle, id|
                     arbre.li do
                       arbre.a href: handbook_page_path(handbook.name, anchor: id), **link_data do
@@ -61,8 +59,8 @@ module ActiveAdmin::HandbookHelper
                 end
               else
                 arbre.a href: handbook_page_path(handbook.name), **link_data do
-                  arbre.div class: "flex items-center justify-start" do
-                    arbre.div { icon "chevron-right", class: "size-4 me-1" }
+                  arbre.div class: "admin-page-menu-link" do
+                    arbre.div { icon "chevron-right", class: "icon-4" }
                     arbre.span handbook.title
                   end
                 end

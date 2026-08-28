@@ -21,28 +21,28 @@
   data-depot-coordinate-map-editable-value="<%= editable %>"
 >
   <div
-    class="depot-coordinate-map <%= "hidden" unless depot.map_coordinates? %>"
+    class="depot-coordinate-map <%= " is-hidden" unless depot.map_coordinates? %>"
     data-depot-coordinate-map-target="map"
   ></div>
 
   <p
-    class="depot-coordinate-map-empty <%= "hidden" if depot.map_coordinates? %>"
+    class="depot-coordinate-map-empty <%= " is-hidden" if depot.map_coordinates? %>"
     data-depot-coordinate-map-target="empty"
   >
     <%= t("maps.admin_depot_map.empty") %>
   </p>
 
   <p
-    class="depot-coordinate-map-unavailable hidden"
+    class="depot-coordinate-map-unavailable is-hidden"
     data-depot-coordinate-map-target="unavailable"
   >
     <%= t("maps.admin_depot_map.unavailable") %>
   </p>
 
   <% if editable && depot.persisted? %>
-    <div class="flex flex-wrap items-center gap-2">
+    <div class="depot-coordinate-map-actions">
       <%= button_tag type: "button", class: "btn btn-sm", data: { action: "depot-coordinate-map#geocode", depot_coordinate_map_target: "geocodeButton" } do %>
-        <%= icon("map", class: "size-4") %>
+        <%= icon("map", class: "depot-coordinate-map-geocode-icon") %>
         <%= t("active_admin.resources.depot.geocode") %>
       <% end %>
 
@@ -57,7 +57,7 @@
 
   <% if editable %>
     <p
-      class="inline-hints <%= "hidden" unless depot.map_coordinates? %>"
+      class="inline-hints <%= " is-hidden" unless depot.map_coordinates? %>"
       data-depot-coordinate-map-target="hint"
     >
       <%= t("maps.admin_depot_map.hint") %>

@@ -1,4 +1,4 @@
-<h1 class="flex items-center justify-between">
+<h1 class="activity-heading">
   <%= activities_human_name %>
   <%= render "members/calendars/subscribe_button" %>
 </h1>
@@ -7,7 +7,7 @@
   <h2><%= t(".activity_participation_form_title") %></h2>
 
   <% if @activities.empty? %>
-    <p class="nocontent mt-2"><%= t(".no_activities") %></p>
+    <p class="nocontent copy"><%= t(".no_activities") %></p>
   <% else %>
     <div
       class="activities-form"
@@ -18,25 +18,25 @@
     >
       <%= simple_form_for @activity_participation, url: [ :members, @activity_participation ] do |f| %>
         <% if @activities.map(&:title).uniq.many? %>
-          <div class="my-2">
-            <%= select_tag :activity_title, activities_titles_options(@activities), class: "mt-1 select-sm max-w-full min-w-72", data: { action: "calendar#filterDates" } %>
+          <div class="activity-filter">
+            <%= select_tag :activity_title, activities_titles_options(@activities), class: "select-sm activity-title-select", data: { action: "calendar#filterDates" } %>
           </div>
         <% end %>
 
-        <div class="mt-2 mb-6">
+        <div class="activity-calendar">
           <div class="calendar-wrapper">
             <div id="calendar" class="calendar" data-calendar-target="calendar"></div>
           </div>
         </div>
 
-        <div class="space-y-6">
+        <div class="activity-fields">
           <%= f.input :activity_ids, as: :check_boxes, collection: activities_collection(@activities, data: { calendar_target: "input" }), disabled: @activities.select(&:full?).map(&:id), required: true, label: t(".activity_label"), wrapper_html: { data: { form_disabler_target: "label" } } %>
-          <%= f.input :participants_count, as: :numeric, required: true, label: t(".participants_count_label"), input_html: { step: 1, min: 1, class: "w-16" } %>
-          <%= f.input :note, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { rows: 2 } %>
+          <%= f.input :participants_count, as: :numeric, required: true, label: t(".participants_count_label"), input_html: { step: 1, min: 1, class: "form-narrower" } %>
+          <%= f.input :note, input_html: { rows: 2 } %>
 
-          <div data-controller="form-checkbox-toggler" class="space-y-2">
+          <div data-controller="form-checkbox-toggler" class="carpool">
             <legend>
-              <div class="flex flex-row flex-nowrap gap-2">
+              <div class="carpool-legend">
                 <span><%= t(".carpooling") %></span>
                 <%= tooltip("carpooling", t(".carpooling_tooltip")) %>
               </div>
@@ -52,7 +52,7 @@
 
           <div class="actions">
             <%= button_tag type: "submit", data: { calendar_target: "submit" } do %>
-              <%= icon "check", class: "size-5" %>
+              <%= icon "check", class: "icon-inline-action" %>
               <span><%= t(".activity_form_submit") %></span>
             <% end %>
           </div>
@@ -68,17 +68,12 @@
   <section>
     <h2><%= t(".coming_activity_participations") %></h2>
 
-    <ul id="coming_participations" class="mt-2 space-y-4">
+    <ul id="coming_participations" class="activity-list">
       <%= render @coming_participations %>
     </ul>
 
     <% if @coming_participations.any? { |p| !p.destroyable? } %>
-      <p
-        class="
-          mt-4 pb-4 text-center text-sm text-gray-400 italic
-          dark:text-gray-400
-        "
-      >
+      <p class="activity-cancel-hint">
         <%= t(".coming_activity_participation_cannot_be_cancel_explanation_html",
           days_count: Current.org.activity_participation_deletion_deadline_in_days,
           contact_link: mail_to(Current.org.email, t(".contact_link"))) %>
@@ -99,6 +94,6 @@
   <% if @past_participations.empty? %>
     <p class="nocontent"><%= t(".no_past_activity_participations") %></p>
   <% else %>
-    <ul class="mt-2 space-y-4"><%= render @past_participations %></ul>
+    <ul class="activity-list"><%= render @past_participations %></ul>
   <% end %>
 </section>

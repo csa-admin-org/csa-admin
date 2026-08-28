@@ -1,17 +1,14 @@
 # frozen_string_literal: true
 
 module TooltipHelper
-  def tooltip(id, text, icon_name: "info", icon_class: "size-5", trigger_class: nil, &block)
+  def tooltip(id, text, icon_name: "info", icon_class: "tooltip-icon", trigger_class: nil, &block)
     tooltip_id = "tooltip-#{id}"
     # Use a span (not button) so the trigger stays valid inside Formtastic
     # <p class="inline-hints"> wrappers and similar phrasing contexts.
-    trigger_classes = [
-      trigger_class || "block",
-      "z-20 cursor-default hover:text-gray-900 dark:hover:text-gray-100"
-    ].join(" ")
+    trigger_classes = [ "tooltip-trigger", trigger_class ].compact.join(" ")
 
     content_tag(:span,
-      class: "relative inline-flex",
+      class: "tooltip-wrap",
       data: { controller: "tooltip" }
     ) do
       content_tag(:span,
@@ -35,7 +32,7 @@ module TooltipHelper
     end
   end
 
-  def popover(id, icon_name: "info", icon_class: "size-5", hover: false, &block)
+  def popover(id, icon_name: "info", icon_class: "tooltip-icon", hover: false, &block)
     popover_id = "popover-#{id}"
     actions = [ "click->tooltip#toggle" ]
     actions += %w[
@@ -46,12 +43,12 @@ module TooltipHelper
     ] if hover
 
     content_tag(:span,
-      class: "relative inline-flex",
+      class: "tooltip-wrap",
       data: { controller: "tooltip", "tooltip-dismissible-value" => true }
     ) do
       content_tag(:button,
         type: "button",
-        class: "block z-0 cursor-pointer hover:text-gray-900 dark:hover:text-gray-100",
+        class: "tooltip-trigger is-clickable",
         data: {
           "tooltip-target" => "trigger",
           action: actions.join(" ")
@@ -67,7 +64,7 @@ module TooltipHelper
 
   def tooltip_element(content, id: nil)
     # span (not p/div): valid phrasing content inside Formtastic <p class="inline-hints">
-    _floating_element(id: id) { content_tag(:span, content, class: "block") }
+    _floating_element(id: id) { content_tag(:span, content, class: "tooltip-body") }
   end
 
   def popover_element(id: nil, hover: false, &block)
@@ -89,7 +86,7 @@ module TooltipHelper
 
     html_options = {
       role: "tooltip",
-      class: "invisible fixed z-50 w-max max-w-96 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 transition-opacity duration-150 tooltip dark:bg-gray-700",
+      class: "tooltip",
       data: data
     }
     html_options[:id] = id if id

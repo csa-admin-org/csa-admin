@@ -1,13 +1,13 @@
 <div
-  class="member-depot-map-panel print:hidden <%= " disabled" if local_assigns[:disabled] %>"
+  class="member-depot-map-panel print-hidden <%= " disabled" if local_assigns[:disabled] %>"
   data-form-disabler-target="label"
 >
-  <p class="member-depot-map-hint">
+  <p class="depot-map-hint">
     <%= t("maps.registration_depot_map.hint") %>
   </p>
 
   <div
-    class="member-depot-map"
+    class="depot-map"
     role="region"
     aria-label="<%= t("maps.registration_depot_map.title") %>"
     data-depot-map-target="map"

@@ -12,15 +12,15 @@ ActiveAdmin.register BasketComplement do
   index download_links: false do
     column :id
     column :name, ->(bc) { display_name_with_public_name(bc) }, sortable: true
-    column :price, ->(bc) { cur(bc.price, precision: 3) }, class: "text-right tabular-nums whitespace-nowrap"
+    column :price, ->(bc) { cur(bc.price, precision: 3) }, class: "text-right tabular-nums is-nowrap"
     column :annual_price, ->(bc) {
       if bc.deliveries_count.positive?
         deliveries_based_price_info(bc.price, bc.billable_deliveries_counts)
       end
-    }, class: "text-right tabular-nums whitespace-nowrap"
+    }, class: "text-right tabular-nums is-nowrap"
     column :deliveries, ->(bc) {
       deliveries_count_range_with_absences(bc.deliveries_counts, bc.absences_included_counts)
-    }, class: "text-right tabular-nums whitespace-nowrap"
+    }, class: "text-right tabular-nums is-nowrap"
     column Current.org.current_fiscal_year, ->(bc) {
       link_to bc.current_deliveries.size, deliveries_path(
         q: {

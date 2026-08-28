@@ -1635,53 +1635,53 @@ _:
             _it: Importo in %{currency}
             _nl: Bedrag in %{currency}
           annual_fee_support_member_only_text_html:
-            _en: Each supporting member (without subscription) pays an annual fee of <b class="whitespace-nowrap">%{price}</b>.
-            _fr: Chaque membre de soutien (sans abonnement) verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b>.
-            _de: Jedes Fördermitglied (ohne Abonnement) zahlt einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
-            _it: Ogni socio sostenitore (senza abbonamento) paga una quota annuale di <b class="whitespace-nowrap">%{price}</b>.
-            _nl: Elk ondersteunend lid (zonder lidmaatschap) betaalt een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b>.
+            _en: Each supporting member (without subscription) pays an annual fee of <b class="is-nowrap">%{price}</b>.
+            _fr: Chaque membre de soutien (sans abonnement) verse une cotisation annuelle de <b class="is-nowrap">%{price}</b>.
+            _de: Jedes Fördermitglied (ohne Abonnement) zahlt einen Jahresbeitrag von <b class="is-nowrap">%{price}</b>.
+            _it: Ogni socio sostenitore (senza abbonamento) paga una quota annuale di <b class="is-nowrap">%{price}</b>.
+            _nl: Elk ondersteunend lid (zonder lidmaatschap) betaalt een jaarlijkse bijdrage van <b class="is-nowrap">%{price}</b>.
           annual_fee_text/bag_html:
-            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the bag.
-            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son sac.
-            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für die Tasche auch einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
-            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla borsa.
-            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor de tas.
+            _en: Each member also pays an annual fee of <b class="is-nowrap">%{price}</b> in addition to the membership to the bag.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="is-nowrap">%{price}</b> en plus de l'abonnement à son sac.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für die Tasche auch einen Jahresbeitrag von <b class="is-nowrap">%{price}</b>.
+            _it: Ogni socio paga anche una quota annuale di <b class="is-nowrap">%{price}</b> oltre all'abbonamento alla borsa.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="is-nowrap">%{price}</b> naast het lidmaatschap voor de tas.
           annual_fee_text/basket_html:
-            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the basket.
-            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son panier.
-            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Korb auch einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
-            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla cesta.
-            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor de mand.
+            _en: Each member also pays an annual fee of <b class="is-nowrap">%{price}</b> in addition to the membership to the basket.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="is-nowrap">%{price}</b> en plus de l'abonnement à son panier.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Korb auch einen Jahresbeitrag von <b class="is-nowrap">%{price}</b>.
+            _it: Ogni socio paga anche una quota annuale di <b class="is-nowrap">%{price}</b> oltre all'abbonamento alla cesta.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="is-nowrap">%{price}</b> naast het lidmaatschap voor de mand.
           annual_fee_text/cone_html:
-            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the cone.
-            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son cornet.
-            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für die Tüte auch einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
-            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento al cono.
-            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor de zak.
+            _en: Each member also pays an annual fee of <b class="is-nowrap">%{price}</b> in addition to the membership to the cone.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="is-nowrap">%{price}</b> en plus de l'abonnement à son cornet.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für die Tüte auch einen Jahresbeitrag von <b class="is-nowrap">%{price}</b>.
+            _it: Ogni socio paga anche una quota annuale di <b class="is-nowrap">%{price}</b> oltre all'abbonamento al cono.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="is-nowrap">%{price}</b> naast het lidmaatschap voor de zak.
           annual_fee_text/crate_html:
-            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the crate.
-            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à sa cagette.
-            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für die Kiste auch einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
-            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla cassetta.
-            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor het krat.
+            _en: Each member also pays an annual fee of <b class="is-nowrap">%{price}</b> in addition to the membership to the crate.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="is-nowrap">%{price}</b> en plus de l'abonnement à sa cagette.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für die Kiste auch einen Jahresbeitrag von <b class="is-nowrap">%{price}</b>.
+            _it: Ogni socio paga anche una quota annuale di <b class="is-nowrap">%{price}</b> oltre all'abbonamento alla cassetta.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="is-nowrap">%{price}</b> naast het lidmaatschap voor het krat.
           annual_fee_text/package_html:
-            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the package.
-            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son colis.
-            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für das Paket auch einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
-            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento al pacco.
-            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor het pakket.
+            _en: Each member also pays an annual fee of <b class="is-nowrap">%{price}</b> in addition to the membership to the package.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="is-nowrap">%{price}</b> en plus de l'abonnement à son colis.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für das Paket auch einen Jahresbeitrag von <b class="is-nowrap">%{price}</b>.
+            _it: Ogni socio paga anche una quota annuale di <b class="is-nowrap">%{price}</b> oltre all'abbonamento al pacco.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="is-nowrap">%{price}</b> naast het lidmaatschap voor het pakket.
           annual_fee_text/share_html:
-            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the share.
-            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à sa part.
-            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Anteil auch einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
-            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla parte.
-            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor het deel.
+            _en: Each member also pays an annual fee of <b class="is-nowrap">%{price}</b> in addition to the membership to the share.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="is-nowrap">%{price}</b> en plus de l'abonnement à sa part.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Anteil auch einen Jahresbeitrag von <b class="is-nowrap">%{price}</b>.
+            _it: Ogni socio paga anche una quota annuale di <b class="is-nowrap">%{price}</b> oltre all'abbonamento alla parte.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="is-nowrap">%{price}</b> naast het lidmaatschap voor het deel.
           annual_fee_text_html:
-            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the basket.
-            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son panier.
-            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Korb auch einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
-            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla cesta.
-            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor het pakket.
+            _en: Each member also pays an annual fee of <b class="is-nowrap">%{price}</b> in addition to the membership to the basket.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="is-nowrap">%{price}</b> en plus de l'abonnement à son panier.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Korb auch einen Jahresbeitrag von <b class="is-nowrap">%{price}</b>.
+            _it: Ogni socio paga anche una quota annuale di <b class="is-nowrap">%{price}</b> oltre all'abbonamento alla cesta.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="is-nowrap">%{price}</b> naast het lidmaatschap voor het pakket.
           depot_filter_no_results:
             _en: No depot found.
             _fr: Aucun dépôt trouvé.
@@ -1701,11 +1701,11 @@ _:
             _it: Acquisire altre azioni per sostenere la cooperativa.
             _nl: Koop meer aandelen om de coöperatie te ondersteunen.
           shares_text_html:
-            _en: Each member joins the cooperative and must acquire one or more cooperative shares (<b class="whitespace-nowrap">%{price}</b>/cooperative share).
-            _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b class="whitespace-nowrap">%{price}</b>/part).
-            _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder mehrere Anteilscheine (<b class="whitespace-nowrap">%{price}</b>/Anteilschein) erwerben.
-            _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b class="whitespace-nowrap">%{price}</b>/part).
-            _nl: Elk lid wordt lid van de coöperatie en moet één of meer aandelen verwerven (<b class="whitespace-nowrap">%{price}</b>/aandeel).
+            _en: Each member joins the cooperative and must acquire one or more cooperative shares (<b class="is-nowrap">%{price}</b>/cooperative share).
+            _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b class="is-nowrap">%{price}</b>/part).
+            _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder mehrere Anteilscheine (<b class="is-nowrap">%{price}</b>/Anteilschein) erwerben.
+            _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b class="is-nowrap">%{price}</b>/part).
+            _nl: Elk lid wordt lid van de coöperatie en moet één of meer aandelen verwerven (<b class="is-nowrap">%{price}</b>/aandeel).
           text:
             _en: Each subscriber commits for a full fiscal year (%{fiscal_year_months_range}). In case of joining during the current fiscal year, the price is determined by the number of remaining deliveries.
             _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_months_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.

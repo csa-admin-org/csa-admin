@@ -1,14 +1,14 @@
 <% if Current.org.sepa_configured? %>
   <% mandate = current_member.sepa? ? current_member.current_sepa_mandate : nil %>
-  <div class="mt-12 rounded-sm border border-gray-200 p-2 px-4 dark:border-gray-700">
-    <div class="relative mb-4">
-      <h3 class="text-center text-xl whitespace-nowrap">
+  <div class="sepa">
+    <div class="sepa-header">
+      <h3 class="sepa-title">
         <%= t("members.billing.index.sepa_direct_debit") %>
       </h3>
 
       <% if current_member.sepa? %>
-        <div class="top-0 -right-1.5 p-1 md:absolute">
-          <div class="flex justify-center gap-1.5 md:justify-between">
+        <div class="sepa-toolbar">
+          <div class="sepa-actions">
             <%= button_to members_sepa_mandate_path, method: :delete,
               title: t("members.sepa_mandates.disable.link"),
               form: {
@@ -18,20 +18,20 @@
                   confirmation_message_value: t("members.sepa_mandates.disable.confirm"),
                   action: "submit->confirmation#confirm"
                 },
-                class: "flex items-center mr-2"
+                class: "sepa-disable"
               },
-              class: "cursor-pointer" do %>
-              <%= icon "circle-off", class: "size-4 text-gray-400 dark:text-gray-400" %>
+              class: "sepa-disable-btn" do %>
+              <%= icon "circle-off", class: "sepa-off-icon" %>
             <% end %>
 
             <% if mandate&.pdf&.attached? %>
               <%= link_to rails_blob_path(mandate.pdf, disposition: "attachment"), title: t("members.sepa_mandates.new.download_pdf") do %>
-                <%= icon "file-down", class: "size-5" %>
+                <%= icon "file-down", class: "icon-inline" %>
               <% end %>
             <% end %>
 
             <%= link_to new_members_sepa_mandate_path, title: t("members.sepa_mandates.new.edit_link") do %>
-              <%= icon "square-pen", class: "size-5" %>
+              <%= icon "square-pen", class: "icon-inline" %>
             <% end %>
           </div>
         </div>
@@ -39,34 +39,34 @@
     </div>
 
     <% if current_member.sepa? %>
-      <dl class="my-1 space-y-1 text-sm">
-        <div class="flex justify-between">
-          <dt class="text-gray-500 dark:text-gray-400">
+      <dl class="sepa-dl">
+        <div class="sepa-row">
+          <dt class="sepa-dt">
             <%= Member.human_attribute_name(:iban) %>
           </dt>
 
-          <dd class="font-mono font-medium">
+          <dd class="sepa-dd is-iban">
             <%= current_member.iban_formatted %>
           </dd>
         </div>
 
-        <div class="flex justify-between">
-          <dt class="text-gray-500 dark:text-gray-400">
+        <div class="sepa-row">
+          <dt class="sepa-dt">
             <%= Member.human_attribute_name(:sepa_mandate_id) %>
           </dt>
 
-          <dd class="font-medium">
+          <dd class="sepa-dd">
             <%= mandate.umr %>
 
-            <span class="text-gray-400">(<%= l(mandate.signed_on) %>)</span>
+            <span class="sepa-signed">(<%= l(mandate.signed_on) %>)</span>
           </dd>
         </div>
       </dl>
     <% else %>
-      <p class="my-4 text-center text-sm text-gray-600 dark:text-gray-300">
+      <p class="sepa-invite">
         <%= t("members.sepa_mandates.new.invitation") %>
       </p>
-      <div class="mt-6 mb-1 flex justify-center">
+      <div class="sepa-cta">
         <%= link_to t("members.sepa_mandates.new.setup_link"),
           new_members_sepa_mandate_path, class: "btn btn-sm" %>
       </div>

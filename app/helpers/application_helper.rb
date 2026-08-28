@@ -27,9 +27,9 @@ module ApplicationHelper
   def display_emails_with_link(arbre, emails)
     return unless emails.present?
 
-    arbre.ul class: "flex flex-wrap gap-1" do
+    arbre.ul class: "cluster is-snug" do
       Array(emails).map do |email|
-        arbre.li class: "flex flex-wrap gap-1" do
+        arbre.li class: "cluster is-snug" do
           display_email_with_link(arbre, email)
         end
       end
@@ -39,7 +39,7 @@ module ApplicationHelper
   def display_name_with_public_name(object)
     txt = object.display_name
     if object.public_name != txt
-      txt += content_tag(:span, object.public_name, class: "block text-sm text-gray-500")
+      txt += content_tag(:span, object.public_name, class: "is-block text-sm is-muted")
     end
     txt.html_safe
   end
@@ -99,10 +99,10 @@ module ApplicationHelper
   def display_price_description(price, description)
     txt = ""
     unless price.zero?
-      txt += content_tag(:span, description, class: "text-sm text-gray-500")
+      txt += content_tag(:span, description, class: "text-sm is-muted")
       txt += " "
     end
-    txt += content_tag(:span, cur(price, unit: false), class: "inline-block w-20")
+    txt += content_tag(:span, cur(price, unit: false))
     txt.html_safe
   end
 
@@ -161,7 +161,7 @@ module ApplicationHelper
 
   def handbook_icon_link(*args)
     link_to handbook_page_path(*args), title: I18n.t("active_admin.site_footer.handbook") do
-      icon "book-open", class: "size-5"
+      icon "book-open", class: "icon-5"
     end
   end
 
@@ -176,7 +176,7 @@ module ApplicationHelper
       aria: { label: label },
       target: "_blank",
       rel: "noopener") do
-      icon "external-link", class: "size-5"
+      icon "external-link", class: "icon-5"
     end
   end
 end

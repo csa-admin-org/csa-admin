@@ -1,13 +1,13 @@
 <% depot = order.depot %>
 
-<div class="mt-12">
-  <h2 class="font-medium text-gray-700 dark:text-gray-300">
+<div class="shop-depot">
+  <h2 class="shop-depot-title">
     <span><%= Depot.model_name.human %>:</span>
 
-    <span class="ml-2"><%= depot_map_link(depot) %></span>
+    <span class="shop-depot-name"><%= depot_map_link(depot) %></span>
   </h2>
 
   <% if depot&.public_note? %>
-    <div class="mt-2"><%= depot.public_note %></div>
+    <div class="shop-depot-note"><%= depot.public_note %></div>
   <% end %>
 </div>

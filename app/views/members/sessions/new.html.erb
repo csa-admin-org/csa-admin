@@ -1,20 +1,20 @@
-<h1 class="mb-4 text-center"><%= t(".title") %></h1>
+<h1 class="session-title"><%= t(".title") %></h1>
 
-<div class="mt-2">
+<div class="session-intro">
   <p><%= t(".text", features: member_features_sentence) %></p>
-  <p class="mt-2"><%= t(".form_text") %></p>
+  <p class="session-lede"><%= t(".form_text") %></p>
 </div>
 
-<div class="mt-8">
+<div class="session-form">
   <%= simple_form_for [ :members, @session ], data: { turbo: false } do |f| %>
-    <div class="mt-8 flex flex-col">
-      <%= f.input :email, as: :email, label_html: { class: "sr-only" }, input_html: {  required: true, placeholder: t(".email_placeholder") }, wrapper_html: { class: "grow" } %>
+    <div class="session-fields">
+      <%= f.input :email, as: :email, label_html: { class: "sr-only" }, input_html: {  required: true, placeholder: t(".email_placeholder") }, wrapper_html: { class: "form-grow" } %>
 
       <%= cap_token_field %>
 
-      <%= tag.div class: "actions mt-4", data: cap_submit_tooltip_data do %>
+      <%= tag.div class: "actions session-actions", data: cap_submit_tooltip_data do %>
         <%= button_tag type: "submit", data: cap_submit_tooltip_target_data do %>
-          <%= icon "send-horizontal", class: "size-5" %>
+          <%= icon "send-horizontal", class: "icon-inline" %>
           <span><%= t(".submit") %></span>
         <% end %>
       <% end %>
@@ -22,6 +22,6 @@
   <% end %>
 </div>
 
-<p class="mt-12 text-center text-sm text-gray-600 dark:text-gray-400">
+<p class="session-register">
   <%= t(".no_account_html", link: link_to(t(".register_link"), new_members_member_path)) %>
 </p>

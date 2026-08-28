@@ -1,23 +1,23 @@
-<h1 class="mb-4 text-center text-2xl font-semibold md:text-3xl">
+<h1 class="admin-guest-heading">
   CSA Admin — <%= set_page_title t("demo.registrations.new.title") %>
 </h1>
 
 <div class="panel">
   <div class="panel-body">
-    <p class="mt-2 px-2 text-sm text-gray-500">
+    <p class="admin-guest-copy">
       <%= t("demo.registrations.new.description") %>
     </p>
 
     <%= semantic_form_for @registration, as: :demo_registration, url: demo_registrations_path, html: { data: { turbo: false } } do |f| %>
-      <ol class="list-none p-2">
+      <ol class="admin-guest-form">
         <%= f.input :name, label: t("demo.registrations.new.name_input"), required: true %>
         <%= f.input :email, label: t("demo.registrations.new.email_input"), required: true %>
         <%= f.input :message, as: :text, label: t("demo.registrations.new.message_input"), required: false, input_html: { rows: 3, placeholder: t("demo.registrations.new.message_placeholder") } %>
         <%= cap_token_field %>
 
-        <%= tag.li class: "actions mt-2", data: cap_submit_tooltip_data do %>
+        <%= tag.li class: "actions", data: cap_submit_tooltip_data do %>
           <%= button_tag type: "submit", data: cap_submit_tooltip_target_data do %>
-            <%= icon "send-horizontal", class: "size-5" %>
+            <%= icon "send-horizontal", class: "icon-5" %>
             <span><%= t("demo.registrations.new.submit") %></span>
           <% end %>
         <% end %>
@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<div class="mt-8 flex flex-col items-center gap-2 text-sm text-gray-500">
+<div class="admin-guest-links">
   <span>
     <%= t("demo.registrations.new.already_have_account_html", login_path: login_path) %>
   </span>

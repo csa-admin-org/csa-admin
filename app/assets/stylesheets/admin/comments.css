@@ -1,0 +1,68 @@
+@layer components {
+  .comment-list {
+    padding-inline: 0.5rem;
+  }
+
+  .comment-list > :not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  .comment-item {
+    position: relative;
+    border-bottom: 1px dotted var(--color-border);
+  }
+
+  .comment-meta {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .comment-time {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: var(--color-gray-400);
+  }
+
+  .comment-item:hover .comment-time {
+    display: none;
+  }
+
+  .comment-delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .comment-item:hover .comment-delete {
+    display: flex;
+  }
+
+  .comment-body {
+    margin-bottom: 1rem;
+    line-height: 1.25rem;
+    word-break: keep-all;
+  }
+
+  .comment-form {
+    padding: 0.5rem;
+    padding-top: 0;
+  }
+
+  .comment-body-input {
+    padding-top: 1rem;
+    padding-block: 0.25rem;
+  }
+
+  .comment-form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    list-style: none;
+  }
+}

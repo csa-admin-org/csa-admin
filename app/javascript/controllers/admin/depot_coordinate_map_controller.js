@@ -108,11 +108,11 @@ export default class extends Controller {
       return
     }
 
-    this.mapTarget.classList.remove("hidden")
+    this.mapTarget.classList.remove("is-hidden")
     this.map.resize()
-    if (this.hasEmptyTarget) this.emptyTarget.classList.add("hidden")
-    if (this.hasUnavailableTarget) this.unavailableTarget.classList.add("hidden")
-    if (this.hasHintTarget) this.hintTarget.classList.remove("hidden")
+    if (this.hasEmptyTarget) this.emptyTarget.classList.add("is-hidden")
+    if (this.hasUnavailableTarget) this.unavailableTarget.classList.add("is-hidden")
+    if (this.hasHintTarget) this.hintTarget.classList.remove("is-hidden")
 
     if (!this.marker) {
       this.marker = new window.maplibregl.Marker({
@@ -177,10 +177,10 @@ export default class extends Controller {
   showEmpty() {
     this.marker?.remove()
     this.marker = null
-    this.mapTarget.classList.add("hidden")
-    if (this.hasEmptyTarget) this.emptyTarget.classList.remove("hidden")
-    if (this.hasUnavailableTarget) this.unavailableTarget.classList.add("hidden")
-    if (this.hasHintTarget) this.hintTarget.classList.add("hidden")
+    this.mapTarget.classList.add("is-hidden")
+    if (this.hasEmptyTarget) this.emptyTarget.classList.remove("is-hidden")
+    if (this.hasUnavailableTarget) this.unavailableTarget.classList.add("is-hidden")
+    if (this.hasHintTarget) this.hintTarget.classList.add("is-hidden")
   }
 
   showUnavailable(error = null) {
@@ -188,14 +188,14 @@ export default class extends Controller {
 
     this.marker?.remove()
     this.marker = null
-    this.mapTarget.classList.add("hidden")
-    if (this.hasEmptyTarget) this.emptyTarget.classList.add("hidden")
-    if (this.hasHintTarget) this.hintTarget.classList.add("hidden")
+    this.mapTarget.classList.add("is-hidden")
+    if (this.hasEmptyTarget) this.emptyTarget.classList.add("is-hidden")
+    if (this.hasHintTarget) this.hintTarget.classList.add("is-hidden")
 
     if (this.currentPosition && this.hasUnavailableTarget) {
-      this.unavailableTarget.classList.remove("hidden")
+      this.unavailableTarget.classList.remove("is-hidden")
     } else if (this.hasEmptyTarget) {
-      this.emptyTarget.classList.remove("hidden")
+      this.emptyTarget.classList.remove("is-hidden")
     }
   }
 
@@ -219,7 +219,7 @@ export default class extends Controller {
     if (this.hasGeocodeButtonTarget) {
       this.geocodeButtonTarget.disabled = geocoding
       this.geocodeButtonTarget.setAttribute("aria-busy", geocoding ? "true" : "false")
-      this.geocodeButtonTarget.classList.toggle("opacity-60", geocoding)
+      this.geocodeButtonTarget.classList.toggle("is-busy", geocoding)
     }
     if (geocoding) this.updateGeocodeStatus(this.geocodeLoadingMessageValue)
   }

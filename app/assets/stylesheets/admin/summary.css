@@ -1,0 +1,44 @@
+@layer components {
+  :is(.attributes-table, .data-table-invoice-total) td details,
+  .panel-body,
+  .arrow-details {
+    interpolate-size: allow-keywords;
+  }
+
+  :is(.attributes-table, .data-table-invoice-total) td details > summary,
+  .panel-body summary,
+  .arrow-details > summary {
+    display: flex;
+    cursor: pointer;
+    list-style-type: none;
+    align-items: center;
+    line-height: 1.4rem;
+
+    &::marker,
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::before {
+      content: "";
+
+      width: 0.75rem;
+      height: 0.75rem;
+      flex-shrink: 0;
+      margin-right: 0.375rem;
+      color: var(--color-gray-400);
+      transition-property: transform;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 200ms;
+
+      background-color: currentcolor;
+      clip-path: polygon(25% 10%, 85% 50%, 25% 90%);
+    }
+  }
+
+  :is(.attributes-table, .data-table-invoice-total) td details[open] > summary::before,
+  .panel-body details[open] summary::before,
+  .arrow-details[open] > summary::before {
+    transform: rotate(90deg);
+  }
+}

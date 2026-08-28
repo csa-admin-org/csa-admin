@@ -30,24 +30,24 @@ ActiveAdmin.register Newsletter do
   index download_links: false do
     column :id
     column :subject, ->(n) {
-      span class: "inline-flex items-center gap-2" do
+      span class: "cluster" do
         span n.subject
         if n.can_withdraw_publication?
           span title: t("active_admin.resource.show.publication"),
-            class: "inline-flex shrink-0 text-gray-400 dark:text-gray-500" do
-            icon "rss", class: "size-4.5"
+            class: "is-static is-faint" do
+            icon "rss", class: "icon-4-5"
           end
         end
       end
     }, sortable: true
     column :audience, ->(n) { n.audience_name }
     column :sent_at, ->(n) {
-      span class: "whitespace-nowrap" do
+      span class: "is-nowrap" do
         if n.sent?
           I18n.l(n.sent_at.to_date, format: :short)
         elsif n.scheduled?
           span class: "status-tag", data: { status: "scheduled" } do
-            span { icon("clock", class: "size-3 me-1.5") }
+            span { icon("clock", class: "icon-3") }
             span { l(n.scheduled_at.to_date, format: :short) }
           end
         else
@@ -57,7 +57,7 @@ ActiveAdmin.register Newsletter do
     }, class: "text-right"
     actions do |newsletter|
       link_to new_newsletter_path(newsletter_id: newsletter.id), title: t(".duplicate") do
-        icon "copy", class: "size-5"
+        icon "copy", class: "icon-5"
       end
     end
   end
@@ -84,14 +84,14 @@ ActiveAdmin.register Newsletter do
       end
       column do
         if newsletter.scheduled?
-          panel nil, class: "m-0 border-orange-200 bg-orange-100 p-0 text-orange-800 shadow-xs dark:border-orange-800 dark:bg-orange-950 dark:text-orange-300" do
-            div class: "flex items-center gap-2" do
-              span(class: "ms-0.5") { icon("calendar-clock", class: "size-6") }
-              span(class: "grow") { t(".newsletter_scheduled_at_html", on: l(newsletter.scheduled_at.to_date, format: :short)) }
+          panel nil, class: "scheduled-newsletter-panel" do
+            div class: "cluster" do
+              span { icon("calendar-clock", class: "icon-6") }
+              span(class: "is-grow") { t(".newsletter_scheduled_at_html", on: l(newsletter.scheduled_at.to_date, format: :short)) }
               if authorized?(:unschedule, newsletter)
                 span {
-                  button_to unschedule_newsletter_path(newsletter), method: :put, class: "m-0 cursor-pointer p-0 text-orange-500 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-200", form: { class: "flex items-center" }, data: { confirm: t(".confirm") } do
-                    icon("circle-x", class: "size-6")
+                  button_to unschedule_newsletter_path(newsletter), method: :put, class: "scheduled-newsletter-cancel", form: { class: "cluster" }, data: { confirm: t(".confirm") } do
+                    icon("circle-x", class: "icon-6")
                   end
                 }
               end
@@ -143,11 +143,11 @@ ActiveAdmin.register Newsletter do
             row(:from) { newsletter.from || Current.org.email_default_from }
           end
           if deliveries_purged
-            para t("active_admin.resources.mail_delivery.retention_notice"), class: "mt-2 missing-data"
+            para t("active_admin.resources.mail_delivery.retention_notice"), class: "missing-data"
           elsif newsletter.sent?
             mail_delivery_email_stats(self, newsletter.mail_deliveries,
               path_params: { newsletter_id: newsletter.id },
-              list_class: "mt-6 counts")
+              list_class: "counts")
           end
         end
 
@@ -177,7 +177,7 @@ ActiveAdmin.register Newsletter do
     action: "change->auto-save#saveToLocalStorage trix-change->auto-save#saveToLocalStorage submit->auto-save#clearLocalStorage"
   } do |f|
     newsletter = f.object
-    div class: "hidden text-base text-center mb-2 text-orange-700 dark:text-orange-400", data: { "auto-save-target" => "warningMessage" } do
+    div class: "admin-auto-save-warning", data: { "auto-save-target" => "warningMessage" } do
       t("newsletters.auto_save_recovered")
     end
     f.semantic_errors :base
@@ -283,14 +283,14 @@ ActiveAdmin.register Newsletter do
       icon: "mails"
   end
 
-  action_item :send_email, class: "left-margin", only: :show, if: -> { authorized?(:send_email, resource) } do
+  action_item :send_email, only: :show, if: -> { authorized?(:send_email, resource) } do
     confirm_key = resource.scheduled? ? ".newsletter.confirm_scheduled" : ".newsletter.confirm"
     action_button t(".send_email"), send_email_newsletter_path(resource),
       data: { confirm: t(confirm_key, members_count: resource.audience_segment.members.count) },
       icon: "send-horizontal"
   end
 
-  action_item :withdraw_publication, class: "left-margin", only: :show,
+  action_item :withdraw_publication, only: :show,
     if: -> { authorized?(:withdraw_publication, resource) && resource.can_withdraw_publication? } do
     action_button t(".withdraw_publication"), withdraw_publication_newsletter_path(resource),
       data: { confirm: t(".newsletter.withdraw_publication_confirm") },

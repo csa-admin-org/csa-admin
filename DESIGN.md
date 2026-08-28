@@ -1,6 +1,22 @@
 # Design Conventions
 
-UI and visual conventions for the admin interface. Read this when working on ActiveAdmin show pages, forms, dashboards, or any view code.
+UI and visual conventions for the admin and members portals. Read this when working on ActiveAdmin pages, members views, or CSS.
+
+## CSS
+
+No-build CSS. No Tailwind, Sass, or PostCSS. Propshaft serves `admin.css` and `member.css`.
+
+- Tokens live in `shared/tokens.css` (OKLCH primitives + semantic names). Change a color or space there, not in a template.
+- Dark mode is a token flip from the resolved theme (`system|light|dark` stored on `html[data-theme]`, paint via `html.dark` / `.dark`). Do not sprinkle paired light/dark properties in every rule if a token already flips. Numbered `--color-gray-*` / `--color-green-*` stay put.
+- Semantic names that flip: `--color-canvas` (page, white→950), `--color-canvas-admin`, `--color-surface` (cards/menus, white→900), `--color-ink` (950→100), `--color-ink-heading` (900→100), `--color-ink-secondary` (700→300), `--color-ink-muted` (500→400), `--color-ink-soft` (600→300), `--color-fill` (100→900), `--color-fill-muted` (200→800), `--color-line` (cards/panels, 200→700), `--color-border` (inputs, 200→600), `--color-danger-soft`, `--color-accent`, `--color-accent-strong`, `--color-negative`. Do not invent a token for a 1–2× pair, a hover-only green, a status inversion, or CodeJar hex.
+- Markup we own uses semantic classes (`.btn`, `.status-tag`, `.panel`). Name the thing, not the paint.
+- Prefix members layout chrome (`member-app`, `member-nav`, `member-flash`, …) and Stimulus class maps (`member-menu-open`, `member-shop-sticky`). Admin chrome uses `admin-` the same way (`admin-bar`, `admin-nav`, `admin-flash`). Page widgets do not take the prefix (`.shop-cart`, `.billing-card`, `.pane`).
+- Tiny utilities we own are allowed: `.is-hidden`, `.is-muted`, `.is-italic`, `.is-nowrap`, `.is-struck`, `.is-warning`, `.is-alert`, `.sr-only`, `.text-center`, `.text-start`, `.text-end`, `.text-right`, `.text-justify`, `.tabular-nums`, `.cluster`, `.stack`. Visibility on tooltips and menus is nested (`.tooltip.is-visible`, `.admin-menu.is-visible`). Do not grow a spacing scale in HTML. Name the widget when the layout is specific (`.panel-action-row`, `.mail-recipient`).
+- ActiveAdmin gem HTML is styled with descendant selectors. Do not fork gem templates to rename their classes.
+- Members layout may use `ch` spacing and content-width breakpoints. The page-column gutter on rewritten members chrome is `--inline-space` (`1ch`). Matching bleed pairs (`margin-inline: calc(var(--inline-space) * -1)`) live on sticky nav/shop/pricing/depot chrome. Converted Formtastic/table rules keep `rem` unless that rule is being redesigned. Do not find-replace rem.
+- A one-column grid is `minmax(0, 1fr)`, not `1fr`. Tailwind `grid-cols-1` used the minmax form so nowrap tables scroll inside the track instead of stretching the page.
+- Mobile nav child links with a badge are flex + `align-items: center`. `display: block` puts `.menu-inline-badge` on the next line.
+- Icons: Lucide SVGs via `icon("name")`. Size and mute them in CSS, not with leftover utility classes.
 
 ## Icons in Panels and Form Fieldsets
 
@@ -16,7 +32,7 @@ f.inputs "Title", icon: "icon-name" do
 end
 ```
 
-Icons render at half opacity (`opacity-50`) at `size-5` — a muted visual cue, not a distraction.
+Icons render at half opacity at `1.25rem` (`.icon-5` / `.panel-title-icon`) — a muted visual cue, not a distraction.
 
 **Only titled fieldsets get icons** — bare `f.inputs do` blocks (no title string) should never receive an icon.
 

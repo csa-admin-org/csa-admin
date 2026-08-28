@@ -16,12 +16,12 @@ module ActiveAdmin::MailDeliveryHelper
   end
 
   def missing_delivery_emails_grid(arbre, mailable)
-    arbre.div(class: "grid gap-y-2 mb-2") do
+    arbre.div(class: "mail-recipient-list") do
       mailable.deliveries_with_missing_emails.each do |delivery|
         delivery.missing_emails.each do |email|
-          arbre.div(class: "flex flex-wrap items-center justify-start mx-2 gap-2") do
-            arbre.h4(class: "m-0 text-lg font-extralight") { auto_link delivery, email }
-            arbre.span(class: "text-sm text-gray-500") { "(#{auto_link(delivery.member)})".html_safe }
+          arbre.div(class: "mail-recipient is-start") do
+            arbre.h4(class: "mail-recipient-title") { auto_link delivery, email }
+            arbre.span(class: "text-sm is-muted") { "(#{auto_link(delivery.member)})".html_safe }
           end
         end
       end

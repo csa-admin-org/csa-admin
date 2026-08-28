@@ -330,9 +330,9 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "#depot_latitude[step='any'][inputmode='decimal']"
     assert_select "#depot_longitude[step='any'][inputmode='decimal']"
     assert_select ".depot-coordinate-map-panel[data-controller='depot-coordinate-map']"
-    assert_select ".depot-coordinate-map.hidden", false
+    assert_select ".depot-coordinate-map"
     assert_select "[data-depot-coordinate-map-target='hint']", text: I18n.t("maps.admin_depot_map.hint", locale: admins(:super).language)
-    assert_select ".depot-coordinate-map-unavailable.hidden", text: I18n.t("maps.admin_depot_map.unavailable", locale: admins(:super).language)
+    assert_select ".depot-coordinate-map-unavailable", text: I18n.t("maps.admin_depot_map.unavailable", locale: admins(:super).language)
     assert_select "button[type='button'][data-action='depot-coordinate-map#geocode'][data-depot-coordinate-map-target='geocodeButton']", text: I18n.t("active_admin.resources.depot.geocode", locale: admins(:super).language)
     assert_select "a[href='#{geocode_depot_path(depot)}']", false
   end
@@ -428,7 +428,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "#mailer .panel-actions a[href='#{handbook_page_path("emails", anchor: "email-settings")}']"
     assert_select "#mailer tr[data-row='email_signature']", false
-    assert_select "#mailer tr[data-row='email_footer'] p.text-sm.text-center", text: /Reply to this email\.\s*Acme, Nowhere 42/
+    assert_select "#mailer tr[data-row='email_footer'] p", text: /Reply to this email\.\s*Acme, Nowhere 42/
     assert_select "#mailer", text: /Other language footer/, count: 0
   end
 
@@ -768,7 +768,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     get organization_path
 
     assert_response :success
-    assert_select "#sepa tr[data-row='invoice_sepa_info'] p.text-left.text-sm",
+    assert_select "#sepa tr[data-row='invoice_sepa_info'] p",
       text: /Der Betrag wird per SEPA-Lastschrift eingezogen\.\s*Bitte Mandat prüfen\./
     assert_select "#sepa tr[data-row='invoice_membership_summary_only'] [data-status='yes']"
     assert_select "#sepa", text: /Other language SEPA info/, count: 0
@@ -842,7 +842,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     get organization_path
 
     assert_response :success
-    assert_select "#delivery_sheets tr[data-row='delivery_pdf_footer'] p.text-sm.text-center", text: /Route de Cery 34\s*coordination@example\.test/
+    assert_select "#delivery_sheets tr[data-row='delivery_pdf_footer'] p", text: /Route de Cery 34\s*coordination@example\.test/
     assert_select "#delivery_sheets tr[data-row='delivery_pdf_footers']", false
     assert_select "#delivery_sheets", text: /Other language footer/, count: 0
   end

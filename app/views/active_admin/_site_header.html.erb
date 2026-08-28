@@ -1,26 +1,13 @@
-<div
-  class="
-    fixed inset-s-0 top-0 z-50 w-full bg-green-600 shadow-xs
-    dark:bg-green-700 dark:shadow-none
-  "
->
-  <div
-    class="mx-auto flex max-w-7xl flex-wrap items-center justify-between py-2"
-    data-controller="nav-toggle"
-  >
-    <div class="order-1 flex grow pl-4 md:hidden">
+<div class="admin-bar">
+  <div class="admin-bar-inner" data-controller="nav-toggle">
+    <div class="admin-menu-toggle-wrap">
       <button
         type="button"
-        class="
-          inline-flex items-center justify-center rounded-lg text-sm
-          text-white/80 hover:text-white focus:ring-2 focus:ring-gray-200
-          focus:outline-hidden md:hidden dark:text-green-100/80
-          dark:hover:text-white dark:focus:ring-green-700
-        "
+        class="admin-menu-toggle"
         data-action="nav-toggle#toggle"
         aria-expanded="false"
       >
-        <%= icon "menu", class: "size-9" %>
+        <%= icon "menu", class: "admin-menu-toggle-icon" %>
 
         <span class="sr-only">
           <%= t("accessibility.active_admin.open_main_menu") %>
@@ -28,43 +15,26 @@
       </button>
     </div>
 
-    <nav
-      class="
-        z-10 order-3 hidden h-screen w-full grow overflow-y-scroll px-4
-        md:order-2 md:block md:h-auto md:w-auto md:overflow-visible
-      "
-      id="navbar-dropdown"
-      data-nav-toggle-target="menu"
-    >
-      <ul
-        class="
-          mt-4 flex flex-col space-y-1 pb-32 text-sm font-medium md:mt-0
-          md:flex-row md:items-center md:space-y-0 md:space-x-2.5 md:pb-0
-          [&>li:first-child]:mr-0 [&>li:first-child]:mb-3
-          md:[&>li:first-child]:mr-3 md:[&>li:first-child]:mb-0
-        "
-      >
+    <nav class="admin-nav" id="navbar-dropdown">
+      <ul class="admin-nav-list">
         <% current_menu.items(self).each do |item| %>
           <% children = item.items(self).presence %>
           <% label = menu_label_with_badge(item) %>
           <% plain_label = item.label(self) %>
 
-          <li
-            class="group text-base md:relative md:text-sm"
-            data-item-id="<%= item.id %>"
-          >
+          <li class="admin-nav-item" data-item-id="<%= item.id %>">
             <% if children %>
               <% first_child = children.first %>
               <% parent_quick_access = item.id != "other" && first_child&.url(self) %>
-              <% parent_classes = "relative hidden w-full items-center rounded-md px-2 py-1 pr-1.5 font-semibold text-white hover:bg-green-700 hover:text-white md:flex md:h-[30px] md:w-auto md:border-0 dark:text-green-50 dark:hover:bg-green-700 dark:hover:text-white #{children.any? { |j| current_menu_item?(j) } ? "bg-green-700 dark:bg-green-800 dark:text-white" : ""}" %>
-              <%# Desktop, with hover menu %>
+              <% parent_current = children.any? { |j| current_menu_item?(j) } %>
+              <% parent_classes = "admin-nav-parent#{' is-current' if parent_current}" %>
               <% if parent_quick_access %>
                 <%= link_to first_child.url(self),
                   id: "dropdownHoverButton-#{item.id}",
-                  class: "#{parent_classes} no-underline",
+                  class: parent_classes,
                   **(current_menu_item?(first_child) ? { "aria-current" => "page" } : {}) do %>
                   <%= label %>
-                  <%= icon "chevron-down", class: "size-4 ms-1 mt-0.5" %>
+                  <%= icon "chevron-down", class: "admin-nav-chevron" %>
                 <% end %>
               <% else %>
                 <button
@@ -72,46 +42,34 @@
                   class="<%= parent_classes %>"
                 >
                   <%= label %>
-                  <%= icon "chevron-down", class: "size-4 ms-1 mt-0.5" %>
+                  <%= icon "chevron-down", class: "admin-nav-chevron" %>
                 </button>
               <% end %>
               <%= tag.ul(
                 id: item.id,
                 role: "list",
-                class: "hidden md:block md:invisible md:absolute md:top-full md:-start-3 md:z-10 md:whitespace-nowrap md:group-hover:visible min-w-36 space-y-1 rounded-md bg-green-600 p-4 font-semibold shadow-xl md:p-2.5 dark:bg-green-700",
+                class: "admin-nav-dropdown",
                 "aria-labelledby": "dropdownHoverButton-#{item.id}",
                 data: item.html_options[:data].to_h
               ) do %>
                 <% children.each do |j| %>
                   <li data-item-id="<%= j.id %>">
-                    <%= link_to j.label(self), j.url(self), j.html_options.merge(class: "block rounded-md px-2 py-1 text-white no-underline hover:bg-green-700 hover:text-white dark:text-green-50 dark:hover:bg-green-800 dark:hover:text-white #{(current_menu_item?(j) ? "selected bg-green-700 dark:bg-green-800 dark:text-white" : "")}") %>
+                    <%= link_to j.label(self), j.url(self), j.html_options.merge(class: "admin-nav-dropdown-link#{' is-current selected' if current_menu_item?(j)}") %>
                   </li>
                 <% end %>
               <% end %>
-              <%# Mobile %>
-              <div
-                class="
-                  relative mb-1 flex w-full items-center px-2 py-2
-                  font-semibold text-white/60 md:hidden
-                  dark:text-green-100/60
-                "
-              >
+              <div class="admin-nav-mobile-heading">
                 <%= plain_label %>
               </div>
-              <ul
-                class="
-                  mb-3 ml-4.5 space-y-1 border-l-2 border-white/30
-                  bg-green-600 pl-2.5 md:hidden dark:bg-green-700
-                "
-              >
+              <ul class="admin-nav-mobile-list">
                 <% children.each do |j| %>
                   <li data-item-id="<%= j.id %>">
-                    <%= link_to menu_label_with_badge(j, badge_class: "menu-inline-badge"), j.url(self), j.html_options.merge(class: "flex items-center rounded-md px-2 py-1 font-semibold text-white no-underline hover:bg-green-700 hover:text-white dark:text-green-50 dark:hover:bg-green-800 dark:hover:text-white #{(current_menu_item?(j) ? "selected bg-green-700 dark:bg-green-800 dark:text-white" : "")}") %>
+                    <%= link_to menu_label_with_badge(j, badge_class: "menu-inline-badge"), j.url(self), j.html_options.merge(class: "admin-nav-dropdown-link#{' is-current selected' if current_menu_item?(j)}") %>
                   </li>
                 <% end %>
               </ul>
             <% elsif url = item.url(self) %>
-              <%= link_to label, url, item.html_options.merge(class: "relative flex w-full items-center rounded-md px-2 py-1.5 font-semibold text-white no-underline hover:bg-green-700 hover:text-white md:h-[30px] md:w-auto md:py-1 md:border-0 dark:text-green-50 dark:hover:bg-green-800 dark:hover:text-white #{current_menu_item?(item) ? "bg-green-700 dark:bg-green-800 dark:text-white" : ""}").merge(current_menu_item?(item) ? { "aria-current" => "page" } : {}) %>
+              <%= link_to label, url, item.html_options.merge(class: "admin-nav-link#{' is-current' if current_menu_item?(item)}").merge(current_menu_item?(item) ? { "aria-current" => "page" } : {}) %>
             <% else %>
               <%= label %>
             <% end %>
@@ -120,62 +78,51 @@
       </ul>
     </nav>
 
-    <div class="order-2 ms-auto flex gap-x-1 pe-3 md:order-3 md:gap-x-0 md:pe-4">
+    <div class="admin-bar-actions">
       <%= render "search/modal" %>
 
       <% if Update.unread_count(current_active_admin_user).positive? %>
         <a
           href="<%= updates_path %>"
-          class="admin-header-action relative"
+          class="admin-header-action"
           data-turbo-prefetch="false"
           title="<%= t(".updates") %>"
         >
-          <%= icon "gift", class: "size-6 md:size-5" %>
+          <%= icon "gift" %>
 
-          <div
-            class="
-              absolute inset-e-1.5 top-1 size-2 rounded-full bg-red-500
-              text-xs font-semibold dark:border-gray-900
-            "
-          ></div>
+          <div class="admin-header-unread"></div>
         </a>
       <% end %>
 
       <a
         href="<%= support_path %>"
-        class="admin-header-action relative"
+        class="admin-header-action"
         title="<%= t(".support") %>"
         data-turbo-prefetch="false"
       >
-        <%= icon "life-buoy", class: "size-6 md:size-5" %>
+        <%= icon "life-buoy" %>
       </a>
 
       <a
         href="<%= analytics_path %>"
-        class="admin-header-action relative"
+        class="admin-header-action"
         title="<%= t(".analytics") %>"
         data-turbo-prefetch="false"
       >
-        <%= icon "chart-no-axes-combined", class: "size-6 md:size-5" %>
+        <%= icon "chart-no-axes-combined" %>
       </a>
 
       <a
         href="<%= handbook_path %>"
-        class="admin-header-action relative"
+        class="admin-header-action"
         title="<%= t(".handbook") %>"
       >
-        <%= icon "book-open", class: "size-6 md:size-5" %>
+        <%= icon "book-open" %>
       </a>
 
       <% if can?(:read, Organization) %>
-        <a
-          href="<%= organization_path %>"
-          class="
-            admin-header-action relative text-white/75! hover:text-white!
-            dark:text-green-100/75! dark:hover:text-white!
-          "
-        >
-          <%= icon "sliders-horizontal", class: "size-6 md:size-5" %>
+        <a href="<%= organization_path %>" class="admin-header-action">
+          <%= icon "sliders-horizontal" %>
         </a>
       <% end %>
 

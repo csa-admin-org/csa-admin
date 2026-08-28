@@ -15,14 +15,13 @@ ActiveAdmin.register Organization do
   end
 
   show title: proc { t("active_admin.resources.organization.edit_model") } do |org|
-    div class: "space-y-20", "data-controller" => "settings-anchor" do
-      div class: "grid grid-cols-1 lg:grid-cols-2 md:auto-rows-fr gap-4" do
+    div class: "settings-page", "data-controller" => "settings-anchor" do
+      div class: "settings-grid" do
         organization_enabled_setting_sections(org).each do |section|
-          div id: section[:key], class: "scroll-mt-16 h-full", "data-settings-anchor-highlight-target" => true do
+          div id: section[:key], class: "settings-card", "data-settings-anchor-highlight-target" => true do
             panel organization_setting_section_panel_title(section, org),
               icon: section[:icon],
-              action: organization_setting_section_actions(section, org),
-              class: "h-full" do
+              action: organization_setting_section_actions(section, org) do
               render partial: "active_admin/organization_settings/cards/#{section[:key]}",
                 locals: { org: org, section: section, context: self }
             end
@@ -30,22 +29,22 @@ ActiveAdmin.register Organization do
         end
       end
 
-      div id: "disabled-features", class: "scroll-mt-16 space-y-4", "data-settings-anchor-highlight-target" => true do
-        h3 Organization.human_attribute_name(:features), class: "text-left text-3xl font-extralight mb-2"
-        para t("active_admin.resources.organization.optional_features_description_html"), class: "text-gray-500 dark:text-gray-400"
+      div id: "disabled-features", class: "settings-features", "data-settings-anchor-highlight-target" => true do
+        h3 Organization.human_attribute_name(:features), class: "settings-features-title"
+        para t("active_admin.resources.organization.optional_features_description_html"), class: "is-muted"
 
         disabled_sections = organization_disabled_setting_sections(org)
         if disabled_sections.any?
-          div class: "mt-6 space-y-4" do
+          div class: "stack" do
             disabled_sections.each do |section|
-              div id: section[:key], class: "scroll-mt-16", "data-settings-anchor-highlight-target" => true do
+              div id: section[:key], class: "settings-feature", "data-settings-anchor-highlight-target" => true do
                 panel organization_setting_section_title(section),
                   icon: section[:icon],
                   action: organization_disabled_setting_section_actions(section) do
-                  div class: "flex flex-wrap gap-4 p-2 pt-0 justify-between items-center" do
+                  div class: "settings-feature-body" do
                     para organization_disabled_setting_section_hint(section), class: "description"
                     if authorized?(:update, Organization)
-                      div class: "grow text-right" do
+                      div class: "is-grow text-right" do
                         text_node organization_disabled_setting_section_primary_action(section)
                       end
                     end
@@ -55,7 +54,7 @@ ActiveAdmin.register Organization do
             end
           end
         else
-          para t("active_admin.resources.organization.all_optional_features_configured"), class: "text-gray-500 italic text-center"
+          para t("active_admin.resources.organization.all_optional_features_configured"), class: "is-muted is-italic text-center"
         end
       end
     end

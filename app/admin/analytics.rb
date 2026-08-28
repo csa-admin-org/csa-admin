@@ -24,27 +24,27 @@ ActiveAdmin.register_page "Analytics" do
         class: "mobile-drawer-btn",
         data: { action: "mobile-drawer#open" },
         aria: { label: t("active_admin.shared.sidebar_section.pages") } do
-        icon "square-menu", class: "size-6"
+        icon "square-menu", class: "mobile-drawer-btn-icon"
       end
 
       div \
-        class: "mobile-drawer-overlay hidden",
+        class: "mobile-drawer-overlay is-hidden",
         data: {
           "mobile-drawer-target": "overlay",
           action: "click->mobile-drawer#closeOnOutside"
         } do
         div class: "mobile-drawer-panel", data: { "mobile-drawer-target": "panel" } do
-          div class: "flex items-center justify-between mb-3" do
-            h3 t("active_admin.shared.sidebar_section.pages"), class: "text-xl font-extralight"
+          div class: "admin-drawer-header" do
+            h3 t("active_admin.shared.sidebar_section.pages"), class: "admin-drawer-title"
             button \
               data: { action: "mobile-drawer#close" },
-              class: "p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300",
+              class: "admin-drawer-close",
               aria: { label: t("accessibility.active_admin.close") } do
-              icon "x", class: "size-5"
+              icon "x", class: "admin-drawer-close-icon"
             end
           end
 
-          div class: "text-sm" do
+          div class: "admin-drawer-menu" do
             analytics_menu self,
               current_page: page,
               sections: sections,
@@ -74,9 +74,9 @@ ActiveAdmin.register_page "Analytics" do
           end
         end
 
-        div class: "mt-8 space-y-8 analytics-charts" do
+        div class: "analytics-charts" do
           charts.each do |chart|
-            panel chart.title, id: chart.id, class: "scroll-mt-24", icon: chart.icon do
+            panel chart.title, id: chart.id, class: "settings-anchor", icon: chart.icon do
               text_node analytics_chart_html(chart)
             end
           end

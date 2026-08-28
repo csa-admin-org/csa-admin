@@ -4,34 +4,34 @@
   <h2><%= t(".subtitle") %></h2>
 
   <% if Current.org.membership_update_text? %>
-    <div class="trix-content mt-2 mb-8">
+    <div class="trix-content copy-block">
       <%= Current.org.membership_update_text %>
     </div>
   <% end %>
 
-  <%= simple_form_for @membership, html: { class: "mt-4" } do |f| %>
+  <%= simple_form_for @membership, html: { class: "form-wrap" } do |f| %>
     <% member_updatable_baskets = @membership.member_updatable_baskets %>
 
     <% if Current.org.membership_depot_update_allowed? %>
-      <div class="space-y-8">
+      <div class="form-fields-loose">
         <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(membership: @membership, delivery_cycle: @membership.delivery_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true %>
       </div>
     <% end %>
 
-    <div class="mt-16">
-      <p class="mt-8 text-sm text-gray-500 italic md:text-right dark:text-gray-400">
+    <div class="form-hint-wrap">
+      <p class="form-hint">
         <%= t(".updateable_baskets", count: member_updatable_baskets.size, first_date: l(member_updatable_baskets.first.delivery.date)) %>
       </p>
     </div>
 
     <div class="actions">
       <%= link_to members_deliveries_path, class: "cancel-link" do %>
-        <%= icon "arrow-left", class: "size-5" %>
+        <%= icon "arrow-left", class: "icon-inline-action" %>
         <span><%= t(".cancel_link") %></span>
       <% end %>
 
       <%= button_tag type: "submit" do %>
-        <%= icon "check", class: "size-5" %>
+        <%= icon "check", class: "icon-inline-action" %>
         <span><%= t(".submit") %></span>
       <% end %>
     </div>

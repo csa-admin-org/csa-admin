@@ -50,7 +50,7 @@ class BankConnectionsControllerTest < ActionDispatch::IntegrationTest
     assert_select "li", text: I18n.t("active_admin.resources.bank_connection.ebics_setup.bank_access.payment_reports_ch", locale: locale)
     assert_select "li", text: I18n.t("active_admin.resources.bank_connection.ebics_setup.bank_access.payment_reports_de", locale: locale), count: 0
     assert_select "li", text: I18n.t("active_admin.resources.bank_connection.ebics_setup.bank_access.direct_debit_de", locale: locale), count: 0
-    assert_select "p.italic", count: 1
+    assert_includes response.body, "ABS/BAS"
 
     org(country_code: "DE", sepa_creditor_identifier: "DE98ZZZ09999999999")
 
@@ -60,7 +60,7 @@ class BankConnectionsControllerTest < ActionDispatch::IntegrationTest
     assert_select "li", text: I18n.t("active_admin.resources.bank_connection.ebics_setup.bank_access.payment_reports_ch", locale: locale), count: 0
     assert_select "li", text: I18n.t("active_admin.resources.bank_connection.ebics_setup.bank_access.payment_reports_de", locale: locale)
     assert_select "li", text: I18n.t("active_admin.resources.bank_connection.ebics_setup.bank_access.direct_debit_de", locale: locale)
-    assert_select "p.italic", count: 0
+    assert_not_includes response.body, "ABS/BAS"
   end
 
   test "existing active connection blocks setup" do

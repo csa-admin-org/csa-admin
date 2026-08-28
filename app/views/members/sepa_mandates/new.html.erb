@@ -2,13 +2,8 @@
 
 <section>
   <%= simple_form_for @sepa_mandate, url: members_sepa_mandate_path, html: { id: "sepa_mandate_form" } do |f| %>
-    <div class="mt-4 space-y-4">
-      <div
-        class="
-          mb-8 space-y-3 rounded-sm border border-gray-200 bg-gray-50 px-5
-          py-4 text-sm dark:border-gray-700 dark:bg-gray-800
-        "
-      >
+    <div class="sepa-fields">
+      <div class="sepa-creditor">
         <% interp = {
           creditor_name: Current.org.creditor_name,
           creditor_street: Current.org.creditor_street,
@@ -18,9 +13,9 @@
           sepa_mandate_id: current_member.current_sepa_mandate&.umr || current_member.id.to_s
         } %>
 
-        <dl class="space-y-1">
-          <div class="flex flex-col gap-0 sm:flex-row sm:gap-2">
-            <dt class="shrink-0 font-semibold">
+        <dl class="sepa-dl">
+          <div class="sepa-row">
+            <dt class="sepa-dt">
               <%= t("sepa_mandate.pdf.creditor") %>
             </dt>
 
@@ -31,16 +26,16 @@
             </dd>
           </div>
 
-          <div class="flex flex-col gap-0 sm:flex-row sm:gap-2">
-            <dt class="shrink-0 font-semibold">
+          <div class="sepa-row">
+            <dt class="sepa-dt">
               <%= t("sepa_mandate.pdf.creditor_identifier") %>
             </dt>
 
             <dd><%= Current.org.sepa_creditor_identifier %></dd>
           </div>
 
-          <div class="flex gap-2">
-            <dt class="shrink-0 font-semibold">
+          <div class="sepa-row is-inline">
+            <dt class="sepa-dt">
               <%= t("sepa_mandate.pdf.mandate_reference") %>
             </dt>
 
@@ -50,13 +45,16 @@
           </div>
         </dl>
 
-        <p class="pt-2"><%= t("sepa_mandate.authorisation", **interp) %></p>
+        <p class="sepa-legal">
+          <%= t("sepa_mandate.authorisation", **interp) %>
+        </p>
+
         <p><%= t("sepa_mandate.refund_notice", **interp) %></p>
       </div>
 
-      <dl class="mb-2 space-y-1 text-sm">
-        <div class="flex flex-col gap-0 sm:flex-row sm:gap-2">
-          <dt class="shrink-0 font-semibold">
+      <dl class="sepa-debtor">
+        <div class="sepa-row">
+          <dt class="sepa-dt">
             <%= t("sepa_mandate.pdf.debtor") %>
           </dt>
 
@@ -68,10 +66,9 @@
         </div>
       </dl>
 
-      <p class="mb-8 text-xs text-gray-500 dark:text-gray-400">
+      <p class="sepa-edit">
         <%= link_to t("members.sepa_mandates.new.edit_billing_info_link"),
-          edit_members_account_path,
-          class: "underline" %>
+          edit_members_account_path %>
       </p>
 
       <%= f.input :iban,
@@ -92,12 +89,12 @@
 
     <div class="actions">
       <%= link_to members_billing_path, class: "cancel-link" do %>
-        <%= icon "arrow-left", class: "size-5" %>
+        <%= icon "arrow-left", class: "icon-inline-action" %>
         <span><%= t(".cancel_link") %></span>
       <% end %>
 
       <%= button_tag type: "submit" do %>
-        <%= icon "check", class: "size-5" %>
+        <%= icon "check", class: "icon-inline-action" %>
         <span><%= t(".submit") %></span>
       <% end %>
     </div>

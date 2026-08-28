@@ -10,7 +10,7 @@ module DeliveryCyclesHelper
       else
         delivery_cycle.deliveries_count
       end
-    content_tag(:span, class: "flex items-center gap-2") {
+    content_tag(:span, class: "cluster") {
       auto_link(delivery_cycle) +
         content_tag(:span, count, class: "panel-title-count text-sm").html_safe
     }

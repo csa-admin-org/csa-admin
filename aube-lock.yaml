@@ -15,9 +15,6 @@ importers:
 
   .:
     devDependencies:
-      '@dreamsicle.io/stylelint-config-tailwindcss':
-        specifier: ^1.2.2
-        version: 1.2.2(stylelint@17.14.1)
       '@herb-tools/formatter':
         specifier: ^0.10.3
         version: 0.10.3(tailwindcss@4.3.3)
@@ -33,9 +30,6 @@ importers:
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
-      prettier-plugin-tailwindcss:
-        specifier: ^0.8.1
-        version: 0.8.1(prettier@3.9.6)
       stylelint:
         specifier: ^17.14.1
         version: 17.14.1
@@ -45,9 +39,6 @@ importers:
       stylelint-lsp:
         specifier: ^2.0.1
         version: 2.0.1
-      tailwindcss:
-        specifier: ^4.3.3
-        version: 4.3.3
 
 packages:
 
@@ -131,11 +122,6 @@ packages:
     engines: {node: '>=20.19.0'}
     peerDependencies:
       postcss-selector-parser: ^7.1.1
-
-  '@dreamsicle.io/stylelint-config-tailwindcss@1.2.2':
-    resolution: {integrity: sha512-MFwpR3adGHftLjFVYNd6NXepiJMXcVLhY00znLZN7rv/zhbYyOLSPzfotNOvBw647Zb9Wm/lMsMk08i4VkZI/g==}
-    peerDependencies:
-      stylelint: ^16.17.0 || ^17.0.0
 
   '@herb-tools/config@0.10.3':
     resolution: {integrity: sha512-cSaOwuWnij1wiB4Xh9Zfx/s+lhis7cN/+PXssanT/mXQLSRU2QeYasivyCQ1tRnpIVdGGOC/rqHVJQeNmj4pqg==}
@@ -1018,61 +1004,6 @@ packages:
     resolution: {integrity: sha512-DTPx3RWSSnWyzLxQnlH0rJP+EW5ekl16ZU4/psbIhA0e53kJfdgaN5vKM+xP7yJtXVu+nfdVFmlgFDEKAe4Pyw==}
     engines: {node: ^10 || ^12 || >=14}
 
-  prettier-plugin-tailwindcss@0.8.1:
-    resolution: {integrity: sha512-iaFMYqDsE4ffdDkn5qup0j5f2aCEBFZrdrZnvu9QKTlWx/iGPeQ4HHu7b7fCPMxeo9nwQBiOAh2nSypdFYWJkw==}
-    engines: {node: '>=20.19'}
-    peerDependencies:
-      '@ianvs/prettier-plugin-sort-imports': '*'
-      '@prettier/plugin-hermes': '*'
-      '@prettier/plugin-oxc': '*'
-      '@prettier/plugin-pug': '*'
-      '@shopify/prettier-plugin-liquid': '*'
-      '@trivago/prettier-plugin-sort-imports': '*'
-      '@zackad/prettier-plugin-twig': '*'
-      prettier: ^3.0
-      prettier-plugin-astro: '*'
-      prettier-plugin-css-order: '*'
-      prettier-plugin-jsdoc: '*'
-      prettier-plugin-marko: '*'
-      prettier-plugin-multiline-arrays: '*'
-      prettier-plugin-organize-attributes: '*'
-      prettier-plugin-organize-imports: '*'
-      prettier-plugin-sort-imports: '*'
-      prettier-plugin-svelte: '*'
-    peerDependenciesMeta:
-      '@ianvs/prettier-plugin-sort-imports':
-        optional: true
-      '@prettier/plugin-hermes':
-        optional: true
-      '@prettier/plugin-oxc':
-        optional: true
-      '@prettier/plugin-pug':
-        optional: true
-      '@shopify/prettier-plugin-liquid':
-        optional: true
-      '@trivago/prettier-plugin-sort-imports':
-        optional: true
-      '@zackad/prettier-plugin-twig':
-        optional: true
-      prettier-plugin-astro:
-        optional: true
-      prettier-plugin-css-order:
-        optional: true
-      prettier-plugin-jsdoc:
-        optional: true
-      prettier-plugin-marko:
-        optional: true
-      prettier-plugin-multiline-arrays:
-        optional: true
-      prettier-plugin-organize-attributes:
-        optional: true
-      prettier-plugin-organize-imports:
-        optional: true
-      prettier-plugin-sort-imports:
-        optional: true
-      prettier-plugin-svelte:
-        optional: true
-
   prettier@3.9.6:
     resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
     engines: {node: '>=14'}
@@ -1391,10 +1322,6 @@ snapshots:
   '@csstools/selector-specificity@6.0.0(postcss-selector-parser@7.1.4)':
     dependencies:
       postcss-selector-parser: 7.1.4
-
-  '@dreamsicle.io/stylelint-config-tailwindcss@1.2.2(stylelint@17.14.1)':
-    dependencies:
-      stylelint: 17.14.1
 
   '@herb-tools/config@0.10.3':
     dependencies:
@@ -2125,10 +2052,6 @@ snapshots:
       nanoid: 3.3.18
       picocolors: 1.1.1
       source-map-js: 1.2.1
-
-  prettier-plugin-tailwindcss@0.8.1(prettier@3.9.6):
-    dependencies:
-      prettier: 3.9.6
 
   prettier@3.9.6: {}
 

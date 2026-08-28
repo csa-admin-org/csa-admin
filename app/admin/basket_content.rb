@@ -5,7 +5,7 @@ ActiveAdmin.register BasketContent do
     priority: 5,
     label: -> {
       [
-        icon("shopping-bag", class: "size-5 mr-2.5 md:mr-2 inline"),
+        icon("shopping-bag", class: "admin-nav-icon is-text"),
         Basket.model_name.human(count: 2)
       ].join.html_safe
     },
@@ -67,19 +67,19 @@ ActiveAdmin.register BasketContent do
     title
   } do
     unless params.dig(:q, :delivery_id_eq).present?
-      column :delivery, ->(bc) { I18n.l bc.delivery.date, format: :number }, class: "whitespace-nowrap", sortable: :delivery_date
+      column :delivery, ->(bc) { I18n.l bc.delivery.date, format: :number }, class: "is-nowrap", sortable: :delivery_date
     end
     column :product, ->(bc) {
       display_with_unit_price(bc.unit_price, bc.unit) {
         display_with_external_url(bc.product.name, bc.product.url)
       }
-    }, class: "whitespace-nowrap", sortable: :product_name
+    }, class: "is-nowrap", sortable: :product_name
     unless params.dig(:q, :basket_size_eq).present?
       column :qt, ->(bc) {
         display_with_price(bc.unit_price, bc.quantity) {
           display_total_quantity(bc)
         }
-      }, class: "text-right whitespace-nowrap"
+      }, class: "text-right is-nowrap"
     end
     basket_sizes =
       if params.dig(:q, :basket_size_eq).present?
@@ -103,7 +103,7 @@ ActiveAdmin.register BasketContent do
             display_basket_quantity(bc, basket_size)
           end
         }
-      }, class: "text-right whitespace-nowrap"
+      }, class: "text-right is-nowrap"
     end
     column :depots, ->(bc) { display_depots(bc.depots) }, class: "text-right"
     actions
@@ -164,7 +164,7 @@ ActiveAdmin.register BasketContent do
 
     settings_action = if authorized?(:update, Organization)
       link_to edit_organization_path(:basket_content), title: t("#{t_scope}.settings") do
-        icon "sliders-horizontal", class: "size-5"
+        icon "sliders-horizontal", class: "icon-5"
       end
     end
 
@@ -179,7 +179,7 @@ ActiveAdmin.register BasketContent do
       end
     else
       side_panel t(".member_visibility"), action: settings_action do
-        para t("#{t_scope}.disabled"), class: "text-sm text-gray-500"
+        para t("#{t_scope}.disabled"), class: "text-sm is-muted"
       end
     end
   end

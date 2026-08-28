@@ -1,0 +1,8 @@
+/* Logo invert. Resolved dark is html.dark (and .dark descendants). */
+
+.content-page img,
+img.logo {
+  &:where(.dark, .dark *) {
+    filter: hue-rotate(180deg) invert(1);
+  }
+}

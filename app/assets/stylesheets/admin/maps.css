@@ -1,0 +1,99 @@
+@layer components {
+  .depot-coordinate-map-panel {
+    margin-top: 1rem;
+
+    & > :not(:last-child) {
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .panel-body:has(.depot-coordinate-map) {
+    padding-bottom: 0;
+  }
+
+  .depot-coordinate-map {
+    height: 16rem;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-line);
+    background-color: var(--color-fill);
+
+    @media (width >= 48rem) {
+      height: 24rem;
+    }
+  }
+
+  .depot-coordinate-map-panel--show {
+    margin-inline: -0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+
+    .depot-coordinate-map {
+      margin-bottom: 0;
+      height: 8rem;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0.5rem;
+      border-bottom-left-radius: 0.5rem;
+      border-width: 0;
+
+      @media (width >= 48rem) {
+        height: 12rem;
+      }
+    }
+  }
+
+  .depot-coordinate-map-empty {
+    border-radius: 0.375rem;
+    border: 1px dashed var(--color-gray-300);
+    background-color: var(--color-gray-50);
+    padding: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-ink-muted);
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-700);
+      background-color: var(--color-gray-900);
+    }
+  }
+
+  .depot-coordinate-map-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .depot-coordinate-map-geocode-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .depot-coordinate-map-unavailable {
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-amber-200);
+    background-color: var(--color-amber-50);
+    padding: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-amber-900);
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-amber-800);
+      background-color: var(--color-amber-950);
+      color: var(--color-amber-200);
+    }
+  }
+
+  .maplibregl-marker {
+    cursor: pointer;
+  }
+
+  .maplibregl-ctrl-attrib {
+    opacity: 0.65;
+    border-top-left-radius: 0.35rem;
+    font-size: 0.65rem;
+  }
+}

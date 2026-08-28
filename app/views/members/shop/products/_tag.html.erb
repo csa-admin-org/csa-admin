@@ -1,29 +1,15 @@
 <% if params[:tag_id] == tag.id.to_s %>
   <%= link_to params.merge(tag_id: nil) do %>
-    <span
-      class="
-        flex items-center rounded-full border border-green-400 bg-green-400
-        px-2 py-1 text-xs text-gray-600 hover:border-green-500
-        hover:bg-green-500 hover:text-white dark:border-green-600
-        dark:bg-green-600 dark:text-gray-300
-      "
-    >
+    <span class="shop-tag is-selected">
       <%= tag.emoji %>
-      <span class="ml-1"><%= tag.name %></span>
+      <span class="shop-tag-name"><%= tag.name %></span>
     </span>
   <% end %>
 <% else %>
   <%= link_to params.merge(tag_id: tag.id) do %>
-    <span
-      class="
-        flex items-center rounded-full border border-gray-200 bg-gray-100
-        px-2 py-1 text-xs text-gray-500 hover:border-green-500
-        hover:bg-green-500 hover:text-white dark:border-gray-700
-        dark:bg-gray-800 dark:text-gray-400
-      "
-    >
+    <span class="shop-tag">
       <%= tag.emoji %>
-      <span class="ml-1"><%= tag.name %></span>
+      <span class="shop-tag-name"><%= tag.name %></span>
     </span>
   <% end %>
 <% end %>

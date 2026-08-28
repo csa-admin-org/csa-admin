@@ -1,0 +1,93 @@
+/* Unlayered admin look-locks. Nested layout.css rules can miss in Safari. */
+
+.admin-columns {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (width >= 48rem) {
+  .admin-columns {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .admin-columns > .admin-column:first-child {
+    width: 60%;
+  }
+
+  .admin-columns > .admin-column:last-child {
+    width: 40%;
+  }
+}
+
+.admin-column {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.25rem;
+}
+
+.admin-column > :not(:last-child) {
+  margin-bottom: 0;
+}
+
+.icon-file-link-anchor {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--color-gray-400);
+  text-decoration-line: none;
+}
+
+.icon-file-link-anchor:hover {
+  color: var(--color-green-600);
+}
+
+.icon-file-link-anchor:where(.dark, .dark *) {
+  color: var(--color-gray-400);
+}
+
+.icon-file-link-anchor:where(.dark, .dark *):hover {
+  color: var(--color-green-400);
+}
+
+.icon-file-links {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.icon-file-link,
+.admin-billing-snapshots {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.icon-file-link + .icon-file-link {
+  margin-inline-start: 0.5rem;
+}
+
+.icon-file-links .icon-file-link + .icon-file-link {
+  margin-inline-start: 0;
+}
+
+.admin-billing-snapshots + .icon-file-link {
+  margin-inline-start: 0.75rem;
+}
+
+.panel-actions > .icon-file-link,
+.panel-actions > .icon-file-links,
+.panel-actions > .admin-billing-snapshots {
+  margin-inline-end: 0;
+}
+
+.status-tag.large {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0.375rem 0.75rem;
+  font-size: 1.125rem;
+  line-height: 1rem;
+}

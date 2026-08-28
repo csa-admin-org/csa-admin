@@ -1,0 +1,92 @@
+/* Shared tooltip chrome. The controller toggles `.is-visible`. */
+
+@layer components {
+  .tooltip {
+    position: fixed;
+    z-index: 50;
+    width: max-content;
+    max-width: 24rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-gray-900);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    color: var(--color-white);
+    visibility: hidden;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+    opacity: 0;
+    transition: opacity 150ms;
+
+    &:where(.dark, .dark *) {
+      background-color: var(--color-gray-700);
+    }
+
+    &.is-visible {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  .tooltip-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .tooltip-trigger {
+    z-index: 20;
+    display: block;
+    cursor: default;
+
+    &:hover {
+      color: var(--color-gray-900);
+    }
+
+    &:where(.dark, .dark *) {
+      &:hover {
+        color: var(--color-gray-100);
+      }
+    }
+  }
+
+  .tooltip-trigger.is-clickable {
+    z-index: 0;
+    cursor: pointer;
+  }
+
+  .tooltip-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .tooltip-body {
+    display: block;
+  }
+
+  .tooltip p {
+    text-wrap: pretty;
+  }
+
+  .tooltip-arrow,
+  .tooltip-arrow::before {
+    position: absolute;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: inherit;
+  }
+
+  .tooltip-arrow {
+    visibility: hidden;
+  }
+
+  .tooltip-arrow::before {
+    visibility: visible;
+    content: "";
+    transform: rotate(45deg);
+  }
+
+  .tooltip:not(.is-visible) .tooltip-arrow,
+  .tooltip:not(.is-visible) .tooltip-arrow::before {
+    visibility: hidden;
+  }
+}

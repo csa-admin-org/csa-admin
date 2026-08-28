@@ -1,3 +1,2 @@
-# Vendored / third-party CSS - we don't want to lint these strictly
-app/assets/tailwind/components/flatpickr.css
-app/assets/tailwind/components/codejar.css
+# Library dump plus our Flatpickr skin. Prefix soup is not ours to lint.
+app/assets/stylesheets/members/flatpickr.css

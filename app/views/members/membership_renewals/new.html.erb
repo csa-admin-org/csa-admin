@@ -3,15 +3,15 @@
 <section>
   <h2><%= t(".title.#{params[:decision]}") %></h2>
 
-  <p class="justify mt-2 mb-8">
+  <p class="text-justify copy-block">
     <%= t(".text.#{params[:decision]}_html", last_delivery_date: l(Delivery.during_year(@membership.fy_year).last.date), first_delivery_date: l(Delivery.during_year(@membership.fy_year + 1).first.date)) %>
   </p>
 
-  <div class="mt-4">
+  <div class="form-wrap">
     <%= simple_form_for @membership, url: members_membership_renewal_path, data: { turbo: false, controller: "form-pricing", "form-pricing-url-value" => members_renew_membership_url }, method: :post do |f| %>
       <%= f.hidden_field :renewal_decision %>
 
-      <div class="space-y-6">
+      <div class="renewal-fields">
         <% case params[:decision] %>
         <% when "cancel" %>
           <%= f.input :renewal_note, as: :text, placeholder: t(".renewal_note.placeholder.cancel"), input_html: { rows: 3 } %>
@@ -22,22 +22,22 @@
                   as: :boolean,
                   label: t(".renewal_annual_fee_label_html",
                     price_tag: content_tag(:span, cur(Current.org.annual_fee, precision: 0),
-                      class: "ml-auto text-lg whitespace-nowrap text-gray-400 dark:text-gray-400")),
-                  label_html: { class: "justify-between" } %>
+                      class: "renewal-fee")),
+                  label_html: { class: "form-label-spread" } %>
               </div>
             </div>
           <% end %>
         <% when "renew" %>
           <div
-            class="space-y-8"
+            class="form-fields-loose"
             data-controller="form-choices-limiter form-activity"
           >
-            <%= f.input :basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(membership: @membership, no_basket_option: false, data: { action: "form-choices-limiter#limitChoices form-activity#updateInput form-pricing#refresh" }), required: true, label: BasketSize.model_name.human, label_html: { class: "text-base" } %>
+            <%= f.input :basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(membership: @membership, no_basket_option: false, data: { action: "form-choices-limiter#limitChoices form-activity#updateInput form-pricing#refresh" }), required: true, label: BasketSize.model_name.human, label_html: { class: "form-label" } %>
 
             <% if @membership.memberships_basket_complements.any? %>
-              <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs", label_html: { class: "text-base" } do %>
+              <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs", label_html: { class: "form-label" } do %>
                 <% if Current.org.member_form_complements_text? %>
-                  <div class="mb-4 text-sm">
+                  <div class="form-richtext">
                     <%= Current.org.member_form_complements_text %>
                   </div>
                 <% end %>
@@ -50,14 +50,14 @@
             <% end %>
 
             <% if show_activity_participations? %>
-              <%= f.input :activity_participations_demanded_annually, as: :numeric, label: activities_human_name, required: true, label_html: { class: "text-base" } do %>
+              <%= f.input :activity_participations_demanded_annually, as: :numeric, label: activities_human_name, required: true, label_html: { class: "form-label" } do %>
                 <% if Current.org.member_form_activity_participations_text? %>
-                  <div class="trix-content mb-4 text-sm">
+                  <div class="trix-content form-richtext">
                     <%= Current.org.member_form_activity_participations_text %>
                   </div>
                 <% end %>
 
-                <%= f.input_field :activity_participations_demanded_annually, as: :numeric, min: Current.org.activity_participations_form_min || f.object.activity_participations_demanded_annually, max: Current.org.activity_participations_form_max || f.object.activity_participations_demanded_annually, data: { min: Current.org.activity_participations_form_min, max: Current.org.activity_participations_form_max, form_activity_target: "input", action: "form-pricing#refresh" }, class: "w-20" %>
+                <%= f.input_field :activity_participations_demanded_annually, as: :numeric, min: Current.org.activity_participations_form_min || f.object.activity_participations_demanded_annually, max: Current.org.activity_participations_form_max || f.object.activity_participations_demanded_annually, data: { min: Current.org.activity_participations_form_min, max: Current.org.activity_participations_form_max, form_activity_target: "input", action: "form-pricing#refresh" }, class: "form-narrow" %>
 
                 <% if (hint = activity_participations_form_detail) %>
                   <span class="hint"><%= hint %></span>
@@ -67,11 +67,11 @@
 
             <% if show_basket_price_extras? && !current_member.salary_basket? %>
               <div>
-                <legend class="text-base">
+                <legend class="form-label">
                   <%= Current.org.basket_price_extra_public_title %>
                 </legend>
 
-                <div class="trix-content my-1 text-sm">
+                <div class="trix-content form-richtext-inset">
                   <%= Current.org.basket_price_extra_text %>
                 </div>
 
@@ -80,12 +80,12 @@
             <% end %>
 
             <% if Current.org.membership_renewal_depot_update? %>
-              <div class="space-y-8">
+              <div class="form-fields-loose">
                 <% grouped_depots = visible_depots(object: @membership, only_with_future_deliveries: true).group_by(&:group) %>
 
                 <% if grouped_depots.keys.compact.any? %>
                   <div>
-                    <legend class="text-base">
+                    <legend class="form-label">
                       <%= Depot.model_name.human(count: 2) %>
 
                       <abbr title="<%= t("simple_form.required.text") %>">
@@ -93,14 +93,14 @@
                       </abbr>
                     </legend>
 
-                    <div class="mt-2 space-y-6">
+                    <div class="form-fields">
                       <% grouped_depots = grouped_depots.sort_by { |g, _d| g&.member_order_priority.to_s + g&.public_name.to_s } %>
 
                       <% grouped_depots.each do |group, depots| %>
                         <div>
                           <% if group %>
                             <legend><%= group.public_name %></legend>
-                            <div class="mt-1 mb-3 text-sm">
+                            <div class="depot-group-copy">
                               <%= group.information_text %>
                             </div>
                           <% end %>
@@ -111,18 +111,18 @@
                     </div>
                   </div>
                 <% else %>
-                  <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(membership: @membership, only_with_future_deliveries: true, data: { action: "form-choices-limiter#limitChoices form-pricing#refresh" }), label: Depot.model_name.human, required: true, label_html: { class: "text-base" } %>
+                  <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(membership: @membership, only_with_future_deliveries: true, data: { action: "form-choices-limiter#limitChoices form-pricing#refresh" }), label: Depot.model_name.human, required: true, label_html: { class: "form-label" } %>
                 <% end %>
 
                 <% if DeliveryCycle.visible? %>
-                  <%= f.input :delivery_cycle_id, as: :radio_buttons, collection: visible_delivery_cycles_collection(membership: @membership, only_with_future_deliveries: true, data: { form_choices_limiter_target: "input", action: "form-pricing#refresh" }), disabled: (DeliveryCycle.pluck(:id) - @membership.depot.delivery_cycle_ids - [ @membership.delivery_cycle_id ]), label: Delivery.model_name.human(count: 2), required: true, label_html: { class: "text-base" } %>
+                  <%= f.input :delivery_cycle_id, as: :radio_buttons, collection: visible_delivery_cycles_collection(membership: @membership, only_with_future_deliveries: true, data: { form_choices_limiter_target: "input", action: "form-pricing#refresh" }), disabled: (DeliveryCycle.pluck(:id) - @membership.depot.delivery_cycle_ids - [ @membership.delivery_cycle_id ]), label: Delivery.model_name.human(count: 2), required: true, label_html: { class: "form-label" } %>
                 <% end %>
               </div>
             <% end %>
 
             <% if Current.org.billing_year_divisions.many? %>
               <div class="input">
-                <label class="mb-1 text-base">
+                <label class="form-label-tight">
                   <%= t("active_admin.resource.show.billing") %>
 
                   <abbr title="<%= t("simple_form.required.text") %>">
@@ -140,12 +140,12 @@
 
       <div class="actions">
         <%= link_to members_memberships_path, class: "cancel-link" do %>
-          <%= icon "arrow-left", class: "size-5" %>
+          <%= icon "arrow-left", class: "icon-inline-action" %>
           <span><%= t(".cancel") %></span>
         <% end %>
 
         <%= button_tag type: "submit" do %>
-          <%= icon "check", class: "size-5" %>
+          <%= icon "check", class: "icon-inline-action" %>
           <span><%= t(".submit") %></span>
         <% end %>
       </div>

@@ -20,7 +20,7 @@ module ActiveAdmin::BillingHelper
   def recurring_billing_row_content(arbre, next_date:, path:, authorized:)
     if Current.org.recurring_billing?
       if next_date
-        arbre.div class: "flex items-center justify-end gap-2" do
+        arbre.div class: "row-actions" do
           arbre.span { l(next_date, format: :medium) }
           if authorized
             arbre.div do
@@ -28,7 +28,7 @@ module ActiveAdmin::BillingHelper
                 icon: "banknote",
                 disabled: !Current.org.iban?,
                 disabled_tooltip: t("active_admin.resource.show.recurring_billing_iban_missing", iban_type: Current.org.iban_type_name),
-                form: { class: "inline" },
+                form: { class: "form-inline" },
                 data: { confirm: t("active_admin.resource.show.recurring_billing_confirm") }
             end
           end

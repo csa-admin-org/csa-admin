@@ -42,8 +42,8 @@ context.instance_eval do
       required: false,
       collection: Organization::AbsenceFeature::ABSENCES_INCLUDED_MODES.map { |mode|
         [
-          content_tag(:span, class: "ms-2 py-0.5 leading-5") {
-            content_tag(:span, t("organization.absences_included_mode.#{mode}"), class: "block font-medium") +
+          content_tag(:span, class: "text-sm") {
+            content_tag(:span, t("organization.absences_included_mode.#{mode}"), class: "is-block font-medium") +
             content_tag(:span, t("organization.absences_included_mode.#{mode}_hint").html_safe, class: "inline-hints")
           },
           mode

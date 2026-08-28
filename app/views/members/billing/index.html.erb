@@ -9,14 +9,9 @@
   <section>
     <h2><%= t(".open_invoices") %></h2>
 
-    <ul class="mt-4">
+    <ul class="invoices">
       <% @open_invoices.each do |invoice| %>
-        <li
-          class="
-            -mx-2 my-2 flex flex-row flex-wrap items-center justify-between
-            rounded-sm bg-red-100 px-2 py-1 md:flex-nowrap dark:bg-red-900
-          "
-        >
+        <li class="invoice is-open">
           <%= render "line", object: invoice %>
         </li>
       <% end %>
@@ -30,12 +25,12 @@
   <% if @billing_history.empty? %>
     <p class="nocontent"><%= t(".no_billing_history") %></p>
   <% else %>
-    <ul class="mt-4">
+    <ul class="invoices">
       <% limit = params[:all_billing_history] ? 10_000 : 15 %>
 
       <% @billing_history.first(limit).each do |object| %>
         <li
-          class="-mx-2 flex flex-row flex-wrap items-center justify-between rounded-sm px-2 py-1 hover:bg-gray-100 md:flex-nowrap dark:hover:bg-gray-800 <%= "line-through text-gray-300 dark:text-gray-600" if object.respond_to?(:canceled?) && object.canceled? %>"
+          class="invoice <%= " is-canceled" if object.respond_to?(:canceled?) && object.canceled? %>"
           data-hover-id="<%= (object.is_a?(Invoice) && object.entity ? dom_id(object.entity) : nil) %>"
         >
           <%= render "line", object: object %>
@@ -45,7 +40,7 @@
     <%= render "members/shared/show_all_button", collection: @billing_history, limit: limit, anchor: "billing_history" %>
   <% end %>
 
-  <p class="mt-12 text-sm text-gray-400 dark:text-gray-400">
+  <p class="billing-note">
     <%= t(".explanation") %>
   </p>
 

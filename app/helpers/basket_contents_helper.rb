@@ -39,9 +39,9 @@ module BasketContentsHelper
       quantity = quantity.to_i
     end
 
-    content_tag(:span, class: "inline-flex items-baseline gap-1 ml-3 -me-3.5") {
+    content_tag(:span, class: "bc-qty is-spaced") {
       concat content_tag(:span, quantity, class: "tabular-nums")
-      concat content_tag(:span, I18n.t("units.#{unit}.short"), class: "text-left w-2.5 text-xs text-gray-500")
+      concat content_tag(:span, I18n.t("units.#{unit}.short"), class: "bc-unit")
     }
   end
 
@@ -76,8 +76,8 @@ module BasketContentsHelper
     quantity = basket_content.basket_quantity(basket_size)
     return "–" if count.nil? || quantity.nil? || quantity.zero?
 
-    content_tag(:span, class: "inline-flex items-baseline gap-1.5") do
-      concat content_tag(:span, "#{count}x", class: "text-xs text-gray-500")
+    content_tag(:span, class: "bc-qty") do
+      concat content_tag(:span, "#{count}x", class: "text-xs is-muted")
       concat content_tag(:span, display_quantity(quantity, basket_content.unit), class: "tabular-nums")
     end
   end
@@ -92,14 +92,14 @@ module BasketContentsHelper
       data: {
         controller: "inline-edit"
       },
-      class: "inline-flex items-baseline gap-1.5"
+      class: "bc-qty"
     ) do
-      concat content_tag(:span, class: "inline-flex items-baseline gap-1 ml-4 -me-5") {
-        concat content_tag(:span, "#{count}x", class: "text-xs text-gray-500")
+      concat content_tag(:span, class: "bc-qty is-edit") {
+        concat content_tag(:span, "#{count}x", class: "text-xs is-muted")
         concat form_tag(
           inline_update_basket_content_path(basket_content),
           method: :patch,
-          class: "inline-flex items-baseline gap-0",
+          class: "bc-qty",
           data: { "inline-edit-target" => "form" }
         ) {
           hidden_field_tag(:basket_size_id, basket_size.id) +
@@ -107,14 +107,14 @@ module BasketContentsHelper
             min: 0,
             step: 1,
             placeholder: "0",
-            class: [ "text-input w-13 h-6 text-right tabular-nums m-0 py-0 px-1 border-0.5 border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" ],
+            class: [ "qty-input" ],
             data: {
               "inline-edit-target" => "input",
               action: "blur->inline-edit#submit keydown->inline-edit#keydown"
             }
           )
         }
-        concat content_tag(:span, suffix, class: "text-left w-2.5 text-xs text-gray-500")
+        concat content_tag(:span, suffix, class: "bc-unit")
       }
     end
   end
@@ -179,11 +179,11 @@ module BasketContentsHelper
 
   def display_basket_price_with_diff(base_price, prices)
     prices.map { |price|
-      content_tag(:div, class: "mt-1") {
-        (content_tag(:h4, cur(price, unit: false, format: "%n"), class: "text-2xl font-bold") +
+      content_tag(:div, class: "bc-price-wrap") {
+        (content_tag(:h4, cur(price, unit: false, format: "%n"), class: "bc-price") +
           display_basket_price_diff(base_price, price - base_price))
       }
-    }.join(content_tag(:span, "–", class: "text-2xl mx-2")).html_safe
+    }.join(content_tag(:span, "–", class: "bc-price-sep")).html_safe
   end
 
   def basket_price_diff_color(base_price, diff)
@@ -200,22 +200,22 @@ module BasketContentsHelper
   def basket_price_diff_color_class(base_price, diff)
     case basket_price_diff_color(base_price, diff)
     when :neutral
-      "bg-neutral-200 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200"
+      "price-chip is-neutral"
     when :green
-      "bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-200"
+      "price-chip is-up"
     when :red
-      "bg-red-200 text-red-800 dark:bg-red-700 dark:text-red-200"
+      "price-chip is-down"
     end
   end
 
   def display_basket_price_diff(base_price, diff)
     per = (diff / base_price * 100).round(1)
     plus_sign = diff.positive? ? "+" : ""
-    content_tag :span, class: "py-0.5 px-1 text-xs rounded-full #{basket_price_diff_color_class(base_price, diff)}" do
+    content_tag :span, class: basket_price_diff_color_class(base_price, diff) do
       [
         "#{plus_sign}#{cur(diff, unit: false, format: '%n')}",
         "#{plus_sign}#{per}%"
-      ].join(content_tag(:span, "/", class: "px-1 font-extralight").html_safe).html_safe
+      ].join(content_tag(:span, "/", class: "chip-slash").html_safe).html_safe
     end.html_safe
   end
 
@@ -224,7 +224,7 @@ module BasketContentsHelper
 
     (
       yield +
-      content_tag(:span, cur(price * quantity.to_f), class: "block text-sm text-gray-500 whitespace-nowrap")
+      content_tag(:span, cur(price * quantity.to_f), class: "is-block text-sm is-muted is-nowrap")
     ).html_safe
   end
 
@@ -237,7 +237,7 @@ module BasketContentsHelper
   def display_with_unit_price(price, unit)
     return yield unless price.present?
 
-    (yield + content_tag(:span, class: "flex items-baseline m-0 gap-0.5 text-gray-500 whitespace-nowrap") {
+    (yield + content_tag(:span, class: "bc-unit-price is-muted is-nowrap") {
       concat content_tag(:span, cur(price), class: "text-sm tabular-nums")
       concat content_tag(:span, "/#{I18n.t("units.#{unit}.short")}", class: "text-xs")
     }).html_safe

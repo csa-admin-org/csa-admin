@@ -2,16 +2,16 @@
 
 module ActiveAdmin::AnalyticsHelper
   def analytics_menu(arbre, current_page:, sections: [], link_data: {})
-    arbre.ul class: "space-y-2 text-base" do
+    arbre.ul class: "admin-page-menu" do
       Analytics.pages.sort_by { |page| I18n.transliterate(analytics_page_title(page)) }.each do |page|
         arbre.li do
           if page.to_s == current_page.to_s
-            arbre.div class: "font-bold flex items-center justify-start" do
-              arbre.div { icon "chevron-down", class: "size-4 me-1" }
+            arbre.div class: "admin-page-menu-current" do
+              arbre.div { icon "chevron-down", class: "icon-4" }
               arbre.span analytics_page_title(page)
             end
             if sections.any?
-              arbre.ol class: "mt-2 mb-6 ml-5 list-inside list-none space-y-1" do
+              arbre.ol class: "admin-page-menu-subs" do
                 sections.each do |id, title|
                   arbre.li do
                     arbre.a href: "##{id}", **link_data.deep_merge(data: { turbo: false }) do
@@ -23,8 +23,8 @@ module ActiveAdmin::AnalyticsHelper
             end
           else
             arbre.a href: analytics_page_path(page), **link_data do
-              arbre.div class: "flex items-center justify-start" do
-                arbre.div { icon "chevron-right", class: "size-4 me-1" }
+              arbre.div class: "admin-page-menu-link" do
+                arbre.div { icon "chevron-right", class: "icon-4" }
                 arbre.span analytics_page_title(page)
               end
             end

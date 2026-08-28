@@ -3,5 +3,7 @@
 <h2><%= delivery_title(order.delivery) %></h2>
 
 <% if order.delivery.shop_text.present? %>
-  <div class="trix-content mt-2"><%= order.delivery.shop_text %></div>
+  <div class="trix-content shop-delivery-note">
+    <%= order.delivery.shop_text %>
+  </div>
 <% end %>

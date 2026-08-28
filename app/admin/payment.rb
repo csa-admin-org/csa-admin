@@ -80,7 +80,7 @@ ActiveAdmin.register Payment do
 
   sidebar :no_automatic_payments_processing_warning, only: :index, if: -> { !Current.org.bank_connection? } do
     settings_action = link_to organization_path(anchor: "bank_connection"), title: t("active_admin.resource.form.bank_connection") do
-      icon "sliders-horizontal", class: "size-5"
+      icon "sliders-horizontal", class: "icon-5"
     end
 
     side_panel t(".automatic_payments_processing"), action: settings_action, class: "warning" do
@@ -93,10 +93,10 @@ ActiveAdmin.register Payment do
   sidebar :automatic_payments_processing, only: :index, if: -> { Current.org.bank_connection? } do
     bank_connection = Current.org.active_bank_connection
     settings_action = link_to organization_path(anchor: "bank_connection"), title: t("active_admin.resource.form.bank_connection") do
-      icon "sliders-horizontal", class: "size-5"
+      icon "sliders-horizontal", class: "icon-5"
     end
 
-    title = content_tag(:span, class: "inline-flex items-center gap-2") do
+    title = content_tag(:span, class: "cluster") do
       safe_join([ t(".automatic_payments_processing"), organization_settings_bank_connection_health(bank_connection) ])
     end
 
@@ -129,7 +129,7 @@ ActiveAdmin.register Payment do
       column do
         if payment.invoice_id?
           panel auto_link(payment.invoice), icon: "eye", action: icon_file_link(:pdf, pdf_invoice_path(payment.invoice), target: "_blank") do
-            div class: "p-2" do
+            div class: "panel-inset" do
               link_to_invoice_pdf(payment.invoice) do
                 render "invoice_preview", invoice: payment.invoice
               end

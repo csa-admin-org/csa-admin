@@ -2,37 +2,36 @@
 
 used_cycles = Membership.used_delivery_cycle_ids_for(delivery.fy_year)
 
-grid_cols = "grid-cols-1 " +
-  case basket_content_prices.size
-  when 1 then "md:grid-cols-1"
-  when 2 then "md:grid-cols-2"
-  when 3 then "md:grid-cols-3"
-  when 4 then "md:grid-cols-4"
-  else "md:grid-cols-5"
-  end
+price_cols = case basket_content_prices.size
+when 1 then "is-1"
+when 2 then "is-2"
+when 3 then "is-3"
+when 4 then "is-4"
+else "is-5"
+end
 
 # Current delivery prices section (always visible)
-div class: "grid #{grid_cols} mt-4 mb-4 gap-4 gap-y-8" do
+div class: "bc-prices #{price_cols}" do
   basket_content_prices.each do |basket_size, depot_prices|
     prices = [ depot_prices.values.min, depot_prices.values.max ].uniq.compact
     if prices.any?
       base_price = basket_size.price_for(delivery.fy_year)
       basket_price = delivery.basket_size_price_for(base_price)
 
-      div class: "flex flex-col align-top text-center" do
-        h3 basket_size.name, class: "text-xl font-extralight"
-        div class: "mt-1 flex justify-center items-center" do
+      div class: "bc-price-col" do
+        h3 basket_size.name, class: "bc-price-title"
+        div class: "bc-price-values" do
           prices.each_with_index do |price, i|
             # Separator between min and max
             if i > 0
-              span "\u2013", class: "text-2xl mx-2 text-gray-400"
+              span "\u2013", class: "bc-price-dash"
             end
 
             # Group depots that have this specific price
             price_depots = depot_prices.select { |_, p| p == price }
             has_tooltip = prices.many?
 
-            price_container_opts = { class: "mt-1" }
+            price_container_opts = { class: "bc-price-point" }
             if has_tooltip
               price_container_opts[:data] = {
                 controller: "tooltip",
@@ -40,18 +39,17 @@ div class: "grid #{grid_cols} mt-4 mb-4 gap-4 gap-y-8" do
                 "tooltip-placement-value" => "bottom",
                 "tooltip-target" => "trigger"
               }
-              price_container_opts[:class] += " relative"
             end
 
             div price_container_opts do
-              h4 cur(price, unit: false, format: "%n"), class: "text-2xl font-bold"
+              h4 cur(price, unit: false, format: "%n"), class: "bc-price-amount"
               span display_basket_price_diff(basket_price, price - basket_price)
 
               if has_tooltip
-                div role: "tooltip", class: "invisible fixed z-50 w-max max-w-96 p-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 transition-opacity duration-150 tooltip dark:bg-gray-700", data: { "tooltip-target" => "content" } do
-                  ul class: "list-none text-left" do
-                    price_depots.sort_by { |d, _| d.name }.each do |depot, dp|
-                      li depot.name, class: "px-1.5"
+                div role: "tooltip", class: "tooltip", data: { "tooltip-target" => "content" } do
+                  ul class: "list-none text-start" do
+                    price_depots.sort_by { |d, _| d.name }.each do |depot, _dp|
+                      li depot.name
                     end
                   end
                   div class: "tooltip-arrow", data: { "tooltip-target" => "arrow" }
@@ -88,30 +86,29 @@ if yearly_diffs.any?
     }
   }.flatten.uniq.sort_by { |c| %i[red neutral green].index(c) || 99 }
 
-  details class: "group mt-12 md:mt-8 mb-2" do
-    summary class: "flex items-center justify-center cursor-pointer list-none [&::-webkit-details-marker]:hidden" do
-      span delivery.fiscal_year.to_s, class: "text-sm font-medium text-gray-600 dark:text-gray-300"
+  details class: "bc-year" do
+    summary class: "bc-year-summary" do
+      span delivery.fiscal_year.to_s, class: "text-sm font-medium is-soft"
       # Colored dots
-      div class: "flex items-center ml-3.25" do
+      div class: "bc-year-dots" do
         diff_colors.each do |color|
-          color_class = case color
-          when :green then "bg-green-200 dark:bg-green-700"
-          when :red then "bg-red-200 dark:bg-red-700"
-          when :neutral then "bg-neutral-200 dark:bg-neutral-700"
+          tone = case color
+          when :green then "is-up"
+          when :red then "is-down"
+          when :neutral then "is-neutral"
           end
-          span "", class: "inline-block size-4 -ml-1.75 rounded-full #{color_class}"
+          span "", class: "price-dot #{tone}"
         end
       end
     end
 
     # Expanded content
-    div class: "grid #{grid_cols} mb-3 gap-4" do
+    div class: "bc-year-grid #{price_cols}" do
       basket_content_prices.each do |basket_size, _depot_prices|
         yearly_data = delivery.basket_content_yearly_price_diff(basket_size)
         next unless yearly_data&.any?
 
-        div class: "flex flex-col align-top text-center" do
-          # h3 basket_size.name, class: "text-lg font-light"
+        div class: "bc-price-col" do
           yearly_data.each do |(cycle, data)|
             if used_cycles.many?
               title = cycle.name
@@ -125,17 +122,17 @@ if yearly_diffs.any?
             baskets_price_total = data[:baskets_price_total]
             depot_totals = data[:depot_totals]
 
-            span title, class: "mt-4 block text-sm font-light"
+            span title, class: "bc-year-cycle"
 
             # Show range if min != max (depot variation exists)
             if min_diff != max_diff
               min_total = depot_totals.values.min
               max_total = depot_totals.values.max
 
-              div class: "flex justify-center items-center" do
+              div class: "bc-year-range" do
                 [ min_total, max_total ].each_with_index do |target_total, i|
                   if i > 0
-                    span "\u2013", class: "text-xs mx-1 text-gray-400"
+                    span "\u2013", class: "bc-year-dash"
                   end
 
                   # Depots matching this edge
@@ -144,11 +141,11 @@ if yearly_diffs.any?
 
                   div data: { controller: "tooltip", action: "mouseenter->tooltip#show mouseleave->tooltip#hide", "tooltip-placement-value" => "bottom" } do
                     span display_basket_price_diff(baskets_price_total, price_diff), data: { "tooltip-target" => "trigger" }
-                    div role: "tooltip", class: "invisible fixed z-50 w-max max-w-96 p-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 transition-opacity duration-150 tooltip dark:bg-gray-700", data: { "tooltip-target" => "content" } do
-                      ul class: "list-none text-left" do
+                    div role: "tooltip", class: "tooltip", data: { "tooltip-target" => "content" } do
+                      ul class: "list-none text-start" do
                         edge_depots.sort_by { |id| depots_by_id[id]&.name.to_s }.each do |depot_id|
                           depot = depots_by_id[depot_id]
-                          li depot.name, class: "px-1.5" if depot
+                          li depot.name if depot
                         end
                       end
                       div class: "tooltip-arrow", data: { "tooltip-target" => "arrow" }
@@ -165,6 +162,6 @@ if yearly_diffs.any?
       nil
     end
 
-    para t("basket_content.yearly_diff_note"), class: "mt-6 text-xs italic text-center text-gray-500 dark:text-gray-400"
+    para t("basket_content.yearly_diff_note"), class: "bc-year-note is-muted"
   end
 end

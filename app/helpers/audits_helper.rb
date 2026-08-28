@@ -134,7 +134,7 @@ module AuditsHelper
   private
 
   def display_empty_value
-    content_tag(:span, t("active_admin.empty"), class: "attributes-table-empty-value text-sm!")
+    content_tag(:span, t("active_admin.empty"), class: "attributes-table-empty-value")
   end
 
   def display_state_change(model_class, change)
@@ -146,7 +146,7 @@ module AuditsHelper
     if record = klass.find_by(id: id)
       auto_link record
     else
-      content_tag(:span, t("active_admin.unknown"), class: "attributes-table-empty-value text-sm!")
+      content_tag(:span, t("active_admin.unknown"), class: "attributes-table-empty-value")
     end
   end
 
@@ -200,7 +200,7 @@ module AuditsHelper
     depots = Depot.where(id: depot_ids).order(:position)
     return display_empty_value if depots.none?
 
-    content_tag(:ul, class: "list-disc list-inside text-sm") do
+    content_tag(:ul, class: "disc-list text-sm") do
       safe_join(depots.map { |depot| content_tag(:li, depot.name) })
     end
   end
@@ -208,7 +208,7 @@ module AuditsHelper
   def display_basket_complements_change(complements)
     return display_empty_value if complements.blank?
 
-    content_tag(:ul, class: "list-disc list-inside text-sm") do
+    content_tag(:ul, class: "disc-list text-sm") do
       safe_join(complements.filter_map { |comp|
         complement = BasketComplement.find_by(id: comp["basket_complement_id"])
         next unless complement
@@ -235,7 +235,7 @@ module AuditsHelper
       return content_tag(:span, present_values.values.first)
     end
 
-    content_tag(:ul, class: "list-disc list-inside text-sm") do
+    content_tag(:ul, class: "disc-list text-sm") do
       safe_join(present_values.map { |locale, value|
         content_tag(:li, "#{locale.upcase}: #{value}")
       })
@@ -252,7 +252,7 @@ module AuditsHelper
   def display_periods_list(periods)
     return display_empty_value if periods.blank?
 
-    content_tag(:ul, class: "list-disc list-inside text-sm") do
+    content_tag(:ul, class: "disc-list text-sm") do
       safe_join(periods.map { |period| content_tag(:li, format_period(period)) })
     end
   end
@@ -300,14 +300,14 @@ module AuditsHelper
 
     return nil if changes.empty?
 
-    content_tag(:ul, class: "space-y-1 text-sm") do
+    content_tag(:ul, class: "stack is-snug text-sm") do
       safe_join(changes.map do |change|
-        content_tag(:li, class: "flex items-center gap-2") do
+        content_tag(:li, class: "cluster") do
           before_content = change[:before] || t("active_admin.empty")
           after_content = change[:after] || t("active_admin.empty")
 
-          concat(content_tag(:span, before_content, class: "text-gray-500 dark:text-gray-400"))
-          concat(content_tag(:span, "→", class: "text-gray-400 dark:text-gray-500"))
+          concat(content_tag(:span, before_content, class: "is-muted"))
+          concat(content_tag(:span, "→", class: "is-faint"))
           concat(content_tag(:span, after_content))
         end
       end)
@@ -323,11 +323,11 @@ module AuditsHelper
   end
 
   def render_list_diff(removed: [], added: [])
-    content_tag(:ul, class: "space-y-1 text-sm") do
+    content_tag(:ul, class: "stack is-snug text-sm") do
       items = []
 
       removed.each do |item|
-        items << content_tag(:li, class: "text-gray-500 dark:text-gray-400") do
+        items << content_tag(:li, class: "muted-change is-muted") do
           "− #{item}"
         end
       end

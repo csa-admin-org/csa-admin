@@ -6,7 +6,7 @@
       <%= t(".notice", count: current_member.current_or_future_membership.basket_shifts_allowance_remaining) %>
 
       <% if absences_included&.positive? %>
-        <p class="mt-2 text-xs italic opacity-75">
+        <p class="notice-note">
           <%= t(".absences_included_footnote_html") %>
         </p>
       <% end %>
@@ -19,7 +19,7 @@
     <%= notice_text %>
 
     <% if absences_included&.positive? %>
-      <p class="mt-2 text-xs italic opacity-75">
+      <p class="notice-note">
         <%= t(".absences_included_footnote_html") %>
       </p>
     <% end %>

@@ -55,9 +55,9 @@ module ActiveAdmin::MembershipHelper
 
   def waiting_membership_action_notice_class(member)
     if member.validation_waiting_membership_no_delivery? || member.activation_waiting_membership_no_delivery?
-      "mb-2 text-center italic text-red-600 dark:text-red-400"
+      "waiting-notice is-alert"
     else
-      "mb-2 text-center italic text-gray-500 dark:text-gray-400"
+      "waiting-notice"
     end
   end
 

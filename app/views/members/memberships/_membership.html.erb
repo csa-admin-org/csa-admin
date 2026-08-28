@@ -3,25 +3,25 @@
     <%= membership.fiscal_year %>
 
     <% if membership.can_member_update? && membership.can_member_update_depot? %>
-      <%= link_to edit_members_membership_path(membership), title: t(".edit"), class: "ml-1 p-3" do %>
-        <%= icon "square-pen", class: "mb-1 inline size-5 text-gray-400 dark:text-gray-400 hover:text-green-500 dark:hover:text-green-500" %>
+      <%= link_to edit_members_membership_path(membership), title: t(".edit"), class: "membership-edit" do %>
+        <%= icon "square-pen", class: "membership-edit-icon" %>
       <% end %>
     <% end %>
   </h2>
 
-  <ul class="relative -mx-2 my-2 space-y-2 p-2 md:mr-4">
-    <li class="flex flex-row items-center gap-3">
-      <%= icon "calendar-range", class: "member-detail-icon flex-none size-6 -mt-0.5" %>
+  <ul class="membership-facts">
+    <li class="membership-fact is-dates">
+      <%= icon "calendar-range", class: "detail-icon" %>
 
       <span>
         <%= [ membership.first_delivery.date, membership.last_delivery.date ].map { |d| l(d) }.join(" – ") %>
       </span>
     </li>
 
-    <li class="mt-1 flex flex-row items-center gap-3">
-      <%= icon "shopping-bag", class: "member-detail-icon flex-none size-6" %>
+    <li class="membership-fact">
+      <%= icon "shopping-bag", class: "detail-icon" %>
 
-      <span class="flex flex-col">
+      <span class="membership-basket">
         <span><%= basket_size_description(membership) %></span>
         <% complements = membership.memberships_basket_complements.includes(:basket_complement) %>
 
@@ -31,21 +31,21 @@
       </span>
     </li>
 
-    <li class="mt-1 flex flex-row items-center gap-3">
-      <%= icon "map", class: "member-detail-icon flex-none size-6" %>
+    <li class="membership-fact">
+      <%= icon "map", class: "detail-icon" %>
 
       <span><%= depot_map_link(membership.depot) %></span>
     </li>
 
-    <li class="mt-1 flex flex-row items-center gap-3">
-      <%= icon "truck", class: "member-detail-icon flex-none size-6" %>
+    <li class="membership-fact">
+      <%= icon "truck", class: "detail-icon" %>
 
       <span><%= membership_delivery_summary(membership) %></span>
     </li>
 
     <% if feature?("activity") %>
-      <li class="mt-1 flex flex-row items-center gap-3">
-        <%= icon "handshake", class: "member-detail-icon flex-none size-6 -mb-0.5" %>
+      <li class="membership-fact is-activity">
+        <%= icon "handshake", class: "detail-icon" %>
 
         <span>
           <%= activities_human_name %>:
@@ -57,16 +57,14 @@
       </li>
     <% end %>
 
-    <li class="mt-1 flex flex-row items-center gap-3">
-      <%= icon "banknotes", class: "member-detail-icon flex-none size-6" %>
+    <li class="membership-fact">
+      <%= icon "banknotes", class: "detail-icon" %>
 
       <span>
         <% if current_member.salary_basket? %>
-          <span class="text-gray-400 italic dark:text-gray-400">
-            <%= t(".price_salary_basket") %>
-          </span>
+          <span class="salary-note"><%= t(".price_salary_basket") %></span>
         <% else %>
-          <span class="flex flex-row items-center gap-3">
+          <span class="membership-price">
             <% if pledge = open_bidding_round_pledge(membership) %>
               <%= link_to new_members_bidding_round_pledge_path do %>
                 <%= cur(pledge.total_membership_price) %>
@@ -88,10 +86,8 @@
 
   <% if open_bidding_round_for?(membership) %>
     <%= link_to new_members_bidding_round_pledge_path do %>
-      <% colors = missing_bidding_round_pledge? ? "border-orange-500 bg-orange-100 hover:bg-orange-200 dark:bg-orange-900 hover:dark:bg-orange-800 text-orange-700 dark:text-orange-300" : "border-green-500 bg-green-100 hover:bg-green-200 dark:bg-green-900 hover:dark:bg-green-800 text-green-700 dark:text-green-300" %>
-
-      <div class="mt-4 mb-4 flex items-center gap-2 rounded border p-2 <%= colors %>">
-        <%= icon (missing_bidding_round_pledge? ? "mail-open" : "mail-check"), class: "size-5 w-8 " %>
+      <div class="bidding-notice <%= missing_bidding_round_pledge? ? "is-missing" : "is-pledged" %>">
+        <%= icon (missing_bidding_round_pledge? ? "mail-open" : "mail-check") %>
 
         <span>
           <% if missing_bidding_round_pledge? %>

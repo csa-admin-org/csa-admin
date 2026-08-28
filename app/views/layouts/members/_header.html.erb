@@ -1,41 +1,30 @@
-<header class="flex grow flex-col flex-nowrap justify-between">
-  <div
-    class="m-4 flex flex-none items-center justify-between md:justify-center"
-    data-menu-target="body"
-  >
-    <div class="md:my-8">
+<header class="member-header">
+  <div class="member-sidebar-brand member-menu-hide">
+    <div class="member-sidebar-brand-logo">
       <%= link_to Current.org.url do %>
-        <%= image_tag(org_logo_url, alt: t("accessibility.members.logo", organization: Current.org.name), class: "member-logo h-20 w-20 md:h-40 md:w-40") %>
+        <%= image_tag(org_logo_url, alt: t("accessibility.members.logo", organization: Current.org.name), class: "member-logo") %>
       <% end %>
     </div>
 
-    <div class="m-4 text-gray-900 md:hidden dark:text-gray-100">
+    <div class="member-menu-toggle">
       <%= link_to "#menu", data: { action: "click->menu#show" } do %>
-        <%= icon "menu", title: t("accessibility.members.show_menu"), class: "h-10 w-10" %>
+        <%= icon "menu", title: t("accessibility.members.show_menu"), class: "member-menu-icon" %>
       <% end %>
     </div>
   </div>
 
-  <nav
-    data-menu-target="menu"
-    class="my-4 hidden w-full grow flex-col md:block"
-  >
-    <div
-      class="
-        mx-8 mb-4 flex h-20 flex-none items-center justify-end text-gray-900
-        md:hidden dark:text-gray-100
-      "
-    >
-      <%= link_to "#nomenu", data: { action: "click->menu#hide" }, class: "inline-block" do %>
-        <%= icon "x", title: t("accessibility.members.hide_menu"), class: "h-10 w-10" %>
+  <nav class="member-nav">
+    <div class="member-nav-close-row">
+      <%= link_to "#nomenu", data: { action: "click->menu#hide" } do %>
+        <%= icon "x", title: t("accessibility.members.hide_menu"), class: "member-menu-icon" %>
       <% end %>
     </div>
 
-    <div class="flex h-full grow flex-col justify-between">
+    <div class="member-nav-body">
       <% membership = current_member.closest_membership %>
       <% next_basket = current_member.next_basket %>
 
-      <ul class="grow">
+      <ul class="member-nav-list">
         <% if current_member.baskets.any? %>
           <li class="<%= nav_class("deliveries") %>">
             <%= link_to members_deliveries_path do %>
@@ -54,12 +43,12 @@
 
         <% if show_shop_menu? %>
           <li
-            class="py-2"
+            class="member-shop-menu"
             aria-label="<%= t("accessibility.members.shop_menu") %>"
             data-test-shop-menu
           >
             <% if current_shop_delivery %>
-              <%= link_to members_shop_path, class: "py-0" do %>
+              <%= link_to members_shop_path, class: "member-shop-menu-link" do %>
                 <h2><%= t("activerecord.models.shop.one") %></h2>
 
                 <span class="<%= nav_class("shop") if current_order&.delivery == current_shop_delivery %>">
@@ -69,7 +58,7 @@
             <% end %>
 
             <% if !current_shop_delivery&.shop_open? && next_shop_delivery %>
-              <%= link_to members_shop_next_path, class: "py-0" do %>
+              <%= link_to members_shop_next_path, class: "member-shop-menu-link" do %>
                 <span class="<%= nav_class("shop") if current_order&.delivery == next_shop_delivery %>">
                   <%= t(".delivery", date: l(next_shop_delivery.date)) %>
                 </span>
@@ -77,11 +66,11 @@
             <% end %>
 
             <% if current_shop_delivery && shop_special_deliveries.any? %>
-              <div class="my-2"></div>
+              <div class="member-shop-menu-gap"></div>
             <% end %>
 
             <% shop_special_deliveries.each do |delivery| %>
-              <%= link_to members_shop_special_delivery_path(delivery.date), class: "py-0" do %>
+              <%= link_to members_shop_special_delivery_path(delivery.date), class: "member-shop-menu-link" do %>
                 <% unless current_shop_delivery %>
                   <h2 class="<%= nav_class("shop") %>">
                     <%= t("activerecord.models.shop.one") %>
@@ -190,22 +179,17 @@
           </li>
         <% end %>
 
-        <li class="mt-12 flex items-center justify-center md:justify-start">
-          <%= link_to members_account_path, class: "py-2 px-8 flex items-center" do %>
-            <%= icon "circle-user-round", class: "size-7 -ms-0.5 me-2" %>
+        <li class="member-nav-account">
+          <%= link_to members_account_path, class: "member-account-link" do %>
+            <%= icon "circle-user-round", class: "member-account-icon" %>
             <%= current_member.name_was %>
           <% end %>
         </li>
 
-        <li class="mt-2 md:mt-0.5">
-          <%= button_to members_logout_path, method: :delete, class: "cursor-pointer", form_class: "flex justify-center md:justify-start" do %>
-            <span
-              class="
-                flex items-center px-8 text-gray-300 hover:text-green-500
-                dark:text-gray-500
-              "
-            >
-              <%= icon "log-out", class: "size-5 ms-1 me-2.5" %>
+        <li class="member-nav-logout">
+          <%= button_to members_logout_path, method: :delete, class: "member-logout", form_class: "member-logout-form" do %>
+            <span class="member-logout-label">
+              <%= icon "log-out", class: "member-logout-icon" %>
               <%= t(".logout") %>
             </span>
           <% end %>

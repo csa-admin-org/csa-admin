@@ -3,16 +3,16 @@
 module FormsHelper
   def newsletter_block_content_hint(block)
     if block.public_content? && block.public_feed?
-      content_tag(:span, class: "flex flex-wrap items-start justify-between gap-x-3 gap-y-1") do
+      content_tag(:span, class: "newsletter-public-hint") do
         safe_join([
           content_tag(:span,
             t("formtastic.hints.newsletter/block.public_content_html").html_safe),
           tooltip(
             "newsletter-block-#{block.template_id}-#{block.block_id}-public",
             t("active_admin.resource.form.newsletter.public_content_tooltip"),
-            trigger_class: "inline-flex shrink-0 items-center gap-1.5 text-gray-600 dark:text-gray-300") do
+            trigger_class: "cluster is-snug is-nowrap is-soft") do
             safe_join([
-              icon("eye", class: "size-4"),
+              icon("eye", class: "icon-4"),
               content_tag(:span,
                 t("active_admin.resource.form.newsletter.public_content"),
                 class: "font-medium")
@@ -27,9 +27,9 @@ module FormsHelper
 
   def mail_preview_inputs(arbre, form, record)
     param_key = record.class.model_name.param_key
-    arbre.div "data-controller" => "iframe", class: "w-full flex flex-wrap gap-5" do
+    arbre.div "data-controller" => "iframe", class: "mail-preview-grid" do
       Current.org.languages.each do |locale|
-        arbre.div class: "flex-1 min-w-lg max-w-full" do
+        arbre.div class: "mail-preview-pane" do
           title = I18n.t("active_admin.resource.form.preview")
           title += " (#{I18n.t("languages.#{locale}")})" if Current.org.languages.many?
           form.inputs title, icon: "eye" do
@@ -142,8 +142,7 @@ module FormsHelper
     )
     warning_div = content_tag(:div,
       warning_html.html_safe,
-      class: "mt-2 rounded-md bg-orange-50 border border-orange-300 px-3 py-2 text-xs text-orange-800 " \
-             "dark:bg-orange-900/30 dark:border-orange-700 dark:text-orange-400",
+      class: "trix-word-count-warning is-hidden",
       data: { trix_word_count_target: "warning" })
 
     arbre.div data: {

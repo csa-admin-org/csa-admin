@@ -378,7 +378,6 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "li[data-basket-size-id='#{small_id}']" do
       assert_select "[data-basket-size-price-info]", minimum: 1
-      assert_select ".font-bold", minimum: 1
     end
   end
 

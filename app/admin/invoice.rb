@@ -155,9 +155,9 @@ ActiveAdmin.register Invoice do
       para t(".sepa_pain_text_html",
         count: collection.offset(nil).limit(nil).open.sepa.count,
         url: invoices_path(scope: "open", q: { sepa_eq: true }))
-      div class: "mt-3 flex justify-center" do
+      div class: "panel-action-row" do
         link_to sepa_pain_all_invoices_path(params.permit(:scope, q: {})), class: "btn btn-sm", title: Billing::SEPADirectDebit::SCHEMA,  data: { turbo: false } do
-          icon("file-down", class: "size-4 mr-2") + t(".sepa_pain")
+          icon("file-down", class: "icon-4") + t(".sepa_pain")
         end
       end
     end
@@ -173,10 +173,10 @@ ActiveAdmin.register Invoice do
         end
       end
       if authorized?(:create, Invoice)
-        div class: "mt-3 " do
+        div class: "panel-action-row" do
           panel_button t(".send_overdue_notices"), send_overdue_notices_invoices_path,
             icon: "send-horizontal",
-            form: { class: "flex justify-center", data: { disable_with_value: t(".sending") } }
+            form: { class: "cluster is-center", data: { disable_with_value: t(".sending") } }
         end
       end
     end
@@ -217,13 +217,13 @@ ActiveAdmin.register Invoice do
         end
         if invoice.processing? || !invoice.pdf_current?
           panel "PDF", icon: "eye", data: { controller: "auto-refresh" } do
-            div class: "p-2" do
+            div class: "panel-inset" do
               render "invoice_preview", invoice: invoice
             end
           end
         else
           panel "PDF", icon: "eye", action: icon_file_link(:pdf, pdf_invoice_path(invoice), target: "_blank") do
-            div class: "p-2" do
+            div class: "panel-inset" do
               link_to_invoice_pdf(invoice) do
                 render "invoice_preview", invoice: invoice
               end
@@ -292,7 +292,7 @@ ActiveAdmin.register Invoice do
             end
 
             if Current.org.bank_connection_sepa_direct_debit_upload?
-              h4(Invoice.human_attribute_name(:sepa_direct_debit), class: "m-2 mt-4")
+              h4(Invoice.human_attribute_name(:sepa_direct_debit), class: "form-group")
               attributes_table do
                 row(:sepa_direct_debit_order_id) { invoice.sepa_direct_debit_order_id }
                 row(:sepa_direct_debit_order_uploaded_at) { l(invoice.sepa_direct_debit_order_uploaded_at, format: :short) if invoice.sepa_direct_debit_order_uploaded_at? }
@@ -300,10 +300,10 @@ ActiveAdmin.register Invoice do
               end
               if invoice.sepa_direct_debit_order_uploadable?
                 unless invoice.sepa_direct_debit_order_uploaded?
-                  div class: "my-4" do
+                  div class: "panel-action-row" do
                     panel_button t(".send_sepa_direct_debit_order_to_the_bank"), upload_sepa_direct_debit_order_invoice_path(invoice),
                       icon: "file-up",
-                      form: { class: "flex justify-center", data: { disable_with_value: t(".uploading") } },
+                      form: { class: "cluster is-center", data: { disable_with_value: t(".uploading") } },
                       data: { confirm: t("active_admin.batch_actions.default_confirmation") }
                   end
 
@@ -314,9 +314,9 @@ ActiveAdmin.register Invoice do
                 para t(".invoice_must_be_sent_before_sepa_direct_debit_order_upload"), class: "hint"
               end
             elsif invoice.open?
-              div class: "mt-4 mb-2 flex items-center justify-center" do
+              div class: "panel-action-row" do
                 link_to sepa_pain_invoice_path(invoice), class: "btn btn-sm", title: Billing::SEPADirectDebit::SCHEMA, data: { turbo: false } do
-                  icon("file-down", class: "size-4 me-1.5") + t(".sepa_pain")
+                  icon("file-down", class: "icon-4") + t(".sepa_pain")
                 end
               end
             end

@@ -1,0 +1,104 @@
+@layer components {
+  body.members {
+    .member-depot-map-panel {
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+
+      & > :not(:last-child) {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    .member-depot-picker-sticky {
+      & > :not(:last-child) {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    @media (min-width: 48rem) and (min-height: 820px) {
+      .member-depot-picker-sticky {
+        position: sticky;
+        z-index: 40;
+        margin-inline: calc(var(--inline-space) * -1);
+        border-bottom: 1px solid var(--color-gray-100);
+        background-color: color-mix(in oklch, var(--color-white) 95%, transparent);
+        padding-inline: var(--inline-space);
+        padding-top: 0.5rem;
+        padding-bottom: 1rem;
+        backdrop-filter: blur(4px);
+
+        top: var(--member-form-section-nav-height, 0px);
+
+        &:where(.dark, .dark *) {
+          border-bottom-color: var(--color-gray-800);
+          background-color: color-mix(in oklch, var(--color-black) 95%, transparent);
+        }
+      }
+
+      .member-depot-picker-sticky .member-depot-map-panel {
+        margin-bottom: 0;
+      }
+
+      .member-depot-picker-sticky .depot-map {
+        height: 14rem;
+      }
+    }
+
+    @media (min-width: 64rem) and (min-height: 960px) {
+      .member-depot-picker-sticky .depot-map {
+        height: 16rem;
+      }
+    }
+
+    .depot-map-hint {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      color: var(--color-ink-muted);
+    }
+
+    .depot-map {
+      --depot-map-marker-default: var(--color-gray-500);
+      --depot-map-marker-primary: var(--color-green-600);
+      --depot-map-marker-primary-hover: var(--color-green-400);
+      --depot-map-marker-alternative: var(--color-green-300);
+      --depot-map-marker-alternative-hover: var(--color-green-200);
+
+      height: 18rem;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 0.375rem;
+      border: 1px solid var(--color-line);
+      background-color: var(--color-fill);
+      transition-property: opacity;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+
+    .member-depot-map-panel.disabled .depot-map {
+      pointer-events: none;
+      opacity: 0.4;
+      filter: grayscale(1);
+    }
+
+    .depot-map .maplibregl-popup {
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .depot-map .maplibregl-popup-content {
+      padding: 0.25rem 0.75rem !important;
+      font-size: 0.875rem !important;
+      line-height: 1.25rem !important;
+    }
+  }
+
+  .maplibregl-marker {
+    cursor: pointer;
+  }
+
+  .maplibregl-ctrl-attrib {
+    opacity: 0.65;
+    border-top-left-radius: 0.35rem;
+    font-size: 0.65rem;
+  }
+}

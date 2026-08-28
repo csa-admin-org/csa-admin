@@ -1,0 +1,101 @@
+@layer utilities {
+  @keyframes highlight {
+    0% {
+      background-color: white;
+    }
+    50% {
+      background-color: var(--color-lime-100);
+    }
+    100% {
+      background-color: white;
+    }
+  }
+  .animate-highlight {
+    animation: highlight 0.75s ease-in-out 1;
+  }
+
+  @keyframes anchor-highlight {
+    0%,
+    100% {
+      background-color: transparent;
+    }
+    25%,
+    75% {
+      background-color: color-mix(in oklab, var(--color-lime-100) 75%, transparent);
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    @keyframes anchor-highlight {
+      0%,
+      100% {
+        background-color: transparent;
+      }
+      25%,
+      75% {
+        background-color: color-mix(in oklab, var(--color-zinc-700) 75%, transparent);
+      }
+    }
+  }
+  .animate-anchor-highlight {
+    animation: anchor-highlight 1.5s ease-in-out 1;
+    border-radius: 0.375rem;
+    padding: 0 0.75rem;
+    margin: 0 -0.75rem;
+  }
+
+  .animate-settings-anchor-highlight {
+    animation: anchor-highlight 1.5s ease-in-out 1;
+  }
+
+  .animate-quantity-adjustment {
+    border-color: var(--color-red-600);
+    background-color: var(--color-red-100);
+    color: var(--color-red-800);
+    box-shadow: 0 0 0 2px var(--color-red-500);
+    animation: quantity-adjustment-shake 480ms ease 1;
+
+    &:where(.dark, .dark *) {
+      background-color: color-mix(in oklch, var(--color-red-900) 60%, transparent);
+      color: var(--color-red-200);
+      box-shadow: 0 0 0 2px var(--color-red-600);
+    }
+  }
+
+  @keyframes quantity-adjustment-shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    15%,
+    55% {
+      transform: translateX(-6px);
+    }
+    35%,
+    75% {
+      transform: translateX(5px);
+    }
+  }
+
+  .animate-quantity-update {
+    background-color: var(--color-lime-100);
+    box-shadow: 0 0 0 2px var(--color-lime-300);
+    animation: quantity-update-pop 480ms ease-out 1;
+
+    &:where(.dark, .dark *) {
+      background-color: var(--color-lime-900);
+      box-shadow: 0 0 0 2px var(--color-zinc-700);
+    }
+  }
+
+  @keyframes quantity-update-pop {
+    0% {
+      transform: scale(0.94);
+    }
+    45% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}

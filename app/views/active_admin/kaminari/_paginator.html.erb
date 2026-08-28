@@ -9,7 +9,7 @@
 -%>
 
 <%= paginator.render do -%>
-  <nav data-test-pagination class="inline-flex h-7 flex-wrap gap-0.5 text-sm">
+  <nav data-test-pagination class="pagination-nav">
     <%= prev_page_tag unless current_page.first? %>
 
     <% each_page do |page| -%>

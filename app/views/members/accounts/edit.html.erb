@@ -2,13 +2,13 @@
 
 <section>
   <%= simple_form_for current_member, url: members_account_path do |f| %>
-    <div class="space-y-6">
+    <div class="form-fields">
       <%= f.input :name, hint: t(".name_hint"), label: t("members.members.new.name") %>
       <%= f.input :street, required: true %>
 
-      <div class="flex w-full flex-row gap-2">
-        <%= f.input :zip, required: true, input_html: { size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>
-        <%= f.input :city, required: true, wrapper_html: { class: "grow" } %>
+      <div class="form-zipcity">
+        <%= f.input :zip, required: true, input_html: { size: 6, maxlength: 6 }, wrapper_html: { class: "form-zip" } %>
+        <%= f.input :city, required: true, wrapper_html: { class: "form-grow" } %>
       </div>
 
       <%= f.input :country_code, as: :select, required: true, collection: countries_collection %>
@@ -19,38 +19,38 @@
 
     <div
       data-controller="visibility"
-      class="my-6"
+      class="form-section"
       aria-label="<%= t("active_admin.resource.show.billing") %>"
     >
       <%= f.input :different_billing_info, as: :boolean, input_html: { data: { action: "visibility#toggle" } } %>
 
       <div
-        class="mt-4 space-y-4 <%= f.object.different_billing_info ? "" : "hidden" %>"
+        class="form-sm stack <%= " is-hidden" unless f.object.different_billing_info %>"
         data-visibility-target="element"
       >
         <%= f.input :billing_name, label: Member.human_attribute_name(:name), required: true, input_html: { disabled: !f.object.different_billing_info } %>
         <%= f.input :billing_street, label: Member.human_attribute_name(:address), required: true, input_html: { disabled: !f.object.different_billing_info } %>
 
-        <div class="flex w-full flex-row gap-2">
-          <%= f.input :billing_zip, required: true, label: Member.human_attribute_name(:zip), input_html: { disabled: !f.object.different_billing_info, size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>
-          <%= f.input :billing_city, required: true, label: Member.human_attribute_name(:city), input_html: { disabled: !f.object.different_billing_info }, wrapper_html: { class: "grow" } %>
+        <div class="form-zipcity">
+          <%= f.input :billing_zip, required: true, label: Member.human_attribute_name(:zip), input_html: { disabled: !f.object.different_billing_info, size: 6, maxlength: 6 }, wrapper_html: { class: "form-zip" } %>
+          <%= f.input :billing_city, required: true, label: Member.human_attribute_name(:city), input_html: { disabled: !f.object.different_billing_info }, wrapper_html: { class: "form-grow" } %>
         </div>
       </div>
     </div>
 
     <% if current_member.use_shop_depot? %>
-      <div class="mt-8">
+      <div class="form-block">
         <%= render "members/members/form_modes/shop", f: f %>
       </div>
     <% end %>
 
-    <hr class="my-6 border-gray-200 dark:border-gray-700">
+    <hr class="rule">
 
     <% if Current.org.languages.many? %>
       <%= f.input :language, as: :select, collection: Current.org.languages.map { |l| [ t("languages.#{l}"), l ] }, required: true, prompt: true %>
     <% end %>
 
-    <div class="mt-6 mb-12">
+    <div class="theme-field">
       <%= render "shared/icon_select",
         name: "member[theme]",
         value: f.object.theme,
@@ -62,12 +62,12 @@
 
     <div class="actions">
       <%= link_to members_account_path, class: "cancel-link" do %>
-        <%= icon "arrow-left", class: "size-5" %>
+        <%= icon "arrow-left", class: "icon-inline" %>
         <span><%= t(".cancel_link") %></span>
       <% end %>
 
       <%= button_tag type: "submit" do %>
-        <%= icon "check", class: "size-5" %>
+        <%= icon "check", class: "icon-inline" %>
         <span><%= t(".submit") %></span>
       <% end %>
     </div>

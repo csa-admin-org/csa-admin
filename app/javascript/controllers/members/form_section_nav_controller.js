@@ -62,17 +62,10 @@ export default class extends Controller {
   #buildNav() {
     const nav = document.createElement("nav")
     nav.setAttribute("aria-label", this.navigationLabelValue)
-    nav.className = [
-      "sticky top-0 z-50",
-      "hidden flex-row items-center justify-center gap-1",
-      "bg-white/90 dark:bg-black/90 backdrop-blur-sm",
-      "-mx-4 px-4 py-2",
-      "border-b border-gray-100 dark:border-gray-800",
-      "print:hidden"
-    ].join(" ")
+    nav.className = "member-form-section-nav is-hidden"
 
     const list = document.createElement("ol")
-    list.className = "flex flex-row flex-wrap items-center justify-center gap-x-1 gap-y-0.5"
+    list.className = "member-form-section-nav-list"
 
     this.#links = this.sectionTargets.map((section, index) => {
       const legend = section.querySelector(":scope > legend")
@@ -80,12 +73,12 @@ export default class extends Controller {
         legend?.textContent?.trim() || this.sectionLabelValue.replace("%{number}", index + 1)
 
       const li = document.createElement("li")
-      li.className = "flex items-center"
+      li.className = "member-form-section-nav-item"
 
       if (index > 0) {
         const separator = document.createElement("span")
         separator.textContent = "›"
-        separator.className = "mr-1 text-xs text-gray-300 dark:text-gray-600 select-none"
+        separator.className = "member-form-section-nav-sep"
         separator.setAttribute("aria-hidden", "true")
         li.appendChild(separator)
       }
@@ -118,11 +111,9 @@ export default class extends Controller {
     this.#visibilityObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          this.nav.classList.add("hidden")
-          this.nav.classList.remove("flex")
+          this.nav.classList.add("is-hidden")
         } else {
-          this.nav.classList.remove("hidden")
-          this.nav.classList.add("flex")
+          this.nav.classList.remove("is-hidden")
         }
 
         requestAnimationFrame(() => this.#syncNavHeight())
@@ -140,7 +131,7 @@ export default class extends Controller {
   }
 
   #syncNavHeight() {
-    const height = this.nav && !this.nav.classList.contains("hidden") ? this.nav.offsetHeight : 0
+    const height = this.nav && !this.nav.classList.contains("is-hidden") ? this.nav.offsetHeight : 0
     this.element.style.setProperty("--member-form-section-nav-height", `${height}px`)
   }
 
@@ -223,22 +214,10 @@ export default class extends Controller {
   }
 
   #linkBaseClasses() {
-    return [
-      "px-2 py-1 rounded-md",
-      "text-xs font-medium",
-      "text-gray-400 dark:text-gray-500",
-      "hover:text-gray-600 dark:hover:text-gray-300",
-      "transition-colors duration-150"
-    ].join(" ")
+    return "member-form-section-nav-link"
   }
 
   #linkActiveClasses() {
-    return [
-      "px-2 py-1 rounded-md",
-      "text-xs font-medium",
-      "text-gray-700 dark:text-gray-200",
-      "bg-gray-100 dark:bg-gray-800",
-      "transition-colors duration-150"
-    ].join(" ")
+    return "member-form-section-nav-link is-active"
   }
 }

@@ -1,30 +1,18 @@
-<div class="mt-2 space-y-4 md:space-y-2">
+<div class="shop-order-items">
   <% order.items.sort_by { |i| [ i.product.name, i.product_variant.name ] }.each do |item| %>
-    <div
-      class="
-        -mx-1 my-1 flex flex-col items-center rounded-sm px-1 py-1
-        hover:bg-gray-100 md:flex-row dark:hover:bg-gray-900
-      "
-    >
-      <div class="w-full flex-1 text-left">
+    <div class="shop-finalized-item">
+      <div class="shop-finalized-info">
         <span>
           <b><%= item.quantity %></b> x <%= item.product.name %>,
           <%= item.product_variant.name %>
         </span>
 
-        <span class="ml-2 text-left text-xs whitespace-nowrap text-gray-400">
-          <%= cur(item.item_price) %>
-        </span>
+        <span class="shop-finalized-price"><%= cur(item.item_price) %></span>
       </div>
 
-      <div
-        class="
-          mt-1 flex w-full flex-none flex-row items-center justify-end
-          text-right md:mt-0 md:w-24
-        "
-      >
+      <div class="shop-finalized-amount">
         <span
-          class="ml-2"
+          class="shop-order-item-amount"
           title="<%= item.quantity %> x <%= cur(item.item_price) %>"
         >
           <%= cur(item.amount) %>
@@ -35,64 +23,56 @@
 </div>
 
 <% if order.amount_percentage? %>
-  <div class="mt-6 flex flex-row items-center justify-end md:mt-4">
-    <span class="border-t border-gray-500 pl-1 text-right">
+  <div class="shop-finalized-subtotal-row">
+    <span class="shop-finalized-subtotal">
       <span><%= t(".total") %></span>
 
-      <span class="inline-block w-28">
-        <%= cur(order.amount_before_percentage) %>
-      </span>
+      <span class="shop-money"><%= cur(order.amount_before_percentage) %></span>
     </span>
   </div>
-  <div class="flex flex-row items-center justify-end">
-    <span class="text-right">
+  <div class="shop-finalized-percent-row">
+    <span class="shop-percent">
       <span>
         <%= _number_to_percentage(order.amount_percentage, precision: 1) %>
       </span>
 
-      <span class="inline-block w-28">
+      <span class="shop-money">
         <%= cur(order.amount - order.amount_before_percentage) %>
       </span>
     </span>
   </div>
 <% end %>
 
-<div class="mt-6 flex flex-row items-center justify-end md:mt-4">
-  <div
-    class="
-      flex flex-row items-center justify-end text-sm text-gray-400
-      dark:text-gray-400
-    "
-    title="<%= t(".order_total_weight") %>"
-  >
-    <%= icon "scale", class: "size-4" %>
-    <span class="ml-1"><%= kg(order.weight_in_kg) %></span>
+<div class="shop-finalized-footer">
+  <div class="shop-finalized-weight" title="<%= t(".order_total_weight") %>">
+    <%= icon "scale", class: "shop-icon-sm" %>
+    <span class="shop-weight-value"><%= kg(order.weight_in_kg) %></span>
   </div>
 
-  <div class="ml-6 text-right">
-    <span class="border-t border-gray-500 pl-1 font-medium">
+  <div class="shop-finalized-total">
+    <span class="shop-grand">
       <span><%= t(".total") %></span>
-      <span class="inline-block w-28"><%= cur(order.amount) %></span>
+      <span class="shop-money"><%= cur(order.amount) %></span>
     </span>
   </div>
 </div>
 
 <% if order.pending? && order.can_member_update? %>
-  <div class="mt-8 flex w-full flex-col md:flex-row md:justify-end">
-    <div class="actions order-1 flex w-full items-center md:order-2 md:ml-2 md:w-auto">
-      <%= button_to t(".unconfirm_order"), unconfirm_members_shop_order_path(order), form: { data: { turbo: false }, class: "w-full" } %>
+  <div class="shop-unconfirm">
+    <div class="actions shop-actions-confirm">
+      <%= button_to t(".unconfirm_order"), unconfirm_members_shop_order_path(order), form: { data: { turbo: false }, class: "shop-confirm-form" } %>
     </div>
   </div>
-  <div class="mt-12 flex flex-row justify-center md:justify-end">
-    <%= button_to members_shop_order_path(order), method: :delete, form: { data: { turbo: false, controller: "confirmation", confirmation_message_value: t(".cancel_order_confirm"), action: "submit->confirmation#confirm" } }, class: "focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer" do %>
-      <div class="flex flex-row items-center">
-        <%= icon "trash", class: "size-4" %>
-        <span class="ml-1 text-sm font-normal"><%= t(".cancel_order") %></span>
+  <div class="shop-destroy-wrap">
+    <%= button_to members_shop_order_path(order), method: :delete, form: { data: { turbo: false, controller: "confirmation", confirmation_message_value: t(".cancel_order_confirm"), action: "submit->confirmation#confirm" } }, class: "shop-destroy" do %>
+      <div class="shop-destroy-inner">
+        <%= icon "trash", class: "shop-icon-sm" %>
+        <span class="shop-destroy-label"><%= t(".cancel_order") %></span>
       </div>
     <% end %>
   </div>
 <% else %>
-  <p class="nocontent mt-12">
+  <p class="nocontent shop-contact">
     <%= t(".contact_us_html", email: Current.org.email) %>
   </p>
 <% end %>
@@ -102,7 +82,7 @@
 <% end %>
 
 <% if next_shop_delivery && order.delivery == current_shop_delivery && order.shop_open? %>
-  <p class="mt-16 text-gray-400 dark:text-gray-400">
+  <p class="shop-next-note">
     <%= t("members.shop.products.index.next_delivery_html",
       date: l(next_shop_delivery.date, format: :long),
       start_date: l(order.delivery.shop_closing_at, format: :long),

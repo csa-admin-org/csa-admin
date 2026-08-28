@@ -1,40 +1,30 @@
 <% if order.items.none? %>
-  <div
-    class="
-      flex w-full flex-row items-center justify-center p-2 text-gray-400
-      dark:text-gray-400
-    "
-  >
-    <div class="flex flex-row items-center">
-      <%= icon "shopping-basket", class: "h-7 w-7 text-gray-400 dark:text-gray-400" %>
+  <div class="shop-cart-empty">
+    <div class="shop-cart-empty-inner">
+      <%= icon "shopping-basket", class: "shop-cart-empty-icon" %>
 
-      <div class="ml-4"><%= t(".no_order_items") %></div>
+      <div class="shop-cart-empty-label">
+        <%= t(".no_order_items") %>
+      </div>
     </div>
   </div>
 <% else %>
-  <div class="w-full">
-    <%= link_to members_shop_order_path(order), target: "_top", title: t(".show_basket"), class: "flex flex-row items-center justify-between p-2" do %>
-      <%= icon "shopping-basket", class: "flex-none size-8 text-gray-400" %>
+  <div class="shop-cart">
+    <%= link_to members_shop_order_path(order), target: "_top", title: t(".show_basket"), class: "shop-cart-link" do %>
+      <%= icon "shopping-basket", class: "shop-cart-icon" %>
 
-      <div class="ml-4 grow text-gray-400">
+      <div class="shop-cart-count">
         <% count = order.items.sum(:quantity) %>
         <%= count %> <%= Shop::Product.model_name.human(count: count) %>
       </div>
 
-      <div class="ml-2 flex-none text-gray-400">
+      <div class="shop-cart-amount">
         <%= cur order.items.sum(&:amount) %>
       </div>
 
-      <div class="ml-4 flex-none">
-        <div
-          class="
-            flex cursor-pointer items-center rounded-md bg-gray-200 text-sm
-            font-medium text-gray-500 hover:bg-gray-300 focus:z-10
-            focus:ring-green-500 focus:outline-hidden dark:bg-gray-800
-            dark:hover:bg-gray-700
-          "
-        >
-          <%= icon "chevron-right", class: "py-1 h-8 w-10 fill-stroke hover:text-white" %>
+      <div class="shop-cart-go">
+        <div class="shop-cart-go-btn">
+          <%= icon "chevron-right", class: "shop-cart-go-icon" %>
         </div>
       </div>
     <% end %>

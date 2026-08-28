@@ -10,11 +10,11 @@
 >
   <button
     type="button"
-    class="admin-header-action cursor-pointer"
+    class="admin-header-action"
     data-action="search-modal#openViaClick"
     title="<%= t("search.title") %> (Ctrl+K)"
   >
-    <%= icon "search", class: "size-6 md:size-5" %>
+    <%= icon "search" %>
   </button>
 
   <dialog
@@ -37,8 +37,8 @@
         data-turbo-frame="search-results"
         data-search-modal-target="form"
       >
-        <div class="flex h-12 items-center px-4">
-          <%= icon "search", class: "size-5 shrink-0 text-gray-400 dark:text-gray-500" %>
+        <div class="search-field">
+          <%= icon "search", class: "search-field-icon" %>
 
           <input
             type="text"
@@ -48,34 +48,20 @@
             placeholder="<%= t("search.placeholder") %>"
             autocomplete="off"
             spellcheck="false"
-            class="
-              my-auto w-full border-0 bg-transparent py-0 pr-4 pl-3
-              text-base text-gray-900 placeholder-gray-400 focus:ring-0
-              focus:outline-hidden sm:text-sm dark:text-gray-100
-              dark:placeholder-gray-500
-            "
+            class="search-field-input"
           >
 
-          <kbd class="kbd hidden shrink-0 tracking-tighter sm:inline-block">
-            Esc
-          </kbd>
+          <kbd class="kbd search-field-esc"> Esc </kbd>
         </div>
       </form>
 
       <%# Keyboard shortcut hint (shown only when opened via click) %>
-      <div
-        data-search-modal-target="hint"
-        class="
-          hidden border-t border-gray-200 px-4 py-2 text-center text-xs
-          text-gray-400 max-sm:hidden dark:border-gray-700
-          dark:text-gray-500
-        "
-      >
-        <span data-platform="mac" class="hidden">
+      <div data-search-modal-target="hint" class="search-hint is-hidden">
+        <span data-platform="mac" class="is-hidden">
           <%= t("search.shortcut_hint_mac_html") %>
         </span>
 
-        <span data-platform="other" class="hidden">
+        <span data-platform="other" class="is-hidden">
           <%= t("search.shortcut_hint_other_html") %>
         </span>
       </div>
@@ -85,7 +71,7 @@
         id="search-results"
         data-search-modal-target="results"
         data-action="turbo:frame-load->search-modal#resetSelection"
-        class="block max-h-[60vh] overflow-y-auto overscroll-contain"
+        class="search-results"
       ></turbo-frame>
     </div>
   </dialog>

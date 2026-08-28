@@ -55,7 +55,7 @@ Standard Rails database tasks are tenant-aware through `lib/tasks/database.rake`
 - Prefer vanilla Rails and rich models over service, query, or form object layers. Extract cohesive model concerns or model-layer POROs when complexity requires it.
 - Model-specific concerns live under the model namespace (for example, `app/models/member/billing.rb`); shared concerns live in `app/models/concerns/`.
 - ActiveAdmin resources live in `app/admin/`; custom DSL extensions live in `lib/active_admin/`. Follow `DESIGN.md` for interface and icon conventions.
-- Frontend uses Importmap, Turbo, Stimulus, Tailwind CSS, and Lucide. Do not introduce a JavaScript bundler without an explicit requirement.
+- Frontend uses Importmap, Turbo, Stimulus, Lucide, and no-build CSS (`app/assets/stylesheets/`, see DESIGN.md). Do not introduce a JavaScript bundler without an explicit requirement.
 
 ## High-Risk Domains
 

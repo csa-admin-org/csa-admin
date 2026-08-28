@@ -78,7 +78,7 @@ class AnalyticsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href='#{analytics_page_path(:shop)}']", count: 0
     assert_select "a[href='#{analytics_page_path(:basket_content)}']", count: 0
 
-    titles = css_select("#sidebar .space-y-2 > li").map { |li| li.css("span").first.text.strip }
+    titles = css_select("#sidebar ul > li").map { |li| li.css("span").first.text.strip }
     assert_equal titles.sort_by { |title| I18n.transliterate(title) }, titles
   end
 

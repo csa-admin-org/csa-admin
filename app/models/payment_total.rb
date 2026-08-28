@@ -34,7 +34,8 @@ class PaymentTotal
             amount_gt: 0,
             balance_gt: 0
           })
-        txt += content_tag(:span, "(#{link})".html_safe, class: "text-sm text-gray-500 ms-2").html_safe
+        txt += content_tag(:span, "(#{link})".html_safe, class: "text-sm is-muted")
+        txt = content_tag(:span, txt, class: "cluster")
       end
       txt
     when :missing
@@ -44,7 +45,8 @@ class PaymentTotal
           I18n.t("billing.scope.overdue_notices", count: @invoices.with_overdue_notice.count),
           scope: :open,
           q: { overdue_notices_count_gt: 0 })
-        txt += content_tag(:span, "(#{link})".html_safe, class: "text-sm text-gray-500 ms-2")
+        txt += content_tag(:span, "(#{link})".html_safe, class: "text-sm is-muted")
+        txt = content_tag(:span, txt, class: "cluster")
       end
       txt
     end

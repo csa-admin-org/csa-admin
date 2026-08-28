@@ -1,0 +1,401 @@
+@layer base {
+  /* Input elements grouped */
+  [type="text"],
+  [type="email"],
+  [type="url"],
+  [type="password"],
+  [type="number"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="search"],
+  [type="tel"],
+  [type="time"],
+  [type="week"],
+  textarea,
+  select {
+    margin-top: 0.25rem;
+    width: 100%;
+    appearance: none;
+    border-radius: 0.375rem;
+    border: 1px solid var(--color-gray-300);
+    background-color: var(--color-gray-50);
+    background-origin: border-box;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    color: var(--color-gray-900);
+    box-shadow: none;
+
+    &::placeholder {
+      color: var(--color-gray-400);
+      opacity: 1;
+    }
+
+    &:focus {
+      z-index: 10;
+      border-color: var(--color-green-500);
+      box-shadow: 0 0 0 1px var(--color-green-500);
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+
+      &:where(.dark, .dark *) {
+        border-color: var(--color-green-600);
+        box-shadow: 0 0 0 1px var(--color-green-600);
+      }
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-600);
+      background-color: var(--color-gray-800);
+      color: var(--color-white);
+
+      &::placeholder {
+        color: var(--color-gray-500);
+      }
+    }
+  }
+
+  /* Webkit datetime edit fields */
+  ::-webkit-datetime-edit {
+    display: inline-flex;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  ::-webkit-datetime-edit-year-field,
+  ::-webkit-datetime-edit-month-field,
+  ::-webkit-datetime-edit-day-field,
+  ::-webkit-datetime-edit-hour-field,
+  ::-webkit-datetime-edit-minute-field,
+  ::-webkit-datetime-edit-second-field,
+  ::-webkit-datetime-edit-millisecond-field,
+  ::-webkit-datetime-edit-meridiem-field {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  ::-webkit-date-and-time-value {
+    min-height: 1.5rem;
+
+    text-align: inherit;
+  }
+
+  /* Select element */
+  select,
+  .select-chevron {
+    background-repeat: no-repeat;
+    padding-inline-end: 2rem;
+
+    background-image: url("data:image/svg+xml,<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 10 6'><path stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='m1 1 4 4 4-4'/></svg>");
+    print-color-adjust: exact;
+    background-position: right calc(var(--spacing) * 3) center;
+    background-size: calc(var(--spacing) * 3.5) calc(var(--spacing) * 3.5);
+  }
+
+  .select-sm {
+    padding-top: 0.25rem;
+    padding-right: 2rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  /* RTL select */
+  :is(:where([dir="rtl"]) select) {
+    background-position: left calc(var(--spacing) * 3) center;
+  }
+
+  /* Multiple select */
+  [multiple] {
+    background-image: none;
+    background-size: auto;
+    background-repeat: repeat;
+    padding-inline-end: 0.75rem;
+
+    print-color-adjust: unset;
+  }
+
+  /* Checkbox and radio base styles */
+  [type="checkbox"],
+  [type="radio"] {
+    display: inline-block;
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+    appearance: none;
+    border: 1px solid var(--color-gray-300);
+    background-color: var(--color-gray-100);
+    background-origin: border-box;
+    padding: 0;
+    vertical-align: middle;
+    color: var(--color-green-600);
+    box-shadow: none;
+    user-select: none;
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-600);
+      background-color: var(--color-gray-800);
+    }
+  }
+
+  [type="checkbox"] {
+    border-radius: 0.25rem;
+  }
+
+  [type="radio"] {
+    border-radius: 9999px;
+  }
+
+  /* Focus states for checkbox and radio */
+  [type="checkbox"]:focus,
+  [type="radio"]:focus {
+    box-shadow:
+      0 0 0 2px var(--color-white),
+      0 0 0 4px var(--color-green-600);
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+
+    &:where(.dark, .dark *) {
+      box-shadow:
+        0 0 0 2px var(--color-gray-900),
+        0 0 0 4px var(--color-green-600);
+    }
+  }
+
+  /* Checked states */
+  [type="checkbox"]:checked,
+  [type="radio"]:checked,
+  .dark [type="checkbox"]:checked,
+  .dark [type="radio"]:checked {
+    border-color: transparent;
+    background-color: currentcolor;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    background-size: calc(var(--spacing) * 2.5) calc(var(--spacing) * 2.5);
+  }
+
+  [type="checkbox"]:checked {
+    background-size: 0.65rem 0.65rem;
+
+    background-image: url("data:image/svg+xml,<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 12'><path stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M1 5.917 5.724 10.5 15 1.5'/></svg>");
+    print-color-adjust: exact;
+  }
+
+  [type="radio"]:checked,
+  .dark [type="radio"]:checked {
+    background-image: url("data:image/svg+xml,<svg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'><circle cx='8' cy='8' r='3'/></svg>");
+    background-size: 1rem 1rem;
+  }
+
+  /* Indeterminate checkbox */
+  [type="checkbox"]:indeterminate,
+  .dark [type="checkbox"]:indeterminate {
+    border-color: transparent;
+    background-color: currentcolor;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 16'><path stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='4' d='M2 8h12'/></svg>");
+    background-size: calc(var(--spacing) * 2.5) calc(var(--spacing) * 2.5);
+    print-color-adjust: exact;
+  }
+
+  /* Range input */
+  [type="range"] {
+    height: 0.5rem;
+    appearance: none;
+    border-radius: 9999px;
+    background-color: var(--color-fill-muted);
+
+    &::-webkit-slider-thumb {
+      width: 1.25rem;
+      height: 1.25rem;
+      appearance: none;
+      border-radius: 9999px;
+      background-color: var(--color-green-600);
+    }
+
+    &::-moz-range-thumb {
+      width: 1.25rem;
+      height: 1.25rem;
+      appearance: none;
+      border-radius: 9999px;
+      background-color: var(--color-green-600);
+    }
+
+    &::-ms-thumb {
+      width: 1.25rem;
+      height: 1.25rem;
+      appearance: none;
+      border-radius: 9999px;
+      background-color: var(--color-green-600);
+    }
+  }
+
+  [type="range"]:disabled {
+    &::-webkit-slider-thumb {
+      background-color: var(--color-gray-400);
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
+
+    &::-moz-range-thumb {
+      background-color: var(--color-gray-400);
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
+
+    &::-ms-thumb {
+      background-color: var(--color-gray-400);
+
+      &:hover {
+        cursor: not-allowed;
+      }
+    }
+
+    &:where(.dark, .dark *) {
+      &::-webkit-slider-thumb {
+        background-color: var(--color-gray-600);
+      }
+
+      &::-moz-range-thumb {
+        background-color: var(--color-gray-600);
+      }
+
+      &::-ms-thumb {
+        background-color: var(--color-gray-600);
+      }
+    }
+  }
+
+  /* File input */
+  [type="file"] {
+    width: 100%;
+    border-radius: 0;
+    border-width: 0;
+    background-color: transparent;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+
+    border-color: inherit;
+  }
+
+  [type="file"]:focus {
+    /* stylelint-disable-next-line declaration-property-value-no-unknown -- valid modern CSS */
+    outline: 1px auto inherit;
+  }
+
+  /* File selector button */
+  input[type="file"]::file-selector-button {
+    margin-inline-start: 0;
+    margin-inline-end: 1rem;
+    cursor: pointer;
+    border-radius: 0.375rem;
+    border-width: 0;
+    background-color: var(--color-gray-100);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-gray-900);
+
+    &:hover {
+      background-color: var(--color-gray-200);
+    }
+  }
+
+  input[type="file"]:where(.dark, .dark *)::file-selector-button {
+    background-color: var(--color-gray-800);
+    color: var(--color-gray-100);
+
+    &:hover {
+      background-color: var(--color-gray-700);
+    }
+  }
+
+  /* Tooltip arrow */
+  .tooltip-arrow,
+  .tooltip-arrow::before {
+    position: absolute;
+    width: 0.5rem;
+    height: 0.5rem;
+
+    background: inherit;
+  }
+
+  .tooltip-arrow {
+    visibility: hidden;
+  }
+
+  .tooltip-arrow::before {
+    visibility: visible;
+
+    content: "";
+    transform: rotate(45deg);
+  }
+
+  .tooltip.invisible .tooltip-arrow,
+  .tooltip.invisible .tooltip-arrow::before {
+    visibility: hidden;
+  }
+
+  /* Links */
+  a {
+    text-decoration-line: underline;
+    text-decoration-color: var(--color-green-400);
+    text-underline-offset: 2px;
+
+    &:hover {
+      color: var(--color-green-600);
+    }
+
+    &:where(.dark, .dark *) {
+      text-decoration-color: var(--color-green-500);
+
+      &:hover {
+        color: var(--color-green-400);
+      }
+    }
+  }
+}
+
+@layer utilities {
+  .hovered {
+    background-color: var(--color-fill);
+  }
+
+  .muted-data {
+    font-style: italic;
+    color: var(--color-gray-400);
+
+    &:where(.dark, .dark *) {
+      color: color-mix(in oklch, var(--color-gray-400) 70%, transparent);
+    }
+  }
+
+  .missing-data {
+    display: block;
+    width: 100%;
+    padding-block: 1rem;
+    text-align: center;
+    font-style: italic;
+    color: var(--color-gray-400);
+
+    &:where(.dark, .dark *) {
+      color: color-mix(in oklch, var(--color-gray-400) 70%, transparent);
+    }
+
+    &.is-inline {
+      display: inline;
+      width: auto;
+      padding: 0 0.25rem;
+    }
+  }
+}

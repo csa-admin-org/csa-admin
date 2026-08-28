@@ -1,16 +1,5 @@
-<div
-  class="
-    w-full rounded-lg border-2 border-dashed border-gray-300 px-6 py-12
-    text-center hover:border-gray-400 dark:border-gray-700
-    dark:hover:border-gray-600
-  "
->
-  <h2
-    class="
-      mb-4 block leading-6 font-semibold text-gray-900 only:mb-0
-      dark:text-gray-200
-    "
-  >
+<div class="empty-state">
+  <h2 class="empty-state-title">
     <% if page_presenter.options.has_key?(:blank_slate_content) %>
       <%= instance_exec(&page_presenter.options[:blank_slate_content]) %>
     <% else %>

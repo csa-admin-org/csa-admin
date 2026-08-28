@@ -31,7 +31,7 @@ ActiveAdmin.register Announcement do
 
   form do |f|
     if f.object.errors.any?
-      div class: "mb-6" do
+      div class: "description is-loose" do
         f.object.errors.attribute_names.each do |attr|
           para f.semantic_errors attr
         end

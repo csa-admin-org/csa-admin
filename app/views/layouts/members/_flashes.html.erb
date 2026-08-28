@@ -1,26 +1,14 @@
 <% flash.each do |type, msg| %>
   <% case type %>
   <% when "alert" %>
-    <div
-      class="
-        flash mb-8 flex items-center rounded border border-red-400
-        bg-red-100 p-2 text-red-700 dark:border-red-600 dark:bg-red-900
-        dark:text-red-300
-      "
-    >
-      <%= icon "triangle-alert", class: "size-5 w-8" %>
-      <span class="ml-1"><%= msg %></span>
+    <div class="member-flash member-flash--alert">
+      <%= icon "triangle-alert", class: "member-flash-icon" %>
+      <span class="member-flash-text"><%= msg %></span>
     </div>
   <% when "notice" %>
-    <div
-      class="
-        flash mb-8 flex items-center rounded border border-green-400
-        bg-green-100 p-2 text-green-700 dark:border-green-600
-        dark:bg-green-900 dark:text-green-300
-      "
-    >
-      <%= icon "info", class: "size-5 w-8" %>
-      <span class="ml-1"><%= msg %></span>
+    <div class="member-flash member-flash--notice">
+      <%= icon "info", class: "member-flash-icon" %>
+      <span class="member-flash-text"><%= msg %></span>
     </div>
   <% end %>
 <% end %>

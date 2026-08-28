@@ -27,20 +27,20 @@ export default class extends Controller {
 
     this._hideActiveTabs()
     tab.setAttribute("aria-selected", "true")
-    removeClass(tabContent, "hidden")
+    removeClass(tabContent, "is-hidden")
     return true
   }
 
   _hideActiveTabs() {
     for (const tab of this._selectedTabs()) {
       tab.setAttribute("aria-selected", "false")
-      addClass(document.getElementById(tab.getAttribute("aria-controls")), "hidden")
+      addClass(document.getElementById(tab.getAttribute("aria-controls")), "is-hidden")
     }
   }
 
   _handleHiddenTabs() {
     for (const tab of this._tabs().filter((tab) => tab.dataset.tabsHidden === "true")) {
-      addClass(tab, "hidden")
+      addClass(tab, "is-hidden")
     }
   }
 
@@ -71,7 +71,7 @@ export default class extends Controller {
   }
 
   _isVisibleTab(tab) {
-    return !tab.classList.contains("hidden")
+    return !tab.classList.contains("is-hidden")
   }
 
   _canShowTab(tab) {

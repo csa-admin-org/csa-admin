@@ -23,7 +23,7 @@ ActiveAdmin.register Newsletter::Template do
     }, class: "text-right"
     actions do |template|
       link_to(new_newsletter_template_path(template_id: template.id), title: t(".duplicate")) do
-        icon "copy", class: "size-5"
+        icon "copy", class: "icon-5"
       end
     end
   end
@@ -55,7 +55,7 @@ ActiveAdmin.register Newsletter::Template do
       if newsletter_template.persisted? && newsletter_template.feed_url
         li class: "input" do
           label t("active_admin.resources.newsletter_template.feed_url"), class: "label"
-          div class: "inline-hints break-all" do
+          div class: "inline-hints newsletter-feed-url" do
             a newsletter_template.feed_url, href: newsletter_template.feed_url, target: "_blank", rel: "noopener"
           end
         end

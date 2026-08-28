@@ -65,7 +65,6 @@ formatter:
   # Rewriters modify templates during formatting
   rewriter:
     # Pre-format rewriters (modify AST before formatting)
-    pre:
-      - tailwind-class-sorter
+    pre: []
     # Post-format rewriters (modify formatted output string)
     post: []

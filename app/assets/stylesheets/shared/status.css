@@ -1,0 +1,176 @@
+@layer components {
+  .status-tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    background-color: var(--color-neutral-100);
+    padding: 0.125rem 0.5rem;
+    font-size: 0.7rem;
+    line-height: 1rem;
+    font-weight: 700;
+    white-space: nowrap;
+    color: var(--color-neutral-700);
+    text-transform: uppercase;
+    box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-neutral-500) 20%, transparent);
+
+    &:where(.dark, .dark *) {
+      background-color: var(--color-neutral-800);
+      color: var(--color-neutral-300);
+      box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-neutral-400) 20%, transparent);
+    }
+
+    &.large {
+      margin: 0;
+      padding: 0.375rem 0.75rem;
+      font-size: 1.125rem;
+      line-height: 1rem;
+    }
+  }
+
+  .status-tag {
+    /* Green statuses - success/completed actions */
+    &[data-status="available"],
+    &[data-status="visible"],
+    &[data-status="renewed"],
+    &[data-status="delivered"],
+    &[data-status="invoiced"],
+    &[data-status="active"],
+    &[data-status="closed"],
+    &[data-status="import"],
+    &[data-status="ongoing"],
+    &[data-status="validated"],
+    &[data-status="sent"],
+    &[data-status="completed"],
+    &[data-status="primary"],
+    &[data-status="forced"],
+    &[data-status="healthy"],
+    &[data-status="yes"] {
+      background-color: var(--color-green-100);
+      color: var(--color-green-800);
+      box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-green-600) 20%, transparent);
+
+      &:where(.dark, .dark *) {
+        background-color: var(--color-green-950);
+        color: var(--color-green-300);
+        box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-green-400) 25%, transparent);
+      }
+    }
+
+    /* Yellow statuses - warning/attention */
+    &[data-status="support"],
+    &[data-status="required"],
+    &[data-status="future"],
+    &[data-status="warning"] {
+      background-color: var(--color-yellow-100);
+      color: var(--color-yellow-900);
+      box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-yellow-600) 25%, transparent);
+
+      &:where(.dark, .dark *) {
+        background-color: var(--color-yellow-950);
+        color: var(--color-yellow-300);
+        box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-yellow-400) 25%, transparent);
+      }
+    }
+
+    /* Orange statuses - pending attention */
+    &[data-status="partially_delivered"],
+    &[data-status="transient"],
+    &[data-status="blocked"],
+    &[data-status="soft_bounce"],
+    &[data-status="manual_suppression"],
+    &[data-status="renewal_pending"],
+    &[data-status="scheduled"],
+    &[data-status="waiting"] {
+      background-color: var(--color-orange-100);
+      color: var(--color-orange-800);
+      box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-orange-600) 25%, transparent);
+
+      &:where(.dark, .dark *) {
+        background-color: var(--color-orange-950);
+        color: var(--color-orange-300);
+        box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-orange-400) 25%, transparent);
+      }
+    }
+
+    /* Lime statuses - in process */
+    &[data-status="renewal_opened"],
+    &[data-status="open"].bidding_round,
+    &[data-status="pending"] {
+      background-color: var(--color-lime-100);
+      color: var(--color-lime-800);
+      box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-lime-600) 25%, transparent);
+
+      &:where(.dark, .dark *) {
+        background-color: var(--color-lime-950);
+        color: var(--color-lime-300);
+        box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-lime-400) 25%, transparent);
+      }
+    }
+
+    /* Blue statuses - information/neutral action */
+    &[data-status="coming"],
+    &[data-status="draft"],
+    &[data-status="manual"],
+    &[data-status="not_sent"],
+    &[data-status="trial"] {
+      background-color: var(--color-blue-100);
+      color: var(--color-blue-800);
+      box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-blue-600) 20%, transparent);
+
+      &:where(.dark, .dark *) {
+        background-color: var(--color-blue-950);
+        color: var(--color-blue-300);
+        box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-blue-400) 25%, transparent);
+      }
+    }
+
+    /* Red statuses - error/negative */
+    &[data-status="not_delivered"],
+    &[data-status="suppressed"],
+    &[data-status="renewal_canceled"],
+    &[data-status="hard_bounce"],
+    &[data-status="bounced"],
+    &[data-status="spam_complaint"],
+    &[data-status="invalid_address"],
+    &[data-status="no"],
+    &[data-status="disabled"],
+    &[data-status="failed"],
+    &[data-status="open"],
+    &[data-status="errored"],
+    &[data-status="rejected"] {
+      background-color: var(--color-red-100);
+      color: var(--color-red-800);
+      box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-red-600) 20%, transparent);
+
+      &:where(.dark, .dark *) {
+        background-color: var(--color-red-950);
+        color: var(--color-red-300);
+        box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-red-400) 25%, transparent);
+      }
+    }
+
+    /* Grey/Neutral statuses - inactive/disabled */
+    &[data-status="canceled"],
+    &[data-status="absent"],
+    &[data-status="hidden"],
+    &[data-status="forgotten"],
+    &[data-status="ignored"],
+    &[data-status="processing"],
+    &[data-status="no_email"],
+    &[data-status="past"],
+    &[data-status="unavailable"],
+    &[data-status="inactive"],
+    &[data-status="unknown"],
+    &[data-status="unconfigured"] {
+      background-color: var(--color-neutral-100);
+      color: var(--color-neutral-700);
+      box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-neutral-500) 20%, transparent);
+
+      &:where(.dark, .dark *) {
+        background-color: var(--color-neutral-800);
+        color: var(--color-neutral-300);
+        box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-neutral-400) 20%, transparent);
+      }
+    }
+  }
+}

@@ -1,0 +1,153 @@
+@layer components {
+  .settings-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .settings-page > :not(:last-child) {
+    margin-bottom: 5rem;
+  }
+
+  .settings-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  @media (width >= 64rem) {
+    .settings-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: minmax(0, 1fr);
+    }
+  }
+
+  .settings-card {
+    height: 100%;
+    scroll-margin-top: 4rem;
+  }
+
+  .settings-card .panel {
+    height: 100%;
+  }
+
+  .settings-features {
+    scroll-margin-top: 4rem;
+  }
+
+  .settings-features > :not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  .settings-features-title {
+    margin-bottom: 0.5rem;
+    text-align: start;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 200;
+  }
+
+  .settings-feature {
+    scroll-margin-top: 4rem;
+  }
+
+  .settings-feature-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem;
+    padding-top: 0;
+  }
+
+  .settings-list {
+    width: 100%;
+    list-style-type: disc;
+    list-style-position: outside;
+    padding-inline-start: 1.25rem;
+    text-align: start;
+  }
+
+  .settings-list > :not(:last-child) {
+    margin-bottom: 0.25rem;
+  }
+
+  .settings-text {
+    width: 100%;
+    text-align: left;
+    font-size: 0.875rem;
+    line-height: 1.625;
+  }
+
+  .settings-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .settings-logo {
+    width: 3rem;
+    height: 3rem;
+    object-fit: contain;
+  }
+
+  .settings-invoice-logo {
+    max-height: 3rem;
+    max-width: 4rem;
+    object-fit: contain;
+  }
+
+  .settings-socials {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  .logo-remove {
+    position: absolute;
+    top: -0.75rem;
+    right: -0.75rem;
+    z-index: 50;
+    cursor: pointer;
+    color: var(--color-gray-500);
+  }
+
+  .social-icon {
+    display: flex;
+    align-items: center;
+    fill: var(--color-gray-400);
+
+    &:hover {
+      fill: var(--color-green-500);
+    }
+
+    &:where(.dark, .dark *) {
+      fill: var(--color-gray-500);
+
+      &:hover {
+        fill: var(--color-green-500);
+      }
+    }
+  }
+
+  .logo-preview {
+    height: 4rem;
+  }
+
+  .settings-invoice-row {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .settings-logo-item {
+    position: relative;
+  }
+
+  .file-field {
+    margin-top: 0.375rem;
+  }
+}

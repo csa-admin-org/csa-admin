@@ -98,7 +98,7 @@ export default class extends Controller {
     const tooltip = this.ensureSubmitTooltip()
     if (!tooltip) return
 
-    const messageEl = tooltip.querySelector(".block")
+    const messageEl = tooltip.querySelector(".tooltip-body")
     if (messageEl) messageEl.textContent = message
   }
 
@@ -113,7 +113,7 @@ export default class extends Controller {
     }
 
     wrapper.tabIndex = 0
-    wrapper.classList.add("cursor-not-allowed")
+    wrapper.classList.add("is-disabled")
     wrapper.setAttribute("aria-describedby", this.tooltipContent.id)
     this.submitButtons.forEach((button) => (button.style.pointerEvents = "none"))
     this.addSubmitTooltipListeners(wrapper)
@@ -133,7 +133,7 @@ export default class extends Controller {
     this.submitTooltipController()?.hide()
     wrapper.removeAttribute("aria-describedby")
     wrapper.removeAttribute("tabindex")
-    wrapper.classList.remove("cursor-not-allowed")
+    wrapper.classList.remove("is-disabled")
     this.submitButtons.forEach((button) => (button.style.pointerEvents = ""))
 
     this.tooltipContent?.remove()

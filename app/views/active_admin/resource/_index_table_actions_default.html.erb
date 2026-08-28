@@ -1,6 +1,6 @@
 <% if destroy_action_authorized?(resource) && !resource.class.in?([ Member, Membership, Delivery ]) %>
   <%= link_to resource_path(resource), method: :delete, class: "destructive-icon-action index-destructive-icon-action", data: { confirm: delete_confirmation_text }, title: delete_label, aria: { label: delete_label } do %>
-    <%= icon "trash", class: "size-5" %>
+    <%= icon "trash", class: "icon-5" %>
   <% end %>
 <% end %>
 
@@ -9,7 +9,7 @@
     title: edit_label,
     aria: { label: t("active_admin.update_model", model: resource.model_name.human) },
     data: { "table-row-action" => "edit" } do %>
-    <%= icon "square-pen", class: "size-5 mt-0.5" %>
+    <%= icon "square-pen", class: "icon-5" %>
   <% end %>
 <% end %>
 
@@ -18,6 +18,6 @@
     title: view_label,
     aria: { label: t("accessibility.active_admin.actions.view_model", model: resource.model_name.human) },
     data: { "table-row" => "hidden", "table-row-action" => "show" } do %>
-    <%= icon "eye", class: "size-5" %>
+    <%= icon "eye", class: "icon-5" %>
   <% end %>
 <% end %>

@@ -7,9 +7,9 @@ class InfoPane < ActiveAdmin::Component
     args = args.extract_options!
     add_class args.delete(:class) if args.key?(:class)
     super(*args)
-    add_class "mb-6 flex items-center gap-4 rounded-lg border border-dashed border-blue-800 bg-blue-50 p-3 pl-4 text-blue-800 dark:border-blue-300 dark:bg-blue-800 dark:text-blue-300"
+    add_class "admin-info-pane"
     if icon_name.present?
-      span(class: "shrink-0") { icon(icon_name, class: "size-5") }
+      span(class: "admin-info-pane-icon") { icon(icon_name) }
     end
     @contents = span
   end

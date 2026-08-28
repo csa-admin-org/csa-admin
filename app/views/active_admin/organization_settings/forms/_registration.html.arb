@@ -77,7 +77,7 @@ context.instance_eval do
   end
 
   f.inputs t("active_admin.resource.form.documents_to_validate"), icon: "clipboard-check" do
-    para t("active_admin.resource.form.documents_to_validate_hint_html"), class: "description -mt-2 mb-4"
+    para t("active_admin.resource.form.documents_to_validate_hint_html"), class: "description is-tight"
     translated_input(f, :charter_urls, required: false)
     translated_input(f, :statutes_urls, required: false)
     translated_input(f, :terms_of_service_urls, required: false)

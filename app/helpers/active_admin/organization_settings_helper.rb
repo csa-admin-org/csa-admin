@@ -77,7 +77,7 @@ module ActiveAdmin::OrganizationSettingsHelper
     title = organization_setting_section_title(section, org)
     return title unless organization_setting_section(section)[:key] == "bank_connection" && organization_settings_bank_connection(org).blank?
 
-    content_tag(:span, class: "inline-flex items-center gap-2") do
+    content_tag(:span, class: "cluster") do
       safe_join([
         title,
         organization_settings_status_tag(
@@ -131,7 +131,7 @@ module ActiveAdmin::OrganizationSettingsHelper
   def organization_disabled_setting_section_primary_action(section)
     link_to edit_organization_path(section[:key], activate: true), class: "btn btn-sm" do
       safe_join([
-        icon("square-pen", class: "size-4"),
+        icon("square-pen", class: "icon-4"),
         I18n.t("active_admin.resources.organization.configure")
       ], " ")
     end
@@ -252,15 +252,15 @@ module ActiveAdmin::OrganizationSettingsHelper
     values = Array(values).compact_blank
     return organization_settings_missing_status_tag if values.none?
 
-    content_tag(:ul, class: "w-full list-disc list-outside pl-5 text-left space-y-1") do
+    content_tag(:ul, class: "settings-list") do
       safe_join(values.map { |value| content_tag(:li, value) })
     end
   end
 
-  def organization_settings_text_value(value, class_name: "w-full text-left text-sm")
+  def organization_settings_text_value(value, class_name: "settings-text")
     return organization_settings_missing_status_tag if value.blank?
 
-    classes = [ class_name, "leading-relaxed text-gray-600 dark:text-gray-300" ].join(" ")
+    classes = [ class_name, "is-soft" ].join(" ")
     simple_format(value, { class: classes })
   end
 
@@ -353,8 +353,8 @@ module ActiveAdmin::OrganizationSettingsHelper
   def organization_settings_logo(org)
     return organization_settings_empty_value unless org.logo.persisted?
 
-    content_tag(:ul, class: "flex flex-wrap justify-end gap-2") do
-      image_tag org.logo.variant(resize_to_limit: [ 92, 92 ]), class: "logo size-12 object-contain"
+    content_tag(:ul, class: "settings-logos") do
+      image_tag org.logo.variant(resize_to_limit: [ 92, 92 ]), class: "settings-logo"
     end
   end
 
@@ -362,10 +362,10 @@ module ActiveAdmin::OrganizationSettingsHelper
     logos = org.invoice_logos.select(&:persisted?)
     return organization_settings_empty_value if logos.none?
 
-    content_tag(:ul, class: "flex flex-wrap justify-end gap-2") do
+    content_tag(:ul, class: "settings-logos") do
       safe_join(logos.map { |logo|
         content_tag(:li) do
-          image_tag logo.variant(resize_to_limit: [ 92, 92 ]), class: "max-h-12 max-w-16 object-contain"
+          image_tag logo.variant(resize_to_limit: [ 92, 92 ]), class: "settings-invoice-logo"
         end
       })
     end
@@ -382,15 +382,15 @@ module ActiveAdmin::OrganizationSettingsHelper
   def organization_settings_social_network_links(org)
     return organization_settings_missing_status_tag if org.social_networks.none?
 
-    content_tag(:ul, class: "flex flex-wrap justify-end gap-3") do
+    content_tag(:ul, class: "settings-socials") do
       safe_join(org.social_networks.map { |network|
         content_tag(:li) do
           link_to network.url,
             title: network.icon.to_s.titleize,
             target: "_blank",
             rel: "noopener",
-            class: "flex items-center fill-gray-400 hover:fill-green-500 dark:fill-gray-500 dark:hover:fill-green-500" do
-            simpleicons network.icon, class: "size-5"
+            class: "social-icon" do
+            simpleicons network.icon, class: "icon-5"
           end
         end
       })
@@ -524,7 +524,7 @@ module ActiveAdmin::OrganizationSettingsHelper
   end
 
   def organization_settings_warning_text(text)
-    content_tag(:span, text, class: "font-semibold text-orange-700 dark:text-orange-300")
+    content_tag(:span, text, class: "font-semibold is-warning")
   end
 
   def organization_settings_bank_connection_date(time)
@@ -572,7 +572,7 @@ module ActiveAdmin::OrganizationSettingsHelper
       title: Organization.human_attribute_name(:url),
       target: "_blank",
       rel: "noopener") do
-      icon "globe", class: "size-5"
+      icon "globe", class: "icon-5"
     end
   end
 
@@ -582,7 +582,7 @@ module ActiveAdmin::OrganizationSettingsHelper
       title: t("active_admin.resource.form.registration_form"),
       target: "_blank",
       rel: "noopener") do
-      icon "globe", class: "size-5"
+      icon "globe", class: "icon-5"
     end
   end
 
@@ -590,7 +590,7 @@ module ActiveAdmin::OrganizationSettingsHelper
     link_to(
       handbook_page_path(section[:handbook], anchor: section[:handbook_anchor]),
       title: I18n.t("active_admin.site_footer.handbook")) do
-      icon "book-open", class: "size-5"
+      icon "book-open", class: "icon-5"
     end
   end
 
@@ -599,7 +599,7 @@ module ActiveAdmin::OrganizationSettingsHelper
     link_to(
       edit_organization_path(section[:key], options),
       title: I18n.t("active_admin.resources.organization.edit_section")) do
-      icon "square-pen", class: "size-5"
+      icon "square-pen", class: "icon-5"
     end
   end
 end

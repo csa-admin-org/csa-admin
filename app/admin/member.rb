@@ -3,7 +3,7 @@
 ActiveAdmin.register Member do
   menu priority: 2, label: -> {
     [
-      icon("users", class: "size-5 mr-2.5 md:mr-2 inline"),
+      icon("users", class: "admin-nav-icon is-text"),
       Member.model_name.human(count: 2)
     ].join.html_safe
   }, url: -> { pending_members_menu_path }
@@ -68,7 +68,7 @@ ActiveAdmin.register Member do
         }
       when nil, "all", "active"
         column :next_basket, ->(member) {
-          div class: "flex items-center justify-start gap-1" do
+          div class: "cluster is-start is-snug" do
             if next_basket = member.next_basket
               a href: url_for(member.next_basket.membership) do
                 content_tag(:span, [
@@ -76,7 +76,7 @@ ActiveAdmin.register Member do
                   next_basket.depot.name
                 ].join(" / "))
               end
-              status_tag(:trial, class: "ms-1") if next_basket.trial?
+              status_tag(:trial) if next_basket.trial?
             end
           end
         }
@@ -197,7 +197,7 @@ ActiveAdmin.register Member do
         if member.waiting? || (member.pending? && member.membership_request?)
           panel member.waiting? ? t(".waiting_membership") : Membership.model_name.human,
             icon: member.waiting? ? "clock" : "calendar-range" do
-            div class: "px-2" do
+            div class: "panel-inset" do
               if notice = waiting_membership_action_notice(member)
                 para notice, class: waiting_membership_action_notice_class(member)
               end
@@ -249,9 +249,9 @@ ActiveAdmin.register Member do
           else
             table_for(memberships.limit(3), class: "table-auto") do
               column(:id) { |m| auto_link m, m.id, data: { "table-row-action": "show" } }
-              column(:period, class: "whitespace-nowrap") { |m| display_period(m.date_range, format: :number) }
+              column(:period, class: "is-nowrap") { |m| display_period(m.date_range, format: :number) }
               if feature?("activity")
-                column(activities_human_name, class: "text-right whitespace-nowrap") { |m|
+                column(activities_human_name, class: "text-right is-nowrap") { |m|
                   link_to(
                     [ m.activity_participations_accepted, m.activity_participations_demanded ].join(" / "),
                     activity_participations_path(q: {
@@ -336,14 +336,14 @@ ActiveAdmin.register Member do
           if invoices_count.zero?
             div(class: "missing-data") { t(".no_invoices") }
           else
-            table_for(invoices.limit(10), class: "table-auto", row_html: ->(invoice) { { class: invoice.canceled? ? "text-gray-400 dark:text-gray-600" : "" } }) do
+            table_for(invoices.limit(10), class: "table-auto", row_html: ->(invoice) { { class: invoice.canceled? ? "row-canceled" : "" } }) do
               column(:id, class: "") { |i| auto_link i, i.id, data: { "table-row-action": "show" } }
               column(:date, class: "text-right") { |i| l(i.date, format: :number) }
               column(:amount, class: "text-right") { |i|
-                content_tag(:span, class: "flex justify-end items-center gap-1") do
+                content_tag(:span, class: "row-actions") do
                 [
-                    i.canceled? ? content_tag(:span, "– /", class: "text-sm whitespace-nowrap") : content_tag(:span, "#{ccur(i, :paid_amount, unit: false)} /", class: "text-sm whitespace-nowrap text-gray-500"),
-                    content_tag(:span, ccur(i, :amount, unit: false), class: "whitespace-nowrap")
+                    i.canceled? ? content_tag(:span, "– /", class: "text-sm is-nowrap") : content_tag(:span, "#{ccur(i, :paid_amount, unit: false)} /", class: "text-sm is-nowrap is-muted"),
+                    content_tag(:span, ccur(i, :amount, unit: false), class: "is-nowrap")
                   ].join.html_safe
                 end
               }
@@ -385,7 +385,7 @@ ActiveAdmin.register Member do
             else
               table_for(absences.limit(3).includes(baskets: :membership), class: "table-auto") do
                 column(:id) { |a| auto_link a, a.id, data: { "table-row-action": "show" } }
-                column(:period, class: "whitespace-nowrap") { |a|
+                column(:period, class: "is-nowrap") { |a|
                   with_note_icon a.note, reply: a.note_reply_args do
                     display_period(a.date_range, format: :default)
                   end
@@ -411,7 +411,7 @@ ActiveAdmin.register Member do
               column(:subject, sortable: false) { |d|
                 auto_link d, (d.subject || d.source&.display_name), data: { "table-row-action": "show" }
               }
-              column(:created_at, class: "text-right whitespace-nowrap") { |d| l(d.created_at, format: :short) }
+              column(:created_at, class: "text-right is-nowrap") { |d| l(d.created_at, format: :short) }
               column(:state, class: "text-right") { |d| aligned_status_tag(d.state) }
             end
             if mail_deliveries_count > 6
@@ -505,7 +505,7 @@ ActiveAdmin.register Member do
           current_mandate = member.current_sepa_mandate
           panel t(".billing") + " (SEPA)", icon: "banknotes", action: sepa_mandate_panel_actions(current_mandate) do
             if current_mandate
-              disabled_value_class = "italic text-gray-400 dark:text-gray-500"
+              disabled_value_class = "is-italic is-faint"
 
               attributes_table do
                 row(Invoice.human_attribute_name(:sepa_debtor_name)) do
@@ -523,9 +523,9 @@ ActiveAdmin.register Member do
               end
 
               if member.sepa_disabled?
-                para t(".sepa_disabled_hint"), class: "hint mt-4"
+                para t(".sepa_disabled_hint"), class: "hint"
               elsif authorized?(:update, member)
-                div class: "mt-2 mb-1 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
+                div class: "cluster is-center" do
                   panel_button t(".disable_sepa"), disable_sepa_member_path(member),
                     icon: "circle-off",
                     method: :post,
@@ -579,8 +579,8 @@ ActiveAdmin.register Member do
       f.input :phones, as: :string
       f.input :street
       div class: "single-line" do
-        f.input :zip, wrapper_html: { class: "md:w-50" }
-        f.input :city, wrapper_html: { class: "w-full" }
+        f.input :zip, wrapper_html: { class: "col-zip" }
+        f.input :city, wrapper_html: { class: "is-full" }
       end
       f.input :country_code,
         as: :select,
@@ -705,12 +705,12 @@ ActiveAdmin.register Member do
     f.inputs t("active_admin.resource.show.billing"), icon: "banknotes", data: { controller: "visibility" } do
       f.input :billing_email, type: :email, label: t(".email")
       f.input :different_billing_info, input_html: { data: { action: "visibility#toggle" } }
-      ol class: "-mt-4 #{f.object.different_billing_info ? "" : "hidden"}", data: { "visibility-target" => "element" } do
+      ol class: (f.object.different_billing_info ? nil : "is-hidden"), data: { "visibility-target" => "element" } do
         f.input :billing_name, label: Member.human_attribute_name(:name), required: true, input_html: { disabled: !f.object.different_billing_info }
         f.input :billing_street, label: Member.human_attribute_name(:street), required: true, input_html: { disabled: !f.object.different_billing_info }
         div class: "single-line" do
-          f.input :billing_zip, label: Member.human_attribute_name(:zip), required: true, input_html: { disabled: !f.object.different_billing_info }, wrapper_html: { class: "md:w-50" }
-          f.input :billing_city, label: Member.human_attribute_name(:city), required: true, input_html: { disabled: !f.object.different_billing_info }, wrapper_html: { class: "w-full" }
+          f.input :billing_zip, label: Member.human_attribute_name(:zip), required: true, input_html: { disabled: !f.object.different_billing_info }, wrapper_html: { class: "col-zip" }
+          f.input :billing_city, label: Member.human_attribute_name(:city), required: true, input_html: { disabled: !f.object.different_billing_info }, wrapper_html: { class: "is-full" }
         end
         li class: "subtitle"
       end
@@ -890,9 +890,9 @@ ActiveAdmin.register Member do
   end
 
   action_item :become, only: :show do
-    content = icon("log-in", class: "size-5") + t(".become_member")
+    content = icon("log-in", class: "icon-5") + t(".become_member")
     button_to content, become_member_path(resource),
-      class: "h-9 action-item-button action-item-link-button",
+      class: "action-item-button action-item-link-button",
       form: { target: "_blank", rel: "noopener", data: { turbo: false } }
   end
 

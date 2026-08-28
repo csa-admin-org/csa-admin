@@ -1,14 +1,8 @@
 <h1><%= Newsletter.model_name.human(count: 2) %></h1>
 
 <% if email = newsletter_unsubscribed_email %>
-  <div
-    class="
-      mb-8 flex flex-wrap items-center justify-center gap-1 rounded-lg
-      border border-dashed border-orange-500 p-2 text-orange-600
-      dark:text-orange-400
-    "
-  >
-    <p class="ml-1 grow">
+  <div class="unsub">
+    <p class="unsub-copy">
       <%= t(".unsubscribed_html", email: email) %>
     </p>
 
@@ -17,7 +11,7 @@
 <% end %>
 
 <section>
-  <ul id="newsletters" class="mt-4 flex flex-col gap-6">
+  <ul id="newsletters" class="newsletters">
     <%= render partial: "members/newsletters/newsletter", collection: @deliveries, as: :delivery, locals: { member: current_member } %>
   </ul>
 

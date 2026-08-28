@@ -190,33 +190,33 @@ ActiveAdmin.setup do |config|
       menu.add label: -> {
         label = t("active_admin.menu.shop")
         [
-          icon("shopping-basket", class: "size-5 mr-2.5 md:mr-0.5 inline", title: label),
-          content_tag(:span, label, class: "inline md:hidden")
+          icon("shopping-basket", class: "admin-nav-icon", title: label),
+          content_tag(:span, label, class: "admin-nav-label")
         ].join.html_safe
       }, priority: 6, id: :navshop
       menu.add label: -> {
         label = activities_human_name
         [
-          icon("handshake", class: "size-5 mr-2.5 md:mr-0.5 inline", title: label),
-          content_tag(:span, label, class: "inline md:hidden")
+          icon("handshake", class: "admin-nav-icon", title: label),
+          content_tag(:span, label, class: "admin-nav-label")
         ].join.html_safe
       }, priority: 7, id: :activities_human_name
       menu.add label: -> {
         [
-          icon("banknotes", class: "size-5 mr-2.5 md:mr-0.5 inline", title: t("active_admin.menu.billing")),
-          content_tag(:span, t("active_admin.menu.billing"), class: "inline md:hidden")
+          icon("banknotes", class: "admin-nav-icon", title: t("active_admin.menu.billing")),
+          content_tag(:span, t("active_admin.menu.billing"), class: "admin-nav-label")
         ].join.html_safe
       }, priority: 9, id: :navbilling
       menu.add label: -> {
         [
-          icon("mail", class: "size-5 mr-2.5 md:mr-0.5 inline", title: t("active_admin.menu.email")),
-          content_tag(:span, t("active_admin.menu.email"), class: "inline md:hidden")
+          icon("mail", class: "admin-nav-icon", title: t("active_admin.menu.email")),
+          content_tag(:span, t("active_admin.menu.email"), class: "admin-nav-label")
         ].join.html_safe
       }, priority: 19, id: :email
       menu.add label: -> {
         [
-          icon("ellipsis", class: "size-6 mr-1.5 md:mr-0 inline", title: t("active_admin.settings")),
-          content_tag(:span, t("active_admin.menu.other"), class: "inline md:hidden")
+          icon("ellipsis", class: "admin-nav-icon is-wide", title: t("active_admin.settings")),
+          content_tag(:span, t("active_admin.menu.other"), class: "admin-nav-label")
         ].join.html_safe
       }, priority: 20, id: :other, html_options: { data: { controller: "menu-sorting" } }
     end

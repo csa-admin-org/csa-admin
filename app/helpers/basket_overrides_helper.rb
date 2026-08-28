@@ -4,7 +4,7 @@ module BasketOverridesHelper
   def display_basket_override(override)
     return unless override&.active?
 
-    tag.div(class: "space-y-2") do
+    tag.div(class: "stack is-tight") do
       concat override_header(override)
       concat override_diff_lines(override)
     end
@@ -27,9 +27,9 @@ module BasketOverridesHelper
   ].freeze
 
   def override_header(override)
-    tag.div class: "mb-3" do
+    tag.div do
       concat tag.div(I18n.t("helpers.basket_override.title"), class: "font-semibold")
-      concat tag.div(override_attribution_text(override), class: "text-xs text-gray-400")
+      concat tag.div(override_attribution_text(override), class: "text-xs is-faint")
     end
   end
 
@@ -57,18 +57,18 @@ module BasketOverridesHelper
     end
 
     return tag.div if lines.empty?
-    tag.div(safe_join(lines), class: "space-y-0.5")
+    tag.div(safe_join(lines), class: "stack is-snug")
   end
 
   def override_diff_line_tag(label, spec, value)
     if spec[:block]
       tag.div(class: "text-xs") do
-        concat tag.div("#{label}:", class: "text-gray-400")
+        concat tag.div("#{label}:", class: "is-faint")
         concat override_formatted_value(spec, value)
       end
     else
-      tag.div(class: "flex items-baseline gap-1.5 text-sm") do
-        concat tag.span("#{label}:", class: "text-gray-400 shrink-0")
+      tag.div(class: "cluster is-baseline text-sm") do
+        concat tag.span("#{label}:", class: "is-faint is-static")
         concat override_formatted_value(spec, value)
       end
     end

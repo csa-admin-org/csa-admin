@@ -29,7 +29,7 @@ class Members::TrialCancelationsTest < ApplicationSystemTestCase
     check "I support you and will pay the annual membership fee. CHF\u00A030"
     click_on "Confirm cancellation"
 
-    assert_selector ".flash", text: "Your trial membership has been canceled."
+    assert_selector ".member-flash", text: "Your trial membership has been canceled."
 
     assert_includes menu_nav, "Membership\n⤷ Trial period"
     assert_text "Your trial membership has been canceled and will end after the delivery on"
@@ -53,7 +53,7 @@ class Members::TrialCancelationsTest < ApplicationSystemTestCase
 
     click_on "Confirm cancellation"
 
-    assert_selector ".flash", text: "Your trial membership has been canceled."
+    assert_selector ".member-flash", text: "Your trial membership has been canceled."
 
     membership.reload
     assert membership.canceled?

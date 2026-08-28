@@ -17,7 +17,7 @@ class Members::ContactSharingTest < ApplicationSystemTestCase
     check "I agree to share my contact information with other members of my depot."
     click_button "Share"
 
-    assert_selector ".flash", text: "Your contact information is now shared with other members of your depot!"
+    assert_selector ".member-flash", text: "Your contact information is now shared with other members of your depot!"
     assert_text "No other members are sharing their contact information at this time!"
   end
 

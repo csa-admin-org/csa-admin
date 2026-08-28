@@ -1,25 +1,23 @@
 <% newsletter = delivery.source %>
 
-<li class="w-full">
+<li class="newsletter-item">
   <details>
-    <summary class="cursor-pointer list-none">
+    <summary class="newsletter-summary">
       <div>
-        <h3 class="text-base font-medium text-pretty text-gray-800 dark:text-gray-200">
+        <h3 class="newsletter-title">
           <%= delivery.subject %>
         </h3>
 
-        <span class="text-sm font-normal">
-          <%= l newsletter.sent_at.to_date %>
-        </span>
+        <span class="newsletter-date"><%= l newsletter.sent_at.to_date %></span>
       </div>
     </summary>
 
-    <div class="mt-2 mb-8">
+    <div class="newsletter-body">
       <%= turbo_frame_tag delivery,
         src: members_newsletter_delivery_path(delivery),
         loading: "lazy", target: "_top" do %>
         <div class="mail_preview">
-          <div class="flex h-42 items-center justify-center">
+          <div class="newsletter-loading">
             <%= render "shared/spinner" %>
           </div>
         </div>

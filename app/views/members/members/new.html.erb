@@ -1,25 +1,19 @@
-<h1 class="text-center"><%= t(".title") %></h1>
+<h1 class="form-page-title"><%= t(".title") %></h1>
 
-<div class="mb-16">
+<div class="form-lead">
   <p>
     <%= Current.org.member_form_subtitle? ? Current.org.member_form_subtitle : t(".subtitle") %>
   </p>
 </div>
 
-<div class="mt-8" data-controller="form-scroll-to-error">
+<div class="form-wrap" data-controller="form-scroll-to-error">
   <% if @member.errors.of_kind?(:emails, :taken) %>
-    <div
-      class="
-        relative mb-4 block rounded-md bg-red-100 p-4 text-red-500
-        dark:bg-red-900
-      "
-      role="alert"
-    >
-      <strong class="font-bold">
+    <div class="form-alert" role="alert">
+      <strong class="form-alert-title">
         <%= @member.emails_array.many? ? t(".emails_taken") : t(".email_taken") %>
       </strong>
 
-      <span class="mt-1 block"><%= t(".email_taken_hint") %></span>
+      <span class="form-alert-text"><%= t(".email_taken_hint") %></span>
     </div>
   <% end %>
 
@@ -32,23 +26,23 @@
       "form-section-nav-navigation-label-value": t("accessibility.members.form_section_navigation"),
       "form-section-nav-section-label-value": t("accessibility.members.form_section_number", number: "%{number}")
     } do |f| %>
-    <div class="space-y-12">
+    <div class="form-sections">
       <div
-        class="print:break-after-page"
+        class="print-break-page"
         aria-label="<%= Member.human_attribute_name(:contact) %>"
         data-form-section-nav-target="section"
       >
-        <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
+        <legend class="form-legend">
           <%= Member.human_attribute_name(:contact) %>
         </legend>
 
-        <div class="mt-2 space-y-6">
+        <div class="form-fields">
           <%= f.input :name, label: t(".name") %>
           <%= f.input :street, required: true %>
 
-          <div class="flex w-full flex-row gap-2">
-            <%= f.input :zip, required: true, input_html: { size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>
-            <%= f.input :city, required: true, wrapper_html: { class: "grow" } %>
+          <div class="form-zipcity">
+            <%= f.input :zip, required: true, input_html: { size: 6, maxlength: 6 }, wrapper_html: { class: "form-zip" } %>
+            <%= f.input :city, required: true, wrapper_html: { class: "form-grow" } %>
           </div>
 
           <%= f.input :country_code, required: true, as: :select, collection: countries_collection %>
@@ -60,11 +54,11 @@
       <%= render "members/members/form_modes/#{Current.org.member_form_mode}", f: f, member: @member %>
 
       <div>
-        <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
+        <legend class="form-legend">
           <%= t(".more_info") %>
         </legend>
 
-        <div class="mt-2 space-y-6">
+        <div class="form-fields">
           <% unless Current.org.member_profession_form_mode == "hidden" %>
             <%= f.input :profession, hint: true, required: (Current.org.member_profession_form_mode == "required") %>
           <% end %>
@@ -87,9 +81,9 @@
 
       <%= cap_token_field %>
 
-      <%= tag.div class: "actions -mt-4 print:hidden", data: cap_submit_tooltip_data do %>
+      <%= tag.div class: "actions form-submit print-hidden", data: cap_submit_tooltip_data do %>
         <%= button_tag type: "submit", data: cap_submit_tooltip_target_data do %>
-          <%= icon "check", class: "size-5" %>
+          <%= icon "check", class: "icon-inline-action" %>
           <span><%= t(".submit") %></span>
         <% end %>
       <% end %>

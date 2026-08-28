@@ -25,8 +25,8 @@ context.instance_eval do
     end
     f.input :logo, as: :file, input_html: { accept: "image/png, image/jpg, image/jpeg" }
     if f.object.logo.attached? && f.object.logo.blob.persisted?
-      div class: "mt-2" do
-        image_tag f.object.logo, class: "logo h-16"
+      div do
+        image_tag f.object.logo, class: "logo-preview"
       end
     end
   end

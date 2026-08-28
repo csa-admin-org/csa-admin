@@ -12,10 +12,10 @@ class Panel < ActiveAdmin::Component
     super(args)
     add_class "panel"
     if title
-      div class: "panel-title justify-between" do
-        div class: "flex items-center gap-2" do
+      div class: "panel-title" do
+        div class: "panel-title-heading" do
           if icon_name
-            span(class: "panel-title-icon") { icon(icon_name, class: "size-5") }
+            span(class: "panel-title-icon") { icon(icon_name, class: "icon-5") }
           end
           @title = h3(title.to_s, class: "")
           span(class: "panel-title-count") { count } if count
