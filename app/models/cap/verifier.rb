@@ -32,7 +32,7 @@ class Cap::Verifier
   end
 
   def request_siteverify
-    uri = URI("#{Cap.api_url}/#{@site_key}/siteverify")
+    uri = URI("#{Cap.internal_api_url}/#{@site_key}/siteverify")
     request = Net::HTTP::Post.new(uri, "Content-Type" => "application/json")
     request.body = { secret: @secret_key, response: @token }.to_json
 

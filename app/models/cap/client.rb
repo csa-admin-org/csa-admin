@@ -3,7 +3,7 @@
 require "net/http"
 
 class Cap::Client
-  def initialize(api_url: Cap.api_url, api_key: :default)
+  def initialize(api_url: Cap.internal_api_url, api_key: :default)
     @api_url = api_url.delete_suffix("/")
     @api_key = api_key == :default ? default_api_key : api_key
   end

@@ -26,4 +26,20 @@ class CapTest < ActiveSupport::TestCase
       assert_equal "tenant-secret-key", Cap.secret_key(Current.org)
     end
   end
+
+  test "falls back to the public API URL for server-side requests" do
+    with_env("CAP_API_URL" => "https://cap.test", "CAP_INTERNAL_API_URL" => nil) do
+      assert_equal "https://cap.test", Cap.api_url
+      assert_equal "https://cap.test", Cap.internal_api_url
+    end
+  end
+
+  test "uses a separate internal API URL when configured" do
+    with_env(
+      "CAP_API_URL" => "https://cap.test",
+      "CAP_INTERNAL_API_URL" => "http://cap.internal") do
+      assert_equal "https://cap.test", Cap.api_url
+      assert_equal "http://cap.internal", Cap.internal_api_url
+    end
+  end
 end

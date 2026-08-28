@@ -7,6 +7,10 @@ module Cap
     ENV.fetch("CAP_API_URL", DEFAULT_API_URL).delete_suffix("/")
   end
 
+  def self.internal_api_url
+    ENV.fetch("CAP_INTERNAL_API_URL", api_url).delete_suffix("/")
+  end
+
   def self.site_key(org = Current.org)
     development_site_key || org.cap_site_key
   end

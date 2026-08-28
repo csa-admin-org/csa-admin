@@ -27,4 +27,18 @@ class CapHelperTest < ActionView::TestCase
       end
     end
   end
+
+  test "widget keeps the public API URL when an internal URL is set" do
+    with_env(
+      "CAP_DEVELOPMENT_SITE_KEY" => "development-site-key",
+      "CAP_INTERNAL_API_URL" => "http://cap.internal") do
+      with_rails_env("development") do
+        html = cap_token_field
+
+        assert_includes html, "data-cap-api-endpoint-value=\"https://cap.csa-admin.org/development-site-key/\""
+        assert_includes html, "data-cap-wasm-url-value=\"https://cap.csa-admin.org/assets/cap_wasm_bg.wasm\""
+        assert_not_includes html, "http://cap.internal"
+      end
+    end
+  end
 end

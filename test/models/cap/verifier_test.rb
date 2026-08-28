@@ -17,6 +17,23 @@ class Cap::VerifierTest < ActiveSupport::TestCase
     end
   end
 
+  test "verifies token through the internal API URL when configured" do
+    Current.org.update!(cap_site_key: "site-key", cap_secret_key: "secret-key")
+
+    with_env(
+      "CAP_SKIP_VERIFY" => nil,
+      "CAP_API_URL" => "https://cap.test",
+      "CAP_INTERNAL_API_URL" => "http://cap.internal") do
+      stub_request(:post, "http://cap.internal/site-key/siteverify")
+        .with(
+          headers: { "Content-Type" => "application/json" },
+          body: { secret: "secret-key", response: "cap-token" }.to_json)
+        .to_return(status: 200, body: { success: true }.to_json)
+
+      assert Cap::Verifier.new(Current.org, "cap-token").verify
+    end
+  end
+
   test "returns false when Cap rejects token" do
     Current.org.update!(cap_site_key: "site-key", cap_secret_key: "secret-key")
 

@@ -59,6 +59,7 @@ env:
     JOB_CONCURRENCY: 1
     LOG_REQUESTS: false
     CAP_API_URL: https://cap.csa-admin.org
+    CAP_INTERNAL_API_URL: http://csa-admin-cap:3000
 
 accessories:
   cap-valkey:
