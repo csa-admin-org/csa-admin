@@ -541,6 +541,10 @@
         }
       }
     }
+
+    a[data-table-row-action="edit"] {
+      margin-top: 0.1rem;
+    }
   }
 
   .attributes-table {
