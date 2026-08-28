@@ -125,6 +125,12 @@ jobs:
       - name: Set timezone
         run: echo "TZ=Europe/Zurich" >> "$GITHUB_ENV"
 
+      - name: Prepare database
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: bin/rails db:prepare
+
       - name: Rails
         env:
           RAILS_ENV: test
