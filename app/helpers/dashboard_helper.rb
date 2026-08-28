@@ -9,6 +9,27 @@ module DashboardHelper
       || (Current.org.member_form_mode == "membership" && BasketSize.kept.none?)
   end
 
+  def calendar_day_path(day)
+    return unless day.busy?
+
+    if day.delivery?
+      delivery_path(day.delivery)
+    elsif day.special_delivery
+      shop_special_delivery_path(day.special_delivery)
+    else
+      calendar_activity_participations_path(day)
+    end
+  end
+
+  def calendar_activity_participations_path(day)
+    activity_participations_path(
+      scope: :all,
+      q: {
+        activity_date_gteq: day.date,
+        activity_date_lteq: day.date
+      })
+  end
+
   def next_delivery_panel_action(delivery)
     icon_file_links(
       icon_file_link(:csv, baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), title: Delivery.human_attribute_name(:summary)),

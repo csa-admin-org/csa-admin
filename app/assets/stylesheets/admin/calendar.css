@@ -1,0 +1,119 @@
+@layer components {
+  .calendar {
+    padding: 0.25rem 0.5rem 0.75rem;
+  }
+
+  .calendar-weekdays,
+  .calendar-week {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .calendar-weekday {
+    padding-bottom: 0.375rem;
+    text-align: center;
+    font-size: 0.6875rem;
+    line-height: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--color-ink-muted);
+  }
+
+  .calendar-week + .calendar-week {
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--color-line);
+    padding-top: 0.5rem;
+  }
+
+  .calendar-day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    padding: 0.125rem 0;
+    text-align: center;
+  }
+
+  .calendar-day.is-past {
+    color: var(--color-gray-400);
+  }
+
+  .calendar-day.is-past .calendar-count,
+  .calendar-day.is-past .calendar-count svg {
+    color: var(--color-gray-400);
+    font-weight: 400;
+  }
+
+  .calendar-day.is-past.is-delivery .calendar-date {
+    background-color: var(--color-gray-100);
+
+    &:where(.dark, .dark *) {
+      background-color: var(--color-gray-800);
+    }
+  }
+
+  .calendar-date {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    line-height: 1;
+    text-decoration-line: none;
+    color: inherit;
+  }
+
+  .calendar-day.is-event .calendar-date {
+    font-weight: 600;
+  }
+
+  .calendar-day.is-delivery .calendar-date {
+    background-color: var(--color-fill);
+  }
+
+  .calendar-day.is-today .calendar-date {
+    background-color: var(--color-green-100);
+    font-weight: 600;
+
+    &:where(.dark, .dark *) {
+      background-color: var(--color-green-900);
+    }
+  }
+
+  .calendar-counts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.0625rem;
+    margin-top: 0.125rem;
+  }
+
+  .calendar-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.1875rem;
+    border-radius: 0.25rem;
+    padding: 0.0625rem 0.25rem;
+    color: var(--color-ink-secondary);
+    font-size: 0.8125rem;
+    line-height: 1rem;
+    font-weight: 500;
+    text-decoration-line: none;
+
+    &:hover {
+      background-color: var(--color-gray-50);
+    }
+
+    &:where(.dark, .dark *) {
+      &:hover {
+        background-color: var(--color-gray-800);
+      }
+    }
+  }
+
+  .calendar-count svg {
+    color: var(--color-ink-muted);
+  }
+}

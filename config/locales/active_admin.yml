@@ -774,6 +774,12 @@ _:
           _de: Rechnungsstellung %{fiscal_year}
           _it: Fatturazione %{fiscal_year}
           _nl: Facturering %{fiscal_year}
+        calendar:
+          _en: Calendar
+          _fr: Calendrier
+          _de: Kalender
+          _it: Calendario
+          _nl: Kalender
         changes_count:
           one:
             _en: 1 change

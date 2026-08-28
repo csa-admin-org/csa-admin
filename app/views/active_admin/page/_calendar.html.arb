@@ -1,0 +1,56 @@
+# frozen_string_literal: true
+
+weekdays = I18n.t("date.abbr_day_names").rotate
+
+div class: "calendar" do
+  div class: "calendar-weekdays" do
+    weekdays.each do |name|
+      span name, class: "calendar-weekday"
+    end
+  end
+
+  calendar.days.each_slice(7) do |week|
+    div class: "calendar-week" do
+      week.each do |day|
+        div class: [
+          "calendar-day",
+          ("is-past" if day.past?),
+          ("is-today" if day.today?),
+          ("is-delivery" if day.delivery?),
+          ("is-event" if day.event?)
+        ].compact.join(" ") do
+          if (path = calendar_day_path(day))
+            a day.date.day, href: path, class: "calendar-date"
+          else
+            span day.date.day, class: "calendar-date"
+          end
+
+          if day.show_counts?
+            div class: "calendar-counts" do
+              if day.show_baskets?
+                a href: delivery_path(day.delivery), class: "calendar-count", title: Basket.model_name.human(count: 2) do
+                  span icon("shopping-bag", class: "icon-4")
+                  span day.baskets_count, class: "tabular-nums"
+                end
+              end
+
+              if day.show_shop?
+                a href: shop_orders_path(q: { _delivery_gid_eq: day.shop_delivery.gid }), class: "calendar-count", title: t("shop.title") do
+                  span icon("shopping-basket", class: "icon-4")
+                  span day.shop_orders_count, class: "tabular-nums"
+                end
+              end
+
+              if day.show_activity?
+                a href: calendar_activity_participations_path(day), class: "calendar-count", title: activities_human_name do
+                  span icon("handshake", class: "icon-4")
+                  span day.participants_count, class: "tabular-nums"
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end

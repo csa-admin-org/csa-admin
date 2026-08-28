@@ -74,6 +74,12 @@ ActiveAdmin.register_page "Dashboard" do
         end
 
         column do
+          if (calendar = Calendar.new).present?
+            panel t(".calendar"), icon: "calendar-days" do
+              render partial: "active_admin/page/calendar", locals: { calendar: calendar }
+            end
+          end
+
           panel Member.model_name.human(count: 2), icon: "users" do
             render "members_count"
           end
