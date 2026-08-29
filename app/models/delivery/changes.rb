@@ -145,34 +145,43 @@ class Delivery::Changes
 
   def load_previous_baskets
     cutoff_date = @delivery.date - 6.months
-    all_valid_membership_ids = []
+    membership_ids = []
     @membership_to_member = {}
 
     @current_memberships.each do |m|
-      all_valid_membership_ids << m.id
+      membership_ids << m.id
       @membership_to_member[m.id] = m.member_id
 
       if (prev = @previous_memberships_by_member[m.member_id])
-        all_valid_membership_ids << prev.id
+        membership_ids << prev.id
         @membership_to_member[prev.id] = prev.member_id
       end
     end
 
-    previous_baskets = Basket
-      .where(membership_id: all_valid_membership_ids)
-      .joins(:delivery)
-      .where(deliveries: { date: cutoff_date...@delivery.date })
-      .includes(:basket_size, :depot, :delivery, baskets_basket_complements: :basket_complement)
-      .reorder("deliveries.date DESC")
-      .to_a
-
     @previous_basket_by_member = {}
-    previous_baskets.each do |basket|
-      member_id = @membership_to_member[basket.membership_id]
-      next unless member_id
-      # Keep only the most recent previous basket per member
-      @previous_basket_by_member[member_id] ||= basket
-    end
+    return if membership_ids.empty?
+
+    ranked = Basket.unscoped
+      .joins(:delivery, :membership)
+      .where(membership_id: membership_ids)
+      .where(deliveries: { date: cutoff_date...@delivery.date })
+      .select(
+        "baskets.id",
+        "ROW_NUMBER() OVER (PARTITION BY memberships.member_id ORDER BY deliveries.date DESC, baskets.id DESC) AS rn")
+
+    latest_ids = Basket.unscoped
+      .from("(#{ranked.to_sql}) AS ranked")
+      .where("ranked.rn = 1")
+      .pluck("ranked.id")
+    return if latest_ids.empty?
+
+    Basket
+      .where(id: latest_ids)
+      .includes(:basket_size, :depot, :delivery, baskets_basket_complements: :basket_complement)
+      .each do |basket|
+        member_id = @membership_to_member[basket.membership_id]
+        @previous_basket_by_member[member_id] = basket if member_id
+      end
   end
 
   def load_audited_member_changes
