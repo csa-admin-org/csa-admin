@@ -2,7 +2,7 @@
 
 The online shop allows your members to order additional products from their account a few days before the delivery of their next <%= Basket.model_name.human(count: 2).downcase %>.
 
-To allow you to prepare the content of your shop calmly, by default, the shop **does not appear** in the member account menu. Only admins who can access a member's account (from the "Account" button on a member's admin page) can see the shop. This way, you can ensure that all products are well presented. Once everything is in place, this limitation can be disabled from [the settings](/settings#shop).
+Two switches. First, disable the admin-only limitation in [the settings](/settings#shop) so the shop appears in the member menu. Then [open the shop on deliveries](#opening). Products do not show in the member account until both are done. Complements on a membership are not the shop.
 
 ## Producers {#producers}
 
@@ -102,3 +102,5 @@ Available products can be defined separately for each special delivery, the indi
 ## Opening the shop {#opening}
 
 Before members can place orders, the shop must be **opened on the desired deliveries** from [the deliveries page](/deliveries). This can be done in batches using the "Open shop" group action, or individually by editing a delivery (where you can also select specific depots). The shop can be closed again the same way if needed.
+
+Members with only a shop depot are [active](/handbook/members#statuses) because of that depot. They receive [Member activated](/mail_templates/member_activated) unless you use [Shop access activated](/mail_templates/member_shop_depot_activated).

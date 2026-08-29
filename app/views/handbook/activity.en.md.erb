@@ -26,6 +26,8 @@ However, it is possible to let members choose the number of participations they 
 
 > If a participation price is defined, the difference between the default number and the chosen number will be automatically added to or subtracted from the total membership amount (fields "Membership price adjustment").
 
+That adjustment is added to the membership invoice right away, based on the demanded count. Validating a participation does not invoice. Missing work is billed later from [the participations list](/activity_participations).
+
 ### Logic for Calculating Requested Participations {#activity-participations-logic}
 
 The configuration of the number of requested participations is always understood for a complete fiscal year; by default, the final number requested will be calculated pro-rata based on the number of deliveries in the membership.
@@ -51,7 +53,7 @@ Available variables:
 - **membership.full_year_activity_participations**: participations requested for a full year
 - **membership.started_fy_month**: month of the start date in the fiscal year (1-12, 1 is the first month of the configured fiscal year)
 - **membership.started_day**: calendar day of the start date (1-31)
-- **membership.basket_size_id** / **membership.depot_id** / **membership.depot_group_id** / **membership.delivery_cycle_id**: related IDs
+- **membership.basket_size_id** / **membership.depot_id** / **membership.depot_group_id** / **membership.delivery_cycle_id**: related IDs. Use `membership.delivery_cycle_id` for a winter cycle with 0 demanded participations.
 
 `membership.baskets` and `membership.full_year_deliveries` count cycle deliveries, not persisted basket rows.
 

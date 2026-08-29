@@ -2,7 +2,7 @@
 
 L'épicerie en ligne permet à vos membres de commander des produits supplémentaires depuis leur compte quelques jours avant la livraison de leurs prochains <%= Basket.model_name.human(count: 2).downcase %>.
 
-Pour vous laisser le temps de préparer tranquillement le contenu de votre épicerie, celle-ci **n'apparaît pas** par défaut dans le menu du compte membre. Seuls les admins pouvant accéder au compte d'un membre depuis le bouton "Compte" de sa page admin peuvent voir l'épicerie. Vous pouvez ainsi vous assurer que tous les produits sont bien présentés. Une fois tout en place, désactivez cette limitation dans [les paramètres](/settings#shop).
+Deux interrupteurs. D'abord, désactivez la limitation admin-seulement dans [les paramètres](/settings#shop) pour que l'épicerie apparaisse dans le menu membre. Puis [ouvrez l'épicerie sur les livraisons](#opening). Les produits n'apparaissent pas dans le compte membre tant que les deux ne sont pas faits. Les compléments d'un abonnement ne sont pas l'épicerie.
 
 ## Producteurs {#producers}
 
@@ -102,3 +102,5 @@ Les produits disponibles peuvent être définis séparément pour chaque livrais
 ## Ouverture de l'épicerie {#opening}
 
 Avant que les membres puissent passer des commandes, l'épicerie doit être **ouverte pour les livraisons souhaitées** depuis [la page des livraisons](/deliveries). Cela peut être fait par lot avec l'action groupée " Ouvrir l'épicerie ", ou individuellement en éditant une livraison (où vous pouvez également sélectionner des dépôts spécifiques). L'épicerie peut être refermée de la même manière au besoin.
+
+Les membres avec seulement un dépôt épicerie sont [actifs](/handbook/members#statuses) à cause de ce dépôt. Ils reçoivent [Membre activé](/mail_templates/member_activated) sauf si vous utilisez [Accès épicerie activé](/mail_templates/member_shop_depot_activated).

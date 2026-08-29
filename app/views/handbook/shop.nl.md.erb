@@ -2,7 +2,7 @@
 
 De online winkel stelt je leden in staat om aanvullende producten te bestellen vanaf hun account enkele dagen voor de levering van hun volgende <%= Basket.model_name.human(count: 2).downcase %>.
 
-Om je de mogelijkheid te geven om de inhoud van je winkel rustig voor te bereiden, verschijnt de winkel **standaard niet** in het menu van het ledenaccount. Alleen admins die toegang hebben tot het account van een lid (via de knop "Account" op de adminpagina van een lid) kunnen de winkel zien. Op deze manier kun je ervoor zorgen dat alle producten goed gepresenteerd zijn. Zodra alles op zijn plaats staat, kan deze beperking worden uitgeschakeld vanuit [de instellingen](/settings#shop).
+Twee schakelaars. Schakel eerst de admin-only beperking uit in [de instellingen](/settings#shop) zodat de winkel in het ledenmenu verschijnt. Open daarna [de winkel op leveringen](#opening). Producten verschijnen in het ledenaccount pas als beide gedaan zijn. Complementen van een lidmaatschap zijn niet de winkel.
 
 ## Producenten {#producers}
 
@@ -102,3 +102,5 @@ Beschikbare producten kunnen afzonderlijk worden gedefinieerd voor elke speciale
 ## Winkel openen {#opening}
 
 Voordat leden bestellingen kunnen plaatsen, moet de winkel **geopend worden voor de gewenste leveringen** vanaf [de leveringenpagina](/deliveries). Dit kan in bulk met de groepsactie " Winkel openen ", of individueel door een levering te bewerken (waar je ook specifieke depots kunt selecteren). De winkel kan op dezelfde manier weer worden gesloten indien nodig.
+
+Leden met alleen een winkeldepot zijn [actief](/handbook/members#statuses) vanwege dat depot. Ze ontvangen [Lid geactiveerd](/mail_templates/member_activated) tenzij je [Winkeltoegang geactiveerd](/mail_templates/member_shop_depot_activated) gebruikt.

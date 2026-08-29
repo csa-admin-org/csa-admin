@@ -26,6 +26,7 @@ Il est cependant possible de laisser le choix aux membres de choisir le nombre d
 
 > Si un prix de la participation est défini, la différence entre le nombre par défaut et le nombre choisi sera alors ajoutée ou soustraite du montant total de l'abonnement automatiquement (champs "Ajustement du prix de l'abonnement").
 
+Cet ajustement est ajouté tout de suite à la facture d'abonnement, selon le nombre demandé. Valider une participation ne facture pas. Le travail manquant se facture plus tard depuis [la liste des participations](/activity_participations).
 
 ### Logique de calcul des participations demandées {#activity-participations-logic}
 
@@ -52,7 +53,7 @@ Variables disponibles:
 - **membership.full_year_activity_participations**: participations demandées pour une année complète
 - **membership.started_fy_month**: mois de la date de début dans l'année fiscale (1-12, 1 est le premier mois de l'année fiscale configurée)
 - **membership.started_day**: jour civil de la date de début (1-31)
-- **membership.basket_size_id** / **membership.depot_id** / **membership.depot_group_id** / **membership.delivery_cycle_id**: identifiants liés
+- **membership.basket_size_id** / **membership.depot_id** / **membership.depot_group_id** / **membership.delivery_cycle_id**: identifiants liés. Utilisez `membership.delivery_cycle_id` pour un cycle hiver avec 0 participations demandées.
 
 `membership.baskets` et `membership.full_year_deliveries` comptent les livraisons du cycle, pas les lignes de paniers.
 

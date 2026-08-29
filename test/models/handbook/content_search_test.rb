@@ -130,6 +130,20 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     assert match, "Expected a content match for shop-only Liquid on the emails page"
   end
 
+  test "content_search finds shop two switches" do
+    results = Handbook.content_search("two switches", locale: :en)
+
+    match = results.find { |r| r[:name] == "shop" }
+    assert match, "Expected a content match for the two shop switches"
+  end
+
+  test "content_search finds registration next fiscal year limit" do
+    results = Handbook.content_search("does not target the next fiscal year", locale: :en)
+
+    match = results.find { |r| r[:name] == "registration" }
+    assert match, "Expected a content match for next-FY registration"
+  end
+
   test "content_search finds H3 heading for trial baskets" do
     results = Handbook.content_search("trial", locale: :en)
 

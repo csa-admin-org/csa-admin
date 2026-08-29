@@ -2,7 +2,7 @@
 
 Der Online-Hofladen ermöglicht es Deinen Mitgliedern, einige Tage vor der Lieferung ihrer nächsten <%= Basket.model_name.human(count: 2) %> zusätzliche Produkte von ihrem Konto aus zu bestellen.
 
-Um Dir zu ermöglichen, den Inhalt Deines Hofladens in Ruhe vorzubereiten, erscheint der Hofladen standardmässig **nicht** im Menü des Mitgliedskontos. Nur Administratoren, die auf das Konto eines Mitglieds zugreifen können (über die Schaltfläche "Konto" auf der Administratorseite eines Mitglieds), können den Hofladen sehen. So kannst Du sicherstellen, dass alle Produkte gut präsentiert sind. Sobald alles eingerichtet ist, kann diese Einschränkung in [den Einstellungen](/settings#shop) deaktiviert werden.
+Zwei Schalter. Zuerst die Admin-only Einschränkung in [den Einstellungen](/settings#shop) deaktivieren, damit der Hofladen im Mitgliedermenü erscheint. Dann [den Hofladen auf Lieferungen öffnen](#opening). Produkte erscheinen im Mitgliedskonto erst, wenn beides erledigt ist. Ergänzungen eines Abonnements sind nicht der Hofladen.
 
 ## Produzenten {#producers}
 
@@ -102,3 +102,5 @@ Verfügbare Produkte können separat für jede Sonderlieferung definiert werden,
 ## Hofladen öffnen {#opening}
 
 Bevor Mitglieder Bestellungen aufgeben können, muss der Hofladen für die gewünschten Lieferungen **geöffnet** werden über [die Lieferungsseite](/deliveries). Dies kann über die Gruppenaktion " Hofladen öffnen " im Stapel oder einzeln durch Bearbeiten einer Lieferung (wo auch bestimmte Depots ausgewählt werden können) erfolgen. Der Hofladen kann bei Bedarf auf die gleiche Weise wieder geschlossen werden.
+
+Mitglieder mit nur einem Hofladen-Depot sind [aktiv](/handbook/members#statuses) wegen dieses Depots. Sie erhalten [Mitglied aktiviert](/mail_templates/member_activated), ausser Du nutzt [Hofladen-Zugang aktiviert](/mail_templates/member_shop_depot_activated).
