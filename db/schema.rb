@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_23_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_29_120000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -592,6 +592,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_23_120000) do
     t.string "action", null: false
     t.text "content"
     t.datetime "created_at", null: false
+    t.virtual "mailable_id", type: :integer, as: "CAST(json_extract(mailable_ids, '$[0]') AS INTEGER)", stored: false
     t.json "mailable_ids", default: [], null: false
     t.string "mailable_type", null: false
     t.integer "member_id", null: false
@@ -599,6 +600,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_23_120000) do
     t.string "subject"
     t.datetime "updated_at", null: false
     t.index ["mailable_type", "created_at"], name: "idx_mail_deliveries_on_mailable_type_created_at"
+    t.index ["mailable_type", "mailable_id"], name: "idx_mail_deliveries_on_mailable_type_id"
     t.index ["mailable_type", "mailable_ids", "member_id"], name: "idx_mail_deliveries_on_mailable_member"
     t.index ["member_id", "created_at"], name: "idx_mail_deliveries_on_member_created"
     t.index ["member_id"], name: "index_mail_deliveries_on_member_id"

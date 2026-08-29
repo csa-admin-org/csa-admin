@@ -22,7 +22,7 @@ class MailDelivery < ApplicationRecord
   scope :with_subject, ->(subject) {
     processed.where("subject LIKE ?", "%#{subject}%")
   }
-  scope :newsletter_id_eq, ->(id) { for_mailable(Newsletter.find(id)) }
+  scope :newsletter_id_eq, ->(id) { where(mailable_type: "Newsletter", mailable_id: id) }
   scope :mail_template_id_eq, ->(id) {
     template = MailTemplate.find(id)
     where(
@@ -30,11 +30,20 @@ class MailDelivery < ApplicationRecord
       action: template.action)
   }
   scope :for_mailable, ->(record) {
-    where(mailable_type: record.class.name)
-      .where("EXISTS (SELECT 1 FROM json_each(mailable_ids) WHERE value = ?)", record.id)
+    relation = where(mailable_type: record.class.name)
+    if record.is_a?(ActivityParticipation)
+      relation.where("EXISTS (SELECT 1 FROM json_each(mailable_ids) WHERE value = ?)", record.id)
+    else
+      relation.where(mailable_id: record.id)
+    end
   }
   MailDelivery::Email::STATES.each do |email_state|
     scope email_state, -> { joins(:emails).where(emails: { state: email_state }).distinct }
+  end
+
+  def self.email_state_counts
+    counts = joins(:emails).group("emails.state").count("DISTINCT mail_deliveries.id")
+    Email::STATES.index_with { |state| counts[state] || 0 }
   end
 
   def self.ransackable_scopes(_auth_object = nil)
@@ -145,7 +154,7 @@ class MailDelivery < ApplicationRecord
   def missing_emails
     return [] if draft?
 
-    expected_member_emails - emails.pluck(:email)
+    expected_member_emails - emails.map(&:email)
   end
 
   def missing_emails_allowed?

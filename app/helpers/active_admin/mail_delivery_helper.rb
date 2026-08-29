@@ -2,10 +2,11 @@
 
 module ActiveAdmin::MailDeliveryHelper
   def mail_delivery_email_stats(arbre, deliveries, path_params:, list_class: "counts")
+    counts = deliveries.email_state_counts
     arbre.ul class: list_class do
       MailDelivery::Email::STATES.each do |email_state|
         arbre.li do
-          count = deliveries.public_send(email_state).count
+          count = counts[email_state]
           label = t("active_admin.resources.mail_delivery.scopes.#{email_state}")
           link_to mail_deliveries_path(**path_params, scope: email_state) do
             counter_tag(label, count)

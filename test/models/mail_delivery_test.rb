@@ -395,6 +395,37 @@ class MailDeliveryTest < ActiveSupport::TestCase
     assert_includes MailDelivery.for_mailable(ap), delivery
   end
 
+  test "email_state_counts groups deliveries by email state" do
+    john = members(:john)
+    jane = members(:jane)
+    invoice = invoices(:annual_fee)
+
+    MailDelivery.deliver!(member: john, mailable: invoice, action: "created")
+    delivered = MailDelivery.deliver!(member: jane, mailable: invoice, action: "created")
+    delivered.emails.first.delivered!(at: Time.current)
+
+    counts = MailDelivery.for_mailable(invoice).email_state_counts
+    assert_equal 1, counts["processing"]
+    assert_equal 1, counts["delivered"]
+    assert_equal 0, counts["suppressed"]
+    assert_equal 0, counts["bounced"]
+  end
+
+  test "email_state_counts counts a delivery once when two emails share a state" do
+    member = members(:john)
+    member.update!(emails: "john@doe.com, extra@doe.com")
+    invoice = invoices(:annual_fee)
+
+    MailDelivery.deliver!(
+      member: member,
+      mailable: invoice,
+      action: "created",
+      recipients: member.active_emails)
+
+    counts = MailDelivery.for_mailable(invoice).email_state_counts
+    assert_equal 1, counts["processing"]
+  end
+
   test "newsletter_id_eq ransack scope filters by newsletter ID" do
     member = members(:john)
     newsletter = newsletters(:simple)
