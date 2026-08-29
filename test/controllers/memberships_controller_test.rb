@@ -67,6 +67,17 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Lausanne", jane_row[city_header]
   end
 
+  test "show explains when recurring billing is disabled" do
+    travel_to "2024-05-01"
+    org(recurring_billing_wday: nil)
+    login admins(:super)
+
+    get membership_path(memberships(:jane))
+
+    assert_response :success
+    assert_select ".muted-data", text: I18n.t("active_admin.resource.show.recurring_billing_disabled")
+  end
+
   test "show displays stop action and icon-only destroy action with confirmations" do
     travel_to "2024-05-01"
     membership = memberships(:jane)

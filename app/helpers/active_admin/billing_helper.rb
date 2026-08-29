@@ -18,25 +18,29 @@ module ActiveAdmin::BillingHelper
   end
 
   def recurring_billing_row_content(arbre, next_date:, path:, authorized:)
-    if Current.org.recurring_billing?
-      if next_date
-        arbre.div class: "row-actions" do
-          arbre.span { l(next_date, format: :medium) }
-          if authorized
-            arbre.div do
-              panel_button t("active_admin.resource.show.recurring_billing"), path,
-                icon: "banknote",
-                disabled: !Current.org.iban?,
-                disabled_tooltip: t("active_admin.resource.show.recurring_billing_iban_missing", iban_type: Current.org.iban_type_name),
-                form: { class: "form-inline" },
-                data: { confirm: t("active_admin.resource.show.recurring_billing_confirm") }
-            end
-          end
-        end
-      end
-    else
-      arbre.span class: "muted-data" do
+    unless Current.org.recurring_billing?
+      return arbre.span class: "muted-data" do
         t("active_admin.resource.show.recurring_billing_disabled")
+      end
+    end
+
+    unless next_date
+      return arbre.span class: "muted-data" do
+        t("active_admin.resource.show.recurring_billing_nothing_due_html").html_safe
+      end
+    end
+
+    arbre.div class: "row-actions" do
+      arbre.span { l(next_date, format: :medium) }
+      if authorized
+        arbre.div do
+          panel_button t("active_admin.resource.show.recurring_billing"), path,
+            icon: "banknote",
+            disabled: !Current.org.iban?,
+            disabled_tooltip: t("active_admin.resource.show.recurring_billing_iban_missing", iban_type: Current.org.iban_type_name),
+            form: { class: "form-inline" },
+            data: { confirm: t("active_admin.resource.show.recurring_billing_confirm") }
+        end
       end
     end
   end

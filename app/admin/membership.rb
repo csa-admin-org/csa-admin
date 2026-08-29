@@ -640,15 +640,13 @@ ActiveAdmin.register Membership do
             row(:missing_invoices_amount, class: "tabular-nums") {
               previsional_details(self, m.missing_invoices_amount, m.previsional_invoicing_amounts)
             }
-            if resource.billable?
-              row(:next_invoice_on) {
-                invoicer = Billing::Invoicer.new(resource.member, membership: resource, date: Date.tomorrow)
-                recurring_billing_row_content(self,
-                  next_date: invoicer.next_date,
-                  path: recurring_billing_member_path(resource.member),
-                  authorized: authorized?(:recurring_billing, resource.member) && Billing::Invoicer.new(resource.member, membership: resource).billable?)
-              }
-            end
+            invoicer = Billing::Invoicer.new(resource.member, membership: resource, date: Date.tomorrow)
+            row(:next_invoice_on) {
+              recurring_billing_row_content(self,
+                next_date: invoicer.next_date,
+                path: recurring_billing_member_path(resource.member),
+                authorized: authorized?(:recurring_billing, resource.member) && invoicer.billable?)
+            }
           end
           if authorized?(:future_billing, resource) && resource.future?
             invoicer = Billing::InvoicerFuture.new(resource)

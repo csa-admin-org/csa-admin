@@ -2715,6 +2715,12 @@ _:
           _de: Die %{iban_type} ist nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
           _it: Configurare %{iban_type} prima di creare fatture.
           _nl: De %{iban_type} is niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
+        recurring_billing_nothing_due_html:
+          _en: <a href="/handbook/billing#bill-now">Nothing to invoice now.</a>
+          _fr: <a href="/handbook/billing#bill-now">Rien à facturer maintenant.</a>
+          _de: <a href="/handbook/billing#bill-now">Zurzeit nichts abzurechnen.</a>
+          _it: <a href="/handbook/billing#bill-now">Niente da fatturare ora.</a>
+          _nl: <a href="/handbook/billing#bill-now">Nu niets te factureren.</a>
         renew:
           _en: Renew
           _fr: Renouveler

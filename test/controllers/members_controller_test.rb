@@ -36,6 +36,17 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "show explains when recurring billing is disabled" do
+    member = members(:john)
+    org(recurring_billing_wday: nil)
+    login admins(:super)
+
+    get member_path(member)
+
+    assert_response :success
+    assert_select ".muted-data", text: I18n.t("active_admin.resource.show.recurring_billing_disabled")
+  end
+
   test "show marks each compact table row with its resource link" do
     member = members(:john)
 

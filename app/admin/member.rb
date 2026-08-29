@@ -490,14 +490,12 @@ ActiveAdmin.register Member do
               end
             }
             invoicer = Billing::Invoicer.new(member, date: Date.tomorrow)
-            if invoicer.next_date
-              row(:next_invoice_on) {
-                recurring_billing_row_content(self,
-                  next_date: invoicer.next_date,
-                  path: recurring_billing_member_path(member),
-                  authorized: authorized?(:recurring_billing, member) && Billing::Invoicer.new(member).billable?)
-              }
-            end
+            row(:next_invoice_on) {
+              recurring_billing_row_content(self,
+                next_date: invoicer.next_date,
+                path: recurring_billing_member_path(member),
+                authorized: authorized?(:recurring_billing, member) && invoicer.billable?)
+            }
           end
         end
 
