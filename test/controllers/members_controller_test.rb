@@ -236,6 +236,15 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to membership_path(membership)
   end
 
+  test "edit form salary basket hint mentions complements and custom prices" do
+    login admins(:super)
+
+    get edit_member_path(members(:john))
+
+    assert_response :success
+    assert_includes response.body, I18n.t("formtastic.hints.member.salary_basket_html")
+  end
+
   test "stale waiting membership start date is hidden and treated as blank" do
     travel_to "2024-05-01"
     member = members(:aria)

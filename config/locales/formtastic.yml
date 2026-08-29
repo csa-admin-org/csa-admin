@@ -916,11 +916,11 @@ _:
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione della cesta dell'abbonamento corrente.<br>Un numero negativo impedisce il rimborso delle quote sociali quando il socio viene disattivato.
           _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de mandgrootte van het huidige lidmaatschap.<br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         salary_basket_html:
-          _en: Sets all membership prices to zero, including basket complements. <a href="/handbook/members#salary-basket">Learn more</a>
-          _fr: Met tous les prix de l'abonnement à zéro, y compris les compléments de panier. <a href="/handbook/members#salary-basket">En savoir plus</a>
-          _de: Setzt alle Abonnementspreise auf null, einschliesslich Taschen-Zusätzen. <a href="/handbook/members#salary-basket">Mehr erfahren</a>
-          _it: Impostate a zero tutti i prezzi dell'abbonamento, compresi i complementi della cesta. <a href="/handbook/members#salary-basket">Per saperne di più</a>
-          _nl: Zet alle lidmaatschapsprijzen op nul, inclusief pakketaanvullingen. <a href="/handbook/members#salary-basket">Meer informatie</a>
+          _en: Sets all membership prices to zero, including complements. To bill complements, leave this off and set basket and depot prices to zero. <a href="/handbook/members#salary-basket">Learn more</a>
+          _fr: Met tous les prix de l'abonnement à zéro, y compris les compléments. Pour facturer les compléments, laissez cette case décochée et mettez les prix du panier et du dépôt à zéro. <a href="/handbook/members#salary-basket">En savoir plus</a>
+          _de: Setzt alle Abonnementspreise auf null, auch Ergänzungen. Ergänzungen trotzdem abrechnen, Option auslassen und Korb- sowie Depotpreis auf null setzen. <a href="/handbook/members#salary-basket">Mehr erfahren</a>
+          _it: Impostate a zero tutti i prezzi dell'abbonamento, complementi inclusi. Per fatturare i complementi, lasciate questa opzione disattivata e mettete a zero i prezzi della cesta e del deposito. <a href="/handbook/members#salary-basket">Per saperne di più</a>
+          _nl: Zet alle lidmaatschapsprijzen op nul, inclusief complementen. Complementen toch factureren, optie uit laten en mand- en depotprijs op nul zetten. <a href="/handbook/members#salary-basket">Meer informatie</a>
         send_validation_email_html:
           _en: <a href="%{url}">This email</a> is sent automatically when new members use <a href="%{new_members_url}">the registration form</a> and are validated by an admin.
           _fr: <a href="%{url}">Cet e-mail</a> est envoyé automatiquement lorsque de nouveaux membres utilisent <a href="%{new_members_url}">le formulaire d'inscription</a> et sont validés par un administrateur.
