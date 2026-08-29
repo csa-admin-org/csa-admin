@@ -76,6 +76,13 @@ class HandbookSearchTest < ActiveSupport::TestCase
 
   # -- H3 heading matching --
 
+  test "search finds canceling heading on the absence page" do
+    results = Handbook.search("canceling", locale: :en)
+
+    match = results.find { |r| r[:name] == "absence" && r[:anchor] == "canceling" }
+    assert match, "Expected a subtitle match for canceling on absences"
+  end
+
   test "search finds H3 heading with anchor as subtitle match" do
     results = Handbook.search("setting up ebics", locale: :en)
 

@@ -6,9 +6,22 @@ Cette fonctionnalité permet de gérer les absences de vos membres et d'automati
 
 Une fois cette fonctionnalité supplémentaire activée dans [vos paramètres](/settings), [de multiples réglages](/settings#absence) sont disponibles.
 
+Le **délai de préavis** va jusqu'à minuit, X jours avant la date de livraison. Exemple: 3 jours avant une livraison mercredi, c'est dimanche minuit. Après, les membres ne peuvent plus annoncer l'absence depuis leur compte. Les admins le peuvent encore depuis [Absences](/absences).
+
+Un membre dit avoir annoncé une absence et elle n'apparaît pas? Vérifiez le délai, l'année d'abonnement, et si l'e-mail n'était qu'un message, pas une absence enregistrée.
+
+### Annulation {#canceling}
+
+Annuler rétablit la livraison d'origine. Déplacer envoie le <%= Basket.model_name.human.downcase %> sur une autre date.
+
+- **Admins**: annulez depuis [Absences](/absences), pas depuis la ligne du panier sur l'abonnement. "Déplacer" sur cette ligne est un [déplacement](#basket-shift).
+- **Membres**: annulent depuis leur compte tant que le délai de préavis est ouvert.
+
 ## Facturation {#billing}
 
 Par défaut, les <%= Basket.model_name.human(count: 2).downcase %> marqués comme absents et non délivrés sont facturés. Il est conseillé aux membres de trouver une connaissance pour récupérer leur <%= Basket.model_name.human.downcase %> à leur place. Dans [les paramètres](/settings#absence), vous pouvez également choisir de ne pas les facturer. Le système s'occupera alors automatiquement d'[ajuster la facturation](/handbook/billing#price-change) de l'abonnement.
+
+Si un membre est absent mais veut quand même payer, n'enregistrez pas d'absence, ou gardez la facturation des absences dans les paramètres. C'est le marquage absent qui crée un avoir quand la facturation est désactivée.
 
 ## Déplacement de <%= Basket.model_name.human(count: 2).downcase %> {#basket-shift}
 

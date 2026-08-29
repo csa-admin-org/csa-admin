@@ -6,9 +6,22 @@ Diese Funktion ermöglicht es Dir, die Abwesenheiten Deiner Mitglieder zu verwal
 
 Sobald diese zusätzliche Funktion in [Deinen Einstellungen](/settings) aktiviert ist, stehen [mehrere Einstellungen](/settings#absence) zur Verfügung.
 
+Die **Anmeldefrist** gilt bis Mitternacht, X Tage vor dem Lieferdatum. Beispiel: 3 Tage vor einer Mittwochslieferung bedeutet Sonntag Mitternacht. Danach können Mitglieder die Abwesenheit nicht mehr über ihr Konto melden. Admins können das weiterhin unter [Abwesenheiten](/absences).
+
+Ein Mitglied sagt, es habe eine Abwesenheit gemeldet, und sie erscheint nicht? Prüfe die Frist, das Abonnementjahr, und ob die E-Mail nur eine Nachricht war, keine gespeicherte Abwesenheit.
+
+### Stornieren {#canceling}
+
+Stornieren stellt die ursprüngliche Lieferung wieder her. Verschieben legt die <%= Basket.model_name.human %> auf ein anderes Datum.
+
+- **Admins**: storniere unter [Abwesenheiten](/absences), nicht über die Korbzeile im Abonnement. "Verschieben" in dieser Zeile ist eine [Verschiebung](#basket-shift).
+- **Mitglieder**: stornieren über ihr Konto, solange die Anmeldefrist offen ist.
+
 ## Abrechnung {#billing}
 
 Standardmässig werden als abwesend markierte und nicht gelieferte <%= Basket.model_name.human(count: 2) %> in Rechnung gestellt, und den Mitgliedern wird empfohlen, einen Bekannten zu finden, der ihre <%= Basket.model_name.human %> an ihrer Stelle abholt. In [den Einstellungen](/settings#absence) kannst Du auch wählen, sie nicht in Rechnung zu stellen. Das System wird dann automatisch [die Abrechnung des Abonnements anpassen](/handbook/billing#price-change).
+
+Will ein Mitglied weg sein, aber trotzdem zahlen, markiere keine Abwesenheit, oder behalte die Abrechnung von Abwesenheiten in den Einstellungen. Das Markieren als abwesend erzeugt das Guthaben, wenn die Abrechnung aus ist.
 
 ## Verschiebung von <%= Basket.model_name.human(count: 2) %> {#basket-shift}
 

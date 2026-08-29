@@ -6,9 +6,22 @@ Met deze functie beheer je de afwezigheden van je leden en trek je afwezige <%= 
 
 Zodra deze aanvullende functie is geactiveerd in [je instellingen](/settings), zijn [meerdere instellingen](/settings#absence) beschikbaar.
 
+De **opzegtermijn** loopt tot middernacht, X dagen voor de leveringsdatum. Voorbeeld: 3 dagen voor een levering op woensdag is zondag middernacht. Daarna kunnen leden de afwezigheid niet meer vanuit hun account melden. Admins kunnen dat nog via [Afwezigheid](/absences).
+
+Een lid zegt een afwezigheid te hebben gemeld en die verschijnt niet? Controleer de termijn, het lidmaatschapsjaar, en of de e-mail alleen een bericht was, geen opgeslagen afwezigheid.
+
+### Annuleren {#canceling}
+
+Annuleren herstelt de oorspronkelijke levering. Verschuiven zet de <%= Basket.model_name.human.downcase %> op een andere datum.
+
+- **Admins**: annuleer via [Afwezigheid](/absences), niet via de mandregel op het lidmaatschap. "Verplaatsen" op die regel is een [verschuiving](#basket-shift).
+- **Leden**: annuleren vanuit hun account zolang de opzegtermijn open is.
+
 ## Facturering {#billing}
 
 Standaard worden <%= Basket.model_name.human(count: 2).downcase %> die als afwezig zijn gemarkeerd en niet geleverd worden, gefactureerd. Leden wordt aangeraden iemand te vragen hun <%= Basket.model_name.human.downcase %> op te halen. In [de instellingen](/settings#absence) kun je er ook voor kiezen ze niet te factureren. Het systeem [past dan automatisch de facturering aan](/handbook/billing#price-change) van het lidmaatschap.
+
+Als een lid weg is maar toch wil betalen, markeer geen afwezigheid, of houd facturering van afwezigheden in de instellingen. Het markeren als afwezig is wat een credit maakt wanneer facturering uit staat.
 
 ## Verschuiving van <%= Basket.model_name.human(count: 2).downcase %> {#basket-shift}
 

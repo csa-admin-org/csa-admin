@@ -6,9 +6,22 @@ Questa funzione permette di gestire le assenze dei tuoi soci e di detrarre autom
 
 Una volta attivata questa funzione aggiuntiva nelle [tue impostazioni](/settings), [diverse impostazioni](/settings#absence) sono disponibili.
 
+Il **preavviso** vale fino a mezzanotte, X giorni prima della data di consegna. Esempio: 3 giorni prima di una consegna di mercoledì significa domenica a mezzanotte. Dopo, i soci non possono più annunciare l'assenza dal loro account. Gli admin possono ancora da [Assenze](/absences).
+
+Un socio dice di aver annunciato un'assenza e non compare? Controlla il preavviso, l'anno di abbonamento, e se l'email era solo un messaggio, non un'assenza salvata.
+
+### Annullare {#canceling}
+
+Annullare ripristina la consegna originale. Spostare mette la <%= Basket.model_name.human.downcase %> su un'altra data.
+
+- **Admin**: annulla da [Assenze](/absences), non dalla riga del paniere sull'abbonamento. "Spostare" su quella riga è uno [spostamento](#basket-shift).
+- **Soci**: annullano dal loro account finché il preavviso è aperto.
+
 ## Fatturazione {#billing}
 
 Per impostazione predefinita, le <%= Basket.model_name.human(count: 2).downcase %> segnate come assenti e non consegnate vengono fatturate e si consiglia ai soci di trovare un conoscente per ritirare la loro <%= Basket.model_name.human.downcase %> al loro posto. Nelle [impostazioni](/settings#absence), puoi anche scegliere di non fatturarle. Il sistema si occuperà quindi automaticamente di [adeguare la fatturazione](/handbook/billing#price-change) dell'abbonamento.
+
+Se un socio è assente ma vuole comunque pagare, non registrare un'assenza, o tieni la fatturazione delle assenze nelle impostazioni. È il contrassegno assente che crea un credito quando la fatturazione è disattivata.
 
 ## Spostamento di <%= Basket.model_name.human(count: 2).downcase %> {#basket-shift}
 
