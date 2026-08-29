@@ -89,7 +89,8 @@ module Membership::Absence
           baskets.absent
         end
       absent_baskets.update_all(billable: false)
-      baskets.find_each(&:update_calculated_price_extra!)
+      baskets.includes(:baskets_basket_complements, :membership)
+        .find_each(&:write_calculated_price_extra!)
     end
   end
 

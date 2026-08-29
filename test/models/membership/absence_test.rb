@@ -99,6 +99,37 @@ class Membership::AbsenceTest < ActiveSupport::TestCase
     ], membership.baskets.map { |b| [ b.state, b.billable, b.calculated_price_extra.to_i ] }
   end
 
+  test "recalculates price extras without loading delivery or basket_size per basket" do
+    travel_to "2024-01-01"
+    org(features: [ :basket_price_extra, :absence ], trial_baskets_count: 0, absences_billed: true)
+    memberships(:john).update!(absences_included_annually: 3, basket_price_extra: 1)
+    create_absence(
+      member: members(:john),
+      started_on: "2024-04-05",
+      ended_on: "2024-04-12")
+    membership = Membership.find(memberships(:john).id)
+
+    complement_loads = 0
+    delivery_loads = 0
+    basket_size_loads = 0
+    callback = ->(_name, _start, _finish, _id, payload) {
+      case payload[:name].to_s
+      when "BasketsBasketComplement Load" then complement_loads += 1
+      when "Delivery Load" then delivery_loads += 1
+      when "BasketSize Load" then basket_size_loads += 1
+      end
+    }
+
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
+      membership.send(:update_not_billable_baskets!)
+    end
+
+    assert_operator membership.baskets.count, :>, 2
+    assert_operator complement_loads, :<=, 1
+    assert_equal 0, delivery_loads
+    assert_equal 0, basket_size_loads
+  end
+
   test "mark last baskets are absent when all included absence aren't used yet with extended absence" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 0, absences_billed: true)
