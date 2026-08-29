@@ -9,11 +9,11 @@ module DeliveryCycle::Visibility
 
   class_methods do
     def visible?
-      visible.many? && shared_depots?
+      delivery_cycle_visibility_cache[:visible]
     end
 
     def shared_depots?
-      visible.flat_map(&:depot_ids).tally.values.any? { |count| count > 1 }
+      delivery_cycle_visibility_cache[:shared_depots]
     end
 
     # Prioritize visible delivery cycles over non-visible ones, even if a
@@ -35,6 +35,16 @@ module DeliveryCycle::Visibility
         clauses << dc.public_name
         clauses
       }
+    end
+
+    private
+
+    def delivery_cycle_visibility_cache
+      Current.delivery_cycle_visibility ||= begin
+        cycles = visible.preload(:depots).to_a
+        shared = cycles.flat_map(&:depot_ids).tally.values.any? { |count| count > 1 }
+        { visible: cycles.many? && shared, shared_depots: shared }
+      end
     end
   end
 

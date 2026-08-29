@@ -2,6 +2,7 @@
 
 class Current < ActiveSupport::CurrentAttributes
   attribute :session
+  attribute :delivery_cycle_visibility
 
   delegate :year, :range, to: :fiscal_year, prefix: :fy
 

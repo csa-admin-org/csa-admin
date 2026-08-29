@@ -163,4 +163,31 @@ class DeliveryCycle::VisibilityTest < ActiveSupport::TestCase
 
     assert_not DeliveryCycle.shared_depots?
   end
+
+  test "visible? and shared_depots? are memoized for the request" do
+    DeliveryCycle.visible?
+
+    queries = 0
+    callback = ->(*) { queries += 1 }
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
+      DeliveryCycle.visible?
+      DeliveryCycle.shared_depots?
+    end
+
+    assert_equal 0, queries
+  end
+
+  test "visible? memo is cleared on Current.reset" do
+    DeliveryCycle.visible?
+
+    Current.reset
+
+    queries = 0
+    callback = ->(*) { queries += 1 }
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
+      DeliveryCycle.visible?
+    end
+
+    assert_operator queries, :>, 0
+  end
 end
