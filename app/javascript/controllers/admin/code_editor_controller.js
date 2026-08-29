@@ -138,7 +138,7 @@ export default class extends Controller {
   }
 
   teardownEditors() {
-    for (const element of [...this.editors.keys()]) {
+    for (const element of this.editors.keys()) {
       this.teardownEditor(element)
     }
     this.editorTargets.forEach((element) => this.removeCachedWrappers(element))
