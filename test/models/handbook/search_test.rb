@@ -64,6 +64,16 @@ class HandbookSearchTest < ActiveSupport::TestCase
     assert_equal "membership_renewal", match[:name]
   end
 
+  test "search finds fiscal year heading on deliveries and renewal pages" do
+    results = Handbook.search("fiscal year", locale: :en)
+
+    deliveries = results.find { |r| r[:name] == "deliveries" && r[:anchor] == "fiscal-year" }
+    renewal = results.find { |r| r[:name] == "membership_renewal" && r[:anchor] == "fiscal-year" }
+
+    assert deliveries, "Expected a heading match for fiscal year on deliveries"
+    assert renewal, "Expected a heading match for fiscal year on membership renewal"
+  end
+
   # -- H3 heading matching --
 
   test "search finds H3 heading with anchor as subtitle match" do

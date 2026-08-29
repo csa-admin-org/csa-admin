@@ -8,7 +8,13 @@ Administrators can renew memberships manually from an individual membership page
 
 Before renewing memberships, create all [deliveries](/deliveries/new) for the new fiscal year (see [Deliveries](/handbook/deliveries)). If needed, update prices for the following year, including <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human.downcase %>, and deposits. Renewal creates a new membership for the next fiscal year with the current membership's information.
 
-Once the deliveries are created, administrators can renew memberships manually, at the time of their choice. Note that if a membership is renewed after the first delivery of the new fiscal year, that delivery will be included in the renewed membership regardless.
+Once the deliveries are created, administrators can renew memberships manually, at the time of their choice. Note that if a membership is renewed after the first delivery of the new fiscal year, that delivery will be included in the renewed membership regardless. That still holds if you send requests after the previous fiscal year has already closed.
+
+### Fiscal year {#fiscal-year}
+
+The fiscal year is the period configured in [the settings](/settings), not necessarily January to December. A winter delivery in January can still belong to the fiscal year that started the previous spring.
+
+Create deliveries **only** for the next fiscal year. If you also create the year after that, the renewal form and the "Renew X memberships" button target that extra year. Members then think they are signing two years at once, and the "Renewals" section on [the memberships page](/memberships) asks for those extra deliveries. Delete the extra year: the Renewals section comes back for the year you actually meant.
 
 ## Sending requests {#sending-requests}
 
@@ -76,9 +82,9 @@ If the member chooses to terminate their membership, they will then be redirecte
 
 For administrators, the membership page separates several actions:
 
-- **Cancel**: keeps the membership active until the end of the fiscal year, but excludes it from the renewal process.
+- **Cancel**: keeps the membership active until the end of the fiscal year, but excludes it from the renewal process. Automatic invoices for the next fiscal year stop; the current year still bills as configured.
 - **Cancel (support)**: does the same, then keeps the member as a support member once the membership ends.
-- **Stop**: ends the membership today; use the edit form instead if it must end on a specific date.
+- **Stop**: ends the membership today; use the edit form instead if it must end on a specific date. Remaining invoices follow the [price change](/handbook/billing#price-change) rules on the next billing day.
 - **Delete**: should only be used to correct a mistake, as it deletes the membership and deletes or cancels related invoices.
 
 If needed, an administrator can reverse a membership termination from its membership page.

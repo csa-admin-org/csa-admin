@@ -6,6 +6,14 @@ La prossima consegna e il suo numero di <%= Basket.model_name.human(count: 2).do
 
 > Puoi facilmente creare consegne in lotto utilizzando la scheda "Date multiple" nel [modulo di creazione di una consegna](/deliveries/new).
 
+## Anno fiscale {#fiscal-year}
+
+Le consegne appartengono all'**anno fiscale** della tua organizzazione, non all'anno civile. Il mese di inizio si imposta nelle [impostazioni](/settings). Se inizia ad aprile, una consegna invernale a gennaio appartiene ancora a quell'anno fiscale, non all'anno civile successivo.
+
+Quando l'anno fiscale in corso è già iniziato, [il modulo di consegna](/deliveries/new) mostra un avviso rosso: creare una data in quell'anno può aggiungere <%= Basket.model_name.human(count: 2).downcase %> agli abbonamenti esistenti e cambiare la fatturazione. È normale se volevi aggiungere una data quest'anno. Non è un blocco. Crea invece le date del **prossimo** anno fiscale quando prepari il [rinnovo](/handbook/membership_renewal#fiscal-year).
+
+Non creare anche l'anno successivo. Consegne in più in un anno fiscale più lontano fanno sì che il modulo di rinnovo e il rinnovo tacito offrano quell'anno in più.
+
 ## Cicli di consegne {#delivery-cycles}
 
 Alcune organizzazioni offrono diverse scelte di consegne, per esempio:

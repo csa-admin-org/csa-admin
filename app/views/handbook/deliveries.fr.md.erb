@@ -6,6 +6,14 @@ La prochaine livraison ainsi que son nombre de <%= Basket.model_name.human(count
 
 > Vous pouvez facilement créer des livraisons en lot à l'aide de l'onglet "Dates multiples" dans [le formulaire de création d'une livraison](/deliveries/new).
 
+## Année fiscale {#fiscal-year}
+
+Les livraisons appartiennent à **l'année fiscale** de votre organisation, pas à l'année civile. Le mois de début se règle dans [les paramètres](/settings). S'il commence en avril, une livraison d'hiver en janvier appartient encore à cette année fiscale, pas à l'année civile suivante.
+
+Quand l'année fiscale en cours a déjà commencé, [le formulaire de livraison](/deliveries/new) affiche un bandeau rouge: créer une date dans cette année peut ajouter des <%= Basket.model_name.human(count: 2).downcase %> aux abonnements existants et changer leur facturation. C'est normal si vous vouliez ajouter une date cette année. Ce n'est pas un blocage. Créez plutôt les dates de l'année fiscale **suivante** quand vous préparez le [renouvellement](/handbook/membership_renewal#fiscal-year).
+
+Ne créez pas aussi l'année d'après. Des livraisons en trop dans une année fiscale plus loin font que le formulaire de renouvellement et le renouvellement tacite proposent cette année-là.
+
 ## Cycles de livraisons {#delivery-cycles}
 
 Certaines organisations proposent différents choix de livraisons, par exemple:

@@ -6,6 +6,14 @@ Die nächste Lieferung sowie die Anzahl ihrer <%= Basket.model_name.human(count:
 
 > Du kannst einfach Lieferungen in Chargen mit Hilfe der Registerkarte "Mehrere Termine" im [Lieferungserstellungsformular](/deliveries/new) erstellen.
 
+## Geschäftsjahr {#fiscal-year}
+
+Lieferungen gehören zum **Geschäftsjahr** Deiner Organisation, nicht zum Kalenderjahr. Der Startmonat wird in [den Einstellungen](/settings) festgelegt. Beginnt er im April, gehört eine Winterlieferung im Januar noch zu diesem Geschäftsjahr, nicht zum nächsten Kalenderjahr.
+
+Wenn das laufende Geschäftsjahr bereits begonnen hat, zeigt [das Lieferformular](/deliveries/new) eine rote Warnung: ein Datum in diesem Jahr kann bestehenden Abonnements <%= Basket.model_name.human(count: 2) %> hinzufügen und ihre Abrechnung ändern. Das ist erwartet, wenn Du in diesem Jahr ein Datum hinzufügen wolltest. Es ist kein Block. Erstelle stattdessen die Daten des **nächsten** Geschäftsjahres, wenn Du die [Erneuerung](/handbook/membership_renewal#fiscal-year) vorbereitest.
+
+Erstelle nicht auch das Jahr danach. Extra-Lieferungen in einem weiteren Geschäftsjahr führen dazu, dass das Erneuerungsformular und die stillschweigende Erneuerung dieses Extra-Jahr anbieten.
+
 ## Lieferzyklen {#delivery-cycles}
 
 Einige Organisationen bieten verschiedene Lieferoptionen an, zum Beispiel:

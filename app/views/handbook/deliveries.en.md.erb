@@ -6,6 +6,14 @@ The next delivery as well as its number of <%= Basket.model_name.human(count: 2)
 
 > You can easily create batch deliveries using the "Multiple dates" tab in [the delivery creation form](/deliveries/new).
 
+## Fiscal year {#fiscal-year}
+
+Deliveries belong to your organization's **fiscal year**, not the calendar year. The start month is set in [the settings](/settings). If it starts in April, a January winter delivery still belongs to that fiscal year, not to the next calendar year.
+
+When the current fiscal year has already started, [the delivery form](/deliveries/new) shows a red warning: creating a date in that year can add <%= Basket.model_name.human(count: 2).downcase %> to existing memberships and change their billing. That is expected if you meant to add a date this year. It is not a block. Create dates for the **next** fiscal year instead when you are preparing [renewal](/handbook/membership_renewal#fiscal-year).
+
+Do not also create the year after that. Extra deliveries in a further fiscal year make the renewal form and tacit renew offer that extra year.
+
 ## Delivery cycles {#delivery-cycles}
 
 Some organizations offer different delivery choices, for example:

@@ -6,6 +6,14 @@ De volgende levering evenals het aantal <%= Basket.model_name.human(count: 2).do
 
 > Je kunt eenvoudig leveringen in batch aanmaken met behulp van het tabblad "Meerdere datums" in [het leveringsaanmaakformulier](/deliveries/new).
 
+## Boekjaar {#fiscal-year}
+
+Leveringen horen bij het **boekjaar** van je organisatie, niet bij het kalenderjaar. De startmaand staat in [de instellingen](/settings). Begint die in april, dan hoort een winterlevering in januari nog bij dat boekjaar, niet bij het volgende kalenderjaar.
+
+Als het lopende boekjaar al is begonnen, toont [het leveringsformulier](/deliveries/new) een rode waarschuwing: een datum in dat jaar kan <%= Basket.model_name.human(count: 2).downcase %> toevoegen aan bestaande lidmaatschappen en hun facturering wijzigen. Dat is verwacht als je dit jaar een datum wilde toevoegen. Het is geen blokkade. Maak in plaats daarvan de datums van het **volgende** boekjaar aan wanneer je de [vernieuwing](/handbook/membership_renewal#fiscal-year) voorbereidt.
+
+Maak niet ook het jaar daarna aan. Extra leveringen in een verder boekjaar zorgen dat het vernieuwingsformulier en de stilzwijgende vernieuwing dat extra jaar aanbieden.
+
 ## Leveringscycli {#delivery-cycles}
 
 Sommige organisaties bieden verschillende leveringskeuzes aan, bijvoorbeeld:

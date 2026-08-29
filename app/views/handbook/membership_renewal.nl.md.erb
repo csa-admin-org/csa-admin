@@ -8,7 +8,13 @@ Beheerders kunnen lidmaatschappen handmatig vernieuwen vanaf de lidmaatschapspag
 
 Maak vóór je lidmaatschappen vernieuwt alle [leveringen](/deliveries/new) voor het nieuwe boekjaar aan (zie [Leveringen](/handbook/deliveries)). Pas indien nodig de prijzen voor het volgende jaar aan, zoals die van de <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human.downcase %> en het depot. Bij een vernieuwing wordt een nieuw lidmaatschap met de gegevens van het huidige lidmaatschap voor het volgende boekjaar aangemaakt.
 
-Zodra de leveringen zijn aangemaakt, kunnen beheerders lidmaatschappen handmatig vernieuwen, op het moment van hun keuze. Let op: als een lidmaatschap wordt vernieuwd na de eerste levering van het nieuwe boekjaar, wordt die levering alsnog opgenomen in het vernieuwde lidmaatschap.
+Zodra de leveringen zijn aangemaakt, kunnen beheerders lidmaatschappen handmatig vernieuwen, op het moment van hun keuze. Let op: als een lidmaatschap wordt vernieuwd na de eerste levering van het nieuwe boekjaar, wordt die levering alsnog opgenomen in het vernieuwde lidmaatschap. Dat geldt ook als je de verzoeken verstuurt nadat het vorige boekjaar al is afgesloten.
+
+### Boekjaar {#fiscal-year}
+
+Het boekjaar is de periode ingesteld in [de instellingen](/settings), niet per se januari tot december. Een winterlevering in januari kan nog bij het boekjaar horen dat de vorige lente begon.
+
+Maak leveringen **alleen** aan voor het volgende boekjaar. Maak je ook het jaar daarna aan, dan richten het vernieuwingsformulier en de knop "X lidmaatschappen vernieuwen" zich op dat extra jaar. Leden denken dan dat ze voor twee jaar tekenen, en de sectie "Vernieuwingen" op [de lidmaatschappenpagina](/memberships) vraagt om die extra leveringen. Verwijder het extra jaar: de sectie Vernieuwingen komt terug voor het jaar dat je bedoelde.
 
 ## Verzenden van verzoeken {#sending-requests}
 
@@ -76,9 +82,9 @@ Als het lid het lidmaatschap beëindigt, wordt het doorgestuurd naar de beëindi
 
 De lidmaatschapspagina biedt beheerders verschillende acties:
 
-- **Opzeggen**: houdt het lidmaatschap actief tot het einde van het boekjaar, maar sluit het uit van het vernieuwingsproces.
+- **Opzeggen**: houdt het lidmaatschap actief tot het einde van het boekjaar, maar sluit het uit van het vernieuwingsproces. Automatische facturen voor het volgende boekjaar stoppen; het lopende jaar wordt nog gefactureerd zoals geconfigureerd.
 - **Opzeggen (ondersteuning)**: doet hetzelfde en houdt het lid daarna als ondersteunend lid.
-- **Stoppen**: beëindigt het lidmaatschap vandaag; gebruik in plaats daarvan het bewerkingsformulier als het op een specifieke datum moet eindigen.
+- **Stoppen**: beëindigt het lidmaatschap vandaag; gebruik in plaats daarvan het bewerkingsformulier als het op een specifieke datum moet eindigen. Resterende facturen volgen de regels voor [prijswijziging](/handbook/billing#price-change) op de volgende facturatiedag.
 - **Verwijderen**: gebruik dit alleen om een fout te corrigeren, omdat het lidmaatschap wordt verwijderd en de bijbehorende facturen worden verwijderd of geannuleerd.
 
 Indien nodig kan een beheerder de beëindiging van het lidmaatschap op de lidmaatschapspagina annuleren.

@@ -74,6 +74,20 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     assert match, "Expected a heading match for H3 'Manual import'"
   end
 
+  test "content_search finds extra year deliveries trap on the renewal page" do
+    results = Handbook.content_search("year after that", locale: :en)
+
+    match = results.find { |r| r[:name] == "membership_renewal" }
+    assert match, "Expected a content match for the extra-year deliveries trap"
+  end
+
+  test "content_search finds red delivery warning explanation" do
+    results = Handbook.content_search("red warning", locale: :en)
+
+    match = results.find { |r| r[:name] == "deliveries" && r[:anchor] == "fiscal-year" }
+    assert match, "Expected the deliveries fiscal-year heading for the red warning"
+  end
+
   test "content_search finds H3 heading for trial baskets" do
     results = Handbook.content_search("trial", locale: :en)
 

@@ -8,7 +8,13 @@ Un amministratore può rinnovare manualmente gli abbonamenti dalla pagina di un 
 
 Prima di rinnovare gli abbonamenti, crea tutte [le consegne](/deliveries/new) per il nuovo anno fiscale (vedi [Consegne](/handbook/deliveries)). Se necessario, adegua per l'anno successivo i prezzi della <%= BasketSize.model_name.human.downcase %>, dei <%= BasketComplement.model_name.human(count: 2).downcase %> e del deposito. Il rinnovo crea un nuovo abbonamento per il prossimo anno fiscale con le informazioni di quello corrente.
 
-Una volta create le consegne, gli amministratori possono rinnovare gli abbonamenti manualmente, al momento di loro scelta. Nota che se un abbonamento viene rinnovato dopo la prima consegna del nuovo anno fiscale, tale consegna sarà comunque inclusa nell'abbonamento rinnovato.
+Una volta create le consegne, gli amministratori possono rinnovare gli abbonamenti manualmente, al momento di loro scelta. Nota che se un abbonamento viene rinnovato dopo la prima consegna del nuovo anno fiscale, tale consegna sarà comunque inclusa nell'abbonamento rinnovato. Vale anche se invii le richieste dopo la chiusura dell'anno fiscale precedente.
+
+### Anno fiscale {#fiscal-year}
+
+L'anno fiscale è il periodo configurato nelle [impostazioni](/settings), non necessariamente da gennaio a dicembre. Una consegna invernale a gennaio può ancora appartenere all'anno fiscale iniziato la primavera precedente.
+
+Crea consegne **solo** per il prossimo anno fiscale. Se crei anche l'anno successivo, il modulo di rinnovo e il pulsante "Rinnova X abbonamenti" puntano a quell'anno in più. I soci pensano allora di firmare per due anni, e la sezione "Rinnovi" nella [pagina degli abbonamenti](/memberships) chiede quelle consegne in più. Elimina l'anno in più: la sezione Rinnovi torna per l'anno che intendevi.
 
 ## Invio delle richieste {#sending-requests}
 
@@ -76,9 +82,9 @@ Se il socio sceglie di disdire il suo abbonamento, sarà allora reindirizzato al
 
 Per gli amministratori, la pagina dell'abbonamento separa diverse azioni:
 
-- **Terminare**: mantiene l'abbonamento attivo fino alla fine dell'anno fiscale, ma lo esclude dal processo di rinnovo.
+- **Terminare**: mantiene l'abbonamento attivo fino alla fine dell'anno fiscale, ma lo esclude dal processo di rinnovo. Le fatture automatiche del prossimo anno fiscale si fermano; l'anno in corso continua a essere fatturato come configurato.
 - **Terminare (sostegno)**: fa lo stesso, poi mantiene il socio come socio sostenitore una volta terminato l'abbonamento.
-- **Fermare**: termina l'abbonamento oggi; usa invece il modulo di modifica se deve terminare in una data specifica.
+- **Fermare**: termina l'abbonamento oggi; usa invece il modulo di modifica se deve terminare in una data specifica. Le fatture rimanenti seguono le regole di [cambio di prezzo](/handbook/billing#price-change) al prossimo giorno di fatturazione.
 - **Eliminare**: dovrebbe essere usato solo per correggere un errore, perché elimina l'abbonamento ed elimina o annulla le fatture collegate.
 
 Se necessario, la disdetta dell'abbonamento può essere annullata da un amministratore dalla pagina dell'abbonamento.
