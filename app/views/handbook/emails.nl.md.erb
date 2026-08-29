@@ -37,7 +37,7 @@ Gebruik `{% if %}` om inhoud alleen te tonen wanneer aan een voorwaarde is volda
 {% endif %}
 ~~~
 
-Je kunt `and`, `or`, evenals `{% elsif %}` en `{% else %}` gebruiken om voorwaarden te combineren:
+Je kunt `and`, `or`, evenals `{% elsif %}` en `{% else %}` gebruiken om voorwaarden te combineren. `{% case %}` / `{% when %}` / `{% endcase %}` werken ook, bijvoorbeeld om te vertakken op `invoice.entity_type` (zie [activiteitenfacturen](/handbook/billing#activity-email)).
 
 ~~~ liquid
 {% if membership.trial_baskets_count > 0 %}
@@ -116,6 +116,9 @@ Hier is een snelle referentie van de meest gebruikte variabelen in e-mailsjablon
 | `member.activities_url` | Link naar de activiteitenpagina van het lid |
 | `member.absences_url` | Link naar de afwezighedenpagina van het lid |
 | `member.membership_renewal_url` | Link naar de vernieuwingspagina |
+| `member.shop_url` | Link naar de ledenwinkel |
+
+Ontvangers alleen voor de winkel hebben vaak geen `membership` of `basket`: omsluit die blokken met `{% if membership %}` / `{% if basket %}`.
 
 ### `membership`
 

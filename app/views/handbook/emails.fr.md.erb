@@ -37,7 +37,7 @@ Utilisez `{% if %}` pour afficher du contenu uniquement quand une condition est 
 {% endif %}
 ~~~
 
-Vous pouvez utiliser `and`, `or`, ainsi que `{% elsif %}` et `{% else %}` pour combiner des conditions:
+Vous pouvez utiliser `and`, `or`, ainsi que `{% elsif %}` et `{% else %}` pour combiner des conditions. `{% case %}` / `{% when %}` / `{% endcase %}` fonctionnent aussi, par exemple pour brancher sur `invoice.entity_type` (voir [les factures d'activités](/handbook/billing#activity-email)).
 
 ~~~ liquid
 {% if membership.trial_baskets_count > 0 %}
@@ -116,6 +116,9 @@ Voici une référence rapide des variables les plus couramment utilisées dans l
 | `member.activities_url` | Lien vers la page des activités du membre |
 | `member.absences_url` | Lien vers la page des absences du membre |
 | `member.membership_renewal_url` | Lien vers la page de renouvellement |
+| `member.shop_url` | Lien vers la boutique membre |
+
+Les destinataires boutique seulement n'ont souvent ni `membership` ni `basket`: entourez ces blocs de `{% if membership %}` / `{% if basket %}`.
 
 ### `membership`
 

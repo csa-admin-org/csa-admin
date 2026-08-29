@@ -83,6 +83,13 @@ class HandbookSearchTest < ActiveSupport::TestCase
     assert match, "Expected a subtitle match for canceling on absences"
   end
 
+  test "search finds resending heading on automatic emails" do
+    results = Handbook.search("resending", locale: :en)
+
+    match = results.find { |r| r[:name] == "mail_templates" && r[:anchor] == "resending" }
+    assert match, "Expected a subtitle match for resending"
+  end
+
   test "search finds H3 heading with anchor as subtitle match" do
     results = Handbook.search("setting up ebics", locale: :en)
 

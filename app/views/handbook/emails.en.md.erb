@@ -37,7 +37,7 @@ Use `{% if %}` to show content only when a condition is met:
 {% endif %}
 ~~~
 
-You can use `and`, `or`, as well as `{% elsif %}` and `{% else %}` to combine conditions:
+You can use `and`, `or`, as well as `{% elsif %}` and `{% else %}` to combine conditions. `{% case %}` / `{% when %}` / `{% endcase %}` also work, for example to branch on `invoice.entity_type` (see [activity invoices](/handbook/billing#activity-email)).
 
 ~~~ liquid
 {% if membership.trial_baskets_count > 0 %}
@@ -116,6 +116,9 @@ Here is a quick reference of the most commonly used variables across email templ
 | `member.activities_url` | Link to the member's activities page |
 | `member.absences_url` | Link to the member's absences page |
 | `member.membership_renewal_url` | Link to the membership renewal page |
+| `member.shop_url` | Link to the member shop |
+
+Shop-only recipients often have no `membership` or `basket`: wrap those blocks in `{% if membership %}` / `{% if basket %}`.
 
 ### `membership`
 

@@ -37,7 +37,7 @@ Verwende `{% if %}`, um Inhalte nur anzuzeigen, wenn eine Bedingung erfüllt ist
 {% endif %}
 ~~~
 
-Du kannst `and`, `or` sowie `{% elsif %}` und `{% else %}` verwenden, um Bedingungen zu kombinieren:
+Du kannst `and`, `or` sowie `{% elsif %}` und `{% else %}` verwenden, um Bedingungen zu kombinieren. `{% case %}` / `{% when %}` / `{% endcase %}` funktionieren ebenfalls, zum Beispiel um nach `invoice.entity_type` zu verzweigen (siehe [Aktivitätsrechnungen](/handbook/billing#activity-email)).
 
 ~~~ liquid
 {% if membership.trial_baskets_count > 0 %}
@@ -116,6 +116,9 @@ Hier ist eine Kurzreferenz der am häufigsten verwendeten Variablen in E-Mail-Vo
 | `member.activities_url` | Link zur Aktivitätenseite des Mitglieds |
 | `member.absences_url` | Link zur Abwesenheitsseite des Mitglieds |
 | `member.membership_renewal_url` | Link zur Erneuerungsseite |
+| `member.shop_url` | Link zum Mitglieder-Hofladen |
+
+Empfänger nur für den Hofladen haben oft weder `membership` noch `basket`: umschliesse diese Blöcke mit `{% if membership %}` / `{% if basket %}`.
 
 ### `membership`
 

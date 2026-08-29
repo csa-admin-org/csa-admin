@@ -116,6 +116,20 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     assert match, "Expected the canceling heading on the absence page"
   end
 
+  test "content_search finds missing-address send on automatic emails" do
+    results = Handbook.content_search("from the delivery page", locale: :en)
+
+    match = results.find { |r| r[:name] == "mail_templates" }
+    assert match, "Expected a content match for sending a missing address from a delivery"
+  end
+
+  test "content_search finds shop-only Liquid on the emails page" do
+    results = Handbook.content_search("shop-only recipients", locale: :en)
+
+    match = results.find { |r| r[:name] == "emails" }
+    assert match, "Expected a content match for shop-only Liquid on the emails page"
+  end
+
   test "content_search finds H3 heading for trial baskets" do
     results = Handbook.content_search("trial", locale: :en)
 
