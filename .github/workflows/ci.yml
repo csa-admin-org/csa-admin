@@ -66,6 +66,9 @@ jobs:
       - name: Actionlint
         run: bin/actionlint
 
+      - name: Solid Queue
+        run: bin/jobs check
+
       - name: Check Migration Indexes
         uses: speedshop/ids_must_be_indexed@v1
 

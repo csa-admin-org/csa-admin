@@ -53,6 +53,11 @@ production:
     queue: low
     schedule: at midnight every day
 
+  clear_solid_queue_finished_jobs:
+    command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
+    queue: low
+    schedule: every hour at minute 12
+
   notifier_daily:
     class: TenantSwitchEachJob
     args: [Scheduled::NotifierDailyJob]

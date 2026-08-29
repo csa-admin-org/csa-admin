@@ -15,4 +15,10 @@ class Scheduled::ChoresJobTest < ActiveJob::TestCase
 
     assert_not MailDelivery.exists?(old_delivery.id)
   end
+
+  test "does not clear the shared queue shard" do
+    source = File.read(Rails.root.join("app/jobs/scheduled/chores_job.rb"))
+
+    assert_no_match(/SolidQueue/, source)
+  end
 end

@@ -38,6 +38,7 @@ CI.run do
       "app/assets/stylesheets/**/*.css"
     step "Style: Herb lint", "bin/herb", "lint", "."
     step "Style: Actionlint", "bin/actionlint"
+    step "Style: Solid Queue", "bin/jobs", "check"
   end
 
   group "Security", parallel: 4 do

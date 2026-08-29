@@ -10,9 +10,9 @@ CSA Admin is a multi-tenant Rails application for managing Community Supported A
 - `bin/ci` — final validation: setup, style, security, tests, and seeds; see `config/ci.rb`
 - Prefer filtered `bin/ci` runs while iterating (names match `config/ci.rb`, case-insensitive):
   - `bin/ci -g style` / `-g security` / `-g tests`
-  - `bin/ci -s "Style: RuboCop"` (exact step title)
+  - `bin/ci -s "Style: RuboCop"` / `-s "Style: Solid Queue"` (exact step title)
   - `bin/ci -f` fail-fast; `bin/ci -h` help
-- Direct tool wrappers remain available (`bin/rubocop`, `bin/locales`, `bin/herb`, …) when a single tool is enough.
+- Direct tool wrappers remain available (`bin/rubocop`, `bin/locales`, `bin/herb`, `bin/jobs check`, …) when a single tool is enough.
 - `mise bootstrap` installs local tools and native packages, then runs `bin/setup --skip-server`; continue using `bin/rails` and `bin/ci` directly.
 - `bin/update` upgrades mise/tools and dependency lockfiles (Bundler, gems, Aube, importmap), then syncs `Dockerfile` Ruby with `mise.toml`, aligns `@herb-tools/*` to the `herb` gem, and runs `bin/herb lint --upgrade` so `.herb.yml` `version` matches the installed toolchain (new rules enabled when clean, disabled when they still offend). Review the resulting diff before committing.
 - Tests use Minitest, all fixtures in `test/fixtures/`, and Capybara for system tests.

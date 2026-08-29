@@ -11,7 +11,6 @@ module Scheduled
       purge_expired_mail_deliveries!
       clear_stale_cart_shop_orders!
       clear_stale_sessions!
-      clear_finished_solid_queue_jobs!
       purge_unattached_active_storage_blobs!
     end
 
@@ -44,10 +43,6 @@ module Scheduled
 
     def clear_stale_sessions!
       Session.clear_stale!
-    end
-
-    def clear_finished_solid_queue_jobs!
-      SolidQueue::Job.clear_finished_in_batches
     end
 
     def purge_unattached_active_storage_blobs!
