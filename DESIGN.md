@@ -54,54 +54,54 @@ The panel icon for a concept **must** match the nav icon when one exists.
 
 #### Resource / Model Icons
 
-| Concept                | Icon Name              | Nav | Notes                            |
-|------------------------|------------------------|:---:|----------------------------------|
-| Member                 | `users`                | ✓   | Plural for collections           |
-| Membership             | `calendar-range`       | ✓   |                                  |
-| Delivery               | `calendar`             |     |                                  |
-| Basket                 | `shopping-bag`         | ✓   | Paniers nav (basket_content.rb)  |
-| Shop / Shop Orders     | `shopping-basket`      | ✓   | Shop nav (active_admin.rb)       |
-| Activity               | `handshake`            | ✓   | Nav uses same icon               |
-| Invoice / Billing      | `banknotes`            | ✓   | ⚠️ Custom Heroicon (no Lucide plural) |
-| Payment                | `banknotes`            | ✓   | Same as above                    |
-| Absence                | `tent`                 |     |                                  |
-| Email / Mails          | `mails`                | ✓   | Plural; nav uses `mail`          |
-| Newsletter             | `megaphone`            |     |                                  |
-| Mail Template          | `clipboard`            |     |                                  |
-| Announcement           | `megaphone`            |     | Same as newsletter               |
-| Bidding Round          | `scale`                |     |                                  |
-| Shares                 | `receipt-text`         |     |                                  |
-| Basket Content         | `sprout`               |     |                                  |
+| Concept            | Icon Name         | Nav | Notes                                 |
+| ------------------ | ----------------- | :-: | ------------------------------------- |
+| Member             | `users`           |  ✓  | Plural for collections                |
+| Membership         | `calendar-range`  |  ✓  |                                       |
+| Delivery           | `calendar`        |     |                                       |
+| Basket             | `shopping-bag`    |  ✓  | Paniers nav (basket_content.rb)       |
+| Shop / Shop Orders | `shopping-basket` |  ✓  | Shop nav (active_admin.rb)            |
+| Activity           | `handshake`       |  ✓  | Nav uses same icon                    |
+| Invoice / Billing  | `banknotes`       |  ✓  | ⚠️ Custom Heroicon (no Lucide plural) |
+| Payment            | `banknotes`       |  ✓  | Same as above                         |
+| Absence            | `tent`            |     |                                       |
+| Email / Mails      | `mails`           |  ✓  | Plural; nav uses `mail`               |
+| Newsletter         | `megaphone`       |     |                                       |
+| Mail Template      | `clipboard`       |     |                                       |
+| Announcement       | `megaphone`       |     | Same as newsletter                    |
+| Bidding Round      | `scale`           |     |                                       |
+| Shares             | `receipt-text`    |     |                                       |
+| Basket Content     | `sprout`          |     |                                       |
 
 #### Non-Model / Generic Panel Icons
 
-| Concept                | Icon Name                        | Notes                        |
-|------------------------|----------------------------------|------------------------------|
-| Details                | `notebook-text`                  | ID, dates, validation info   |
-| Contact                | `contact-round`                  | Name, email, phone, address  |
-| Billing (panel)        | `banknotes`                      | ⚠️ Custom Heroicon           |
-| Amount / Pricing       | `receipt-text`                   | Monetary breakdown           |
-| Notes                  | `notepad-text`                   | Free-text notes              |
-| Comments               | `message-square-text`            | ActiveAdmin comments         |
-| Waiting / Pending      | `clock`                          | Waiting membership           |
-| Config / Settings      | `sliders-horizontal`             | Configuration options        |
-| Renewal                | `refresh-cw`                     | Membership renewal           |
-| Sheets / PDF           | `file-spreadsheet`               | PDF sheet documents          |
-| Attachments            | `paperclip`                      | File attachments             |
-| Notifications          | `mail-check`                     | Email notifications          |
-| Registration / Form    | `form`                           | Member registration form     |
-| Recipients             | `users`                          | Mail recipients list         |
-| Preview                | `eye`                            | Content preview              |
-| Carpooling             | `car`                            | Carpooling info              |
-| State / Status         | `circle-check-big`               | State/validation info        |
-| Address / Location     | `map`                            | Physical address             |
-| Overdue Notices        | `mail-warning`                   | Overdue/reminder notices     |
-| Periods                | `calendar-days`                  | Delivery cycle periods       |
-| Information            | `info`                           | Info/help text               |
-| Missing Deliveries     | `triangle-alert`                 | Warning/missing data         |
-| Support                | `life-buoy`                      | Help / support               |
-| Updates                | `gift`                           | What's new                   |
-| Analytics              | `chart-no-axes-combined`         | Historical year-over-year    |
+| Concept             | Icon Name                | Notes                       |
+| ------------------- | ------------------------ | --------------------------- |
+| Details             | `notebook-text`          | ID, dates, validation info  |
+| Contact             | `contact-round`          | Name, email, phone, address |
+| Billing (panel)     | `banknotes`              | ⚠️ Custom Heroicon          |
+| Amount / Pricing    | `receipt-text`           | Monetary breakdown          |
+| Notes               | `notepad-text`           | Free-text notes             |
+| Comments            | `message-square-text`    | ActiveAdmin comments        |
+| Waiting / Pending   | `clock`                  | Waiting membership          |
+| Config / Settings   | `sliders-horizontal`     | Configuration options       |
+| Renewal             | `refresh-cw`             | Membership renewal          |
+| Sheets / PDF        | `file-spreadsheet`       | PDF sheet documents         |
+| Attachments         | `paperclip`              | File attachments            |
+| Notifications       | `mail-check`             | Email notifications         |
+| Registration / Form | `form`                   | Member registration form    |
+| Recipients          | `users`                  | Mail recipients list        |
+| Preview             | `eye`                    | Content preview             |
+| Carpooling          | `car`                    | Carpooling info             |
+| State / Status      | `circle-check-big`       | State/validation info       |
+| Address / Location  | `map`                    | Physical address            |
+| Overdue Notices     | `mail-warning`           | Overdue/reminder notices    |
+| Periods             | `calendar-days`          | Delivery cycle periods      |
+| Information         | `info`                   | Info/help text              |
+| Missing Deliveries  | `triangle-alert`         | Warning/missing data        |
+| Support             | `life-buoy`              | Help / support              |
+| Updates             | `gift`                   | What's new                  |
+| Analytics           | `chart-no-axes-combined` | Historical year-over-year   |
 
 ### Custom Icons
 

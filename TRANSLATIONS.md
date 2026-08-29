@@ -102,13 +102,13 @@ mail and newsletter content unless an explicit, safe default-equivalence migrati
 
 ## Voice & Tone per Language
 
-| Context | EN | FR | DE | NL | IT |
-|---|---|---|---|---|---|
-| **Admin UI** (buttons, hints, confirmations) | you | vous | **impersonal** (infinitive, passive) | **impersonal** | voi |
-| **Admin emails** | you | vous | **impersonal** | **impersonal** | voi |
-| **Member-facing** (member portal; emails/newsletters sent to members) | you | vous | **Du** (capitalized) | **je/jij** | tu |
-| **Handbook** (docs for admins) | you | vous | **Du** (capitalized) | **je/jij** | tu |
-| **Update announcements** (long-form release notes) | you | vous | **Du** (capitalized) | **je/jij** | tu |
+| Context                                                               | EN  | FR   | DE                                   | NL             | IT  |
+| --------------------------------------------------------------------- | --- | ---- | ------------------------------------ | -------------- | --- |
+| **Admin UI** (buttons, hints, confirmations)                          | you | vous | **impersonal** (infinitive, passive) | **impersonal** | voi |
+| **Admin emails**                                                      | you | vous | **impersonal**                       | **impersonal** | voi |
+| **Member-facing** (member portal; emails/newsletters sent to members) | you | vous | **Du** (capitalized)                 | **je/jij**     | tu  |
+| **Handbook** (docs for admins)                                        | you | vous | **Du** (capitalized)                 | **je/jij**     | tu  |
+| **Update announcements** (long-form release notes)                    | you | vous | **Du** (capitalized)                 | **je/jij**     | tu  |
 
 Update announcements are handbook/docs content, even though they render in the admin area.
 
@@ -116,8 +116,8 @@ Update announcements are handbook/docs content, even though they render in the a
 
 Use the recipient name in the greeting:
 
-| EN | FR | DE | IT | NL |
-|---|---|---|---|---|
+| EN                        | FR                        | DE                        | IT                       | NL                        |
+| ------------------------- | ------------------------- | ------------------------- | ------------------------ | ------------------------- |
 | `Hello {{ admin.name }},` | `Salut {{ admin.name }},` | `Hallo {{ admin.name }},` | `Ciao {{ admin.name }},` | `Hallo {{ admin.name }},` |
 
 CSA Admin intentionally combines French `Salut` with `vous`.

@@ -64,7 +64,7 @@ def align_herb_npm_to_gem!
 
   if changed
     File.write("package.json", JSON.pretty_generate(package) + "\n")
-    system! "bin/prettier", "--write", "package.json"
+    system! "bin/oxfmt", "package.json"
     system! "bin/aube", "install"
   else
     puts "Herb npm packages already aligned to gem #{version}"

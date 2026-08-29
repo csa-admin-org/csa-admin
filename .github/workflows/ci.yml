@@ -34,20 +34,7 @@ jobs:
         run: bin/herb format . --check
 
       - name: Oxfmt
-        run: bin/oxfmt app/javascript --check
-
-      - name: Prettier
-        run: >
-          bin/prettier
-          app/assets/stylesheets/**/*.css
-          package.json
-          .prettierrc
-          .stylelintrc.json
-          .oxfmtrc.json
-          .oxlintrc.json
-          --check
-          --cache
-          --log-level warn
+        run: bin/oxfmt --check
 
       - name: RuboCop
         run: bin/rubocop --parallel --format simple

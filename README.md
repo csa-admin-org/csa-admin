@@ -11,6 +11,7 @@
 [![Ruby on Rails](https://img.shields.io/badge/Ruby_on_Rails-CC0000?logo=ruby-on-rails&logoColor=white)](https://rubyonrails.org/)
 
 CSA/ACP/Solawi Admin is a web application to manage Community Supported Agriculture organizations:
+
 - **CSA** (Community Supported Agriculture)
 - **ACP** (Agriculture Contractuelle de Proximité)
 - **Solawi** (Solidarische Landwirtschaft)

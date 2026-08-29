@@ -1,12 +1,4 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Default to .prettierignore (which is also symlinked as .eslintignore)
-# so both oxfmt and oxlint respect the same ignore rules out of the box.
-# Users can still override with their own --ignore-path.
-args = ARGV.dup
-unless args.any? { |arg| arg.start_with?("--ignore-path") }
-  args.unshift("--ignore-path", ".prettierignore")
-end
-
-exec File.expand_path("aube", __dir__), "exec", "oxlint", "--", *args
+exec File.expand_path("aube", __dir__), "exec", "oxlint", "--", *ARGV

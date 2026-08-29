@@ -4,18 +4,7 @@
     "@herb-tools/linter": "^0.10.3",
     "oxfmt": "^0.59.0",
     "oxlint": "^1.80.0",
-    "prettier": "^3.9.6",
     "stylelint": "^17.14.1",
-    "stylelint-config-recommended": "^18.0.0",
-    "stylelint-lsp": "^2.0.1"
-  },
-  "aube": {
-    "overrides": {
-      "brace-expansion": "^5.0.9",
-      "fast-uri": "^3.1.5",
-      "js-yaml": "^4.3.1",
-      "postcss": "^8.5.25",
-      "nanoid": "^3.3.18"
-    }
+    "stylelint-config-recommended": "^18.0.0"
   }
 }

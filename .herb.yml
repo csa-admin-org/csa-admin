@@ -61,6 +61,7 @@ formatter:
   # Patterns to exclude from formatting
   exclude:
     - '**/*.liquid.erb'
+    - 'public/**/*'
 
   # Rewriters modify templates during formatting
   rewriter:

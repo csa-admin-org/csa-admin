@@ -1,5 +1,4 @@
 /* Admin + logged-out admin. url() so Propshaft can digest the imported sheets. */
-/* stylelint-disable import-notation */
 @layer reset, base, components, utilities;
 
 @import url("shared/tokens.css");

@@ -2,9 +2,9 @@
 
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Niet-ondersteunde browser (406)</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
     <style>
       *,
@@ -117,7 +117,7 @@
       .edge-only {
         display: none;
       }
-        </style>
+    </style>
   </head>
 
   <body>
@@ -132,11 +132,7 @@
       </div>
 
       <div class="browsers">
-        <a
-          href="https://support.apple.com/102665"
-          target="_blank"
-          class="browser safari-only"
-        >
+        <a href="https://support.apple.com/102665" target="_blank" class="browser safari-only">
           <svg
             width="64"
             height="64"
@@ -868,11 +864,7 @@
           Safari
         </a>
 
-        <a
-          href="https://www.microsoft.com/edge"
-          target="_blank"
-          class="browser edge-only"
-        >
+        <a href="https://www.microsoft.com/edge" target="_blank" class="browser edge-only">
           <svg
             width="64"
             height="64"
@@ -882,39 +874,19 @@
           >
             <linearGradient id="A" gradientUnits="userSpaceOnUse" />
 
-            <linearGradient
-              id="B"
-              x1="6870"
-              x2="24704"
-              y1="18705"
-              y2="18705"
-              xlink:href="#A"
-            >
+            <linearGradient id="B" x1="6870" x2="24704" y1="18705" y2="18705" xlink:href="#A">
               <stop offset="0" stop-color="#0c59a4" />
               <stop offset="1" stop-color="#114a8b" />
             </linearGradient>
 
-            <linearGradient
-              id="C"
-              x1="16272"
-              x2="5133"
-              y1="10968"
-              y2="23102"
-              xlink:href="#A"
-            >
+            <linearGradient id="C" x1="16272" x2="5133" y1="10968" y2="23102" xlink:href="#A">
               <stop offset="0" stop-color="#1b9de2" />
               <stop offset=".16" stop-color="#1595df" />
               <stop offset=".67" stop-color="#0680d7" />
               <stop offset="1" stop-color="#0078d4" />
             </linearGradient>
 
-            <radialGradient
-              id="D"
-              cx="16720"
-              cy="18747"
-              r="9538"
-              xlink:href="#A"
-            >
+            <radialGradient id="D" cx="16720" cy="18747" r="9538" xlink:href="#A">
               <stop offset=".72" stop-opacity="0" />
               <stop offset=".95" stop-opacity=".53" />
               <stop offset="1" />
@@ -994,11 +966,7 @@
           Edge
         </a>
 
-        <a
-          href="https://www.mozilla.org/firefox/new"
-          target="_blank"
-          class="browser"
-        >
+        <a href="https://www.mozilla.org/firefox/new" target="_blank" class="browser">
           <svg
             width="64"
             height="64"
@@ -1320,28 +1288,17 @@
               fill="#ffba00"
             />
 
-            <circle
-              cx="15.9995"
-              cy="16.0072"
-              fill="#ffffff"
-              r="5.5"
-            />
+            <circle cx="15.9995" cy="16.0072" fill="#ffffff" r="5.5" />
 
-            <circle
-              cx="15.9995"
-              cy="16.0072"
-              fill="#4285f4"
-              r="4.25"
-            />
+            <circle cx="15.9995" cy="16.0072" fill="#4285f4" r="4.25" />
           </svg>
           Chrome
         </a>
       </div>
 
       <p class="note">
-        Moderne browsers bieden een veiligere en soepelere ervaring.<br>
-        Mogelijk moet u eerst uw besturingssysteem bijwerken en daarna uw
-        browser.
+        Moderne browsers bieden een veiligere en soepelere ervaring.<br />
+        Mogelijk moet u eerst uw besturingssysteem bijwerken en daarna uw browser.
       </p>
     </div>
 
@@ -1349,12 +1306,8 @@
       const ua = navigator.userAgent.toLowerCase()
       const isMac = /macintosh|mac os x|iphone|ipad|ipod/.test(ua)
       const isWindows = /windows|win32|win64/.test(ua)
-      document.querySelector(".safari-only").style.display = isMac
-        ? "flex"
-        : "none"
-      document.querySelector(".edge-only").style.display = isWindows
-        ? "flex"
-        : "none"
+      document.querySelector(".safari-only").style.display = isMac ? "flex" : "none"
+      document.querySelector(".edge-only").style.display = isWindows ? "flex" : "none"
     </script>
   </body>
 </html>

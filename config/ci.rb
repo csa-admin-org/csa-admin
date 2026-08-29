@@ -18,24 +18,10 @@ CI.run do
   group "Style", parallel: 8 do
     step "Style: Locales", "bin/locales", "check"
     step "Style: Herb format", "bin/herb", "format", ".", "--check"
-    step "Style: Oxfmt", "bin/oxfmt", "app/javascript", "--check"
-    step "Style: Prettier",
-      "bin/prettier",
-      "app/assets/stylesheets/**/*.css",
-      "package.json",
-      ".prettierrc",
-      ".stylelintrc.json",
-      ".oxfmtrc.json",
-      ".oxlintrc.json",
-      "--check",
-      "--cache",
-      "--log-level",
-      "warn"
+    step "Style: Oxfmt", "bin/oxfmt", "--check"
     step "Style: RuboCop", "bin/rubocop", "--parallel", "--format", "simple"
     step "Style: Oxlint", "bin/oxlint", "app/javascript"
-    step "Style: Stylelint",
-      "bin/stylelint",
-      "app/assets/stylesheets/**/*.css"
+    step "Style: Stylelint", "bin/stylelint", "app/assets/stylesheets/**/*.css"
     step "Style: Herb lint", "bin/herb", "lint", "."
     step "Style: Actionlint", "bin/actionlint"
     step "Style: Solid Queue", "bin/jobs", "check"
