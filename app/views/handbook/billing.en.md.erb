@@ -58,6 +58,16 @@ By default, invoices that are already considered paid/closed when created are no
 
 > It is advisable to choose a day other than the delivery day. This way, any membership or basket changes made on the delivery day are reflected in the invoice generated in the following days, rather than being invoiced prematurely the same day or waiting a full week.
 
+An IBAN in [the invoice settings](/settings#invoice) is not enough. Without a weekday, no membership invoices are created, [Bill now](#bill-now) stays hidden, and overdue reminders stay off.
+
+#### Which button? {#billing-cookbook}
+
+- **Future** memberships (start date still ahead): [Invoice all in advance](#future_billing) from the membership page or from [the Future scope](/memberships?scope=future). That button is not on ongoing memberships.
+- **Ongoing** memberships: wait for the billing weekday, or use [Bill now](#bill-now) on the member or membership page when it is shown.
+- **Bill now** creates the same invoice as the automatic run, but **unsent**. Open the PDF, then Send. Automatic billing sends on the weekday.
+
+<%= BasketComplement.model_name.human(count: 2) %> are on the membership invoice. They are not billed separately. [<%= Member.human_attribute_name(:salary_basket) %>](/handbook/members#salary-basket) zeroes those complements too.
+
 #### Payment intervals {#billing-year-divisions}
 
 Each membership has a **payment interval** (also called billing year division) that determines how many invoices are generated over the fiscal year. The available intervals are configured in [the settings](/settings#billing) and offered to members during registration or renewal.
@@ -103,6 +113,8 @@ The invoice will be created but **not sent**. You can consult the PDF and send i
 
 > The "Bill now" button produces the exact same invoice as the automatic system would, the only difference is that it's not sent automatically, giving you a chance to review it first.
 
+The button is missing when recurring billing has no weekday, the IBAN is missing, the current period is already billed, trial <%= Basket.model_name.human(count: 2).downcase %> are still running, the member is a [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), or nothing remains to bill.
+
 ### Invoice all in advance {#future_billing}
 
 It is possible to invoice an upcoming subscription in advance, with a start date in the future, whether it is in the current fiscal year or the next fiscal year. Subscriptions invoiced in this way are fully invoiced at once, regardless of the payment interval configured for the subscription.
@@ -138,6 +150,8 @@ Members can cancel their membership themselves during the trial period from thei
 
 If the membership is canceled during the trial period, only the delivered <%= Basket.model_name.human(count: 2).downcase %> will be billed, on the next billing day. In this case, the annual fee is not billed (unless the member chooses to pay it).
 
+Membership invoices wait until after the trial. [Share capital](#share-capital) invoices wait too: missing shares are billed once the trial is over. Cancel or Stop the membership before a tacit renew, or the next fiscal year is created and billed.
+
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
 Members flagged as "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" are completely excluded from billing. Their membership still exists for delivery tracking, but all prices are zeroed out and no membership invoices are generated.
@@ -146,7 +160,7 @@ Members flagged as "[<%= Member.human_attribute_name(:salary_basket).downcase %>
 
 When the cooperative shares feature is enabled, the price per share and the default number of required shares are defined in [the cooperative shares settings](/settings#shares). The required number of shares can also be set per <%= BasketSize.model_name.human.downcase %> (e.g., a larger size may require more shares).
 
-When the feature is enabled, each billing day the system automatically creates invoices for missing share capital, for example for a member whose membership has just started.
+When the feature is enabled, each billing day the system automatically creates invoices for missing share capital. Members still on [trial](#trial-baskets) are not billed.
 
 ### Member share fields {#share-fields}
 
@@ -267,7 +281,7 @@ For payments without a reference number, such as cash or direct deposits, [creat
 
 ### Refund
 
-If you wish to refund a member for any reason, simply create a new payment with a negative amount. Note that the refund must be made by you from your e-banking for example, as CSA Admin cannot create a transfer.
+An overpayment leaves a **positive balance** on the member. The next invoice absorbs it. A refund is a [negative payment](/payments/new), not a negative invoice. CSA Admin cannot send the bank transfer: do that from your e-banking.
 
 <!-- country:!CH -->
 ## SEPA Direct Debit {#sepa}

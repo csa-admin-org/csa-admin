@@ -58,6 +58,16 @@ Par défaut, les factures déjà considérées comme payées/fermées au moment 
 
 > Il est préférable de choisir un jour différent de celui de la livraison. Ainsi, les modifications d'abonnement ou de panier effectuées le jour de la livraison seront prises en compte dans la facture générée les jours suivants, plutôt que d'être facturées prématurément le même jour ou de devoir attendre une semaine supplémentaire.
 
+Un IBAN dans [les paramètres de facturation](/settings#invoice) ne suffit pas. Sans jour de la semaine, aucune facture d'abonnement n'est créée, [Facturer maintenant](#bill-now) reste masqué, et les rappels d'échéance restent désactivés.
+
+#### Quel bouton? {#billing-cookbook}
+
+- Abonnements **futurs** (date de début encore à venir): [Tout facturer à l'avance](#future_billing) depuis la page de l'abonnement ou depuis [le filtre Futurs](/memberships?scope=future). Ce bouton n'est pas sur les abonnements en cours.
+- Abonnements **en cours**: attendre le jour de facturation, ou utiliser [Facturer maintenant](#bill-now) sur la page du membre ou de l'abonnement quand il s'affiche.
+- **Facturer maintenant** crée la même facture que le passage automatique, mais **non envoyée**. Ouvrez le PDF, puis Envoyer. La facturation automatique envoie le jour choisi.
+
+Les <%= BasketComplement.model_name.human(count: 2).downcase %> sont sur la facture d'abonnement. Elles ne sont pas facturées à part. Le [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) met aussi ces compléments à zéro.
+
 #### Intervalles de paiement {#billing-year-divisions}
 
 Chaque abonnement possède un **intervalle de paiement** qui détermine combien de factures sont générées sur l'année fiscale. Les intervalles disponibles sont configurés dans [les paramètres](/settings#billing) et proposés aux membres lors de l'inscription ou du renouvellement.
@@ -103,6 +113,8 @@ La facture sera alors créée, mais **non envoyée**. Vous pouvez consulter le P
 
 > Le bouton " Facturer maintenant " produit exactement la même facture que le système automatique, la seule différence est qu'elle n'est pas envoyée automatiquement, ce qui vous laisse le temps de la vérifier.
 
+Le bouton est absent quand la facturation récurrente n'a pas de jour de la semaine, l'IBAN manque, la période en cours est déjà facturée, des <%= Basket.model_name.human(count: 2).downcase %> à l'essai sont encore en cours, le membre est un [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), ou il ne reste rien à facturer.
+
 ### Tout facturer à l'avance {#future_billing}
 
 Il est possible de facturer à l'avance un abonnement qui n'a pas encore commencé, avec une date de début dans le futur, que ce soit dans l'année fiscale en cours ou dans l'année fiscale suivante. Les abonnements facturés ainsi sont intégralement facturés en une seule fois, quel que soit l'intervalle de paiement configuré pour l'abonnement.
@@ -138,6 +150,8 @@ Les membres peuvent annuler leur abonnement eux-mêmes durant la période d'essa
 
 Si l'abonnement est annulé durant la période d'essai, alors seulement les <%= Basket.model_name.human(count: 2).downcase %> livrés seront facturés, le prochain jour de facturation. Dans ce cas, la cotisation annuelle n'est pas facturée (sauf si le membre choisit de la payer).
 
+Les factures d'abonnement attendent la fin de l'essai. Les factures de [parts sociales](#share-capital) aussi: les parts manquantes sont facturées une fois l'essai terminé. Résiliez ou arrêtez l'abonnement avant un renouvellement tacite, sinon l'année fiscale suivante est créée et facturée.
+
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
 Les membres marqués comme "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" sont complètement exclus de la facturation. Leur abonnement existe toujours pour le suivi des livraisons, mais tous les prix sont mis à zéro et aucune facture d'abonnement n'est générée.
@@ -146,7 +160,7 @@ Les membres marqués comme "[<%= Member.human_attribute_name(:salary_basket).dow
 
 Lorsque la fonctionnalité des parts sociales est activée, le prix par part sociale et le nombre de parts requises par défaut sont définis dans [les paramètres des parts sociales](/settings#shares). Le nombre de parts requises peut également être défini par <%= BasketSize.model_name.human.downcase %> (par exemple, une taille plus grande peut nécessiter davantage de parts).
 
-Lorsque la fonctionnalité est activée, CSA Admin crée automatiquement des factures pour les parts sociales manquantes chaque jour de facturation, par exemple pour un membre dont l'abonnement vient de commencer.
+Lorsque la fonctionnalité est activée, CSA Admin crée automatiquement des factures pour les parts sociales manquantes chaque jour de facturation. Les membres encore à l'[essai](#trial-baskets) ne sont pas facturés.
 
 ### Champs des parts sociales du membre {#share-fields}
 
@@ -266,7 +280,7 @@ Pour les paiements sans numéro de référence (liquide ou versement direct), il
 
 ### Remboursement
 
-Si vous souhaitez rembourser un membre pour une raison quelconque, il suffit de créer un nouveau paiement avec un montant négatif. Noter que le remboursement doit bien être effectué par vos soins depuis votre e-banking par exemple, CSA Admin ne pouvant pas créer de versement.
+Un trop-payé laisse une **balance positive** sur le membre. La prochaine facture l'absorbe. Un remboursement est un [paiement négatif](/payments/new), pas une facture négative. CSA Admin ne peut pas envoyer le virement: faites-le depuis votre e-banking.
 
 <!-- country:!CH -->
 ## Prélèvement SEPA {#sepa}

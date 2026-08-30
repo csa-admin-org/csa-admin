@@ -58,6 +58,16 @@ Per impostazione predefinita, le fatture già considerate pagate/chiuse al momen
 
 > È consigliabile scegliere un giorno diverso da quello della consegna. In questo modo, le modifiche all'abbonamento o al paniere effettuate il giorno della consegna saranno considerate nella fattura generata nei giorni successivi, anziché essere fatturate prematuramente lo stesso giorno o dover attendere una settimana intera.
 
+Un IBAN nelle [impostazioni di fatturazione](/settings#invoice) non basta. Senza un giorno della settimana, nessuna fattura di abbonamento viene creata, [Fatturare ora](#bill-now) resta nascosto, e i solleciti restano disattivati.
+
+#### Quale pulsante? {#billing-cookbook}
+
+- Abbonamenti **futuri** (data di inizio ancora davanti): [Fatturare tutto in anticipo](#future_billing) dalla pagina dell'abbonamento o dal [filtro Futuro](/memberships?scope=future). Quel pulsante non c'è sugli abbonamenti in corso.
+- Abbonamenti **in corso**: aspetta il giorno di fatturazione, oppure usa [Fatturare ora](#bill-now) sulla pagina del socio o dell'abbonamento quando è visibile.
+- **Fatturare ora** crea la stessa fattura del passaggio automatico, ma **non inviata**. Apri il PDF, poi Inviare. La fatturazione automatica invia nel giorno scelto.
+
+I <%= BasketComplement.model_name.human(count: 2).downcase %> sono sulla fattura di abbonamento. Non sono fatturati a parte. Il [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) azzera anche quei complementi.
+
 #### Intervalli di pagamento {#billing-year-divisions}
 
 Ogni abbonamento ha un **intervallo di pagamento** che determina quante fatture vengono generate nell'anno fiscale. Gli intervalli disponibili sono configurati nelle [impostazioni](/settings#billing) e proposti ai soci durante l'iscrizione o il rinnovo.
@@ -103,6 +113,8 @@ La fattura sarà creata, ma **non inviata**. Puoi consultare il PDF e inviarlo m
 
 > Il pulsante "Fatturare ora" produce esattamente la stessa fattura del sistema automatico, l'unica differenza è che non viene inviata automaticamente, dandoti il tempo di verificarla prima.
 
+Il pulsante manca quando la fatturazione ricorrente non ha un giorno della settimana, manca l'IBAN, il periodo corrente è già fatturato, le <%= Basket.model_name.human(count: 2).downcase %> di prova sono ancora in corso, il socio è un [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), o non resta nulla da fatturare.
+
 ### Fatturare tutto in anticipo {#future_billing}
 
 È possibile fatturare in anticipo un abbonamento futuro, con una data di inizio nel futuro, sia che si tratti dell'anno fiscale corrente o del prossimo anno fiscale. Gli abbonamenti fatturati in questo modo vengono fatturati completamente in una sola volta, indipendentemente dall'intervallo di pagamento configurato per l'abbonamento.
@@ -138,6 +150,8 @@ I soci possono annullare il proprio abbonamento durante il periodo di prova dal 
 
 Se l'abbonamento viene annullato durante il periodo di prova, solo le <%= Basket.model_name.human(count: 2).downcase %> consegnate saranno fatturate, il prossimo giorno di fatturazione. In questo caso, la quota annuale non viene fatturata (a meno che il socio non scelga di pagarla).
 
+Le fatture di abbonamento aspettano la fine della prova. Le fatture di [quote sociali](#share-capital) anche: le quote mancanti vengono fatturate una volta terminata la prova. Termina o ferma l'abbonamento prima di un rinnovo tacito, altrimenti il prossimo anno fiscale viene creato e fatturato.
+
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
 I soci contrassegnati come "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" sono completamente esclusi dalla fatturazione. Il loro abbonamento esiste ancora per il tracciamento delle consegne, ma tutti i prezzi sono azzerati e non vengono generate fatture di abbonamento.
@@ -146,7 +160,7 @@ I soci contrassegnati come "[<%= Member.human_attribute_name(:salary_basket).dow
 
 Quando la funzione quote sociali è attivata, il prezzo per quota e il numero predefinito di quote richieste sono definiti nelle [impostazioni delle quote sociali](/settings#shares). Il numero di quote richieste può anche essere impostato per <%= BasketSize.model_name.human.downcase %> (ad esempio, una dimensione maggiore può richiedere più quote).
 
-Quando la funzione è attivata, ogni giorno di fatturazione CSA Admin crea automaticamente le fatture per le quote sociali mancanti, per esempio per un socio il cui abbonamento è appena iniziato.
+Quando la funzione è attivata, ogni giorno di fatturazione CSA Admin crea automaticamente le fatture per le quote sociali mancanti. I soci ancora in [prova](#trial-baskets) non vengono fatturati.
 
 ### Campi quote del socio {#share-fields}
 
@@ -266,7 +280,7 @@ Per i pagamenti senza numero di riferimento (contanti o versamento diretto), è 
 
 ### Rimborso
 
-Se desideri rimborsare un socio per qualsiasi motivo, è sufficiente creare un nuovo pagamento con un importo negativo. Nota che il rimborso deve essere effettuato da te dal tuo e-banking per esempio, CSA Admin non può creare un versamento.
+Un pagamento in eccesso lascia un **saldo positivo** sul socio. La prossima fattura lo assorbe. Un rimborso è un [pagamento negativo](/payments/new), non una fattura negativa. CSA Admin non può inviare il bonifico: fallo dal tuo e-banking.
 
 <!-- country:!CH -->
 ## Addebito diretto SEPA {#sepa}

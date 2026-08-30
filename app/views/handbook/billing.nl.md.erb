@@ -58,6 +58,16 @@ Standaard worden facturen die bij aanmaak al als betaald/gesloten worden beschou
 
 > Het is raadzaam een andere dag dan de leveringsdag te kiezen. Zo worden wijzigingen aan het lidmaatschap of pakket die op de leveringsdag worden gemaakt, meegenomen in de factuur van de dagen erna, in plaats van voortijdig diezelfde dag te worden gefactureerd of een volle week te moeten wachten.
 
+Een IBAN in [de factureringsinstellingen](/settings#invoice) is niet genoeg. Zonder weekdag worden er geen lidmaatschapsfacturen aangemaakt, blijft [Nu factureren](#bill-now) verborgen, en blijven herinneringen uit.
+
+#### Welke knop? {#billing-cookbook}
+
+- **Toekomstige** lidmaatschappen (startdatum nog in het vooruitzicht): [Alles vooraf factureren](#future_billing) vanaf de lidmaatschapspagina of vanaf [het filter Toekomstig](/memberships?scope=future). Die knop staat niet op lopende lidmaatschappen.
+- **Lopende** lidmaatschappen: wacht op de facturatiedag, of gebruik [Nu factureren](#bill-now) op de leden- of lidmaatschapspagina wanneer die zichtbaar is.
+- **Nu factureren** maakt dezelfde factuur als de automatische run, maar **onverzonden**. Open de PDF, daarna Verzenden. Automatische facturering verstuurt op de weekdag.
+
+<%= BasketComplement.model_name.human(count: 2) %> staan op de lidmaatschapsfactuur. Ze worden niet apart gefactureerd. [<%= Member.human_attribute_name(:salary_basket) %>](/handbook/members#salary-basket) zet die complementen ook op nul.
+
 #### Betalingsintervallen {#billing-year-divisions}
 
 Elk lidmaatschap heeft een **betalingsinterval** dat bepaalt hoeveel facturen er over het boekjaar worden gegenereerd. De beschikbare intervallen worden geconfigureerd in [de instellingen](/settings#billing) en aangeboden aan leden bij inschrijving of verlenging.
@@ -103,6 +113,8 @@ De factuur wordt dan aangemaakt, maar **niet verstuurd**. Je kunt de PDF raadple
 
 > De knop "Nu factureren" produceert exact dezelfde factuur als het automatische systeem, het enige verschil is dat deze niet automatisch wordt verstuurd, zodat je deze eerst kunt controleren.
 
+De knop ontbreekt wanneer terugkerende facturering geen weekdag heeft, de IBAN ontbreekt, de huidige periode al is gefactureerd, <%= Basket.model_name.human(count: 2).downcase %> op proef nog lopen, het lid een [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) is, of er niets meer te factureren valt.
+
 ### Alles vooraf factureren {#future_billing}
 
 Het is mogelijk om een komend lidmaatschap vooraf te factureren, met een startdatum in de toekomst, of het nu in het huidige boekjaar of het volgende boekjaar is. Lidmaatschappen die op deze manier worden gefactureerd, worden volledig in één keer gefactureerd, ongeacht het betalingsinterval dat voor het lidmaatschap is geconfigureerd.
@@ -138,6 +150,8 @@ Leden kunnen hun lidmaatschap zelf annuleren tijdens de proefperiode via hun led
 
 Als het lidmaatschap wordt geannuleerd tijdens de proefperiode, worden alleen de geleverde <%= Basket.model_name.human(count: 2).downcase %> gefactureerd, op de volgende factureringsdag. In dit geval wordt de jaarlijkse bijdrage niet gefactureerd (tenzij het lid ervoor kiest deze te betalen).
 
+Lidmaatschapsfacturen wachten tot na de proef. [Aandelenkapitaal](#share-capital)-facturen ook: ontbrekende aandelen worden pas gefactureerd als de proef voorbij is. Zeg op of stop het lidmaatschap voor een stilzwijgende vernieuwing, anders wordt het volgende boekjaar aangemaakt en gefactureerd.
+
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
 Leden gemarkeerd als "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" zijn volledig uitgesloten van facturering. Hun lidmaatschap bestaat nog steeds voor leveringstracking, maar alle prijzen zijn op nul gezet en er worden geen lidmaatschapsfacturen gegenereerd.
@@ -146,7 +160,7 @@ Leden gemarkeerd als "[<%= Member.human_attribute_name(:salary_basket).downcase 
 
 Wanneer de functie voor aandelenkapitaal is ingeschakeld, zijn de prijs per aandeel en het standaard vereiste aantal aandelen gedefinieerd in [de instellingen voor aandelenkapitaal](/settings#shares). Het vereiste aantal aandelen kan ook per <%= BasketSize.model_name.human.downcase %> worden ingesteld (bijv. een grotere maat kan meer aandelen vereisen).
 
-Wanneer de functie is ingeschakeld, maakt CSA Admin elke factureringsdag automatisch facturen aan voor ontbrekend aandelenkapitaal, bijvoorbeeld voor een lid wiens lidmaatschap net is begonnen.
+Wanneer de functie is ingeschakeld, maakt CSA Admin elke factureringsdag automatisch facturen aan voor ontbrekend aandelenkapitaal. Leden die nog op [proef](#trial-baskets) zijn, worden niet gefactureerd.
 
 ### Aandelenvelden van het lid {#share-fields}
 
@@ -268,7 +282,7 @@ Voor betalingen zonder referentienummer (contant geld of directe storting) hoef 
 
 ### Terugbetaling
 
-Als je om welke reden dan ook een lid wilt terugbetalen, maak je eenvoudig een nieuwe betaling aan met een negatief bedrag. Let op dat de terugbetaling door jou moet worden gedaan vanuit bijvoorbeeld je e-banking, aangezien CSA Admin geen overschrijving kan maken.
+Een overbetaling laat een **positief saldo** bij het lid. De volgende factuur neemt het op. Een terugbetaling is een [negatieve betaling](/payments/new), geen negatieve factuur. CSA Admin kan de overschrijving niet versturen: doe dat vanuit je e-banking.
 
 <!-- country:!CH -->
 ## SEPA-incasso {#sepa}

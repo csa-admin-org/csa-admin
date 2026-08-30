@@ -88,6 +88,20 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     assert match, "Expected the deliveries fiscal-year heading for the red warning"
   end
 
+  test "content_search finds billing weekday cookbook on the billing page" do
+    results = Handbook.content_search("without a weekday", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" }
+    assert match, "Expected a content match for the billing weekday cookbook"
+  end
+
+  test "content_search finds getting started weekday requirement" do
+    results = Handbook.content_search("without that weekday", locale: :en)
+
+    match = results.find { |r| r[:name] == "getting_started" }
+    assert match, "Expected a content match for the getting started weekday step"
+  end
+
   test "content_search finds H3 heading for trial baskets" do
     results = Handbook.content_search("trial", locale: :en)
 

@@ -58,6 +58,16 @@ Standardmässig werden Rechnungen, die bei ihrer Erstellung bereits als bezahlt/
 
 > Es ist ratsam, einen anderen Tag als den Lieferungstag zu wählen. So werden Änderungen am Abonnement oder an der Tasche, die am Lieferungstag vorgenommen werden, in der Rechnung der folgenden Tage berücksichtigt, anstatt voreilig am selben Tag abgerechnet zu werden oder eine volle Woche warten zu müssen.
 
+Eine IBAN in [den Rechnungseinstellungen](/settings#invoice) reicht nicht. Ohne Wochentag werden keine Abonnement-Rechnungen erstellt, [Jetzt abrechnen](#bill-now) bleibt versteckt, und Mahnungen bleiben aus.
+
+#### Welche Schaltfläche? {#billing-cookbook}
+
+- **Zukünftige** Abonnements (Startdatum noch vor Dir): [Alle in Zukunft abrechnen](#future_billing) auf der Abonnementsseite oder im [Filter Zukunft](/memberships?scope=future). Diese Schaltfläche gibt es nicht bei laufenden Abonnements.
+- **Laufende** Abonnements: auf den Abrechnungstag warten, oder [Jetzt abrechnen](#bill-now) auf der Mitglieds- oder Abonnementsseite nutzen, wenn sie angezeigt wird.
+- **Jetzt abrechnen** erzeugt dieselbe Rechnung wie der automatische Lauf, aber **unversendet**. PDF öffnen, dann Senden. Die automatische Abrechnung sendet am Wochentag.
+
+<%= BasketComplement.model_name.human(count: 2) %> stehen auf der Abonnementsrechnung. Sie werden nicht separat abgerechnet. [<%= Member.human_attribute_name(:salary_basket) %>](/handbook/members#salary-basket) setzt diese Ergänzungen ebenfalls auf null.
+
 #### Zahlungsintervalle {#billing-year-divisions}
 
 Jedes Abonnement hat ein **Zahlungsintervall**, das bestimmt, wie viele Rechnungen über das Geschäftsjahr generiert werden. Die verfügbaren Intervalle werden in [den Einstellungen](/settings#billing) konfiguriert und den Mitgliedern bei der Anmeldung oder Erneuerung angeboten.
@@ -103,6 +113,8 @@ Die Rechnung wird dann erstellt, aber **nicht gesendet**. Du kannst das PDF eins
 
 > Die Schaltfläche "Jetzt abrechnen" erzeugt exakt die gleiche Rechnung wie das automatische System, der einzige Unterschied ist, dass sie nicht automatisch versendet wird, sodass Du sie vorher überprüfen kannst.
 
+Die Schaltfläche fehlt, wenn die wiederkehrende Abrechnung keinen Wochentag hat, die IBAN fehlt, die aktuelle Periode bereits abgerechnet ist, <%= Basket.model_name.human(count: 2) %> zur Probe noch laufen, das Mitglied ein [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) ist, oder nichts mehr abzurechnen bleibt.
+
 ### Alle in Zukunft abrechnen {#future_billing}
 
 Es ist möglich, ein zukünftiges Abonnement im Voraus abzurechnen, mit einem Startdatum in der Zukunft, sei es im aktuellen Geschäftsjahr oder im nächsten Geschäftsjahr. Abonnements, die auf diese Weise abgerechnet werden, werden vollständig auf einmal abgerechnet, unabhängig vom konfigurierten Zahlungsintervall für das Abonnement.
@@ -138,6 +150,8 @@ Mitglieder können ihr Abonnement während der Probezeit selbst über ihr Mitgli
 
 Wenn das Abonnement während der Probezeit gekündigt wird, werden nur die gelieferten <%= Basket.model_name.human(count: 2) %> am nächsten Abrechnungstag in Rechnung gestellt. In diesem Fall wird der Jahresbeitrag nicht berechnet (es sei denn, das Mitglied entscheidet sich, ihn zu zahlen).
 
+Abonnement-Rechnungen warten bis nach der Probe. [Anteilskapital](#share-capital)-Rechnungen auch: fehlende Anteile werden erst nach Ende der Probe abgerechnet. Kündige oder stoppe das Abonnement vor einer stillschweigenden Erneuerung, sonst wird das nächste Geschäftsjahr erstellt und abgerechnet.
+
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
 Als "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" markierte Mitglieder sind vollständig von der Abrechnung ausgeschlossen. Ihr Abonnement existiert weiterhin für die Lieferverfolgung, aber alle Preise sind auf Null gesetzt und es werden keine Abonnementsrechnungen generiert.
@@ -146,7 +160,7 @@ Als "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/mem
 
 Wenn die Anteilskapitalfunktion aktiviert ist, sind der Preis pro Anteil und die standardmässig erforderliche Anzahl Anteile in [den Einstellungen zum Anteilskapital](/settings#shares) definiert. Die erforderliche Anzahl Anteile kann auch pro <%= BasketSize.model_name.human %> festgelegt werden (z.B. kann eine grössere Variante mehr Anteile erfordern).
 
-Wenn die Funktion aktiviert ist, erstellt CSA Admin an jedem Abrechnungstag automatisch Rechnungen für fehlendes Anteilskapital, beispielsweise für ein Mitglied, dessen Abonnement gerade begonnen hat.
+Wenn die Funktion aktiviert ist, erstellt CSA Admin an jedem Abrechnungstag automatisch Rechnungen für fehlendes Anteilskapital. Mitglieder noch in der [Probezeit](#trial-baskets) werden nicht abgerechnet.
 
 ### Anteils-Felder des Mitglieds {#share-fields}
 
@@ -268,7 +282,7 @@ Für Zahlungen ohne Referenznummer (Bargeld oder direkte Einzahlung) musst Du ei
 
 ### Rückerstattung
 
-Wenn Du ein Mitglied aus irgendeinem Grund zurückerstatten möchtest, erstelle einfach eine neue Zahlung mit einem negativen Betrag. Beachte, dass die Rückerstattung von Dir beispielsweise über Dein E-Banking durchgeführt werden muss, da CSA Admin keine Überweisung erstellen kann.
+Eine Überzahlung hinterlässt einen **positiven Saldo** beim Mitglied. Die nächste Rechnung nimmt ihn auf. Eine Rückerstattung ist eine [negative Zahlung](/payments/new), keine negative Rechnung. CSA Admin kann die Überweisung nicht senden: mach das über Dein E-Banking.
 
 <!-- country:!CH -->
 ## SEPA-Lastschrift {#sepa}
