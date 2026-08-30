@@ -28,9 +28,9 @@ To make a waiting member active, click "Activate" at the top right of the member
 
 ### Active
 
-An active member is one who has a subscription for the current or future fiscal year. A member who has a defined depot for shop orders is also considered active.
+An active member is one who has a subscription for the current or future fiscal year.<% if Current.org.feature?("shop") %> A member who has a defined depot for shop orders is also considered active.<% end %>
 
-Ending or deleting the current subscription does not always make them inactive. They stay active with a future membership or a shop depot. Otherwise they become support if an annual fee or shares are set.
+Ending or deleting the current subscription does not always make them inactive. They stay active with a future membership<% if Current.org.feature?("shop") %> or a shop depot<% end %>. Otherwise they become support if the last membership's renewal annual fee is set<% if Current.org.feature?("shares") %>, or if they still own shares<% end %>.
 
 ### Support
 
@@ -110,6 +110,9 @@ The <%= Basket.model_name.human.downcase %> update limit setting controls the de
 
 Changes made by members are saved as individual <%= Basket.model_name.human.downcase %> modifications, just like admin changes. They are preserved and reapplied when the membership configuration changes later.
 
+A future <%= Basket.model_name.human.downcase %> can change depot this way, or from the membership page. Home address cannot be scheduled. When a member moves, they edit it in their account.
+
+<% if Current.org.feature?("member_information") %>
 ### Information page {#information-page}
 
 If the [Information Page feature](/settings#member_information) is enabled, the page appears in the member's navigation.
@@ -117,6 +120,7 @@ If the [Information Page feature](/settings#member_information) is enabled, the 
 The "Information page" setting lets you publish rich-text content directly in the member account under a dedicated navigation entry. You can use it to share practical information that should remain easy to find at any time, such as internal rules, pickup instructions, seasonal updates, or confidential details reserved for members.
 
 This content is configured from [the information page settings](/settings#member_information). The page title can also be customized there; if left blank, the default title "Information" is used.
+<% end %>
 
 ### Admin access to a member account {#admin-access}
 

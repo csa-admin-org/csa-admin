@@ -1,6 +1,6 @@
 # Abrechnung
 
-CSA Admin zielt darauf ab, die meisten Aufgaben im Zusammenhang mit der Abrechnung ([Abonnements](#memberships), [Anteilskapital](#share-capital), [Zahlungsverarbeitung](#payments)) zu automatisieren, aber einige Aspekte wie die Abrechnung von [nicht durchgeführten <%= activities_human_name %>](#activity) müssen manuell durchgeführt werden.
+CSA Admin zielt darauf ab, die meisten Aufgaben im Zusammenhang mit der Abrechnung ([Abonnements](#memberships)<% if Current.org.feature?("shares") %>, [Anteilskapital](#share-capital)<% end %>, [Zahlungsverarbeitung](#payments)) zu automatisieren<% if Current.org.feature?("activity") %>, aber einige Aspekte wie die Abrechnung von [nicht durchgeführten <%= activities_human_name %>](#activity) müssen manuell durchgeführt werden<% end %>.
 
 ## Rechnungstypen {#invoice-types}
 
@@ -9,12 +9,12 @@ CSA Admin verwaltet mehrere Rechnungstypen:
 | Typ | Beschreibung |
 |-----|-------------|
 | **Abonnement** | Hauptabrechnung des Abonnements (<%= BasketSize.model_name.human %>, <%= BasketComplement.model_name.human(count: 2) %>, Depot, Lieferzyklus). [Automatisch generiert](#memberships). |
-| **Jahresbeitrag** | In der ersten Abonnementsrechnung enthalten, oder [separat berechnet](#annual-fee) für [Fördermitglieder](/handbook/members#statuses). |
-| **Anteilskapital** | Für Organisationen, die [Anteilsbesitz](#share-capital) erfordern. Automatisch generiert bei fehlenden Anteilen. |
-| **<%= activities_human_name %>** | Abrechnung von [nicht durchgeführten Teilnahmen](#activity). Manuell oder in Gruppen ausgelöst. |
-| **Hofladenbestellung** | Rechnung für [Hofladen](/handbook/shop)-Bestellungen. Kann automatisch oder manuell erfolgen. |
-| **Neumitgliedsbeitrag** | Einmaliger Beitrag für neue Mitglieder, wenn die Funktion aktiviert ist. |
-| **Sonstiges** | [Freie Rechnungen](#manual-invoice) für verschiedene Artikel oder Dienstleistungen. |
+<% if Current.org.feature?("annual_fee") %>| **Jahresbeitrag** | In der ersten Abonnementsrechnung enthalten, oder [separat berechnet](#annual-fee) für [Fördermitglieder](/handbook/members#statuses). |
+<% end %><% if Current.org.feature?("shares") %>| **Anteilskapital** | Für Organisationen, die [Anteilsbesitz](#share-capital) erfordern. Automatisch generiert bei fehlenden Anteilen. |
+<% end %><% if Current.org.feature?("activity") %>| **<%= activities_human_name %>** | Abrechnung von [nicht durchgeführten Teilnahmen](#activity). Manuell oder in Gruppen ausgelöst. |
+<% end %><% if Current.org.feature?("shop") %>| **Hofladenbestellung** | Rechnung für [Hofladen](/handbook/shop)-Bestellungen. Kann automatisch oder manuell erfolgen. |
+<% end %><% if Current.org.feature?("new_member_fee") %>| **Neumitgliedsbeitrag** | Einmaliger Beitrag für neue Mitglieder, wenn die Funktion aktiviert ist. |
+<% end %>| **Sonstiges** | [Freie Rechnungen](#manual-invoice) für verschiedene Artikel oder Dienstleistungen. |
 
 ### Rechnungen stornieren {#canceling-invoices}
 
@@ -60,7 +60,7 @@ Standardmässig werden Rechnungen, die bei ihrer Erstellung bereits als bezahlt/
 
 Eine IBAN in [den Rechnungseinstellungen](/settings#invoice) reicht nicht. Ohne Wochentag in [Automatische Rechnungsstellung](/settings#billing) werden keine Abonnement-Rechnungen erstellt, und [Jetzt abrechnen](#bill-now) bleibt versteckt. Mahnungen folgen dem [automatischen Zahlungsimport](#automatic_payments_processing), nicht diesem Wochentag.
 
-#### Welche Schaltfläche? {#billing-cookbook}
+### Welche Schaltfläche? {#billing-cookbook}
 
 - **Zukünftige** Abonnements (Startdatum noch vor Dir): [Alle in Zukunft abrechnen](#future_billing) auf der Abonnementsseite oder im [Filter Zukunft](/memberships?scope=future). Diese Schaltfläche gibt es nicht bei laufenden Abonnements.
 - **Laufende** Abonnements: auf den Abrechnungstag warten, oder [Jetzt abrechnen](#bill-now) auf der Mitglieds- oder Abonnementsseite nutzen, wenn sie angezeigt wird.
@@ -76,13 +76,13 @@ Verfügbare Intervalle: Jährlich (1), Halbjährlich (2), Dritteljährlich (3), 
 
 Der Rechnungsbetrag wird berechnet als: **Gesamtbetrag des Abonnements ÷ Anzahl der verbleibenden Intervalle**. Bei einem Abonnement von 1000.- das vierteljährlich bezahlt wird, beträgt jede Rechnung 250.-.
 
-#### Wann wird die erste Rechnung versendet? {#first-invoice-timing}
+### Wann wird die erste Rechnung versendet? {#first-invoice-timing}
 
 Standardmässig wird die erste Rechnung am Abrechnungstag nach der **ersten Lieferung einer <%= Basket.model_name.human %>** versendet. Bei [<%= Basket.model_name.human(count: 2) %> zur Probe](#trial-baskets) ist dieses Datum die letzte Probelieferung, nicht die erste <%= Basket.model_name.human %>. Vor dieser Lieferung wird keine Rechnung erstellt.
 
 Dieses Verhalten kann in [den Einstellungen](/settings#billing) geändert werden, indem "Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen" deaktiviert wird. Dann beginnt die Abrechnung ab dem **Startdatum des Abonnements**, auch vor der ersten Lieferung. Läuft die Probe noch, wartet die Abrechnung auf die erste Lieferung ohne Probe.
 
-#### Wann endet die Abrechnung? {#billing-end}
+### Wann endet die Abrechnung? {#billing-end}
 
 Standardmässig erstreckt sich die Abrechnung bis zum **Enddatum des Abonnements** und deckt das gesamte Geschäftsjahr ab, auch wenn in den letzten Monaten keine Lieferungen stattfinden.
 
@@ -134,6 +134,7 @@ Wenn eine Abonnementskonfiguration (Daten, <%= BasketSize.model_name.human %>, .
 
 Das Verkürzen des Enddatums eines Abonnements, auch mit der Aktion **Stoppen**, folgt derselben Regel: Zukünftige Lieferungen werden entfernt, der Betrag des Abonnements wird neu berechnet und die Differenz wird am nächsten Abrechnungstag behandelt.
 
+<% if Current.org.feature?("annual_fee") %>
 ### Jahresbeitrag {#annual-fee}
 
 Wenn die Jahresbeitragsfunktion aktiviert ist, ist der Standard-Jahresbeitrag der Organisation in [den Einstellungen zum Jahresbeitrag](/settings#annual_fee) definiert. Jedes Mitglied erbt diesen Standardwert bei der Erstellung, aber er kann individuell im Profil des Mitglieds (Bearbeitungsseite, Abschnitt "Abrechnung") überschrieben werden. Wenn die Einstellung "nur Fördermitglieder" aktiviert ist, erben aktive Mitglieder den Standard-Jahresbeitrag der Organisation nicht automatisch; er bleibt für Fördermitglieder gedacht, sofern er nicht manuell gesetzt wird.
@@ -141,6 +142,7 @@ Wenn die Jahresbeitragsfunktion aktiviert ist, ist der Standard-Jahresbeitrag de
 Wenn die Funktion aktiviert ist, ist der Jahresbeitrag automatisch in der **ersten Rechnung** des Abonnements enthalten. Wenn das Mitglied kein Abonnement hat ([Förderung](/handbook/members#statuses)), wird zu Beginn des Geschäftsjahres automatisch eine spezifische Jahresbeitragsrechnung erstellt.
 
 Wenn Du den Standard-Jahresbeitrag der Organisation änderst, werden alle Mitglieder, die noch den alten Wert haben, automatisch aktualisiert.
+<% end %>
 
 ### <%= Basket.model_name.human(count: 2) %> zur Probe {#trial-baskets}
 
@@ -148,14 +150,15 @@ Wenn in [den Abrechnungseinstellungen](/settings#billing) eine Anzahl von <%= Ba
 
 Standardmässig wird die erste Abonnement-Rechnung am Abrechnungstag nach der **letzten Probelieferung** erstellt. Das kann noch sein, während das Mitglied kündigen kann. Wenn Du "Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen" deaktivierst, wartet die Abrechnung stattdessen auf die erste Lieferung **ohne Probe**.
 
-Wenn das Abonnement während der Probezeit gekündigt wird, werden nur die gelieferten <%= Basket.model_name.human(count: 2) %> am nächsten Abrechnungstag in Rechnung gestellt. Der Jahresbeitrag wird nicht berechnet, es sei denn, das Mitglied entscheidet sich, ihn zu zahlen.
+Wenn das Abonnement während der Probezeit gekündigt wird, werden nur die gelieferten <%= Basket.model_name.human(count: 2) %> am nächsten Abrechnungstag in Rechnung gestellt.<% if Current.org.feature?("annual_fee") %> Der Jahresbeitrag wird nicht berechnet, es sei denn, das Mitglied entscheidet sich, ihn zu zahlen.<% end %>
 
-[Anteilskapital](#share-capital)-Rechnungen warten, bis die Probe vorbei ist: fehlende Anteile werden dann abgerechnet. Kündige oder stoppe das Abonnement vor einer stillschweigenden Erneuerung, sonst wird das nächste Geschäftsjahr erstellt und abgerechnet.
+<% if Current.org.feature?("shares") %>[Anteilskapital](#share-capital)-Rechnungen warten, bis die Probe vorbei ist: fehlende Anteile werden dann abgerechnet. <% end %>Kündige oder stoppe das Abonnement vor einer stillschweigenden Erneuerung, sonst wird das nächste Geschäftsjahr erstellt und abgerechnet.
 
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
 Als "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" markierte Mitglieder sind vollständig von der Abrechnung ausgeschlossen. Ihr Abonnement existiert weiterhin für die Lieferverfolgung, aber alle Preise sind auf Null gesetzt und es werden keine Abonnementsrechnungen generiert.
 
+<% if Current.org.feature?("shares") %>
 ## Anteilskapital {#share-capital}
 
 Wenn die Anteilskapitalfunktion aktiviert ist, sind der Preis pro Anteil und die standardmässig erforderliche Anzahl Anteile in [den Einstellungen zum Anteilskapital](/settings#shares) definiert. Die erforderliche Anzahl Anteile kann auch pro <%= BasketSize.model_name.human %> festgelegt werden (z.B. kann eine grössere Variante mehr Anteile erfordern).
@@ -175,7 +178,9 @@ Drei anteilsbezogene Felder sind im Profil eines Mitglieds verfügbar (Bearbeitu
 Um bereits in Rechnung gestelltes Anteilskapital zurückzuerstatten, gehe zur Rechnungsseite und klicke oben rechts auf die Schaltfläche "Rückerstattung". Du kannst dann einfach eine negative Anteilskapitalrechnung erstellen. Stelle sicher, dass das Mitglied kein Anteilskapital mehr benötigt, andernfalls wird es am nächsten Abrechnungstag automatisch neu erstellt.
 
 > Von der Seite eines Mitglieds aus kannst Du im Abschnitt "Abrechnung" (rechte Spalte) die Anzahl der Anteile sehen, die in Rechnung gestellt werden oder bereits in Rechnung gestellt wurden, mit einem Link zu den entsprechenden Rechnungen.
+<% end %>
 
+<% if Current.org.feature?("activity") %>
 ## Nicht durchgeführte <%= activities_human_name %> {#activity}
 
 Jede Organisation hat eine andere Abrechnungspolitik für nicht durchgeführte <%= activities_human_name.downcase %>; einige stellen sie in Rechnung, andere nicht.
@@ -210,6 +215,7 @@ Es ist möglich, spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"](/mail
     <p>Mein Standardtext.</p>
 {% endcase %}
 ~~~
+<% end %>
 
 ## Manuelle Rechnung (Sonstiges) {#manual-invoice}
 
@@ -219,6 +225,7 @@ CSA Admin bietet die Möglichkeit, verschiedene Artikel oder Dienstleistungen ma
 >
 > Die wiederkehrende Abrechnung läuft nicht für ein abgeschlossenes Abonnement eines vergangenen Geschäftsjahres. Für dieses Jahr storniere bei Bedarf die letzte Rechnung und erstelle eine Rechnung Sonstiges, oder [frage den Support](/support).
 
+<% if Current.org.feature?("vat") %>
 ## MwSt. {#vat}
 
 Wenn Deine Organisation mehrwertsteuerpflichtig ist, aktiviere die MwSt.-Funktion und konfiguriere Deine MwSt.-Nummer sowie die Sätze in [den MwSt.-Einstellungen](/settings#vat). Separate Sätze können für Abonnementsrechnungen, <%= activities_human_name.downcase %>-Rechnungen und Hofladenbestellungsrechnungen definiert werden. Für Rechnungen vom Typ "Sonstiges" und "Neumitgliedsbeitrag" wird der MwSt.-Satz manuell auf jeder Rechnung festgelegt.
@@ -226,6 +233,7 @@ Wenn Deine Organisation mehrwertsteuerpflichtig ist, aktiviere die MwSt.-Funktio
 Die MwSt. wird als inklusive Steuer berechnet (der Rechnungsbetrag enthält bereits die MwSt.). Der Nettobetrag und der MwSt.-Betrag werden auf der Rechnungs-PDF separat ausgewiesen.
 
 > MwSt. wird nur angewendet, wenn die MwSt.-Funktion aktiviert ist. In den MwSt.-Einstellungen sind eine MwSt.-Nummer und ein MwSt.-Satz für Abonnements erforderlich; MwSt.-Sätze für <%= activities_human_name.downcase %> und den Hofladen sind optional und werden nur verwendet, wenn diese Funktionen aktiviert sind.
+<% end %>
 
 ## Zahlungen {#payments}
 

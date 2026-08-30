@@ -103,6 +103,8 @@ Ogni <%= Basket.model_name.human.downcase %> di un abbonamento può essere modif
 
 Nella pagina dell'abbonamento, ogni <%= Basket.model_name.human.downcase %> che si discosta dalla configurazione dell'abbonamento mostra una piccola **icona della cronologia** accanto al suo stato. Passando il mouse sull'icona, vedi chi ha effettuato la modifica (nome dell'admin o " dal socio ") e quando, insieme all'elenco dei campi modificati. Da lì, un pulsante **" Annulla "** ripristina la <%= Basket.model_name.human.downcase %> ai valori predefiniti dell'abbonamento.
 
+### Saltare o aggiungere date {#skip-extra-dates}
+
 Per saltare delle date: dalla pagina dell'abbonamento, imposta la quantità a **0** dalla data di partenza e a **1** al ritorno. Per una <%= Basket.model_name.human.downcase %> extra in certe date, imposta la quantità a **2** in quelle date.
 
 Se l'anno è già fatturato, alza prima gli extra così le fatture non vengono annullate, poi metti a zero le date saltate. Per tenere lo stesso numero fatturato e spostare il contenuto a un'altra data, è uno [spostamento](/handbook/absence#basket-shift), non una quantità a 0.

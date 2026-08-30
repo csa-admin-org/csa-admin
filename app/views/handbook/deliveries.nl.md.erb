@@ -104,6 +104,8 @@ Elk(e) <%= Basket.model_name.human.downcase %> van een lidmaatschap kan individu
 
 Op de pagina van het lidmaatschap toont elk(e) <%= Basket.model_name.human.downcase %> die afwijkt van de configuratie van het lidmaatschap een klein **geschiedenispictogram** naast de status. Wanneer je met de muis over het pictogram beweegt, zie je wie de wijziging heeft aangebracht (naam van de admin, of " door het lid ") en wanneer, evenals de lijst met gewijzigde velden. Van daaruit herstelt een knop **" Ongedaan maken "** de <%= Basket.model_name.human.downcase %> naar de standaardwaarden van het lidmaatschap.
 
+### Data overslaan of extra {#skip-extra-dates}
+
 Data overslaan: vanaf de lidmaatschapspagina zet je de hoeveelheid op **0** vanaf de vertrekdatum en op **1** bij terugkeer. Voor een extra <%= Basket.model_name.human.downcase %> op sommige data zet je de hoeveelheid daar op **2**.
 
 Als het jaar al is gefactureerd, verhoog eerst de extra's zodat facturen niet worden geannuleerd, zet daarna de overgeslagen data op nul. Dezelfde gefactureerde hoeveelheid houden en de inhoud naar een andere datum verplaatsen: dat is een [verschuiving](/handbook/absence#basket-shift), geen hoeveelheid 0.

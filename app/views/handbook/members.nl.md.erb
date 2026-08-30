@@ -28,9 +28,9 @@ Om een lid op de wachtlijst actief te maken, klik je rechtsboven op de pagina va
 
 ### Actief
 
-Een actief lid is iemand die een lidmaatschap heeft voor het huidige of toekomstige boekjaar. Een lid dat een gedefinieerd depot heeft voor bestellingen bij de winkel wordt ook als actief beschouwd.
+Een actief lid is iemand die een lidmaatschap heeft voor het huidige of toekomstige boekjaar.<% if Current.org.feature?("shop") %> Een lid dat een gedefinieerd depot heeft voor bestellingen bij de winkel wordt ook als actief beschouwd.<% end %>
 
-Het beëindigen of verwijderen van het huidige lidmaatschap maakt het lid niet altijd inactief. Ze blijven actief met een toekomstig lidmaatschap of een winkeldepot. Anders worden ze ondersteunend lid als er een jaarlijkse bijdrage of aandelen zijn ingesteld.
+Het beëindigen of verwijderen van het huidige lidmaatschap maakt het lid niet altijd inactief. Ze blijven actief met een toekomstig lidmaatschap<% if Current.org.feature?("shop") %> of een winkeldepot<% end %>. Anders worden ze ondersteunend lid als de jaarlijkse bijdrage van de vernieuwing van het laatste lidmaatschap is ingesteld<% if Current.org.feature?("shares") %>, of als ze nog aandelen hebben<% end %>.
 
 ### Ondersteuning
 
@@ -110,6 +110,9 @@ De wijzigingsdeadline wordt bepaald door de instelling voor de wijzigingslimiet 
 
 Wijzigingen door leden worden opgeslagen als individuele wijzigingen aan <%= Basket.model_name.human(count: 2).downcase %>, net als wijzigingen door admins. Ze blijven bewaard en worden opnieuw toegepast wanneer de lidmaatschapsconfiguratie later verandert.
 
+Een toekomstige <%= Basket.model_name.human.downcase %> kan zo van depot veranderen, of via de lidmaatschapspagina. Het thuisadres kan niet vooraf worden gepland. Als een lid verhuist, past het dat aan in het account.
+
+<% if Current.org.feature?("member_information") %>
 ### Informatiepagina {#information-page}
 
 Als de [functie Informatiepagina](/settings#member_information) is ingeschakeld, verschijnt de pagina in de navigatie van het lid.
@@ -117,6 +120,7 @@ Als de [functie Informatiepagina](/settings#member_information) is ingeschakeld,
 De instelling "Informatiepagina" maakt het mogelijk om opgemaakte tekst rechtstreeks in het ledenaccount te publiceren onder een eigen navigatie-item. Je kunt het gebruiken om praktische informatie te delen die altijd gemakkelijk vindbaar moet zijn, zoals interne regels, ophalinstructies, seizoensgebonden updates of vertrouwelijke informatie voor leden.
 
 Deze inhoud wordt geconfigureerd in [de instellingen voor de informatiepagina](/settings#member_information). De paginatitel kan daar ook worden aangepast; als deze leeg blijft, wordt de standaardtitel "Informatie" gebruikt.
+<% end %>
 
 ### Admin-toegang tot een ledenaccount {#admin-access}
 

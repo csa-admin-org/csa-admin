@@ -29,9 +29,9 @@ Pour rendre un membre en liste d'attente actif, cliquez sur "Activer" en haut à
 
 ### Actif
 
-Un membre actif est un membre ayant un abonnement pour l'année fiscale en cours ou future. Un membre ayant un dépôt défini pour les commandes d'épicerie est également considéré comme actif.
+Un membre actif est un membre ayant un abonnement pour l'année fiscale en cours ou future.<% if Current.org.feature?("shop") %> Un membre ayant un dépôt défini pour les commandes d'épicerie est également considéré comme actif.<% end %>
 
-Terminer ou supprimer l'abonnement en cours ne les rend pas toujours inactifs. Ils restent actifs avec un abonnement futur ou un dépôt d'épicerie. Sinon ils passent support si une cotisation annuelle ou des parts sont définies.
+Terminer ou supprimer l'abonnement en cours ne les rend pas toujours inactifs. Ils restent actifs avec un abonnement futur<% if Current.org.feature?("shop") %> ou un dépôt d'épicerie<% end %>. Sinon ils passent support si la cotisation annuelle de renouvellement du dernier abonnement est définie<% if Current.org.feature?("shares") %>, ou s'ils possèdent encore des parts<% end %>.
 
 ### Support
 
@@ -111,6 +111,9 @@ Le délai de modification est défini par le paramètre de limite de modificatio
 
 Les changements effectués par les membres sont enregistrés comme des modifications individuelles de panier, comme les changements faits par un admin. Ils sont conservés et réappliqués lorsque la configuration de l'abonnement change ensuite.
 
+Un <%= Basket.model_name.human.downcase %> futur peut changer de dépôt de cette façon, ou depuis la page de l'abonnement. L'adresse du domicile ne peut pas être programmée. Quand un membre déménage, il la modifie dans son compte.
+
+<% if Current.org.feature?("member_information") %>
 ### Page d'information {#information-page}
 
 Si la [fonctionnalité Page d'information](/settings#member_information) est activée, la page apparaît dans la navigation du membre.
@@ -118,6 +121,7 @@ Si la [fonctionnalité Page d'information](/settings#member_information) est act
 Le paramètre "Page d'information" permet de publier du contenu en texte riche directement dans le compte membre sous un onglet de navigation dédié. Vous pouvez l'utiliser pour partager des informations pratiques qui doivent rester facilement accessibles à tout moment, comme un règlement intérieur, des instructions de retrait, des mises à jour saisonnières ou des informations confidentielles réservées aux membres.
 
 Ce contenu est configuré depuis [les paramètres de la page d'information](/settings#member_information). L'intitulé de la page peut également y être personnalisé; s'il est laissé vide, l'intitulé par défaut "Informations" est utilisé.
+<% end %>
 
 ### Accès admin au compte d'un membre {#admin-access}
 

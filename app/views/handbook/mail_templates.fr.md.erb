@@ -7,8 +7,12 @@ CSA Admin envoie automatiquement des e-mails à vos membres lors d'événements 
 Les modèles d'e-mail sont organisés par catégorie:
 
 - **Membre**: Envoyés lors de changements de statut d'un membre (validé, activé).
+- **Abonnement**: Envoyés pour les demandes de renouvellement, les rappels de renouvellement et les rappels d'absences incluses.
 - **<%= Basket.model_name.human %>**: Envoyés à des moments clés de l'abonnement (premier <%= Basket.model_name.human.downcase %>, dernier <%= Basket.model_name.human.downcase %>, période d'essai, ...).
 - **Facture**: Envoyés lors de la création, l'annulation ou le rappel de factures.
+<% if Current.org.feature?("sepa") %>
+- **SEPA**: Envoyé lorsqu'un mandat SEPA est confirmé.
+<% end %>
 <% if Current.org.feature?("absence") %>
 - **Absence**: Envoyés lors de la confirmation d'une absence ou du déplacement de <%= Basket.model_name.human(count: 2).downcase %>.
 <% end %>

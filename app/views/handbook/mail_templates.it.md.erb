@@ -7,8 +7,12 @@ CSA Admin invia automaticamente email ai tuoi soci durante eventi specifici nel 
 I modelli di email sono organizzati per categoria:
 
 - **Socio**: Inviati quando lo stato di un socio cambia (validato, attivato).
+- **Abbonamento**: Inviati per le richieste di rinnovo, i promemoria di rinnovo e i promemoria delle assenze incluse.
 - **<%= Basket.model_name.human %>**: Inviati nei momenti chiave dell'abbonamento (prima <%= Basket.model_name.human.downcase %>, ultima <%= Basket.model_name.human.downcase %>, periodo di prova, ...).
 - **Fattura**: Inviati alla creazione, annullamento o sollecito di fatture.
+<% if Current.org.feature?("sepa") %>
+- **SEPA**: Inviato quando un mandato SEPA è confermato.
+<% end %>
 <% if Current.org.feature?("absence") %>
 - **Assenza**: Inviati alla conferma di un'assenza o allo spostamento di <%= Basket.model_name.human(count: 2).downcase %>.
 <% end %>

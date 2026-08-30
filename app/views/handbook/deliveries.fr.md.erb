@@ -103,6 +103,8 @@ Chaque <%= Basket.model_name.human.downcase %> d'un abonnement peut être modifi
 
 Sur la page de l'abonnement, tout <%= Basket.model_name.human.downcase %> qui diverge de la configuration de l'abonnement affiche une petite **icône d'historique** à côté de son état. Au survol de l'icône, vous voyez qui a effectué la modification (nom de l'admin, ou "par le membre") et quand, ainsi que la liste des champs modifiés. De là, un bouton **"Annuler"** rétablit le <%= Basket.model_name.human.downcase %> aux valeurs par défaut de l'abonnement.
 
+### Sauter ou ajouter des dates {#skip-extra-dates}
+
 Pour sauter des dates: depuis la page de l'abonnement, mettez la quantité à **0** à partir de la date de départ et à **1** au retour. Pour un <%= Basket.model_name.human.downcase %> extra sur certaines dates, mettez la quantité à **2** sur ces dates.
 
 Si l'année est déjà facturée, augmentez d'abord les extras pour ne pas annuler les factures, puis mettez à zéro les dates sautées. Pour garder le même nombre facturé et déplacer le contenu vers une autre date, c'est un [déplacement](/handbook/absence#basket-shift), pas une quantité à 0.

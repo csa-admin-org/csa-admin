@@ -367,6 +367,9 @@ class HandbookSearchTest < ActiveSupport::TestCase
     assert memberships, "Expected to find 'memberships' subtitle in billing page"
     assert_equal "Memberships", memberships[0]
     assert_equal "memberships", memberships[1]
+
+    cookbook = billing[:subtitles].find { |_, anchor, _| anchor == "billing-cookbook" }
+    assert cookbook, "Expected to find billing cookbook heading"
   end
 
   test "headings_for resolves human_attribute_name ERB in subtitles" do

@@ -79,7 +79,9 @@ class Handbook
   end
 
   def subtitles
-    @subtitles ||= doc.css("h2").map { |h2| [ h2.text, h2[:id] ] }
+    @subtitles ||= doc.css("h2").filter_map { |heading|
+      [ heading.text, heading[:id] ] if heading[:id].present?
+    }
   end
 
   def restricted?
@@ -99,6 +101,14 @@ class Handbook
   end
 
   def <=>(other)
+    pin = pinned_rank <=> other.pinned_rank
+    return pin unless pin.zero?
+
     I18n.transliterate(title) <=> I18n.transliterate(other.title)
   end
+
+  def pinned_rank
+    name == "getting_started" ? 0 : 1
+  end
+  protected :pinned_rank
 end

@@ -178,6 +178,10 @@
     line-height: 1.5rem;
   }
 
+  .admin-page-menu-pinned:not(:has(.admin-page-menu-subs)) {
+    margin-bottom: 0.5rem;
+  }
+
   .admin-page-menu-current,
   .admin-page-menu-link {
     display: flex;

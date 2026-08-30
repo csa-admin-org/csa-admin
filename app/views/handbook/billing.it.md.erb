@@ -1,6 +1,6 @@
 # Fatturazione
 
-CSA Admin mira ad automatizzare la maggior parte dei compiti relativi alla fatturazione ([abbonamenti](#memberships), [quote sociali](#share-capital), [elaborazione dei pagamenti](#payments)), ma alcuni aspetti come la fatturazione delle [<%= activities_human_name %> non effettuate](#activity) devono essere eseguiti manualmente.
+CSA Admin mira ad automatizzare la maggior parte dei compiti relativi alla fatturazione ([abbonamenti](#memberships)<% if Current.org.feature?("shares") %>, [quote sociali](#share-capital)<% end %>, [elaborazione dei pagamenti](#payments))<% if Current.org.feature?("activity") %>, ma alcuni aspetti come la fatturazione delle [<%= activities_human_name %> non effettuate](#activity) devono essere eseguiti manualmente<% end %>.
 
 ## Tipi di fatture {#invoice-types}
 
@@ -9,12 +9,12 @@ CSA Admin gestisce diversi tipi di fatture:
 | Tipo | Descrizione |
 |------|-------------|
 | **Abbonamento** | Fatturazione dell'abbonamento principale (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, deposito, ciclo di consegne). [Generata automaticamente](#memberships). |
-| **Quota annuale** | Inclusa nella prima fattura dell'abbonamento, o [fatturata separatamente](#annual-fee) per i [soci di supporto](/handbook/members#statuses). |
-| **Quote sociali** | Per le organizzazioni che richiedono il [possesso di quote](#share-capital). Generata automaticamente quando mancano quote. |
-| **<%= activities_human_name %>** | Fatturazione delle [partecipazioni non effettuate](#activity). Attivata manualmente o in gruppo. |
-| **Ordine bottega** | Fattura per gli ordini della [bottega](/handbook/shop). Può essere automatica o manuale. |
-| **Quota nuovo socio** | Quota una tantum per i nuovi soci, se la funzione è attivata. |
-| **Altro** | [Fatture libere](#manual-invoice) per articoli o servizi vari. |
+<% if Current.org.feature?("annual_fee") %>| **Quota annuale** | Inclusa nella prima fattura dell'abbonamento, o [fatturata separatamente](#annual-fee) per i [soci di supporto](/handbook/members#statuses). |
+<% end %><% if Current.org.feature?("shares") %>| **Quote sociali** | Per le organizzazioni che richiedono il [possesso di quote](#share-capital). Generata automaticamente quando mancano quote. |
+<% end %><% if Current.org.feature?("activity") %>| **<%= activities_human_name %>** | Fatturazione delle [partecipazioni non effettuate](#activity). Attivata manualmente o in gruppo. |
+<% end %><% if Current.org.feature?("shop") %>| **Ordine bottega** | Fattura per gli ordini della [bottega](/handbook/shop). Può essere automatica o manuale. |
+<% end %><% if Current.org.feature?("new_member_fee") %>| **Quota nuovo socio** | Quota una tantum per i nuovi soci, se la funzione è attivata. |
+<% end %>| **Altro** | [Fatture libere](#manual-invoice) per articoli o servizi vari. |
 
 ### Annullare le fatture {#canceling-invoices}
 
@@ -60,7 +60,7 @@ Per impostazione predefinita, le fatture già considerate pagate/chiuse al momen
 
 Un IBAN nelle [impostazioni di fatturazione](/settings#invoice) non basta. Senza un giorno della settimana in [Fatturazione automatica](/settings#billing), nessuna fattura di abbonamento viene creata e [Fatturare ora](#bill-now) resta nascosto. I solleciti seguono l'[importazione automatica dei pagamenti](#automatic_payments_processing), non questo giorno della settimana.
 
-#### Quale pulsante? {#billing-cookbook}
+### Quale pulsante? {#billing-cookbook}
 
 - Abbonamenti **futuri** (data di inizio ancora davanti): [Fatturare tutto in anticipo](#future_billing) dalla pagina dell'abbonamento o dal [filtro Futuro](/memberships?scope=future). Quel pulsante non c'è sugli abbonamenti in corso.
 - Abbonamenti **in corso**: aspetta il giorno di fatturazione, oppure usa [Fatturare ora](#bill-now) sulla pagina del socio o dell'abbonamento quando è visibile.
@@ -76,13 +76,13 @@ Intervalli disponibili: Annuale (1), Semestrale (2), Quadrimestrale (3), Trimest
 
 L'importo della fattura è calcolato così: **importo totale dell'abbonamento ÷ numero di intervalli rimanenti**. Per esempio, per un abbonamento di 1000.- pagato ogni trimestre, ogni fattura sarà di 250.-.
 
-#### Quando viene inviata la prima fattura? {#first-invoice-timing}
+### Quando viene inviata la prima fattura? {#first-invoice-timing}
 
 Per impostazione predefinita, la prima fattura viene inviata il giorno di fatturazione successivo alla **prima consegna della <%= Basket.model_name.human.downcase %>**. Con le [<%= Basket.model_name.human(count: 2).downcase %> di prova](#trial-baskets), quella data è l'ultima consegna di prova, non la prima <%= Basket.model_name.human.downcase %>. Nessuna fattura viene generata prima di quella consegna.
 
 Questo comportamento può essere modificato nelle [impostazioni](/settings#billing) disattivando "Fatturare gli abbonamenti solo dopo la loro prima consegna". Quando disattivato, la fatturazione inizia dalla **data di inizio dell'abbonamento**, anche prima di qualsiasi consegna. Se la prova è ancora in corso, aspetta allora la prima consegna non di prova.
 
-#### Quando termina la fatturazione? {#billing-end}
+### Quando termina la fatturazione? {#billing-end}
 
 Per impostazione predefinita, la fatturazione si estende fino alla **data di fine dell'abbonamento**, coprendo l'intero anno fiscale anche se non ci sono consegne negli ultimi mesi.
 
@@ -134,6 +134,7 @@ Se la configurazione di un abbonamento (date, <%= BasketSize.model_name.human.do
 
 Accorciare la data di fine di un abbonamento, anche con l'azione **Fermare**, segue la stessa regola: le consegne future vengono rimosse, l'importo dell'abbonamento viene ricalcolato e la differenza viene trattata il prossimo giorno di fatturazione.
 
+<% if Current.org.feature?("annual_fee") %>
 ### Quota annuale {#annual-fee}
 
 Quando la funzione quota annuale è attivata, la quota annuale predefinita dell'organizzazione è definita nelle [impostazioni della quota annuale](/settings#annual_fee). Ogni socio eredita questo valore predefinito alla creazione, ma può essere modificato individualmente dal suo profilo (pagina di modifica, sezione "Fatturazione"). Se l'impostazione "solo soci di supporto" è attivata, i soci attivi non ereditano automaticamente la quota annuale predefinita dell'organizzazione; resta destinata ai soci di supporto, salvo impostazione manuale.
@@ -141,6 +142,7 @@ Quando la funzione quota annuale è attivata, la quota annuale predefinita dell'
 Quando la funzione è attivata, la quota annuale è automaticamente inclusa nella **prima fattura** dell'abbonamento. Se il socio non ha un abbonamento ([supporto](/handbook/members#statuses)), viene creata automaticamente una fattura specifica di quota annuale all'inizio dell'anno fiscale.
 
 Se modifichi la quota annuale predefinita dell'organizzazione, tutti i soci ancora al vecchio valore vengono automaticamente aggiornati.
+<% end %>
 
 ### <%= Basket.model_name.human(count: 2) %> di prova {#trial-baskets}
 
@@ -148,14 +150,15 @@ Se un numero di <%= Basket.model_name.human(count: 2).downcase %> di prova è de
 
 Per impostazione predefinita, la prima fattura di abbonamento è creata il giorno di fatturazione successivo all'**ultima consegna di prova**. Può ancora arrivare mentre il socio può annullare. Se disattivi "Fatturare gli abbonamenti solo dopo la loro prima consegna", la fatturazione aspetta invece la prima consegna **non di prova**.
 
-Se l'abbonamento viene annullato durante la prova, solo le <%= Basket.model_name.human(count: 2).downcase %> consegnate sono fatturate, il prossimo giorno di fatturazione. La quota annuale non viene fatturata, a meno che il socio non scelga di pagarla.
+Se l'abbonamento viene annullato durante la prova, solo le <%= Basket.model_name.human(count: 2).downcase %> consegnate sono fatturate, il prossimo giorno di fatturazione.<% if Current.org.feature?("annual_fee") %> La quota annuale non viene fatturata, a meno che il socio non scelga di pagarla.<% end %>
 
-Le fatture di [quote sociali](#share-capital) aspettano la fine della prova: le quote mancanti vengono fatturate allora. **Terminare** o **Fermare** l'abbonamento prima di un rinnovo tacito, altrimenti il prossimo anno fiscale viene creato e fatturato.
+<% if Current.org.feature?("shares") %>Le fatture di [quote sociali](#share-capital) aspettano la fine della prova: le quote mancanti vengono fatturate allora. <% end %>**Terminare** o **Fermare** l'abbonamento prima di un rinnovo tacito, altrimenti il prossimo anno fiscale viene creato e fatturato.
 
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
 I soci contrassegnati come "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" sono completamente esclusi dalla fatturazione. Il loro abbonamento esiste ancora per il tracciamento delle consegne, ma tutti i prezzi sono azzerati e non vengono generate fatture di abbonamento.
 
+<% if Current.org.feature?("shares") %>
 ## Quote sociali {#share-capital}
 
 Quando la funzione quote sociali è attivata, il prezzo per quota e il numero predefinito di quote richieste sono definiti nelle [impostazioni delle quote sociali](/settings#shares). Il numero di quote richieste può anche essere impostato per <%= BasketSize.model_name.human.downcase %> (ad esempio, una dimensione maggiore può richiedere più quote).
@@ -175,7 +178,9 @@ Tre campi relativi alle quote sono disponibili nel profilo di un socio (pagina d
 Per rimborsare una quota sociale già fatturata, vai sulla pagina della fattura e clicca sul pulsante "Rimborso" in alto a destra, puoi quindi creare facilmente una fattura di quota sociale negativa. Assicurati che il socio non abbia più bisogno di quote sociali, altrimenti saranno automaticamente create di nuovo il prossimo giorno di fatturazione.
 
 > Dalla pagina di un socio, nella sezione "Fatturazione" (colonna di destra), puoi vedere il numero di quote sociali già fatturate o da fatturare, con un collegamento alle fatture corrispondenti.
+<% end %>
 
+<% if Current.org.feature?("activity") %>
 ## <%= activities_human_name %> non effettuate {#activity}
 
 Ogni organizzazione ha una politica di fatturazione delle <%= activities_human_name.downcase %> non effettuate diversa, alcune le fatturano, altre no.
@@ -210,6 +215,7 @@ Puoi aggiungere un testo specifico nel [modello di email "Nuova fattura"](/mail_
     <p>Il mio testo standard.</p>
 {% endcase %}
 ~~~
+<% end %>
 
 ## Fattura manuale (Altro) {#manual-invoice}
 
@@ -219,6 +225,7 @@ CSA Admin offre la possibilità di fatturare manualmente articoli o servizi vari
 >
 > La fatturazione ricorrente non gira su un abbonamento di un anno fiscale passato e chiuso. Per quell'anno, annulla l'ultima fattura se serve e crea una fattura Altro, o [chiedi al supporto](/support).
 
+<% if Current.org.feature?("vat") %>
 ## IVA {#vat}
 
 Se la tua organizzazione è soggetta all'IVA, attiva la funzione IVA e configura il tuo numero di partita IVA e le aliquote nelle [impostazioni IVA](/settings#vat). Aliquote separate possono essere definite per le fatture di abbonamento, le fatture di <%= activities_human_name.downcase %> e le fatture di ordini della bottega. Per le fatture "Altro" e "Quota nuovo socio", l'aliquota IVA viene impostata manualmente su ogni fattura.
@@ -226,6 +233,7 @@ Se la tua organizzazione è soggetta all'IVA, attiva la funzione IVA e configura
 L'IVA è calcolata come imposta inclusa (il totale della fattura include già l'IVA). L'importo netto e l'importo IVA sono visualizzati separatamente sul PDF della fattura.
 
 > L'IVA viene applicata solo quando la funzione IVA è attivata. Le impostazioni IVA richiedono un numero di partita IVA e un'aliquota IVA per gli abbonamenti; le aliquote IVA per le <%= activities_human_name.downcase %> e per la bottega sono opzionali e vengono utilizzate solo quando queste funzioni sono attivate.
+<% end %>
 
 ## Pagamenti {#payments}
 

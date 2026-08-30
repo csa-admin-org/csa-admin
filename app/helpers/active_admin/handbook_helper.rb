@@ -41,8 +41,11 @@ module ActiveAdmin::HandbookHelper
           Handbook.all(binding).each do |handbook|
             next if handbook.restricted? && !current_admin.ultra?
             next if handbook.demo_only? && !Tenant.demo?
+            next if Current.org.inactive_feature?(handbook.name) && !authorized?(:update, Organization)
 
-            arbre.li do
+            li_opts = {}
+            li_opts[:class] = "admin-page-menu-pinned" if handbook.name == "getting_started"
+            arbre.li(**li_opts) do
               if handbook.name == current_page
                 arbre.div class: "admin-page-menu-current" do
                   arbre.div { icon "chevron-down", class: "icon-4" }

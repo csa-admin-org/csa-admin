@@ -235,4 +235,45 @@ class HandbookTest < ActiveSupport::TestCase
     handbook = Handbook.new("getting_started", binding)
     assert_not handbook.demo_only?
   end
+
+  test "getting_started sorts before other pages" do
+    start = Handbook.new("getting_started", binding)
+    other = Handbook.new("announcements", binding)
+
+    assert_operator start.send(:pinned_rank), :<, other.send(:pinned_rank)
+  end
+
+  test "subtitles are chapter headings with anchors" do
+    billing = Handbook.new("billing", binding)
+    ids = billing.subtitles.map(&:last)
+
+    assert_includes ids, "memberships"
+    assert_includes ids, "invoice-types"
+    assert_not_includes ids, "billing-cookbook"
+    assert_not_includes ids, "trial-baskets"
+  end
+
+  test "billing body omits inactive feature sections" do
+    assert_not Current.org.feature?(:shares)
+    assert_not Current.org.feature?(:vat)
+
+    body = Handbook.new("billing", binding).body
+    doc = Nokogiri::HTML::DocumentFragment.parse(body)
+    types = doc.at_css("#invoice-types")&.parent&.at_css("table")
+
+    assert types, "Expected one invoice-types table"
+    headers = types.css("tr").map { |tr| tr.at_css("td,th")&.text.to_s }
+    assert_includes headers, "Membership"
+    assert_includes headers, "Annual fee"
+    assert_includes headers, "Shop order"
+    assert_includes headers, "Other"
+    assert_not headers.include?("Share capital")
+    assert_not_includes body, "id=\"share-capital\""
+    assert_not_includes body, "id=\"vat\""
+    assert_includes body, "id=\"memberships\""
+  end
+
+  def current_admin
+    admins(:super)
+  end
 end

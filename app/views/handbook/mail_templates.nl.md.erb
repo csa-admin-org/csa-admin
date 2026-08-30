@@ -7,8 +7,12 @@ CSA Admin verstuurt automatisch e-mails naar je leden tijdens specifieke gebeurt
 De e-mailsjablonen zijn georganiseerd per categorie:
 
 - **Lid**: Verzonden bij statuswijzigingen van een lid (gevalideerd, geactiveerd).
+- **Lidmaatschap**: Verzonden voor vernieuwingsverzoeken, herinneringen voor vernieuwing en herinneringen voor inbegrepen afwezigheden.
 - **<%= Basket.model_name.human %>**: Verzonden op belangrijke momenten van het lidmaatschap (eerste <%= Basket.model_name.human.downcase %>, laatste <%= Basket.model_name.human.downcase %>, proefperiode, ...).
 - **Factuur**: Verzonden bij het aanmaken, annuleren of herinneren van facturen.
+<% if Current.org.feature?("sepa") %>
+- **SEPA**: Verzonden wanneer een SEPA-mandaat wordt bevestigd.
+<% end %>
 <% if Current.org.feature?("absence") %>
 - **Afwezigheid**: Verzonden bij de bevestiging van een afwezigheid of bij het verschuiven van <%= Basket.model_name.human(count: 2).downcase %>.
 <% end %>

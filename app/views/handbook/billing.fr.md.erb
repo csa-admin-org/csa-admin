@@ -1,6 +1,6 @@
 # Facturation
 
-CSA Admin vise à automatiser la plupart des tâches relatives à la facturation ([abonnements](#memberships), [parts sociales](#share-capital), [traitements des paiements](#payments)), mais certains aspects comme la facturation des [<%= activities_human_name %> non effectuées](#activity) doivent être effectués manuellement.
+CSA Admin vise à automatiser la plupart des tâches relatives à la facturation ([abonnements](#memberships)<% if Current.org.feature?("shares") %>, [parts sociales](#share-capital)<% end %>, [traitements des paiements](#payments))<% if Current.org.feature?("activity") %>, mais certains aspects comme la facturation des [<%= activities_human_name %> non effectuées](#activity) doivent être effectués manuellement<% end %>.
 
 ## Types de factures {#invoice-types}
 
@@ -9,12 +9,12 @@ CSA Admin gère plusieurs types de factures:
 | Type | Description |
 |------|-------------|
 | **Abonnement** | Facturation de l'abonnement principal (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, dépôt, cycle de livraisons). [Générée automatiquement](#memberships). |
-| **Cotisation annuelle** | Incluse dans la première facture de l'abonnement, ou [facturée séparément](#annual-fee) pour les [membres de soutien](/handbook/members#statuses). |
-| **Parts sociales** | Pour les organisations nécessitant la [détention de parts sociales](#share-capital). Générée automatiquement lorsqu'il manque des parts. |
-| **<%= activities_human_name %>** | Facturation des [participations non effectuées](#activity). Déclenchée manuellement ou de manière groupée. |
-| **Commande d'épicerie** | Facture pour les commandes de l'[épicerie](/handbook/shop). Peut être automatique ou manuelle. |
-| **Cotisation nouveau membre** | Cotisation unique facturée aux nouveaux membres, si la fonctionnalité est activée. |
-| **Autre** | [Factures libres](#manual-invoice) pour des articles ou services divers. |
+<% if Current.org.feature?("annual_fee") %>| **Cotisation annuelle** | Incluse dans la première facture de l'abonnement, ou [facturée séparément](#annual-fee) pour les [membres de soutien](/handbook/members#statuses). |
+<% end %><% if Current.org.feature?("shares") %>| **Parts sociales** | Pour les organisations nécessitant la [détention de parts sociales](#share-capital). Générée automatiquement lorsqu'il manque des parts. |
+<% end %><% if Current.org.feature?("activity") %>| **<%= activities_human_name %>** | Facturation des [participations non effectuées](#activity). Déclenchée manuellement ou de manière groupée. |
+<% end %><% if Current.org.feature?("shop") %>| **Commande d'épicerie** | Facture pour les commandes de l'[épicerie](/handbook/shop). Peut être automatique ou manuelle. |
+<% end %><% if Current.org.feature?("new_member_fee") %>| **Cotisation nouveau membre** | Cotisation unique facturée aux nouveaux membres, si la fonctionnalité est activée. |
+<% end %>| **Autre** | [Factures libres](#manual-invoice) pour des articles ou services divers. |
 
 ### Annulation des factures {#canceling-invoices}
 
@@ -60,7 +60,7 @@ Par défaut, les factures déjà considérées comme payées/fermées au moment 
 
 Un IBAN dans [les paramètres de facturation](/settings#invoice) ne suffit pas. Sans jour de la semaine pour la [Facturation automatique](/settings#billing), aucune facture d'abonnement n'est créée et [Facturer maintenant](#bill-now) reste masqué. Les rappels d'échéance suivent [l'import automatique des paiements](#automatic_payments_processing), pas ce jour.
 
-#### Quel bouton? {#billing-cookbook}
+### Quel bouton? {#billing-cookbook}
 
 - Abonnements **futurs** (date de début encore à venir): [Tout facturer à l'avance](#future_billing) depuis la page de l'abonnement ou depuis [le filtre Futurs](/memberships?scope=future). Ce bouton n'est pas sur les abonnements en cours.
 - Abonnements **en cours**: attendre le jour de facturation, ou utiliser [Facturer maintenant](#bill-now) sur la page du membre ou de l'abonnement quand il s'affiche.
@@ -76,13 +76,13 @@ Intervalles disponibles: Annuel (1), Semestriel (2), Quadrimestriel (3), Trimest
 
 Le montant de la facture est calculé ainsi: **montant total de l'abonnement ÷ nombre d'intervalles restants**. Par exemple, pour un abonnement à 1000.- payé tous les trimestres, chaque facture sera de 250.-.
 
-#### Quand la première facture est-elle envoyée? {#first-invoice-timing}
+### Quand la première facture est-elle envoyée? {#first-invoice-timing}
 
 Par défaut, la première facture est envoyée le jour de facturation suivant la **première livraison de <%= Basket.model_name.human.downcase %>**. Avec des [<%= Basket.model_name.human(count: 2).downcase %> à l'essai](#trial-baskets), cette date est la dernière livraison à l'essai, pas la première. Aucune facture n'est générée avant cette livraison.
 
 Ce comportement peut être modifié dans [les paramètres](/settings#billing) en désactivant "Facturer les abonnements seulement après leur première livraison". Lorsque désactivé, la facturation commence dès la **date de début de l'abonnement**, même avant toute livraison. Avec un essai encore en cours, elle attend alors la première livraison non à l'essai.
 
-#### Quand la facturation se termine-t-elle? {#billing-end}
+### Quand la facturation se termine-t-elle? {#billing-end}
 
 Par défaut, la facturation s'étend jusqu'à la **date de fin de l'abonnement**, couvrant l'année fiscale complète même s'il n'y a pas de livraisons les derniers mois.
 
@@ -134,6 +134,7 @@ Si la configuration d'un abonnement (dates, <%= BasketSize.model_name.human.down
 
 Raccourcir la date de fin d'un abonnement, y compris avec l'action **Arrêter**, suit la même règle: les livraisons futures sont supprimées, le montant de l'abonnement est recalculé et la différence est traitée le prochain jour de facturation.
 
+<% if Current.org.feature?("annual_fee") %>
 ### Cotisation annuelle {#annual-fee}
 
 Lorsque la fonctionnalité de cotisation annuelle est activée, la cotisation annuelle par défaut de l'organisation est définie dans [les paramètres de cotisation annuelle](/settings#annual_fee). Chaque membre hérite de cette valeur par défaut à sa création, mais elle peut être modifiée individuellement depuis son profil (page d'édition, section "Facturation"). Si le paramètre "membres de soutien uniquement" est activé, les membres actifs n'héritent pas automatiquement de la cotisation annuelle par défaut de l'organisation; celle-ci reste destinée aux membres de soutien, sauf si elle est définie manuellement.
@@ -141,6 +142,7 @@ Lorsque la fonctionnalité de cotisation annuelle est activée, la cotisation an
 Lorsque la fonctionnalité est activée, la cotisation annuelle est automatiquement incluse dans la **première facture** de l'abonnement. Si le membre n'a pas d'abonnement ([soutien](/handbook/members#statuses)), une facture spécifique de cotisation annuelle est créée automatiquement au début de l'année fiscale.
 
 Si vous modifiez la cotisation annuelle par défaut de l'organisation, tous les membres encore à l'ancienne valeur sont automatiquement mis à jour.
+<% end %>
 
 ### <%= Basket.model_name.human(count: 2) %> à l'essai {#trial-baskets}
 
@@ -148,14 +150,15 @@ Si un nombre de <%= Basket.model_name.human(count: 2).downcase %> à l'essai est
 
 Par défaut, la première facture d'abonnement est créée le jour de facturation suivant la **dernière livraison à l'essai**. Cela peut encore arriver pendant que le membre peut annuler. Si vous désactivez "Facturer les abonnements seulement après leur première livraison", la facturation attend la première livraison **non à l'essai**.
 
-Si l'abonnement est annulé durant l'essai, seuls les <%= Basket.model_name.human(count: 2).downcase %> livrés sont facturés le prochain jour de facturation. La cotisation annuelle n'est pas facturée, sauf si le membre choisit de la payer.
+Si l'abonnement est annulé durant l'essai, seuls les <%= Basket.model_name.human(count: 2).downcase %> livrés sont facturés le prochain jour de facturation.<% if Current.org.feature?("annual_fee") %> La cotisation annuelle n'est pas facturée, sauf si le membre choisit de la payer.<% end %>
 
-Les factures de [parts sociales](#share-capital) attendent la fin de l'essai: les parts manquantes sont facturées alors. Résiliez ou arrêtez l'abonnement avant un renouvellement tacite, sinon l'année fiscale suivante est créée et facturée.
+<% if Current.org.feature?("shares") %>Les factures de [parts sociales](#share-capital) attendent la fin de l'essai: les parts manquantes sont facturées alors. <% end %>Résiliez ou arrêtez l'abonnement avant un renouvellement tacite, sinon l'année fiscale suivante est créée et facturée.
 
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
 Les membres marqués comme "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" sont complètement exclus de la facturation. Leur abonnement existe toujours pour le suivi des livraisons, mais tous les prix sont mis à zéro et aucune facture d'abonnement n'est générée.
 
+<% if Current.org.feature?("shares") %>
 ## Parts sociales {#share-capital}
 
 Lorsque la fonctionnalité des parts sociales est activée, le prix par part sociale et le nombre de parts requises par défaut sont définis dans [les paramètres des parts sociales](/settings#shares). Le nombre de parts requises peut également être défini par <%= BasketSize.model_name.human.downcase %> (par exemple, une taille plus grande peut nécessiter davantage de parts).
@@ -175,7 +178,9 @@ Trois champs liés aux parts sociales sont disponibles sur le profil d'un membre
 Pour rembourser une part sociale déjà facturée, ouvrez la facture et cliquez sur "Remboursement" en haut à droite. Vous pouvez alors créer une facture de part sociale négative. Assurez-vous que le membre n'a plus besoin de parts sociales; sinon, elles seront à nouveau créées automatiquement le prochain jour de facturation.
 
 > Depuis la page d'un membre, la section "Facturation" (colonne de droite) indique le nombre de parts sociales déjà facturées ou à facturer, avec un lien vers les factures correspondantes.
+<% end %>
 
+<% if Current.org.feature?("activity") %>
 ## <%= activities_human_name %> non effectuées {#activity}
 
 Chaque organisation a une politique de facturation des <%= activities_human_name.downcase %> non effectuées différente, certaines les facturent, d'autres non.
@@ -209,6 +214,8 @@ Vous pouvez ajouter un texte spécifique dans le [modèle d'e-mail "Nouvelle fac
     <p>Mon texte standard.</p>
 {% endcase %}
 ~~~
+<% end %>
+
 ## Facture manuelle (Autre) {#manual-invoice}
 
 Vous pouvez facturer manuellement des articles ou des services divers, par exemple des sacs en tissu pour les nouveaux abonnés. [Créez une nouvelle facture](/invoices/new), puis saisissez les articles sous l'onglet "Autre". Après vérification du PDF, envoyez la facture à l'aide du bouton "Envoyer" sur sa page.
@@ -217,6 +224,7 @@ Vous pouvez facturer manuellement des articles ou des services divers, par exemp
 >
 > La facturation automatique ne tourne pas sur un abonnement d'une année fiscale passée et close. Pour cette année, annulez la dernière facture si besoin et créez une facture Autre, ou [demandez au support](/support).
 
+<% if Current.org.feature?("vat") %>
 ## TVA {#vat}
 
 Si votre organisation est assujettie à la TVA, activez la fonctionnalité TVA et configurez votre numéro de TVA ainsi que vos taux dans [les paramètres de TVA](/settings#vat). Des taux distincts peuvent être définis pour les factures d'abonnement, les factures de <%= activities_human_name.downcase %> et les factures de commandes d'épicerie. Pour les factures "Autre" et "Cotisation nouveau membre", le taux de TVA est défini manuellement sur chaque facture.
@@ -224,6 +232,7 @@ Si votre organisation est assujettie à la TVA, activez la fonctionnalité TVA e
 La TVA est calculée comme une taxe incluse (le montant total de la facture inclut déjà la TVA). Le montant net et le montant de la TVA sont affichés séparément sur le PDF de la facture.
 
 > La TVA n'est appliquée que lorsque la fonctionnalité TVA est activée. Les paramètres de TVA exigent un numéro de TVA et un taux de TVA pour les abonnements; les taux de TVA pour les <%= activities_human_name.downcase %> et l'épicerie sont optionnels et ne sont utilisés que lorsque ces fonctionnalités sont activées.
+<% end %>
 
 ## Paiements {#payments}
 

@@ -28,9 +28,9 @@ Per rendere attivo un socio in lista d'attesa, clicca su "Attivare" in alto a de
 
 ### Attivo
 
-Un socio è considerato attivo se possiede un abbonamento per l'anno fiscale in corso o futuro. Un socio che possiede un deposito definito per gli ordini della bottega è anch'esso considerato attivo.
+Un socio è considerato attivo se possiede un abbonamento per l'anno fiscale in corso o futuro.<% if Current.org.feature?("shop") %> Un socio che possiede un deposito definito per gli ordini della bottega è anch'esso considerato attivo.<% end %>
 
-Terminare o eliminare l'abbonamento in corso non rende sempre il socio inattivo. Resta attivo con un abbonamento futuro o un deposito bottega. Altrimenti passa a supporto se è impostata una quota annuale o delle quote sociali.
+Terminare o eliminare l'abbonamento in corso non rende sempre il socio inattivo. Resta attivo con un abbonamento futuro<% if Current.org.feature?("shop") %> o un deposito bottega<% end %>. Altrimenti passa a supporto se è impostata la quota annuale di rinnovo dell'ultimo abbonamento<% if Current.org.feature?("shares") %>, o se possiede ancora quote sociali<% end %>.
 
 ### Support
 
@@ -110,6 +110,9 @@ La scadenza per le modifiche è definita dall'impostazione del limite di modific
 
 Le modifiche effettuate dai soci vengono salvate come modifiche individuali delle <%= Basket.model_name.human(count: 2).downcase %>, proprio come le modifiche fatte dagli admin. Vengono conservate e riapplicate quando la configurazione dell'abbonamento cambia in seguito.
 
+Una <%= Basket.model_name.human.downcase %> futura può cambiare deposito in questo modo, o dalla pagina dell'abbonamento. L'indirizzo di casa non si può programmare. Quando un socio si trasferisce, lo modifica nel proprio account.
+
+<% if Current.org.feature?("member_information") %>
 ### Pagina informativa {#information-page}
 
 Se la [funzione Pagina informativa](/settings#member_information) è attivata, la pagina appare nella navigazione del socio.
@@ -117,6 +120,7 @@ Se la [funzione Pagina informativa](/settings#member_information) è attivata, l
 L'impostazione "Pagina informativa" permette di pubblicare contenuti in testo formattato direttamente nell'account del socio, sotto una voce di navigazione dedicata. Puoi usarla per condividere informazioni pratiche che devono restare facilmente reperibili in ogni momento, come regolamenti interni, istruzioni per il ritiro, aggiornamenti stagionali o informazioni riservate ai soci.
 
 Questo contenuto viene configurato nelle [impostazioni della pagina informativa](/settings#member_information). Anche il titolo della pagina può essere personalizzato nelle stesse impostazioni; se lasciato vuoto, viene usato il titolo predefinito "Informazioni".
+<% end %>
 
 ### Accesso admin all'account di un socio {#admin-access}
 

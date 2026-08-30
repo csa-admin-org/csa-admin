@@ -103,6 +103,8 @@ Jede <%= Basket.model_name.human %> einer Mitgliedschaft kann individuell bearbe
 
 Auf der Mitgliedschaftsseite zeigt jede <%= Basket.model_name.human.downcase %>, die von der Mitgliedschaftskonfiguration abweicht, ein kleines **Verlaufssymbol** neben ihrem Status an. Wenn Du mit der Maus über das Symbol fährst, siehst Du, wer die Änderung vorgenommen hat (Name des Admins oder "durch das Mitglied") und wann, sowie die Liste der geänderten Felder. Von dort aus stellt eine Schaltfläche **"Rückgängig"** die <%= Basket.model_name.human.downcase %> auf die Standardwerte der Mitgliedschaft zurück.
 
+### Daten überspringen oder extra {#skip-extra-dates}
+
 Um Daten zu überspringen: setze auf der Mitgliedschaftsseite die Menge ab dem Abreisedatum auf **0** und ab der Rückkehr auf **1**. Für eine extra <%= Basket.model_name.human.downcase %> an manchen Daten setze die Menge dort auf **2**.
 
 Wenn das Jahr bereits abgerechnet ist, erhöhe zuerst Extras, damit Rechnungen nicht storniert werden, dann setze die übersprungenen Daten auf null. Gleiche abgerechnete Anzahl behalten und den Inhalt auf ein anderes Datum verschieben: das ist eine [Verschiebung](/handbook/absence#basket-shift), keine Menge 0.

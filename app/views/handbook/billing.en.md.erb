@@ -1,6 +1,6 @@
 # Billing
 
-CSA Admin aims to automate most tasks related to billing ([memberships](#memberships), [share capital](#share-capital), [payment processing](#payments)), but some aspects such as billing for [uncompleted <%= activities_human_name %>](#activity) must be done manually.
+CSA Admin aims to automate most tasks related to billing ([memberships](#memberships)<% if Current.org.feature?("shares") %>, [share capital](#share-capital)<% end %>, [payment processing](#payments))<% if Current.org.feature?("activity") %>, but some aspects such as billing for [uncompleted <%= activities_human_name %>](#activity) must be done manually<% end %>.
 
 ## Invoice types {#invoice-types}
 
@@ -9,12 +9,12 @@ CSA Admin handles several types of invoices:
 | Type | Description |
 |------|-------------|
 | **Membership** | Main subscription billing (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, delivery cycle). [Automatically generated](#memberships). |
-| **Annual fee** | Included in the first membership invoice, or [billed separately](#annual-fee) for [support members](/handbook/members#statuses). |
-| **Share capital** | For organizations requiring [share ownership](#share-capital). Automatically generated when shares are missing. |
-| **<%= activities_human_name %>** | Billing for [uncompleted participations](#activity). Triggered manually or in group. |
-| **Shop order** | Invoice for [shop](/handbook/shop) orders. Can be automatic or manual. |
-| **New member fee** | One-time fee charged to new members, if the feature is enabled. |
-| **Other** | [Free-form invoices](#manual-invoice) for miscellaneous items or services. |
+<% if Current.org.feature?("annual_fee") %>| **Annual fee** | Included in the first membership invoice, or [billed separately](#annual-fee) for [support members](/handbook/members#statuses). |
+<% end %><% if Current.org.feature?("shares") %>| **Share capital** | For organizations requiring [share ownership](#share-capital). Automatically generated when shares are missing. |
+<% end %><% if Current.org.feature?("activity") %>| **<%= activities_human_name %>** | Billing for [uncompleted participations](#activity). Triggered manually or in group. |
+<% end %><% if Current.org.feature?("shop") %>| **Shop order** | Invoice for [shop](/handbook/shop) orders. Can be automatic or manual. |
+<% end %><% if Current.org.feature?("new_member_fee") %>| **New member fee** | One-time fee charged to new members, if the feature is enabled. |
+<% end %>| **Other** | [Free-form invoices](#manual-invoice) for miscellaneous items or services. |
 
 ### Canceling invoices {#canceling-invoices}
 
@@ -60,7 +60,7 @@ By default, invoices that are already considered paid/closed when created are no
 
 An IBAN in [the invoice settings](/settings#invoice) is not enough. Without a weekday in [Automatic billing](/settings#billing), no membership invoices are created and [Bill now](#bill-now) stays hidden. Overdue reminders follow [automatic payment import](#automatic_payments_processing), not this weekday.
 
-#### Which button? {#billing-cookbook}
+### Which button? {#billing-cookbook}
 
 - **Future** memberships (start date still ahead): [Invoice all in advance](#future_billing) from the membership page or from [the Future scope](/memberships?scope=future). That button is not on ongoing memberships.
 - **Ongoing** memberships: wait for the billing weekday, or use [Bill now](#bill-now) on the member or membership page when it is shown.
@@ -76,13 +76,13 @@ Available intervals: Annual (1), Semi-annual (2), Four-monthly (3), Quarterly (4
 
 The invoice amount is calculated as: **total membership amount ÷ number of remaining intervals**. For example, for a 1000.- membership paid quarterly, each invoice will be 250.-.
 
-#### When is the first invoice sent? {#first-invoice-timing}
+### When is the first invoice sent? {#first-invoice-timing}
 
 By default, the first invoice is sent on the billing day following the **first <%= Basket.model_name.human.downcase %> delivery**. With [trial <%= Basket.model_name.human(count: 2).downcase %>](#trial-baskets), that date is the last trial delivery, not the first <%= Basket.model_name.human.downcase %>. No invoice is generated before that delivery.
 
 This behavior can be changed in [the settings](/settings#billing) by disabling "Bill memberships only after their first delivery". When disabled, billing starts from the **membership start date**, even before any delivery. With a trial still running, it then waits for the first non-trial delivery.
 
-#### When does billing end? {#billing-end}
+### When does billing end? {#billing-end}
 
 By default, billing extends until the **membership end date**, covering the full fiscal year even if there are no deliveries in the last months.
 
@@ -134,6 +134,7 @@ If a membership configuration (dates, <%= BasketSize.model_name.human.downcase %
 
 Shortening a membership end date, including with the **Stop** action, follows the same rule: future deliveries are removed, the membership amount is recalculated, and the difference is handled on the next billing day.
 
+<% if Current.org.feature?("annual_fee") %>
 ### Annual fee {#annual-fee}
 
 When the annual fee feature is enabled, the organization's default annual fee is defined in [the annual fee settings](/settings#annual_fee). Each member inherits this default when created, but it can be overridden individually from their profile (edit page, "Billing" section). If the "support members only" setting is enabled, active members do not automatically inherit the organization default annual fee; the default remains intended for support members unless set manually.
@@ -141,6 +142,7 @@ When the annual fee feature is enabled, the organization's default annual fee is
 When enabled, the annual fee is automatically included in the **first invoice** of the membership. If the member doesn't have a membership ([support](/handbook/members#statuses)), a specific annual fee invoice is automatically created at the beginning of the fiscal year.
 
 If you change the organization's default annual fee, all members still set to the previous value are automatically updated to the new one.
+<% end %>
 
 ### Trial <%= Basket.model_name.human(count: 2).downcase %> {#trial-baskets}
 
@@ -148,14 +150,15 @@ If a number of trial <%= Basket.model_name.human(count: 2).downcase %> is define
 
 By default, the first membership invoice is created on the billing day after the **last trial** delivery. That can still be while the member can cancel. If you disable "Bill memberships only after their first delivery", billing waits for the first **non-trial** delivery instead.
 
-If the membership is canceled during the trial, only the delivered <%= Basket.model_name.human(count: 2).downcase %> are billed on the next billing day. The annual fee is not billed unless the member chooses to pay it.
+If the membership is canceled during the trial, only the delivered <%= Basket.model_name.human(count: 2).downcase %> are billed on the next billing day.<% if Current.org.feature?("annual_fee") %> The annual fee is not billed unless the member chooses to pay it.<% end %>
 
-[Share capital](#share-capital) invoices wait until the trial is over: missing shares are billed then. Cancel or Stop the membership before a tacit renew, or the next fiscal year is created and billed.
+<% if Current.org.feature?("shares") %>[Share capital](#share-capital) invoices wait until the trial is over: missing shares are billed then. <% end %>Cancel or Stop the membership before a tacit renew, or the next fiscal year is created and billed.
 
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
 Members flagged as "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" are completely excluded from billing. Their membership still exists for delivery tracking, but all prices are zeroed out and no membership invoices are generated.
 
+<% if Current.org.feature?("shares") %>
 ## Share capital {#share-capital}
 
 When the cooperative shares feature is enabled, the price per share and the default number of required shares are defined in [the cooperative shares settings](/settings#shares). The required number of shares can also be set per <%= BasketSize.model_name.human.downcase %> (e.g., a larger size may require more shares).
@@ -175,7 +178,9 @@ Three share-related fields are available on a member's profile (edit page, "Bill
 To refund billed share capital, open the invoice and click "Refund" in the top-right corner. Then create a negative share-capital invoice. Make sure the member no longer needs those shares; otherwise, they will be invoiced again on the next billing day.
 
 > From a member's page, you can see in the "Billing" section (right column) the number of share capital that will be or are already billed with a link to the corresponding invoices.
+<% end %>
 
+<% if Current.org.feature?("activity") %>
 ## Uncompleted <%= activities_human_name %> {#activity}
 
 Each organization has a different billing policy for uncompleted <%= activities_human_name.downcase %>, some bill them, others don't.
@@ -209,6 +214,7 @@ It's possible to add specific text in the ["New invoice" email template](/mail_t
     <p>My standard text.</p>
 {% endcase %}
 ~~~
+<% end %>
 
 ## Manual invoice (Other) {#manual-invoice}
 
@@ -218,6 +224,7 @@ Use a manual invoice to bill miscellaneous items or services, such as fabric bag
 >
 > Recurring billing does not run on a closed past fiscal year membership. For that year, cancel the last invoice if needed and create an Other invoice, or [ask support](/support).
 
+<% if Current.org.feature?("vat") %>
 ## VAT {#vat}
 
 If your organization is subject to VAT, enable the VAT feature and configure your VAT number and rates in [the VAT settings](/settings#vat). Separate rates can be defined for membership invoices, <%= activities_human_name.downcase %> invoices, and shop order invoices. For "Other" and "New member fee" invoices, the VAT rate is set manually on each invoice.
@@ -225,6 +232,7 @@ If your organization is subject to VAT, enable the VAT feature and configure you
 VAT is calculated as an inclusive tax (the invoice total already includes VAT). The net amount and VAT amount are displayed separately on the invoice PDF.
 
 > VAT is only applied when the VAT feature is enabled. The VAT settings require a VAT number and a membership VAT rate; <%= activities_human_name.downcase %> and shop VAT rates are optional and only used when those features are enabled.
+<% end %>
 
 ## Payments {#payments}
 

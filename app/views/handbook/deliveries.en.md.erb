@@ -103,6 +103,8 @@ Each <%= Basket.model_name.human.downcase %> of a membership can be edited indiv
 
 On the membership page, any <%= Basket.model_name.human.downcase %> that diverges from the membership configuration shows a small **history icon** next to its state. Hovering over the icon reveals who made the change (admin name, or "by the member") and when, along with the list of modified fields. From there, an **"Undo"** button restores the <%= Basket.model_name.human.downcase %> to the membership defaults.
 
+### Skip or extra dates {#skip-extra-dates}
+
 To skip dates: from the membership page, set quantity **0** from the leave date and **1** from the return. To add an extra <%= Basket.model_name.human.downcase %> on some dates, set quantity **2** on those dates.
 
 If the year is already billed, raise extras first so invoices are not cancelled, then zero the skipped ones. To keep the same billed count and move the content to another date, that is a [shift](/handbook/absence#basket-shift), not a quantity of 0.

@@ -1,6 +1,6 @@
 # Facturering
 
-CSA Admin heeft als doel om de meeste taken gerelateerd aan facturering te automatiseren ([lidmaatschappen](#memberships), [aandelenkapitaal](#share-capital), [betalingsverwerking](#payments)), maar sommige aspecten zoals facturering voor [niet voltooide <%= activities_human_name %>](#activity) moeten handmatig worden gedaan.
+CSA Admin heeft als doel om de meeste taken gerelateerd aan facturering te automatiseren ([lidmaatschappen](#memberships)<% if Current.org.feature?("shares") %>, [aandelenkapitaal](#share-capital)<% end %>, [betalingsverwerking](#payments))<% if Current.org.feature?("activity") %>, maar sommige aspecten zoals facturering voor [niet voltooide <%= activities_human_name %>](#activity) moeten handmatig worden gedaan<% end %>.
 
 ## Factuurtypen {#invoice-types}
 
@@ -9,12 +9,12 @@ CSA Admin verwerkt verschillende typen facturen:
 | Type | Beschrijving |
 |------|-------------|
 | **Lidmaatschap** | Facturering van het hoofdlidmaatschap (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, leveringscyclus). [Automatisch gegenereerd](#memberships). |
-| **Jaarlijkse bijdrage** | Opgenomen in de eerste lidmaatschapsfactuur, of [apart gefactureerd](#annual-fee) voor [ondersteunende leden](/handbook/members#statuses). |
-| **Aandelenkapitaal** | Voor organisaties die [aandelenbezit](#share-capital) vereisen. Automatisch gegenereerd wanneer aandelen ontbreken. |
-| **<%= activities_human_name %>** | Facturering van [niet voltooide deelnames](#activity). Handmatig of in groepen geactiveerd. |
-| **Winkelbestelling** | Factuur voor [winkel](/handbook/shop)-bestellingen. Kan automatisch of handmatig zijn. |
-| **Nieuw lid bijdrage** | Eenmalige bijdrage voor nieuwe leden, als de functie is ingeschakeld. |
-| **Overig** | [Vrije facturen](#manual-invoice) voor diverse artikelen of diensten. |
+<% if Current.org.feature?("annual_fee") %>| **Jaarlijkse bijdrage** | Opgenomen in de eerste lidmaatschapsfactuur, of [apart gefactureerd](#annual-fee) voor [ondersteunende leden](/handbook/members#statuses). |
+<% end %><% if Current.org.feature?("shares") %>| **Aandelenkapitaal** | Voor organisaties die [aandelenbezit](#share-capital) vereisen. Automatisch gegenereerd wanneer aandelen ontbreken. |
+<% end %><% if Current.org.feature?("activity") %>| **<%= activities_human_name %>** | Facturering van [niet voltooide deelnames](#activity). Handmatig of in groepen geactiveerd. |
+<% end %><% if Current.org.feature?("shop") %>| **Winkelbestelling** | Factuur voor [winkel](/handbook/shop)-bestellingen. Kan automatisch of handmatig zijn. |
+<% end %><% if Current.org.feature?("new_member_fee") %>| **Nieuw lid bijdrage** | Eenmalige bijdrage voor nieuwe leden, als de functie is ingeschakeld. |
+<% end %>| **Overig** | [Vrije facturen](#manual-invoice) voor diverse artikelen of diensten. |
 
 ### Facturen annuleren {#canceling-invoices}
 
@@ -60,7 +60,7 @@ Standaard worden facturen die bij aanmaak al als betaald/gesloten worden beschou
 
 Een IBAN in [de factureringsinstellingen](/settings#invoice) is niet genoeg. Zonder weekdag in [Automatische facturering](/settings#billing) worden er geen lidmaatschapsfacturen aangemaakt en blijft [Nu factureren](#bill-now) verborgen. Betalingsherinneringen volgen [automatische betalingsimport](#automatic_payments_processing), niet deze weekdag.
 
-#### Welke knop? {#billing-cookbook}
+### Welke knop? {#billing-cookbook}
 
 - **Toekomstige** lidmaatschappen (startdatum nog in het vooruitzicht): [Alles vooraf factureren](#future_billing) vanaf de lidmaatschapspagina of vanaf [het filter Toekomstig](/memberships?scope=future). Die knop staat niet op lopende lidmaatschappen.
 - **Lopende** lidmaatschappen: wacht op de facturatiedag, of gebruik [Nu factureren](#bill-now) op de leden- of lidmaatschapspagina wanneer die zichtbaar is.
@@ -76,13 +76,13 @@ Beschikbare intervallen: Jaarlijks (1), Halfjaarlijks (2), Viermaandelijks (3), 
 
 Het factuurbedrag wordt berekend als: **totaal lidmaatschapsbedrag ÷ aantal resterende intervallen**. Bijvoorbeeld, voor een lidmaatschap van 1000.- dat per kwartaal wordt betaald, is elke factuur 250.-.
 
-#### Wanneer wordt de eerste factuur verstuurd? {#first-invoice-timing}
+### Wanneer wordt de eerste factuur verstuurd? {#first-invoice-timing}
 
 Standaard wordt de eerste factuur verstuurd op de factureringsdag die volgt op de **eerste levering van een <%= Basket.model_name.human.downcase %>**. Met [<%= Basket.model_name.human(count: 2).downcase %> op proef](#trial-baskets) is dat de laatste proeflevering, niet de eerste <%= Basket.model_name.human.downcase %>. Er wordt geen factuur aangemaakt vóór die levering.
 
 Dit gedrag kan worden gewijzigd in [de instellingen](/settings#billing) door "Lidmaatschappen alleen factureren na hun eerste levering" uit te schakelen. Wanneer uitgeschakeld, begint de facturering vanaf de **startdatum van het lidmaatschap**, zelfs vóór enige levering. Als de proef nog loopt, wacht het systeem tot de eerste levering zonder proef.
 
-#### Wanneer eindigt de facturering? {#billing-end}
+### Wanneer eindigt de facturering? {#billing-end}
 
 Standaard strekt facturering zich uit tot de **einddatum van het lidmaatschap**, waarmee het volledige boekjaar wordt gedekt, ook als er in de laatste maanden geen leveringen zijn.
 
@@ -134,6 +134,7 @@ Als een lidmaatschapsconfiguratie (datums, <%= BasketSize.model_name.human.downc
 
 Het verkorten van de einddatum van een lidmaatschap, ook met de actie **Stoppen**, volgt dezelfde regel: toekomstige leveringen worden verwijderd, het lidmaatschapsbedrag wordt herberekend en het verschil wordt op de volgende factureringsdag verwerkt.
 
+<% if Current.org.feature?("annual_fee") %>
 ### Jaarlijkse bijdrage {#annual-fee}
 
 Wanneer de functie voor jaarlijkse bijdrage is ingeschakeld, is de standaard jaarlijkse bijdrage van de organisatie gedefinieerd in [de instellingen voor jaarlijkse bijdrage](/settings#annual_fee). Elk lid erft deze standaardwaarde bij aanmaak, maar je kunt deze individueel overschrijven vanuit het profiel van het lid (bewerkpagina, sectie "Facturering"). Als de instelling "alleen ondersteunende leden" is ingeschakeld, erven actieve leden de standaard jaarlijkse bijdrage van de organisatie niet automatisch; de standaard blijft bedoeld voor ondersteunende leden, tenzij je deze handmatig instelt.
@@ -141,6 +142,7 @@ Wanneer de functie voor jaarlijkse bijdrage is ingeschakeld, is de standaard jaa
 Wanneer de functie is ingeschakeld, wordt de jaarlijkse bijdrage automatisch opgenomen in de **eerste factuur** van het lidmaatschap. Als het lid geen lidmaatschap heeft ([ondersteuning](/handbook/members#statuses)), wordt automatisch een specifieke jaarlijkse bijdragefactuur aangemaakt aan het begin van het boekjaar.
 
 Als je de standaard jaarlijkse bijdrage van de organisatie wijzigt, worden alle leden die nog op de oude waarde staan automatisch bijgewerkt.
+<% end %>
 
 ### <%= Basket.model_name.human(count: 2) %> op proef {#trial-baskets}
 
@@ -148,14 +150,15 @@ Als een aantal <%= Basket.model_name.human(count: 2).downcase %> op proef is ged
 
 Standaard wordt de eerste lidmaatschapsfactuur aangemaakt op de factureringsdag na de **laatste proeflevering**. Dat kan nog terwijl het lid kan annuleren. Als je "Lidmaatschappen alleen factureren na hun eerste levering" uitschakelt, wacht de facturering tot de eerste levering **zonder proef**.
 
-Als het lidmaatschap tijdens de proef wordt geannuleerd, worden alleen de geleverde <%= Basket.model_name.human(count: 2).downcase %> gefactureerd, op de volgende factureringsdag. De jaarlijkse bijdrage wordt niet gefactureerd, tenzij het lid ervoor kiest deze te betalen.
+Als het lidmaatschap tijdens de proef wordt geannuleerd, worden alleen de geleverde <%= Basket.model_name.human(count: 2).downcase %> gefactureerd, op de volgende factureringsdag.<% if Current.org.feature?("annual_fee") %> De jaarlijkse bijdrage wordt niet gefactureerd, tenzij het lid ervoor kiest deze te betalen.<% end %>
 
-[Aandelenkapitaal](#share-capital)-facturen wachten tot de proef voorbij is: ontbrekende aandelen worden dan gefactureerd. Zeg op of stop het lidmaatschap vóór een stilzwijgende vernieuwing, anders wordt het volgende boekjaar aangemaakt en gefactureerd.
+<% if Current.org.feature?("shares") %>[Aandelenkapitaal](#share-capital)-facturen wachten tot de proef voorbij is: ontbrekende aandelen worden dan gefactureerd. <% end %>Zeg op of stop het lidmaatschap vóór een stilzwijgende vernieuwing, anders wordt het volgende boekjaar aangemaakt en gefactureerd.
 
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
 Leden gemarkeerd als "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" zijn volledig uitgesloten van facturering. Hun lidmaatschap bestaat nog steeds voor leveringstracking, maar alle prijzen zijn op nul gezet en er worden geen lidmaatschapsfacturen gegenereerd.
 
+<% if Current.org.feature?("shares") %>
 ## Aandelenkapitaal {#share-capital}
 
 Wanneer de functie voor aandelenkapitaal is ingeschakeld, zijn de prijs per aandeel en het standaard vereiste aantal aandelen gedefinieerd in [de instellingen voor aandelenkapitaal](/settings#shares). Het vereiste aantal aandelen kan ook per <%= BasketSize.model_name.human.downcase %> worden ingesteld (bijv. een grotere maat kan meer aandelen vereisen).
@@ -175,7 +178,9 @@ Drie aandelengerelateerde velden zijn beschikbaar in het profiel van een lid (be
 Om reeds gefactureerd aandelenkapitaal terug te betalen, ga naar de factuurpagina en klik op de knop "Terugbetalen" rechtsboven, je kunt dan eenvoudig een negatieve aandelenkapitaalfactuur aanmaken. Zorg ervoor dat het lid geen aandelenkapitaal meer nodig heeft, anders worden ze automatisch opnieuw aangemaakt op de volgende factureringsdag.
 
 > Vanaf de pagina van een lid kun je in de sectie "Facturering" (rechterkolom) het aantal aandelenkapitaal zien dat wordt of al is gefactureerd met een link naar de corresponderende facturen.
+<% end %>
 
+<% if Current.org.feature?("activity") %>
 ## Niet voltooide <%= activities_human_name %> {#activity}
 
 Elke organisatie heeft een ander factureringsbeleid voor niet voltooide <%= activities_human_name.downcase %>, sommige factureren ze, andere niet.
@@ -210,6 +215,7 @@ Het is mogelijk om specifieke tekst toe te voegen in de ["Nieuwe factuur" e-mail
     <p>Mijn standaard tekst.</p>
 {% endcase %}
 ~~~
+<% end %>
 
 ## Handmatige factuur (Overig) {#manual-invoice}
 
@@ -219,6 +225,7 @@ CSA Admin biedt de mogelijkheid om handmatig verschillende artikelen of diensten
 >
 > Terugkerende facturering draait niet op een afgesloten lidmaatschap van een voorbij boekjaar. Voor dat jaar annuleer je zo nodig de laatste factuur en maak je een factuur Overig, of [vraag je support](/support).
 
+<% if Current.org.feature?("vat") %>
 ## BTW {#vat}
 
 Als je organisatie BTW-plichtig is, schakel dan de BTW-functie in en configureer je BTW-nummer en tarieven in [de BTW-instellingen](/settings#vat). Aparte tarieven kunnen worden gedefinieerd voor lidmaatschapsfacturen, <%= activities_human_name.downcase %>-facturen en winkelbestelfacturen. Voor facturen van het type "Overig" en "Nieuw lid bijdrage" wordt het BTW-tarief handmatig op elke factuur ingesteld.
@@ -226,6 +233,7 @@ Als je organisatie BTW-plichtig is, schakel dan de BTW-functie in en configureer
 BTW wordt berekend als inclusieve belasting (het factuurtotaal bevat al BTW). Het nettobedrag en het BTW-bedrag worden apart weergegeven op de factuur-PDF.
 
 > BTW wordt alleen toegepast wanneer de BTW-functie is ingeschakeld. In de BTW-instellingen zijn een BTW-nummer en een BTW-tarief voor lidmaatschappen vereist; BTW-tarieven voor <%= activities_human_name.downcase %> en de winkel zijn optioneel en worden alleen gebruikt wanneer die functies zijn ingeschakeld.
+<% end %>
 
 ## Betalingen {#payments}
 
