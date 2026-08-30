@@ -26,7 +26,7 @@ Newsletters only go to members. To write to someone who is not one yet, create t
 
 If the standard audience filters above don't cover your needs, you can create [saved segments](/newsletter_segments) for more advanced targeting. A segment is a named, reusable filter combination that can combine criteria not available in the default filters (e.g., members in a specific city, with a particular billing interval, or a specific renewal state).
 
-Saved segments can filter by <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, delivery cycle, renewal state, billing interval, city, and more. You can also paste a comma-separated list of member IDs; other criteria are then ignored. Segments appear alongside the other audience options when creating a newsletter.
+Saved segments can filter by <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, delivery cycle, renewal state, billing interval, city, and more. You can also paste a comma-separated list of member IDs, with no other criteria on that segment. Mixing IDs with other filters is rejected. Segments appear alongside the other audience options when creating a newsletter.
 
 ## Templates {#templates}
 
@@ -97,7 +97,7 @@ If a member adds a new email address (or an existing one is corrected) within a 
 
 ## Scheduling {#scheduling}
 
-To schedule the automatic sending of a newsletter, specify a future date in the "Delivery scheduled on" field. The system will automatically send it during the night of the chosen date. No further action is required, saving with a scheduled date is enough. The newsletter status will switch from "Draft" to "Scheduled" to confirm it is queued for sending. You can continue editing the content until it is sent. Clicking the "Send" button, will send it immediately regardless of the scheduled date.
+To schedule the automatic sending of a newsletter, specify a future date in the "Delivery scheduled on" field. The system will automatically send it during the night of the chosen date. No further action is required, saving with a scheduled date is enough. The newsletter status will switch from "Draft" to "Scheduled" to confirm it is queued for sending. You can continue editing the content until it is sent. Clicking the "Send" button will send it immediately regardless of the scheduled date.
 
 ## Unsubscription {#unsubscription}
 

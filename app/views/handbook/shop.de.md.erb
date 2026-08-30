@@ -42,7 +42,7 @@ Um Dir Zeit zu geben, die vor der Lieferung aufgegebenen Bestellungen zu bearbei
 
 Es ist auch möglich, einen Mindestbestellbetrag sowie ein maximales Gewicht festzulegen, wenn diese Information für jede Produktvariante ordnungsgemäss eingegeben wurde.
 
-Sobald eine Bestellung aufgegeben wurde, erscheint sie mit dem Status "vorzubereiten" in [der Bestellliste](/shop_orders?scope=pending). Diese Bestellungen können von den Mitgliedern bis zur konfigurierten Frist jederzeit geändert werden. Ein Administrator kann sie jederzeit ändern.
+Sobald eine Bestellung aufgegeben wurde, erscheint sie mit dem Status "vorzubereiten" in [der Bestellliste](/shop_orders?scope=pending). Mitglieder können sie bis zur konfigurierten Frist noch ändern. Ein Admin ebenfalls, solange sie noch vorzubereiten ist.
 
 Ein Lieferschein (PDF), der den Preis der Produkte nicht enthält, ist für jede Bestellung verfügbar, wenn Du sie ausdrucken und den <%= Basket.model_name.human(count: 2) %> beifügen möchtest.
 
@@ -52,7 +52,7 @@ Standardmässig müssen die Bestellungen, sobald sie vorbereitet sind, **manuell
 
 Es ist auch möglich, die **automatische Abrechnung** der Bestellungen in [den Hofladeneinstellungen](/settings#shop) zu konfigurieren, nach oder vor einer bestimmten Anzahl von Tagen nach oder vor dem Lieferdatum.
 
-> Wenn eine bereits in Rechnung gestellte Bestellung geändert wird, wird die bestehende Rechnung automatisch storniert und eine neue Rechnung muss generiert und gesendet werden.
+> Sobald sie abgerechnet ist, kann die Bestellung nicht mehr bearbeitet werden. Storniere zuerst die Rechnung, wenn Du sie ändern musst, und stelle dann erneut in Rechnung.
 
 Es ist möglich, einen spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"](/mail_templates/invoice_created) mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid) hinzuzufügen:
 

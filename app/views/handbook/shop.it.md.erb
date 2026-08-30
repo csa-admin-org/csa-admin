@@ -42,7 +42,7 @@ Per lasciarti il tempo di elaborare e fatturare gli ordini effettuati prima dell
 
 È anche possibile impostare un importo minimo di ordine così come un peso massimo, se questa informazione è stata ben inserita per ogni variante dei prodotti.
 
-Una volta effettuato un ordine, appare con lo stato "da preparare" nella [lista degli ordini](/shop_orders?scope=pending). Questi ordini sono sempre modificabili dai soci fino alla scadenza configurata. Un admin può anche modificarli in qualsiasi momento.
+Una volta effettuato un ordine, appare con lo stato "da preparare" nella [lista degli ordini](/shop_orders?scope=pending). Questi ordini sono sempre modificabili dai soci fino alla scadenza configurata. Un admin può modificarli solo finché restano da preparare.
 
 Un bollettino di consegna (PDF), che non include il prezzo dei prodotti, è disponibile per ogni ordine se desideri stamparli e allegarli alle <%= Basket.model_name.human(count: 2).downcase %>.
 
@@ -52,7 +52,7 @@ Per impostazione predefinita, una volta preparati, gli ordini devono essere fatt
 
 È anche possibile configurare la **fatturazione automatica** degli ordini, dalle [impostazioni della bottega](/settings#shop), dopo o prima un certo numero di giorni seguenti o precedenti la data di consegna.
 
-> Se un ordine già fatturato viene modificato, la fattura esistente viene automaticamente annullata e una nuova fattura dovrà essere generata e inviata.
+> Una volta fatturato, l'ordine non è più modificabile. Annulla prima la fattura se devi cambiarlo, poi fattura di nuovo.
 
 Puoi aggiungere un testo specifico nel [modello di email "Nuova fattura"](/mail_templates/invoice_created) utilizzando la [sintassi Liquid](https://shopify.github.io/liquid) seguente:
 

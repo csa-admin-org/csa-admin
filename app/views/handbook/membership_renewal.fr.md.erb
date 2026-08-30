@@ -12,7 +12,7 @@ Afin de pouvoir renouveler les abonnements, il est nécessaire de créer dans un
 
 Un changement de prix sur un <%= BasketSize.model_name.human.downcase %>, un <%= BasketComplement.model_name.human.downcase %> ou un dépôt s'applique aux **nouveaux** abonnements et au **prochain** renouvellement. Il ne réécrit pas les abonnements déjà créés, y compris ceux déjà renouvelés pour l'année suivante. Changez ces prix par défaut **avant** de renouveler. Ensuite, modifiez les abonnements (ou [demandez au support](/support) une mise à jour en masse).
 
-Une fois les livraisons créées, les administrateurs peuvent renouveler les abonnements manuellement, au moment de leur choix. À noter que si un abonnement est renouvelé après la première livraison de la nouvelle année fiscale, cette livraison sera tout de même incluse dans l'abonnement renouvelé. C'est aussi le cas si vous envoyez les demandes après la clôture de l'année fiscale précédente.
+Une fois les livraisons créées, les administrateurs peuvent renouveler les abonnements manuellement, au moment de leur choix. Si un abonnement est renouvelé après la première livraison de la nouvelle année fiscale, cette livraison est tout de même incluse. Le renouvellement tacite peut encore tourner après la clôture de l'année précédente. Envoyer les demandes par e-mail, non: seulement tant que l'année de l'abonnement est l'année fiscale en cours.
 
 ### Année fiscale {#fiscal-year}
 
@@ -61,7 +61,7 @@ Si le membre choisit de renouveler son abonnement, il sera renvoyé vers la page
 
 Les options suivantes sont également disponibles sur la page de renouvellement selon votre configuration:
 
-- **Dépôt**: Les membres peuvent changer de dépôt si l'option " Autoriser le changement de dépôt au renouvellement " est activée dans [les paramètres](/settings#membership_renewal).
+- **Dépôt**: Les membres peuvent changer de dépôt si l'option "Autoriser le changement de dépôt au renouvellement" est activée dans [les paramètres](/settings#membership_renewal).
 - **Prix extra du <%= Basket.model_name.human.downcase %>**: Les membres peuvent ajuster leur contribution de [prix extra](/handbook/basket_price_extra).
 - **<%= activities_human_name %>**: Si un nombre minimum et/ou maximum de participations est configuré dans [les paramètres](/settings#activity), les membres peuvent ajuster le nombre de participations demandées dans ces limites.
 

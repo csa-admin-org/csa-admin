@@ -8,7 +8,7 @@ Sobald diese Funktion aktiviert ist, müssen die Beschreibung sowie der Betrag D
 
 ## Abrechnung {#billing}
 
-Das System kümmert sich darum, diese Gebühren jedem neuen Mitglied am automatischen Abrechnungstag zu berechnen, der in [Deinen Einstellungen](/settings#billing) definiert ist. Wenn Du [<%= Basket.model_name.human(count: 2) %> zur Probe](/handbook/billing#trial-baskets) hast, werden diese Gebühren erst am Ende der Probezeit berechnet, wenn das Mitglied sich entscheidet, weiterzumachen.
+Das System berechnet diese Gebühren jedem neuen Mitglied am automatischen Abrechnungstag, der in [Deinen Einstellungen](/settings#billing) definiert ist. Mit [<%= Basket.model_name.human(count: 2) %> zur Probe](/handbook/billing#trial-baskets) passiert das nach der Probe, wenn das Mitglied weitermacht. Die erste abrechenbare Lieferung muss zudem in den letzten drei Wochen liegen; ausserhalb dieses Fensters wird die Gebühr nie erstellt.
 
 Es ist möglich, einen spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"](/mail_templates/invoice_created) mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid) hinzuzufügen:
 

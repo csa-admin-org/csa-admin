@@ -77,7 +77,7 @@ Default:
 
 Available variables:
 
-- **membership.baskets**: <%= Basket.model_name.human(count: 2) %> of the membership
+- **membership.baskets**: persisted <%= Basket.model_name.human(count: 2).downcase %> of the membership (quantity 0 still counts)
 - **membership.full_year_deliveries**: deliveries in a full year for this cycle
 - **membership.full_year_absences_included**: full-year included absences (cycle default or membership override)
 - **membership.started_fy_month**: month of the start date in the fiscal year (1-12, 1 is the first month of the configured fiscal year)

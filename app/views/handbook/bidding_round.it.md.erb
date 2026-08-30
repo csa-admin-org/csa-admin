@@ -19,7 +19,7 @@ Prima di aprire un turno di impegno, verifica quanto segue nelle [impostazioni](
 
 Queste impostazioni garantiscono un quadro coerente per gli impegni dei soci e consentono promemorie automatici durante il periodo di apertura.
 
-> Per impostazione predefinita, il prezzo per <%= Basket.model_name.human.downcase %> è quello definito nella [configurazione delle <%= BasketSize.model_name.human(count: 2).downcase %>](/basket_sizes), che viene applicato sugli abbonamenti rinnovati, oppure quello definito negli abbonamenti in caso di importo personalizzato.
+> L'impegno predefinito è quello del turno precedente se c'è, altrimenti il [prezzo della <%= BasketSize.model_name.human.downcase %>](/basket_sizes). Il min e il max usano lo stesso prezzo della dimensione. Un importo personalizzato già sull'abbonamento è ignorato finché non clicchi "Completare" e gli impegni vengono scritti.
 
 ## Procedura {#flow}
 
@@ -36,16 +36,16 @@ All'apertura del turno di impegno viene inviata automaticamente un'email ai soci
 
 ### Promemoria
 
-Durante il periodo in cui il turno di impegno è aperto, è possibile inviare automaticamente un promemoria. Il ritardo è definito dal parametro "Inviare un promemoria dopo (in giorni)".
+Un promemoria può essere inviato automaticamente mentre il turno di impegno è aperto. Il ritardo conta dalla **creazione** del turno, non dall'apertura. Una bozza ferma per quei giorni può inviare il promemoria appena lo apri.
 
 ## Terminare (successo) {#finish}
 
 Quando il turno di impegno è terminato (successo), il prezzo per <%= Basket.model_name.human.downcase %> viene aggiornato per tutti gli abbonamenti che hanno ricevuto un impegno. Gli abbonamenti senza impegno non vengono modificati.
 
-Un'email automatica (opzionale) può essere inviata a tutti i soci interessati.
+Un'email automatica (opzionale) può essere inviata a ogni socio eleggibile, con o senza impegno.
 
 ## Chiudere (fallimento) {#close}
 
 Quando il turno di impegno è chiuso (fallimento), nessun abbonamento viene modificato. È quindi possibile aprire un nuovo turno di impegno per provare a convergere verso un prezzo accettabile per tutti i soci.
 
-Un'email automatica (opzionale) può essere inviata a tutti i soci interessati.
+Un'email automatica (opzionale) può essere inviata a ogni socio eleggibile, con o senza impegno.

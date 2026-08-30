@@ -1,6 +1,6 @@
 # Facturation
 
-CSA Admin vise à automatiser la plupart des tâches relative à la facturation ([abonnements](#memberships), [parts sociales](#share-capital), [traitements des paiements](#payments)), mais certains aspects comme la facturation des [<%= activities_human_name %> non effectuées](#activity) doivent être effectués manuellement.
+CSA Admin vise à automatiser la plupart des tâches relatives à la facturation ([abonnements](#memberships), [parts sociales](#share-capital), [traitements des paiements](#payments)), mais certains aspects comme la facturation des [<%= activities_human_name %> non effectuées](#activity) doivent être effectués manuellement.
 
 ## Types de factures {#invoice-types}
 
@@ -54,11 +54,11 @@ La facturation récurrente est le mécanisme qui gère la facturation des abonne
 
 Dans [les paramètres (Facturation automatique)](/settings#billing), choisissez le **jour de la semaine** où le système doit s'exécuter. Chaque semaine à ce jour-là, le système passe en revue tous les membres et crée les factures lorsqu'elles sont dues. Les factures ainsi créées sont **automatiquement envoyées** par email.
 
-Par défaut, les factures déjà considérées comme payées/fermées au moment de leur création ne sont pas envoyées automatiquement. Vous pouvez modifier ce comportement avec le paramètre " Envoyer les factures fermées ".
+Par défaut, les factures déjà considérées comme payées/fermées au moment de leur création ne sont pas envoyées automatiquement. Vous pouvez modifier ce comportement avec le paramètre "Envoyer les factures fermées".
 
 > Il est préférable de choisir un jour différent de celui de la livraison. Ainsi, les modifications d'abonnement ou de panier effectuées le jour de la livraison seront prises en compte dans la facture générée les jours suivants, plutôt que d'être facturées prématurément le même jour ou de devoir attendre une semaine supplémentaire.
 
-Un IBAN dans [les paramètres de facturation](/settings#invoice) ne suffit pas. Sans jour de la semaine, aucune facture d'abonnement n'est créée, [Facturer maintenant](#bill-now) reste masqué, et les rappels d'échéance restent désactivés.
+Un IBAN dans [les paramètres de facturation](/settings#invoice) ne suffit pas. Sans jour de la semaine pour la [Facturation automatique](/settings#billing), aucune facture d'abonnement n'est créée et [Facturer maintenant](#bill-now) reste masqué. Les rappels d'échéance suivent [l'import automatique des paiements](#automatic_payments_processing), pas ce jour.
 
 #### Quel bouton? {#billing-cookbook}
 
@@ -78,15 +78,15 @@ Le montant de la facture est calculé ainsi: **montant total de l'abonnement ÷ 
 
 #### Quand la première facture est-elle envoyée? {#first-invoice-timing}
 
-Par défaut, la première facture est envoyée le jour de facturation suivant la **première livraison de <%= Basket.model_name.human.downcase %>**. Cela signifie qu'aucune facture n'est générée avant que le membre ait reçu sa première livraison.
+Par défaut, la première facture est envoyée le jour de facturation suivant la **première livraison de <%= Basket.model_name.human.downcase %>**. Avec des [<%= Basket.model_name.human(count: 2).downcase %> à l'essai](#trial-baskets), cette date est la dernière livraison à l'essai, pas la première. Aucune facture n'est générée avant cette livraison.
 
-Ce comportement peut être modifié dans [les paramètres](/settings#billing) en désactivant " Facturer les abonnements seulement après leur première livraison ". Lorsque désactivé, la facturation commence dès la **date de début de l'abonnement**, même avant toute livraison.
+Ce comportement peut être modifié dans [les paramètres](/settings#billing) en désactivant "Facturer les abonnements seulement après leur première livraison". Lorsque désactivé, la facturation commence dès la **date de début de l'abonnement**, même avant toute livraison. Avec un essai encore en cours, elle attend alors la première livraison non à l'essai.
 
 #### Quand la facturation se termine-t-elle? {#billing-end}
 
 Par défaut, la facturation s'étend jusqu'à la **date de fin de l'abonnement**, couvrant l'année fiscale complète même s'il n'y a pas de livraisons les derniers mois.
 
-Cela peut être modifié dans [les paramètres](/settings#billing) en activant " Facturer les abonnements jusqu'à leur dernière livraison uniquement ". Lorsqu'activé, la facturation ne couvre que jusqu'au mois de la dernière livraison. Ceci est utile lorsque les derniers mois de l'année fiscale n'ont aucune livraison.
+Cela peut être modifié dans [les paramètres](/settings#billing) en activant "Facturer les abonnements jusqu'à leur dernière livraison uniquement". Lorsqu'activé, la facturation ne couvre que jusqu'au mois de la dernière livraison. Ceci est utile lorsque les derniers mois de l'année fiscale n'ont aucune livraison.
 
 #### Logique détaillée
 
@@ -94,32 +94,32 @@ Chaque jour de facturation, le système vérifie chaque membre et détermine si 
 
 1. L'année fiscale est découpée en périodes selon l'intervalle de paiement (par ex. trimestriel = 4 périodes de 3 mois).
 2. Si la **période en cours a déjà été facturée**, la prochaine facture est planifiée pour le début de la période suivante. Si l'abonnement est déjà trop facturé, elle est planifiée pour le prochain jour de facturation afin d'annuler et recréer la dernière facture.
-3. Si la **période en cours n'a pas encore été facturée**, la facture est créée au prochain jour de facturation, en respectant le paramètre " première livraison " ou " début de l'abonnement " décrit ci-dessus.
+3. Si la **période en cours n'a pas encore été facturée**, la facture est créée au prochain jour de facturation, en respectant le paramètre "première livraison" ou "début de l'abonnement" décrit ci-dessus.
 4. Si la date calculée tombe **après la fin de l'année fiscale**, aucune facture supplémentaire n'est générée pour cette année.
 
 La facture est toujours créée le jour de la semaine configuré. Si une facture devient due un autre jour (par ex. une nouvelle période commence un mercredi mais le jour de facturation est le lundi), elle sera créée le lundi suivant.
 
 #### Date de la prochaine facture
 
-Depuis la page d'un membre ou d'un abonnement, la section " Facturation " (colonne de droite) affiche la **date de la prochaine facture**. Celle-ci indique quand la prochaine facture automatique sera créée et envoyée.
+Depuis la page d'un membre ou d'un abonnement, la section "Facturation" (colonne de droite) affiche la **date de la prochaine facture**. Celle-ci indique quand la prochaine facture automatique sera créée et envoyée.
 
 Cette date se met à jour dynamiquement: une fois une facture envoyée, elle passe à la prochaine date planifiée.
 
 ### Facturer maintenant {#bill-now}
 
-Dans certains cas, par exemple après un changement de configuration de l'abonnement, vous pouvez vouloir créer une facture immédiatement plutôt que d'attendre le prochain jour de facturation. Pour cela, cliquez sur le bouton " Facturer maintenant " dans la section " Facturation " (colonne de droite) de la page du membre ou de l'abonnement.
+Dans certains cas, par exemple après un changement de configuration de l'abonnement, vous pouvez vouloir créer une facture immédiatement plutôt que d'attendre le prochain jour de facturation. Pour cela, cliquez sur le bouton "Facturer maintenant" dans la section "Facturation" (colonne de droite) de la page du membre ou de l'abonnement.
 
-La facture sera alors créée, mais **non envoyée**. Vous pouvez consulter le PDF et l'envoyer manuellement à l'aide du bouton " Envoyer " sur la page de celle-ci. Cela s'avère utile si vous êtes en contact avec un membre et voulez rectifier rapidement une facture ou vérifier le résultat d'un changement de configuration.
+La facture sera alors créée, mais **non envoyée**. Vous pouvez consulter le PDF et l'envoyer manuellement à l'aide du bouton "Envoyer" sur la page de celle-ci. Cela s'avère utile si vous êtes en contact avec un membre et voulez rectifier rapidement une facture ou vérifier le résultat d'un changement de configuration.
 
-> Le bouton " Facturer maintenant " produit exactement la même facture que le système automatique, la seule différence est qu'elle n'est pas envoyée automatiquement, ce qui vous laisse le temps de la vérifier.
+> Le bouton "Facturer maintenant" produit exactement la même facture que le système automatique, la seule différence est qu'elle n'est pas envoyée automatiquement, ce qui vous laisse le temps de la vérifier.
 
-Le bouton est absent quand la facturation récurrente n'a pas de jour de la semaine, l'IBAN manque, la période en cours est déjà facturée, des <%= Basket.model_name.human(count: 2).downcase %> à l'essai sont encore en cours, le membre est un [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), ou il ne reste rien à facturer.
+Le bouton est absent quand la facturation récurrente n'a pas de jour de la semaine, l'IBAN manque, la période en cours est déjà facturée, le membre est un [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), ou il ne reste rien à facturer.
 
 ### Tout facturer à l'avance {#future_billing}
 
 Il est possible de facturer à l'avance un abonnement qui n'a pas encore commencé, avec une date de début dans le futur, que ce soit dans l'année fiscale en cours ou dans l'année fiscale suivante. Les abonnements facturés ainsi sont intégralement facturés en une seule fois, quel que soit l'intervalle de paiement configuré pour l'abonnement.
 
-Vous pouvez facturer à l'avance un abonnement futur depuis sa page en cliquant sur "Tout facturer à l'avance" dans la section "Facturation" (colonne de droite). Vous pouvez également facturer plusieurs abonnements futurs à la fois depuis [la page des abonnements](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>): utilisez le champ "Futurs", filtrez par année fiscale, puis cliquez sur "Tout facturer à l'avance" dans la section "Facturation" sous les filtres. Vous pouvez aussi filtrer les abonnements futurs par intervalle de paiement, par exemple "Annuel", pour affiner votre sélection.
+Vous pouvez facturer à l'avance un abonnement futur depuis sa page en cliquant sur "Tout facturer à l'avance" dans la section "Facturation" (colonne de droite). Cette facture est créée **non envoyée**, comme [Facturer maintenant](#bill-now). Depuis [la page des abonnements](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), le même bouton sous les filtres facture plusieurs abonnements futurs d'un coup et **envoie** ces factures. Filtrez par année fiscale, et par intervalle de paiement (par ex. "Annuel") pour affiner.
 
 > La cotisation annuelle correspondant à l'année fiscale de l'abonnement est automatiquement incluse dans la facture.
 
@@ -136,7 +136,7 @@ Raccourcir la date de fin d'un abonnement, y compris avec l'action **Arrêter**,
 
 ### Cotisation annuelle {#annual-fee}
 
-Lorsque la fonctionnalité de cotisation annuelle est activée, la cotisation annuelle par défaut de l'organisation est définie dans [les paramètres de cotisation annuelle](/settings#annual_fee). Chaque membre hérite de cette valeur par défaut à sa création, mais elle peut être modifiée individuellement depuis son profil (page d'édition, section " Facturation "). Si le paramètre " membres de soutien uniquement " est activé, les membres actifs n'héritent pas automatiquement de la cotisation annuelle par défaut de l'organisation; celle-ci reste destinée aux membres de soutien, sauf si elle est définie manuellement.
+Lorsque la fonctionnalité de cotisation annuelle est activée, la cotisation annuelle par défaut de l'organisation est définie dans [les paramètres de cotisation annuelle](/settings#annual_fee). Chaque membre hérite de cette valeur par défaut à sa création, mais elle peut être modifiée individuellement depuis son profil (page d'édition, section "Facturation"). Si le paramètre "membres de soutien uniquement" est activé, les membres actifs n'héritent pas automatiquement de la cotisation annuelle par défaut de l'organisation; celle-ci reste destinée aux membres de soutien, sauf si elle est définie manuellement.
 
 Lorsque la fonctionnalité est activée, la cotisation annuelle est automatiquement incluse dans la **première facture** de l'abonnement. Si le membre n'a pas d'abonnement ([soutien](/handbook/members#statuses)), une facture spécifique de cotisation annuelle est créée automatiquement au début de l'année fiscale.
 
@@ -144,13 +144,13 @@ Si vous modifiez la cotisation annuelle par défaut de l'organisation, tous les 
 
 ### <%= Basket.model_name.human(count: 2) %> à l'essai {#trial-baskets}
 
-Si un nombre de <%= Basket.model_name.human(count: 2).downcase %> à l'essai est défini dans [les paramètres de facturation](/settings#billing), alors l'abonnement sera uniquement facturé une fois que tous les <%= Basket.model_name.human(count: 2).downcase %> à l'essai seront livrés, le prochain jour de facturation suivant la livraison du premier <%= Basket.model_name.human.downcase %> non à l'essai. Cela garantit que la première facture n'est pas générée tant que le membre peut encore annuler son essai lui-même.
+Si un nombre de <%= Basket.model_name.human(count: 2).downcase %> à l'essai est défini dans [les paramètres de facturation](/settings#billing), les membres peuvent annuler l'abonnement eux-mêmes depuis leur compte jusqu'à la veille de la première livraison non à l'essai. L'abonnement se termine alors à la dernière livraison à l'essai. Pour annuler immédiatement, un admin doit le faire.
 
-Les membres peuvent annuler leur abonnement eux-mêmes durant la période d'essai depuis leur compte membre. L'abonnement se terminera alors à la date de livraison du dernier <%= Basket.model_name.human.downcase %> à l'essai. Pour annuler un abonnement immédiatement, l'admin doit le faire manuellement.
+Par défaut, la première facture d'abonnement est créée le jour de facturation suivant la **dernière livraison à l'essai**. Cela peut encore arriver pendant que le membre peut annuler. Si vous désactivez "Facturer les abonnements seulement après leur première livraison", la facturation attend la première livraison **non à l'essai**.
 
-Si l'abonnement est annulé durant la période d'essai, alors seulement les <%= Basket.model_name.human(count: 2).downcase %> livrés seront facturés, le prochain jour de facturation. Dans ce cas, la cotisation annuelle n'est pas facturée (sauf si le membre choisit de la payer).
+Si l'abonnement est annulé durant l'essai, seuls les <%= Basket.model_name.human(count: 2).downcase %> livrés sont facturés le prochain jour de facturation. La cotisation annuelle n'est pas facturée, sauf si le membre choisit de la payer.
 
-Les factures d'abonnement attendent la fin de l'essai. Les factures de [parts sociales](#share-capital) aussi: les parts manquantes sont facturées une fois l'essai terminé. Résiliez ou arrêtez l'abonnement avant un renouvellement tacite, sinon l'année fiscale suivante est créée et facturée.
+Les factures de [parts sociales](#share-capital) attendent la fin de l'essai: les parts manquantes sont facturées alors. Résiliez ou arrêtez l'abonnement avant un renouvellement tacite, sinon l'année fiscale suivante est créée et facturée.
 
 ### <%= Member.human_attribute_name(:salary_basket) %>
 

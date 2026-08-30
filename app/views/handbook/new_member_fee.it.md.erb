@@ -8,7 +8,7 @@ Una volta attivata questa funzione, la descrizione e l'importo della tua quota d
 
 ## Fatturazione {#billing}
 
-Il sistema si occupa di fatturare queste quote a ogni nuovo socio nel giorno di fatturazione automatica definito nelle [tue impostazioni](/settings#billing). Se hai delle [<%= Basket.model_name.human(count: 2).downcase %> di prova](/handbook/billing#trial-baskets), queste quote saranno fatturate solo alla fine del periodo di prova, se il socio decide di continuare.
+Il sistema si occupa di fatturare queste quote a ogni nuovo socio nel giorno di fatturazione automatica definito nelle [tue impostazioni](/settings#billing). Con le [<%= Basket.model_name.human(count: 2).downcase %> di prova](/handbook/billing#trial-baskets), succede dopo la prova, se il socio continua. La prima consegna fatturabile deve anche cadere nelle ultime tre settimane; se perdi quella finestra, la quota non viene mai creata.
 
 Puoi aggiungere un testo specifico nel [modello di email "Nuova fattura"](/mail_templates/invoice_created) utilizzando la [sintassi Liquid](https://shopify.github.io/liquid) seguente:
 

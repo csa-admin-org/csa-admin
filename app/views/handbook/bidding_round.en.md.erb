@@ -19,7 +19,7 @@ Before opening a bidding round, check the following in the [settings](/settings#
 
 These settings ensure a consistent frame for member pledges and enable automated reminders during the opening period.
 
-> By default, the price per <%= Basket.model_name.human.downcase %> is the one defined in the [<%= BasketSize.model_name.human(count: 2).downcase %> configuration](/basket_sizes), which is applied on the renewed memberships, or the one defined on memberships when a custom amount is set.
+> The default pledge is the previous round's pledge if there is one, otherwise the [<%= BasketSize.model_name.human.downcase %> price](/basket_sizes). Min and max use that same size price. A custom amount already on the membership is ignored until you click "Complete" and the pledges are written.
 
 ## Flow {#flow}
 
@@ -36,16 +36,16 @@ When the bidding round is opened, an automatic email is sent to members. From th
 
 ### Reminder
 
-A reminder can be sent automatically while the bidding round is open. The delay is defined by the "Send a reminder after (in days)" setting.
+A reminder can be sent automatically while the bidding round is open. The delay counts from when the round was **created**, not from when it was opened. A draft that sat for those days can remind as soon as you open it.
 
 ## Finish (success) {#finish}
 
 When the bidding round is finished (success), the price per <%= Basket.model_name.human.downcase %> is updated for all memberships that received a pledge. Memberships without a pledge are not modified.
 
-An automatic email (optional) can be sent to all affected members.
+An automatic email (optional) can be sent to every eligible member, pledge or not.
 
 ## Close (failure) {#close}
 
 When the bidding round is closed (failure), no membership is modified. You can then open a new bidding round to try to converge on a price acceptable to all members.
 
-An automatic email (optional) can be sent to all affected members.
+An automatic email (optional) can be sent to every eligible member, pledge or not.

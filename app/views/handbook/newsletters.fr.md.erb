@@ -26,7 +26,7 @@ Les newsletters ne partent qu'aux membres. Pour écrire à quelqu'un qui n'en es
 
 Si les filtres d'audience standard ci-dessus ne couvrent pas vos besoins, vous pouvez créer des [segments enregistrés](/newsletter_segments) pour un ciblage plus avancé. Un segment est une combinaison de filtres nommée et réutilisable qui peut combiner des critères non disponibles dans les filtres par défaut (par exemple, les membres d'une ville spécifique, avec un intervalle de facturation particulier ou un état de renouvellement spécifique).
 
-Les segments enregistrés peuvent filtrer par <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, dépôt, cycle de livraisons, état du renouvellement, intervalle de facturation, ville, et plus encore. Vous pouvez aussi coller une liste d'IDs de membres, séparés par une virgule; les autres critères sont alors ignorés. Ils apparaissent aux côtés des autres options d'audience lors de la création d'une newsletter.
+Les segments enregistrés peuvent filtrer par <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, dépôt, cycle de livraisons, état du renouvellement, intervalle de facturation, ville, et plus encore. Vous pouvez aussi coller une liste d'IDs de membres, séparés par une virgule, sans autre critère sur ce segment. Mélanger des IDs avec d'autres filtres est refusé. Ils apparaissent aux côtés des autres options d'audience lors de la création d'une newsletter.
 
 ## Modèles {#templates}
 
@@ -101,7 +101,7 @@ Pour planifier l'envoi automatique d'une newsletter, indiquez une date future da
 
 ## Désinscription {#unsubscription}
 
-Tous les membres sont inscrits par défaut aux newsletters. Chaque membre peut se désinscrire à tout moment en cliquant sur le lien de désinscription obligatoire présent dans leur bas de page de chaque newsletter.
+Tous les membres sont inscrits par défaut aux newsletters. Chaque membre peut se désinscrire à tout moment en cliquant sur le lien de désinscription obligatoire présent dans le bas de page de chaque newsletter.
 
 ## Réinscription {#subscribe}
 

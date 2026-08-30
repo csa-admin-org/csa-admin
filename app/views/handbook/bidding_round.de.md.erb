@@ -19,7 +19,7 @@ Vor dem Öffnen einer Beitragsrunde bitte in den [Einstellungen](/settings#biddi
 
 Diese Einstellungen sorgen für einen konsistenten Rahmen für die Zusagen der Mitglieder und ermöglichen automatische Erinnerungen während der offenen Phase.
 
-> Standardmässig ist der Beitrag pro <%= Basket.model_name.human %> der in der [Konfiguration der <%= BasketSize.model_name.human(count: 2) %>](/basket_sizes) definierte Richtwert, der auf die erneuerten Abonnements angewendet wird, oder der im Abonnement gesetzte Betrag, falls ein benutzerdefinierter Beitrag verwendet wird.
+> Der Standardbeitrag ist die Zusage der vorherigen Runde, falls vorhanden, sonst der [Preis der <%= BasketSize.model_name.human %>](/basket_sizes). Min und Max nutzen denselben Grössenpreis. Ein bereits im Abonnement gesetzter benutzerdefinierter Betrag wird ignoriert, bis Du auf "Vollständig" klickst und die Zusagen geschrieben werden.
 
 ## Ablauf {#flow}
 
@@ -36,16 +36,16 @@ Beim Öffnen der Beitragsrunde wird automatisch eine E‑Mail an die Mitglieder 
 
 ### Erinnerung
 
-Solange die Beitragsrunde geöffnet ist, kann automatisch eine Erinnerung versendet werden. Die Verzögerung wird durch die Einstellung "Erinnerung senden nach (in Tagen)" festgelegt.
+Solange die Beitragsrunde geöffnet ist, kann automatisch eine Erinnerung versendet werden. Die Frist zählt ab dem Zeitpunkt, zu dem die Runde **erstellt** wurde, nicht ab dem Öffnen. Ein Entwurf, der diese Tage gelegen hat, kann sofort erinnern, sobald Du ihn öffnest.
 
 ## Abschliessen (Erfolg) {#finish}
 
 Wenn die Beitragsrunde abgeschlossen ist (Erfolg), wird der Beitrag pro <%= Basket.model_name.human %> für alle Abonnements aktualisiert, die eine Zusage erhalten haben. Abonnements ohne Zusage werden nicht geändert.
 
-Optional kann eine automatische E‑Mail an alle betroffenen Mitglieder gesendet werden.
+Optional kann eine automatische E-Mail an jedes berechtigte Mitglied gesendet werden, mit oder ohne Zusage.
 
 ## Schliessen (Fehlschlag) {#close}
 
 Wenn die Beitragsrunde geschlossen ist (Fehlschlag), wird kein Abonnement geändert. Anschliessend kann eine neue Beitragsrunde geöffnet werden, um zu einem für alle Mitglieder akzeptablen Beitrag zu gelangen.
 
-Optional kann eine automatische E‑Mail an alle betroffenen Mitglieder gesendet werden.
+Optional kann eine automatische E-Mail an jedes berechtigte Mitglied gesendet werden, mit oder ohne Zusage.

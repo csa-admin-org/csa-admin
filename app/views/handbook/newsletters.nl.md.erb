@@ -26,7 +26,7 @@ Nieuwsbrieven gaan alleen naar leden. Om iemand te schrijven die dat nog niet is
 
 Als de bovenstaande standaard publieksfilters niet aan je behoeften voldoen, kun je [opgeslagen segmenten](/newsletter_segments) aanmaken voor geavanceerdere targeting. Een segment is een benoemde, herbruikbare filtercombinatie die criteria kan combineren die niet beschikbaar zijn in de standaardfilters (bijv. leden in een specifieke stad, met een bepaald factureringsinterval of een specifieke vernieuwingsstatus).
 
-Opgeslagen segmenten kunnen filteren op <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, leveringscyclus, vernieuwingsstatus, factureringsinterval, stad en meer. Je kunt ook een lijst van leden-IDs plakken, gescheiden door komma's; de andere criteria worden dan genegeerd. Ze verschijnen naast de andere publiekopties bij het aanmaken van een nieuwsbrief.
+Opgeslagen segmenten kunnen filteren op <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, leveringscyclus, vernieuwingsstatus, factureringsinterval, stad en meer. Je kunt ook een door komma's gescheiden lijst van leden-IDs plakken, zonder andere criteria op dat segment. IDs mengen met andere filters wordt geweigerd. Segmenten verschijnen naast de andere publiekopties bij het aanmaken van een nieuwsbrief.
 
 ## Sjablonen {#templates}
 

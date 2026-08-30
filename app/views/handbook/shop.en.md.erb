@@ -42,7 +42,7 @@ To give you time to process and bill orders placed before delivery, a deadline (
 
 It's also possible to set a minimum order amount as well as a maximum weight, if this information has been properly entered for each product variant.
 
-Once an order is placed, it appears with the status "to prepare" in [the orders list](/shop_orders?scope=pending). These orders are always modifiable by members until the configured deadline. An admin can also modify them at any time.
+Once an order is placed, it appears with the status "to prepare" in [the orders list](/shop_orders?scope=pending). Members can still change it until the configured deadline. An admin can too, while it is still to prepare.
 
 A delivery note (PDF), not including the price of products, is available for each order if you wish to print them and attach them to the <%= Basket.model_name.human(count: 2).downcase %>.
 
@@ -52,7 +52,7 @@ By default, once the orders are prepared, the orders must be **manually** billed
 
 It's also possible to configure **automatic billing** of orders, from [the shop settings](/settings#shop), after or before a certain number of days following or preceding the delivery date.
 
-> If you modify an order that has already been billed, its existing invoice is automatically canceled. Generate and send a new invoice.
+> Once billed, the order can no longer be edited. Cancel the invoice first if you need to change it, then bill again.
 
 It's possible to add specific text in the ["New invoice" email template](/mail_templates/invoice_created) using [Liquid syntax](https://shopify.github.io/liquid) as follows:
 

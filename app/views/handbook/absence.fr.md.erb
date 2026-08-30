@@ -77,7 +77,7 @@ Valeur par défaut:
 
 Variables disponibles:
 
-- **membership.baskets**: <%= Basket.model_name.human(count: 2) %> de l'abonnement
+- **membership.baskets**: <%= Basket.model_name.human(count: 2) %> persisté(e)s de l'abonnement (quantité 0 compte encore)
 - **membership.full_year_deliveries**: livraisons d'une année complète pour ce cycle
 - **membership.full_year_absences_included**: absences incluses pour une année complète (défaut du cycle ou surcharge de l'abonnement)
 - **membership.started_fy_month**: mois de la date de début dans l'année fiscale (1-12, 1 est le premier mois de l'année fiscale configurée)
@@ -110,7 +110,7 @@ Ce mode est utile lorsque vous préférez que les absences non utilisées resten
 
 **Livraison des absences restantes**
 
-Dans ce mode, les absences incluses non utilisées verront leur livraison forcée et facturée lors du rappel. Les membres reçoivent un email de rappel et peuvent annoncer une absence pour les refuser avant que la livraison n'ait pas lieu et ne soit pas facturée.
+Dans ce mode, les absences incluses non utilisées verront leur livraison forcée et facturée lors du rappel. Les membres reçoivent un email de rappel et peuvent annoncer une absence pour les refuser avant que la livraison n'ait lieu et soit facturée.
 
 Ce mode est utile lorsque vous préférez que les membres reçoivent leurs <%= Basket.model_name.human(count: 2).downcase %> par défaut, évitant ainsi la confusion des membres qui se présentent en attendant un <%= Basket.model_name.human.downcase %> qui n'a pas été préparé.
 

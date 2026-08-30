@@ -42,7 +42,7 @@ Om je tijd te geven om bestellingen die voor de levering zijn geplaatst te verwe
 
 Het is ook mogelijk om een minimaal bestelbedrag evenals een maximaal gewicht in te stellen, als deze informatie correct is ingevoerd voor elke productvariant.
 
-Zodra een bestelling is geplaatst, verschijnt deze met de status "voor te bereiden" in [de bestellingenlijst](/shop_orders?scope=pending). Deze bestellingen kunnen altijd door leden worden gewijzigd tot de geconfigureerde deadline. Een admin kan ze ook op elk moment wijzigen.
+Zodra een bestelling is geplaatst, verschijnt deze met de status "voor te bereiden" in [de bestellingenlijst](/shop_orders?scope=pending). Leden kunnen die nog wijzigen tot de geconfigureerde deadline. Een admin kan dat ook, zolang de bestelling nog voor te bereiden is.
 
 Een leveringsbon (PDF), exclusief de prijs van producten, is beschikbaar voor elke bestelling als je deze wilt afdrukken en aan de <%= Basket.model_name.human(count: 2).downcase %> wilt bevestigen.
 
@@ -52,7 +52,7 @@ Standaard moeten bestellingen, zodra ze zijn voorbereid, **handmatig** worden ge
 
 Het is ook mogelijk om **automatische facturering** van bestellingen te configureren, vanuit [de winkelinstellingen](/settings#shop), na of voor een bepaald aantal dagen volgend op of voorafgaand aan de leveringsdatum.
 
-> Als een reeds gefactureerde bestelling wordt gewijzigd, wordt de bestaande factuur automatisch geannuleerd en moet een nieuwe factuur worden gegenereerd en verzonden.
+> Eenmaal gefactureerd kan de bestelling niet meer worden bewerkt. Annuleer eerst de factuur als je de bestelling wilt wijzigen, en factureer daarna opnieuw.
 
 Het is mogelijk om specifieke tekst toe te voegen in de ["Nieuwe factuur" e-mailsjabloon](/mail_templates/invoice_created) met behulp van [Liquid syntax](https://shopify.github.io/liquid) als volgt:
 

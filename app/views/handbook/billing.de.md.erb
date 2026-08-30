@@ -58,7 +58,7 @@ Standardmässig werden Rechnungen, die bei ihrer Erstellung bereits als bezahlt/
 
 > Es ist ratsam, einen anderen Tag als den Lieferungstag zu wählen. So werden Änderungen am Abonnement oder an der Tasche, die am Lieferungstag vorgenommen werden, in der Rechnung der folgenden Tage berücksichtigt, anstatt voreilig am selben Tag abgerechnet zu werden oder eine volle Woche warten zu müssen.
 
-Eine IBAN in [den Rechnungseinstellungen](/settings#invoice) reicht nicht. Ohne Wochentag werden keine Abonnement-Rechnungen erstellt, [Jetzt abrechnen](#bill-now) bleibt versteckt, und Mahnungen bleiben aus.
+Eine IBAN in [den Rechnungseinstellungen](/settings#invoice) reicht nicht. Ohne Wochentag in [Automatische Rechnungsstellung](/settings#billing) werden keine Abonnement-Rechnungen erstellt, und [Jetzt abrechnen](#bill-now) bleibt versteckt. Mahnungen folgen dem [automatischen Zahlungsimport](#automatic_payments_processing), nicht diesem Wochentag.
 
 #### Welche Schaltfläche? {#billing-cookbook}
 
@@ -78,9 +78,9 @@ Der Rechnungsbetrag wird berechnet als: **Gesamtbetrag des Abonnements ÷ Anzahl
 
 #### Wann wird die erste Rechnung versendet? {#first-invoice-timing}
 
-Standardmässig wird die erste Rechnung am Abrechnungstag nach der **ersten Lieferung einer <%= Basket.model_name.human %>** versendet. Das bedeutet, dass keine Rechnung erstellt wird, bevor das Mitglied seine erste Lieferung erhalten hat.
+Standardmässig wird die erste Rechnung am Abrechnungstag nach der **ersten Lieferung einer <%= Basket.model_name.human %>** versendet. Bei [<%= Basket.model_name.human(count: 2) %> zur Probe](#trial-baskets) ist dieses Datum die letzte Probelieferung, nicht die erste <%= Basket.model_name.human %>. Vor dieser Lieferung wird keine Rechnung erstellt.
 
-Dieses Verhalten kann in [den Einstellungen](/settings#billing) geändert werden, indem "Abonnements erst nach ihrer ersten Lieferung abrechnen" deaktiviert wird. Dann beginnt die Abrechnung ab dem **Startdatum des Abonnements**, auch vor der ersten Lieferung.
+Dieses Verhalten kann in [den Einstellungen](/settings#billing) geändert werden, indem "Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen" deaktiviert wird. Dann beginnt die Abrechnung ab dem **Startdatum des Abonnements**, auch vor der ersten Lieferung. Läuft die Probe noch, wartet die Abrechnung auf die erste Lieferung ohne Probe.
 
 #### Wann endet die Abrechnung? {#billing-end}
 
@@ -113,13 +113,13 @@ Die Rechnung wird dann erstellt, aber **nicht gesendet**. Du kannst das PDF eins
 
 > Die Schaltfläche "Jetzt abrechnen" erzeugt exakt die gleiche Rechnung wie das automatische System, der einzige Unterschied ist, dass sie nicht automatisch versendet wird, sodass Du sie vorher überprüfen kannst.
 
-Die Schaltfläche fehlt, wenn die wiederkehrende Abrechnung keinen Wochentag hat, die IBAN fehlt, die aktuelle Periode bereits abgerechnet ist, <%= Basket.model_name.human(count: 2) %> zur Probe noch laufen, das Mitglied ein [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) ist, oder nichts mehr abzurechnen bleibt.
+Die Schaltfläche fehlt, wenn die wiederkehrende Abrechnung keinen Wochentag hat, die IBAN fehlt, die aktuelle Periode bereits abgerechnet ist, das Mitglied ein [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) ist, oder nichts mehr abzurechnen bleibt.
 
 ### Alle in Zukunft abrechnen {#future_billing}
 
 Es ist möglich, ein zukünftiges Abonnement im Voraus abzurechnen, mit einem Startdatum in der Zukunft, sei es im aktuellen Geschäftsjahr oder im nächsten Geschäftsjahr. Abonnements, die auf diese Weise abgerechnet werden, werden vollständig auf einmal abgerechnet, unabhängig vom konfigurierten Zahlungsintervall für das Abonnement.
 
-Die Vorausabrechnung kann von der Seite eines zukünftigen Abonnements aus erfolgen, indem Du auf die Schaltfläche "Alle in Zukunft abrechnen" im Abschnitt "Abrechnung" (rechte Spalte) klickst. Es ist auch möglich, mehrere zukünftige Abonnements auf einmal von [der Abonnementseite](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>) aus abzurechnen, indem Du das Feld "Zukunft" verwendest und nach Geschäftsjahr filterst. Du kannst dann auf die Schaltfläche "Alle in Zukunft abrechnen" im Abschnitt "Abrechnung" (rechte Spalte), unterhalb der Filter, klicken. Filtere zukünftige Abonnements nach Zahlungsintervall (z.B. nur "Jährlich"), um Deine Auswahl zu verfeinern.
+Die Vorausabrechnung kann von der Seite eines zukünftigen Abonnements aus erfolgen, indem Du auf die Schaltfläche "Alle in Zukunft abrechnen" im Abschnitt "Abrechnung" (rechte Spalte) klickst. Diese Rechnung wird **unversendet** erstellt, wie [Jetzt abrechnen](#bill-now). Von [der Abonnementseite](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>) aus rechnet dieselbe Schaltfläche unter den Filtern mehrere zukünftige Abonnements auf einmal ab und **sendet** diese Rechnungen. Filtere nach Geschäftsjahr und bei Bedarf nach Zahlungsintervall (z.B. "Jährlich").
 
 > Der Jahresbeitrag, der dem Geschäftsjahr des Abonnements entspricht, ist automatisch in der Rechnung enthalten.
 
@@ -144,13 +144,13 @@ Wenn Du den Standard-Jahresbeitrag der Organisation änderst, werden alle Mitgli
 
 ### <%= Basket.model_name.human(count: 2) %> zur Probe {#trial-baskets}
 
-Wenn in [den Abrechnungseinstellungen](/settings#billing) eine Anzahl von <%= Basket.model_name.human(count: 2) %> zur Probe definiert ist, wird das Abonnement erst abgerechnet, wenn alle <%= Basket.model_name.human(count: 2) %> zur Probe geliefert wurden, und zwar am nächsten Abrechnungstag nach der Lieferung der ersten <%= Basket.model_name.human %> ohne Probe. Dadurch wird sichergestellt, dass die erste Rechnung nicht erstellt wird, solange das Mitglied die Probezeit noch selbst kündigen kann.
+Wenn in [den Abrechnungseinstellungen](/settings#billing) eine Anzahl von <%= Basket.model_name.human(count: 2) %> zur Probe definiert ist, können Mitglieder das Abonnement selbst über ihr Konto kündigen, bis zum Tag vor der ersten Lieferung ohne Probe. Das Abonnement endet dann mit der letzten Probelieferung. Für eine sofortige Kündigung muss ein Admin das tun.
 
-Mitglieder können ihr Abonnement während der Probezeit selbst über ihr Mitgliederkonto kündigen. Das Abonnement endet dann am Lieferdatum der letzten <%= Basket.model_name.human %> zur Probe. Um ein Abonnement sofort zu kündigen, muss der Admin dies manuell tun.
+Standardmässig wird die erste Abonnement-Rechnung am Abrechnungstag nach der **letzten Probelieferung** erstellt. Das kann noch sein, während das Mitglied kündigen kann. Wenn Du "Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen" deaktivierst, wartet die Abrechnung stattdessen auf die erste Lieferung **ohne Probe**.
 
-Wenn das Abonnement während der Probezeit gekündigt wird, werden nur die gelieferten <%= Basket.model_name.human(count: 2) %> am nächsten Abrechnungstag in Rechnung gestellt. In diesem Fall wird der Jahresbeitrag nicht berechnet (es sei denn, das Mitglied entscheidet sich, ihn zu zahlen).
+Wenn das Abonnement während der Probezeit gekündigt wird, werden nur die gelieferten <%= Basket.model_name.human(count: 2) %> am nächsten Abrechnungstag in Rechnung gestellt. Der Jahresbeitrag wird nicht berechnet, es sei denn, das Mitglied entscheidet sich, ihn zu zahlen.
 
-Abonnement-Rechnungen warten bis nach der Probe. [Anteilskapital](#share-capital)-Rechnungen auch: fehlende Anteile werden erst nach Ende der Probe abgerechnet. Kündige oder stoppe das Abonnement vor einer stillschweigenden Erneuerung, sonst wird das nächste Geschäftsjahr erstellt und abgerechnet.
+[Anteilskapital](#share-capital)-Rechnungen warten, bis die Probe vorbei ist: fehlende Anteile werden dann abgerechnet. Kündige oder stoppe das Abonnement vor einer stillschweigenden Erneuerung, sonst wird das nächste Geschäftsjahr erstellt und abgerechnet.
 
 ### <%= Member.human_attribute_name(:salary_basket) %>
 

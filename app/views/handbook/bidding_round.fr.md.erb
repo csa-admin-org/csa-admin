@@ -15,11 +15,11 @@ Avant d'ouvrir un tour d'engagement, vérifiez les paramètres suivants dans les
 
 - Prix minimum de la <%= BasketSize.model_name.human.downcase %> (0–100 %) — définit le pourcentage minimal autorisé.
 - Prix maximum de la <%= BasketSize.model_name.human.downcase %> (0–X %) — définit le pourcentage maximal autorisé.
-- Rappel automatique pour un tour d'engagement ouvert — " Envoyer un rappel après (en jours) ".
+- Rappel automatique pour un tour d'engagement ouvert — "Envoyer un rappel après (en jours)".
 
 Ces paramètres garantissent un cadre cohérent pour les montants proposés et permettent d'automatiser les relances pendant la période d'ouverture.
 
-> Par défaut, le prix par <%= Basket.model_name.human.downcase %> est celui défini dans la [configuration des <%= BasketSize.model_name.human(count: 2).downcase %>](/basket_sizes), qui est appliqué sur les abonnements renouvelés, ou celui défini dans les abonnements en cas de montant personnalisé.
+> Le montant proposé par défaut est celui du tour précédent s'il y en a un, sinon le [prix de la <%= BasketSize.model_name.human.downcase %>](/basket_sizes). Le min et le max utilisent ce même prix. Un montant déjà personnalisé sur l'abonnement est ignoré jusqu'à ce que vous cliquiez sur "Terminer" et que les propositions soient écrites.
 
 ## Déroulement {#flow}
 
@@ -36,16 +36,16 @@ Ces paramètres garantissent un cadre cohérent pour les montants proposés et p
 
 ### Rappel
 
-Un rappel peut être envoyé automatiquement tant que le tour d'engagement est ouvert. Le délai est défini par le paramètre " Envoyer un rappel après (en jours) ".
+Un rappel peut être envoyé automatiquement tant que le tour d'engagement est ouvert. Le délai part de la **création** du tour, pas de son ouverture. Un brouillon qui a attendu ces jours-là peut relancer dès que vous l'ouvrez.
 
 ## Terminer (succès) {#finish}
 
 Lorsque le tour d'engagement est terminé (succès), le prix par <%= Basket.model_name.human.downcase %> est mis à jour pour tous les abonnements ayant reçu une proposition. Les abonnements sans proposition ne sont pas modifiés.
 
-Un email automatique (optionnel) peut être envoyé à tous les membres concernés.
+Un email automatique (optionnel) peut être envoyé à tous les membres éligibles, proposition ou non.
 
 ## Clôturer (échec) {#close}
 
 Lorsque le tour d'engagement est clôturé (échec), aucune modification n'est apportée aux abonnements. Il est alors possible d'ouvrir un nouveau tour d'engagement afin de tenter de converger vers un prix acceptable pour l'ensemble des membres.
 
-Un email automatique (optionnel) peut être envoyé à tous les membres concernés.
+Un email automatique (optionnel) peut être envoyé à tous les membres éligibles, proposition ou non.

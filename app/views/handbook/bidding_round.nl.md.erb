@@ -19,7 +19,7 @@ Voordat je een biedronde opent, controleer de volgende punten in de [instellinge
 
 Deze instellingen zorgen voor een consistent kader voor ledenbiedingen en maken geautomatiseerde herinneringen mogelijk tijdens de openingsperiode.
 
-> Standaard is de prijs per <%= Basket.model_name.human.downcase %> degene die is gedefinieerd in de [<%= BasketSize.model_name.human(count: 2).downcase %> configuratie](/basket_sizes), die wordt toegepast op de vernieuwde lidmaatschappen, of degene die is gedefinieerd op lidmaatschappen wanneer een aangepast bedrag is ingesteld.
+> Het standaardbod is het bod van de vorige ronde als die er is, anders de [<%= BasketSize.model_name.human.downcase %>prijs](/basket_sizes). Min en max gebruiken dezelfde grootteprijs. Een aangepast bedrag dat al op het lidmaatschap staat, wordt genegeerd tot je op "Voltooien" klikt en de biedingen worden weggeschreven.
 
 ## Verloop {#flow}
 
@@ -36,16 +36,16 @@ Wanneer de biedronde wordt geopend, wordt automatisch een e-mail naar leden verz
 
 ### Herinnering
 
-Een herinnering kan automatisch worden verzonden terwijl de biedronde open is. De vertraging wordt gedefinieerd door de instelling "Verstuur een herinnering na (in dagen)".
+Een herinnering kan automatisch worden verzonden terwijl de biedronde open is. De vertraging telt vanaf het moment waarop de ronde is **aangemaakt**, niet vanaf het openen. Een concept dat die dagen heeft stilgelegen, kan meteen een herinnering sturen zodra je het opent.
 
 ## Voltooien (succes) {#finish}
 
 Wanneer de biedronde wordt voltooid (succes), wordt de prijs per <%= Basket.model_name.human.downcase %> bijgewerkt voor alle lidmaatschappen die een bod hebben ontvangen. Lidmaatschappen zonder bod worden niet gewijzigd.
 
-Een automatische e-mail (optioneel) kan worden verzonden naar alle getroffen leden.
+Een automatische e-mail (optioneel) kan worden verzonden naar elk gerechtigd lid, met of zonder bod.
 
 ## Sluiten (falen) {#close}
 
 Wanneer de biedronde wordt gesloten (falen), wordt geen lidmaatschap gewijzigd. Je kunt dan een nieuwe biedronde openen om te proberen te convergeren naar een prijs die acceptabel is voor alle leden.
 
-Een automatische e-mail (optioneel) kan worden verzonden naar alle getroffen leden.
+Een automatische e-mail (optioneel) kan worden verzonden naar elk gerechtigd lid, met of zonder bod.

@@ -58,7 +58,7 @@ Per impostazione predefinita, le fatture già considerate pagate/chiuse al momen
 
 > È consigliabile scegliere un giorno diverso da quello della consegna. In questo modo, le modifiche all'abbonamento o al paniere effettuate il giorno della consegna saranno considerate nella fattura generata nei giorni successivi, anziché essere fatturate prematuramente lo stesso giorno o dover attendere una settimana intera.
 
-Un IBAN nelle [impostazioni di fatturazione](/settings#invoice) non basta. Senza un giorno della settimana, nessuna fattura di abbonamento viene creata, [Fatturare ora](#bill-now) resta nascosto, e i solleciti restano disattivati.
+Un IBAN nelle [impostazioni di fatturazione](/settings#invoice) non basta. Senza un giorno della settimana in [Fatturazione automatica](/settings#billing), nessuna fattura di abbonamento viene creata e [Fatturare ora](#bill-now) resta nascosto. I solleciti seguono l'[importazione automatica dei pagamenti](#automatic_payments_processing), non questo giorno della settimana.
 
 #### Quale pulsante? {#billing-cookbook}
 
@@ -78,9 +78,9 @@ L'importo della fattura è calcolato così: **importo totale dell'abbonamento ÷
 
 #### Quando viene inviata la prima fattura? {#first-invoice-timing}
 
-Per impostazione predefinita, la prima fattura viene inviata il giorno di fatturazione successivo alla **prima consegna della <%= Basket.model_name.human.downcase %>**. Ciò significa che nessuna fattura viene generata prima che il socio abbia ricevuto la sua prima consegna.
+Per impostazione predefinita, la prima fattura viene inviata il giorno di fatturazione successivo alla **prima consegna della <%= Basket.model_name.human.downcase %>**. Con le [<%= Basket.model_name.human(count: 2).downcase %> di prova](#trial-baskets), quella data è l'ultima consegna di prova, non la prima <%= Basket.model_name.human.downcase %>. Nessuna fattura viene generata prima di quella consegna.
 
-Questo comportamento può essere modificato nelle [impostazioni](/settings#billing) disattivando "Fatturare gli abbonamenti solo dopo la loro prima consegna". Quando disattivato, la fatturazione inizia dalla **data di inizio dell'abbonamento**, anche prima di qualsiasi consegna.
+Questo comportamento può essere modificato nelle [impostazioni](/settings#billing) disattivando "Fatturare gli abbonamenti solo dopo la loro prima consegna". Quando disattivato, la fatturazione inizia dalla **data di inizio dell'abbonamento**, anche prima di qualsiasi consegna. Se la prova è ancora in corso, aspetta allora la prima consegna non di prova.
 
 #### Quando termina la fatturazione? {#billing-end}
 
@@ -113,13 +113,13 @@ La fattura sarà creata, ma **non inviata**. Puoi consultare il PDF e inviarlo m
 
 > Il pulsante "Fatturare ora" produce esattamente la stessa fattura del sistema automatico, l'unica differenza è che non viene inviata automaticamente, dandoti il tempo di verificarla prima.
 
-Il pulsante manca quando la fatturazione ricorrente non ha un giorno della settimana, manca l'IBAN, il periodo corrente è già fatturato, le <%= Basket.model_name.human(count: 2).downcase %> di prova sono ancora in corso, il socio è un [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), o non resta nulla da fatturare.
+Il pulsante manca quando la fatturazione ricorrente non ha un giorno della settimana, manca l'IBAN, il periodo corrente è già fatturato, il socio è un [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), o non resta nulla da fatturare.
 
 ### Fatturare tutto in anticipo {#future_billing}
 
 È possibile fatturare in anticipo un abbonamento futuro, con una data di inizio nel futuro, sia che si tratti dell'anno fiscale corrente o del prossimo anno fiscale. Gli abbonamenti fatturati in questo modo vengono fatturati completamente in una sola volta, indipendentemente dall'intervallo di pagamento configurato per l'abbonamento.
 
-La fatturazione anticipata può essere effettuata dalla pagina di un abbonamento futuro cliccando sul pulsante "Fatturare tutto in anticipo" nella sezione "Fatturazione" (colonna di destra). È anche possibile fatturare più abbonamenti futuri contemporaneamente dalla [pagina degli abbonamenti](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), utilizzando il campo "Futuro" e filtrando per anno fiscale. È quindi possibile cliccare sul pulsante "Fatturare tutto in anticipo" nella sezione "Fatturazione" (colonna di destra), sotto i filtri. Sentiti libero di filtrare gli abbonamenti futuri per intervallo di pagamento (ad esempio, solo "Annuale") per affinare la tua selezione.
+La fatturazione anticipata può essere effettuata dalla pagina di un abbonamento futuro cliccando sul pulsante "Fatturare tutto in anticipo" nella sezione "Fatturazione" (colonna di destra). Quella fattura è creata **non inviata**, come [Fatturare ora](#bill-now). Dalla [pagina degli abbonamenti](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), lo stesso pulsante sotto i filtri fattura più abbonamenti futuri in una volta e **invia** quelle fatture. Filtra per anno fiscale, e per intervallo di pagamento (ad esempio "Annuale") se vuoi una selezione più stretta.
 
 > La quota annuale corrispondente all'anno fiscale dell'abbonamento è automaticamente inclusa nella fattura.
 
@@ -144,13 +144,13 @@ Se modifichi la quota annuale predefinita dell'organizzazione, tutti i soci anco
 
 ### <%= Basket.model_name.human(count: 2) %> di prova {#trial-baskets}
 
-Se un numero di <%= Basket.model_name.human(count: 2).downcase %> di prova è definito nelle [impostazioni di fatturazione](/settings#billing), allora l'abbonamento sarà fatturato solo una volta che tutte le <%= Basket.model_name.human(count: 2).downcase %> di prova saranno state consegnate, il prossimo giorno di fatturazione successivo alla consegna della prima <%= Basket.model_name.human.downcase %> non di prova. Questo garantisce che la prima fattura non venga generata mentre il socio può ancora annullare il periodo di prova dal proprio account.
+Se un numero di <%= Basket.model_name.human(count: 2).downcase %> di prova è definito nelle [impostazioni di fatturazione](/settings#billing), i soci possono annullare l'abbonamento dal proprio account fino al giorno precedente la prima consegna non di prova. L'abbonamento termina allora all'ultima consegna di prova. Per annullare subito, deve farlo un admin.
 
-I soci possono annullare il proprio abbonamento durante il periodo di prova dal proprio account. L'abbonamento terminerà alla data dell'ultima consegna della <%= Basket.model_name.human.downcase %> di prova. Per annullare un abbonamento immediatamente, l'amministratore deve farlo manualmente.
+Per impostazione predefinita, la prima fattura di abbonamento è creata il giorno di fatturazione successivo all'**ultima consegna di prova**. Può ancora arrivare mentre il socio può annullare. Se disattivi "Fatturare gli abbonamenti solo dopo la loro prima consegna", la fatturazione aspetta invece la prima consegna **non di prova**.
 
-Se l'abbonamento viene annullato durante il periodo di prova, solo le <%= Basket.model_name.human(count: 2).downcase %> consegnate saranno fatturate, il prossimo giorno di fatturazione. In questo caso, la quota annuale non viene fatturata (a meno che il socio non scelga di pagarla).
+Se l'abbonamento viene annullato durante la prova, solo le <%= Basket.model_name.human(count: 2).downcase %> consegnate sono fatturate, il prossimo giorno di fatturazione. La quota annuale non viene fatturata, a meno che il socio non scelga di pagarla.
 
-Le fatture di abbonamento aspettano la fine della prova. Le fatture di [quote sociali](#share-capital) anche: le quote mancanti vengono fatturate una volta terminata la prova. Termina o ferma l'abbonamento prima di un rinnovo tacito, altrimenti il prossimo anno fiscale viene creato e fatturato.
+Le fatture di [quote sociali](#share-capital) aspettano la fine della prova: le quote mancanti vengono fatturate allora. **Terminare** o **Fermare** l'abbonamento prima di un rinnovo tacito, altrimenti il prossimo anno fiscale viene creato e fatturato.
 
 ### <%= Member.human_attribute_name(:salary_basket) %>
 
