@@ -50,6 +50,10 @@ Um ein inaktives Mitglied auf Support umzustellen, bearbeite das Mitgliederprofi
 
 Wenn die [Warteliste](/settings#waiting_list) aktiviert ist, bearbeite das Profil eines inaktiven Mitglieds und fülle alle Pflichtfelder im Bereich "Abonnement (Warteliste)" aus, um es wieder auf die Warteliste zu setzen.
 
+## Ein Abonnement pro Jahr {#one-membership}
+
+Ein Mitglied hat nur ein Abonnement pro Geschäftsjahr, also nur eine <%= BasketSize.model_name.human.downcase %>. Zwei Grössen brauchen zwei Mitglieder. Die zweite E-Mail kann ein Alias sein (`name+alias@gmail.com`).
+
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 
 Die Option "<%= Member.human_attribute_name(:salary_basket) %>" im Profil eines Mitglieds zeigt an, dass dieses Mitglied seine <%= Basket.model_name.human %> als Teil seines Gehalts erhält (z.B. Angestellte des Betriebs). Wenn aktiviert:

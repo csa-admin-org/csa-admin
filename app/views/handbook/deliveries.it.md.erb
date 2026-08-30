@@ -103,6 +103,10 @@ Ogni <%= Basket.model_name.human.downcase %> di un abbonamento può essere modif
 
 Nella pagina dell'abbonamento, ogni <%= Basket.model_name.human.downcase %> che si discosta dalla configurazione dell'abbonamento mostra una piccola **icona della cronologia** accanto al suo stato. Passando il mouse sull'icona, vedi chi ha effettuato la modifica (nome dell'admin o " dal socio ") e quando, insieme all'elenco dei campi modificati. Da lì, un pulsante **" Annulla "** ripristina la <%= Basket.model_name.human.downcase %> ai valori predefiniti dell'abbonamento.
 
+Per saltare delle date: dalla pagina dell'abbonamento, imposta la quantità a **0** dalla data di partenza e a **1** al ritorno. Per una <%= Basket.model_name.human.downcase %> extra in certe date, imposta la quantità a **2** in quelle date.
+
+Se l'anno è già fatturato, alza prima gli extra così le fatture non vengono annullate, poi metti a zero le date saltate. Per tenere lo stesso numero fatturato e spostare il contenuto a un'altra data, è uno [spostamento](/handbook/absence#basket-shift), non una quantità a 0.
+
 Alcuni punti importanti:
 
 - Le modifiche vengono catturate automaticamente non appena un admin modifica una <%= Basket.model_name.human.downcase %> o un socio cambia il proprio deposito o i propri <%= BasketComplement.model_name.human(count: 2).downcase %> dall'area soci (se consentito nelle [impostazioni delle modifiche all'abbonamento](/settings#membership_updates); vedi [modifiche all'abbonamento](/handbook/members#membership-updates)).
@@ -165,6 +169,10 @@ Quando attivato, due tabelle aggiuntive appaiono sulle schede:
 - **Pagine per punto di ritiro**: Una tabella che elenca ogni prodotto con la sua quantità per <%= BasketSize.model_name.human.downcase %> (es. "250g" per <%= Basket.model_name.human.downcase %> piccolo, "400g" per grande).
 
 Se la tabella dei prodotti non entra nella stessa pagina della tabella dei membri esistente, apparirà automaticamente su una pagina separata.
+
+### Prodotti bottega {#shop-on-sheets}
+
+Un prodotto bottega appare sui fogli solo se una variante è [collegata a un complemento](/handbook/shop#products) (colonna del complemento) o se "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" è attivo (una sola variante). Lo spazio è limitato. Non ogni prodotto bottega va sul foglio.
 
 ## Notifiche di consegna {#delivery-notifications}
 

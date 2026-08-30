@@ -20,11 +20,13 @@ Bij het aanmaken van een nieuwsbrief kies je de doelgroep. Verschillende filters
 - **<%= activities_human_name %>**: Leden met gevraagde of ontbrekende deelnames, of deelnemers aan een specifieke activiteit.
 - **Winkellevering**: Leden met bestellingen voor een specifieke winkellevering.
 
+Nieuwsbrieven gaan alleen naar leden. Om iemand te schrijven die dat nog niet is, maak je het lid eerst aan (inactief is prima) en neem je die status op in het publiek.
+
 ### Opgeslagen segmenten {#segments}
 
 Als de bovenstaande standaard publieksfilters niet aan je behoeften voldoen, kun je [opgeslagen segmenten](/newsletter_segments) aanmaken voor geavanceerdere targeting. Een segment is een benoemde, herbruikbare filtercombinatie die criteria kan combineren die niet beschikbaar zijn in de standaardfilters (bijv. leden in een specifieke stad, met een bepaald factureringsinterval of een specifieke vernieuwingsstatus).
 
-Opgeslagen segmenten kunnen filteren op <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, leveringscyclus, vernieuwingsstatus, factureringsinterval, stad en meer. Ze verschijnen naast de andere publiekopties bij het aanmaken van een nieuwsbrief.
+Opgeslagen segmenten kunnen filteren op <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, leveringscyclus, vernieuwingsstatus, factureringsinterval, stad en meer. Je kunt ook een lijst van leden-IDs plakken, gescheiden door komma's; de andere criteria worden dan genegeerd. Ze verschijnen naast de andere publiekopties bij het aanmaken van een nieuwsbrief.
 
 ## Sjablonen {#templates}
 
@@ -83,6 +85,10 @@ Elke leveringsregistratie toont:
 
 > Leden die zich hebben [uitgeschreven](#unsubscription) van nieuwsbrieven verschijnen als "onderdrukt" in de leveringstracking.
 
+### Hard bounce {#hard-bounce}
+
+Controleer de typfout, reactiveer daarna vanaf de ledenpagina (Reactiveren naast het adres) of vanaf [het leveringslogboek](/mail_deliveries). Spamklachten en ongeldige adressen kunnen niet worden gereactiveerd.
+
 ### Ontbrekende e-mails
 
 Als een lid een nieuw e-mailadres toevoegt (of een bestaand adres wordt gecorrigeerd) binnen een week na het verzenden van een nieuwsbrief, detecteert het systeem dit als een "ontbrekende levering". Een beheerder kan de nieuwsbrief dan rechtstreeks vanaf de leveringspagina naar dat nieuwe adres verzenden.
@@ -101,7 +107,7 @@ Alle leden zijn standaard ingeschreven voor nieuwsbrieven. Elk lid kan zich op e
 
 Leden die zich hebben uitgeschreven kunnen zich eenvoudig opnieuw inschrijven vanaf [hun account](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) in de sectie "Nieuwsbrieven".
 
-> Let op dat de nieuwsbrief herinschrijflink alleen verschijnt in het account van het lid als zij zelf zijn ingelogd, en niet wanneer een admin in hun account is ingelogd namens hen.
+> In een sessie die een admin heeft geopend is de knop Inschrijven zichtbaar, maar alleen-lezen. Het lid moet zelf inschrijven. Er is expres geen admin-actie om opnieuw in te schrijven.
 
 ## Openbare feed {#feed}
 

@@ -144,6 +144,34 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     assert match, "Expected a content match for next-FY registration"
   end
 
+  test "content_search finds catalog prices do not rewrite memberships" do
+    results = Handbook.content_search("does not rewrite memberships", locale: :en)
+
+    match = results.find { |r| r[:name] == "membership_renewal" }
+    assert match, "Expected a content match for catalog prices binding at create/renew"
+  end
+
+  test "content_search finds quantity cookbook on deliveries" do
+    results = Handbook.content_search("raise extras first", locale: :en)
+
+    match = results.find { |r| r[:name] == "deliveries" }
+    assert match, "Expected a content match for the quantity cookbook"
+  end
+
+  test "content_search finds two sizes need two members" do
+    results = Handbook.content_search("two sizes need two members", locale: :en)
+
+    match = results.find { |r| r[:name] == "members" }
+    assert match, "Expected a content match for one size per member"
+  end
+
+  test "content_search finds shop product on delivery sheets" do
+    results = Handbook.content_search("not every shop product", locale: :en)
+
+    match = results.find { |r| r[:name] == "shop" }
+    assert match, "Expected a content match for shop products on delivery sheets"
+  end
+
   test "content_search finds welcome email resend on automatic emails" do
     results = Handbook.content_search("resend welcome email", locale: :en)
 

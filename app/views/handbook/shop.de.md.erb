@@ -34,6 +34,8 @@ Jede Produktvariante kann mit einer bestehenden [<%= BasketComplement.model_name
 
 Ein Produkt kann so Varianten mit verschiedenen Ergänzungen zusammenfassen. Jede verknüpfte Variante ist nur an den Liefertagen ihrer Ergänzung verfügbar; andere Varianten behalten ihre eigene Verfügbarkeit.
 
+Ein Hofladenprodukt erscheint auf den [Lieferscheinen](/handbook/deliveries#delivery-sheets) auf zwei Arten: eine mit einer Ergänzung verknüpfte Variante (Ergänzungsspalte), oder die Option "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" bei einem Produkt mit **einer** Variante. Der Platz ist begrenzt. Nicht jedes Hofladenprodukt gehört auf das Blatt.
+
 ## Bestellungen {#orders}
 
 Um Dir Zeit zu geben, die vor der Lieferung aufgegebenen Bestellungen zu bearbeiten und zu berechnen, kann eine Frist (Tage und Stunden), bis zu der Bestellungen möglich sind, in [den Hofladeneinstellungen](/settings#shop) festgelegt werden. Nach dieser Frist können Mitglieder ihre Bestellung für die bevorstehende Lieferung nicht mehr erstellen oder ändern.

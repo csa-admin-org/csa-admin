@@ -159,6 +159,13 @@ inversion, drop the -t ("heb je", not "hebt je").
   [Canton of Vaud typographic guidance](https://www.vd.ch/cha/bic/usages-typographiques)
   and is enforced by `test/lib/i18n/french_punctuation_test.rb`.
 - Fully localized vocabulary, never anglicisms (dépôt, abonnement, panier, etc.).
+- Shop is **épicerie**, never _boutique_. Same in locale YAML (`active_admin.menu.shop`), handbook, and mail.
+
+Shop feature names (keep these, do not invent synonyms):
+
+| EN   | FR       | DE       | IT      | NL     |
+| ---- | -------- | -------- | ------- | ------ |
+| Shop | Épicerie | Hofladen | Bottega | Winkel |
 
 ### Italian
 

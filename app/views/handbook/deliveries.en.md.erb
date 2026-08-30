@@ -103,6 +103,10 @@ Each <%= Basket.model_name.human.downcase %> of a membership can be edited indiv
 
 On the membership page, any <%= Basket.model_name.human.downcase %> that diverges from the membership configuration shows a small **history icon** next to its state. Hovering over the icon reveals who made the change (admin name, or "by the member") and when, along with the list of modified fields. From there, an **"Undo"** button restores the <%= Basket.model_name.human.downcase %> to the membership defaults.
 
+To skip dates: from the membership page, set quantity **0** from the leave date and **1** from the return. To add an extra <%= Basket.model_name.human.downcase %> on some dates, set quantity **2** on those dates.
+
+If the year is already billed, raise extras first so invoices are not cancelled, then zero the skipped ones. To keep the same billed count and move the content to another date, that is a [shift](/handbook/absence#basket-shift), not a quantity of 0.
+
 A few important points:
 
 - Modifications are captured automatically whenever an admin edits a <%= Basket.model_name.human.downcase %> or a member changes their depot or <%= BasketComplement.model_name.human(count: 2).downcase %> from the member area (if allowed in [the membership update settings](/settings#membership_updates); see [membership updates](/handbook/members#membership-updates)).
@@ -165,6 +169,10 @@ When enabled, two additional tables appear on the sheets:
 - **Per-depot pages**: A table listing each product with its quantity per <%= BasketSize.model_name.human.downcase %> (e.g. "250g" per small <%= Basket.model_name.human.downcase %>, "400g" per large).
 
 If the product table doesn't fit on the same page as the existing members table, it will automatically appear on a separate page.
+
+### Shop products {#shop-on-sheets}
+
+A shop product appears on the sheets only when a variant is [linked to a complement](/handbook/shop#products) (complement column) or when "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" is on (one variant). Space is limited. Not every shop product belongs on the sheet.
 
 ## Delivery notifications {#delivery-notifications}
 

@@ -34,6 +34,8 @@ Each product variant can be linked to one existing [<%= BasketComplement.model_n
 
 One product can therefore group variants linked to different complement choices. Each linked variant is available only on its complement's delivery days; other variants retain their own availability.
 
+A shop product appears on [delivery sheets](/handbook/deliveries#delivery-sheets) in two ways: a variant linked to a complement (complement column), or the "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" flag on a product with **one** variant. Space is limited. Not every shop product belongs on the sheet.
+
 ## Orders {#orders}
 
 To give you time to process and bill orders placed before delivery, a deadline (days and hours) until which orders are possible can be defined from [the shop settings](/settings#shop). After this deadline, members will no longer be able to create or modify their order for the upcoming delivery.

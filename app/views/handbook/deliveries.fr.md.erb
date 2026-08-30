@@ -103,6 +103,10 @@ Chaque <%= Basket.model_name.human.downcase %> d'un abonnement peut être modifi
 
 Sur la page de l'abonnement, tout <%= Basket.model_name.human.downcase %> qui diverge de la configuration de l'abonnement affiche une petite **icône d'historique** à côté de son état. Au survol de l'icône, vous voyez qui a effectué la modification (nom de l'admin, ou "par le membre") et quand, ainsi que la liste des champs modifiés. De là, un bouton **"Annuler"** rétablit le <%= Basket.model_name.human.downcase %> aux valeurs par défaut de l'abonnement.
 
+Pour sauter des dates: depuis la page de l'abonnement, mettez la quantité à **0** à partir de la date de départ et à **1** au retour. Pour un <%= Basket.model_name.human.downcase %> extra sur certaines dates, mettez la quantité à **2** sur ces dates.
+
+Si l'année est déjà facturée, augmentez d'abord les extras pour ne pas annuler les factures, puis mettez à zéro les dates sautées. Pour garder le même nombre facturé et déplacer le contenu vers une autre date, c'est un [déplacement](/handbook/absence#basket-shift), pas une quantité à 0.
+
 Quelques points importants:
 
 - Les modifications sont enregistrées automatiquement dès qu'un admin modifie un <%= Basket.model_name.human.downcase %> ou qu'un membre change son dépôt ou ses compléments depuis l'espace membre (si permis dans [les paramètres de modification d'abonnement](/settings#membership_updates); voir [modifications d'abonnement](/handbook/members#membership-updates)).
@@ -165,6 +169,10 @@ Lorsqu'activé, deux tableaux supplémentaires apparaissent sur les fiches:
 - **Pages par dépôt**: Un tableau listant chaque produit avec sa quantité par <%= BasketSize.model_name.human.downcase %> (ex. " 250g " par petit <%= Basket.model_name.human.downcase %>, " 400g " par grand).
 
 Si le tableau des produits ne tient pas sur la même page que le tableau des membres existant, il apparaîtra automatiquement sur une page séparée.
+
+### Produits d'épicerie {#shop-on-sheets}
+
+Un produit d'épicerie n'apparaît sur les fiches que si une variante est [liée à un complément](/handbook/shop#products) (colonne du complément) ou si "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" est activé (une seule variante). La place est limitée. Tous les produits d'épicerie n'ont pas leur place sur la fiche.
 
 ## Notifications de livraison {#delivery-notifications}
 

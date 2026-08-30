@@ -20,11 +20,13 @@ Durante la creazione di una newsletter, scegli il pubblico di destinazione. Sono
 - **<%= activities_human_name %>**: Soci con partecipazioni richieste o mancanti, o partecipanti a un'attività specifica.
 - **Consegna bottega**: Soci con ordini per una consegna bottega specifica.
 
+Le newsletter partono solo ai soci. Per scrivere a chi non lo è ancora, crea prima la scheda (inattivo va bene) e includi quello stato nel pubblico.
+
 ### Segmenti salvati {#segments}
 
 Se i filtri di pubblico standard sopra non coprono le tue esigenze, puoi creare [segmenti salvati](/newsletter_segments) per un targeting più avanzato. Un segmento è una combinazione di filtri nominata e riutilizzabile che può combinare criteri non disponibili nei filtri predefiniti (ad esempio, soci in una città specifica, con un particolare intervallo di fatturazione o un determinato stato di rinnovo).
 
-I segmenti salvati possono filtrare per <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, deposito, ciclo di consegne, stato del rinnovo, intervallo di fatturazione, città e altro. Appaiono accanto alle altre opzioni di pubblico durante la creazione di una newsletter.
+I segmenti salvati possono filtrare per <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, deposito, ciclo di consegne, stato del rinnovo, intervallo di fatturazione, città e altro. Puoi anche incollare una lista di ID soci, separati da virgola; gli altri criteri vengono allora ignorati. Appaiono accanto alle altre opzioni di pubblico durante la creazione di una newsletter.
 
 ## Modelli {#templates}
 
@@ -83,6 +85,10 @@ Ogni registrazione di consegna mostra:
 
 > I soci che si sono [disiscritti](#unsubscription) dalle newsletters appaiono come "soppressi" nel tracciamento delle consegne.
 
+### Bounce permanente {#hard-bounce}
+
+Controlla il refuso, poi riattiva dalla pagina del socio (Riattiva accanto all'indirizzo) o dal [registro delle consegne](/mail_deliveries). I reclami per spam e gli indirizzi non validi non si possono riattivare.
+
 ### Email mancanti
 
 Se un socio aggiunge un nuovo indirizzo email (o uno esistente viene corretto) entro una settimana dall'invio di una newsletter, il sistema lo rileva come una "consegna mancante". Un amministratore può quindi inviare la newsletter a quel nuovo indirizzo direttamente dalla pagina di consegna.
@@ -101,7 +107,7 @@ Tutti i soci sono iscritti alle newsletter per impostazione predefinita. Ogni so
 
 I soci che si sono disiscritti possono facilmente iscriversi nuovamente dal [loro account](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) nella sezione "Newsletters".
 
-> Nota che il collegamento per reiscriversi alle newsletter appare nell'account del socio solo dopo che il socio vi ha effettuato personalmente l'accesso, non quando un amministratore accede per suo conto.
+> Da una sessione aperta da un admin, il pulsante Iscriviti è visibile ma in sola lettura. Il socio deve iscriversi da solo. Non c'è un'azione admin per reiscrivere, di proposito.
 
 ## Feed pubblico {#feed}
 

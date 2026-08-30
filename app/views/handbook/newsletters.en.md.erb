@@ -20,11 +20,13 @@ When creating a newsletter, you choose the target audience. Several filters are 
 - **<%= activities_human_name %>**: Members with demanded or missing participations, or participants of a specific activity.
 - **Shop delivery**: Members with orders for a specific shop delivery.
 
+Newsletters only go to members. To write to someone who is not one yet, create their record first (inactive is fine) and include that state in the audience.
+
 ### Saved segments {#segments}
 
 If the standard audience filters above don't cover your needs, you can create [saved segments](/newsletter_segments) for more advanced targeting. A segment is a named, reusable filter combination that can combine criteria not available in the default filters (e.g., members in a specific city, with a particular billing interval, or a specific renewal state).
 
-Saved segments can filter by <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, delivery cycle, renewal state, billing interval, city, and more. They appear alongside the other audience options when creating a newsletter.
+Saved segments can filter by <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, delivery cycle, renewal state, billing interval, city, and more. You can also paste a comma-separated list of member IDs; other criteria are then ignored. Segments appear alongside the other audience options when creating a newsletter.
 
 ## Templates {#templates}
 
@@ -83,6 +85,10 @@ Each delivery record shows:
 
 > Members who have [unsubscribed](#unsubscription) from newsletters appear as "suppressed" in the delivery tracking.
 
+### Hard bounce {#hard-bounce}
+
+Check the typo, then reactivate from the member page (Reactivate next to the address) or from [the delivery log](/mail_deliveries). Spam complaints and invalid addresses cannot be reactivated.
+
 ### Missing Emails
 
 If a member adds a new email address (or an existing one is corrected) within a week after a newsletter is sent, the system detects it as a "missing delivery". An admin can then send the newsletter to that new address directly from the delivery page.
@@ -101,7 +107,7 @@ All members are subscribed to newsletters by default. Each member can unsubscrib
 
 Members who have unsubscribed can easily subscribe again from [their account](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) in the "Newsletters" section.
 
-> Please note that the newsletter resubscription link only appears in the member's account if they have logged in themselves, and not when an admin has logged into their account on their behalf.
+> From an admin-opened session, the subscribe button is visible but read-only. The member must subscribe themselves. There is no admin resubscribe action, on purpose.
 
 ## Public feed {#feed}
 

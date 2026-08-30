@@ -34,6 +34,8 @@ Ogni variante di prodotto può essere collegata a un [<%= BasketComplement.model
 
 Un prodotto può così raggruppare varianti collegate a complementi diversi. Ogni variante collegata è disponibile solo nei giorni di consegna del proprio complemento; le altre varianti mantengono la propria disponibilità.
 
+Un prodotto bottega appare sui [fogli di consegna](/handbook/deliveries#delivery-sheets) in due modi: una variante collegata a un complemento (colonna del complemento), o l'opzione "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" su un prodotto con **una** sola variante. Lo spazio è limitato. Non ogni prodotto bottega va sul foglio.
+
 ## Ordini {#orders}
 
 Per lasciarti il tempo di elaborare e fatturare gli ordini effettuati prima della consegna, una scadenza (giorni e ore) fino alla quale gli ordini sono possibili, può essere definita dalle [impostazioni della bottega](/settings#shop). Passata questa scadenza, i soci non potranno più creare o modificare il loro ordine per la consegna imminente.

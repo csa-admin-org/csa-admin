@@ -34,6 +34,8 @@ Chaque variante de produit peut être liée à un [<%= BasketComplement.model_na
 
 Un même produit peut ainsi regrouper des variantes liées à différents compléments. Chaque variante liée n'est disponible que les jours de livraison de son complément; les autres variantes conservent leur propre disponibilité.
 
+Un produit d'épicerie apparaît sur [les fiches de livraison](/handbook/deliveries#delivery-sheets) de deux manières: une variante liée à un complément (colonne du complément), ou l'option "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" sur un produit avec **une** seule variante. La place est limitée. Tous les produits d'épicerie n'ont pas leur place sur la fiche.
+
 ## Commandes {#orders}
 
 Afin de vous laisser le temps de traiter et de facturer les commandes passées avant la livraison, vous pouvez définir un délai, en jours et heures, dans [les paramètres de l'épicerie](/settings#shop). Passé ce délai, les membres ne pourront plus créer ou modifier leur commande pour la livraison à venir.

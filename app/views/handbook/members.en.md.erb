@@ -50,6 +50,10 @@ To move an inactive member to support, edit the member's profile and set an annu
 
 When the [waiting list](/settings#waiting_list) feature is enabled, edit an inactive member's profile and fill in all required "Membership (waiting list)" fields to put them on the waiting list.
 
+## One membership per year {#one-membership}
+
+A member can have only one membership per fiscal year, so only one <%= BasketSize.model_name.human.downcase %>. Two sizes need two members. The second email can be an alias (`name+alias@gmail.com`).
+
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 
 The "<%= Member.human_attribute_name(:salary_basket) %>" option on a member's profile indicates that this member receives their <%= Basket.model_name.human.downcase %> as part of their salary (e.g. farm employees). When enabled:

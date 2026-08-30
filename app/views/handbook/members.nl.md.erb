@@ -50,6 +50,10 @@ Om een inactief lid naar ondersteuning te verplaatsen, bewerk je het profiel van
 
 Wanneer de [wachtlijst](/settings#waiting_list) is ingeschakeld, bewerk je het profiel van een inactief lid en vul je alle verplichte velden in het paneel "Lidmaatschap (wachtlijst)" in om het lid op de wachtlijst te plaatsen.
 
+## Eén lidmaatschap per jaar {#one-membership}
+
+Een lid heeft maar één lidmaatschap per boekjaar, dus maar één <%= BasketSize.model_name.human.downcase %>. Twee groottes vragen twee leden. Het tweede e-mailadres kan een alias zijn (`name+alias@gmail.com`).
+
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 
 De optie "<%= Member.human_attribute_name(:salary_basket) %>" op het profiel van een lid geeft aan dat dit lid zijn/haar <%= Basket.model_name.human.downcase %> ontvangt als onderdeel van het salaris (bijv. medewerkers van de boerderij). Wanneer ingeschakeld:

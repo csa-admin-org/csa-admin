@@ -104,6 +104,10 @@ Elk(e) <%= Basket.model_name.human.downcase %> van een lidmaatschap kan individu
 
 Op de pagina van het lidmaatschap toont elk(e) <%= Basket.model_name.human.downcase %> die afwijkt van de configuratie van het lidmaatschap een klein **geschiedenispictogram** naast de status. Wanneer je met de muis over het pictogram beweegt, zie je wie de wijziging heeft aangebracht (naam van de admin, of " door het lid ") en wanneer, evenals de lijst met gewijzigde velden. Van daaruit herstelt een knop **" Ongedaan maken "** de <%= Basket.model_name.human.downcase %> naar de standaardwaarden van het lidmaatschap.
 
+Data overslaan: vanaf de lidmaatschapspagina zet je de hoeveelheid op **0** vanaf de vertrekdatum en op **1** bij terugkeer. Voor een extra <%= Basket.model_name.human.downcase %> op sommige data zet je de hoeveelheid daar op **2**.
+
+Als het jaar al is gefactureerd, verhoog eerst de extra's zodat facturen niet worden geannuleerd, zet daarna de overgeslagen data op nul. Dezelfde gefactureerde hoeveelheid houden en de inhoud naar een andere datum verplaatsen: dat is een [verschuiving](/handbook/absence#basket-shift), geen hoeveelheid 0.
+
 Enkele belangrijke punten:
 
 - Wijzigingen worden automatisch vastgelegd zodra een admin een <%= Basket.model_name.human.downcase %> bewerkt of een lid zijn depot of <%= BasketComplement.model_name.human(count: 2).downcase %> wijzigt via het ledengedeelte (indien toegestaan in [de instellingen voor lidmaatschapswijzigingen](/settings#membership_updates); zie [lidmaatschapswijzigingen](/handbook/members#membership-updates)).
@@ -168,6 +172,10 @@ Wanneer ingeschakeld, verschijnen er twee extra tabellen op de bonnen:
 - **Depot-pagina's**: Een tabel met elk product en de hoeveelheid per <%= BasketSize.model_name.human.downcase %> (bijv. "250g" per kleine <%= Basket.model_name.human.downcase %>, "400g" per grote).
 
 Als de producttabel niet op dezelfde pagina past als de bestaande ledentabel, verschijnt deze automatisch op een aparte pagina.
+
+### Winkelproducten {#shop-on-sheets}
+
+Een winkelproduct verschijnt alleen op de bladen als een variant [aan een aanvulling is gekoppeld](/handbook/shop#products) (aanvullingskolom) of als "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" aan staat (één variant). De ruimte is beperkt. Niet elk winkelproduct hoort op het blad.
 
 ## Leveringsmeldingen {#delivery-notifications}
 

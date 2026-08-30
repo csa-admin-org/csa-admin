@@ -12,7 +12,7 @@ CSA Admin gère plusieurs types de factures:
 | **Cotisation annuelle** | Incluse dans la première facture de l'abonnement, ou [facturée séparément](#annual-fee) pour les [membres de soutien](/handbook/members#statuses). |
 | **Parts sociales** | Pour les organisations nécessitant la [détention de parts sociales](#share-capital). Générée automatiquement lorsqu'il manque des parts. |
 | **<%= activities_human_name %>** | Facturation des [participations non effectuées](#activity). Déclenchée manuellement ou de manière groupée. |
-| **Commande boutique** | Facture pour les commandes de la [boutique](/handbook/shop). Peut être automatique ou manuelle. |
+| **Commande d'épicerie** | Facture pour les commandes de l'[épicerie](/handbook/shop). Peut être automatique ou manuelle. |
 | **Cotisation nouveau membre** | Cotisation unique facturée aux nouveaux membres, si la fonctionnalité est activée. |
 | **Autre** | [Factures libres](#manual-invoice) pour des articles ou services divers. |
 
@@ -217,11 +217,11 @@ Vous pouvez facturer manuellement des articles ou des services divers, par exemp
 
 ## TVA {#vat}
 
-Si votre organisation est assujettie à la TVA, activez la fonctionnalité TVA et configurez votre numéro de TVA ainsi que vos taux dans [les paramètres de TVA](/settings#vat). Des taux distincts peuvent être définis pour les factures d'abonnement, les factures de <%= activities_human_name.downcase %> et les factures de commandes boutique. Pour les factures "Autre" et "Cotisation nouveau membre", le taux de TVA est défini manuellement sur chaque facture.
+Si votre organisation est assujettie à la TVA, activez la fonctionnalité TVA et configurez votre numéro de TVA ainsi que vos taux dans [les paramètres de TVA](/settings#vat). Des taux distincts peuvent être définis pour les factures d'abonnement, les factures de <%= activities_human_name.downcase %> et les factures de commandes d'épicerie. Pour les factures "Autre" et "Cotisation nouveau membre", le taux de TVA est défini manuellement sur chaque facture.
 
 La TVA est calculée comme une taxe incluse (le montant total de la facture inclut déjà la TVA). Le montant net et le montant de la TVA sont affichés séparément sur le PDF de la facture.
 
-> La TVA n'est appliquée que lorsque la fonctionnalité TVA est activée. Les paramètres de TVA exigent un numéro de TVA et un taux de TVA pour les abonnements; les taux de TVA pour les <%= activities_human_name.downcase %> et la boutique sont optionnels et ne sont utilisés que lorsque ces fonctionnalités sont activées.
+> La TVA n'est appliquée que lorsque la fonctionnalité TVA est activée. Les paramètres de TVA exigent un numéro de TVA et un taux de TVA pour les abonnements; les taux de TVA pour les <%= activities_human_name.downcase %> et l'épicerie sont optionnels et ne sont utilisés que lorsque ces fonctionnalités sont activées.
 
 ## Paiements {#payments}
 

@@ -34,6 +34,8 @@ Elke productvariant kan worden gekoppeld aan een bestaande [<%= BasketComplement
 
 Een product kan zo varianten met verschillende aanvullingen groeperen. Elke gekoppelde variant is alleen beschikbaar op de leveringsdagen van de eigen aanvulling; andere varianten behouden hun eigen beschikbaarheid.
 
+Een winkelproduct verschijnt op [leveringsbladen](/handbook/deliveries#delivery-sheets) op twee manieren: een variant gekoppeld aan een aanvulling (aanvullingskolom), of de optie "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" op een product met **één** variant. De ruimte is beperkt. Niet elk winkelproduct hoort op het blad.
+
 ## Bestellingen {#orders}
 
 Om je tijd te geven om bestellingen die voor de levering zijn geplaatst te verwerken en te factureren, kan een deadline (dagen en uren) tot wanneer bestellingen mogelijk zijn worden gedefinieerd vanuit [de winkelinstellingen](/settings#shop). Na deze deadline kunnen leden geen bestelling meer aanmaken of wijzigen voor de komende levering.

@@ -52,6 +52,10 @@ Pour passer un membre inactif en support, éditez le profil du membre et défini
 
 Lorsque la [liste d'attente](/settings#waiting_list) est activée, éditez le profil d'un membre inactif et remplissez tous les champs obligatoires du panneau " Abonnement (en attente) " pour le remettre en liste d'attente.
 
+## Un abonnement par année {#one-membership}
+
+Un membre n'a qu'un abonnement par année fiscale, donc une seule <%= BasketSize.model_name.human.downcase %>. Deux tailles, c'est deux membres. Le second e-mail peut être un alias (`name+alias@gmail.com`).
+
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 
 L'option "<%= Member.human_attribute_name(:salary_basket) %>" sur le profil d'un membre indique que ce membre reçoit son <%= Basket.model_name.human.downcase %> dans le cadre de son salaire (par exemple, les employés de la ferme). Lorsqu'elle est activée:

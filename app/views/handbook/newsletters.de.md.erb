@@ -20,11 +20,13 @@ Beim Erstellen eines Newsletters wählst Du die Zielgruppe. Mehrere Filter sind 
 - **<%= activities_human_name %>**: Mitglieder mit angeforderten oder fehlenden Teilnahmen, oder Teilnehmer einer bestimmten Aktivität.
 - **Hofladenlieferung**: Mitglieder mit Bestellungen für eine bestimmte Hofladenlieferung.
 
+Newsletters gehen nur an Mitglieder. Um jemanden zu schreiben, der noch keines ist, lege zuerst die Mitgliederakte an (inaktiv reicht) und nimm diesen Status ins Publikum auf.
+
 ### Gespeicherte Segmente {#segments}
 
 Wenn die oben genannten Standard-Publikumsfilter nicht ausreichen, kannst Du [gespeicherte Segmente](/newsletter_segments) für eine gezieltere Auswahl erstellen. Ein Segment ist eine benannte, wiederverwendbare Filterkombination, die Kriterien kombinieren kann, die in den Standardfiltern nicht verfügbar sind (z.B. Mitglieder in einer bestimmten Stadt, mit einem bestimmten Abrechnungsintervall oder einem bestimmten Erneuerungsstatus).
 
-Gespeicherte Segmente können nach <%= BasketSize.model_name.human %>, <%= BasketComplement.model_name.human(count: 2) %>, Depot, Lieferzyklus, Erneuerungsstatus, Abrechnungsintervall, Ort und mehr filtern. Sie erscheinen neben den anderen Publikumsoptionen beim Erstellen eines Newsletters.
+Gespeicherte Segmente können nach <%= BasketSize.model_name.human %>, <%= BasketComplement.model_name.human(count: 2) %>, Depot, Lieferzyklus, Erneuerungsstatus, Abrechnungsintervall, Ort und mehr filtern. Du kannst auch eine Liste von Mitglieder-IDs einfügen, getrennt durch Kommas; die anderen Kriterien werden dann ignoriert. Sie erscheinen neben den anderen Publikumsoptionen beim Erstellen eines Newsletters.
 
 ## Vorlagen {#templates}
 
@@ -83,6 +85,10 @@ Jeder Zustellungseintrag zeigt:
 
 > Mitglieder, die sich von Newsletters [abgemeldet](#unsubscription) haben, erscheinen als "unterdrückt" in der Zustellungsverfolgung.
 
+### Hard Bounce {#hard-bounce}
+
+Prüfe den Tippfehler, dann reaktiviere auf der Mitgliederseite (Reaktivieren neben der Adresse) oder über [das Zustellungsprotokoll](/mail_deliveries). Spam-Beschwerden und ungültige Adressen können nicht reaktiviert werden.
+
 ### Fehlende E-Mails
 
 Wenn ein Mitglied eine neue E-Mail-Adresse hinzufügt (oder eine bestehende korrigiert wird) innerhalb einer Woche nach dem Versand eines Newsletters, erkennt das System dies als "fehlende Zustellung". Ein Administrator kann den Newsletter dann direkt von der Zustellungsseite aus an diese neue Adresse senden.
@@ -101,7 +107,7 @@ Alle Mitglieder sind standardmässig für Newsletters angemeldet. Jedes Mitglied
 
 Mitglieder, die sich abgemeldet haben, können sich problemlos wieder anmelden über [ihr Konto](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) im Bereich "Newsletters".
 
-> Bitte beachte, dass der Link zur Wiederanmeldung für Newsletter nur im Konto des Mitglieds erscheint, wenn sich dieses selbst angemeldet hat, und nicht wenn ein Administrator sich in sein Konto eingeloggt hat.
+> In einer vom Admin geöffneten Sitzung ist der Anmelden-Button sichtbar, aber schreibgeschützt. Das Mitglied muss sich selbst anmelden. Es gibt absichtlich keine Admin-Aktion zum Wiederanmelden.
 
 ## Öffentlicher Feed {#feed}
 

@@ -83,6 +83,34 @@ class HandbookSearchTest < ActiveSupport::TestCase
     assert match, "Expected a subtitle match for canceling on absences"
   end
 
+  test "search finds one membership per year heading on members" do
+    results = Handbook.search("one membership per year", locale: :en)
+
+    match = results.find { |r| r[:name] == "members" && r[:anchor] == "one-membership" }
+    assert match, "Expected a subtitle match for one membership per year"
+  end
+
+  test "search finds catalog prices heading on the renewal page" do
+    results = Handbook.search("catalog prices", locale: :en)
+
+    match = results.find { |r| r[:name] == "membership_renewal" && r[:anchor] == "catalog-prices" }
+    assert match, "Expected a subtitle match for catalog prices"
+  end
+
+  test "search finds shop on sheets heading on deliveries" do
+    results = Handbook.search("shop products", locale: :en)
+
+    match = results.find { |r| r[:name] == "deliveries" && r[:anchor] == "shop-on-sheets" }
+    assert match, "Expected a subtitle match for shop products on sheets"
+  end
+
+  test "search finds hard bounce heading on newsletters" do
+    results = Handbook.search("hard bounce", locale: :en)
+
+    match = results.find { |r| r[:name] == "newsletters" && r[:anchor] == "hard-bounce" }
+    assert match, "Expected a subtitle match for hard bounce"
+  end
+
   test "search finds resending heading on automatic emails" do
     results = Handbook.search("resending", locale: :en)
 

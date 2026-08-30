@@ -50,6 +50,10 @@ Per spostare un socio inattivo a supporto, modifica il profilo del socio e defin
 
 Quando la [lista d'attesa](/settings#waiting_list) è attiva, modifica il profilo di un socio inattivo e compila tutti i campi obbligatori del pannello "Abbonamento (lista d'attesa)" per rimetterlo in lista d'attesa.
 
+## Un abbonamento per anno {#one-membership}
+
+Un socio ha un solo abbonamento per anno fiscale, quindi una sola <%= BasketSize.model_name.human.downcase %>. Due dimensioni richiedono due soci. La seconda email può essere un alias (`name+alias@gmail.com`).
+
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 
 L'opzione "<%= Member.human_attribute_name(:salary_basket) %>" nel profilo di un socio indica che questo socio riceve la sua <%= Basket.model_name.human.downcase %> come parte del suo stipendio (ad esempio, dipendenti dell'azienda agricola). Quando attivata:

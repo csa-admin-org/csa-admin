@@ -8,6 +8,10 @@ Alle Abonnements können manuell von einem Administrator erneuert werden; entwed
 
 Um Abonnements zu erneuern, ist es zunächst notwendig, alle [Lieferungen](/deliveries/new) für das neue Geschäftsjahr zu erstellen (siehe [Lieferungen](/handbook/deliveries)) und gegebenenfalls die Preise (<%= BasketSize.model_name.human %>, <%= BasketComplement.model_name.human %>, Depot...) für das folgende Jahr anzupassen. Tatsächlich bedeutet die Erneuerung eines Abonnements, ein neues Abonnement mit den gleichen Informationen wie das aktuelle zu erstellen, jedoch für das nächste Geschäftsjahr.
 
+### Katalogpreise {#catalog-prices}
+
+Eine Preisänderung bei einer <%= BasketSize.model_name.human.downcase %>, einer <%= BasketComplement.model_name.human.downcase %> oder einem Depot gilt für **neue** Abonnements und die **nächste** Erneuerung. Bestehende Abonnements werden nicht überschrieben, auch nicht solche, die Du bereits für nächstes Jahr erneuert hast. Ändere die Katalogpreise **vor** der Erneuerung. Danach bearbeite die Abonnements (oder frage [den Support](/support) für eine Massenaktualisierung).
+
 Sobald die Lieferungen erstellt sind, können Administratoren die Abonnements manuell erneuern, zu einem Zeitpunkt ihrer Wahl. Beachte, dass wenn ein Abonnement nach der ersten Lieferung des neuen Geschäftsjahres erneuert wird, diese Lieferung dennoch im erneuerten Abonnement enthalten sein wird. Das gilt auch, wenn Du die Anfragen erst nach Abschluss des vorherigen Geschäftsjahres sendest.
 
 ### Geschäftsjahr {#fiscal-year}
