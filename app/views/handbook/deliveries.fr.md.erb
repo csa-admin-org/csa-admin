@@ -1,6 +1,6 @@
 # Livraisons
 
-[Les livraisons](/deliveries) sont un élément central d'CSA Admin et permettent de gérer toutes les dates de livraison de vos <%= Basket.model_name.human(count: 2).downcase %> au cours de l'année. Les livraisons sont un des premiers éléments à créer. Il est important que **toutes les dates de livraison** soient définies **avant le début de votre année fiscale** car la création des abonnements et de leurs <%= Basket.model_name.human(count: 2).downcase %> en dépend.
+[Les livraisons](/deliveries) sont un élément central de CSA Admin et permettent de gérer toutes les dates de livraison de vos <%= Basket.model_name.human(count: 2).downcase %> au cours de l'année. Les livraisons sont un des premiers éléments à créer. Il est important que **toutes les dates de livraison** soient définies **avant le début de votre année fiscale** car la création des abonnements et de leurs <%= Basket.model_name.human(count: 2).downcase %> en dépend.
 
 La prochaine livraison ainsi que son nombre de <%= Basket.model_name.human(count: 2).downcase %>/<%= BasketComplement.model_name.human(count: 2).downcase %> par dépôt sont toujours disponibles depuis [le tableau de bord](/dashboard). Chaque page de livraison contient également ces informations ainsi que la liste des membres absents.
 
@@ -29,7 +29,7 @@ Certaines organisations proposent différents choix de livraisons, par exemple:
 Les paramètres définissent la sélection initiale des livraisons pour ce cycle. Ces filtres sont appliqués en premier:
 
 - **Jours**: Sélectionnez les jours de la semaine inclus (par ex., uniquement les lundis).
-- **À partir de la semaine / Jusqu'à la semaine**: Limitez les livraisons à une plage de numéros de semaine. Utile pour les cycles saisonniers (par ex., semaine 18 à semaine 42 pour une saison d'été). Lorsque les deux limites sont définies, une option **" Exclure la plage de semaines "** devient disponible pour inverser la logique — exclure les livraisons à l'intérieur de la plage plutôt qu'à l'extérieur (par ex., pour sauter une période de vacances).
+- **À partir de la semaine / Jusqu'à la semaine**: Limitez les livraisons à une plage de numéros de semaine. Utile pour les cycles saisonniers (par ex., semaine 18 à semaine 42 pour une saison d'été). Lorsque les deux limites sont définies, une option **"Exclure la plage de semaines"** devient disponible pour inverser la logique — exclure les livraisons à l'intérieur de la plage plutôt qu'à l'extérieur (par ex., pour sauter une période de vacances).
 
 ### Périodes {#periods}
 
@@ -58,16 +58,16 @@ Pour un dépôt desservi seulement certaines semaines d'un cycle plus large (p. 
 
 ### Répartition équitable (une semaine sur deux) {#even-odd-distribution}
 
-Si vous proposez des livraisons une semaine sur deux, vous souhaitez probablement répartir les membres équitablement entre les semaines paires et impaires. Or, un seul cycle " Une semaine sur deux " attribuerait les mêmes semaines à tous les membres.
+Si vous proposez des livraisons une semaine sur deux, vous souhaitez probablement répartir les membres équitablement entre les semaines paires et impaires. Or, un seul cycle "Une semaine sur deux" attribuerait les mêmes semaines à tous les membres.
 
-La solution consiste à créer **deux cycles distincts**, l'un avec la sélection des livraisons " Paires " et l'autre " Impaires ", puis à n'en **afficher qu'un seul** aux membres dans le formulaire d'inscription:
+La solution consiste à créer **deux cycles distincts**, l'un avec la sélection des livraisons "Paires" et l'autre "Impaires", puis à n'en **afficher qu'un seul** aux membres dans le formulaire d'inscription:
 
-1. Créez deux cycles avec chacun une période couvrant toute l'année: l'un avec la sélection des livraisons " Paires ", l'autre " Impaires ".
-2. Donnez-leur le **même nom**, par ex. " Une semaine sur deux ", mais des **noms internes différents**, par ex. " Une semaine sur deux (paires) " et " Une semaine sur deux (impaires) ".
+1. Créez deux cycles avec chacun une période couvrant toute l'année: l'un avec la sélection des livraisons "Paires", l'autre "Impaires".
+2. Donnez-leur le **même nom**, par ex. "Une semaine sur deux", mais des **noms internes différents**, par ex. "Une semaine sur deux (paires)" et "Une semaine sur deux (impaires)".
 3. Rendez **un seul** des deux cycles visible sur le formulaire d'inscription (via la disponibilité par dépôt).
 4. Lors de la création des abonnements, répartissez manuellement les membres entre les deux cycles afin d'équilibrer les livraisons.
 
-Ainsi, les membres ne voient qu'une seule option " Une semaine sur deux " à l'inscription, mais vous gardez le contrôle de la répartition en interne.
+Ainsi, les membres ne voient qu'une seule option "Une semaine sur deux" à l'inscription, mais vous gardez le contrôle de la répartition en interne.
 
 ### Facturation
 
@@ -81,13 +81,13 @@ Chaque cycle de livraisons peut avoir ses propres options de facturation:
 
 Certains membres ont besoin de retirer leurs <%= Basket.model_name.human(count: 2).downcase %> dans différents dépôts selon les semaines — par exemple, parce que le véhicule de livraison ne dessert un dépôt donné qu'une semaine sur deux. CSA Admin prend en charge cette situation grâce à la configuration d'un **dépôt alternatif** au niveau de l'abonnement.
 
-Cette configuration est réservée aux administrateurs (non accessible aux membres) et se trouve dans le formulaire de modification d'un abonnement, dans la section dépliable " Dépôt alternatif " sous les paramètres de livraisons. Trois champs doivent être définis ensemble:
+Cette configuration est réservée aux administrateurs (non accessible aux membres) et se trouve dans le formulaire de modification d'un abonnement, dans la section dépliable "Dépôt alternatif" sous les paramètres de livraisons. Trois champs doivent être définis ensemble:
 
 - **Dépôt alternatif**: Le second lieu de retrait.
 - **Prix dépôt alternatif**: Le prix du dépôt pour les livraisons au dépôt alternatif (par défaut, le prix du dépôt est utilisé).
 - **Cycle de livraisons alternatif**: Détermine quelles livraisons vont au dépôt alternatif. Toutes les autres livraisons vont au dépôt principal.
 
-> **Exemple**: Un abonnement utilise le cycle " Chaque semaine ". Le véhicule ne passe à la boulangerie qu'une semaine sur deux (semaines paires), le membre retire donc à la ferme les autres semaines. Le dépôt principal est " Boulangerie ", le dépôt alternatif est " Ferme " et le cycle de livraisons alternatif est " Semaines impaires ". Résultat: les <%= Basket.model_name.human(count: 2).downcase %> des semaines paires vont à la boulangerie, ceux des semaines impaires à la ferme.
+> **Exemple**: Un abonnement utilise le cycle "Chaque semaine". Le véhicule ne passe à la boulangerie qu'une semaine sur deux (semaines paires), le membre retire donc à la ferme les autres semaines. Le dépôt principal est "Boulangerie", le dépôt alternatif est "Ferme" et le cycle de livraisons alternatif est "Semaines impaires". Résultat: les <%= Basket.model_name.human(count: 2).downcase %> des semaines paires vont à la boulangerie, ceux des semaines impaires à la ferme.
 
 Quelques points importants:
 
@@ -127,7 +127,7 @@ Pour chaque livraison, CSA Admin génère des fiches PDF que vous pouvez imprime
 
 Chaque dépôt peut utiliser l'un des deux modes de fiches (configurable dans les paramètres du dépôt):
 
-- **Fiche de signature** (par défaut): Une liste où les membres signent à côté de leur nom lors du retrait. Les membres sont listés par ordre alphabétique, avec une colonne " Signature " à droite.
+- **Fiche de signature** (par défaut): Une liste où les membres signent à côté de leur nom lors du retrait. Les membres sont listés par ordre alphabétique, avec une colonne "Signature" à droite.
 - **Fiche de livraison à domicile**: Conçue pour les livreurs. Inclut l'adresse complète de chaque membre et sa note de livraison (si renseignée) dans la dernière colonne. L'ordre des membres peut être modifié manuellement par glisser-déposer dans les paramètres du dépôt.
 
 ### Informations du membre sur les fiches {#member-info}
@@ -167,8 +167,8 @@ Si la [fonctionnalité <%= BasketContent.model_name.human.downcase %>](/handbook
 
 Lorsqu'activé, deux tableaux supplémentaires apparaissent sur les fiches:
 
-- **Page récapitulative**: Un tableau montrant la quantité totale de chaque produit par dépôt (ex. " 4.5kg " de carottes pour le dépôt Ferme).
-- **Pages par dépôt**: Un tableau listant chaque produit avec sa quantité par <%= BasketSize.model_name.human.downcase %> (ex. " 250g " par petit <%= Basket.model_name.human.downcase %>, " 400g " par grand).
+- **Page récapitulative**: Un tableau montrant la quantité totale de chaque produit par dépôt (ex. "4.5kg" de carottes pour le dépôt Ferme).
+- **Pages par dépôt**: Un tableau listant chaque produit avec sa quantité par <%= BasketSize.model_name.human.downcase %> (ex. "250g" par petit <%= Basket.model_name.human.downcase %>, "400g" par grand).
 
 Si le tableau des produits ne tient pas sur la même page que le tableau des membres existant, il apparaîtra automatiquement sur une page séparée.
 
@@ -182,10 +182,10 @@ CSA Admin peut envoyer automatiquement des notifications par e-mail liées aux l
 
 ### Liste de livraison par dépôt {#depot-delivery-list-notifications}
 
-Chaque dépôt peut être configuré avec des adresses e-mail (dans la section " Notifications " du dépôt). Avant chaque livraison, ces adresses reçoivent un e-mail contenant la liste des membres et de leurs <%= Basket.model_name.human(count: 2).downcase %>, accompagné des pièces jointes PDF et XLSX des fiches de livraison. Par défaut, l'e-mail est envoyé la veille, mais cela peut être ajusté par dépôt (0 pour le jour même, 2 pour deux jours avant, etc.).
+Chaque dépôt peut être configuré avec des adresses e-mail (dans la section "Notifications" du dépôt). Avant chaque livraison, ces adresses reçoivent un e-mail contenant la liste des membres et de leurs <%= Basket.model_name.human(count: 2).downcase %>, accompagné des pièces jointes PDF et XLSX des fiches de livraison. Par défaut, l'e-mail est envoyé la veille, mais cela peut être ajusté par dépôt (0 pour le jour même, 2 pour deux jours avant, etc.).
 
 ### Notifications de livraison des <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
 
-Chaque <%= BasketComplement.model_name.human.downcase %> peut être configuré avec des adresses e-mail (dans la section " Notifications " du <%= BasketComplement.model_name.human.downcase %>). Avant chaque livraison, ces adresses reçoivent un e-mail indiquant la date de livraison et la quantité de ce complément nécessaire. Par défaut, l'e-mail est envoyé la veille, mais ce délai peut être ajusté pour chaque <%= BasketComplement.model_name.human.downcase %> (0 pour le jour même, 2 pour deux jours avant, etc.).
+Chaque <%= BasketComplement.model_name.human.downcase %> peut être configuré avec des adresses e-mail (dans la section "Notifications" du <%= BasketComplement.model_name.human.downcase %>). Avant chaque livraison, ces adresses reçoivent un e-mail indiquant la date de livraison et la quantité de ce complément nécessaire. Par défaut, l'e-mail est envoyé la veille, mais ce délai peut être ajusté pour chaque <%= BasketComplement.model_name.human.downcase %> (0 pour le jour même, 2 pour deux jours avant, etc.).
 
 > Cela est utile pour les fournisseurs externes (par ex., un boulanger, un fromager) qui ont besoin de savoir quelle quantité préparer pour chaque livraison.

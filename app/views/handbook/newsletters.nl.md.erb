@@ -19,6 +19,9 @@ Bij het aanmaken van een nieuwsbrief kies je de doelgroep. Verschillende filters
 - **Factuurstatus**: Leden met openstaande of achterstallige facturen.
 - **<%= activities_human_name %>**: Leden met gevraagde of ontbrekende deelnames, of deelnemers aan een specifieke activiteit.
 - **Winkellevering**: Leden met bestellingen voor een specifieke winkellevering.
+<% if Current.org.feature?("bidding_round") %>
+- **<%= BiddingRound.model_name.human %>**: Leden die al een toezegging hebben gedaan, of nog niet, voor de open ronde.
+<% end %>
 
 Nieuwsbrieven gaan alleen naar leden. Om iemand te schrijven die dat nog niet is, maak je het lid eerst aan (inactief is prima) en neem je die status op in het publiek.
 

@@ -19,6 +19,9 @@ Beim Erstellen eines Newsletters wählst Du die Zielgruppe. Mehrere Filter sind 
 - **Rechnungsstatus**: Mitglieder mit offenen oder überfälligen Rechnungen.
 - **<%= activities_human_name %>**: Mitglieder mit angeforderten oder fehlenden Teilnahmen, oder Teilnehmer einer bestimmten Aktivität.
 - **Hofladenlieferung**: Mitglieder mit Bestellungen für eine bestimmte Hofladenlieferung.
+<% if Current.org.feature?("bidding_round") %>
+- **<%= BiddingRound.model_name.human %>**: Mitglieder, die für die aktuell offene Runde zugesagt haben, oder noch nicht.
+<% end %>
 
 Newsletters gehen nur an Mitglieder. Um jemanden zu schreiben, der noch keines ist, lege zuerst die Mitgliederakte an (inaktiv reicht) und nimm diesen Status ins Publikum auf.
 

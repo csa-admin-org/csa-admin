@@ -19,6 +19,9 @@ Durante la creazione di una newsletter, scegli il pubblico di destinazione. Sono
 - **Stato fattura**: Soci con fatture aperte o in ritardo.
 - **<%= activities_human_name %>**: Soci con partecipazioni richieste o mancanti, o partecipanti a un'attività specifica.
 - **Consegna bottega**: Soci con ordini per una consegna bottega specifica.
+<% if Current.org.feature?("bidding_round") %>
+- **<%= BiddingRound.model_name.human %>**: Soci che hanno già impegnato un importo, o non ancora, per il turno aperto.
+<% end %>
 
 Le newsletter partono solo ai soci. Per scrivere a chi non lo è ancora, crea prima la scheda (inattivo va bene) e includi quello stato nel pubblico.
 

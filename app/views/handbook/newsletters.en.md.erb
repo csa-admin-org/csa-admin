@@ -19,6 +19,9 @@ When creating a newsletter, you choose the target audience. Several filters are 
 - **Invoice state**: Members with open or overdue invoices.
 - **<%= activities_human_name %>**: Members with demanded or missing participations, or participants of a specific activity.
 - **Shop delivery**: Members with orders for a specific shop delivery.
+<% if Current.org.feature?("bidding_round") %>
+- **<%= BiddingRound.model_name.human %>**: Members who have pledged, or not yet, for the current open round.
+<% end %>
 
 Newsletters only go to members. To write to someone who is not one yet, create their record first (inactive is fine) and include that state in the audience.
 

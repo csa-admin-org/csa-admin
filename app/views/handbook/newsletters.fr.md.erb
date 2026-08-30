@@ -19,6 +19,9 @@ Lors de la création d'une newsletter, vous choisissez l'audience cible. Plusieu
 - **Statut de facture**: Membres avec des factures ouvertes ou en retard.
 - **<%= activities_human_name %>**: Membres avec des participations demandées ou manquantes, ou participants d'une activité spécifique.
 - **Livraison épicerie**: Membres avec des commandes pour une livraison épicerie spécifique.
+<% if Current.org.feature?("bidding_round") %>
+- **<%= BiddingRound.model_name.human %>**: Membres qui ont soumis un montant, ou pas encore, pour le tour ouvert.
+<% end %>
 
 Les newsletters ne partent qu'aux membres. Pour écrire à quelqu'un qui n'en est pas un, créez d'abord sa fiche (inactif convient) et incluez cet état dans l'audience.
 
