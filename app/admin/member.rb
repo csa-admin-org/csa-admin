@@ -894,6 +894,15 @@ ActiveAdmin.register Member do
       form: { target: "_blank", rel: "noopener", data: { turbo: false } }
   end
 
+  action_item :resend_welcome_email, only: :show, if: -> {
+    authorized?(:resend_welcome_email, resource) && resource.can_resend_welcome_email?
+  } do
+    action_button t("active_admin.shared.action_items.resend_welcome_email"),
+      resend_welcome_email_member_path(resource),
+      icon: "mail",
+      data: { confirm: t("active_admin.shared.action_items.resend_welcome_email_confirm") }
+  end
+
   member_action :validate, method: :post do
     result = resource.validate!(current_admin)
     redirect_to result.is_a?(Membership) ? result : member_path(resource)
@@ -921,6 +930,14 @@ ActiveAdmin.register Member do
     authorize!(:update, resource)
     resource.disable_sepa!
     redirect_to member_path(resource), notice: t(".flash.notice")
+  end
+
+  member_action :resend_welcome_email, method: :post do
+    authorize!(:resend_welcome_email, resource)
+    raise ActiveAdmin::AccessDenied unless resource.can_resend_welcome_email?
+
+    resource.resend_welcome_email!
+    redirect_to member_path(resource), notice: t("active_admin.shared.action_items.resend_welcome_email_notice")
   end
 
   member_action :become, method: :post do

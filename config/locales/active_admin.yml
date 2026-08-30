@@ -4557,6 +4557,42 @@ _:
           _de: Ablehnen
           _it: Rifiutare
           _nl: Afwijzen
+        resend_invitation:
+          _en: Resend invitation
+          _fr: Renvoyer l'invitation
+          _de: Einladung erneut senden
+          _it: Reinviare l'invito
+          _nl: Uitnodiging opnieuw verzenden
+        resend_invitation_confirm:
+          _en: Send the invitation again?
+          _fr: Renvoyer l'invitation?
+          _de: Einladung erneut senden?
+          _it: Reinviare l'invito?
+          _nl: Uitnodiging opnieuw verzenden?
+        resend_invitation_notice:
+          _en: Invitation sent.
+          _fr: Invitation envoyée.
+          _de: Einladung gesendet.
+          _it: Invito inviato.
+          _nl: Uitnodiging verzonden.
+        resend_welcome_email:
+          _en: Resend welcome email
+          _fr: Renvoyer l'e-mail de bienvenue
+          _de: Willkommens-E-Mail erneut senden
+          _it: Reinviare l'email di benvenuto
+          _nl: Welkomst-e-mail opnieuw verzenden
+        resend_welcome_email_confirm:
+          _en: Send the welcome email again?
+          _fr: Renvoyer l'e-mail de bienvenue?
+          _de: Willkommens-E-Mail erneut senden?
+          _it: Reinviare l'email di benvenuto?
+          _nl: Welkomst-e-mail opnieuw verzenden?
+        resend_welcome_email_notice:
+          _en: Email sent.
+          _fr: E-mail envoyé.
+          _de: E-Mail gesendet.
+          _it: Email inviata.
+          _nl: E-mail verzonden.
         send_email:
           _en: Send
           _fr: Envoyer

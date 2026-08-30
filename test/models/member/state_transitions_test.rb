@@ -452,6 +452,22 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
     assert_equal "Welcome!", mail.subject
   end
 
+  test "can_resend_welcome_email? requires a recent welcome and no login" do
+    travel_to "2024-05-01"
+    mail_templates(:member_activated).update!(active: true)
+    member = members(:jane)
+    member.update_columns(activated_at: Time.current)
+
+    assert member.can_resend_welcome_email?
+
+    member.update_columns(activated_at: 3.weeks.ago)
+    assert_not member.can_resend_welcome_email?
+
+    member.update_columns(activated_at: Time.current)
+    create_session(member)
+    assert_not member.reload.can_resend_welcome_email?
+  end
+
   test "activate! previously active member (recent)" do
     travel_to "2024-01-01"
     mail_templates(:member_activated).update!(active: true)

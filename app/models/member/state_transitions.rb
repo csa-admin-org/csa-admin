@@ -3,6 +3,8 @@
 module Member::StateTransitions
   extend ActiveSupport::Concern
 
+  WELCOME_EMAIL_RESEND_WINDOW = 2.weeks
+
   included do
     after_update :review_active_state!
   end
@@ -87,7 +89,36 @@ module Member::StateTransitions
     )
   end
 
+  def resend_welcome_email!
+    return unless can_resend_welcome_email?
+
+    MailTemplate.deliver(welcome_email_template, member: self)
+  end
+
+  def can_resend_welcome_email?
+    emails? && !pending? && sessions.none? && recently_welcomed? &&
+      MailTemplate.active_template?(welcome_email_template)
+  end
+
+  def welcome_email_template
+    if current_or_future_membership
+      :member_activated
+    elsif Current.org.feature?(:shop) && shop_depot
+      :member_shop_depot_activated
+    elsif !pending?
+      :member_validated
+    end
+  end
+
   private
+
+  def recently_welcomed?
+    at = case welcome_email_template
+    when :member_activated, :member_shop_depot_activated then activated_at
+    when :member_validated then validated_at
+    end
+    at.present? && at > WELCOME_EMAIL_RESEND_WINDOW.ago
+  end
 
   def validate_pending_member!(validator)
     mark_as_validated_by(validator)

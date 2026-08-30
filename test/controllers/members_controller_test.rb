@@ -19,6 +19,72 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     MailDelivery.where(mailable_type: "Member", action: action).count
   end
 
+  test "show resend welcome email is hidden for pending members" do
+    member = members(:aria)
+    member.update!(state: "pending", validated_at: nil)
+    mail_templates(:member_validated).update!(active: true)
+    login admins(:super)
+
+    get member_path(member)
+
+    assert_response :success
+    assert_select "form[action='#{resend_welcome_email_member_path(member)}']", false
+  end
+
+  test "resend welcome email delivers member activated" do
+    travel_to "2024-05-01"
+    mail_templates(:member_activated).update!(active: true)
+    members(:jane).update_columns(activated_at: Time.current)
+    login admins(:super)
+
+    assert_difference -> { member_mail_delivery_count("activated") }, 1 do
+      post resend_welcome_email_member_path(members(:jane))
+    end
+
+    assert_redirected_to member_path(members(:jane))
+  end
+
+  test "resend welcome email delivers member validated for waiting members" do
+    mail_templates(:member_validated).update!(active: true)
+    members(:aria).update_columns(validated_at: Time.current)
+    login admins(:super)
+
+    assert_difference -> { member_mail_delivery_count("validated") }, 1 do
+      post resend_welcome_email_member_path(members(:aria))
+    end
+
+    assert_redirected_to member_path(members(:aria))
+  end
+
+  test "show resend welcome email is hidden after two weeks" do
+    travel_to "2024-05-01"
+    mail_templates(:member_activated).update!(active: true)
+    members(:jane).update_columns(activated_at: 3.weeks.ago)
+    login admins(:super)
+
+    get member_path(members(:jane))
+
+    assert_response :success
+    assert_select "form[action='#{resend_welcome_email_member_path(members(:jane))}']", false
+  end
+
+  test "show resend welcome email is hidden after the member logged in" do
+    travel_to "2024-05-01"
+    mail_templates(:member_activated).update!(active: true)
+    members(:jane).update_columns(activated_at: Time.current)
+    Session.create!(
+      member: members(:jane),
+      email: members(:jane).emails_array.first,
+      remote_addr: "127.0.0.1",
+      user_agent: "Test Browser")
+    login admins(:super)
+
+    get member_path(members(:jane))
+
+    assert_response :success
+    assert_select "form[action='#{resend_welcome_email_member_path(members(:jane))}']", false
+  end
+
   test "index renders membership scopes, shop mode, and CSV" do
     login admins(:super)
 

@@ -54,6 +54,7 @@ class Ability
 
     if admin.permission.can_write?(:admin) && !Tenant.demo?
       can :manage, Admin
+      can :invite, Admin
     end
     can :read, Admin, id: admin.id
     can :update, Admin, id: admin.id
@@ -94,6 +95,7 @@ class Ability
       can :validate, Member, pending?: true
       can :deactivate, Member, can_deactivate?: true
       can :disable_sepa, Member, can_disable_sepa?: true
+      can :resend_welcome_email, Member
     end
 
     if admin.permission.can_write?(:membership)

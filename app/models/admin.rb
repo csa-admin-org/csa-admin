@@ -97,6 +97,10 @@ class Admin < ApplicationRecord
     email == ENV["ULTRA_ADMIN_EMAIL"]
   end
 
+  def can_resend_invitation?
+    sessions.none?
+  end
+
   private
 
   def truemail

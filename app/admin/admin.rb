@@ -35,6 +35,15 @@ ActiveAdmin.register Admin do
     action_link Permission.model_name.human(count: 2), permissions_path, icon: "key"
   end
 
+  action_item :invite, only: :edit, if: -> {
+    authorized?(:invite, resource) && resource != current_admin && resource.can_resend_invitation?
+  } do
+    action_button t("active_admin.shared.action_items.resend_invitation"),
+      invite_admin_path(resource),
+      icon: "mail",
+      data: { confirm: t("active_admin.shared.action_items.resend_invitation_confirm") }
+  end
+
   form do |f|
     if f.object.new_record?
       para t(".admin_invitation"), class: "description is-tight text-base"
@@ -93,6 +102,17 @@ ActiveAdmin.register Admin do
         action_url: root_url
       ).invitation_email.deliver_later
     end
+  end
+
+  member_action :invite, method: :post do
+    authorize!(:invite, resource)
+    raise ActiveAdmin::AccessDenied unless resource != current_admin && resource.can_resend_invitation?
+
+    AdminMailer.with(
+      admin: resource,
+      action_url: root_url
+    ).invitation_email.deliver_later
+    redirect_to admins_path, notice: t("active_admin.shared.action_items.resend_invitation_notice")
   end
 
   controller do

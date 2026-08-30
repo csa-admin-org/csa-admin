@@ -3,6 +3,15 @@
 require "test_helper"
 
 class AdminTest < ActiveSupport::TestCase
+  test "can_resend_invitation? is true until the admin signs in" do
+    admin = admins(:external)
+
+    assert admin.can_resend_invitation?
+
+    create_session(admin)
+    assert_not admin.reload.can_resend_invitation?
+  end
+
   test "deletes sessions when destroyed" do
     admin = admins(:super)
     create_session(admin)

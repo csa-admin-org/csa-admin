@@ -144,6 +144,13 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     assert match, "Expected a content match for next-FY registration"
   end
 
+  test "content_search finds welcome email resend on automatic emails" do
+    results = Handbook.content_search("resend welcome email", locale: :en)
+
+    match = results.find { |r| r[:name] == "mail_templates" }
+    assert match, "Expected a content match for resending the welcome email"
+  end
+
   test "content_search finds H3 heading for trial baskets" do
     results = Handbook.content_search("trial", locale: :en)
 
