@@ -116,4 +116,59 @@
   .calendar-count svg {
     color: var(--color-ink-muted);
   }
+
+  .calendar-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+    min-height: 1.5rem;
+  }
+
+  .calendar-nav-control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-gray-400);
+
+    svg {
+      pointer-events: none;
+    }
+
+    &:hover {
+      color: var(--color-green-600);
+    }
+
+    &:where(.dark, .dark *) {
+      color: var(--color-gray-400);
+
+      &:hover {
+        color: var(--color-green-400);
+      }
+    }
+
+    &.is-disabled {
+      color: var(--color-gray-300);
+      pointer-events: none;
+
+      &:hover {
+        color: var(--color-gray-300);
+      }
+
+      &:where(.dark, .dark *) {
+        color: var(--color-gray-600);
+
+        &:hover {
+          color: var(--color-gray-600);
+        }
+      }
+    }
+  }
+
+  .calendar-nav-range {
+    margin-inline-end: 0.5rem;
+    color: var(--color-ink-muted);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
 }

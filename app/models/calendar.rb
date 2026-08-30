@@ -29,8 +29,23 @@ class Calendar
     def shop_delivery = delivery || special_delivery
   end
 
+  def self.busy_mondays
+    dates = [ Delivery.minimum(:date), Delivery.maximum(:date) ]
+    if Current.org.feature?("activity")
+      dates.push(Activity.minimum(:date), Activity.maximum(:date))
+    end
+    if Current.org.feature?("shop")
+      dates.push(Shop::SpecialDelivery.minimum(:date), Shop::SpecialDelivery.maximum(:date))
+    end
+    dates.compact!
+    return if dates.empty?
+
+    dates.min.beginning_of_week..dates.max.beginning_of_week
+  end
+
   def initialize(today = Date.current)
-    @range = today.beginning_of_week..today.next_week.end_of_week
+    monday = today.to_date.beginning_of_week
+    @range = monday..monday.next_week.end_of_week
     @shop = Current.org.feature?("shop")
     @activity = Current.org.feature?("activity")
     @deliveries = Delivery.between(@range).index_by(&:date)
@@ -41,8 +56,18 @@ class Calendar
     @participants_by_date = @activity ? participants_by_date : {}
   end
 
-  def present?
-    days.any?(&:busy?)
+  def start_on = @range.begin
+  def default? = start_on == Date.current.beginning_of_week
+  def present? = days.any?(&:busy?)
+
+  def prev_start_on
+    start = start_on - 1.week
+    start if mondays&.cover?(start)
+  end
+
+  def next_start_on
+    start = start_on + 1.week
+    start if mondays&.cover?(start)
   end
 
   def days
@@ -50,6 +75,10 @@ class Calendar
   end
 
   private
+
+  def mondays
+    @mondays ||= self.class.busy_mondays
+  end
 
   def build_day(date)
     activity_ids = @activities_by_date.fetch(date, [])

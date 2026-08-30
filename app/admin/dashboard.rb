@@ -74,9 +74,13 @@ ActiveAdmin.register_page "Dashboard" do
         end
 
         column do
-          if (calendar = Calendar.new).present?
-            panel t(".calendar"), icon: "calendar-days" do
-              render partial: "active_admin/page/calendar", locals: { calendar: calendar }
+          week = requested_calendar_monday
+          calendar = Calendar.new(week || Date.current)
+          turbo_frame id: "dashboard_calendar", target: "_top" do
+            if week || calendar.present?
+              panel t(".calendar"), icon: "calendar-days", action: calendar_panel_action(calendar) do
+                render partial: "active_admin/page/calendar", locals: { calendar: calendar }
+              end
             end
           end
 

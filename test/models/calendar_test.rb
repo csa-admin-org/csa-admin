@@ -147,6 +147,49 @@ class CalendarTest < ActiveSupport::TestCase
     assert_not Calendar.new.present?
   end
 
+  test "start_on is the Monday of the given date" do
+    travel_to "2024-04-04"
+
+    calendar = Calendar.new
+
+    assert_equal Date.new(2024, 4, 1), calendar.start_on
+    assert calendar.default?
+    assert_equal Date.new(2024, 3, 25), calendar.prev_start_on
+    assert_equal Date.new(2024, 4, 8), calendar.next_start_on
+  end
+
+  test "shifts a given Monday by seven days" do
+    travel_to "2024-04-01"
+    calendar = Calendar.new(Date.new(2024, 4, 8))
+
+    assert_equal Date.new(2024, 4, 8), calendar.start_on
+    assert_equal Date.new(2024, 4, 21), calendar.days.last.date
+    assert_not calendar.default?
+    assert_equal Date.new(2024, 4, 1), calendar.prev_start_on
+    assert_equal Date.new(2024, 4, 15), calendar.next_start_on
+  end
+
+  test "busy_mondays span first to last busy Monday" do
+    mondays = Calendar.busy_mondays
+
+    assert_equal Date.new(2023, 4, 3), mondays.begin
+    assert_equal Date.new(2025, 6, 9), mondays.end
+  end
+
+  test "disables previous at the first busy Monday" do
+    calendar = Calendar.new(Date.new(2023, 4, 3))
+
+    assert_nil calendar.prev_start_on
+    assert_equal Date.new(2023, 4, 10), calendar.next_start_on
+  end
+
+  test "disables next at the last busy Monday" do
+    calendar = Calendar.new(Date.new(2025, 6, 9))
+
+    assert_equal Date.new(2025, 6, 2), calendar.prev_start_on
+    assert_nil calendar.next_start_on
+  end
+
   private
 
   def day_on(date)

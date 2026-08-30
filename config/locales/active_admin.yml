@@ -793,6 +793,12 @@ _:
             _de: "%{count} Änderungen"
             _it: "%{count} modifiche"
             _nl: "%{count} wijzigingen"
+        current_week:
+          _en: Current week
+          _fr: Semaine en cours
+          _de: Aktuelle Woche
+          _it: Settimana corrente
+          _nl: Huidige week
         handbook_feature_inactive_html:
           _en: The <strong>%{feature}</strong> feature is not enabled for your organization.
           _fr: La fonctionnalité <strong>%{feature}</strong> n'est pas activée pour votre organisation.

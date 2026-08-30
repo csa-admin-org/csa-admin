@@ -9,6 +9,16 @@ module DashboardHelper
       || (Current.org.member_form_mode == "membership" && BasketSize.kept.none?)
   end
 
+  def requested_calendar_monday
+    return if params[:week].blank?
+
+    monday = parse_iso_week(params[:week].to_s)
+    return unless monday
+
+    mondays = Calendar.busy_mondays
+    mondays ? monday.clamp(mondays.begin, mondays.end) : monday
+  end
+
   def calendar_day_path(day)
     return unless day.busy?
 
@@ -28,6 +38,64 @@ module DashboardHelper
         activity_date_gteq: day.date,
         activity_date_lteq: day.date
       })
+  end
+
+  def calendar_panel_action(calendar)
+    content_tag(:div, class: "calendar-nav") {
+      content_tag(:span, calendar_range_label(calendar), class: "calendar-nav-range tabular-nums") +
+      calendar_nav_control(
+        calendar.prev_start_on && calendar_week_path(calendar.prev_start_on),
+        icon: "chevron-left",
+        label: t("active_admin.previous")) +
+      calendar_nav_control(
+        calendar.default? ? nil : root_path,
+        icon: "circle-small",
+        label: t("active_admin.page.index.current_week")) +
+      calendar_nav_control(
+        calendar.next_start_on && calendar_week_path(calendar.next_start_on),
+        icon: "chevron-right",
+        label: t("active_admin.next"))
+    }
+  end
+
+  def calendar_nav_control(url, icon:, label:)
+    inner = content_tag(:span, label, class: "sr-only") +
+      content_tag(:span) { icon(icon, class: "icon-5") }
+    if url
+      link_to url,
+        class: "calendar-nav-control",
+        title: label,
+        data: { turbo_frame: "dashboard_calendar", turbo_action: "advance" } do
+        inner
+      end
+    else
+      content_tag(:span, class: "calendar-nav-control is-disabled", title: label) do
+        inner
+      end
+    end
+  end
+
+  def calendar_range_label(calendar)
+    first = calendar.days.first.date
+    last = calendar.days.last.date
+    if first.year == last.year
+      "#{l(first, format: :short_no_year)}–#{l(last, format: :short_no_year)}"
+    else
+      "#{l(first, format: :short)}–#{l(last, format: :short)}"
+    end
+  end
+
+  def calendar_week_path(monday)
+    root_path(week: monday.strftime("%G-W%V"))
+  end
+
+  def parse_iso_week(value)
+    year, week = value.match(/\A(\d{4})-W(\d{2})\z/)&.captures
+    return unless year && week
+
+    Date.commercial(year.to_i, week.to_i, 1)
+  rescue ArgumentError
+    nil
   end
 
   def next_delivery_panel_action(delivery)
