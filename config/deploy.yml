@@ -52,6 +52,7 @@ env:
     APP_DOMAIN: csa-admin.org
     ASSET_HOST: https://cdn.csa-admin.org
     ULTRA_ADMIN_EMAIL: info@csa-admin.org
+    HIGH_PRIORITY_SUPPORT_EMAIL: support@csa-admin.org
     ULTRA_ADMIN_NAME: Thibaud
     ULTRA_ADMIN_LANGUAGE: fr
     MAINTENANCE_MODE: OFF

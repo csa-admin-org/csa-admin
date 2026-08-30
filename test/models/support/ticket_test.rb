@@ -60,16 +60,4 @@ class Support::TicketTest < ActiveSupport::TestCase
       assert_equal "Bearer sender-key", Support::Ticket.webhook_authorization
     end
   end
-
-  test "reports high priority ticket" do
-    error = ErrorRecorder.new
-
-    with_rails_error(error) do
-      Support::Ticket.create!(priority: :high, subject: "Test", content: "Test", admin: admins(:external))
-    end
-
-    reported, = error.reports.first
-    assert_instance_of Support::Ticket::HighPriorityTicket, reported
-    assert_equal "High priority support ticket", reported.message
-  end
 end

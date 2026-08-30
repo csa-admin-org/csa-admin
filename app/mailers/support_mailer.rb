@@ -5,13 +5,17 @@ class SupportMailer < ApplicationMailer
     @ticket = params[:ticket]
     attach_attachments!
     mail(
-      to: Admin.ultra.email,
+      to: [ Admin.ultra.email, high_priority_recipient ].compact,
       reply_to: email_address_with_name(@ticket.admin.email, @ticket.admin.name),
       cc: @ticket.emails_array,
       subject: @ticket.subject_decorated)
   end
 
   private
+
+  def high_priority_recipient
+    ENV["HIGH_PRIORITY_SUPPORT_EMAIL"].presence if @ticket.high?
+  end
 
   def attach_attachments!
     @ticket.attachments.map(&:file).each { |file|

@@ -3,7 +3,6 @@
 module Support
   class Ticket < ApplicationRecord
     self.table_name = "support_tickets"
-    class HighPriorityTicket < StandardError; end
 
     PRIORITY_ICONS = { medium: "❗️", high: "‼️" }
 
@@ -41,7 +40,6 @@ module Support
     def notify
       SupportMailer.with(ticket: self).ticket_email.deliver_later(wait: 10.seconds)
       Support::TicketNotifyJob.set(wait: 10.seconds).perform_later(self) if self.class.webhook_url
-      Rails.error.report(HighPriorityTicket.new("High priority support ticket")) if high?
     end
   end
 end
