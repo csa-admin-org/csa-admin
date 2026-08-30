@@ -144,11 +144,25 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     assert match, "Expected a content match for next-FY registration"
   end
 
-  test "content_search finds catalog prices do not rewrite memberships" do
+  test "content_search finds past fiscal year other invoice" do
+    results = Handbook.content_search("closed past fiscal year", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" }
+    assert match, "Expected a content match for past-FY Other invoices"
+  end
+
+  test "content_search finds basket content unit price per delivery" do
+    results = Handbook.content_search("belongs to that product on that delivery", locale: :en)
+
+    match = results.find { |r| r[:name] == "basket_content" }
+    assert match, "Expected a content match for basket content unit prices"
+  end
+
+  test "content_search finds default prices do not rewrite memberships" do
     results = Handbook.content_search("does not rewrite memberships", locale: :en)
 
     match = results.find { |r| r[:name] == "membership_renewal" }
-    assert match, "Expected a content match for catalog prices binding at create/renew"
+    assert match, "Expected a content match for default prices binding at create/renew"
   end
 
   test "content_search finds quantity cookbook on deliveries" do

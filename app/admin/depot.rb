@@ -276,6 +276,8 @@ ActiveAdmin.register Depot do
         hint: t("formtastic.hints.depot.public_note"))
     end
 
+    catalog_price_memberships_warning(self, f.object)
+
     f.inputs t(".billing"), icon: "banknotes" do
       f.input :price,
         min: 0,

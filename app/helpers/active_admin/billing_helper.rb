@@ -45,6 +45,17 @@ module ActiveAdmin::BillingHelper
     end
   end
 
+  def catalog_price_memberships_warning(arbre, resource)
+    return unless resource.persisted?
+
+    count = resource.memberships.merge(Membership.present_or_future).distinct.count
+    return if count.zero?
+
+    arbre.warning_pane do
+      t("active_admin.resource.form.catalog_price_memberships_warning_html", count: count).html_safe
+    end
+  end
+
   def sepa_mandate_panel_actions(sepa_mandate)
     actions = [ handbook_icon_link(:sepa) ]
     if sepa_mandate&.pdf&.attached?

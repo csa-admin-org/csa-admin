@@ -15,6 +15,41 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     get "/sessions/#{session.generate_token_for(:redeem)}"
   end
 
+  test "basket size edit warns when current or future memberships keep their price" do
+    travel_to "2024-05-01"
+    login admins(:super)
+
+    get edit_basket_size_path(basket_sizes(:medium))
+
+    assert_response :success
+    assert_select ".admin-warning-pane", text: /keep their existing price/
+  end
+
+  test "new delivery warns when extra fiscal year deliveries already exist" do
+    travel_to "2024-05-01"
+    Delivery.insert({
+      date: Date.new(2026, 1, 5),
+      created_at: Time.current,
+      updated_at: Time.current
+    })
+    login admins(:super)
+
+    get new_delivery_path
+
+    assert_response :success
+    assert_select ".admin-warning-pane", text: /makes renewal target that year/
+  end
+
+  test "basket size edit does not warn when no current or future memberships remain" do
+    travel_to "2024-05-01"
+    login admins(:super)
+
+    get edit_basket_size_path(basket_sizes(:small))
+
+    assert_response :success
+    assert_select ".admin-warning-pane", false
+  end
+
   test "index renders activity and billing sidebars" do
     travel_to "2024-05-01"
     login admins(:super)

@@ -33,7 +33,7 @@ Per risparmiare tempo, puoi duplicare tutto il <%= BasketContent.model_name.huma
 
 ### Prezzi {#prices}
 
-Quando si visualizza una consegna specifica, un pannello dei prezzi appare sopra la lista dei prodotti per ogni prodotto con un prezzo unitario impostato. Per ogni <%= BasketSize.model_name.human.downcase %>, mostra il prezzo calcolato del contenuto e la sua differenza rispetto al prezzo base.
+Quando si visualizza una consegna specifica, un pannello dei prezzi appare sopra la lista dei prodotti per ogni prodotto con un prezzo unitario impostato. Per ogni <%= BasketSize.model_name.human.downcase %>, mostra il prezzo calcolato del contenuto e la sua differenza rispetto al prezzo base. Il prezzo unitario appartiene a quel prodotto per quella consegna. L'ultimo usato è il default per la volta successiva, non una riscrittura delle consegne passate.
 
 Quando i depositi ricevono prezzi diversi — ad esempio perché alcuni prodotti sono assegnati solo a certi depositi — il pannello mostra un intervallo di prezzo min–max. Passando il cursore su ogni valore si vedono i depositi corrispondenti.
 

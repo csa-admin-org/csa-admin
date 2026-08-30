@@ -33,7 +33,7 @@ Um Zeit zu sparen, kannst Du den gesamten <%= BasketContent.model_name.human %> 
 
 ### Preise {#prices}
 
-Beim Anzeigen einer bestimmten Lieferung erscheint über der Produktliste ein Preisfenster für alle Produkte mit festgelegtem Stückpreis. Für jede <%= BasketSize.model_name.human %> zeigt es den berechneten Inhaltspreis und die Abweichung vom Basispreis.
+Beim Anzeigen einer bestimmten Lieferung erscheint über der Produktliste ein Preisfenster für alle Produkte mit festgelegtem Stückpreis. Für jede <%= BasketSize.model_name.human %> zeigt es den berechneten Inhaltspreis und die Abweichung vom Basispreis. Der Stückpreis gehört zu diesem Produkt für diese Lieferung. Der zuletzt verwendete Preis ist der Standard für das nächste Mal, keine Überschreibung früherer Lieferungen.
 
 Wenn Depots unterschiedliche Körbepreise erhalten — zum Beispiel weil bestimmte Produkte nur bestimmten Depots zugewiesen sind — zeigt das Fenster eine Min-Max-Preisspanne. Beim Überfahren eines Werts wird angezeigt, welche Depots diesem Preis entsprechen.
 

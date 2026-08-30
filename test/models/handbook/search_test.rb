@@ -90,11 +90,11 @@ class HandbookSearchTest < ActiveSupport::TestCase
     assert match, "Expected a subtitle match for one membership per year"
   end
 
-  test "search finds catalog prices heading on the renewal page" do
-    results = Handbook.search("catalog prices", locale: :en)
+  test "search finds default prices heading on the renewal page" do
+    results = Handbook.search("default prices", locale: :en)
 
     match = results.find { |r| r[:name] == "membership_renewal" && r[:anchor] == "catalog-prices" }
-    assert match, "Expected a subtitle match for catalog prices"
+    assert match, "Expected a subtitle match for default prices"
   end
 
   test "search finds shop on sheets heading on deliveries" do

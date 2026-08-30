@@ -68,6 +68,14 @@ class Delivery < ApplicationRecord
     any_in_year?(Current.fy_year + 1)
   end
 
+  def self.extra_year
+    Current.fy_year + 2
+  end
+
+  def self.any_extra_year?
+    any_in_year?(extra_year)
+  end
+
   def self.update_numbers(fiscal_year)
     ids = during_year(fiscal_year).pluck(:id)
     return if ids.empty?

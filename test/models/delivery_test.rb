@@ -68,6 +68,21 @@ class DeliveryTest < ActiveSupport::TestCase
     assert_includes delivery.errors[:date], I18n.t("errors.messages.fiscal_year_too_far_in_future")
   end
 
+  test "detects deliveries in the extra fiscal year" do
+    travel_to "2024-05-01"
+
+    assert_equal 2026, Delivery.extra_year
+    assert_not Delivery.any_extra_year?
+
+    Delivery.insert({
+      date: Date.new(2026, 1, 5),
+      created_at: Time.current,
+      updated_at: Time.current
+    })
+
+    assert Delivery.any_extra_year?
+  end
+
   test "validates date exactly 8 months before fiscal year start is allowed" do
     travel_to "2026-05-01"
 

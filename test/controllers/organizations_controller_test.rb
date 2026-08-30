@@ -193,6 +193,31 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes response.body, "Key rotation"
   end
 
+  test "settings overview shows failed last import when none succeeded" do
+    BankConnection.delete_all
+    BankConnection.create!(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      health_status: "errored",
+      last_import_attempted_at: Time.zone.parse("2026-07-08"),
+      last_error_class: "Billing::EBICS::AuthenticationError",
+      last_error_message: "EBICS XML failed with secret token",
+      credentials: synthetic_ebics_credentials,
+      settings: h005_payment_settings)
+    login admins(:super)
+
+    get organization_path
+
+    locale = admins(:super).language
+    assert_response :success
+    assert_includes response.body, I18n.t(
+      "active_admin.resources.organization.bank_connection.last_import_failed",
+      date: I18n.l(Date.new(2026, 7, 8), format: :short, locale: locale),
+      locale: locale)
+    assert_not_includes response.body, "secret token"
+  end
+
   test "settings overview does not expose raw bank connection error messages" do
     BankConnection.delete_all
     BankConnection.create!(

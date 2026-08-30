@@ -1431,6 +1431,12 @@ _:
           _de: Rechnungsstellung
           _it: Fatturazione
           _nl: Facturering
+        catalog_price_memberships_warning_html:
+          _en: <strong>Warning:</strong> %{count} current or future membership(s) keep their existing price. This change applies only to new memberships and the next renewal. <a href="/handbook/membership_renewal#catalog-prices">Learn more</a>
+          _fr: <strong>Attention:</strong> %{count} abonnement(s) actuel(s) ou futur(s) gardent leur prix existant. Ce changement s'applique uniquement aux nouveaux abonnements et au prochain renouvellement. <a href="/handbook/membership_renewal#catalog-prices">En savoir plus</a>
+          _de: <strong>Achtung:</strong> %{count} laufende oder zukünftige Abonnement(e) behalten ihren bestehenden Preis. Diese Änderung gilt nur für neue Abonnements und die nächste Erneuerung. <a href="/handbook/membership_renewal#catalog-prices">Mehr erfahren</a>
+          _it: <strong>Attenzione:</strong> %{count} abbonamento/i corrente/i o futuro/i conservano il prezzo esistente. Questa modifica si applica solo ai nuovi abbonamenti e al prossimo rinnovo. <a href="/handbook/membership_renewal#catalog-prices">Per saperne di più</a>
+          _nl: <strong>Waarschuwing:</strong> %{count} huidig(e) of toekomstig(e) lidmaatschap(pen) behouden hun bestaande prijs. Deze wijziging geldt alleen voor nieuwe lidmaatschappen en de volgende vernieuwing. <a href="/handbook/membership_renewal#catalog-prices">Meer informatie</a>
         check_handbook:
           _en: Check handbook
           _fr: Consulter le manuel
@@ -3460,6 +3466,12 @@ _:
           _de: Diese Lieferung und alle Taschen von Abonnements, deren Lieferzyklus sie enthält, werden dauerhaft gelöscht. Diese Abonnements werden aktualisiert und ihre Abrechnung kann sich ändern. Tascheninhalte und zugehörige Bestellungen werden ebenfalls gelöscht. Fortfahren?
           _it: Questa consegna e tutte le borse degli abbonamenti il cui ciclo di consegne la include saranno eliminate definitivamente. Questi abbonamenti saranno aggiornati e la loro fatturazione potrebbe cambiare. Anche i contenuti delle borse e gli ordini della bottega collegati saranno eliminati. Continuare?
           _nl: Deze levering en alle tassen van lidmaatschappen waarvan de leveringscyclus deze bevat, worden permanent verwijderd. Deze lidmaatschappen worden bijgewerkt en de facturatie kan veranderen. Tasinhoud en gekoppelde winkelbestellingen worden ook verwijderd. Doorgaan?
+        extra_fiscal_year_warning_html:
+          _en: <strong>Warning:</strong> Creating deliveries in fiscal year %{year} makes renewal target that year. Create only the next fiscal year. <a href="/handbook/membership_renewal#fiscal-year">Learn more</a>
+          _fr: <strong>Attention:</strong> Créer des livraisons en année fiscale %{year} fait viser le renouvellement cette année-là. Créez uniquement l'année fiscale suivante. <a href="/handbook/membership_renewal#fiscal-year">En savoir plus</a>
+          _de: <strong>Achtung:</strong> Lieferungen im Geschäftsjahr %{year} zu erstellen, lässt die Erneuerung auf dieses Jahr zielen. Nur das nächste Geschäftsjahr erstellen. <a href="/handbook/membership_renewal#fiscal-year">Mehr erfahren</a>
+          _it: <strong>Attenzione:</strong> Creare consegne nell'anno fiscale %{year} fa puntare il rinnovo a quell'anno. Creare solo il prossimo anno fiscale. <a href="/handbook/membership_renewal#fiscal-year">Per saperne di più</a>
+          _nl: <strong>Waarschuwing:</strong> Leveringen in boekjaar %{year} aanmaken laat vernieuwing op dat jaar richten. Maak alleen het volgende boekjaar aan. <a href="/handbook/membership_renewal#fiscal-year">Meer informatie</a>
         new_model:
           _en: New %{model}
           _fr: Nouvelle %{model}
@@ -3896,6 +3908,12 @@ _:
               _de: Warnung
               _it: Attenzione
               _nl: Waarschuwing
+          last_import_failed:
+            _en: Failed on %{date}
+            _fr: Échec le %{date}
+            _de: Fehlgeschlagen am %{date}
+            _it: Fallito il %{date}
+            _nl: Mislukt op %{date}
           last_payment_import:
             _en: Last payment import
             _fr: Dernier import de paiements

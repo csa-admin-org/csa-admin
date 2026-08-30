@@ -33,7 +33,7 @@ To save time, you can duplicate all <%= BasketContent.model_name.human.downcase 
 
 ### Prices {#prices}
 
-When viewing a specific delivery, a prices panel appears above the product list for any products with a unit price set. For each <%= BasketSize.model_name.human.downcase %>, it shows the calculated content price alongside the difference from the base price.
+When viewing a specific delivery, a prices panel appears above the product list for any products with a unit price set. For each <%= BasketSize.model_name.human.downcase %>, it shows the calculated content price alongside the difference from the base price. The unit price belongs to that product on that delivery. Last used is the default the next time you add it, not a rewrite of past deliveries.
 
 When depots receive differently priced <%= Basket.model_name.human(count: 2).downcase %> — for example because some products are assigned only to certain depots — the panel displays a min–max price range. Hovering over a value reveals its corresponding depots.
 

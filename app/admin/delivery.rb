@@ -175,6 +175,11 @@ ActiveAdmin.register Delivery do
         t("active_admin.resources.delivery.ongoing_fiscal_year_warning_html", year: Current.fiscal_year).html_safe
       end
     end
+    if f.object.new_record? && Delivery.any_extra_year?
+      warning_pane do
+        t("active_admin.resources.delivery.extra_fiscal_year_warning_html", year: Delivery.extra_year).html_safe
+      end
+    end
 
     render partial: "bulk_dates", locals: { f: f, resource: resource, context: self }
 

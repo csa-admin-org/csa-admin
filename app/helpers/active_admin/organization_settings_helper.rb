@@ -440,8 +440,17 @@ module ActiveAdmin::OrganizationSettingsHelper
   end
 
   def organization_settings_bank_connection_last_import(connection)
-    time = connection.last_import_succeeded_at || connection.last_no_data_at
-    organization_settings_bank_connection_date(time)
+    succeeded = connection.last_import_succeeded_at || connection.last_no_data_at
+    return organization_settings_bank_connection_date(succeeded) if succeeded.present?
+
+    attempted = connection.last_import_attempted_at
+    if attempted.present?
+      return organization_settings_warning_text(
+        t("active_admin.resources.organization.bank_connection.last_import_failed",
+          date: l(attempted.to_date, format: :short)))
+    end
+
+    organization_settings_missing_status_tag
   end
 
   def organization_settings_bank_connection_last_upload(connection)

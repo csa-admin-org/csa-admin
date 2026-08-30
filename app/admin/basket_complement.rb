@@ -48,6 +48,8 @@ ActiveAdmin.register BasketComplement do
   end
 
   form do |f|
+    catalog_price_memberships_warning(self, f.object)
+
     f.inputs t(".details"), icon: "notebook-text" do
       render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end

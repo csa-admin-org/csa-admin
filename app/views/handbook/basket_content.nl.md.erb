@@ -33,7 +33,7 @@ Om tijd te besparen kun je alle <%= BasketContent.model_name.human.downcase %> v
 
 ### Prijzen {#prices}
 
-Wanneer je een specifieke levering bekijkt, verschijnt boven de productlijst een prijspaneel voor elk product met een ingestelde eenheidsprijs. Voor elke <%= BasketSize.model_name.human.downcase %> toont het de berekende inhoudswaarde en het verschil met de basisprijs.
+Wanneer je een specifieke levering bekijkt, verschijnt boven de productlijst een prijspaneel voor elk product met een ingestelde eenheidsprijs. Voor elke <%= BasketSize.model_name.human.downcase %> toont het de berekende inhoudswaarde en het verschil met de basisprijs. De eenheidsprijs hoort bij dat product voor die levering. De laatst gebruikte prijs is de standaard voor de volgende keer, geen herschrijving van eerdere leveringen.
 
 Wanneer depots verschillende prijzen voor <%= Basket.model_name.human(count: 2).downcase %> ontvangen — bijvoorbeeld omdat sommige producten alleen aan bepaalde depots zijn toegewezen — toont het paneel een min-maxprijsbereik. Door over een waarde te bewegen, zie je de bijbehorende depots.
 
