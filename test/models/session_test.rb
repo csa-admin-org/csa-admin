@@ -49,6 +49,24 @@ class SessionTest < ActiveSupport::TestCase
     assert_not session.valid?
   end
 
+  test "admin-originated session allows outbound suppressed email" do
+    admin = admins(:ultra)
+    session = Session.new(
+      admin: admin,
+      member: members(:john),
+      email: admin.email,
+      remote_addr: "127.0.0.1",
+      user_agent: "Test Browser")
+    assert session.admin_originated?
+
+    EmailSuppression.suppress!(admin.email,
+      stream_id: "outbound",
+      origin: "Recipient",
+      reason: "HardBounce")
+    assert session.valid?
+    assert_not sessions(:ultra).valid?
+  end
+
   test "usable scope with email and not revoked" do
     session = sessions(:john)
     session.update!(revoked_at: nil)

@@ -15,6 +15,22 @@ class AdminsControllerTest < ActionDispatch::IntegrationTest
     get "/sessions/#{session.generate_token_for(:redeem)}"
   end
 
+  test "index shows a suppressed admin email once with reactivate" do
+    admin = admins(:external)
+    suppression = suppress_email(admin.email)
+    login admins(:super)
+
+    get admins_path
+
+    assert_response :success
+    assert_select "tr#admin_#{admin.id} td[data-column=email]" do
+      assert_select "s", text: admin.email, count: 1
+      assert_select "a[href=?]", "mailto:#{admin.email}", count: 0
+      assert_select ".status-tag", text: /hard bounce/i
+      assert_select "form[action=?]", email_suppression_path(suppression)
+    end
+  end
+
   test "edit shows resend invitation when the admin never signed in" do
     login admins(:super)
 

@@ -220,6 +220,24 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to %r{\Ahttp://members\.acme\.test/sessions/}
   end
 
+  test "become member succeeds when the admin email is outbound suppressed" do
+    admin = admins(:super)
+    member = members(:john)
+
+    login admin
+    suppress_email(admin.email)
+
+    assert_difference "Session.count" do
+      post become_member_path(member)
+    end
+
+    session = Session.order(:id).last
+    assert session.admin_originated?
+    assert_equal admin, session.admin
+    assert_equal member, session.member
+    assert_redirected_to %r{\Ahttp://members\.acme\.test/sessions/}
+  end
+
   test "show displays waiting member activation start date" do
     travel_to "2024-05-01"
     member = members(:aria)

@@ -166,6 +166,8 @@ class Session < ApplicationRecord
   end
 
   def email_must_not_be_suppressed
+    return if admin_originated?
+
     if owner && EmailSuppression.outbound.active.exists?(email: email)
       errors.add(:email, :suppressed)
     end

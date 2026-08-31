@@ -50,12 +50,12 @@ module ApplicationHelper
         .visible
         .where(email: email)
     if suppressions.any?
-      arbre.s(email)
-      suppressions.each do |suppression|
-        arbre.status_tag suppression.reason.underscore
-        if suppression.unsuppressable?
-          arbre.span do
-            reactivate_email_suppression_button(suppression, btn_class: "btn btn-xs")
+      arbre.span class: "cluster is-snug" do
+        arbre.s email
+        suppressions.each do |suppression|
+          arbre.status_tag suppression.reason.underscore
+          if suppression.unsuppressable?
+            arbre.span { reactivate_email_suppression_button(suppression, btn_class: "btn btn-xs") }
           end
         end
       end

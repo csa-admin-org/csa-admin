@@ -950,6 +950,9 @@ ActiveAdmin.register Member do
       subdomain: Current.org.members_subdomain,
       locale: I18n.locale),
       allow_other_host: true
+  rescue ActiveRecord::RecordInvalid => e
+    flash[:alert] = e.record.errors.full_messages.to_sentence.presence || e.message
+    redirect_to member_path(resource)
   end
 
   member_action :recurring_billing, method: :post do
