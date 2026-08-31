@@ -38,8 +38,7 @@ ActiveAdmin.register BasketContent do
 
   class BasketContentIndex < ActiveAdmin::Views::IndexAsTable
     def build(_page_presenter, collection)
-      if params.dig(:q, :delivery_id_eq).present? && collection.with_unit_price.any?
-        delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
+      if (delivery = helpers.index_delivery) && collection.with_unit_price.any?
         basket_content_prices = delivery.basket_content_prices
         if basket_content_prices.any?
           panel nil do
@@ -60,8 +59,7 @@ ActiveAdmin.register BasketContent do
     params.dig(:q, :delivery_id_eq).present? ? [ :csv, :xlsx ] : [ :csv ]
   }, title: -> {
     title = BasketContent.model_name.human(count: 2)
-    if params.dig(:q, :delivery_id_eq).present?
-      delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
+    if (delivery = index_delivery)
       title += " – #{delivery.display_name}"
     end
     title
@@ -156,11 +154,10 @@ ActiveAdmin.register BasketContent do
   end
 
   sidebar :member_visibility, only: :index, if: -> {
-    params.dig(:q, :delivery_id_eq).present? &&
-      Delivery.find(params.dig(:q, :delivery_id_eq)).coming?
+    index_delivery&.coming?
   } do
     t_scope = "active_admin.basket_contents.member_visibility"
-    delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
+    delivery = index_delivery
 
     settings_action = if authorized?(:update, Organization)
       link_to edit_organization_path(:basket_content), title: t("#{t_scope}.settings") do
@@ -186,28 +183,24 @@ ActiveAdmin.register BasketContent do
 
   sidebar :duplicate_all_to, only: :index, if: -> {
     authorized?(:create, BasketContent)
-      && params.dig(:q, :delivery_id_eq).present?
+      && index_delivery
       && collection.present?
-      && (delivery = Delivery.find(params.dig(:q, :delivery_id_eq)))
-      && BasketContent.coming_deliveries_missing_contents_from(delivery).any?
+      && coming_deliveries_missing_contents.any?
   } do
     side_panel t(".duplicate_all_to") do
-      delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
       render partial: "active_admin/basket_contents/duplicate_all_to",
-        locals: { from_delivery: delivery }
+        locals: { from_delivery: index_delivery, deliveries: coming_deliveries_missing_contents }
     end
   end
 
   sidebar :duplicate_all_from, only: :index, if: -> {
     authorized?(:create, BasketContent)
-      && params.dig(:q, :delivery_id_eq).present?
-      && (delivery = Delivery.find(params.dig(:q, :delivery_id_eq)))
-      && BasketContent.filled_deliveries_with_contents_missing_from(delivery).any?
+      && index_delivery
+      && filled_deliveries_with_contents_missing.any?
   } do
     side_panel t(".duplicate_all_from") do
-      delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
       render partial: "active_admin/basket_contents/duplicate_all_from",
-        locals: { to_delivery: delivery }
+        locals: { to_delivery: index_delivery, deliveries: filled_deliveries_with_contents_missing }
     end
   end
 
@@ -282,13 +275,15 @@ ActiveAdmin.register BasketContent do
     include ApplicationHelper
     include UncachedSendData
 
-    helper_method :initial_distribution_data
+    helper_method :initial_distribution_data,
+      :index_delivery,
+      :coming_deliveries_missing_contents,
+      :filled_deliveries_with_contents_missing
 
     def index
       super do |format|
         format.xlsx do
-          delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
-          xlsx = XLSX::BasketContent.new(delivery)
+          xlsx = XLSX::BasketContent.new(index_delivery)
           send_data xlsx.data,
             content_type: xlsx.content_type,
             filename: xlsx.filename
@@ -320,6 +315,31 @@ ActiveAdmin.register BasketContent do
       distribution[:depots] = Depot.kept.order_by_name
       distribution[:depot_groups] = helpers.admin_depots_grouped_collection
       distribution
+    end
+
+    def index_delivery
+      return @index_delivery if defined?(@index_delivery)
+
+      delivery_id = params.dig(:q, :delivery_id_eq)
+      @index_delivery = delivery_id.present? ? Delivery.find_by(id: delivery_id) : nil
+    end
+
+    def coming_deliveries_missing_contents
+      @coming_deliveries_missing_contents ||=
+        if (delivery = index_delivery)
+          BasketContent.coming_deliveries_missing_contents_from(delivery).to_a
+        else
+          []
+        end
+    end
+
+    def filled_deliveries_with_contents_missing
+      @filled_deliveries_with_contents_missing ||=
+        if (delivery = index_delivery)
+          BasketContent.filled_deliveries_with_contents_missing_from(delivery).to_a
+        else
+          []
+        end
     end
   end
 

@@ -67,23 +67,21 @@ class BasketContent < ApplicationRecord
     source_product_ids = where(delivery_id: delivery_id).distinct.pluck(:product_id)
     return Delivery.none if source_product_ids.empty?
 
-    delivery_ids = Delivery.where(date: after_date..).where.not(id: delivery_id).pluck(:id)
-    delivery_ids.select! { |target_delivery_id|
-      where(delivery_id: target_delivery_id, product_id: source_product_ids).distinct.count(:product_id) < source_product_ids.size
-    }
-    Delivery.where(id: delivery_ids)
+    complete_delivery_ids = where(product_id: source_product_ids)
+      .where(delivery_id: Delivery.where(date: after_date..).where.not(id: delivery_id).select(:id))
+      .group(:delivery_id)
+      .having("COUNT(DISTINCT product_id) = ?", source_product_ids.size)
+      .pluck(:delivery_id)
+
+    Delivery.where(date: after_date..).where.not(id: [ delivery_id, *complete_delivery_ids ])
   end
 
   def self.filled_deliveries_with_contents_missing_from(delivery)
     delivery_id = delivery.id
     target_product_ids = where(delivery_id: delivery_id).distinct.pluck(:product_id)
-    delivery_ids = where.not(delivery_id: delivery_id).distinct.pluck(:delivery_id)
-    if target_product_ids.any?
-      delivery_ids.select! { |source_delivery_id|
-        where(delivery_id: source_delivery_id).where.not(product_id: target_product_ids).exists?
-      }
-    end
-    Delivery.where(id: delivery_ids).reorder(date: :desc)
+    sources = where.not(delivery_id: delivery_id)
+    sources = sources.where.not(product_id: target_product_ids) if target_product_ids.any?
+    Delivery.where(id: sources.distinct.select(:delivery_id)).reorder(date: :desc)
   end
 
   def self.closest_delivery(year = nil)

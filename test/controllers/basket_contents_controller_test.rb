@@ -96,6 +96,86 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     refute_includes response.body, BasketContent.human_attribute_name(:quantity)
   end
 
+  test "index shows duplicate_all_to sidebar for later deliveries missing products" do
+    source = deliveries(:monday_1)
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: source,
+      basket_size_ids_quantities: { small_id => 500 },
+      unit: "kg",
+      unit_price: 2)
+
+    get basket_contents_path(q: { delivery_id_eq: source.id })
+
+    assert_response :success
+    assert_select "form.sidebar_form" do
+      assert_select "input[name='from_delivery_id'][value='#{source.id}']"
+      assert_select "select[name='to_delivery_id'] option[value='#{deliveries(:monday_2).id}']"
+    end
+    assert_select "input[name='to_delivery_id']", count: 0
+  end
+
+  test "index shows duplicate_all_from sidebar when other deliveries have extra products" do
+    target = deliveries(:monday_1)
+    source = deliveries(:monday_2)
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: target,
+      basket_size_ids_quantities: { small_id => 500 },
+      unit: "kg",
+      unit_price: 2)
+    create_basket_content(
+      product: basket_content_products(:cucumbers),
+      delivery: source,
+      basket_size_ids_quantities: { small_id => 1 },
+      unit: "pc",
+      unit_price: 1.5)
+
+    get basket_contents_path(q: { delivery_id_eq: target.id })
+
+    assert_response :success
+    assert_select "form.sidebar_form" do
+      assert_select "input[name='to_delivery_id'][value='#{target.id}']"
+      assert_select "select[name='from_delivery_id'] option[value='#{source.id}']"
+    end
+  end
+
+  test "index duplicate sidebars do not issue per-delivery basket content existence queries" do
+    target = deliveries(:monday_1)
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: target,
+      basket_size_ids_quantities: { small_id => 500 },
+      unit: "kg",
+      unit_price: 2)
+    (2..8).each do |i|
+      create_basket_content(
+        product: basket_content_products(:cucumbers),
+        delivery: deliveries(:"monday_#{i}"),
+        basket_size_ids_quantities: { small_id => 1 },
+        unit: "pc",
+        unit_price: 1.5)
+    end
+
+    per_row = []
+    callback = ->(_name, _start, _finish, _id, payload) {
+      sql = payload[:sql]
+      # The old N+1 issued EXISTS per source delivery_id. Ignore the
+      # one-off with_unit_price checks used by the prices panel.
+      if sql.match?(/SELECT 1 AS one FROM ["`]?basket_contents/i) && !sql.include?("unit_price")
+        per_row << sql
+      end
+    }
+
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
+      get basket_contents_path(q: { delivery_id_eq: target.id })
+    end
+
+    assert_response :success
+    assert_select "select[name='from_delivery_id'] option", minimum: 7
+    assert_empty per_row
+  end
+
   test "edit form renders basket content form frame" do
     bc = create_basket_content(
       basket_size_ids_quantities: { small_id => 500, medium_id => 750 },
