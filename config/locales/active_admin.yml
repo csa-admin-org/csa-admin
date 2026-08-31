@@ -1515,6 +1515,12 @@ _:
           _de: E-Mail
           _it: E-mail
           _nl: E-mail
+        email_suppressed:
+          _en: This address is blocked and cannot receive mail. Change it, or reactivate it if it is valid again.
+          _fr: Cette adresse est bloquée et ne peut plus recevoir de messages. Modifiez-la, ou réactivez-la si elle est à nouveau valide.
+          _de: Diese Adresse ist gesperrt und kann keine E-Mails empfangen. Ändern oder, falls wieder gültig, reaktivieren.
+          _it: Questo indirizzo è bloccato e non può ricevere messaggi. Cambiatelo, o riattivatelo se è di nuovo valido.
+          _nl: Dit adres is geblokkeerd en kan geen e-mail ontvangen. Wijzigen, of opnieuw activeren als het weer geldig is.
         erase:
           _en: Erase
           _fr: Effacer

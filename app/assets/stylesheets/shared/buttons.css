@@ -163,6 +163,7 @@
   button.action-item-button,
   a.action-item-button.destructive,
   a.action-item-button[data-method="delete"],
+  a.btn[data-turbo-method="delete"],
   .actions input[type="submit"],
   .actions button {
     border: 1px solid var(--color-green-500);

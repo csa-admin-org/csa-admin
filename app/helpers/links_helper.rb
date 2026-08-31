@@ -58,14 +58,25 @@ module LinksHelper
       **options, &block)
   end
 
-  def reactivate_email_suppression_button(suppression, btn_class: "btn btn-sm")
-    button_to email_suppression_path(suppression),
-      method: :delete,
-      class: btn_class,
-      data: { confirm: t("helpers.email_suppressions.destroy_confirm") } do
-        icon("circle-check-big", class: "icon-4") +
-          t("helpers.email_suppressions.destroy")
-      end
+  def reactivate_email_suppression_button(suppression, btn_class: "btn btn-sm", as: :button)
+    content = icon("circle-check-big", class: "icon-4") +
+      t("helpers.email_suppressions.destroy")
+    confirm = t("helpers.email_suppressions.destroy_confirm")
+
+    if as == :link
+      link_to email_suppression_path(suppression),
+        class: btn_class,
+        data: { turbo_method: :delete, turbo_confirm: confirm } do
+          content
+        end
+    else
+      button_to email_suppression_path(suppression),
+        method: :delete,
+        class: btn_class,
+        data: { confirm: confirm } do
+          content
+        end
+    end
   end
 
   private

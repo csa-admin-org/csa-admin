@@ -51,6 +51,24 @@ ActiveAdmin.register Admin do
     f.inputs t(".details"), icon: "notebook-text" do
       f.input :name
       f.input :email
+      if f.object.persisted?
+        suppressions = EmailSuppression.visible.where(email: f.object.email)
+        if suppressions.any?
+          li class: "email-suppression-warning" do
+            warning_pane do
+              span class: "cluster is-snug" do
+                text_node t(".email_suppressed")
+                suppressions.each do |suppression|
+                  status_tag suppression.reason.underscore
+                  if suppression.unsuppressable?
+                    span { reactivate_email_suppression_button(suppression, btn_class: "btn btn-xs", as: :link) }
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
       f.input :language,
         as: :select,
         collection: org_languages_collection,

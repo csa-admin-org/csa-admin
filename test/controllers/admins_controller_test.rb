@@ -31,6 +31,19 @@ class AdminsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "edit shows a warning and reactivate under a suppressed email" do
+    admin = admins(:external)
+    suppression = suppress_email(admin.email)
+    login admins(:super)
+
+    get edit_admin_path(admin)
+
+    assert_response :success
+    assert_select ".admin-warning-pane", text: /blocked and cannot receive mail/i
+    assert_select ".admin-warning-pane .status-tag", text: /hard bounce/i
+    assert_select ".admin-warning-pane a[href=?][data-turbo-method=delete]", email_suppression_path(suppression)
+  end
+
   test "edit shows resend invitation when the admin never signed in" do
     login admins(:super)
 

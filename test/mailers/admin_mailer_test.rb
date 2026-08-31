@@ -285,6 +285,25 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "Manage my notifications"
   end
 
+  test "new_email_suppression_email links admin owner to edit" do
+    admin = admins(:super)
+    email_suppression = OpenStruct.new(
+      reason: "HardBounce",
+      email: admin.email,
+      owners: [ admin ]
+    )
+
+    mail = AdminMailer.with(
+      admin: admins(:ultra),
+      email_suppression: email_suppression
+    ).new_email_suppression_email
+
+    body = mail.body.to_s
+    assert_includes body, "Admin: #{admin.name}"
+    assert_includes body, "https://admin.acme.test/admins/#{admin.id}/edit"
+    assert_not_includes body, "href='https://admin.acme.test/admins/#{admin.id}'"
+  end
+
   test "new_registration_email" do
     mail = AdminMailer.with(
       admin: admins(:ultra),

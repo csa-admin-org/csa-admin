@@ -175,6 +175,22 @@ class EmailSuppressionTest < ActiveSupport::TestCase
     assert_empty postmark_client.calls
   end
 
+  test "owners matches exact emails only" do
+    admin = admins(:super)
+    member = members(:john)
+    prefix_member = members(:jane)
+    depot = depots(:farm)
+    prefix_member.update!(emails: "xjohn@doe.com")
+    depot.update!(emails: "xjohn@doe.com")
+    suppression = suppress!("outbound", admin.email, "HardBounce", "Recipient")
+    member_suppression = suppress!("outbound", member.emails_array.first, "HardBounce", "Recipient")
+
+    assert_equal [ admin ], suppression.owners
+    assert_equal [ member ], member_suppression.owners
+    assert_not_includes member_suppression.owners, prefix_member
+    assert_not_includes member_suppression.owners, depot
+  end
+
   test "notifies admins for InvalidAddress suppression" do
     admin = admins(:ultra)
     admin.update!(notifications: [ "new_email_suppression" ])

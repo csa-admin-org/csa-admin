@@ -269,6 +269,14 @@
       padding-block: 0.75rem;
     }
 
+    .inputs ol > li.email-suppression-warning {
+      margin-top: -0.5rem;
+    }
+
+    .inputs ol > li.email-suppression-warning .admin-warning-pane {
+      margin-bottom: 0;
+    }
+
     .checkbox-legend {
       margin: 0;
       padding: 0;
