@@ -76,6 +76,26 @@ class Invoice::ProcessingTest < ActiveSupport::TestCase
     assert_not invoice.can_be_mark_as_sent?
   end
 
+  test "attach_pdf keeps an editable invoice sendable after a delayed storage touch" do
+    enable_invoice_pdf
+    invoice = create_other_invoice(amount: 10)
+    blob = invoice.pdf_file.blob
+
+    travel 2.seconds
+    invoice.update_column(:updated_at, Time.current)
+    blob.update_column(:created_at, 2.seconds.ago)
+    invoice.reload
+
+    assert_not invoice.pdf_current?
+
+    invoice.attach_pdf
+    invoice.reload
+
+    assert_equal invoice.pdf_file.blob.created_at.to_i, invoice.updated_at.to_i
+    assert invoice.pdf_current?
+    assert invoice.can_send_email?
+  end
+
   test "sends email when send_email is true on creation" do
     mail_templates(:invoice_created)
 

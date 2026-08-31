@@ -157,11 +157,17 @@ module Invoice::Processing
 
     I18n.with_locale(member.language) do
       invoice_pdf = PDF::Invoice.new(self)
-      pdf_file.attach(
-        io: StringIO.new(invoice_pdf.render),
-        filename: pdf_filename,
-        content_type: "application/pdf")
+      ActiveRecord::Base.no_touching do
+        pdf_file.attach(
+          io: StringIO.new(invoice_pdf.render),
+          filename: pdf_filename,
+          content_type: "application/pdf")
+      end
     end
+    # Active Storage identifies the blob after upload and touches the
+    # invoice again. That can leave updated_at ~2s after blob.created_at,
+    # so pdf_current? never becomes true for editable invoices.
+    touch(time: pdf_file.blob.created_at)
   end
 
   def pdf_current?
