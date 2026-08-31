@@ -617,4 +617,85 @@ class BasketContentTest < ActiveSupport::TestCase
     assert_includes deliveries, source_delivery
     assert_not_includes deliveries, to_delivery
   end
+
+  test "coming_deliveries_missing_contents_from does not query per target delivery" do
+    source_delivery = deliveries(:monday_1)
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: source_delivery,
+      basket_size_ids_quantities: { small_id => 100 },
+      unit: "kg")
+    create_basket_content(
+      product: basket_content_products(:cucumbers),
+      delivery: source_delivery,
+      basket_size_ids_quantities: { small_id => 1 },
+      unit: "pc")
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: deliveries(:monday_2),
+      basket_size_ids_quantities: { small_id => 100 },
+      unit: "kg")
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: deliveries(:monday_3),
+      basket_size_ids_quantities: { small_id => 100 },
+      unit: "kg")
+    create_basket_content(
+      product: basket_content_products(:cucumbers),
+      delivery: deliveries(:monday_3),
+      basket_size_ids_quantities: { small_id => 1 },
+      unit: "pc")
+
+    queries = collect_sql_queries {
+      result = BasketContent.coming_deliveries_missing_contents_from(source_delivery).to_a
+      assert_includes result, deliveries(:monday_2)
+      assert_not_includes result, deliveries(:monday_3)
+    }
+
+    assert_no_per_row_basket_content_queries queries
+    assert_operator queries.size, :<=, 3
+  end
+
+  test "filled_deliveries_with_contents_missing_from does not query per source delivery" do
+    to_delivery = deliveries(:monday_1)
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: to_delivery,
+      basket_size_ids_quantities: { small_id => 100 },
+      unit: "kg")
+    (2..10).each do |i|
+      create_basket_content(
+        product: basket_content_products(:cucumbers),
+        delivery: deliveries(:"monday_#{i}"),
+        basket_size_ids_quantities: { small_id => 1 },
+        unit: "pc")
+    end
+
+    queries = collect_sql_queries {
+      result = BasketContent.filled_deliveries_with_contents_missing_from(to_delivery).to_a
+      assert_equal 9, result.size
+    }
+
+    assert_no_per_row_basket_content_queries queries
+    assert_operator queries.size, :<=, 3
+  end
+
+  private
+
+  def collect_sql_queries
+    queries = []
+    callback = ->(_name, _start, _finish, _id, payload) {
+      sql = payload[:sql]
+      queries << sql unless payload[:name] == "SCHEMA" || sql.match?(/\A(?:BEGIN|COMMIT|SAVEPOINT|RELEASE)/i)
+    }
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") { yield }
+    queries
+  end
+
+  def assert_no_per_row_basket_content_queries(queries)
+    per_row = queries.select { |sql|
+      sql.match?(/SELECT 1 AS one FROM ["`]?basket_contents/i)
+    }
+    assert_empty per_row, "expected set-based queries, got: #{per_row.join("\n")}"
+  end
 end
