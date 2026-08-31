@@ -356,7 +356,7 @@ ActiveAdmin.register Invoice do
   action_item :mark_as_sent, only: :show, if: -> { authorized?(:mark_as_sent, resource) } do
     action_button t(".mark_as_sent"), mark_as_sent_invoice_path(resource),
       data: { confirm: t(".mark_as_sent_confirm") },
-      icon: "mail-plus"
+      icon: "mail-check"
   end
 
   action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) && resource.entity_type != "Shop::Order" } do
