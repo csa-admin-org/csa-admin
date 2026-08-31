@@ -314,6 +314,6 @@ Du kannst den Inhalt dieser Erinnerung konfigurieren, indem Du [die E-Mail-Vorla
 
 Mehrere abrechnungsbezogene Ereignisse können E-Mail-Benachrichtigungen an Administratoren auslösen, die diese Option über [ihre Benachrichtigungseinstellungen](/admins/<%= current_admin.id %>/edit) aktiviert haben:
 
-- **Rechnung überbezahlt**: Wird gesendet, wenn eine Zahlung den bezahlten Betrag einer Rechnung über ihren Gesamtbetrag hinaus bringt, was darauf hinweist, dass das Mitglied ein positives Guthaben hat.
+- **Rechnung überbezahlt**: Wird gesendet, wenn die einer Rechnung zugeordneten Zahlungen den Rechnungsbetrag übersteigen, oft weil eine frühere QR-Referenz wiederverwendet wurde. Der Überschuss wird auf andere Rechnungen des Mitglieds verteilt oder bleibt als positives Guthaben. Das Guthaben des Mitglieds kann bereits bei null liegen.
 - **3. Mahnung**: Wird gesendet, wenn die dritte Erinnerung für eine unbezahlte Rechnung versandt wird, was auf ein anhaltendes Zahlungsproblem hinweist.
 - **Zahlungsrückbuchung**: Wird gesendet, wenn eine negative Zahlung (Rückbuchung) importiert wird, was auf eine Lastschriftrückgabe oder eine Bankkorrektur hindeuten kann.

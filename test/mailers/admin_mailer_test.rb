@@ -148,7 +148,11 @@ class AdminMailerTest < ActionMailer::TestCase
 
     body = mail.body.to_s
     assert_includes body, "Hello Thibaud,"
-    assert_includes body, "Overpaid invoice ##{invoice.id}"
+    assert_includes body, "Invoice ##{invoice.id} from"
+    assert_includes body, "received more than its amount"
+    assert_includes body, "previous QR reference"
+    assert_includes body, "other invoices"
+    assert_includes body, "positive balance"
     assert_includes body, "Martha"
     assert_includes body, "Access member page"
     assert_includes body, "https://admin.acme.test/members/#{invoice.member_id}"

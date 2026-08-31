@@ -313,6 +313,6 @@ Vous pouvez configurer le contenu de ce rappel en modifiant [le modèle d'e-mail
 
 Plusieurs événements liés à la facturation peuvent déclencher des notifications par email aux administrateurs qui ont activé l'option via [leurs préférences de notifications](/admins/<%= current_admin.id %>/edit):
 
-- **Facture surpayée**: Envoyée lorsqu'un paiement fait dépasser le montant payé d'une facture par rapport à son total, indiquant que le membre a une balance positive.
+- **Facture payée en trop**: Envoyée lorsqu'une facture reçoit plus de paiements que son montant, souvent parce qu'un ancien numéro de référence QR a été réutilisé. Le surplus est appliqué aux autres factures du membre, ou reste en balance positive. La balance du membre peut déjà être à zéro.
 - **3ᵉ rappel**: Envoyée lorsque le troisième rappel est envoyé pour une facture impayée, signalant un problème de paiement persistant.
 - **Remboursement d'un paiement**: Envoyée lorsqu'un paiement négatif (remboursement) est importé, pouvant indiquer un rejet ou une correction bancaire.

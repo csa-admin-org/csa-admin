@@ -27,11 +27,11 @@ _:
         _it: Fattura pagata in eccesso
         _nl: Te veel betaalde factuur
       invoice_overpaid_hint:
-        _en: Receive a notification if an invoice is overpaid, for example, if a member has paid twice.
-        _fr: Recevoir une notification si une facture est payée en trop, par exemple si un membre a payé deux fois.
-        _de: Erhalte eine Benachrichtigung, wenn eine Rechnung überbezahlt wurde, z.B. wenn ein Mitglied zweimal bezahlt hat.
-        _it: Ricevi una notifica se una fattura è stata pagata in eccesso, ad esempio se un socio ha pagato due volte.
-        _nl: Ontvang een melding wanneer een factuur te veel is betaald, bijvoorbeeld als een lid tweemaal heeft betaald.
+        _en: Receive a notification if an invoice is overpaid, for example when a previous QR reference is reused.
+        _fr: Recevoir une notification si une facture est payée en trop, par exemple si un ancien numéro de référence QR est réutilisé.
+        _de: Erhalte eine Benachrichtigung, wenn eine Rechnung überbezahlt wurde, z.B. wenn eine frühere QR-Referenz wiederverwendet wird.
+        _it: Ricevi una notifica se una fattura è stata pagata in eccesso, ad esempio se un vecchio numero di riferimento QR viene riutilizzato.
+        _nl: Ontvang een melding wanneer een factuur te veel is betaald, bijvoorbeeld als een eerdere QR-referentie opnieuw is gebruikt.
       invoice_third_overdue_notice:
         _en: Invoice, 3rd reminder sent
         _fr: Facture, 3ᵉ rappel envoyé

@@ -312,6 +312,6 @@ Puoi configurare il contenuto di questo promemoria modificando [il modello di em
 
 Diversi eventi legati alla fatturazione possono attivare notifiche via email agli amministratori che hanno attivato l'opzione tramite [le loro preferenze di notifica](/admins/<%= current_admin.id %>/edit):
 
-- **Fattura pagata in eccesso**: Inviata quando un pagamento fa superare l'importo pagato di una fattura rispetto al suo totale, indicando che il socio ha un saldo positivo.
+- **Fattura pagata in eccesso**: Inviata quando i pagamenti associati a una fattura superano il suo importo, spesso perché è stato riutilizzato un vecchio numero di riferimento QR. L'eccedenza viene applicata alle altre fatture del socio, oppure resta come saldo positivo. Il saldo del socio può già essere a zero.
 - **3° promemoria**: Inviata quando il terzo promemoria viene inviato per una fattura non pagata, segnalando un problema di pagamento persistente.
 - **Storno di pagamento**: Inviata quando un pagamento negativo (storno) viene importato, che potrebbe indicare un addebito respinto o una correzione bancaria.

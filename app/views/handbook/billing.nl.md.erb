@@ -312,7 +312,7 @@ Je kunt de inhoud van deze herinnering configureren door [de "Factuurherinnering
 
 Verschillende factureringsgerelateerde gebeurtenissen kunnen e-mailmeldingen activeren naar beheerders die hiervoor hebben gekozen via [hun meldingsvoorkeuren](/admins/<%= current_admin.id %>/edit):
 
-- **Factuur overbetaald**: Verzonden wanneer een betaling ervoor zorgt dat het betaalde bedrag van een factuur het totaal overschrijdt, wat aangeeft dat het lid een positief saldo heeft.
+- **Factuur overbetaald**: Verzonden wanneer de betalingen gekoppeld aan een factuur het bedrag overschrijden, vaak omdat een eerdere QR-referentie opnieuw is gebruikt. Het overschot wordt op andere facturen van het lid toegepast, of blijft als positief saldo staan. Het saldo van het lid kan al op nul staan.
 - **3e betalingsherinnering**: Verzonden wanneer de derde herinnering wordt verstuurd voor een onbetaalde factuur, wat wijst op een aanhoudend betalingsprobleem.
 - **Betalingsterugboeking**: Verzonden wanneer een negatieve betaling (terugboeking) wordt geïmporteerd, wat kan duiden op een incassostorno of bankcorrectie.
 

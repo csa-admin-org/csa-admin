@@ -205,11 +205,11 @@ _:
         _it: Accedere alla pagina del socio
         _nl: Toegang tot ledenpagina
       overpaid_paragraph:
-        _en: 'The invoice #{{ invoice.number }} from <strong>{{ member.name }}</strong> has been overpaid, please verify.'
-        _fr: 'La facture #{{ invoice.number }} de <strong>{{ member.name }}</strong> a été payée en trop, à vérifier.'
-        _de: 'Die Rechnung #{{ invoice.number }} von <strong>{{ member.name }}</strong> war überbezahlt, zu prüfen.'
-        _it: 'La fattura #{{ invoice.number }} di <strong>{{ member.name }}</strong> è stata pagata in eccesso, da verificare.'
-        _nl: 'De factuur #{{ invoice.number }} van <strong>{{ member.name }}</strong> is te veel betaald, graag controleren.'
+        _en: 'Invoice #{{ invoice.number }} from <strong>{{ member.name }}</strong> received more than its amount, often because a previous QR reference was reused. The surplus is applied to that member''s other invoices, or kept as a positive balance.'
+        _fr: 'La facture #{{ invoice.number }} de <strong>{{ member.name }}</strong> a reçu plus que son montant, souvent parce qu''un ancien numéro de référence QR a été réutilisé. Le surplus est appliqué aux autres factures du membre, ou reste en balance positive.'
+        _de: 'Die Rechnung #{{ invoice.number }} von <strong>{{ member.name }}</strong> hat mehr als den Rechnungsbetrag erhalten, oft weil eine frühere QR-Referenz wiederverwendet wurde. Der Überschuss wird auf andere Rechnungen des Mitglieds verteilt oder bleibt als positives Guthaben.'
+        _it: 'La fattura #{{ invoice.number }} di <strong>{{ member.name }}</strong> ha ricevuto più del suo importo, spesso perché è stato riutilizzato un vecchio numero di riferimento QR. L''eccedenza viene applicata alle altre fatture del socio, oppure resta come saldo positivo.'
+        _nl: 'Factuur #{{ invoice.number }} van <strong>{{ member.name }}</strong> ontving meer dan het bedrag, vaak omdat een eerdere QR-referentie opnieuw is gebruikt. Het overschot wordt op andere facturen van het lid toegepast, of blijft als positief saldo staan.'
       subject:
         _en: 'Overpaid invoice #%{number}'
         _fr: 'Facture #%{number} payée en trop'

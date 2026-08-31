@@ -313,6 +313,6 @@ You can configure the content of this reminder by modifying [the "Invoice remind
 
 Several billing-related events can trigger email notifications to administrators who have opted in via [their notification preferences](/admins/<%= current_admin.id %>/edit):
 
-- **Invoice overpaid**: Sent when a payment causes an invoice's paid amount to exceed its total, indicating the member has a positive balance.
+- **Invoice overpaid**: Sent when payments attached to an invoice exceed its amount, often because a previous QR reference was reused. Surplus is applied to the member's other invoices, or kept as a positive balance. The member's balance may already be zero.
 - **3rd overdue notice**: Sent when the third reminder is sent for an unpaid invoice, signaling a persistent payment issue.
 - **Payment reversal**: Sent when a negative payment (reversal) is imported, which may indicate a chargeback or bank correction.
