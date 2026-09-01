@@ -96,6 +96,32 @@ class Invoice::ProcessingTest < ActiveSupport::TestCase
     assert invoice.can_send_email?
   end
 
+  test "process! attaches the PDF before leaving the processing state" do
+    enable_invoice_pdf
+    invoice = Invoice.create!(
+      member: members(:john),
+      date: Date.current,
+      entity_type: "Other",
+      items_attributes: { "0" => { description: "Other", amount: 10 } })
+
+    assert invoice.processing?
+    assert_not invoice.pdf_file.attached?
+
+    attached_while_processing = false
+    invoice.define_singleton_method(:attach_pdf) do
+      attached_while_processing = processing?
+      Invoice.instance_method(:attach_pdf).bind_call(self)
+    end
+    invoice.process!
+    invoice.reload
+
+    assert attached_while_processing
+    assert invoice.open?
+    assert invoice.pdf_file.attached?
+    assert invoice.pdf_current?
+    assert invoice.can_send_email?
+  end
+
   test "sends email when send_email is true on creation" do
     mail_templates(:invoice_created)
 

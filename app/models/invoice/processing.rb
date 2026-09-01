@@ -25,11 +25,12 @@ module Invoice::Processing
     handle_shares_change!
     reload
     Billing::PaymentsRedistributor.redistribute!(member_id)
+    attach_pdf
     transaction do
       update!(state: Invoice::OPEN_STATE)
       close_or_open!
     end
-    attach_pdf
+    mark_pdf_current
     send! if send_email && (Current.org.send_closed_invoice? || open?)
   end
 
@@ -161,13 +162,12 @@ module Invoice::Processing
         pdf_file.attach(
           io: StringIO.new(invoice_pdf.render),
           filename: pdf_filename,
-          content_type: "application/pdf")
+          content_type: "application/pdf",
+          identify: false,
+          metadata: { identified: true, analyzed: true })
       end
     end
-    # Active Storage identifies the blob after upload and touches the
-    # invoice again. That can leave updated_at ~2s after blob.created_at,
-    # so pdf_current? never becomes true for editable invoices.
-    touch(time: pdf_file.blob.created_at)
+    mark_pdf_current
   end
 
   def pdf_current?
@@ -223,6 +223,15 @@ module Invoice::Processing
   end
 
   private
+
+  # Active Storage identifies/analyzes the blob after upload and touches
+  # the invoice again. That can leave updated_at ~2s after blob.created_at,
+  # so pdf_current? never becomes true for editable invoices.
+  def mark_pdf_current
+    return unless pdf_file.attached?
+
+    touch(time: pdf_file.blob.created_at)
+  end
 
   def can_refresh?
     can_update? && !processing?
