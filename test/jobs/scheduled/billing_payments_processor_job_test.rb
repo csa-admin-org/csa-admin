@@ -4,7 +4,7 @@ require "test_helper"
 require "minitest/mock"
 
 class Scheduled::BillingPaymentsProcessorJobTest < ActiveJob::TestCase
-  test "retries HTTP timeouts every 15 minutes then discards" do
+  test "retries HTTP timeouts every 20 minutes then discards" do
     attempts = 0
     import = -> {
       attempts += 1
@@ -17,8 +17,8 @@ class Scheduled::BillingPaymentsProcessorJobTest < ActiveJob::TestCase
         perform_enqueued_jobs
 
         retry_delay = enqueued_jobs.sole.fetch(:at) - Time.current.to_f
-        assert_operator retry_delay, :>=, 15.minutes.to_i
-        assert_operator retry_delay, :<=, 18.minutes.to_i
+        assert_operator retry_delay, :>=, 20.minutes.to_i
+        assert_operator retry_delay, :<=, 23.minutes.to_i
 
         4.times { perform_enqueued_jobs }
       end
