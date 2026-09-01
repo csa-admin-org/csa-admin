@@ -6,6 +6,7 @@ class TenantTest < ActiveSupport::TestCase
   test "find_by host" do
     assert_equal "acme", Tenant.find_by(host: "admin.acme.test")
     assert_equal "acme", Tenant.find_by(host: "foo.acme.test")
+    assert_equal "beta", Tenant.find_by(host: "admin.beta.test")
     assert_nil Tenant.find_by(host: "admin.unknown.test")
     assert_nil Tenant.find_by(host: "localhost")
   end
@@ -24,6 +25,7 @@ class TenantTest < ActiveSupport::TestCase
 
   test "exists?" do
     assert Tenant.exists?("acme")
+    assert Tenant.exists?("beta")
     assert_not Tenant.exists?("unknown")
   end
 

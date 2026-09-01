@@ -80,25 +80,25 @@ module Billing
         validate_tenants!
         results = []
 
-        selected_tenant_names.each do |tenant|
-          result = nil
-          Tenant.switch(tenant) do
-            result = collect_tenant(tenant, action) { |rotation, connection|
-              yield tenant, rotation, connection
-            }
-          end
+        stop = false
+        Tenant.switch_each(selected_tenant_names) do |tenant|
+          next if stop
 
+          result = collect_tenant(tenant, action) { |rotation, connection|
+            yield tenant, rotation, connection
+          }
           next unless result
 
           results << result
-          break if stop_on_error && result.fetch("status") == "error"
+          stop = true if stop_on_error && result.fetch("status") == "error"
         end
 
         results
       end
 
       def collect_tenant(tenant, action)
-        connection = Current.org.active_bank_connection
+        org = Organization.first
+        connection = org && org.active_bank_connection
         return no_ebics_result(tenant, connection) unless connection&.ebics?
         return provider_mismatch_result(tenant, connection) if provider && !provider_matches?(connection)
 

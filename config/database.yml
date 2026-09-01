@@ -16,7 +16,7 @@ tenants: &tenants
     <<: *default
     database: storage/<%= "#{Rails.env}_#{tenant}" %>.sqlite3
     migrations_paths: db/migrate
-    schema_dump: <%= index == 0 ? "schema.rb" : false %>
+    schema_dump: <%= index == 0 || Rails.env.test? ? "schema.rb" : false %>
   <% end %>
 
 development:

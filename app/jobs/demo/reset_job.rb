@@ -5,10 +5,8 @@ module Demo
     queue_as :low
 
     def perform
-      Tenant.demo_tenants.each do |tenant|
-        Tenant.switch(tenant) do
-          Demo::Seeder.new.seed!
-        end
+      Tenant.switch_each(Tenant.demo_tenants) do
+        Demo::Seeder.new.seed!
       end
     end
   end

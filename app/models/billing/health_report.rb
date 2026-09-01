@@ -17,13 +17,11 @@ class Billing::HealthReport
   end
 
   def rows
-    selected_tenant_names.filter_map do |tenant|
-      row = nil
-      Tenant.switch(tenant) do
-        row = row_for(tenant)
-      end
-      row
+    rows = []
+    Tenant.switch_each(selected_tenant_names) do |tenant|
+      rows << row_for(tenant)
     end
+    rows.compact
   end
 
   def table
@@ -42,7 +40,8 @@ class Billing::HealthReport
   end
 
   def row_for(tenant)
-    connection = Current.org.active_bank_connection
+    org = Organization.first
+    connection = org && org.active_bank_connection
     return missing_connection_row(tenant) unless connection
     return if provider && !provider_matches?(connection)
 

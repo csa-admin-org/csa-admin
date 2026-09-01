@@ -21,9 +21,12 @@ namespace :db do
       # when running db:reset (which combines drop, create, and schema:load in one process).
       ActiveRecord::Base.connection_handler.clear_all_connections!
 
+      schema_file = Rails.root.join("db/schema.rb").to_s
+
       for_each_tenant do |_tenant, pool|
-        db_config = pool.db_config
-        ActiveRecord::Tasks::DatabaseTasks.load_schema(db_config, db_config.schema_format)
+        # Non-first tenants set `schema_dump: false`, so Rails has no dump path
+        # and load_schema no-ops. Always load the shared schema.rb.
+        ActiveRecord::Tasks::DatabaseTasks.load_schema(pool.db_config, :ruby, schema_file)
       end
 
       # Clear schema cache and reset column information to avoid stale cache

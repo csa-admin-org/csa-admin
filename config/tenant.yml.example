@@ -10,3 +10,6 @@ test:
   acme:
     admin_host: admin.acme.test
     members_host: members.acme.test
+  beta:
+    admin_host: admin.beta.test
+    members_host: members.beta.test

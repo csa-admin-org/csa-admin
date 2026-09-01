@@ -84,7 +84,7 @@ module Billing
         else
           Tenant.switch_each do |tenant|
             next if Tenant.custom? && !env["TENANT"]
-            next unless Current.org.active_bank_connection&.ebics?
+            next unless ebics_active_bank_connection
 
             results << KeyRotation.new(tenant: tenant).readiness
           end
@@ -160,6 +160,7 @@ module Billing
         else
           Tenant.switch_each do |tenant|
             next if Tenant.custom? && !env["TENANT"]
+            next unless Organization.first
 
             results << ReadinessReport.new(tenant: tenant).to_h
           end
@@ -252,7 +253,8 @@ module Billing
       end
 
       def ebics_active_bank_connection
-        Current.org.active_bank_connection if Current.org.active_bank_connection&.ebics?
+        org = Organization.first
+        org.active_bank_connection if org && org.active_bank_connection&.ebics?
       end
 
       def onboarding_letter_output(onboarding)
@@ -303,7 +305,8 @@ module Billing
       end
 
       def monitor_capabilities_result(tenant, required: false)
-        connection = Current.org.active_bank_connection
+        org = Organization.first
+        connection = org && org.active_bank_connection
         raise UnsupportedOperation, "Tenant '#{tenant}' has no active EBICS bank connection" if required && !connection&.ebics?
         return unless connection&.ebics?
 

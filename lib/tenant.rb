@@ -88,9 +88,15 @@ module Tenant
     !outside?
   end
 
-  def switch_each
-    all.each do |tenant|
-      switch(tenant) { yield(tenant) }
+  def switch_each(tenants = all)
+    Array(tenants).each do |tenant|
+      begin
+        switch(tenant) { yield(tenant) }
+      ensure
+        # switch skips leave in test so inline jobs keep the current tenant.
+        # Sequential walks would then nested-switch. Reset between tenants.
+        leave if Rails.env.test?
+      end
     end
     nil
   end

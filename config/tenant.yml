@@ -190,3 +190,7 @@ test:
     members_host: members.acme.test
     aliases:
       - ac
+  # Extra sqlite so isolation tests can switch shards.
+  beta:
+    admin_host: admin.beta.test
+    members_host: members.beta.test
