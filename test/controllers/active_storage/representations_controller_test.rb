@@ -9,7 +9,7 @@ class ActiveStorage::RepresentationsControllerTest < ActionDispatch::Integration
 
   test "returns not found when the blob is not a loadable image" do
     blob = ActiveStorage::Blob.create_and_upload!(
-      io: StringIO.new("#{png_signature}truncated"),
+      io: StringIO.new("not an image"),
       filename: "broken.png",
       content_type: "image/png")
 
@@ -30,10 +30,6 @@ class ActiveStorage::RepresentationsControllerTest < ActionDispatch::Integration
   end
 
   private
-
-  def png_signature
-    [ "89504E470D0A1A0A" ].pack("H*")
-  end
 
   # Same JPEG variant as app/views/active_storage/blobs/_blob.html.erb
   # (newsletter / Trix attachments).
