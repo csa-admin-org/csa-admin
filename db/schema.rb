@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_29_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_02_060531) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -564,6 +564,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_120000) do
     t.datetime "overpaid_notification_sent_at"
     t.decimal "paid_amount", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "paid_memberships_amount", precision: 8, scale: 2
+    t.boolean "pdf_stale", default: false, null: false
     t.decimal "remaining_memberships_amount", precision: 8, scale: 2
     t.datetime "sent_at"
     t.string "sepa_debtor_name"

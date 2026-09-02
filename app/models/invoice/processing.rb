@@ -30,7 +30,6 @@ module Invoice::Processing
       update!(state: Invoice::OPEN_STATE)
       close_or_open!
     end
-    mark_pdf_current
     send! if send_email && (Current.org.send_closed_invoice? || open?)
   end
 
@@ -158,23 +157,19 @@ module Invoice::Processing
 
     I18n.with_locale(member.language) do
       invoice_pdf = PDF::Invoice.new(self)
-      ActiveRecord::Base.no_touching do
-        pdf_file.attach(
-          io: StringIO.new(invoice_pdf.render),
-          filename: pdf_filename,
-          content_type: "application/pdf",
-          identify: false,
-          metadata: { identified: true, analyzed: true })
-      end
+      pdf_file.attach(
+        io: StringIO.new(invoice_pdf.render),
+        filename: pdf_filename,
+        content_type: "application/pdf")
     end
-    mark_pdf_current
+    update_column(:pdf_stale, false)
   end
 
   def pdf_current?
     return true unless can_update?
     return false unless pdf_file.attached?
 
-    pdf_file.blob.created_at >= updated_at - 1.second
+    !pdf_stale?
   end
 
   def refresh!(expected_updated_at = nil)
@@ -187,6 +182,7 @@ module Invoice::Processing
   def refresh_later
     return unless can_refresh?
 
+    update_column(:pdf_stale, true)
     Billing::InvoiceRefreshJob.perform_later(self, updated_at.to_i)
   end
 
@@ -223,15 +219,6 @@ module Invoice::Processing
   end
 
   private
-
-  # Active Storage identifies/analyzes the blob after upload and touches
-  # the invoice again. That can leave updated_at ~2s after blob.created_at,
-  # so pdf_current? never becomes true for editable invoices.
-  def mark_pdf_current
-    return unless pdf_file.attached?
-
-    touch(time: pdf_file.blob.created_at)
-  end
 
   def can_refresh?
     can_update? && !processing?

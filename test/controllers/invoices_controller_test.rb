@@ -44,8 +44,7 @@ class InvoicesControllerTest < ActionDispatch::IntegrationTest
   test "show polls the PDF preview while it is stale" do
     enable_invoice_pdf
     invoice = create_other_invoice(amount: 10)
-    travel 2.seconds
-    invoice.touch
+    invoice.refresh_later
     login admins(:ultra)
 
     get invoice_path(invoice)
@@ -79,8 +78,7 @@ class InvoicesControllerTest < ActionDispatch::IntegrationTest
   test "pdf action stays on show while the PDF is stale" do
     enable_invoice_pdf
     invoice = create_other_invoice(amount: 10)
-    travel 2.seconds
-    invoice.touch
+    invoice.refresh_later
     login admins(:ultra)
 
     get pdf_invoice_path(invoice)

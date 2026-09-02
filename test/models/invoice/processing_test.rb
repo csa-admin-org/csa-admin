@@ -62,27 +62,42 @@ class Invoice::ProcessingTest < ActiveSupport::TestCase
     end
   end
 
-  test "pdf_current? is false after an editable invoice changes" do
+  test "pdf_current? is false after refresh_later on an editable invoice" do
     enable_invoice_pdf
     invoice = create_other_invoice(amount: 10)
+    original_blob_id = invoice.pdf_file.blob_id
 
     assert invoice.pdf_current?
 
-    travel 2.seconds
-    invoice.touch
+    invoice.refresh_later
 
     assert_not invoice.reload.pdf_current?
     assert_not invoice.can_send_email?
     assert_not invoice.can_be_mark_as_sent?
+    assert_equal original_blob_id, invoice.pdf_file.blob_id
   end
 
-  test "attach_pdf keeps an editable invoice sendable after a delayed storage touch" do
+  test "pdf_current? ignores incidental invoice and blob touches" do
     enable_invoice_pdf
     invoice = create_other_invoice(amount: 10)
     blob = invoice.pdf_file.blob
 
     travel 2.seconds
-    invoice.update_column(:updated_at, Time.current)
+    invoice.touch
+    blob.update!(metadata: blob.metadata.merge("previewed" => true))
+    invoice.reload
+
+    assert invoice.pdf_current?
+    assert invoice.can_send_email?
+  end
+
+  test "attach_pdf clears pdf_stale after a delayed storage touch" do
+    enable_invoice_pdf
+    invoice = create_other_invoice(amount: 10)
+    blob = invoice.pdf_file.blob
+
+    travel 2.seconds
+    invoice.update_columns(pdf_stale: true, updated_at: Time.current)
     blob.update_column(:created_at, 2.seconds.ago)
     invoice.reload
 
@@ -91,7 +106,7 @@ class Invoice::ProcessingTest < ActiveSupport::TestCase
     invoice.attach_pdf
     invoice.reload
 
-    assert_equal invoice.pdf_file.blob.created_at.to_i, invoice.updated_at.to_i
+    assert_not invoice.pdf_stale?
     assert invoice.pdf_current?
     assert invoice.can_send_email?
   end
