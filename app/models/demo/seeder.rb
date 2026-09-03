@@ -191,6 +191,7 @@ class Demo::Seeder
       seed_activities!
       seed_shop!
     end
+    ensure_invoice_pdfs_uploaded!
     mark_deliveries_delivered!
     SearchEntry.rebuild!
 
@@ -1206,6 +1207,32 @@ class Demo::Seeder
 
       template.deliver!(membership: membership)
     end
+  end
+
+  # Active Storage persists blob/attachment rows in after_save and
+  # uploads in after_commit. Seed wraps invoice.process! / attach_pdf
+  # in a transaction, so uploads wait until that block commits. A reload
+  # on the same invoice instance (shop historical orders do this) clears
+  # attachment_changes and the after_commit upload is skipped — DB row,
+  # missing object key (Rails #57222). Invoice#pdf_current? is only
+  # !pdf_stale? for Other invoices and still true for an attached orphan,
+  # so admin preview would raise without this (AppSignal #370 / demo-de).
+  # Re-attach outside the transaction so the upload is synchronous.
+  def ensure_invoice_pdfs_uploaded!
+    log "Ensuring invoice PDFs are on storage..."
+
+    Invoice.with_attached_pdf_file.find_each do |invoice|
+      next if invoice_pdf_on_storage?(invoice)
+
+      invoice.attach_pdf
+    end
+  end
+
+  def invoice_pdf_on_storage?(invoice)
+    return false unless invoice.pdf_file.attached?
+
+    blob = invoice.pdf_file.blob
+    blob.service.exist?(blob.key)
   end
 
   # Must run outside of transaction so after_create_commit on
