@@ -1221,7 +1221,7 @@ class Demo::Seeder
   def ensure_invoice_pdfs_uploaded!
     log "Ensuring invoice PDFs are on storage..."
 
-    Invoice.with_attached_pdf_file.find_each do |invoice|
+    Invoice.joins(:pdf_file_attachment).with_attached_pdf_file.find_each do |invoice|
       next if invoice_pdf_on_storage?(invoice)
 
       invoice.attach_pdf
@@ -1229,10 +1229,8 @@ class Demo::Seeder
   end
 
   def invoice_pdf_on_storage?(invoice)
-    return false unless invoice.pdf_file.attached?
-
     blob = invoice.pdf_file.blob
-    blob.service.exist?(blob.key)
+    blob.present? && blob.service.exist?(blob.key)
   end
 
   # Must run outside of transaction so after_create_commit on
