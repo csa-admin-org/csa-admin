@@ -18,6 +18,18 @@ class ActiveStorage::RepresentationsControllerTest < ActionDispatch::Integration
     assert_response :not_found
   end
 
+  test "returns not found when the stored blob is missing" do
+    blob = ActiveStorage::Blob.create_and_upload!(
+      io: file_fixture("logo.png").open,
+      filename: "logo.png",
+      content_type: "image/png")
+    blob.service.delete(blob.key)
+
+    get newsletter_representation_path(blob)
+
+    assert_response :not_found
+  end
+
   test "redirects a valid image representation to the storage service" do
     blob = ActiveStorage::Blob.create_and_upload!(
       io: file_fixture("logo.png").open,
