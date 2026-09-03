@@ -50,10 +50,12 @@ ActiveAdmin.register Basket do
       end
     else
       if f.object.can_be_shifted?
-        panel t(".basket_shift_title"), class: "basket-shift is-shift list-none", action: handbook_icon_link("absence", anchor: "basket-shift") do
+        panel t(".basket_shift_title"), class: "basket-shift is-shift", action: handbook_icon_link("absence", anchor: "basket-shift") do
           div class: "panel-shift-body" do
             para t(".basket_shift_explanation"), class: "description"
-            f.input :shift_target_basket_id, as: :select, collection: basket_shift_targets_collection(f.object), include_blank: true
+            ol do
+              f.input :shift_target_basket_id, as: :select, collection: basket_shift_targets_collection(f.object), include_blank: true
+            end
           end
         end
         if f.object.can_only_be_shifted?

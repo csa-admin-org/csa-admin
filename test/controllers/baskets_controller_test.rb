@@ -30,7 +30,7 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
     get edit_basket_path(@basket)
 
     assert_response :success
-    assert_select "select#basket_shift_target_basket_id"
+    assert_select ".panel-shift-body ol li.select select#basket_shift_target_basket_id"
     assert_select "p.description.is-tight",
       text: I18n.t("active_admin.resource.form.basket_shift_absences_included_warning")
     assert_select "select#basket_delivery_id", count: 0
