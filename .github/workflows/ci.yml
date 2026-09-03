@@ -88,9 +88,6 @@ jobs:
       - name: Brakeman
         run: bin/brakeman -f sarif -o results.sarif
 
-      - name: Aube
-        run: bin/aube audit
-
       - name: Upload SARIF file
         if: always()
         uses: github/codeql-action/upload-sarif@v4

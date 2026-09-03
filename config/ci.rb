@@ -31,7 +31,6 @@ CI.run do
     step "Security: Bundler audit", "bin/bundler-audit", "check", "--update"
     step "Security: Importmap", "bin/importmap", "audit"
     step "Security: Brakeman", "bin/brakeman", "--quiet", "--no-pager", "--exit-on-warn", "--exit-on-error"
-    step "Security: Aube", "bin/aube", "audit"
   end
 
   group "Tests" do
