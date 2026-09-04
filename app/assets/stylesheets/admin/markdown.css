@@ -5,24 +5,27 @@
     }
   }
 
-  .markdown {
-    /* Updates, Handbook */
-    .update-date {
-      display: block;
-      margin-bottom: 0.75rem;
-      border-bottom: 1px solid var(--color-line);
-      font-weight: 500;
+  .update + .update {
+    margin-top: 2.5rem;
+  }
 
-      &.is-unread {
-        border-bottom-width: 2px;
-        border-bottom-color: var(--color-red-400);
+  .update-date {
+    display: block;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-line);
+    font-weight: 500;
 
-        &:where(.dark, .dark *) {
-          border-bottom-color: var(--color-red-500);
-        }
+    &.is-unread {
+      border-bottom-width: 2px;
+      border-bottom-color: var(--color-red-400);
+
+      &:where(.dark, .dark *) {
+        border-bottom-color: var(--color-red-500);
       }
     }
+  }
 
+  .markdown {
     img.tiny {
       margin-top: 2rem;
     }

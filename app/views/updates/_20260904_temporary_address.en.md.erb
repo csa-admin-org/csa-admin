@@ -1,0 +1,13 @@
+# Temporary addresses for home delivery
+
+For depots using the [home delivery sheet](/handbook/deliveries#delivery-sheets), you can now drop a <%= Basket.model_name.human.downcase %> at someone else's for selected deliveries, without changing the member's address.
+
+Until now you had to overwrite the street and remember to put it back. That mixed the host into invoices and the member portal. A **temporary address** leaves the member's home address alone and only changes where the <%= Basket.model_name.human.downcase %> is dropped.
+
+You add it from the member page, under the contact address. One temporary address can cover several deliveries, and a member can have more than one (another host, other weeks). The name on the list stays the member's. The host appears in bold on the PDF and Excel sheets.
+
+Members on a home-delivery depot can announce it themselves from their account, on their deliveries page, up to the same deadline as other <%= Basket.model_name.human.downcase %> updates.
+
+The depot's delivery-list notification email clearly flags the row with a "temporary address" and reminds to open the attachments when any drop is redirected.
+
+More details in [the deliveries handbook](/handbook/deliveries#delivery-sheets).

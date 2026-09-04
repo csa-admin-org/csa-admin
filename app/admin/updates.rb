@@ -7,7 +7,7 @@ ActiveAdmin.register_page "Updates" do
     para t(".updates_explanation_html"), class: "description is-loose"
     div class: "content-page" do
       Update.all.first(10).each_with_index do |update, i|
-        div id: update.name do
+        div class: "update", id: update.name do
           label l(update.date), class: "update-date#{ " is-unread" if unread_count > i }"
           div class: "markdown" do
             update.body(binding)
