@@ -128,6 +128,46 @@ class Demo::SeederTest < ActiveSupport::TestCase
     end
   end
 
+  test "ensure_invoice_pdfs_uploaded! re-attaches when the blob row exists but the file does not" do
+    enable_invoice_pdf
+    with_demo_tenant do
+      invoice = create_other_invoice(amount: 10)
+      blob = invoice.pdf_file.blob
+      blob.service.delete(blob.key)
+
+      assert invoice.pdf_file.attached?
+      assert_not blob.service.exist?(blob.key)
+      assert invoice.pdf_current?
+
+      Demo::Seeder.new.send(:ensure_invoice_pdfs_uploaded!)
+      invoice.reload
+
+      assert invoice.pdf_file.attached?
+      assert invoice.pdf_file.blob.service.exist?(invoice.pdf_file.blob.key)
+      assert_not_equal blob.id, invoice.pdf_file.blob_id
+      assert_not invoice.pdf_stale?
+      assert invoice.pdf_current?
+      assert invoice.can_send_email?
+      assert invoice.pdf_file.download.present?
+    end
+  end
+
+  test "ensure_invoice_pdfs_uploaded! leaves present invoice PDFs in place" do
+    enable_invoice_pdf
+    with_demo_tenant do
+      invoice = create_other_invoice(amount: 10)
+      blob_id = invoice.pdf_file.blob_id
+
+      Demo::Seeder.new.send(:ensure_invoice_pdfs_uploaded!)
+      invoice.reload
+
+      assert_equal blob_id, invoice.pdf_file.blob_id
+      assert invoice.pdf_file.blob.service.exist?(invoice.pdf_file.blob.key)
+      assert invoice.pdf_current?
+      assert invoice.can_send_email?
+    end
+  end
+
   private
 
   def prepare_membership_seeder
