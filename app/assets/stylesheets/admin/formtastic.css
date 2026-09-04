@@ -690,6 +690,25 @@
       list-style-type: disc;
     }
 
+    .field_with_errors {
+      display: contents;
+    }
+
+    .error label,
+    .error .label {
+      margin: 0;
+      display: block;
+      border-style: none;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      font-weight: 600;
+      color: var(--color-ink-secondary);
+    }
+
+    .error label abbr {
+      color: var(--color-gray-500);
+    }
+
     .inline-errors {
       margin-top: 0.5rem;
       font-weight: 700;

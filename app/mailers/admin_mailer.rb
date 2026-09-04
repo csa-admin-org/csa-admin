@@ -69,6 +69,22 @@ class AdminMailer < ApplicationMailer
     end
   end
 
+  def bas_login_error_email
+    @admin = params[:admin]
+    connection = params[:connection]
+    I18n.with_locale(@admin.language) do
+      content = liquid_template.render(
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "contract_number" => connection.contract_number,
+        "password_url" => edit_bas_password_bank_connections_url(host: Current.org.admin_url),
+        "support_url" => support_url(host: Current.org.admin_url))
+      content_mail(content,
+        to: @admin.email,
+        subject: t(".subject"),
+        tag: "admin-bas-login-error")
+    end
+  end
+
   def invoice_overpaid_email
     @admin = params[:admin]
     I18n.with_locale(@admin.language) do

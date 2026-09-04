@@ -117,6 +117,7 @@ module ActiveAdmin::OrganizationSettingsHelper
     actions << organization_setting_section_website_action(org) if section[:key] == "general" && org.url.present?
     actions << organization_setting_section_registration_action if section[:key] == "registration"
     actions << organization_setting_section_handbook_action(section) if section[:handbook]
+    actions << organization_setting_section_bas_password_action(org) if section[:key] == "bank_connection"
     actions << organization_setting_section_edit_action(section, org) if authorized?(:update, Organization) && organization_setting_section_editable?(section)
 
     safe_join(actions, " ")
@@ -440,15 +441,17 @@ module ActiveAdmin::OrganizationSettingsHelper
   end
 
   def organization_settings_bank_connection_last_import(connection)
-    succeeded = connection.last_import_succeeded_at || connection.last_no_data_at
-    return organization_settings_bank_connection_date(succeeded) if succeeded.present?
-
     attempted = connection.last_import_attempted_at
-    if attempted.present?
+    succeeded = connection.last_import_succeeded_at || connection.last_no_data_at
+    prefer_failed = connection.health_status == "errored" || succeeded.blank?
+
+    if attempted.present? && prefer_failed
       return organization_settings_warning_text(
         t("active_admin.resources.organization.bank_connection.last_import_failed",
           date: l(attempted.to_date, format: :short)))
     end
+
+    return organization_settings_bank_connection_date(succeeded) if succeeded.present?
 
     organization_settings_missing_status_tag
   end
@@ -464,8 +467,29 @@ module ActiveAdmin::OrganizationSettingsHelper
   def organization_settings_bank_connection_error(connection)
     return organization_settings_missing_status_tag if connection.health_status == "healthy"
 
-    connection.last_error_class.to_s.demodulize.underscore.humanize.presence ||
-      t("active_admin.resources.organization.bank_connection.onboarding_state.errored")
+    message = case connection.last_error_class
+    when BankConnection::BAS::LOGIN_ERROR_CLASS
+      t("active_admin.resources.organization.bank_connection.errors.login")
+    when BankConnection::BAS::UNKNOWN_ERROR_CLASS
+      t("active_admin.resources.organization.bank_connection.errors.unknown")
+    else
+      connection.last_error_class.to_s.demodulize.underscore.humanize.presence ||
+        t("active_admin.resources.organization.bank_connection.onboarding_state.errored")
+    end
+
+    return message unless organization_settings_bas_password_update?(connection) &&
+      connection.last_error_class == BankConnection::BAS::LOGIN_ERROR_CLASS
+
+    content_tag(:div, class: "stack is-snug text-right") do
+      safe_join([
+        content_tag(:span, message),
+        content_tag(:div, class: "cluster is-end") do
+          link_to(edit_bas_password_bank_connections_path, class: "btn btn-sm") do
+            icon("key", class: "icon-4") + t("active_admin.resources.bank_connection.password.update")
+          end
+        end
+      ])
+    end
   end
 
   def organization_settings_bank_connection_onboarding_state(connection)
@@ -485,6 +509,13 @@ module ActiveAdmin::OrganizationSettingsHelper
 
   def organization_settings_bank_connection_letter_available?(connection)
     Billing::EBICS::Onboarding.new(connection: connection).letter_available?
+  end
+
+  def organization_settings_bas_password_update?(connection)
+    admin = try(:current_admin)
+    return unless admin && connection
+
+    Ability.new(admin).can?(:update_bas_password, connection)
   end
 
   private
@@ -600,6 +631,17 @@ module ActiveAdmin::OrganizationSettingsHelper
       handbook_page_path(section[:handbook], anchor: section[:handbook_anchor]),
       title: I18n.t("active_admin.site_footer.handbook")) do
       icon "book-open", class: "icon-5"
+    end
+  end
+
+  def organization_setting_section_bas_password_action(org)
+    connection = organization_settings_bank_connection(org)
+    return unless organization_settings_bas_password_update?(connection)
+
+    link_to(
+      edit_bas_password_bank_connections_path,
+      title: I18n.t("active_admin.resources.bank_connection.password.update")) do
+      icon "square-pen", class: "icon-5"
     end
   end
 

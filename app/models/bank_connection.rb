@@ -2,6 +2,7 @@
 
 class BankConnection < ApplicationRecord
   include HasState
+  include BAS
 
   PROVIDERS = %w[ebics bas bunq mock]
   HEALTH_STATUSES = %w[unknown healthy warning errored]

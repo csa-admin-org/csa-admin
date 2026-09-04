@@ -9,11 +9,12 @@ require "uri"
 module Billing
   class BAS
     LoginError = Class.new(StandardError)
-    MaintenanceError = Class.new(StandardError)
+    UnknownError = Class.new(StandardError)
     PaymentData = Class.new(OpenStruct)
+    BASE_URL = "https://wwwsec.abs.ch".freeze
+    PASSWORD_RESET_URL = "#{BASE_URL}/authen/ui/app/self-service/flow/default-password-reset-flow/username".freeze
 
     GET_PAYMENTS_FROM = 1.month
-    BASE_URL = "https://wwwsec.abs.ch".freeze
     NO_DATA_INFO_MSG = "<INFO_MSG>Aucune donn\xE9e BVR n'a \xE9t\xE9 trouv\xE9e</INFO_MSG>".dup.force_encoding("ISO-8859-1")
 
     def initialize(credentials)
@@ -30,11 +31,11 @@ module Billing
         f.rewind
         Billing::CamtFile.new([ f ]).payments_data
       }
-    rescue MaintenanceError
-      []
-    rescue LoginError => e
-      Rails.error.unexpected(e, context: safe_context(operation_kind: "payment_import"))
-      []
+    end
+
+    def verify_login!
+      init_session_and_login
+      true
     end
 
     def sepa_direct_debit_upload(*args)
@@ -137,15 +138,22 @@ module Billing
         BANK: "ABS",
         LANGUAGE: "french"
       }.merge(args)
-      if res.code.to_i == 302 && res.body.blank?
-        Rails.event.notify(:bas_maintenance_error,
-          **safe_context(provider_status: res.code, response: response_context(res)))
-        raise MaintenanceError, "BAS probably in maintenance"
+      if unknown_login_response?(res)
+        Rails.event.notify(:bas_unknown_error,
+          **safe_context(
+            provider_status: res.code,
+            location: res["location"].to_s,
+            response: response_context(res)))
+        raise UnknownError, "BAS login unknown error (#{res.code.to_i})"
       end
       if !res.code.to_i.in?([ 200, 302 ]) || res.body[/<STATUS>(.*)<\/STATUS>/, 1] != "I0000"
         raise LoginError, "Login issue (#{res.code.to_i})"
       end
       res
+    end
+
+    def unknown_login_response?(res)
+      res.code.to_i == 302 && res.body.blank?
     end
 
     def signed_challenge(res)

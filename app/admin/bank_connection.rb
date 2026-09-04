@@ -120,6 +120,40 @@ ActiveAdmin.register BankConnection do
     end
   end
 
+  collection_action :edit_bas_password, method: :get do
+    connection = current_bas_connection
+    unless connection
+      redirect_to organization_path(anchor: "bank_connection")
+      return
+    end
+
+    authorize! :update_bas_password, connection
+    render_bas_password_form(connection)
+  end
+
+  collection_action :update_bas_password, method: :patch do
+    connection = current_bas_connection
+    unless connection
+      redirect_to organization_path(anchor: "bank_connection")
+      return
+    end
+
+    authorize! :update_bas_password, connection
+    if password_param.blank?
+      connection.errors.add(:contract_password, :blank)
+      render_bas_password_form(connection, status: :unprocessable_entity)
+    else
+      connection.update_bas_password!(password_param)
+      redirect_to organization_path(anchor: "bank_connection"),
+        notice: t("active_admin.resources.bank_connection.password.flash.notice")
+    end
+  rescue Billing::BAS::LoginError
+    connection.errors.add(:contract_password, t("active_admin.resources.bank_connection.password.invalid"))
+    render_bas_password_form(connection, status: :unprocessable_entity)
+  rescue Billing::BAS::UnknownError
+    render_bas_password_form(connection, status: :unprocessable_entity, unknown_error: true)
+  end
+
   controller do
     def new
       authorize! :create, BankConnection
@@ -317,6 +351,22 @@ ActiveAdmin.register BankConnection do
         .with(connection: @setup_connection.reload)
         .support_needed_notification_email
         .deliver_later
+    end
+
+    def current_bas_connection
+      connection = Current.org.active_bank_connection
+      connection if connection&.can_update_bas_password?
+    end
+
+    def password_param
+      params.dig(:bank_connection, :contract_password).to_s
+    end
+
+    def render_bas_password_form(connection, status: :ok, unknown_error: false)
+      @page_title = t("active_admin.resources.bank_connection.password.title")
+      render template: "bank_connections/edit_bas_password",
+        locals: { bas_connection: connection, bas_unknown_error: unknown_error },
+        status: status
     end
   end
 end

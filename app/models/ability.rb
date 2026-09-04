@@ -51,6 +51,8 @@ class Ability
 
     if admin.permission.superadmin?
       can :manage, BankConnection
+      cannot :update_bas_password, BankConnection
+      can :update_bas_password, BankConnection, can_update_bas_password?: true
     end
 
     if admin.permission.can_write?(:admin) && !Tenant.demo?

@@ -11,11 +11,34 @@ class AbilityTest < ActiveSupport::TestCase
     assert ability.can?(:manage, Admin)
     assert ability.can?(:manage, ActiveAdmin::Comment)
     assert ability.can?(:create, Absence)
+    assert ability.can?(:manage, BankConnection)
 
     org(features: [])
     ability = Ability.new(admins(:ultra))
 
     assert_not ability.can?(:create, Absence)
+  end
+
+  test "BAS password update is superadmin-only and BAS-only" do
+    BankConnection.delete_all
+    bas = BankConnection.create!(
+      provider: "bas",
+      active: true,
+      state: "ready",
+      credentials: {
+        account_number: "123",
+        contract_number: "IB0043999",
+        contract_password: "secret"
+      })
+    ebics = BankConnection.new(provider: "ebics", active: false, state: "draft")
+
+    superadmin = Ability.new(admins(:super))
+    assert superadmin.can?(:update_bas_password, bas)
+    assert_not superadmin.can?(:update_bas_password, ebics)
+
+    regular = Ability.new(admins(:external))
+    assert_not regular.can?(:update_bas_password, bas)
+    assert_not regular.can?(:manage, BankConnection)
   end
 
   test "read only permissions" do

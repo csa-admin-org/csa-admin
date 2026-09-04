@@ -7,7 +7,10 @@ module Billing
     def self.retrieve_and_process!
       return if Rails.env.development?
 
-      Current.org.bank_connection&.process_payments!
+      connection = Current.org.active_bank_connection
+      return if connection.nil? || connection.payment_import_blocked?
+
+      connection.runtime_adapter.process_payments!
     end
 
     def initialize(payments_data, raise_on_error: false)

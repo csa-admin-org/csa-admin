@@ -28,6 +28,13 @@ class AdminMailerPreview < ActionMailer::Preview
     ).invitation_email
   end
 
+  def bas_login_error_email
+    AdminMailer.with(
+      admin: ebics_admin,
+      connection: bas_connection
+    ).bas_login_error_email
+  end
+
   def ebics_setup_submitted_email
     AdminMailer.with(
       admin: ebics_admin,
@@ -251,6 +258,21 @@ class AdminMailerPreview < ActionMailer::Preview
       name: "John",
       language: I18n.locale,
       email: "admin@csa-admin.org")
+  end
+
+  def bas_connection
+    BankConnection.new(
+      id: 42,
+      provider: "bas",
+      active: true,
+      state: "ready",
+      health_status: "errored",
+      last_error_class: "Billing::BAS::LoginError",
+      credentials: {
+        "account_number" => "346.578.101-00",
+        "contract_number" => "IB0043999",
+        "contract_password" => "PREVIEW_SECRET"
+      })
   end
 
   def ebics_connection(state: "waiting_for_bank", active: false, health_status: "unknown", onboarding_state: "waiting_for_bank")

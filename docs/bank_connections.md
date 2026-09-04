@@ -404,7 +404,10 @@ indefinitely.
 
 ## BAS
 
-BAS connections use the bank keyfile flow instead of EBICS.
+BAS connections use the bank keyfile flow instead of EBICS. Superadmins can
+update `contract_password` from Bank connection settings after a login check.
+A `Billing::BAS::LoginError` sets health to `errored` and skips nightly import
+until that check succeeds. Keep lifecycle `state` as `ready`.
 
 ```ruby
 Tenant.switch("tenant") do

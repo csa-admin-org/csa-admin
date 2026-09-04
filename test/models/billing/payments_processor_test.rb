@@ -4,6 +4,8 @@ require "test_helper"
 require "minitest/mock"
 
 class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
+  include ActionMailer::TestHelper
+
   PaymentData = Billing::CamtFile::PaymentData
 
   setup do
@@ -12,7 +14,7 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
 
   test "retrieve and process delegates to connection process hook" do
     connection = ProcessPaymentsConnection.new
-    organization = Struct.new(:bank_connection).new(connection)
+    organization = Struct.new(:active_bank_connection).new(connection)
 
     Current.reset
     Organization.stub(:instance, organization) do
@@ -82,6 +84,112 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
   test "retrieve and process does nothing without an active bank connection" do
     assert_empty BankConnection.all
     assert_nil Billing::PaymentsProcessor.retrieve_and_process!
+  end
+
+  test "retrieve and process marks BAS LoginError without raising" do
+    recorder = RailsErrorHelper::ErrorRecorder.new
+    connection = create_bas_connection
+
+    with_rails_error(recorder) do
+      connection.stub(:adapter, FailingPaymentsDataConnection.new(Billing::BAS::LoginError.new("Login issue (200)"))) do
+        Current.org.stub(:active_bank_connection, connection) do
+          assert_enqueued_emails 2 do
+            assert_nil Billing::PaymentsProcessor.retrieve_and_process!
+          end
+        end
+      end
+    end
+
+    connection.reload
+    assert_equal "errored", connection.health_status
+    assert_equal "Billing::BAS::LoginError", connection.last_error_class
+    assert connection.last_import_attempted_at?
+    assert_nil connection.last_no_data_at
+    assert connection.status_details.dig("last_error", "notified_at").present?
+    assert_empty recorder.reports
+    assert_empty recorder.unexpected_errors
+  end
+
+  test "retrieve and process marks BAS UnknownError without mailing or latching" do
+    recorder = RailsErrorHelper::ErrorRecorder.new
+    connection = create_bas_connection
+
+    with_rails_error(recorder) do
+      connection.stub(:adapter, FailingPaymentsDataConnection.new(Billing::BAS::UnknownError.new("BAS login unknown error (302)"))) do
+        Current.org.stub(:active_bank_connection, connection) do
+          assert_no_enqueued_emails do
+            assert_nil Billing::PaymentsProcessor.retrieve_and_process!
+          end
+        end
+      end
+    end
+
+    connection.reload
+    assert_equal "errored", connection.health_status
+    assert_equal "Billing::BAS::UnknownError", connection.last_error_class
+    assert connection.last_import_attempted_at?
+    assert_not connection.payment_import_blocked?
+    assert_nil connection.status_details.dig("last_error", "notified_at")
+    assert_empty recorder.reports
+    assert_empty recorder.unexpected_errors
+  end
+
+  test "retrieve and process skips BAS login latch without calling the adapter" do
+    connection = create_bas_connection(
+      health_status: "errored",
+      last_error_class: "Billing::BAS::LoginError",
+      last_import_attempted_at: Time.current)
+    adapter = FailingPaymentsDataConnection.new(RuntimeError.new("should not run"))
+
+    connection.stub(:adapter, adapter) do
+      Current.org.stub(:active_bank_connection, connection) do
+        assert_no_enqueued_emails do
+          assert_nil Billing::PaymentsProcessor.retrieve_and_process!
+        end
+      end
+    end
+
+    connection.reload
+    assert_equal "errored", connection.health_status
+    assert_equal "Billing::BAS::LoginError", connection.last_error_class
+  end
+
+  test "retrieve and process runs again after a password update clears the latch" do
+    connection = create_bas_connection(
+      health_status: "errored",
+      last_error_class: "Billing::BAS::LoginError")
+    client = Object.new
+    client.define_singleton_method(:verify_login!) { true }
+
+    Billing::BAS.stub(:new, client) do
+      connection.update_bas_password!("new-secret")
+    end
+
+    connection.stub(:adapter, PaymentsDataConnection.new([])) do
+      Current.org.stub(:active_bank_connection, connection) do
+        assert Billing::PaymentsProcessor.retrieve_and_process!
+      end
+    end
+
+    connection.reload
+    assert_equal "healthy", connection.health_status
+    assert connection.last_no_data_at?
+  end
+
+  test "retrieve and process does not stamp LoginError after a later password update" do
+    connection = create_bas_connection
+    adapter = RacePasswordUpdateAdapter.new(connection)
+
+    connection.stub(:adapter, adapter) do
+      Current.org.stub(:active_bank_connection, connection) do
+        assert_nil Billing::PaymentsProcessor.retrieve_and_process!
+      end
+    end
+
+    connection.reload
+    assert_equal "healthy", connection.health_status
+    assert_nil connection.last_error_class
+    assert connection.status_details["credentials_updated_at"].present?
   end
 
 
@@ -357,8 +465,29 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
     end
   end
 
+  def create_bas_connection(**attributes)
+    BankConnection.create!({
+      provider: "bas",
+      active: true,
+      state: "ready",
+      credentials: {
+        account_number: "123",
+        contract_number: "IB0043999",
+        contract_password: "secret"
+      }
+    }.merge(attributes))
+  end
+
   class ProcessPaymentsConnection
     attr_reader :processed
+
+    def payment_import_blocked?
+      false
+    end
+
+    def runtime_adapter
+      self
+    end
 
     def process_payments!
       @processed = true
@@ -382,6 +511,23 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
 
     def payments_data
       raise @error
+    end
+  end
+
+  class RacePasswordUpdateAdapter
+    def initialize(connection)
+      @connection = connection
+    end
+
+    def payments_data
+      @connection.update_columns(
+        health_status: "healthy",
+        last_error_class: nil,
+        last_error_message: nil,
+        status_details: @connection.status_details.to_h.merge(
+          "credentials_updated_at" => Time.current.iso8601),
+        updated_at: Time.current)
+      fail Billing::BAS::LoginError, "Login issue (200)"
     end
   end
 end

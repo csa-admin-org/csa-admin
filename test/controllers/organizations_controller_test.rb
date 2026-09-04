@@ -218,6 +218,60 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes response.body, "secret token"
   end
 
+  test "settings overview shows BAS login error and password update control for superadmins" do
+    BankConnection.delete_all
+    BankConnection.create!(
+      provider: "bas",
+      active: true,
+      state: "ready",
+      health_status: "errored",
+      last_error_class: "Billing::BAS::LoginError",
+      last_error_message: "Login issue with secret token",
+      last_import_attempted_at: Time.zone.parse("2026-09-04"),
+      credentials: {
+        account_number: "346.578.101-00",
+        contract_number: "IB0043999",
+        contract_password: "secret"
+      })
+    login admins(:super)
+    locale = admins(:super).language
+
+    get organization_path
+
+    assert_response :success
+    assert_includes response.body, I18n.t("active_admin.resources.organization.bank_connection.errors.login", locale: locale)
+    assert_includes response.body, I18n.t(
+      "active_admin.resources.organization.bank_connection.last_import_failed",
+      date: I18n.l(Date.new(2026, 9, 4), format: :short, locale: locale),
+      locale: locale)
+    assert_select "#bank_connection a[href='#{edit_bas_password_bank_connections_path}']", count: 2
+    assert_select "#bank_connection a.btn.btn-sm[href='#{edit_bas_password_bank_connections_path}']"
+    assert_includes response.body, I18n.t("active_admin.resources.bank_connection.password.update", locale: locale)
+    assert_not_includes response.body, "secret token"
+    assert_not_includes response.body, "secret"
+  end
+
+  test "settings overview hides BAS password update from regular admins" do
+    BankConnection.delete_all
+    BankConnection.create!(
+      provider: "bas",
+      active: true,
+      state: "ready",
+      health_status: "errored",
+      last_error_class: "Billing::BAS::LoginError",
+      credentials: {
+        account_number: "346.578.101-00",
+        contract_number: "IB0043999",
+        contract_password: "secret"
+      })
+    login admins(:external)
+
+    get organization_path
+
+    assert_response :success
+    assert_select "#bank_connection a[href='#{edit_bas_password_bank_connections_path}']", count: 0
+  end
+
   test "settings overview does not expose raw bank connection error messages" do
     BankConnection.delete_all
     BankConnection.create!(

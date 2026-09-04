@@ -3381,6 +3381,76 @@ _:
               _de: Wenn diese Werte aus dem EBICS-Vertrag stammen und der Fehler weiterhin auftritt, Kontakt aufnehmen.
               _it: Se questi valori provengono dal contratto EBICS e l'errore persiste, contattatemi.
               _nl: Als deze waarden uit het EBICS-contract komen en de fout blijft optreden, neem dan contact op.
+        password:
+          contract_changed_html:
+            _en: If this contract number no longer matches the bank, <a href="%{support_url}">contact me</a>. The ABS setup must be redone. See the <a href="%{handbook_url}">handbook</a>.
+            _fr: Si ce numéro de contrat ne correspond plus à la banque, <a href="%{support_url}">contactez-moi</a>. La mise en place BAS doit être recommencée. Voir le <a href="%{handbook_url}">manuel</a>.
+            _de: Wenn diese Vertragsnummer nicht mehr zur Bank passt, <a href="%{support_url}">Kontakt aufnehmen</a>. Die ABS-Einrichtung muss neu gestartet werden. Siehe das <a href="%{handbook_url}">Handbuch</a>.
+            _it: Se questo numero di contratto non corrisponde più alla banca, <a href="%{support_url}">contattatemi</a>. La configurazione BAS deve essere rifatta. Consultate il <a href="%{handbook_url}">manuale</a>.
+            _nl: Als dit contractnummer niet meer bij de bank past, <a href="%{support_url}">contact opnemen</a>. De ABS-instelling moet opnieuw. Zie het <a href="%{handbook_url}">handboek</a>.
+          fields:
+            contract_number:
+              _en: Contract number
+              _fr: Numéro de contrat
+              _de: Vertragsnummer
+              _it: Numero di contratto
+              _nl: Contractnummer
+            contract_password:
+              _en: E-banking password
+              _fr: Mot de passe e-banking
+              _de: E-Banking-Passwort
+              _it: Password e-banking
+              _nl: E-bankingwachtwoord
+          flash:
+            notice:
+              _en: The password was updated. Payment import will run in the background.
+              _fr: Le mot de passe a été mis à jour. L'import des paiements va s'exécuter en arrière-plan.
+              _de: Das Passwort wurde aktualisiert. Der Zahlungsimport läuft im Hintergrund.
+              _it: La password è stata aggiornata. L'importazione dei pagamenti verrà eseguita in background.
+              _nl: Het wachtwoord is bijgewerkt. De betalingsimport draait op de achtergrond.
+          form_title:
+            _en: ABS e-banking password
+            _fr: Mot de passe e-banking BAS
+            _de: ABS-E-Banking-Passwort
+            _it: Password e-banking BAS
+            _nl: ABS-e-bankingwachtwoord
+          hints:
+            contract_password:
+              _en: Same password as the e-banking login for this contract.
+              _fr: Identique au mot de passe de connexion e-banking de ce contrat.
+              _de: Dasselbe Passwort wie für die E-Banking-Anmeldung dieses Vertrags.
+              _it: Uguale alla password di accesso e-banking di questo contratto.
+              _nl: Hetzelfde wachtwoord als de e-bankinglogin voor dit contract.
+          invalid:
+            _en: Login failed with this password. Check it and try again.
+            _fr: La connexion a échoué avec ce mot de passe. Vérifiez-le et réessayez.
+            _de: Die Anmeldung mit diesem Passwort ist fehlgeschlagen. Passwort prüfen und erneut versuchen.
+            _it: Accesso non riuscito con questa password. Verificatela e riprovate.
+            _nl: Aanmelden met dit wachtwoord is mislukt. Controleren en opnieuw proberen.
+          submit:
+            _en: Update password
+            _fr: Mettre à jour le mot de passe
+            _de: Passwort aktualisieren
+            _it: Aggiornare la password
+            _nl: Wachtwoord bijwerken
+          title:
+            _en: Update ABS password
+            _fr: Mettre à jour le mot de passe BAS
+            _de: ABS-Passwort aktualisieren
+            _it: Aggiornare la password BAS
+            _nl: ABS-wachtwoord bijwerken
+          unknown_html:
+            _en: Alternative Bank Switzerland rejected the login. The contract may be blocked after too many attempts. <a href="%{password_reset_url}">Reset the e-banking password</a>, then try again here.
+            _fr: La Banque Alternative Suisse a refusé la connexion. Le contrat est peut-être bloqué après trop de tentatives. <a href="%{password_reset_url}">Réinitialisez le mot de passe e-banking</a>, puis réessayez ici.
+            _de: Die Alternative Bank Schweiz hat die Anmeldung abgelehnt. Der Vertrag ist nach zu vielen Versuchen möglicherweise gesperrt. Das <a href="%{password_reset_url}">E-Banking-Passwort zurücksetzen</a> und hier erneut versuchen.
+            _it: Banca Alternativa Svizzera ha rifiutato l'accesso. Il contratto potrebbe essere bloccato dopo troppi tentativi. <a href="%{password_reset_url}">Reimpostate la password e-banking</a>, poi riprovate qui.
+            _nl: Alternative Bank Switzerland heeft de aanmelding geweigerd. Het contract is mogelijk geblokkeerd na te veel pogingen. Het <a href="%{password_reset_url}">e-bankingwachtwoord opnieuw instellen</a> en hier opnieuw proberen.
+          update:
+            _en: Update password
+            _fr: Mettre à jour le mot de passe
+            _de: Passwort aktualisieren
+            _it: Aggiornare la password
+            _nl: Wachtwoord bijwerken
       basket_content:
         new_model:
           _en: New %{model}
@@ -3896,6 +3966,19 @@ _:
             _de: Initialisierungsbrief herunterladen
             _it: Scaricare la lettera di inizializzazione
             _nl: Initialisatiebrief downloaden
+          errors:
+            login:
+              _en: The e-banking password has likely changed.
+              _fr: Le mot de passe e-banking a probablement changé.
+              _de: Das E-Banking-Passwort wurde wahrscheinlich geändert.
+              _it: La password e-banking è probabilmente cambiata.
+              _nl: Het e-bankingwachtwoord is waarschijnlijk gewijzigd.
+            unknown:
+              _en: The bank rejected the login. The contract may be blocked.
+              _fr: La banque a refusé la connexion. Le contrat est peut-être bloqué.
+              _de: Die Bank hat die Anmeldung abgelehnt. Der Vertrag ist möglicherweise gesperrt.
+              _it: La banca ha rifiutato l'accesso. Il contratto potrebbe essere bloccato.
+              _nl: De bank heeft de aanmelding geweigerd. Het contract is mogelijk geblokkeerd.
           health:
             _en: Health
             _fr: État

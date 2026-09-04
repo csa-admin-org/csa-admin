@@ -177,15 +177,44 @@ class ActiveAdmin::OrganizationSettingsHelperTest < ActionView::TestCase
     errored = BankConnection.new(
       provider: "bas",
       health_status: "errored",
-      last_error_class: "Billing::BAS::AuthenticationError",
+      last_error_class: "Billing::BAS::LoginError",
       last_error_message: "Login issue with secret token")
+
+    unknown = BankConnection.new(
+      provider: "bas",
+      health_status: "errored",
+      last_error_class: "Billing::BAS::UnknownError",
+      last_error_message: "BAS login unknown error (302)")
 
     assert_not organization_settings_bank_connection_error?(healthy)
     assert_not organization_settings_bank_connection_error?(capability_warning)
     assert organization_settings_bank_connection_error?(errored)
+    assert organization_settings_bank_connection_error?(unknown)
     assert_includes organization_settings_bank_connection_error(healthy), "Not configured"
-    assert_equal "Authentication error", organization_settings_bank_connection_error(errored)
+    assert_equal I18n.t("active_admin.resources.organization.bank_connection.errors.login"), organization_settings_bank_connection_error(errored)
+    assert_equal I18n.t("active_admin.resources.organization.bank_connection.errors.unknown"), organization_settings_bank_connection_error(unknown)
     assert_not_includes organization_settings_bank_connection_error(errored), "secret"
+    assert_not_includes organization_settings_bank_connection_error(unknown), "302"
+  end
+
+  test "errored BAS login shows the failed import date instead of an old no-data date" do
+    connection = BankConnection.create!(
+      provider: "bas",
+      active: true,
+      state: "ready",
+      health_status: "errored",
+      last_error_class: "Billing::BAS::LoginError",
+      last_no_data_at: Time.zone.parse("2026-09-03 08:00"),
+      last_import_attempted_at: Time.zone.parse("2026-09-04 02:00"),
+      credentials: {
+        account_number: "389.090.100.04",
+        contract_number: "IB1601431",
+        contract_password: "secret"
+      })
+
+    assert_includes organization_settings_bank_connection_last_import(connection),
+      I18n.t("active_admin.resources.organization.bank_connection.last_import_failed",
+        date: I18n.l(Date.new(2026, 9, 4), format: :short))
   end
 
   test "ongoing EBICS setup is selected when no active connection exists" do

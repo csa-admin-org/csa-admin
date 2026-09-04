@@ -10,6 +10,117 @@ class BankConnectionsControllerTest < ActionDispatch::IntegrationTest
     org(country_code: "CH", sepa_creditor_identifier: nil)
   end
 
+  test "superadmins can open the BAS password form" do
+    create_bas_connection
+    login admins(:super)
+    locale = admins(:super).language
+
+    get edit_bas_password_bank_connections_path
+
+    assert_response :success
+    assert_includes response.body, I18n.t("active_admin.resources.bank_connection.password.title", locale: locale)
+    assert_includes response.body, "IB0043999"
+    assert_select "input#bank_connection_contract_number[disabled][value='IB0043999']"
+    assert_select "input#bank_connection_contract_password"
+    assert_not_includes response.body, "old-secret"
+  end
+
+  test "regular admins cannot open the BAS password form" do
+    create_bas_connection
+    login admins(:external)
+
+    get edit_bas_password_bank_connections_path
+
+    assert_response :redirect
+  end
+
+  test "superadmins cannot open the BAS password form without a BAS connection" do
+    login admins(:super)
+
+    get edit_bas_password_bank_connections_path
+
+    assert_redirected_to organization_path(anchor: "bank_connection")
+  end
+
+  test "superadmins cannot open the BAS password form on a non-BAS connection" do
+    BankConnection.create!(
+      provider: "bunq",
+      active: true,
+      state: "ready",
+      health_status: "healthy",
+      credentials: { api_key: "test" })
+    login admins(:super)
+
+    get edit_bas_password_bank_connections_path
+
+    assert_redirected_to organization_path(anchor: "bank_connection")
+  end
+
+  test "regular admins cannot update the BAS password" do
+    create_bas_connection
+    login admins(:external)
+
+    patch update_bas_password_bank_connections_path, params: {
+      bank_connection: { contract_password: "new-secret" }
+    }
+
+    assert_response :redirect
+  end
+
+  test "password update verifies then stores the password" do
+    connection = create_bas_connection
+    login admins(:super)
+    client = Object.new
+    client.define_singleton_method(:verify_login!) { true }
+
+    Billing::BAS.stub(:new, client) do
+      patch update_bas_password_bank_connections_path, params: {
+        bank_connection: { contract_password: "new-secret" }
+      }
+    end
+
+    assert_redirected_to organization_path(anchor: "bank_connection")
+    assert_equal "new-secret", connection.reload.credentials.fetch("contract_password")
+    assert_equal "healthy", connection.health_status
+  end
+
+  test "password update rerenders when login fails" do
+    connection = create_bas_connection
+    login admins(:super)
+    client = Object.new
+    client.define_singleton_method(:verify_login!) { fail Billing::BAS::LoginError, "Login issue (200)" }
+
+    Billing::BAS.stub(:new, client) do
+      patch update_bas_password_bank_connections_path, params: {
+        bank_connection: { contract_password: "wrong" }
+      }
+    end
+
+    assert_response :unprocessable_entity
+    assert_equal "old-secret", connection.reload.credentials.fetch("contract_password")
+    assert_not_includes response.body, "wrong"
+    assert_select "label",
+      text: /#{Regexp.escape(I18n.t("active_admin.resources.bank_connection.password.fields.contract_password", locale: admins(:super).language))}/
+  end
+
+  test "password update rerenders when ABS returns an unknown login error" do
+    connection = create_bas_connection
+    login admins(:super)
+    client = Object.new
+    client.define_singleton_method(:verify_login!) { fail Billing::BAS::UnknownError, "BAS login unknown error (302)" }
+
+    Billing::BAS.stub(:new, client) do
+      patch update_bas_password_bank_connections_path, params: {
+        bank_connection: { contract_password: "new-secret" }
+      }
+    end
+
+    assert_response :unprocessable_entity
+    assert_equal "old-secret", connection.reload.credentials.fetch("contract_password")
+    assert_includes response.body, "Reset the e-banking password"
+    assert_includes response.body, Billing::BAS::PASSWORD_RESET_URL
+  end
+
   test "superadmins can open the EBICS setup form" do
     login admins(:super)
     locale = admins(:super).language
@@ -309,6 +420,20 @@ class BankConnectionsControllerTest < ActionDispatch::IntegrationTest
       remote_addr: "127.0.0.1",
       user_agent: "Test Browser")
     get "/sessions/#{session.generate_token_for(:redeem)}"
+  end
+
+  def create_bas_connection
+    BankConnection.create!(
+      provider: "bas",
+      active: true,
+      state: "ready",
+      health_status: "errored",
+      last_error_class: "Billing::BAS::LoginError",
+      credentials: {
+        account_number: "346.578.101-00",
+        contract_number: "IB0043999",
+        contract_password: "old-secret"
+      })
   end
 
   def valid_setup_params

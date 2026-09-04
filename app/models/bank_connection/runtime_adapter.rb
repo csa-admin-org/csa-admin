@@ -10,11 +10,14 @@ class BankConnection
     end
 
     def process_payments!
+      attempted_at = Time.current
       connection.mark_import_attempted!(operation: payment_import_operation)
       payments_data = adapter.payments_data
       result = Billing::PaymentsProcessor.new(payments_data).process!
       mark_import_completed!(payments_data)
       result
+    rescue Billing::BAS::LoginError, Billing::BAS::UnknownError => e
+      persist_bas_error(e, attempted_at)
     rescue => e
       operation = payment_import_operation
       connection.mark_error!(e, operation: operation, operation_kind: "payment_import")
@@ -36,6 +39,15 @@ class BankConnection
     private
 
     attr_reader :connection, :adapter
+
+    def persist_bas_error(error, attempted_at)
+      connection.reload
+      return if connection.credentials_updated_after?(attempted_at)
+
+      connection.mark_error!(error, operation: payment_import_operation, operation_kind: "payment_import")
+      connection.notify_bas_login_error! if error.is_a?(Billing::BAS::LoginError)
+      nil
+    end
 
     def add_error_tags(operation:, operation_kind:)
       context = connection.safe_context(operation: operation, operation_kind: operation_kind).except("operation")

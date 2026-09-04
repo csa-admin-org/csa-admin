@@ -1,5 +1,42 @@
 _:
   admin_mailer:
+    bas_login_error_email:
+      greeting:
+        _en: Hello {{ admin.name }},
+        _fr: Salut {{ admin.name }},
+        _de: Hallo {{ admin.name }},
+        _it: Ciao {{ admin.name }},
+        _nl: Hallo {{ admin.name }},
+      login_paragraph:
+        _en: Automatic payment import could not log in to your Alternative Bank Switzerland account (contract <strong>{{ contract_number }}</strong>). The e-banking password for this contract has likely changed.
+        _fr: L'import automatique des paiements n'a pas pu se connecter à votre compte à la Banque Alternative Suisse (contrat <strong>{{ contract_number }}</strong>). Le mot de passe e-banking de ce contrat a probablement changé.
+        _de: Der automatische Zahlungsimport konnte sich nicht beim Konto der Alternative Bank Schweiz anmelden (Vertrag <strong>{{ contract_number }}</strong>). Das E-Banking-Passwort für diesen Vertrag wurde wahrscheinlich geändert.
+        _it: L'importazione automatica dei pagamenti non è riuscita ad accedere al vostro conto presso Banca Alternativa Svizzera (contratto <strong>{{ contract_number }}</strong>). La password e-banking di questo contratto è probabilmente cambiata.
+        _nl: Automatische betalingsimport kon niet inloggen op de rekening bij Alternative Bank Switzerland (contract <strong>{{ contract_number }}</strong>). Het e-bankingwachtwoord voor dit contract is waarschijnlijk gewijzigd.
+      password_button:
+        _en: Update the password
+        _fr: Mettre à jour le mot de passe
+        _de: Passwort aktualisieren
+        _it: Aggiornare la password
+        _nl: Wachtwoord bijwerken
+      password_paragraph:
+        _en: Please update the password from the bank connection settings. Payment import will stay paused until the new password works.
+        _fr: Merci de mettre à jour le mot de passe depuis les paramètres de connexion bancaire. L'import des paiements restera en pause jusqu'à ce que le nouveau mot de passe fonctionne.
+        _de: Das Passwort in den Einstellungen der Bankverbindung aktualisieren. Der Zahlungsimport bleibt pausiert, bis das neue Passwort funktioniert.
+        _it: Aggiornate la password dalle impostazioni della connessione bancaria. L'importazione dei pagamenti resterà in pausa finché la nuova password non funzionerà.
+        _nl: Het wachtwoord bijwerken in de instellingen van de bankverbinding. De betalingsimport blijft gepauzeerd tot het nieuwe wachtwoord werkt.
+      questions_paragraph:
+        _en: Feel free to <a href="{{ support_url }}">contact me</a> if you have any questions.
+        _fr: N'hésitez pas à <a href="{{ support_url }}">me contacter</a> si vous avez des questions.
+        _de: Bei Fragen gerne <a href="{{ support_url }}">Kontakt aufnehmen</a>.
+        _it: Non esitate a <a href="{{ support_url }}">contattarmi</a> se avete domande.
+        _nl: Bij vragen gerust <a href="{{ support_url }}">contact opnemen</a>.
+      subject:
+        _en: "⚠️ ABS login failed"
+        _fr: "⚠️ Échec de connexion BAS"
+        _de: "⚠️ ABS-Anmeldung fehlgeschlagen"
+        _it: "⚠️ Accesso BAS non riuscito"
+        _nl: "⚠️ ABS-aanmelding mislukt"
     delivery_list_email:
       attachments_paragraph:
         _en: Attached are the summary file (XLSX) and the sheets (PDF) for the delivery on {{ delivery.date }}.
