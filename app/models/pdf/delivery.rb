@@ -16,6 +16,7 @@ module PDF
       precompute_basket_sums
       precompute_complement_counts
       preload_announcements
+      preload_home_delivery_addresses
       preload_basket_sizes_and_complements
       preload_basket_contents
 
@@ -140,6 +141,15 @@ module PDF
 
     def announcement_for(depot)
       @announcements_by_depot[depot.id]
+    end
+
+    def preload_home_delivery_addresses
+      member_ids = (
+        @baskets.filled.joins(:membership).pluck("memberships.member_id") +
+        @shop_orders.pluck(:member_id)
+      ).uniq
+      @home_delivery_addresses_by_member_id =
+        HomeDeliveryAddress.by_member_id_for(delivery, member_ids)
     end
 
     def preload_basket_sizes_and_complements
@@ -702,18 +712,25 @@ module PDF
           text_color: basket&.absent? ? "999999" : nil
         ]
         if depot.delivery_sheets_mode == "home_delivery"
-          content = <<~TEXT
-            <font size='10'>#{member.street}\n#{member.zip} #{member.city}</font>
-          TEXT
-          line << {
-            content: content,
+          overlay = basket&.absent? ? nil : @home_delivery_addresses_by_member_id[member.id]
+          address =
+            if overlay
+              overlay.sheet_address
+            else
+              "#{member.street}\n#{member.zip} #{member.city}"
+            end
+          address_cell = {
+            content: address,
             align: :left,
             valign: :center,
             width: address_width,
             padding_top: 1,
-            font_style: basket&.absent? ? :italic : nil,
+            size: 10,
+            font_style: basket&.absent? ? :italic : (overlay ? :bold : nil),
             text_color: basket&.absent? ? "999999" : nil
           }
+          address_cell[:background_color] = "BBBBBB" if overlay
+          line << address_cell
         end
         basket_sizes.each do |bs|
           content = (basket && basket.basket_size_id == bs.id) ? display_quantity(basket.quantity) : ""
@@ -750,15 +767,16 @@ module PDF
             end
           line << counter_line(content, basket)
         end
+        overlay = basket&.absent? ? nil : @home_delivery_addresses_by_member_id[member.id]
         extra_content =
           if basket&.absent?
             Basket.human_attribute_name(:absent).upcase
           elsif depot.delivery_sheets_mode == "home_delivery"
-            member.delivery_note
+            overlay ? overlay.sheet_note : member.delivery_note
           else
             ""
           end
-        line << {
+        extra_cell = {
           content: extra_content,
           width: extra_width,
           align: :right,
@@ -768,6 +786,9 @@ module PDF
           font_style: (depot.delivery_sheets_mode == "home_delivery" || basket&.absent?) ? :italic : nil,
           text_color: basket&.absent? ? "999999" : nil
         }
+        extra_cell[:background_color] = "BBBBBB" if overlay&.note.present? && !basket&.absent?
+        extra_cell[:font_style] = :bold if overlay&.note.present? && !basket&.absent?
+        line << extra_cell
         data << line
       end
 

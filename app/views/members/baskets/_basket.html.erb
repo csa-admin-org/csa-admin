@@ -1,3 +1,5 @@
+<%# locals: (basket:, home_delivery_cta_basket: nil) %>
+
 <div
   id="<%= dom_id(basket) %>"
   class="basket <%= " is-absent" if basket.absent? %> <%= " is-trial" if basket.trial? %>"
@@ -50,7 +52,30 @@
 
       <span><%= depot_map_link(basket.depot) %></span>
     </li>
+
+    <% if overlay = home_delivery_overlay_for(basket) %>
+      <li class="detail-row">
+        <%= icon "clock-fading", class: "detail-icon icon-inline" %>
+
+        <span>
+          <% if overlay.can_member_update? %>
+            <%= link_to overlay.name, edit_members_home_delivery_address_path(overlay) %>
+          <% else %>
+            <%= overlay.name %>
+          <% end %>
+        </span>
+      </li>
+    <% end %>
   </ul>
+
+  <% if overlay.blank? && basket == home_delivery_cta_basket %>
+    <div class="basket-footer">
+      <%= link_to new_members_basket_home_delivery_address_path(basket), class: "btn btn-sm" do %>
+        <%= icon "map-pin-house", class: "icon-xs" %>
+        <span><%= t(".deliver_elsewhere") %></span>
+      <% end %>
+    </div>
+  <% end %>
 
   <% if basket.shifted? %>
     <div class="basket-footer is-quiet">

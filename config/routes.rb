@@ -86,7 +86,9 @@ Rails.application.routes.draw do
       resources :baskets, only: %i[edit update] do
         resource :forced_delivery, only: :create
         resource :basket_shifts, only: %i[new create], path: "shift", path_names: { new: "" }
+        resource :home_delivery_address, only: :new
       end
+      resources :home_delivery_addresses, only: %i[create edit update destroy]
 
       scope :membership do
         resource :renewal,

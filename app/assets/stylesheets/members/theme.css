@@ -297,6 +297,31 @@
             flex: none;
             cursor: pointer;
           }
+
+          &:has(input:disabled) label {
+            cursor: not-allowed;
+            border-color: var(--color-gray-100);
+            background-color: var(--color-gray-50);
+            color: var(--color-gray-300);
+
+            &:hover {
+              background-color: var(--color-gray-50);
+            }
+
+            &:where(.dark, .dark *) {
+              border-color: var(--color-gray-800);
+              background-color: var(--color-gray-900);
+              color: var(--color-gray-600);
+
+              &:hover {
+                background-color: var(--color-gray-900);
+              }
+            }
+          }
+
+          &:has(input:disabled) input {
+            cursor: not-allowed;
+          }
         }
 
         &.boolean {

@@ -91,6 +91,12 @@ _:
         _de: Beendet
         _it: Terminato
         _nl: Beëindigd
+      home_delivery_address:
+        _en: Temporary address
+        _fr: Adresse temporaire
+        _de: Temporäre Adresse
+        _it: Indirizzo temporaneo
+        _nl: Tijdelijk adres
       new:
         _en: New
         _fr: Nouveau

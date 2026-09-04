@@ -154,7 +154,13 @@ module XLSX
         member.shop_order = shop_orders.find { |so| so.member_id == member.id }
       end
 
-      add_members_worksheet(depot.name, members, mode: depot.delivery_sheets_mode)
+      overlays =
+        if depot.delivery_sheets_mode == "home_delivery"
+          HomeDeliveryAddress.by_member_id_for(@delivery, members)
+        else
+          {}
+        end
+      add_members_worksheet(depot.name, members, mode: depot.delivery_sheets_mode, overlays: overlays)
     end
 
     def build_absences_worksheet
@@ -168,7 +174,7 @@ module XLSX
       add_members_worksheet(::Absence.model_name.human(count: 2), members)
     end
 
-    def add_members_worksheet(name, members, mode: "signature")
+    def add_members_worksheet(name, members, mode: "signature", overlays: {})
       border = mode == "home_delivery" ? "thin" : "none"
 
       name = worksheet_name(name, members.size)
@@ -188,19 +194,29 @@ module XLSX
           members.map { |m| m.emails_array.join(", ") },
           border: border)
       end
+      street_column = @column
       add_column(
         Member.human_attribute_name(:street),
-        members.map { |m| m.street },
+        members.map { |m|
+          overlay = overlay_for(m, overlays)
+          overlay ? "#{overlay.name}\n#{overlay.street}" : m.street
+        },
         border: border)
-      unless mode == "home_delivery"
-        add_column(
-          Member.human_attribute_name(:zip),
-          members.map { |m| m.zip },
-          border: border)
-      end
+      zip_column = @column
+      add_column(
+        Member.human_attribute_name(:zip),
+        members.map { |m|
+          overlay = overlay_for(m, overlays)
+          overlay ? overlay.zip : m.zip
+        },
+        border: border)
+      city_column = @column
       add_column(
         Member.human_attribute_name(:city),
-        members.map { |m| m.city },
+        members.map { |m|
+          overlay = overlay_for(m, overlays)
+          overlay ? overlay.city : m.city
+        },
         border: border)
       add_column(
         Basket.model_name.human,
@@ -242,12 +258,43 @@ module XLSX
           border: border)
       end
       if mode == "home_delivery"
+        note_column = @column
         add_column(
           Member.human_attribute_name(:note),
-          members.map { |m| truncate(m.delivery_note, length: 160) },
+          members.map { |m|
+            overlay = overlay_for(m, overlays)
+            truncate(overlay ? overlay.sheet_note : m.delivery_note, length: 160)
+          },
           border: border)
         add_column(t("delivered_by"), members.map { |m| " " * 25 }, border: border)
+        highlight_overlay_cells(members, overlays, street_column, zip_column, city_column, note_column)
       end
+    end
+
+    def overlay_for(member, overlays)
+      return if member.basket&.absent?
+
+      overlays[member.id]
+    end
+
+    def highlight_overlay_cells(members, overlays, street_column, zip_column, city_column, note_column)
+      members.each_with_index do |member, i|
+        overlay = overlay_for(member, overlays)
+        next unless overlay
+
+        [ street_column, zip_column, city_column ].each do |col|
+          highlight_cell(i + 1, col)
+        end
+        highlight_cell(i + 1, note_column) if overlay.note.present?
+      end
+    end
+
+    def highlight_cell(row, col)
+      cell = @worksheet.sheet_data[row][col]
+      return unless cell
+
+      cell.change_font_bold(true)
+      cell.change_fill("BBBBBB")
     end
 
     def build_changes_worksheet

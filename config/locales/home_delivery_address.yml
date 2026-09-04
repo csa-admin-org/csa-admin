@@ -1,0 +1,14 @@
+_:
+  home_delivery_address:
+    form_hint:
+      _en: Don't edit the member's street to deliver at someone else's.
+      _fr: Ne pas modifier la rue du membre pour livrer chez quelqu'un d'autre.
+      _de: Die Strasse des Mitglieds nicht ändern, um bei jemand anderem zu liefern.
+      _it: Non modificare la via del socio per consegnare presso qualcun altro.
+      _nl: De straat van het lid niet wijzigen om bij iemand anders af te leveren.
+    temporary_change:
+      _en: Temporary change
+      _fr: Changement temporaire
+      _de: Temporäre Änderung
+      _it: Modifica temporanea
+      _nl: Tijdelijke wijziging

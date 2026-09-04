@@ -412,6 +412,43 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
     assert_empty john_entries
   end
 
+  test "detects home delivery overlay as a temporary address change" do
+    travel_to "2024-04-01"
+    HomeDeliveryAddress.create!(
+      member: members(:bob),
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      deliveries: [ deliveries(:monday_1) ])
+
+    changes = Delivery::Changes.new(deliveries(:monday_1))
+    bob_entry = entries_with_change_type(changes, :home_delivery_address).find { |e| e.member == members(:bob) }
+
+    assert bob_entry
+    overlay_change = bob_entry.changes.find { |c| c.type == :home_delivery_address }
+    assert_equal I18n.t("delivery.change_types.home_delivery_address"), overlay_change.label
+    assert_includes overlay_change.details, "Valentine Schneider"
+    assert_includes overlay_change.details, "Chantemerle 16"
+  end
+
+  test "ignores home delivery overlay after depot switch" do
+    travel_to "2024-04-01"
+    HomeDeliveryAddress.create!(
+      member: members(:bob),
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      deliveries: [ deliveries(:monday_1) ])
+    baskets(:bob_1).update_columns(depot_id: depots(:farm).id)
+
+    changes = Delivery::Changes.new(deliveries(:monday_1))
+    bob_entries = entries_with_change_type(changes, :home_delivery_address).select { |e| e.member == members(:bob) }
+
+    assert_empty bob_entries
+  end
+
   # == Basket changed (size and/or quantity merged) ==
 
   test "detects basket size change" do

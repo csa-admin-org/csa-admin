@@ -12,6 +12,7 @@ class Ability
     basket_content: [ BasketContent, BasketContent::Product ],
     bidding_round: [ BiddingRound, BiddingRound::Pledge ],
     maps: [],
+    member: [ Member, HomeDeliveryAddress ],
     member_information: [],
     sepa: [ SEPAMandate ],
     vat: [],

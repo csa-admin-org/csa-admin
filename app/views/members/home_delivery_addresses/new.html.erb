@@ -1,0 +1,25 @@
+<h1><%= t(".title") %></h1>
+
+<section>
+  <div class="form-copy">
+    <p>
+      <%= t("members.home_delivery_addresses.form.text_html", account_url: members_account_path) %>
+    </p>
+  </div>
+
+  <%= simple_form_for @home_delivery_address, url: members_home_delivery_addresses_path, html: { class: "form-root" } do |f| %>
+    <%= render "form", f: f, home_delivery_address: @home_delivery_address %>
+
+    <div class="actions">
+      <%= link_to members_deliveries_path, class: "cancel-link" do %>
+        <%= icon "arrow-left", class: "icon-inline" %>
+        <span><%= t(".cancel_link") %></span>
+      <% end %>
+
+      <%= button_tag type: "submit" do %>
+        <%= icon "check", class: "icon-inline" %>
+        <span><%= t(".submit") %></span>
+      <% end %>
+    </div>
+  <% end %>
+</section>

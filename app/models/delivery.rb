@@ -12,6 +12,7 @@ class Delivery < ApplicationRecord
   default_scope { order(:date) }
 
   has_many :baskets, dependent: :destroy
+  has_many :home_delivery_address_deliveries, dependent: :destroy
   has_many :depots, -> { distinct.reorder(:position) }, through: :baskets
   has_many :basket_sizes, -> { distinct.reorder(:price) }, through: :baskets
   has_many :basket_contents, dependent: :destroy

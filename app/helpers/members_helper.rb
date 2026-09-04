@@ -341,6 +341,14 @@ module MembersHelper
     ].compact_blank, tag.br)
   end
 
+  def display_home_delivery_address(overlay)
+    safe_join([
+      overlay.name,
+      overlay.street,
+      [ overlay.zip, overlay.city ].compact_blank.join(" ")
+    ].compact_blank, tag.br)
+  end
+
   def display_member_city_with_zip(member)
     city = member.city.presence
     zip = member.zip.presence
@@ -561,6 +569,13 @@ module MembersHelper
     link_to depot_google_maps_url(location), title: depot_map_title(depot), target: :blank do
       icon "map", class: "map-icon"
     end
+  end
+
+  def home_delivery_overlay_for(basket)
+    return unless basket.depot.delivery_sheets_mode == "home_delivery"
+    return if basket.absent?
+
+    @home_delivery_overlays_by_delivery_id&.[](basket.delivery_id)
   end
 
   def depot_map_link(depot)

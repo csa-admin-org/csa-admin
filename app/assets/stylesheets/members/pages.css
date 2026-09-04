@@ -750,7 +750,8 @@
     }
   }
 
-  .account-delete {
+  .account-delete,
+  .form-destroy {
     margin-top: 3rem;
     display: flex;
     flex-direction: row;
@@ -761,12 +762,19 @@
     }
   }
 
-  .account-delete-link {
+  .account-delete-link,
+  .form-destroy-link {
     display: flex;
+    cursor: pointer;
     align-items: center;
+    border: none;
+    background: none;
+    padding: 0;
+    color: inherit;
   }
 
-  .account-delete-label {
+  .account-delete-label,
+  .form-destroy-label {
     margin-inline-start: 0.25rem;
     font-size: 0.875rem;
     line-height: 1.25rem;

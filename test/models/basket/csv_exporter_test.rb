@@ -196,4 +196,27 @@ class Basket::CSVExporterTest < ActiveSupport::TestCase
     row = csv.find { |r| r[Basket.human_attribute_name(:basket_id)] == basket.id.to_s }
     assert_nil row[Basket.human_attribute_name(:member_id)]
   end
+
+  test "single delivery overlay uses host street, zip, city, and note" do
+    travel_to "2024-04-01"
+    members(:bob).update_column(:delivery_note, "Code 1234")
+    HomeDeliveryAddress.create!(
+      member: members(:bob),
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      note: "Leave at door",
+      deliveries: [ deliveries(:monday_1) ])
+
+    csv = CSV.parse(Basket::CSVExporter.new(delivery: deliveries(:monday_1)).generate, headers: true)
+    bob = csv.find { |row| row[Basket.human_attribute_name(:name)] == "Bob Doe" }
+    john = csv.find { |row| row[Basket.human_attribute_name(:name)] == "John Doe" }
+
+    assert_equal "Valentine Schneider\nChantemerle 16", bob[Basket.human_attribute_name(:street)]
+    assert_equal "2000", bob[Basket.human_attribute_name(:zip)]
+    assert_equal "Neuchatel", bob[Basket.human_attribute_name(:city)]
+    assert_equal "Leave at door", bob[Basket.human_attribute_name(:delivery_note)]
+    assert_equal members(:john).street, john[Basket.human_attribute_name(:street)]
+  end
 end

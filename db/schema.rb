@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_02_060531) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_02_120000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -532,6 +532,33 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_02_060531) do
     t.index ["delivery_id"], name: "index_forced_deliveries_on_delivery_id"
     t.index ["membership_id", "delivery_id"], name: "index_forced_deliveries_on_membership_id_and_delivery_id", unique: true
     t.index ["membership_id"], name: "index_forced_deliveries_on_membership_id"
+  end
+
+  create_table "home_delivery_address_deliveries", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "delivery_id", null: false
+    t.integer "home_delivery_address_id", null: false
+    t.integer "member_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["delivery_id"], name: "index_home_delivery_address_deliveries_on_delivery_id"
+    t.index ["home_delivery_address_id", "delivery_id"], name: "idx_hda_deliveries_on_address_and_delivery", unique: true
+    t.index ["home_delivery_address_id"], name: "idx_on_home_delivery_address_id_a38f1aad6e"
+    t.index ["member_id", "delivery_id"], name: "idx_hda_deliveries_on_member_and_delivery", unique: true
+    t.index ["member_id"], name: "index_home_delivery_address_deliveries_on_member_id"
+  end
+
+  create_table "home_delivery_addresses", force: :cascade do |t|
+    t.string "city"
+    t.datetime "created_at", null: false
+    t.integer "member_id", null: false
+    t.string "name", null: false
+    t.string "note"
+    t.integer "session_id"
+    t.string "street"
+    t.datetime "updated_at", null: false
+    t.string "zip"
+    t.index ["member_id"], name: "index_home_delivery_addresses_on_member_id"
+    t.index ["session_id"], name: "index_home_delivery_addresses_on_session_id"
   end
 
   create_table "invoice_items", force: :cascade do |t|

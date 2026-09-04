@@ -19,3 +19,9 @@ _:
         _de: Lieferungsliste vom %{date} (%{depot})
         _it: Lista di consegna del %{date} (%{depot})
         _nl: Leveringslijst van %{date} (%{depot})
+      temporary_address:
+        _en: "‼️ temporary address ‼️"
+        _fr: "‼️ adresse temporaire ‼️"
+        _de: "‼️ temporäre Adresse ‼️"
+        _it: "‼️ indirizzo temporaneo ‼️"
+        _nl: "‼️ tijdelijk adres ‼️"

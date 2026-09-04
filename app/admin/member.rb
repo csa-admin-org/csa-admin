@@ -173,6 +173,7 @@ ActiveAdmin.register Member do
     columns do
       column do
         if next_basket = member.next_basket
+          overlay = HomeDeliveryAddress.for(member, next_basket.delivery)
           panel link_to(Member.human_attribute_name(:next_basket), next_basket.membership).html_safe, icon: "shopping-bag" do
             attributes_table do
               if next_basket.trial?
@@ -180,6 +181,17 @@ ActiveAdmin.register Member do
               end
               basket_config_rows(self, member.next_basket, member.next_basket.baskets_basket_complements)
               row(:depot) { link_to next_basket.depot.name, next_basket.depot  }
+              if overlay
+                row(HomeDeliveryAddress.model_name.human) {
+                  if authorized?(:update, overlay)
+                    a href: edit_home_delivery_address_path(overlay) do
+                      display_home_delivery_address(overlay)
+                    end
+                  else
+                    display_home_delivery_address(overlay)
+                  end
+                }
+              end
               row(:delivery) { link_to next_basket.delivery.display_name(format: :long), next_basket.delivery }
               if feature?("shop")
                 shop_order = next_basket.delivery.shop_orders.all_without_cart.find_by(member_id: member.id)
@@ -439,11 +451,49 @@ ActiveAdmin.register Member do
           end
         end
         panel Member.human_attribute_name(:contact), icon: "contact-round" do
+          overlays = member.home_delivery_addresses.includes(:deliveries).to_a
+          coming, past = overlays.partition(&:next_delivery_date)
+          overlays = coming.sort_by(&:next_delivery_date) + past.sort_by(&:id)
           attributes_table do
             row :name
             row(:emails) { display_emails_with_link(self, member.emails_array) }
             row(:phones) { display_phones_with_link(self, member.phones_array) }
-            row(Member.human_attribute_name(:address)) { display_address(member) }
+            row(Member.human_attribute_name(:address)) {
+              div class: "stack is-tight" do
+                div { display_address(member) }
+                if overlays.none?(&:next_delivery_date) && HomeDeliveryAddress.visible_on_member?(member) && authorized?(:create, HomeDeliveryAddress)
+                  div class: "cluster is-end" do
+                    a href: new_home_delivery_address_path(member_id: member.id), class: "btn btn-sm" do
+                      icon("clock-fading", class: "icon-4") + t("home_delivery_address.temporary_change")
+                    end
+                  end
+                end
+              end
+            }
+            if overlays.any?
+              row(HomeDeliveryAddress.model_name.human) {
+                div class: "stack is-tight" do
+                  overlays.each do |overlay|
+                    attrs = {}
+                    attrs[:class] = "is-italic is-faint" unless overlay.next_delivery_date
+                    div **attrs do
+                      if authorized?(:update, overlay)
+                        a href: edit_home_delivery_address_path(overlay) do
+                          display_home_delivery_address(overlay)
+                        end
+                      else
+                        display_home_delivery_address(overlay)
+                      end
+                      if next_date = overlay.next_delivery_date
+                        div class: "text-sm is-faint" do
+                          text_node l(next_date, format: :short)
+                        end
+                      end
+                    end
+                  end
+                end
+              }
+            end
             if Current.org.languages.many?
               row(:language) { t("languages.#{member.language}") }
             end
@@ -579,6 +629,16 @@ ActiveAdmin.register Member do
       div class: "single-line" do
         f.input :zip, wrapper_html: { class: "col-zip" }
         f.input :city, wrapper_html: { class: "is-full" }
+      end
+      if HomeDeliveryAddress.visible_on_member?(member) && authorized?(:create, HomeDeliveryAddress)
+        li do
+          info_pane "clock-fading" do
+            span { t("home_delivery_address.form_hint") }
+            a href: new_home_delivery_address_path(member_id: member.id), class: "btn btn-sm" do
+              icon("plus", class: "icon-4") + t("home_delivery_address.temporary_change")
+            end
+          end
+        end
       end
       f.input :country_code,
         as: :select,
@@ -775,10 +835,13 @@ ActiveAdmin.register Member do
 
     f.inputs t("active_admin.resource.show.notes"), icon: "notepad-text" do
       f.input :profession
-      f.input :come_from, input_html: { rows: 4 }
-      f.input :delivery_note
-      f.input :food_note, input_html: { rows: 4 }
-      f.input :note, input_html: { rows: 4 }, placeholder: false
+      f.input :come_from, input_html: { rows: 3 }
+      f.input :delivery_note,
+        as: :text,
+        input_html: { rows: 3 },
+        hint: HomeDeliveryAddress.visible_on_member?(member) ? t("formtastic.hints.member.delivery_note_home") : true
+      f.input :food_note, input_html: { rows: 3 }
+      f.input :note, input_html: { rows: 4   }, placeholder: false
     end
 
     if f.object.new_record? && MailTemplate.active_template(:member_validated).present?

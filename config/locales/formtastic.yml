@@ -762,6 +762,25 @@ _:
           _de: Sortiert standardmässig alphabetisch.
           _it: Ordinato per impostazione predefinita in ordine alfabetico.
           _nl: Standaard alfabetisch gesorteerd.
+      home_delivery_address:
+        deliveries:
+          _en: Only the selected deliveries use this address. Leave none selected to keep it unused. The member's home address stays for the others.
+          _fr: Seules les livraisons sélectionnées utilisent cette adresse. Ne rien sélectionner pour la laisser inutilisée. L'adresse du membre reste pour les autres.
+          _de: Nur die ausgewählten Lieferungen verwenden diese Adresse. Nichts auswählen, um sie ungenutzt zu lassen. Die Wohnadresse des Mitglieds bleibt für die übrigen.
+          _it: Solo le consegne selezionate usano questo indirizzo. Non selezionarne nessuna per lasciarlo inutilizzato. L'indirizzo del socio resta per le altre.
+          _nl: Alleen de geselecteerde leveringen gebruiken dit adres. Niets selecteren om het ongebruikt te laten. Het thuisadres van het lid blijft voor de andere.
+        name:
+          _en: Person who opens the door. The member name stays on the list.
+          _fr: Personne qui ouvre la porte. Le nom du membre reste sur la liste.
+          _de: Person, die die Tür öffnet. Der Mitgliedername bleibt auf der Liste.
+          _it: Persona che apre la porta. Il nome del socio resta sulla lista.
+          _nl: Persoon die de deur opent. De naam van het lid blijft op de lijst.
+        note:
+          _en: Replaces the member's delivery note on those deliveries. Leave blank to keep the doorbell or access code.
+          _fr: Remplace la note de livraison du membre pour ces livraisons. Laisser vide pour conserver le code d'accès ou la sonnette.
+          _de: Ersetzt die Liefernotiz des Mitglieds für diese Lieferungen. Leer lassen, um Klingel oder Zugangscode zu behalten.
+          _it: Sostituisce la nota di consegna del socio per queste consegne. Lasciare vuoto per conservare il campanello o il codice di accesso.
+          _nl: Vervangt de leveringsnota van het lid voor die leveringen. Leeg laten om de bel of toegangscode te behouden.
       invoice:
         activity_price:
           _en: Amount for a single participation.
@@ -843,6 +862,12 @@ _:
           _de: Wird auf der Zusammenfassung (XLSX) und den Blättern (PDF) der Lieferungen angezeigt, wenn der Modus "Lieferung" auf dem Depot ausgewählt ist.
           _it: Verrà visualizzato sul riepilogo di consegna (XLSX) e sui foglia (PDF) quando viene selezionata la modalità "consegna" nel punto di ritiro.
           _nl: Wordt weergegeven op de leveringsbon (XLSX) en bladen (PDF) wanneer de "levering" modus is geselecteerd bij het depot.
+        delivery_note_home:
+          _en: Used on home-delivery sheets, unless a temporary address sets its own note.
+          _fr: Utilisée sur les fiches de livraison à domicile, sauf si une adresse temporaire définit sa propre note.
+          _de: Wird auf den Hauslieferungsblättern verwendet, ausser eine temporäre Adresse setzt eine eigene Notiz.
+          _it: Viene usata sui fogli di consegna a domicilio, salvo se un indirizzo temporaneo definisce la propria nota.
+          _nl: Wordt gebruikt op de thuisleveringsbladen, tenzij een tijdelijk adres een eigen notitie zet.
         desired_shares_number:
           _en: Allows the member to have more cooperative shares than required. They will be billed automatically.
           _fr: Permet au membre d'avoir plus de parts sociales que celles requises. Elles seront facturées automatiquement.

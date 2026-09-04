@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Liquid::AdminBasketDrop < Liquid::Drop
-  def initialize(basket)
+  def initialize(basket, overlay: nil)
     @basket = basket
+    @overlay = overlay
   end
 
   def member
@@ -11,5 +12,9 @@ class Liquid::AdminBasketDrop < Liquid::Drop
 
   def description
     @basket.description
+  end
+
+  def temporary_address
+    @overlay.present?
   end
 end

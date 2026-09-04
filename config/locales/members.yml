@@ -863,6 +863,12 @@ _:
           _nl: Levering van %{date}
     baskets:
       basket:
+        deliver_elsewhere:
+          _en: Deliver elsewhere
+          _fr: Livrer ailleurs
+          _de: Woanders liefern
+          _it: Consegnare altrove
+          _nl: Elders leveren
         edit:
           _en: Edit
           _fr: Modifier
@@ -1574,6 +1580,12 @@ _:
           _de: Die letzten Lieferungen sind für Deine ungenutzten inbegriffenen Abwesenheiten provisorisch als abwesend markiert. Du kannst <a href="/absences">sie für Deine endgültigen Abwesenheiten nutzen</a>.
           _it: Le ultime consegne sono provvisoriamente marcate come assenti per le tue assenze incluse non utilizzate. Puoi <a href="/absences">utilizzarle per le tue assenze definitive</a>.
           _nl: De laatste leveringen zijn voorlopig als afwezig gemarkeerd voor je ongebruikte inbegrepen afwezigheden. Je kunt <a href="/absences">ze voor je definitieve afwezigheden gebruiken</a>.
+        today_delivery:
+          _en: Today
+          _fr: Aujourd'hui
+          _de: Heute
+          _it: Oggi
+          _nl: Vandaag
     disable_sepa:
       flash:
         notice:
@@ -1606,6 +1618,100 @@ _:
             _de: Lieferung erfolgreich bestätigt.
             _it: Consegna confermata con successo.
             _nl: Levering succesvol bevestigd.
+    home_delivery_addresses:
+      create:
+        flash:
+          notice:
+            _en: Temporary address saved.
+            _fr: Adresse temporaire enregistrée.
+            _de: Temporäre Adresse gespeichert.
+            _it: Indirizzo temporaneo salvato.
+            _nl: Tijdelijk adres opgeslagen.
+      destroy:
+        flash:
+          destroyed:
+            _en: Temporary address deleted.
+            _fr: Adresse temporaire supprimée.
+            _de: Temporäre Adresse gelöscht.
+            _it: Indirizzo temporaneo cancellato.
+            _nl: Tijdelijk adres verwijderd.
+      edit:
+        cancel_link:
+          _en: Cancel
+          _fr: Annuler
+          _de: Abbrechen
+          _it: Annullare
+          _nl: Annuleren
+        delete:
+          _en: Delete
+          _fr: Supprimer
+          _de: Löschen
+          _it: Cancellare
+          _nl: Verwijderen
+        delete_confirm:
+          _en: Delete this temporary address?
+          _fr: Supprimer cette adresse temporaire?
+          _de: Diese temporäre Adresse löschen?
+          _it: Cancellare questo indirizzo temporaneo?
+          _nl: Dit tijdelijke adres verwijderen?
+        submit:
+          _en: Confirm
+          _fr: Confirmer
+          _de: Bestätigen
+          _it: Confermare
+          _nl: Bevestigen
+        title:
+          _en: Temporary address
+          _fr: Adresse temporaire
+          _de: Temporäre Adresse
+          _it: Indirizzo temporaneo
+          _nl: Tijdelijk adres
+      form:
+        deliveries_hint:
+          _en: Only the selected deliveries use this address. Your home address stays for the others.
+          _fr: Seules les livraisons sélectionnées utilisent cette adresse. Votre adresse reste pour les autres.
+          _de: Nur die ausgewählten Lieferungen verwenden diese Adresse. Deine Wohnadresse bleibt für die übrigen.
+          _it: Solo le consegne selezionate usano questo indirizzo. Il tuo indirizzo resta per le altre.
+          _nl: Alleen de geselecteerde leveringen gebruiken dit adres. Je thuisadres blijft voor de andere.
+        note_hint:
+          _en: Door code, floor, buzzer, drop-off spot, etc. Leave blank to keep your usual delivery note.
+          _fr: Code, étage, sonnette, lieu de dépôt, etc. Laissez vide pour garder votre note de livraison habituelle.
+          _de: Türcode, Stockwerk, Klingel, Ablageort, usw. Leer lassen, um Deine übliche Liefernotiz zu behalten.
+          _it: Codice, piano, campanello, punto di deposito, ecc. Lascia vuoto per conservare la tua nota di consegna abituale.
+          _nl: Deurcode, verdieping, bel, afzetpunt, enz. Laat leeg om je gebruikelijke leveringsnota te houden.
+        text_html:
+          _en: On the dates you choose, your delivery is dropped at someone else's, instead of <a href="%{account_url}">your address</a>.
+          _fr: Aux dates choisies, votre livraison est déposée chez quelqu'un d'autre, à la place de <a href="%{account_url}">votre adresse</a>.
+          _de: An den gewählten Daten wird Deine Lieferung bei jemand anderem abgegeben, statt an <a href="%{account_url}">Deiner Adresse</a>.
+          _it: Alle date scelte, la tua consegna viene lasciata da qualcun altro, al posto del <a href="%{account_url}">tuo indirizzo</a>.
+          _nl: Op de gekozen data wordt je levering bij iemand anders afgeleverd, in plaats van <a href="%{account_url}">je adres</a>.
+      new:
+        cancel_link:
+          _en: Cancel
+          _fr: Annuler
+          _de: Abbrechen
+          _it: Annullare
+          _nl: Annuleren
+        submit:
+          _en: Confirm
+          _fr: Confirmer
+          _de: Bestätigen
+          _it: Confermare
+          _nl: Bevestigen
+        title:
+          _en: Temporary address
+          _fr: Adresse temporaire
+          _de: Temporäre Adresse
+          _it: Indirizzo temporaneo
+          _nl: Tijdelijk adres
+      update:
+        flash:
+          notice:
+            _en: Temporary address saved.
+            _fr: Adresse temporaire enregistrée.
+            _de: Temporäre Adresse gespeichert.
+            _it: Indirizzo temporaneo salvato.
+            _nl: Tijdelijk adres opgeslagen.
     information:
       default_title:
         _en: Information

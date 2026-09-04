@@ -21,6 +21,7 @@ module Member::Anonymization
       nullify_related_session_ids!
       anonymize_member_pii!
       anonymize_absences!
+      anonymize_home_delivery_addresses!
       anonymize_activity_participations!
       delete_mail_deliveries!
       delete_comments!
@@ -66,12 +67,22 @@ module Member::Anonymization
   # Sessions already deleted on discard; nullify to avoid FK issues.
   def nullify_related_session_ids!
     absences.update_all(session_id: nil)
+    home_delivery_addresses.update_all(session_id: nil)
     activity_participations.update_all(session_id: nil)
     sepa_mandates.update_all(session_id: nil)
   end
 
   def anonymize_absences!
     absences.update_all(note: nil)
+  end
+
+  def anonymize_home_delivery_addresses!
+    home_delivery_addresses.update_all(
+      name: "DELETED",
+      street: nil,
+      zip: nil,
+      city: nil,
+      note: nil)
   end
 
   def anonymize_activity_participations!

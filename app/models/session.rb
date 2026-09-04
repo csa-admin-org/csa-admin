@@ -21,6 +21,7 @@ class Session < ApplicationRecord
   has_many :activity_participations, dependent: :nullify
   has_many :audits, dependent: :nullify
   has_many :basket_overrides, dependent: :nullify
+  has_many :home_delivery_addresses, dependent: :nullify
   has_many :demo_page_visits, class_name: "Demo::PageVisit", dependent: :delete_all
   has_many :sepa_mandates, class_name: "SEPAMandate", dependent: :nullify
 

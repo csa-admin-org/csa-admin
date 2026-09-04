@@ -47,7 +47,7 @@ class Delivery::Changes
           format_change(c.type, "<strong>#{label}</strong>", details)
         when :absent
           "<span class=\"#{DIMMED_HTML}\">#{format_change(c.type, label, details)}</span>"
-        when :address_changed
+        when :address_changed, :home_delivery_address
           format_change(c.type, label, details, styled_label: "<span class=\"#{DIMMED_HTML}\">#{label}:</span><br>")
         else
           format_change(c.type, label, details, styled_label: "<span class=\"#{DIMMED_HTML}\">#{label}:</span>")
@@ -139,6 +139,7 @@ class Delivery::Changes
 
     load_previous_baskets
     load_audited_member_changes
+    load_home_delivery_addresses
     load_previous_delivery_complement_ids
     load_previous_cycle_deliveries
   end
@@ -298,12 +299,15 @@ class Delivery::Changes
     prev_basket = @previous_basket_by_member[membership.member_id]
 
     if prev_basket.nil?
-      return [ build_entry(membership.member, basket.depot, [ build_change(:new, details: basket.description) ]) ]
+      changes = [ build_change(:new, details: basket.description) ]
+      changes.concat(detect_home_delivery_address_change(membership, basket, nil))
+      return [ build_entry(membership.member, basket.depot, changes) ]
     end
 
     changes = []
 
     changes.concat(detect_audited_member_changes(membership, basket))
+    changes.concat(detect_home_delivery_address_change(membership, basket, prev_basket))
 
     if depot_changed?(membership, basket, prev_basket)
       changes << build_change(:depot_changed,
@@ -319,6 +323,40 @@ class Delivery::Changes
     return [] if changes.empty?
 
     [ build_entry(membership.member, basket.depot, changes) ]
+  end
+
+  def load_home_delivery_addresses
+    current_member_ids = @current_memberships.map(&:member_id)
+    @current_overlays_by_member_id = HomeDeliveryAddress.by_member_id_for(@delivery, current_member_ids)
+
+    @previous_overlays_by_member_id = {}
+    @previous_basket_by_member.group_by { |_member_id, basket| basket.delivery_id }.each do |_delivery_id, pairs|
+      delivery = pairs.first.last.delivery
+      overlays = HomeDeliveryAddress.by_member_id_for(delivery, pairs.map(&:first))
+      @previous_overlays_by_member_id.merge!(overlays)
+    end
+  end
+
+  def detect_home_delivery_address_change(membership, basket, prev_basket)
+    return [] unless basket.depot.delivery_sheets_mode == "home_delivery"
+    return [] if basket.absent?
+
+    current = overlay_text(@current_overlays_by_member_id[membership.member_id])
+    previous =
+      if prev_basket&.depot&.delivery_sheets_mode == "home_delivery" && !prev_basket.absent?
+        overlay_text(@previous_overlays_by_member_id[membership.member_id])
+      end
+    return [] if current == previous
+
+    from = previous.presence || empty_label
+    to = current.presence || empty_label
+    [ build_change(:home_delivery_address, details: "#{from}\n=>\n#{to}") ]
+  end
+
+  def overlay_text(overlay)
+    return unless overlay
+
+    [ overlay.sheet_address, overlay.sheet_note ].compact_blank.join("\n")
   end
 
   def detect_audited_member_changes(membership, basket)

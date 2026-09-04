@@ -96,4 +96,38 @@ class XLSX::DeliveryTest < ActiveSupport::TestCase
     assert_equal 1, route_row[1].to_i
     assert_equal 2, ungrouped_row[1].to_i
   end
+
+  test "home delivery overlay paints host street, city, and note" do
+    travel_to "2024-04-01"
+    members(:bob).update_column(:delivery_note, "Code 1234")
+    HomeDeliveryAddress.create!(
+      member: members(:bob),
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      note: "Leave at door",
+      deliveries: [ deliveries(:monday_1) ])
+
+    workbook = RubyXL::Parser.parse_buffer(StringIO.new(XLSX::Delivery.new(deliveries(:monday_1), depots(:home)).data))
+    sheet = workbook.worksheets.first
+    header = sheet.sheet_data[0].cells.map { |c| c&.value }
+    street_col = header.index(Member.human_attribute_name(:street))
+    zip_col = header.index(Member.human_attribute_name(:zip))
+    city_col = header.index(Member.human_attribute_name(:city))
+    note_col = header.index(Member.human_attribute_name(:note))
+    bob_row = sheet.sheet_data.rows.compact.find { |row| row[0]&.value == "Bob Doe" }
+
+    assert_equal zip_col, street_col + 1
+    assert_equal city_col, zip_col + 1
+    assert_includes bob_row[street_col].value, "Valentine Schneider"
+    assert_includes bob_row[street_col].value, "Chantemerle 16"
+    assert_equal "2000", bob_row[zip_col].value
+    assert_equal "Neuchatel", bob_row[city_col].value
+    assert_equal "Leave at door", bob_row[note_col].value
+    assert bob_row[street_col].is_bolded
+    assert bob_row[zip_col].is_bolded
+    assert_equal "BBBBBB", bob_row[street_col].fill_color.upcase
+    assert bob_row[note_col].is_bolded
+  end
 end

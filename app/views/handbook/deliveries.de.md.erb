@@ -128,7 +128,7 @@ Für jede Lieferung generiert CSA Admin PDF-Lieferscheine, die Du ausdrucken und
 Jedes Depot kann einen von zwei Blattmodi verwenden (konfigurierbar in den Depot-Einstellungen):
 
 - **Unterschriftenblatt** (Standard): Eine Checkliste, bei der Mitglieder bei der Abholung neben ihrem Namen unterschreiben. Mitglieder sind alphabetisch aufgelistet, mit einer Spalte "Unterschrift" rechts.
-- **Hauslieferungsblatt**: Für Lieferfahrer konzipiert. Enthält die vollständige Adresse jedes Mitglieds und seine Liefernotiz (falls vorhanden) in der letzten Spalte. Die Reihenfolge der Mitglieder kann in den Depot-Einstellungen manuell per Drag & Drop geändert werden.
+- **Hauslieferungsblatt**: Für Lieferfahrer konzipiert. Enthält die vollständige Adresse jedes Mitglieds und seine Liefernotiz (falls vorhanden) in der letzten Spalte. Die Reihenfolge der Mitglieder kann in den Depot-Einstellungen manuell per Drag & Drop geändert werden. Wenn eine Lieferung an bestimmten Daten bei jemand anderem erfolgen soll, füge auf der Mitgliedsseite eine temporäre Adresse hinzu, nicht indem Du die Adresse des Mitglieds änderst. Mitglieder dieses Depots können das auch selbst auf ihrer Lieferungsseite ankündigen. Die Person an der Tür erscheint fett mit dunklerem Hintergrund auf dem PDF-Blatt und in der Excel-Datei. Der Name auf der Liste bleibt der des Mitglieds. Die Depot-E-Mail kennzeichnet das mit "temporäre Adresse", damit der Fahrer den Anhang öffnet. Klingel und Zugangscode bleiben in der Liefernotiz des Mitglieds, ausser die temporäre Adresse hat eine eigene Notiz.
 
 ### Mitgliederinformationen auf den Blättern {#member-info}
 
@@ -182,7 +182,7 @@ CSA Admin kann automatisch E-Mail-Benachrichtigungen zu Lieferungen versenden:
 
 ### Depot-Lieferliste {#depot-delivery-list-notifications}
 
-Du kannst jedes Depot mit E-Mail-Adressen konfigurieren (im Abschnitt "Benachrichtigungen" des Depots). Vor jeder Lieferung erhalten diese Adressen eine E-Mail mit der Liste der Mitglieder und ihrer <%= Basket.model_name.human(count: 2).downcase %>, einschliesslich PDF- und XLSX-Anhängen der Lieferscheine. Standardmässig wird die E-Mail am Tag zuvor gesendet, dies kann aber pro Depot angepasst werden (0 für den gleichen Tag, 2 für zwei Tage vorher, usw.).
+Du kannst jedes Depot mit E-Mail-Adressen konfigurieren (im Abschnitt "Benachrichtigungen" des Depots). Vor jeder Lieferung erhalten diese Adressen eine E-Mail mit der Liste der Mitglieder und ihrer <%= Basket.model_name.human(count: 2).downcase %>, einschliesslich PDF- und XLSX-Anhängen der Lieferscheine. Eine temporäre Adresse wird neben dem Namen mit "temporäre Adresse" gekennzeichnet. Standardmässig wird die E-Mail am Tag zuvor gesendet, dies kann aber pro Depot angepasst werden (0 für den gleichen Tag, 2 für zwei Tage vorher, usw.).
 
 ### Lieferungsbenachrichtigungen für <%= BasketComplement.model_name.human(count: 2) %> {#complement-notifications}
 

@@ -14,6 +14,14 @@ class Basket::CSVExporter
     @shop_orders = load_shop_orders
     @shop_orders_index = @shop_orders.index_by { |o| [ o.member_id, o.delivery_id ] }
     @shop_products = @shop_orders.products_displayed_in_delivery_sheets
+    @overlays_by_member_id =
+      if @single_delivery
+        HomeDeliveryAddress.by_member_id_for(
+          @delivery,
+          baskets.joins(:membership).distinct.pluck("memberships.member_id"))
+      else
+        {}
+      end
   end
 
   def generate
@@ -59,6 +67,12 @@ class Basket::CSVExporter
 
       scope.includes(*includes)
     end
+  end
+
+  def overlay_for(basket)
+    return if basket.absent?
+
+    @overlays_by_member_id[basket.membership.member_id]
   end
 
   def translated_headers
@@ -144,14 +158,15 @@ class Basket::CSVExporter
 
     if @single_delivery
       member = basket.membership.member
+      overlay = overlay_for(basket)
       cols << member.name
       cols << member.emails_array.join(", ")
       cols << member.phones_array.map(&:phony_formatted).join(", ")
-      cols << member.street
-      cols << member.zip
-      cols << member.city
+      cols << (overlay ? "#{overlay.name}\n#{overlay.street}" : member.street)
+      cols << (overlay ? overlay.zip : member.zip)
+      cols << (overlay ? overlay.city : member.city)
       cols << member.food_note
-      cols << member.delivery_note
+      cols << (overlay ? overlay.sheet_note : member.delivery_note)
     end
 
     cols << basket.depot_id

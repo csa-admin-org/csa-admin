@@ -22,6 +22,9 @@ class Members::DeliveriesController < Members::BaseController
         .joins(:delivery)
         .includes(:basket_size, :absence, :depot, delivery: :basket_complements, baskets_basket_complements: :basket_complement)
         .reorder(deliveries: { date: :desc })
+    @home_delivery_overlays_by_delivery_id =
+      HomeDeliveryAddress.by_delivery_id_for_member(current_member)
+    @home_delivery_cta_basket = home_delivery_cta_basket
   end
 
   private
@@ -30,5 +33,14 @@ class Members::DeliveriesController < Members::BaseController
     return if current_member.baskets.any?
 
     redirect_to members_login_path
+  end
+
+  def home_delivery_cta_basket
+    overlays = @home_delivery_overlays_by_delivery_id
+    [ @next_basket, *@future_baskets ].compact.find { |basket|
+      next if basket.delivery.date.today?
+
+      overlays[basket.delivery_id].blank? && HomeDeliveryAddress.can_member_create_for?(basket)
+    }
   end
 end

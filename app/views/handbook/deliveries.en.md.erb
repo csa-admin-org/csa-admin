@@ -128,7 +128,7 @@ For each delivery, CSA Admin generates PDF sheets that you can print and use at 
 Each depot can use one of two sheet modes (configurable in the depot settings):
 
 - **Signature sheet** (default): A checklist where members sign next to their name upon pickup. Members are listed alphabetically, with a "Signature" column on the right.
-- **Home delivery sheet**: Designed for delivery drivers. Includes each member's full address and their delivery note (if any) in the last column. Members can be manually reordered via drag & drop in the depot settings.
+- **Home delivery sheet**: Designed for delivery drivers. Includes each member's full address and their delivery note (if any) in the last column. Members can be manually reordered via drag & drop in the depot settings. When a drop is at someone else's for specific deliveries, add a temporary address from the member page, not by editing the member's address. Members on that depot can also announce it from their deliveries page. The host appears in bold with a darker fill on the PDF sheet and in the Excel file. The name on the list stays the member's. The depot email flags it with "temporary address" so the driver opens the attachment. Doorbell or access codes stay on the member's delivery note unless the temporary address has its own note.
 
 ### Member info on sheets {#member-info}
 
@@ -182,7 +182,7 @@ CSA Admin can automatically send email notifications related to deliveries:
 
 ### Depot delivery list {#depot-delivery-list-notifications}
 
-Each depot can be configured with email addresses (in the depot's "Notifications" section). Before each delivery, these addresses receive an email containing the list of members and their <%= Basket.model_name.human(count: 2).downcase %>, along with PDF and XLSX attachments for the delivery sheets. By default, the email is sent the day before, but this can be adjusted per depot (0 for same day, 2 for two days before, etc.).
+Each depot can be configured with email addresses (in the depot's "Notifications" section). Before each delivery, these addresses receive an email containing the list of members and their <%= Basket.model_name.human(count: 2).downcase %>, along with PDF and XLSX attachments for the delivery sheets. A temporary address is flagged next to the name with "temporary address". By default, the email is sent the day before, but this can be adjusted per depot (0 for same day, 2 for two days before, etc.).
 
 ### <%= BasketComplement.model_name.human %> delivery notifications {#complement-notifications}
 

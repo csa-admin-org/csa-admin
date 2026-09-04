@@ -1,0 +1,37 @@
+<%# locals: (f:, home_delivery_address:) %>
+
+<% baskets = HomeDeliveryAddress.member_eligible_baskets_for(
+    current_member,
+    keep_delivery_ids: home_delivery_address.delivery_ids).includes(:delivery) %>
+
+<% taken_ids = HomeDeliveryAddress.taken_delivery_ids_for(current_member, except: home_delivery_address) %>
+<% frozen_ids = home_delivery_address.frozen_member_delivery_ids %>
+<% disabled_ids = taken_ids + frozen_ids %>
+<% address_locked = frozen_ids.any? %>
+
+<div class="form-fields">
+  <%= f.input :name, required: true, disabled: address_locked %>
+  <%= f.input :street, required: true, disabled: address_locked %>
+
+  <div class="form-zipcity">
+    <%= f.input :zip, required: true, disabled: address_locked, input_html: { size: 6, maxlength: 6 }, wrapper_html: { class: "form-zip" } %>
+    <%= f.input :city, required: true, disabled: address_locked, wrapper_html: { class: "form-grow" } %>
+  </div>
+
+  <%= f.input :note, as: :text, hint: t(".note_hint"), disabled: address_locked, input_html: { rows: 2 } %>
+
+  <% frozen_ids.each do |id| %>
+    <%= f.hidden_field :delivery_ids, multiple: true, value: id %>
+  <% end %>
+
+  <% if baskets.any? %>
+    <%= f.input :delivery_ids,
+      as: :check_boxes,
+      collection: baskets.map { |b|
+        [ l(b.delivery.date, format: :long).titleize, b.delivery_id ]
+      },
+      disabled: disabled_ids,
+      required: true,
+      hint: t(".deliveries_hint") %>
+  <% end %>
+</div>

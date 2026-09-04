@@ -1,4 +1,4 @@
-<%# locals: (baskets:, empty_text:, anchor:) %>
+<%# locals: (baskets:, empty_text:, anchor:, home_delivery_cta_basket: nil) %>
 
 <% if baskets.empty? %>
   <p class="nocontent"><%= empty_text %></p>
@@ -6,7 +6,9 @@
   <% limit = params[:"all_#{anchor}"] ? 10_000 : 4 %>
   <ul class="list">
     <% baskets.first(limit).each do |basket| %>
-      <li class="list-item"><%= render basket %></li>
+      <li class="list-item">
+        <%= render basket, home_delivery_cta_basket: home_delivery_cta_basket %>
+      </li>
     <% end %>
   </ul>
   <%= render "members/shared/show_all_button", collection: baskets, limit: limit, anchor: anchor %>

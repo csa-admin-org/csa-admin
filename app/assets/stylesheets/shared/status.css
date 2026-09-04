@@ -174,3 +174,8 @@
     }
   }
 }
+
+/* Unlayered so it beats the base `a` underline (Safari drops some layered :has). */
+a:has(.status-tag) {
+  text-decoration: none;
+}

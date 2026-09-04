@@ -49,6 +49,9 @@ class AbilityTest < ActiveSupport::TestCase
     assert ability.can?(:batch_action, Member)
     assert ability.can?(:become, Member)
     assert ability.can?(:validate, Member.new(state: "pending"))
+    assert ability.can?(:create, HomeDeliveryAddress)
+    assert ability.can?(:update, HomeDeliveryAddress)
+    assert ability.can?(:destroy, HomeDeliveryAddress)
   end
 
   test "membership write permissions" do

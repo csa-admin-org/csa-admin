@@ -183,6 +183,40 @@
     print-color-adjust: exact;
   }
 
+  [type="checkbox"]:disabled,
+  [type="radio"]:disabled {
+    cursor: not-allowed;
+    border-color: var(--color-gray-200);
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-300);
+
+    &:checked {
+      border-color: var(--color-gray-300);
+      background-color: var(--color-gray-300);
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-800);
+      background-color: var(--color-gray-900);
+      color: var(--color-gray-600);
+
+      &:checked {
+        border-color: var(--color-gray-700);
+        background-color: var(--color-gray-700);
+      }
+    }
+  }
+
+  label:has(> [type="checkbox"]:disabled),
+  label:has(> [type="radio"]:disabled) {
+    cursor: not-allowed;
+    color: var(--color-gray-400);
+
+    &:where(.dark, .dark *) {
+      color: var(--color-gray-500);
+    }
+  }
+
   [type="radio"]:checked,
   .dark [type="radio"]:checked {
     background-image: url("data:image/svg+xml,<svg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'><circle cx='8' cy='8' r='3'/></svg>");

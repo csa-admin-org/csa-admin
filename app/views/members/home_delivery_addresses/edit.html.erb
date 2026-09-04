@@ -1,0 +1,37 @@
+<h1><%= t(".title") %></h1>
+
+<section>
+  <div class="form-copy">
+    <p>
+      <%= t("members.home_delivery_addresses.form.text_html", account_url: members_account_path) %>
+    </p>
+  </div>
+
+  <%= simple_form_for @home_delivery_address, url: members_home_delivery_address_path(@home_delivery_address), html: { class: "form-root" } do |f| %>
+    <%= render "form", f: f, home_delivery_address: @home_delivery_address %>
+
+    <div class="actions">
+      <%= link_to members_deliveries_path, class: "cancel-link" do %>
+        <%= icon "arrow-left", class: "icon-inline" %>
+        <span><%= t(".cancel_link") %></span>
+      <% end %>
+
+      <%= button_tag type: "submit" do %>
+        <%= icon "check", class: "icon-inline" %>
+        <span><%= t(".submit") %></span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @home_delivery_address.can_member_destroy? %>
+    <div class="form-destroy">
+      <%= button_to members_home_delivery_address_path(@home_delivery_address),
+        method: :delete,
+        class: "form-destroy-link",
+        form: { data: { turbo_confirm: t(".delete_confirm") } } do %>
+        <%= icon "trash", class: "icon-sm" %>
+        <span class="form-destroy-label"><%= t(".delete") %></span>
+      <% end %>
+    </div>
+  <% end %>
+</section>

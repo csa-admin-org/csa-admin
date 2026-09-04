@@ -63,6 +63,11 @@
       }
     }
 
+    .inputs .admin-info-pane {
+      margin-top: 0.25rem;
+      margin-bottom: 0.75rem;
+    }
+
     /* Inline inputs within has-many containers */
     .has-many-fields .period-months {
       display: inline-block;
@@ -301,6 +306,16 @@
       font-weight: 400;
     }
 
+    .boolean:has(input:disabled) label,
+    .choice:has(input:disabled) label {
+      cursor: not-allowed;
+      color: var(--color-gray-400);
+
+      &:where(.dark, .dark *) {
+        color: var(--color-gray-500);
+      }
+    }
+
     .choice {
       margin-bottom: 0.25rem;
     }
@@ -395,7 +410,7 @@
       height: 1.5rem;
     }
 
-    input,
+    input:not([type="checkbox"], [type="radio"]),
     textarea,
     button,
     select {

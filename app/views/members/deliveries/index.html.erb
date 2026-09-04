@@ -7,10 +7,14 @@
 
 <% if @next_basket %>
   <section>
-    <h2><%= t(".next_delivery") %></h2>
+    <h2>
+      <%= t(@next_basket.delivery.date.today? ? ".today_delivery" : ".next_delivery") %>
+    </h2>
 
     <ul class="list">
-      <li class="list-item"><%= render @next_basket %></li>
+      <li class="list-item">
+        <%= render @next_basket, home_delivery_cta_basket: @home_delivery_cta_basket %>
+      </li>
     </ul>
 
     <% if @next_basket&.depot&.public_note? %>
@@ -32,7 +36,7 @@
 <section id="future_deliveries">
   <h2><%= t(".future_deliveries") %></h2>
 
-  <%= render "baskets_list", baskets: @future_baskets, empty_text: t(".no_future_deliveries"), anchor: "future_deliveries" %>
+  <%= render "baskets_list", baskets: @future_baskets, empty_text: t(".no_future_deliveries"), anchor: "future_deliveries", home_delivery_cta_basket: @home_delivery_cta_basket %>
 
   <% if @future_baskets.provisionally_absent.any? %>
     <div class="footnote">

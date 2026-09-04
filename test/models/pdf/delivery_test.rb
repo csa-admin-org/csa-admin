@@ -319,4 +319,62 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     assert_includes pdf_strings, "Bob Doe"
     assert_not_includes pdf_strings, "Bob D."
   end
+
+  test "home delivery overlay paints host address and overlay note" do
+    travel_to "2024-04-01"
+    members(:bob).update_column(:delivery_note, "Code 1234")
+    HomeDeliveryAddress.create!(
+      member: members(:bob),
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      note: "Leave at door",
+      deliveries: [ deliveries(:monday_1) ])
+
+    pdf_strings = save_pdf_and_return_strings(deliveries(:monday_1), depots(:home))
+
+    assert_includes pdf_strings, "Bob Doe"
+    assert_includes pdf_strings, "Valentine Schneider"
+    assert_includes pdf_strings, "Chantemerle 16"
+    assert_includes pdf_strings, "2000 Neuchatel"
+    assert_includes pdf_strings, "Leave at door"
+    assert_not_includes pdf_strings, "Nowhere 44"
+    assert_not_includes pdf_strings, "Code 1234"
+  end
+
+  test "home delivery overlay keeps member delivery_note when overlay note is blank" do
+    travel_to "2024-04-01"
+    members(:bob).update_column(:delivery_note, "Code 1234")
+    HomeDeliveryAddress.create!(
+      member: members(:bob),
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      deliveries: [ deliveries(:monday_1) ])
+
+    pdf_strings = save_pdf_and_return_strings(deliveries(:monday_1), depots(:home))
+
+    assert_includes pdf_strings, "Valentine Schneider"
+    assert_includes pdf_strings, "Code 1234"
+  end
+
+  test "absent wins over overlay on home delivery sheet" do
+    travel_to "2024-04-01"
+    HomeDeliveryAddress.create!(
+      member: members(:bob),
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      deliveries: [ deliveries(:monday_1) ])
+    baskets(:bob_1).update_column(:state, "absent")
+
+    pdf_strings = save_pdf_and_return_strings(deliveries(:monday_1), depots(:home))
+
+    assert_includes pdf_strings, "ABSENT"
+    assert_not_includes pdf_strings, "Chantemerle 16"
+    assert_not_includes pdf_strings, "Valentine Schneider"
+  end
 end

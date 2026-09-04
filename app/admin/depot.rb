@@ -151,8 +151,33 @@ ActiveAdmin.register Depot do
               }
             end
 
-            table_for(depot.baskets_for(delivery), **attrs) do
-              column Member.model_name.human, ->(b) { auto_link b.member }
+            baskets = depot.baskets_for(delivery)
+            overlays = if depot.delivery_sheets_mode == "home_delivery"
+              HomeDeliveryAddress.by_member_id_for(delivery, baskets.map(&:member))
+            else
+              {}
+            end
+
+            table_for(baskets, **attrs) do
+              column Member.model_name.human, ->(b) {
+                div class: "cluster is-start is-snug" do
+                  a b.member.name, href: member_path(b.member)
+                  if overlay = overlays[b.member.id]
+                    tooltip(
+                      dom_id(overlay, :depot),
+                      overlay.display_address,
+                      icon_name: "clock-fading",
+                      icon_class: "icon-4")
+                    if authorized?(:update, overlay)
+                      a href: edit_home_delivery_address_path(overlay) do
+                        status_tag HomeDeliveryAddress.model_name.human
+                      end
+                    else
+                      status_tag HomeDeliveryAddress.model_name.human
+                    end
+                  end
+                end
+              }
               column Basket.model_name.human, ->(b) {
                 link_to b.description, b.membership, data: { "table-row-action": "show" }
               }, class: "text-right"

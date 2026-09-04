@@ -43,6 +43,7 @@ class Member < ApplicationRecord
 
   belongs_to :validator, class_name: "Admin", optional: true
   has_many :absences, dependent: :destroy
+  has_many :home_delivery_addresses, dependent: :destroy
   has_many :invoices
   has_many :payments
   has_many :current_year_invoices, -> { current_year }, class_name: "Invoice"

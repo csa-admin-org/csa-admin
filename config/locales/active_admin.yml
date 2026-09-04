@@ -3619,6 +3619,13 @@ _:
           _de: Neues %{model}
           _it: Nuovo %{model}
           _nl: Nieuw %{model}
+      home_delivery_address:
+        new_model:
+          _en: New temporary address
+          _fr: Nouvelle adresse temporaire
+          _de: Neue temporäre Adresse
+          _it: Nuovo indirizzo temporaneo
+          _nl: Nieuw tijdelijk adres
       invoice:
         new_model:
           _en: New %{model}

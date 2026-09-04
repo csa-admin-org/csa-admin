@@ -128,7 +128,7 @@ Pour chaque livraison, CSA Admin génère des fiches PDF que vous pouvez imprime
 Chaque dépôt peut utiliser l'un des deux modes de fiches (configurable dans les paramètres du dépôt):
 
 - **Fiche de signature** (par défaut): Une liste où les membres signent à côté de leur nom lors du retrait. Les membres sont listés par ordre alphabétique, avec une colonne "Signature" à droite.
-- **Fiche de livraison à domicile**: Conçue pour les livreurs. Inclut l'adresse complète de chaque membre et sa note de livraison (si renseignée) dans la dernière colonne. L'ordre des membres peut être modifié manuellement par glisser-déposer dans les paramètres du dépôt.
+- **Fiche de livraison à domicile**: Conçue pour les livreurs. Inclut l'adresse complète de chaque membre et sa note de livraison (si renseignée) dans la dernière colonne. L'ordre des membres peut être modifié manuellement par glisser-déposer dans les paramètres du dépôt. Quand une livraison doit passer chez quelqu'un d'autre pour des dates précises, ajoutez une adresse temporaire depuis la fiche du membre, pas en modifiant son adresse. Les membres de ce dépôt peuvent aussi l'annoncer depuis leur page Livraisons. L'hôte apparaît en gras avec un fond plus sombre sur la fiche PDF et dans le fichier Excel. Le nom sur la liste reste celui du membre. L'email du dépôt le signale par "adresse temporaire" pour ouvrir la pièce jointe. Sonnette et code d'accès restent dans la note de livraison du membre, sauf si l'adresse temporaire a sa propre note.
 
 ### Informations du membre sur les fiches {#member-info}
 
@@ -182,7 +182,7 @@ CSA Admin peut envoyer automatiquement des notifications par e-mail liées aux l
 
 ### Liste de livraison par dépôt {#depot-delivery-list-notifications}
 
-Chaque dépôt peut être configuré avec des adresses e-mail (dans la section "Notifications" du dépôt). Avant chaque livraison, ces adresses reçoivent un e-mail contenant la liste des membres et de leurs <%= Basket.model_name.human(count: 2).downcase %>, accompagné des pièces jointes PDF et XLSX des fiches de livraison. Par défaut, l'e-mail est envoyé la veille, mais cela peut être ajusté par dépôt (0 pour le jour même, 2 pour deux jours avant, etc.).
+Chaque dépôt peut être configuré avec des adresses e-mail (dans la section "Notifications" du dépôt). Avant chaque livraison, ces adresses reçoivent un e-mail contenant la liste des membres et de leurs <%= Basket.model_name.human(count: 2).downcase %>, accompagné des pièces jointes PDF et XLSX des fiches de livraison. Une adresse temporaire est signalée à côté du nom par "adresse temporaire". Par défaut, l'e-mail est envoyé la veille, mais cela peut être ajusté par dépôt (0 pour le jour même, 2 pour deux jours avant, etc.).
 
 ### Notifications de livraison des <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
 

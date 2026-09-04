@@ -2,8 +2,12 @@
 
 {% highlight_list %}
   {% for basket in baskets %}
-    {{ forloop.index }}. <strong>{{ basket.member.name }}</strong>, {{ basket.description }}
+    {{ forloop.index }}. <strong>{{ basket.member.name }}</strong>, {{ basket.description }}{% if basket.temporary_address %}<span style="color: #c00; margin-left: 5px; font-size: 15px;"><strong><%= t(".temporary_address") %></strong></span>{% endif %}
   {% endfor %}
 {% endhighlight_list %}
 
+{% if temporary_address %}
+<p><strong><%= t(".see_attachments_paragraph") %></strong></p>
+{% else %}
 <p><%= t(".see_attachments_paragraph") %></p>
+{% endif %}

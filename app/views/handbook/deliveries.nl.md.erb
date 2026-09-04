@@ -130,7 +130,7 @@ Voor elke levering genereert CSA Admin PDF-bladen die je kunt afdrukken en gebru
 Elk depot kan een van twee bladmodi gebruiken (configureerbaar in de depotinstellingen):
 
 - **Handtekeningenblad** (standaard): Een checklist waar leden bij afhaling naast hun naam tekenen. Leden staan alfabetisch vermeld, met een kolom "Handtekening" rechts.
-- **Thuisleveringsblad**: Ontworpen voor bezorgers. Bevat het volledige adres van elk lid en hun leveringsnotitie (indien aanwezig) in de laatste kolom. De volgorde van leden kan handmatig worden aangepast via slepen en neerzetten in de depotinstellingen.
+- **Thuisleveringsblad**: Ontworpen voor bezorgers. Bevat het volledige adres van elk lid en hun leveringsnotitie (indien aanwezig) in de laatste kolom. De volgorde van leden kan handmatig worden aangepast via slepen en neerzetten in de depotinstellingen. Als een levering op bepaalde data bij iemand anders moet plaatsvinden, voeg je op de lidpagina een tijdelijk adres toe, niet door het adres van het lid te wijzigen. Leden van dat depot kunnen het ook zelf aankondigen op hun leveringspagina. De persoon aan de deur verschijnt vet met een donkerdere achtergrond op het PDF-blad en in het Excel-bestand. De naam op de lijst blijft die van het lid. De depot-e-mail markeert het met "tijdelijk adres" zodat de bezorger de bijlage opent. Bel en toegangscode blijven in de leveringsnotitie van het lid, tenzij het tijdelijke adres een eigen notitie heeft.
 
 ### Ledeninformatie op bladen {#member-info}
 
@@ -185,7 +185,7 @@ CSA Admin kan automatisch e-mailmeldingen versturen met betrekking tot leveringe
 
 ### Depot-leveringslijst {#depot-delivery-list-notifications}
 
-Je kunt elk depot configureren met e-mailadressen (in het gedeelte " Notificaties " van het depot). Voor elke levering ontvangen deze adressen een e-mail met de lijst van leden en hun <%= Basket.model_name.human(count: 2).downcase %>, inclusief PDF- en XLSX-bijlagen van de leveringsbladen. Standaard wordt de e-mail de dag ervoor verstuurd, maar dit kan per depot worden aangepast (0 voor dezelfde dag, 2 voor twee dagen ervoor, enz.).
+Je kunt elk depot configureren met e-mailadressen (in het gedeelte " Notificaties " van het depot). Voor elke levering ontvangen deze adressen een e-mail met de lijst van leden en hun <%= Basket.model_name.human(count: 2).downcase %>, inclusief PDF- en XLSX-bijlagen van de leveringsbladen. Een tijdelijk adres wordt naast de naam gemarkeerd met "tijdelijk adres". Standaard wordt de e-mail de dag ervoor verstuurd, maar dit kan per depot worden aangepast (0 voor dezelfde dag, 2 voor twee dagen ervoor, enz.).
 
 ### Leveringsmeldingen voor <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
 

@@ -65,6 +65,7 @@ The panel icon for a concept **must** match the nav icon when one exists.
 | Invoice / Billing  | `banknotes`       |  ✓  | ⚠️ Custom Heroicon (no Lucide plural) |
 | Payment            | `banknotes`       |  ✓  | Same as above                         |
 | Absence            | `tent`            |     |                                       |
+| Temporary address  | `clock-fading`    |     | Overlay row; CTA uses `map-pin-house` |
 | Email / Mails      | `mails`           |  ✓  | Plural; nav uses `mail`               |
 | Newsletter         | `megaphone`       |     |                                       |
 | Mail Template      | `clipboard`       |     |                                       |

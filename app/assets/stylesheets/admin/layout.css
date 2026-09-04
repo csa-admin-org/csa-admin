@@ -551,6 +551,15 @@
     }
   }
 
+  .admin-info-pane-icon + span {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
   .admin-info-pane-icon {
     flex-shrink: 0;
 

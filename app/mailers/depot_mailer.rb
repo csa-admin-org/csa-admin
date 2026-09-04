@@ -16,10 +16,15 @@ class DepotMailer < ApplicationMailer
         mime_type: pdf.content_type,
         content: pdf.render
       }
+      overlays = params[:overlays] || HomeDeliveryAddress.by_member_id_for(delivery, baskets.map(&:member))
+      basket_drops = baskets.map { |b|
+        Liquid::AdminBasketDrop.new(b, overlay: overlays[b.member.id])
+      }
       content = liquid_template.render(
         "depot" => Liquid::DepotDrop.new(depot),
-        "baskets" => baskets.map { |b| Liquid::AdminBasketDrop.new(b) },
-        "delivery" => Liquid::DeliveryDrop.new(delivery))
+        "baskets" => basket_drops,
+        "delivery" => Liquid::DeliveryDrop.new(delivery),
+        "temporary_address" => basket_drops.any?(&:temporary_address))
       content_mail(content,
         to: depot.emails_array,
         subject: t(".subject",

@@ -1147,6 +1147,49 @@ _:
           _de: Tage vor der Lieferung
           _it: Giorni prima della consegna
           _nl: Dagen voor de levering
+      home_delivery_address:
+        city:
+          _en: City
+          _fr: Ville
+          _de: Ort
+          _it: Città
+          _nl: Stad
+        deliveries:
+          _en: Deliveries
+          _fr: Livraisons
+          _de: Lieferungen
+          _it: Consegne
+          _nl: Leveringen
+        delivery_ids:
+          _en: Deliveries
+          _fr: Livraisons
+          _de: Lieferungen
+          _it: Consegne
+          _nl: Leveringen
+        name:
+          _en: Person at the door
+          _fr: Personne à la porte
+          _de: Person an der Tür
+          _it: Persona alla porta
+          _nl: Persoon aan de deur
+        note:
+          _en: Note
+          _fr: Note
+          _de: Bemerkung
+          _it: Nota
+          _nl: Opmerking
+        street:
+          _en: Street
+          _fr: Rue
+          _de: Strasse
+          _it: Via
+          _nl: Straat
+        zip:
+          _en: ZIP
+          _fr: NPA
+          _de: PLZ
+          _it: CAP
+          _nl: Postcode
       invoice:
         activity_price:
           _en: Amount
@@ -4343,6 +4386,28 @@ _:
             _de: muss Teilnehmerschlüssel mit mindestens 2048 Bit enthalten
             _it: deve contenere chiavi del partecipante di almeno 2048 bit
             _nl: moet deelnemerssleutels van minstens 2048 bits bevatten
+        home_delivery_address:
+          attributes:
+            base:
+              frozen:
+                _en: Address cannot be changed while a locked delivery is still attached.
+                _fr: L'adresse ne peut pas être modifiée tant qu'une livraison verrouillée y est encore attachée.
+                _de: Die Adresse kann nicht geändert werden, solange eine gesperrte Lieferung noch zugeordnet ist.
+                _it: L'indirizzo non può essere modificato finché una consegna bloccata è ancora associata.
+                _nl: Het adres kan niet worden gewijzigd zolang er nog een vergrendelde levering aan hangt.
+            delivery_ids:
+              not_eligible:
+                _en: must be this member's coming home deliveries
+                _fr: doit correspondre aux livraisons à domicile à venir de ce membre
+                _de: muss den kommenden Heimlieferungen dieses Mitglieds entsprechen
+                _it: deve corrispondere alle consegne a domicilio future di questo socio
+                _nl: moet overeenkomen met de komende thuisleveringen van dit lid
+              taken:
+                _en: is already used by another temporary address
+                _fr: est déjà utilisée par une autre adresse temporaire
+                _de: wird bereits von einer anderen temporären Adresse verwendet
+                _it: è già utilizzato da un altro indirizzo temporaneo
+                _nl: wordt al door een ander tijdelijk adres gebruikt
         invoice:
           memberships_amount_too_high:
             _en: Total membership billing is too high
@@ -5064,6 +5129,19 @@ _:
           _de: Depot-Gruppen
           _it: Gruppi di punti di ritiro
           _nl: Depotgroepen
+      home_delivery_address:
+        one:
+          _en: Temporary address
+          _fr: Adresse temporaire
+          _de: Temporäre Adresse
+          _it: Indirizzo temporaneo
+          _nl: Tijdelijk adres
+        other:
+          _en: Temporary addresses
+          _fr: Adresses temporaires
+          _de: Temporäre Adressen
+          _it: Indirizzi temporanei
+          _nl: Tijdelijke adressen
       invoice:
         one:
           _en: Invoice
