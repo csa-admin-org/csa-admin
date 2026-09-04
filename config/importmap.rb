@@ -25,7 +25,7 @@ pin "members", preload: false
 pin_all_from "app/javascript/controllers/members", under: "controllers/members", preload: false
 # Pinned from unpkg (`bin/importmap pin vanilla-calendar-pro@3.3.1 --from unpkg`)
 # because jspm still serves 3.2.0.
-pin "vanilla-calendar-pro", preload: false # @3.3.1
+pin "vanilla-calendar-pro", preload: false # @3.3.2
 
 # Admin
 pin "admin", preload: false
