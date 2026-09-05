@@ -1,68 +1,44 @@
 # Agent Instructions
 
-## Project Context
+CSA Admin is a multi-tenant Rails app for Community Supported Agriculture organizations. Each tenant is an isolated SQLite database, resolved from the request host, not an `org_id` column. Domain terms: `.agents/glossary.md`.
 
-CSA Admin is a multi-tenant Rails application for managing Community Supported Agriculture organizations. Each tenant has its own isolated SQLite database, resolved from the request host. Read `.agents/glossary.md` when working with unfamiliar domain terminology.
+## Commands
 
-## Development and Validation
+- Iterate with filtered `bin/ci` (`-g style|security|tests`, `-s "Style: RuboCop"`, `-f`). Names match `config/ci.rb`.
+- Full tests: `bin/rails test:all` (`acme` tenant). Minitest, Capybara, parallel, WebMock; stub HTTP, no process-global mutable state.
+- Final: `bin/ci`. Single-tool wrappers: `bin/rubocop`, `bin/locales`, `bin/herb`, `bin/jobs check`.
+- Setup: `mise bootstrap`. Upgrades: `bin/update` (review the diff).
+- `bin/ci` `--group`/`--step` polyfill lives in `lib/rails_edge/` until upstream Rails has both.
 
-- `bin/rails test:all` — full unit and system test suite using the `acme` test tenant
-- `bin/ci` — final validation: setup, style, security, tests, and seeds; see `config/ci.rb`
-- Prefer filtered `bin/ci` runs while iterating (names match `config/ci.rb`, case-insensitive):
-  - `bin/ci -g style` / `-g security` / `-g tests`
-  - `bin/ci -s "Style: RuboCop"` / `-s "Style: Solid Queue"` (exact step title)
-  - `bin/ci -f` fail-fast; `bin/ci -h` help
-- Direct tool wrappers remain available (`bin/rubocop`, `bin/locales`, `bin/herb`, `bin/jobs check`, …) when a single tool is enough.
-- `mise bootstrap` installs local tools and native packages, then runs `bin/setup --skip-server`; continue using `bin/rails` and `bin/ci` directly.
-- `bin/update` upgrades mise/tools and dependency lockfiles (Bundler, gems, Aube, importmap), then syncs `Dockerfile` Ruby with `mise.toml`, aligns `@herb-tools/*` to the `herb` gem, and runs `bin/herb lint --upgrade` so `.herb.yml` `version` matches the installed toolchain (new rules enabled when clean, disabled when they still offend). Review the resulting diff before committing.
-- Tests use Minitest, all fixtures in `test/fixtures/`, and Capybara for system tests.
-- Tests run in parallel and block real HTTP through WebMock. Stub external requests and avoid mutable process-global test state.
-- Groups/`--group`/`--step` currently use a temporary polyfill in `lib/rails_edge/` until upstream Rails provides both; remove it then.
+## Tenant
 
-## Multi-Tenant Invariants
+`lib/tenant.rb`, `config/tenant.yml`.
 
-- Tenant APIs live in `lib/tenant.rb`; configuration lives in `config/tenant.yml`.
-- Use `Tenant.switch(name) { ... }` for one tenant and `Tenant.switch_each { ... }` for cross-tenant work. `Tenant.current` identifies the current tenant; `Current.org` is its organization singleton.
-- Never query tenant models outside a tenant context, nest switches to different tenants, or carry Active Record objects across tenant boundaries.
-- `TENANT` restricts `Tenant.all`, including tenant-wide database and maintenance tasks.
+- One tenant: `Tenant.switch(name) { ... }`. Cross-tenant: `Tenant.switch_each`. Current: `Tenant.current`, `Current.org`.
+- Never query tenant models outside a switch, nest switches to another tenant, or carry Active Record objects across tenants.
+- `TENANT` restricts `Tenant.all`, including db tasks in `lib/tasks/database.rake`.
+- Tenant jobs inherit `ApplicationJob`; `perform_later` from inside a switch, never `perform_now`. Fan-out: `TenantSwitchEachJob.perform_later("MyJobClassName")`. Cross-tenant orchestrators inherit `ActiveJob::Base`.
+- Gate features with `Current.org.feature?`. Fiscal years: `Current.fiscal_year` or `Current.org.fiscal_year_for`, not `Date.current.year`.
+- Discardable: `.kept`, `can_destroy?`, `can_discard?`. Exports: `member&.display_id`, never `member.id` (`test/models/member/discardable_test.rb`).
 
-### Local Browser Access
+Dev is puma-dev HTTPS, not `localhost:3000`. Hosts: `.agents/browser/README.md`. `acme` is test-only.
 
-Development uses puma-dev over HTTPS, not `localhost:3000`. Host mapping, portals, and agent-browser notes: `.agents/browser/README.md`.
+## Code
 
-### Deploy
+Vanilla Rails, rich models. No service, query, or form objects. Model concerns: `app/models/member/billing.rb`; shared: `app/models/concerns/`.
 
-Production deploys from `master` after CI is green via `.github/workflows/deploy.yml` (`ubuntu-24.04-arm`, `kamal deploy`). Tenant and queue migrations run from `.kamal/hooks/pre-deploy` on the new image before boot. Do not re-enable `db:prepare` in `bin/docker-entrypoint`. GitHub Environment `production` needs `RAILS_MASTER_KEY`, `CAP_ADMIN_KEY`, and `KAMAL_SSH_PRIVATE_KEY` (root SSH to `isle.thibaud.gg`).
+ActiveAdmin: `app/admin/`, DSL `lib/active_admin/`. Custom actions must authorize via `Ability`. UI: `DESIGN.md`.
 
-### Jobs
+Importmap, Turbo, Stimulus, Lucide, no-build CSS.
 
-Tenant-scoped jobs inherit from `ApplicationJob`, which serializes `Tenant.current` and `Current`. Enqueue them with `perform_later` from inside a tenant context; do not call `perform_now` on them. Cross-tenant orchestrators may inherit from `ActiveJob::Base`, switch tenants, and enqueue tenant-scoped jobs. Use `TenantSwitchEachJob.perform_later("MyJobClassName")` for the standard fan-out pattern.
+Copy: `TRANSLATIONS.md` and the `translations` skill. Never overwrite tenant-customized mail or newsletter content when changing source defaults.
 
-### Database and Migrations
+## Hands off
 
-Standard Rails database tasks are tenant-aware through `lib/tasks/database.rake` and operate on `Tenant.all`. Remember that `TENANT` may intentionally restrict that set.
+Leave `db/schema.rb`, `db/queue_schema.rb`, applied migrations, tenant SQLite files, credentials, and `config/tenant.yml` hosts alone unless that is the task. Do not re-enable `db:prepare` in `bin/docker-entrypoint`.
 
-## Tenant-Aware Application Behavior
+Production deploys from `master` after CI via `.github/workflows/deploy.yml`. Tenant and queue migrations run in `.kamal/hooks/pre-deploy` on the new image.
 
-- Do not assume a feature is enabled for every organization. Gate feature-specific behavior with `Current.org.feature?` and existing feature helpers.
-- ActiveAdmin uses CanCan through `Ability`; custom admin actions must explicitly authorize their operation.
-- Business years are organization-specific fiscal years. Use `Current.fiscal_year` or `Current.org.fiscal_year_for`, not `Date.current.year`, for delivery and billing logic.
-- Many records use `Discardable`. Respect `.kept`, `can_destroy?`, `can_discard?`, and model `destroy` behavior; do not bypass lifecycle rules with direct deletion or bulk updates.
-- CSV/XLSX exports must use `member&.display_id`, never raw `member_id` or `member.id`, so anonymized members remain unlinkable. This is enforced by `test/models/member/discardable_test.rb`.
+## Banking
 
-## Implementation Style
-
-- Prefer vanilla Rails and rich models over service, query, or form object layers. Extract cohesive model concerns or model-layer POROs when complexity requires it.
-- Model-specific concerns live under the model namespace (for example, `app/models/member/billing.rb`); shared concerns live in `app/models/concerns/`.
-- ActiveAdmin resources live in `app/admin/`; custom DSL extensions live in `lib/active_admin/`. Follow `DESIGN.md` for interface and icon conventions.
-- Frontend uses Importmap, Turbo, Stimulus, Lucide, and no-build CSS (`app/assets/stylesheets/`, see DESIGN.md). Do not introduce a JavaScript bundler without an explicit requirement.
-
-## High-Risk Domains
-
-### Banking and Payments
-
-Payment credentials live only in tenant-local `bank_connections`. Resolve runtime providers through `Current.org.active_bank_connection` / `Current.org.bank_connection`. Runtime and new EBICS connections support H005/BTF only; do not restore legacy organization credential columns or add H003/H004/order-type fallback paths. Follow `docs/bank_connections.md` for setup and recovery procedures.
-
-### Translations
-
-Follow `TRANSLATIONS.md` for any user-facing copy, locale, mail, or newsletter change. Request base keys in application code, place scopes before `_html`, preserve the required scoped fallback matrix, and never overwrite tenant-customized mail or newsletter content when changing source defaults.
+Credentials only on tenant-local `bank_connections`. Runtime: `Current.org.active_bank_connection` / `Current.org.bank_connection`. H005/BTF only; no org credential columns, no H003/H004. Setup: `docs/bank_connections.md`.
