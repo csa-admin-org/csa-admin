@@ -8,6 +8,7 @@ concurrency:
 
 env:
   MISE_ENV: ci
+  MISE_AQUA_GITHUB_ATTESTATIONS: false
   AUBE_STORE_DIR: ~/.local/share/mise/aube-store
   BUNDLE_FROZEN: true
 

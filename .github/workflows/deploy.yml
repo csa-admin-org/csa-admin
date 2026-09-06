@@ -50,6 +50,7 @@ jobs:
       - name: Setup Ruby
         uses: jdx/mise-action@v4
         env:
+          MISE_AQUA_GITHUB_ATTESTATIONS: false
           MISE_DISABLE_TOOLS: node,aube,actionlint
 
       - name: Install Kamal
