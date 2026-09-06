@@ -189,6 +189,45 @@ class Demo::SeederTest < ActiveSupport::TestCase
     end
   end
 
+  test "seed_bidding_rounds! is a no-op outside demo-de" do
+    travel_to Date.new(2024, 8, 15)
+    with_demo_tenant do
+      assert_no_difference -> { BiddingRound.count } do
+        Demo::Seeder.new.send(:seed_bidding_rounds!)
+      end
+    end
+  end
+
+  test "seed_bidding_rounds! fails then completes a current-year round that sets membership prices" do
+    travel_to Date.new(2024, 8, 15)
+    with_demo_tenant do
+      german_org(
+        sepa_creditor_identifier: "DE98ZZZ09999999999",
+        features: Current.org.features | [ :sepa, :bidding_round ],
+        bidding_round_basket_size_price_min_percentage: 50,
+        bidding_round_basket_size_price_max_percentage: 50)
+      BiddingRound::Pledge.delete_all
+      BiddingRound.delete_all
+
+      seeder = Demo::Seeder.new
+      seeder.send(:seed_bidding_rounds!)
+
+      failed = BiddingRound.failed.order(:number).first
+      completed = BiddingRound.completed.order(:number).first
+
+      assert_equal [ 2024, 2024 ], [ failed.fy_year, completed.fy_year ]
+      assert_equal [ 1, 2 ], [ failed.number, completed.number ]
+      assert failed.pledges.any?
+      assert completed.pledges.count > failed.pledges.count
+      assert failed.total_final_value.present?
+      assert completed.total_final_value.present?
+
+      completed.pledges.includes(:membership).each do |pledge|
+        assert_equal pledge.basket_size_price, pledge.membership.reload.basket_size_price
+      end
+    end
+  end
+
   test "ensure_sepa_mandate_pdfs_uploaded! leaves present mandate PDFs in place" do
     enable_sepa_mandate_pdf
     with_demo_tenant do
