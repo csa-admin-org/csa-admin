@@ -59,8 +59,8 @@ namespace :hostname do
       # Suppress Ruby 4.0's experimental IO::Buffer warning from resolv.rb
       Warning[:experimental] = false
 
-      tenant_name = ENV["TENANT_NAME"]
-      raise "TENANT_NAME environment variable is required" if tenant_name.blank?
+      tenant_name = ENV["TENANT"]
+      raise "TENANT environment variable is required" if tenant_name.blank?
       raise "Tenant '#{tenant_name}' does not exist" unless Tenant.exists?(tenant_name)
 
       email = ENV["CLOUDFLARE_EMAIL"]

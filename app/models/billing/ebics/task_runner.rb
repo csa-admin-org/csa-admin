@@ -283,7 +283,7 @@ module Billing
       end
 
       def key_rotation_batch_tenant_names
-        (env["TENANTS"].presence || env["TENANT"].presence || env["TENANT_NAME"].presence)
+        (env["TENANTS"].presence || env["TENANT"].presence)
           .to_s
           .split(/[,\s]+/)
           .compact_blank
@@ -324,7 +324,7 @@ module Billing
       end
 
       def tenant_name
-        env["TENANT"].presence || env["TENANT_NAME"].presence
+        env["TENANT"].presence
       end
 
       def require_tenant_name!

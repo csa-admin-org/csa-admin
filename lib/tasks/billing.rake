@@ -16,7 +16,7 @@ namespace :billing do
   namespace :payments do
     desc "Run live payment import processing (TENANT=..., PROVIDER=..., or ALL=true; CONFIRM=true required to execute)"
     task process: :environment do
-      tenant_name = ENV["TENANT"].presence || ENV["TENANT_NAME"].presence
+      tenant_name = ENV["TENANT"].presence
       provider = ENV["PROVIDER"].presence
       confirm = ENV["CONFIRM"].in?(%w[1 true yes])
       all = ENV["ALL"].in?(%w[1 true yes])
@@ -54,7 +54,7 @@ namespace :billing do
   end
 
   def billing_health_tenant_names
-    (ENV["TENANTS"].presence || ENV["TENANT"].presence || ENV["TENANT_NAME"].presence)
+    (ENV["TENANTS"].presence || ENV["TENANT"].presence)
       .to_s
       .split(/[,\s]+/)
       .compact_blank

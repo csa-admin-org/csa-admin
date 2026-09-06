@@ -72,8 +72,8 @@ namespace :storage do
 
   desc "Clear all attachments for a tenant from object storage"
   task clear: :environment do
-    tenant_name = ENV["TENANT_NAME"]
-    raise "TENANT_NAME environment variable is required" if tenant_name.blank?
+    tenant_name = ENV["TENANT"]
+    raise "TENANT environment variable is required" if tenant_name.blank?
 
     puts "WARNING: This will permanently delete all files in 'csa-admin-storage/#{tenant_name}/'."
     puts "Type the tenant name '#{tenant_name}' to confirm:"

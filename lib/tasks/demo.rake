@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 namespace :demo do
-  desc "Reset all demo tenants with fresh seed data (TENANT_NAME=demo-XY for specific tenant)"
+  desc "Reset all demo tenants with fresh seed data (TENANT=demo-XY for specific tenant)"
   task reset: :environment do
     demo_tenants = Tenant.demo_tenants
 
@@ -10,8 +10,8 @@ namespace :demo do
       exit
     end
 
-    if ENV["TENANT_NAME"]
-      tenant = ENV["TENANT_NAME"]
+    if ENV["TENANT"]
+      tenant = ENV["TENANT"]
       unless demo_tenants.include?(tenant)
         puts "Demo tenant '#{tenant}' not found."
         exit 1

@@ -7,10 +7,10 @@ require "openssl"
 require "base64"
 
 namespace :bunq do
-  desc "Setup bunq API connection for a tenant (requires TENANT_NAME and BUNQ_API_KEY)"
+  desc "Setup bunq API connection for a tenant (requires TENANT and BUNQ_API_KEY)"
   task setup: :environment do
-    tenant = ENV.fetch("TENANT_NAME") do
-      abort "ERROR: TENANT_NAME environment variable is required"
+    tenant = ENV.fetch("TENANT") do
+      abort "ERROR: TENANT environment variable is required"
     end
 
     api_key = ENV.fetch("BUNQ_API_KEY") do

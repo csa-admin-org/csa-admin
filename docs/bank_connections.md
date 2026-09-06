@@ -431,7 +431,7 @@ Prefer the setup task because bunq requires API installation/device/session
 registration:
 
 ```sh
-TENANT_NAME=tenant BUNQ_API_KEY=... bin/rails bunq:setup
+TENANT=tenant BUNQ_API_KEY=... bin/rails bunq:setup
 ```
 
 The task stores progress in an inactive `initializing` `bank_connections` row
