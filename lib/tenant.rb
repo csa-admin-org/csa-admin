@@ -37,6 +37,26 @@ module Tenant
     config.dig(current.to_s, "members_host")
   end
 
+  def local_url(host)
+    options = local_url_options(host)
+    url = "#{options[:protocol]}://#{options[:host]}"
+    url += ":#{options[:port]}" if options[:port]
+    url
+  end
+
+  def local_url_options(host)
+    return { protocol: "https", host: host } unless Rails.env.development?
+
+    parsed = PublicSuffix.parse(host)
+    labels = [ parsed.trd, parsed.sld ].compact.join(".")
+
+    if ENV["DEV_ORIGIN"] == "localhost"
+      { protocol: "http", host: "#{labels}.localhost", port: ENV.fetch("PORT", "3000") }
+    else
+      { protocol: "https", host: "#{labels}.test" }
+    end
+  end
+
   def state
     config.dig(current.to_s, "state") || "production"
   end

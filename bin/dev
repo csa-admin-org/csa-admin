@@ -1,2 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
+ENV["DEV_ORIGIN"] ||= "localhost"
+ENV["PORT"] ||= "3000"
 exec "./bin/rails", "server", *ARGV

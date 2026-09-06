@@ -64,4 +64,9 @@ class ApplicationMailerTest < ActionMailer::TestCase
 
     assert_equal content, result
   end
+
+  test "default_url_options use the tenant members host" do
+    assert_equal({ protocol: "https", host: "members.acme.test" },
+      ApplicationMailer.new.send(:default_url_options))
+  end
 end

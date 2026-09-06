@@ -103,22 +103,14 @@ class Newsletter
     end
 
     def self.members_feed_host
-      host = Tenant.members_host
-      if Rails.env.local?
-        # Match ApplicationMailer#mailer_host: production TLD → .test
-        # e.g. membres.ragedevert.ch → membres.ragedevert.test
-        parsed = PublicSuffix.parse(host)
-        host = [ parsed.trd, parsed.sld, "test" ].compact.join(".")
-      end
-      host
+      Tenant.local_url_options(Tenant.members_host)[:host]
     end
 
     def feed_url
       return unless feed_enabled?
 
       Rails.application.routes.url_helpers.members_newsletter_feed_url(
-        host: self.class.members_feed_host,
-        protocol: "https",
+        **Tenant.local_url_options(Tenant.members_host),
         template_id: id)
     end
 

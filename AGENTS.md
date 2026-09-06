@@ -21,7 +21,7 @@ CSA Admin is a multi-tenant Rails app for Community Supported Agriculture organi
 - Gate features with `Current.org.feature?`. Fiscal years: `Current.fiscal_year` or `Current.org.fiscal_year_for`, not `Date.current.year`.
 - Discardable: `.kept`, `can_destroy?`, `can_discard?`. Exports: `member&.display_id`, never `member.id` (`test/models/member/discardable_test.rb`).
 
-Dev is puma-dev HTTPS, not `localhost:3000`. Hosts: `.agents/browser/README.md`. `acme` is test-only.
+Dev: `bin/dev` on `http://*.localhost:3000` (`DEV_ORIGIN=localhost`), or puma-dev on `https://*.test`. Hosts: `.agents/browser/README.md`. `acme` is test-only.
 
 ## Code
 

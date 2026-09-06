@@ -55,10 +55,10 @@ This application is currently used by [more than 30 organizations](https://csa-a
 
 ## Getting started
 
-Development requirements are managed with [Mise](https://mise.jdx.dev) 2026.7 or newer. Local development uses [puma-dev](https://github.com/puma/puma-dev) over HTTPS.
+Development requirements are managed with [Mise](https://mise.jdx.dev) 2026.7 or newer.
 
 1. Clone the repository.
-2. Install and activate Mise, then install and configure puma-dev for your system.
+2. Install and activate Mise.
 3. Trust the project configuration and bootstrap the application:
 
    ```sh
@@ -69,15 +69,15 @@ Development requirements are managed with [Mise](https://mise.jdx.dev) 2026.7 or
    This installs libvips and Poppler, the Ruby, Node, and Aube versions declared in `mise.toml`, then runs `bin/setup --skip-server`. On Intel macOS, install libvips and Poppler through Homebrew first because Mise's Brew bootstrap supports Apple Silicon only.
 
 4. Update the generated `config/tenant.yml` with your admin and member hostnames.
-5. From the repository directory, link the configured base domain to puma-dev. For the sample `my-domain.org` configuration:
+5. Start the server:
 
    ```sh
-   puma-dev link -n my-domain
+   bin/dev
    ```
 
-6. Open the configured `admin_host` or `members_host`, replacing its public top-level domain with `.test`. For example:
-   - `admin.ragedevert.ch` → [admin.ragedevert.test](https://admin.ragedevert.test)
-   - `membres.ragedevert.ch` → [membres.ragedevert.test](https://membres.ragedevert.test)
+6. Open the configured `admin_host` or `members_host`, replacing its public top-level domain with `.localhost` and using port `3000`. For example:
+   - `admin.ragedevert.ch` → [http://admin.ragedevert.localhost:3000](http://admin.ragedevert.localhost:3000)
+   - `membres.ragedevert.ch` → [http://membres.ragedevert.localhost:3000](http://membres.ragedevert.localhost:3000)
 
    Use the configured host rather than deriving it from the tenant name: host labels and domains vary between organizations. Admin and member portals have separate authentication contexts. The `acme` tenant is test-only and is not available for local browser access.
 
@@ -88,6 +88,7 @@ Development requirements are managed with [Mise](https://mise.jdx.dev) 2026.7 or
 Useful commands:
 
 - Bootstrap / refresh the local environment: `mise bootstrap` or `bin/setup --skip-server`
+- Start the app: `bin/dev` (`http://admin.<sld>.localhost:3000`)
 - Update toolchains and dependency lockfiles (`bin/update`; also syncs Ruby/Herb pins)
 - Run all tests: `bin/rails test:all`
 - Run final validation (setup, style, security, tests, seeds): `bin/ci`
