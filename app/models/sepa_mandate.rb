@@ -48,9 +48,11 @@ class SEPAMandate < ApplicationRecord
 
   # Generates and attaches a mandate PDF rendered in the member's locale.
   # Called during validation so the mandate is only saved once the PDF exists.
+  # Re-attaches when the blob row is present but the file is missing (e.g. seed
+  # inside a transaction, Rails #57222).
   def generate_pdf!
     return true if Rails.env.test? && Thread.current[:skip_sepa_mandate_pdf] != false
-    return true if pdf.attached?
+    return true if pdf_on_storage?
 
     I18n.with_locale(member.language) do
       doc = ::PDF::SEPAMandate.new(self)
@@ -64,6 +66,11 @@ class SEPAMandate < ApplicationRecord
   rescue => e
     Rails.error.report(e, context: { sepa_mandate_id: id })
     false
+  end
+
+  def pdf_on_storage?
+    blob = pdf.blob
+    blob.present? && blob.service.exist?(blob.key)
   end
 
   private

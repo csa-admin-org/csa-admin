@@ -168,7 +168,53 @@ class Demo::SeederTest < ActiveSupport::TestCase
     end
   end
 
+  test "ensure_sepa_mandate_pdfs_uploaded! re-attaches when the blob row exists but the file does not" do
+    enable_sepa_mandate_pdf
+    with_demo_tenant do
+      german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+      mandate = create_sepa_mandate
+      blob = mandate.pdf.blob
+      blob.service.delete(blob.key)
+
+      assert mandate.pdf.attached?
+      assert_not blob.service.exist?(blob.key)
+
+      Demo::Seeder.new.send(:ensure_sepa_mandate_pdfs_uploaded!)
+      mandate.reload
+
+      assert mandate.pdf.attached?
+      assert mandate.pdf.blob.service.exist?(mandate.pdf.blob.key)
+      assert_not_equal blob.id, mandate.pdf.blob_id
+      assert mandate.pdf.download.present?
+    end
+  end
+
+  test "ensure_sepa_mandate_pdfs_uploaded! leaves present mandate PDFs in place" do
+    enable_sepa_mandate_pdf
+    with_demo_tenant do
+      german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+      mandate = create_sepa_mandate
+      blob_id = mandate.pdf.blob_id
+
+      Demo::Seeder.new.send(:ensure_sepa_mandate_pdfs_uploaded!)
+      mandate.reload
+
+      assert_equal blob_id, mandate.pdf.blob_id
+      assert mandate.pdf.blob.service.exist?(mandate.pdf.blob.key)
+    end
+  end
+
   private
+
+  def create_sepa_mandate
+    member = create_member(country_code: "DE", language: "de")
+    SEPAMandate.create!(
+      member: member,
+      iban: "DE21500500009876543210",
+      umr: member.id.to_s,
+      signed_on: Date.current,
+      source: "admin")
+  end
 
   def prepare_membership_seeder
     farm = depots(:farm)

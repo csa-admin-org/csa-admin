@@ -185,4 +185,26 @@ class SEPAMandateTest < ActiveSupport::TestCase
   ensure
     skip_sepa_mandate_pdf
   end
+
+  test "generate_pdf! re-attaches when the blob row exists but the file does not" do
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = members(:anna)
+    member.update!(language: "de", country_code: "DE")
+    enable_sepa_mandate_pdf
+
+    mandate = SEPAMandate.create!(valid_attributes(member: member, source: "admin", sepa_mandate_accepted: nil))
+    blob = mandate.pdf.blob
+    blob.service.delete(blob.key)
+
+    assert mandate.pdf.attached?
+    assert_not mandate.pdf_on_storage?
+
+    assert mandate.generate_pdf!
+    mandate.reload
+
+    assert mandate.pdf_on_storage?
+    assert_not_equal blob.id, mandate.pdf.blob_id
+  ensure
+    skip_sepa_mandate_pdf
+  end
 end

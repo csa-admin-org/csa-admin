@@ -192,6 +192,7 @@ class Demo::Seeder
       seed_shop!
     end
     ensure_invoice_pdfs_uploaded!
+    ensure_sepa_mandate_pdfs_uploaded!
     mark_deliveries_delivered!
     SearchEntry.rebuild!
 
@@ -1231,6 +1232,20 @@ class Demo::Seeder
   def invoice_pdf_on_storage?(invoice)
     blob = invoice.pdf_file.blob
     blob.present? && blob.service.exist?(blob.key)
+  end
+
+  # Same Active Storage / transaction hole as invoices (Rails #57222).
+  # generate_pdf! runs during create validation inside the seed transaction,
+  # so the blob row can land without the object key. Re-attach outside the
+  # transaction so admin/member PDF download works on demo-de.
+  def ensure_sepa_mandate_pdfs_uploaded!
+    log "Ensuring SEPA mandate PDFs are on storage..."
+
+    SEPAMandate.joins(:pdf_attachment).with_attached_pdf.find_each do |mandate|
+      next if mandate.pdf_on_storage?
+
+      mandate.generate_pdf!
+    end
   end
 
   # Must run outside of transaction so after_create_commit on
