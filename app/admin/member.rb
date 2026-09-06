@@ -633,9 +633,11 @@ ActiveAdmin.register Member do
       if HomeDeliveryAddress.visible_on_member?(member) && authorized?(:create, HomeDeliveryAddress)
         li do
           info_pane "clock-fading" do
-            span { t("home_delivery_address.form_hint") }
-            a href: new_home_delivery_address_path(member_id: member.id), class: "btn btn-sm" do
-              icon("plus", class: "icon-4") + t("home_delivery_address.temporary_change")
+            span class: "cluster is-spread" do
+              span { t("home_delivery_address.form_hint") }
+              a href: new_home_delivery_address_path(member_id: member.id), class: "btn btn-sm" do
+                icon("plus", class: "icon-4") + t("home_delivery_address.temporary_change")
+              end
             end
           end
         end
