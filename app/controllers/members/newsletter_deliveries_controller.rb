@@ -7,10 +7,14 @@ class Members::NewsletterDeliveriesController < Members::BaseController
 
   def index
     offset = params[:offset].to_i
-    @deliveries = Newsletter.deliveries_for(current_member)
-    @next_offset = offset + PER_PAGE
-    @next_offset = nil unless @deliveries.count > @next_offset
-    @deliveries = @deliveries.offset(offset).first(PER_PAGE)
+    page = Newsletter.deliveries_for(current_member)
+      .without_content
+      .offset(offset)
+      .limit(PER_PAGE + 1)
+      .to_a
+
+    @next_offset = offset + PER_PAGE if page.size > PER_PAGE
+    @deliveries = page.first(PER_PAGE)
   end
 
   def show
