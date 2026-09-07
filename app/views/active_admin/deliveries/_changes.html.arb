@@ -4,7 +4,7 @@ changes = Delivery::Changes.new(delivery)
 return unless changes.any?
 
 details class: "arrow-details" do
-  summary class: "cluster is-end is-muted" do
+  summary class: "delivery-footer cluster is-end is-muted" do
     text_node t("active_admin.page.index.changes_count", count: changes.entries.size)
   end
   div do

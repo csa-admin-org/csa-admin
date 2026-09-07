@@ -341,6 +341,15 @@
     }
   }
 
+  .delivery-footer {
+    padding-inline: 0.5rem;
+  }
+
+  .delivery-footer:last-child,
+  .arrow-details:not([open]) > summary.delivery-footer {
+    padding-bottom: 0.5rem;
+  }
+
   .delivery-note {
     margin-top: 1rem;
     border-radius: 0.375rem;

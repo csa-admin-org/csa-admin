@@ -3,7 +3,7 @@
 absences_count = delivery.baskets.absent.count
 return unless absences_count.positive?
 
-div class: "text-end" do
+div class: "delivery-footer text-end" do
   link_to(
     t("active_admin.page.index.absences_count", count: absences_count),
     absences_path(q: { including_date: delivery.date }, scope: :all),
