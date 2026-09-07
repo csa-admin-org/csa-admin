@@ -11,11 +11,14 @@ class MailDelivery < ApplicationRecord
   has_states :draft, :processing, :delivered, :partially_delivered, :not_delivered
 
   belongs_to :member
+  belongs_to :source_newsletter, class_name: "Newsletter",
+    foreign_key: :mailable_id, optional: true
   has_many :emails, class_name: "MailDelivery::Email", dependent: :destroy
 
   scope :processed, -> { where.not(state: [ :draft, :processing ]) }
   scope :newsletters, -> { where(mailable_type: "Newsletter") }
   scope :mail_templates, -> { where.not(mailable_type: "Newsletter") }
+  scope :without_content, -> { select(*(column_names - [ "content" ])) }
   scope :with_email, ->(email) {
     joins(:emails).merge(Email.with_email(email))
   }
@@ -120,7 +123,7 @@ class MailDelivery < ApplicationRecord
 
   def source
     @source ||= if newsletter?
-      mailables.first
+      source_newsletter
     else
       MailTemplate.find_by!(title: mail_template_title)
     end

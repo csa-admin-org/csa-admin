@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_02_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_07_120000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -631,6 +631,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_02_120000) do
     t.index ["mailable_type", "mailable_id"], name: "idx_mail_deliveries_on_mailable_type_id"
     t.index ["mailable_type", "mailable_ids", "member_id"], name: "idx_mail_deliveries_on_mailable_member"
     t.index ["member_id", "created_at"], name: "idx_mail_deliveries_on_member_created"
+    t.index ["member_id", "mailable_type", "created_at"], name: "idx_mail_deliveries_on_member_mailable_created"
     t.index ["member_id"], name: "index_mail_deliveries_on_member_id"
     t.index ["state"], name: "index_mail_deliveries_on_state"
     t.check_constraint "JSON_TYPE(mailable_ids) = 'array'", name: "mail_deliveries_mailable_ids_is_array"

@@ -17,16 +17,12 @@ class Newsletter
 
     class_methods do
       def deliveries_for(member)
-        deliveries =
-          MailDelivery
-            .newsletters
-            .processed
-            .where(member: member)
-            .order(created_at: :desc)
-        newsletter_ids = deliveries.flat_map(&:mailable_ids).uniq
-        newsletters = Newsletter.where(id: newsletter_ids).index_by(&:id)
-        deliveries.each { |d| d.preload_source!(newsletters[d.mailable_ids.first]) }
-        deliveries
+        MailDelivery
+          .newsletters
+          .processed
+          .where(member: member)
+          .includes(:source_newsletter)
+          .order(created_at: :desc)
       end
     end
 

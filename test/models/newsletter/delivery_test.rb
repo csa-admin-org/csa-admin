@@ -162,6 +162,30 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     end
   end
 
+  test "deliveries_for uses the member newsletter list index" do
+    columns = ActiveRecord::Base.connection.indexes(:mail_deliveries).map(&:columns)
+    assert_includes columns, %w[member_id mailable_type created_at]
+
+    sql = Newsletter.deliveries_for(members(:john)).limit(21).to_sql
+    plan = ActiveRecord::Base.connection.exec_query("EXPLAIN QUERY PLAN #{sql}").rows.flatten.join(" ")
+    assert_match(/idx_mail_deliveries_on_member_mailable_created/, plan)
+  end
+
+  test "deliveries_for is an unloaded relation of processed newsletter deliveries" do
+    draft = MailDelivery.create!(
+      mailable_type: "Newsletter",
+      mailable_ids: [ newsletters(:sent).id ],
+      action: "newsletter",
+      member: members(:john),
+      subject: "Draft",
+      state: :draft)
+    relation = Newsletter.deliveries_for(members(:john))
+
+    assert_not relation.loaded?
+    assert_includes relation, mail_deliveries(:sent_john)
+    assert_not_includes relation, draft
+  end
+
   test "deliveries_with_missing_emails" do
     travel_to "2024-01-01"
     newsletter = build_newsletter(
