@@ -3,7 +3,7 @@
     "@herb-tools/formatter": "^0.10.3",
     "@herb-tools/linter": "^0.10.3",
     "oxfmt": "^0.59.0",
-    "oxlint": "^1.81.0",
+    "oxlint": "^1.82.0",
     "stylelint": "^17.15.0",
     "stylelint-config-recommended": "^18.0.0"
   }

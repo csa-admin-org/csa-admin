@@ -110,7 +110,7 @@ GEM
       protocol-http1 (~> 0.41)
       protocol-http2 (~> 0.26)
       protocol-url (~> 0.2)
-    async-pool (0.11.2)
+    async-pool (0.12.0)
       async (>= 2.0)
     async-rest (0.20.0)
       async-http (~> 0.42)
@@ -453,7 +453,7 @@ GEM
     protocol-http (0.71.0)
     protocol-http1 (0.41.0)
       protocol-http (~> 0.68)
-    protocol-http2 (0.26.2)
+    protocol-http2 (0.27.0)
       protocol-hpack (~> 1.4)
       protocol-http (~> 0.62)
     protocol-url (0.18.0)
@@ -782,7 +782,7 @@ CHECKSUMS
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
   async (2.45.1) sha256=95849f7432eca535146c69f3078dab3c7228d0075ed71f48733f3e585dd7c267
   async-http (0.101.0) sha256=435ca24bf3c0fd32d6117f950654bd955218666b0ae2badc66530a114ceed5b4
-  async-pool (0.11.2) sha256=0a43a17b02b04d9c451b7d12fafa9a50e55dc6dd00d4369aca00433f16a7e3ed
+  async-pool (0.12.0) sha256=5580493dc024bd704dab2ed0bf1307100722e49cbb825c7965f8501194f58506
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
   aws-partitions (1.1282.0) sha256=d6c7c4ad2e4f8cd4ca56445bfbb3958fec0deecd959c1e2bcd3a83c9aa308c18
@@ -937,7 +937,7 @@ CHECKSUMS
   protocol-hpack (1.5.1) sha256=6feca238b8078da1cd295677d6f306c6001af92d75fe0643d33e6956cbc3ad91
   protocol-http (0.71.0) sha256=38577bf3df0bf0c3f7ee7e21b43fcb4bd7624e36f697dbe9c3eea344f14bd9ba
   protocol-http1 (0.41.0) sha256=9863874a1228948a896c3e7ea16d13a680c8f3ed50706007c78b7033018b0ea3
-  protocol-http2 (0.26.2) sha256=1457cfaa31877512c349051e0094ea170b8913a62d966b82ff7cd14e4b1a3ede
+  protocol-http2 (0.27.0) sha256=54e651964388d5f990cca161b280abc4480a22845be8de1d55f25033a51e3bff
   protocol-url (0.18.0) sha256=b16f55983094b46d18e04b709333b260e4ab5962a32696728e33a6c396150ed6
   public_suffix (7.0.5) sha256=1a8bb08f1bbea19228d3bed6e5ed908d1cb4f7c2726d18bd9cadf60bc676f623
   puma (8.0.2) sha256=c8ed871dfbbe66448ea9ffd46692342d9804d4071522b52b5331b7b6e7b686fb
