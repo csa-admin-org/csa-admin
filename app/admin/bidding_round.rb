@@ -20,7 +20,7 @@ ActiveAdmin.register BiddingRound do
       number_to_percentage br.pledges_percentage, precision: 0
     end
     column(t("active_admin.resource.show.total_pledged_percentage"), class: "text-right tabular-nums") do |br|
-      number_to_percentage br.pledges_percentage, precision: 0
+      number_to_percentage br.total_pledged_percentage, precision: 0
     end
     column :state, ->(br) { aligned_status_tag(br.state, label: br.state_i18n_name, class: "bidding_round") }, class: "text-right"
     actions
