@@ -101,14 +101,14 @@ GEM
       console (~> 1.29)
       fiber-annotation
       io-event (~> 1.21)
-    async-http (0.101.0)
+    async-http (0.102.0)
       async (>= 2.35.1)
-      async-pool (~> 0.11)
+      async-pool (~> 0.12)
       io-endpoint (~> 0.18)
       io-stream (~> 0.14)
       protocol-http (~> 0.66)
       protocol-http1 (~> 0.41)
-      protocol-http2 (~> 0.26)
+      protocol-http2 (~> 0.27)
       protocol-url (~> 0.2)
     async-pool (0.12.0)
       async (>= 2.0)
@@ -185,10 +185,10 @@ GEM
       bigdecimal
       rexml
     crass (1.0.7)
-    cruise (0.2.0-aarch64-linux-gnu)
-    cruise (0.2.0-arm64-darwin)
-    cruise (0.2.0-x86_64-linux-gnu)
-    cruise (0.2.0-x86_64-linux-musl)
+    cruise (0.2.1-aarch64-linux-gnu)
+    cruise (0.2.1-arm64-darwin)
+    cruise (0.2.1-x86_64-linux-gnu)
+    cruise (0.2.1-x86_64-linux-musl)
     css_parser (3.0.0)
       addressable
       ssrf_filter (~> 1.5)
@@ -215,7 +215,7 @@ GEM
     ed25519 (1.4.0)
     erb (6.0.7)
     erubi (1.13.1)
-    et-orbi (1.4.1)
+    et-orbi (1.4.2)
       tzinfo
     faker (3.8.0)
       i18n (>= 1.8.11, < 2)
@@ -781,7 +781,7 @@ CHECKSUMS
   arbre (2.2.1) sha256=3048ba04c063e603fa9a47cd8ea8fe5ce79a0dbd7306840816ab37bb496c79d6
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
   async (2.45.1) sha256=95849f7432eca535146c69f3078dab3c7228d0075ed71f48733f3e585dd7c267
-  async-http (0.101.0) sha256=435ca24bf3c0fd32d6117f950654bd955218666b0ae2badc66530a114ceed5b4
+  async-http (0.102.0) sha256=8d3a206ff10af0620a6de7cc0bab76a2e7a32dc71fd420d590c254863777c741
   async-pool (0.12.0) sha256=5580493dc024bd704dab2ed0bf1307100722e49cbb825c7965f8501194f58506
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
@@ -815,10 +815,10 @@ CHECKSUMS
   countries (8.1.0) sha256=4d6b318b8e906f1f769d5c021c13a418d33e917dc96ceb625a91d8e7ab2d192e
   crack (1.0.1) sha256=ff4a10390cd31d66440b7524eb1841874db86201d5b70032028553130b6d4c7e
   crass (1.0.7) sha256=94868719948664c89ddcaf0a37c65048413dfcb1c869470a5f7a7ceb5390b295
-  cruise (0.2.0-aarch64-linux-gnu) sha256=87a5a3fbda8070b4a531b84161c7c5acbcc54f62e57b9ffa6960df61e9b9c2c3
-  cruise (0.2.0-arm64-darwin) sha256=fb3e9b265868e077dd754b4a430ab14d8abb209281c61c906b74f326b797a10a
-  cruise (0.2.0-x86_64-linux-gnu) sha256=3d16f6a6a3409f2cae5dbdb3fb322389fa61a6a18d80a2df50fc4c807f1f0fd9
-  cruise (0.2.0-x86_64-linux-musl) sha256=2be5c5f2fb474ff5a4f42e3421dbb27fb439008a53697f7a6a3d2f3ec2de711c
+  cruise (0.2.1-aarch64-linux-gnu) sha256=3a8fd04cb1826f6da0b44ad48f9c343a1518dc1b36f0734fe14bf027645f351a
+  cruise (0.2.1-arm64-darwin) sha256=43e5d27f4573710a85bf91484445f5f8cd749e28fb85ee5ac332cced6942c127
+  cruise (0.2.1-x86_64-linux-gnu) sha256=9a1befe5731199c0523557f7e821953b6026d54319522539bd03cce5737edea1
+  cruise (0.2.1-x86_64-linux-musl) sha256=1465af36e513fc2def2582c7e0c86d1ff6163a2519c46490847eb047443ea3bb
   css_parser (3.0.0) sha256=eaf0e9283fd581d06e815235ceef4f0910c0b394c606355dbc69f93e84443885
   csv (3.3.6) sha256=aba61e7e507a66f03d45cb1f3c4b6359861c3504038b422962875dce099e4456
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
@@ -834,7 +834,7 @@ CHECKSUMS
   ed25519 (1.4.0) sha256=16e97f5198689a154247169f3453ef4cfd3f7a47481fde0ae33206cdfdcac506
   erb (6.0.7) sha256=c5ca6dc25b0ef974a44dc8f59fe847577122483b1968a38dec305c60bf91ee92
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
-  et-orbi (1.4.1) sha256=007e2685b1d873415a7587ef889336c6dcdf8a47fc9c9a63547582b21660a11b
+  et-orbi (1.4.2) sha256=bb555dae668419cb24caa2a293a170e58be6d4df1e017c51f5030bdc133cd20c
   faker (3.8.0) sha256=c147b308df73a90f27a4fc84f18d4c22ef0ad9c2a64b2b61c86fd0ca71753efc
   faraday (2.14.3) sha256=1882247e6766615c8220b4392bf1d27f6ebb63d8e28267587cef1fb0bf37f278
   faraday-net_http (3.4.4) sha256=0e78af151747ed1b00f33e25973b4bc220d7f16c00c39676817c8b12331eb588
