@@ -9,4 +9,6 @@ Rails.application.config.after_initialize do
   env.register_tag("highlight", Liquid::HighlightBlock)
   env.register_tag("highlight_list", Liquid::HighlightListBlock)
   env.register_tag("content", Liquid::ContentBlock)
+
+  Liquid::Drop.prepend(Liquid::HtmlEscaping)
 end

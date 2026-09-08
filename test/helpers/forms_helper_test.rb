@@ -3,6 +3,7 @@
 require "test_helper"
 
 class FormsHelperTest < ActionView::TestCase
+  include ApplicationHelper
   include TooltipHelper
 
   def icon(_name, **)
@@ -52,5 +53,31 @@ class FormsHelperTest < ActionView::TestCase
     assert_includes hint, 'role="button"'
     assert_not_includes hint, "<button"
     assert_not_includes hint, "public: true"
+  end
+
+  test "mail_preview_iframe is sandboxed and reports height" do
+    html = mail_preview_iframe("<p>hi</p>", id: "mail_preview_en")
+
+    assert_includes html, "sandbox=\"allow-scripts allow-popups allow-popups-to-escape-sandbox\""
+    refute_includes html, "allow-same-origin"
+    assert_includes html, "id=\"mail_preview_en\""
+    assert_includes html, "class=\"mail_preview\""
+    assert_includes html, ApplicationHelper::MAIL_PREVIEW_HEIGHT_MESSAGE
+    assert_includes html, ApplicationHelper::MAIL_PREVIEW_MEASURE_MESSAGE
+  end
+
+  test "mail_preview_srcdoc injects a height reporter before </body>" do
+    srcdoc = mail_preview_srcdoc("<html><body><p>hi</p></body></html>")
+
+    assert_includes srcdoc, ApplicationHelper::MAIL_PREVIEW_HEIGHT_MESSAGE
+    assert_match %r{</script>\s*</body>}i, srcdoc
+  end
+
+  test "mail_preview_srcdoc wraps fragments that have no body tag" do
+    srcdoc = mail_preview_srcdoc("<p>hi</p>")
+
+    assert_includes srcdoc, "<!DOCTYPE html>"
+    assert_includes srcdoc, "<p>hi</p>"
+    assert_includes srcdoc, ApplicationHelper::MAIL_PREVIEW_HEIGHT_MESSAGE
   end
 end

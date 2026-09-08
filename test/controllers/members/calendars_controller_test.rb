@@ -28,6 +28,25 @@ class Members::CalendarsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
+  test "token minted on another tenant is unauthorized" do
+    member = members(:john)
+    token = member.generate_token_for(:calendar)
+
+    with_tenant("beta") do
+      assert_equal member.id, Member.find(member.id).id
+      assert_nil Member.find_by_token_for(:calendar, token)
+    end
+  end
+
+  test "token generation requires a tenant context" do
+    member = members(:john)
+
+    error = assert_raises(RuntimeError) do
+      with_tenant(nil) { member.generate_token_for(:calendar) }
+    end
+    assert_equal "Cannot generate calendar token outside tenant context", error.message
+  end
+
   test "with a good token" do
     request token: members(:john).generate_token_for(:calendar)
 

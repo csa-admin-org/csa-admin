@@ -1,52 +1,55 @@
 import { Controller } from "@hotwired/stimulus"
 
+const HEIGHT_MESSAGE = "csa-admin:mail-preview-height"
+const MEASURE_MESSAGE = "csa-admin:mail-preview-measure"
+const MAX_HEIGHT = 8000
+
 export default class extends Controller {
   static get targets() {
     return ["iframe"]
   }
 
-  iframeTargetConnected(element) {
-    // srcdoc iframes often load before Stimulus connects the target,
-    // especially during Turbo visits. Try immediately, and also set
-    // onload as a fallback for slower loads.
-    element.onload = () => {
-      this._resize()
-      this._setColorScheme()
-    }
-    this._applyWhenReady(element)
+  connect() {
+    this._onMessage = this._onMessage.bind(this)
+    this._onIframeLoad = this._onIframeLoad.bind(this)
+    window.addEventListener("message", this._onMessage)
   }
 
-  _applyWhenReady(element, attempts = 0) {
-    const body = this._iframeBody(element)
-    if (body) {
-      this._resize()
-      this._setColorScheme()
-    } else if (attempts < 10) {
-      setTimeout(() => this._applyWhenReady(element, attempts + 1), 50)
-    }
-  }
-
-  _resize() {
-    const heights = this._iframeBodies().map((body) => body.offsetHeight)
-    this.iframeTargets.forEach((i) => (i.style.height = Math.max(...heights) + "px"))
-  }
-
-  _setColorScheme() {
-    const dark = document.documentElement.classList.contains("dark")
-    this._iframeBodies().forEach((body) => {
-      body.classList.toggle("dark", dark)
+  disconnect() {
+    window.removeEventListener("message", this._onMessage)
+    this.iframeTargets.forEach((iframe) => {
+      iframe.removeEventListener("load", this._onIframeLoad)
     })
   }
 
-  _iframeBody(element) {
-    try {
-      return element.contentWindow.document.body
-    } catch {
-      return null
-    }
+  iframeTargetConnected(element) {
+    element.addEventListener("load", this._onIframeLoad)
+    this._requestHeight(element)
   }
 
-  _iframeBodies() {
-    return this.iframeTargets.map((i) => this._iframeBody(i)).filter(Boolean)
+  iframeTargetDisconnected(element) {
+    element.removeEventListener("load", this._onIframeLoad)
+  }
+
+  _onIframeLoad(event) {
+    this._requestHeight(event.currentTarget)
+  }
+
+  _requestHeight(iframe) {
+    iframe.contentWindow?.postMessage({ type: MEASURE_MESSAGE }, "*")
+  }
+
+  _onMessage(event) {
+    const data = event.data
+    if (!data || data.type !== HEIGHT_MESSAGE) return
+
+    const height = Math.min(Math.ceil(Number(data.height)), MAX_HEIGHT)
+    if (!Number.isFinite(height) || height <= 0) return
+
+    this.iframeTargets.forEach((iframe) => {
+      if (iframe.contentWindow === event.source) {
+        iframe.style.height = `${height}px`
+      }
+    })
   }
 }

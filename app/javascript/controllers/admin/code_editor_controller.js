@@ -118,16 +118,26 @@ export default class extends Controller {
     const params = new URLSearchParams(formData)
 
     try {
+      const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+      const headers = { Accept: "application/json" }
+      if (csrfToken) headers["X-CSRF-Token"] = csrfToken
+
       const response = await fetch(path, {
         method: "POST",
         body: params,
-        signal: abortController.signal
+        signal: abortController.signal,
+        credentials: "same-origin",
+        headers
       })
-      const js = await response.text()
 
       if (abortController.signal.aborted || revision !== this.previewRevision) return
+      if (!response.ok) return
 
-      eval(js)
+      const data = await response.json()
+      Object.keys(data.previews || {}).forEach((locale) => {
+        const iframe = document.getElementById(`mail_preview_${locale}`)
+        if (iframe) iframe.srcdoc = data.previews[locale]
+      })
     } catch (error) {
       if (error.name !== "AbortError") console.error(error)
     } finally {

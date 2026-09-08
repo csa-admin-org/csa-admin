@@ -73,7 +73,8 @@ ActiveAdmin.register Newsletter do
           panel title, icon: "eye" do
             div class: "iframe-wrapper" do
               iframe(
-                srcdoc: newsletter.mail_preview(locale),
+                srcdoc: mail_preview_srcdoc(newsletter.mail_preview(locale)),
+                sandbox: mail_preview_iframe_sandbox,
                 scrolling: "no",
                 class: "mail_preview",
                 id: "mail_preview_#{locale}",
@@ -172,7 +173,7 @@ ActiveAdmin.register Newsletter do
     turbo: false,
     controller: "code-editor form-select-hidder auto-save",
     code_editor_target: "form",
-    code_editor_preview_path_value: "/newsletters/preview.js",
+    code_editor_preview_path_value: "/newsletters/preview",
     auto_save_target: "form",
     action: "change->auto-save#saveToLocalStorage trix-change->auto-save#saveToLocalStorage submit->auto-save#clearLocalStorage"
   } do |f|
@@ -269,7 +270,11 @@ ActiveAdmin.register Newsletter do
   collection_action :preview, method: :post do
     @newsletter = resource_class.new
     assign_attributes(resource, permitted_params[:newsletter])
-    render "mail_templates/preview"
+    render json: {
+      previews: Current.org.languages.index_with { |locale|
+        view_context.mail_preview_srcdoc(resource.mail_preview(locale))
+      }
+    }
   end
 
   action_item :duplicate, only: :show, if: -> { authorized?(:create, resource) } do
@@ -338,8 +343,6 @@ ActiveAdmin.register Newsletter do
   end
 
   controller do
-    skip_before_action :verify_authenticity_token, only: :preview
-
     before_build do |resource|
       if newsletter = Newsletter.find_by(id: params[:newsletter_id])
         resource.subjects = newsletter.subjects

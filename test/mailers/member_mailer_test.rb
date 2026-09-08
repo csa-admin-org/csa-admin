@@ -87,4 +87,21 @@ class MemberMailerTest < ActionMailer::TestCase
 
     assert_includes mail.body.to_s, "Waiting list position: <strong>1</strong>"
   end
+
+  test "activated_email escapes a hostile member name" do
+    travel_to "2024-01-01"
+    template = mail_templates(:member_activated)
+    template.update!(content: "<p>Hello {{ member.name }}</p>")
+    membership = memberships(:jane)
+    membership.member.update_column(:name, %{Jane <img src=x onerror=alert(1)>})
+
+    mail = MemberMailer.with(
+      template: template,
+      member: membership.member
+    ).activated_email
+
+    body = mail.body.to_s
+    refute_includes body, "<img src=x"
+    assert_includes body, "Hello Jane &lt;img src=x onerror=alert(1)&gt;"
+  end
 end

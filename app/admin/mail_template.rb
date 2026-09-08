@@ -61,7 +61,8 @@ ActiveAdmin.register MailTemplate do
           panel title, icon: "eye" do
             div class: "iframe-wrapper" do
               iframe(
-                srcdoc: mail_template.mail_preview(locale),
+                srcdoc: mail_preview_srcdoc(mail_template.mail_preview(locale)),
+                sandbox: mail_preview_iframe_sandbox,
                 scrolling: "no",
                 class: "mail_preview",
                 id: "mail_preview_#{locale}",
@@ -115,7 +116,7 @@ ActiveAdmin.register MailTemplate do
   form data: {
     controller: "code-editor",
     code_editor_target: "form",
-    code_editor_preview_path_value: "/mail_templates/preview.js",
+    code_editor_preview_path_value: "/mail_templates/preview",
     turbo: false
   } do |f|
     f.inputs t(".settings"), icon: "sliders-horizontal" do
@@ -185,11 +186,14 @@ ActiveAdmin.register MailTemplate do
   collection_action :preview, method: :post do
     @mail_template = scoped_collection.where(title: params[:mail_template][:title]).first!
     resource.assign_attributes(permitted_params[:mail_template])
-    render :preview
+    render json: {
+      previews: Current.org.languages.index_with { |locale|
+        view_context.mail_preview_srcdoc(resource.mail_preview(locale))
+      }
+    }
   end
 
   controller do
-    skip_before_action :verify_authenticity_token, only: :preview
     include OrganizationsHelper
 
     def scoped_collection

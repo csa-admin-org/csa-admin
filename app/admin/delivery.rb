@@ -241,12 +241,18 @@ ActiveAdmin.register Delivery do
 
   batch_action :destroy, if: proc { params.dig(:q, :during_year).to_i > Current.fy_year }
 
-  batch_action :open_shop, if: proc { feature?("shop") && (!params[:scope] || params[:scope] == "coming") } do |selection|
+  batch_action :open_shop, if: proc {
+    authorized?(:batch_action, Delivery) && feature?("shop") && (!params[:scope] || params[:scope] == "coming")
+  } do |selection|
+    authorize! :batch_action, Delivery
     Delivery.where(id: selection).update_all(shop_open: true)
     redirect_back fallback_location: collection_path
   end
 
-  batch_action :close_shop, if: proc { feature?("shop") && (!params[:scope] || params[:scope] == "coming") } do |selection|
+  batch_action :close_shop, if: proc {
+    authorized?(:batch_action, Delivery) && feature?("shop") && (!params[:scope] || params[:scope] == "coming")
+  } do |selection|
+    authorize! :batch_action, Delivery
     Delivery.where(id: selection).update_all(shop_open: false)
     redirect_back fallback_location: collection_path
   end

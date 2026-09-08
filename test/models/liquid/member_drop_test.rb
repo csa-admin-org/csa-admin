@@ -17,4 +17,13 @@ class Liquid::MemberDropTest < ActiveSupport::TestCase
 
     assert_raises(Liquid::UndefinedDropMethod) { drop.liquid_method_missing("unknown") }
   end
+
+  test "escapes member name in Liquid HTML output" do
+    member = members(:john)
+    member.name = %{<img src=x onerror=alert(1)>}
+    drop = Liquid::MemberDrop.new(member)
+    html = Liquid::Template.parse("{{ member.name }}").render!("member" => drop)
+
+    assert_equal "&lt;img src=x onerror=alert(1)&gt;", html
+  end
 end

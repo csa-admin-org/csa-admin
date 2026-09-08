@@ -35,7 +35,8 @@ module FormsHelper
           form.inputs title, icon: "eye" do
             arbre.li class: "iframe-wrapper" do
               arbre.iframe(
-                srcdoc: record.mail_preview(locale),
+                srcdoc: mail_preview_srcdoc(record.mail_preview(locale)),
+                sandbox: mail_preview_iframe_sandbox,
                 scrolling: "no",
                 class: "mail_preview",
                 id: "mail_preview_#{locale}",

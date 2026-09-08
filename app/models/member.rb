@@ -24,7 +24,9 @@ class Member < ApplicationRecord
   searchable :name, :emails, :city, :zip, :id, priority: 1
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
-  generates_token_for :calendar
+  generates_token_for :calendar do
+    Tenant.current || raise("Cannot generate calendar token outside tenant context")
+  end
 
   # Temporary attributes for Delivery XLSX worksheet
   attr_accessor :basket, :shop_order

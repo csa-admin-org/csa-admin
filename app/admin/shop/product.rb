@@ -165,12 +165,18 @@ ActiveAdmin.register Shop::Product do
     end
   end
 
-  batch_action :make_available, if: ->(attr) { params[:scope] == "unavailable" } do |selection|
+  batch_action :make_available, if: ->(_attr) {
+    authorized?(:batch_action, Shop::Product) && params[:scope] == "unavailable"
+  } do |selection|
+    authorize! :batch_action, Shop::Product
     Shop::Product.where(id: selection).update_all(available: true)
     redirect_back fallback_location: collection_path
   end
 
-  batch_action :make_unavailable, if: ->(attr) { !params[:scope] || params[:scope] == "available" } do |selection|
+  batch_action :make_unavailable, if: ->(_attr) {
+    authorized?(:batch_action, Shop::Product) && (!params[:scope] || params[:scope] == "available")
+  } do |selection|
+    authorize! :batch_action, Shop::Product
     Shop::Product.where(id: selection).update_all(available: false)
     redirect_back fallback_location: collection_path
   end

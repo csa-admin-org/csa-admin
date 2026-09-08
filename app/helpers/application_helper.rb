@@ -3,6 +3,53 @@
 module ApplicationHelper
   include SmartRefererHelper
 
+  MAIL_PREVIEW_HEIGHT_MESSAGE = "csa-admin:mail-preview-height"
+  MAIL_PREVIEW_MEASURE_MESSAGE = "csa-admin:mail-preview-measure"
+  MAIL_PREVIEW_HEIGHT_SCRIPT = <<~HTML.freeze
+    <script>
+    (function () {
+      function post() {
+        var height = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+        parent.postMessage({ type: #{MAIL_PREVIEW_HEIGHT_MESSAGE.to_json}, height: height }, "*");
+      }
+      window.addEventListener("message", function (event) {
+        if (event.data && event.data.type === #{MAIL_PREVIEW_MEASURE_MESSAGE.to_json}) post();
+      });
+      window.addEventListener("load", post);
+      window.addEventListener("resize", post);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(post);
+      new ResizeObserver(post).observe(document.documentElement);
+      post();
+    })();
+    </script>
+  HTML
+
+  def mail_preview_iframe_sandbox
+    "allow-scripts allow-popups allow-popups-to-escape-sandbox"
+  end
+
+  def mail_preview_srcdoc(html)
+    html = html.to_s
+    return html if html.blank?
+
+    if html.match?(%r{</body>}i)
+      html.sub(%r{</body>}i, "#{MAIL_PREVIEW_HEIGHT_SCRIPT}</body>")
+    else
+      "<!DOCTYPE html><html><body>#{html}#{MAIL_PREVIEW_HEIGHT_SCRIPT}</body></html>"
+    end
+  end
+
+  def mail_preview_iframe(srcdoc, **options)
+    data = { iframe_target: "iframe" }.merge(options.delete(:data) || {})
+    tag.iframe(
+      srcdoc: mail_preview_srcdoc(srcdoc),
+      sandbox: mail_preview_iframe_sandbox,
+      class: "mail_preview",
+      scrolling: "no",
+      data: data,
+      **options)
+  end
+
   def spaced(string, size: 3)
     string = string.to_s
     (size - string.length).times do

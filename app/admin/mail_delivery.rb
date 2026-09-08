@@ -133,7 +133,8 @@ ActiveAdmin.register MailDelivery do
             if preview
               div class: "iframe-wrapper" do
                 iframe(
-                  srcdoc: preview,
+                  srcdoc: mail_preview_srcdoc(preview),
+                  sandbox: mail_preview_iframe_sandbox,
                   scrolling: "no",
                   class: "mail_preview",
                   "data-iframe-target" => "iframe")

@@ -50,5 +50,7 @@ class MailTemplatesTest < ApplicationSystemTestCase
 
     assert iframe.has_selector?("h1", text: "Welcome Jane Doe!!")
     assert iframe.has_selector?("p", text: "Basket: Medium basket")
+    assert_equal "allow-scripts allow-popups allow-popups-to-escape-sandbox",
+      page.find("iframe#mail_preview_en")[:sandbox]
   end
 end

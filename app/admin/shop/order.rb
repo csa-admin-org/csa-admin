@@ -315,7 +315,10 @@ ActiveAdmin.register Shop::Order do
       target: "_blank"
   end
 
-  batch_action :invoice, if: ->(attr) { Current.org.iban? && params[:scope].in?([ nil, "pending" ]) }, confirm: true do |selection|
+  batch_action :invoice, if: ->(_attr) {
+    authorized?(:batch_action, Shop::Order) && Current.org.iban? && params[:scope].in?([ nil, "pending" ])
+  }, confirm: true do |selection|
+    authorize! :batch_action, Shop::Order
     Shop::Order.where(id: selection).find_each do |order|
       order.admin = current_admin
       order.invoice! if order.can_invoice?

@@ -37,7 +37,7 @@ ActiveAdmin.register Newsletter::Template do
   form data: {
     controller: "code-editor",
     code_editor_target: "form",
-    code_editor_preview_path_value: "/newsletter_templates/preview.js"
+    code_editor_preview_path_value: "/newsletter_templates/preview"
   } do |f|
     newsletter_template = f.object
     f.inputs t(".details"), icon: "notebook-text" do
@@ -76,7 +76,11 @@ ActiveAdmin.register Newsletter::Template do
   collection_action :preview, method: :post do
     @newsletter_template = resource_class.new
     resource.assign_attributes(permitted_params[:newsletter_template])
-    render "mail_templates/preview"
+    render json: {
+      previews: Current.org.languages.index_with { |locale|
+        view_context.mail_preview_srcdoc(resource.mail_preview(locale))
+      }
+    }
   end
 
   before_build do |resource|
@@ -88,10 +92,6 @@ ActiveAdmin.register Newsletter::Template do
       resource.contents = template.contents
       resource.feed_enabled = template.feed_enabled
     end
-  end
-
-  controller do
-    skip_before_action :verify_authenticity_token, only: :preview
   end
 
   order_by(:title) do |clause|
