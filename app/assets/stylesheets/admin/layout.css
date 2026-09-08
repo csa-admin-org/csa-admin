@@ -962,8 +962,9 @@
   }
 
   .admin-menu-logout {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: flex-end;
     border-radius: 0.25rem;
     padding: 0.375rem 0.625rem;
     font-size: 0.875rem;
