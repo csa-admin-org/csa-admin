@@ -412,17 +412,20 @@ ActiveAdmin.register Depot do
 
   batch_action :destroy, false
 
-  batch_action :show_in_registration_form, if: proc { authorized?(:update, Depot) && params[:scope].in?([ "all", "hidden" ]) } do |selection|
+  batch_action :show_in_registration_form, if: proc { authorized?(:batch_action, Depot) && params[:scope].in?([ "all", "hidden" ]) } do |selection|
+    authorize! :batch_action, Depot
     Depot.where(id: selection).update_all(visible: true)
     redirect_back fallback_location: collection_path
   end
 
-  batch_action :hide_from_registration_form, if: proc { authorized?(:update, Depot) && params[:scope].in?([ nil, "all", "visible" ]) } do |selection|
+  batch_action :hide_from_registration_form, if: proc { authorized?(:batch_action, Depot) && params[:scope].in?([ nil, "all", "visible" ]) } do |selection|
+    authorize! :batch_action, Depot
     Depot.where(id: selection).update_all(visible: false)
     redirect_back fallback_location: collection_path
   end
 
-  batch_action :show_on_maps, if: proc { authorized?(:update, Depot) && feature?("maps") } do |selection|
+  batch_action :show_on_maps, if: proc { authorized?(:batch_action, Depot) && feature?("maps") } do |selection|
+    authorize! :batch_action, Depot
     depots = Depot.where(id: selection)
     depots_with_coordinates = depots.where.not(latitude: nil).where.not(longitude: nil)
     depots_with_coordinates.update_all(maps_visible: true)
@@ -434,7 +437,8 @@ ActiveAdmin.register Depot do
     end
   end
 
-  batch_action :hide_from_maps, if: proc { authorized?(:update, Depot) && feature?("maps") } do |selection|
+  batch_action :hide_from_maps, if: proc { authorized?(:batch_action, Depot) && feature?("maps") } do |selection|
+    authorize! :batch_action, Depot
     Depot.where(id: selection).update_all(maps_visible: false)
     redirect_back fallback_location: collection_path
   end
