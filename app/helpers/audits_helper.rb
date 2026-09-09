@@ -53,6 +53,7 @@ module AuditsHelper
     shop_open_for_depot_ids
     wdays
     periods
+    home_delivery_address
   ].freeze
 
   def should_display_audit_change?(attr, before_value, after_value)
@@ -74,6 +75,8 @@ module AuditsHelper
   def render_audit_diff(attr, before_value, after_value)
     attr = attr.to_s
     return nil unless attr.in?(DIFF_ATTRIBUTES)
+
+    return render_home_delivery_address_diff(before_value, after_value) if attr == "home_delivery_address"
 
     before_value ||= []
     after_value ||= []
@@ -320,6 +323,36 @@ module AuditsHelper
 
   def period_range_key(period)
     [ period["from_fy_month"].to_i, period["to_fy_month"].to_i ]
+  end
+
+  def render_home_delivery_address_diff(before, after)
+    content_tag(:div, class: "audit-change") do
+      concat(content_tag(:div, class: "is-muted") {
+        format_home_delivery_address_snapshot(before)
+      })
+      concat(content_tag(:div, "→", class: "is-faint is-static audit-arrow"))
+      concat(content_tag(:div) {
+        format_home_delivery_address_snapshot(after)
+      })
+    end
+  end
+
+  def format_home_delivery_address_snapshot(snapshot)
+    return t("active_admin.empty") if snapshot.blank?
+
+    snapshot = snapshot.stringify_keys
+    lines = [
+      snapshot["name"],
+      snapshot["street"],
+      [ snapshot["zip"], snapshot["city"] ].compact_blank.join(" "),
+      snapshot["note"].presence
+    ].compact_blank
+    dates = Delivery.where(id: snapshot["delivery_ids"]).order(:date).map { |d|
+      l(d.date, format: :medium)
+    }
+    lines << dates.join(", ") if dates.any?
+
+    safe_join(lines.map { |line| content_tag(:div, line) })
   end
 
   def render_list_diff(removed: [], added: [])

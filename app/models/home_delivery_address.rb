@@ -3,6 +3,7 @@
 class HomeDeliveryAddress < ApplicationRecord
   include Sessionable
   include NormalizedString
+  include Auditing
 
   belongs_to :member
   has_many :home_delivery_address_deliveries,

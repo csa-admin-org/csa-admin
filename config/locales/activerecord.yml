@@ -1639,6 +1639,12 @@ _:
           _de: Anzahl der bestehenden Anteilscheine
           _it: Numero di quote sociali cooperative esistenti
           _nl: Aantal bestaande coöperatieaandelen
+        home_delivery_address:
+          _en: Temporary address
+          _fr: Adresse temporaire
+          _de: Temporäre Adresse
+          _it: Indirizzo temporaneo
+          _nl: Tijdelijk adres
         iban:
           _en: IBAN
           _fr: IBAN

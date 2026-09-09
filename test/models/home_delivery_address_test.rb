@@ -317,6 +317,135 @@ class HomeDeliveryAddressTest < ActiveSupport::TestCase
     assert_nil overlay.reload.session_id
   end
 
+  test "invalid overlay does not write a member audit" do
+    assert_no_difference -> { @member.audits.count } do
+      overlay = HomeDeliveryAddress.new(member: @member, deliveries: [ @delivery ])
+      assert_not overlay.save
+    end
+  end
+
+  test "create writes a member audit snapshot" do
+    session = create_session(admins(:super))
+    Current.session = session
+
+    overlay = nil
+    assert_difference -> { @member.audits.count }, 1 do
+      overlay = HomeDeliveryAddress.create!(
+        member: @member,
+        name: "Valentine Schneider",
+        street: "Chantemerle 16",
+        zip: "2000",
+        city: "Neuchatel",
+        note: "Leave at door",
+        deliveries: [ @delivery ])
+    end
+
+    audit = @member.audits.last
+    assert_equal session, audit.session
+    assert_equal admins(:super), audit.actor
+    before, after = audit.audited_changes["home_delivery_address"]
+    assert_nil before
+    assert_equal overlay.id, after["id"]
+    assert_equal "Valentine Schneider", after["name"]
+    assert_equal "Chantemerle 16", after["street"]
+    assert_equal "2000", after["zip"]
+    assert_equal "Neuchatel", after["city"]
+    assert_equal "Leave at door", after["note"]
+    assert_equal [ @delivery.id ], after["delivery_ids"]
+  end
+
+  test "update writes a member audit when the host address changes" do
+    overlay = HomeDeliveryAddress.create!(
+      member: @member,
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      deliveries: [ @delivery ])
+    @member.audits.delete_all
+
+    assert_difference -> { @member.audits.count }, 1 do
+      overlay.update!(name: "Alice Doe")
+    end
+
+    before, after = @member.audits.last.audited_changes["home_delivery_address"]
+    assert_equal "Valentine Schneider", before["name"]
+    assert_equal "Alice Doe", after["name"]
+    assert_equal [ @delivery.id ], before["delivery_ids"]
+    assert_equal [ @delivery.id ], after["delivery_ids"]
+  end
+
+  test "update writes a member audit when only deliveries change" do
+    overlay = HomeDeliveryAddress.create!(
+      member: @member,
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      deliveries: [ @delivery ])
+    @member.audits.delete_all
+
+    assert_difference -> { @member.audits.count }, 1 do
+      overlay.update!(delivery_ids: [])
+    end
+
+    before, after = @member.audits.last.audited_changes["home_delivery_address"]
+    assert_equal [ @delivery.id ], before["delivery_ids"]
+    assert_empty after["delivery_ids"]
+    assert_equal before["name"], after["name"]
+  end
+
+  test "unchanged save does not write a member audit" do
+    overlay = HomeDeliveryAddress.create!(
+      member: @member,
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      deliveries: [ @delivery ])
+    @member.audits.delete_all
+
+    assert_no_difference -> { @member.audits.count } do
+      overlay.update!(name: "Valentine Schneider")
+    end
+  end
+
+  test "destroy writes a member audit snapshot" do
+    overlay = HomeDeliveryAddress.create!(
+      member: @member,
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      deliveries: [ @delivery ])
+    @member.audits.delete_all
+
+    assert_difference -> { @member.audits.count }, 1 do
+      overlay.destroy!
+    end
+
+    before, after = @member.audits.last.audited_changes["home_delivery_address"]
+    assert_equal "Valentine Schneider", before["name"]
+    assert_equal [ @delivery.id ], before["delivery_ids"]
+    assert_nil after
+  end
+
+  test "destroy does not write a member audit when the member association is tearing down" do
+    overlay = HomeDeliveryAddress.create!(
+      member: @member,
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      deliveries: [ @delivery ])
+    @member.audits.delete_all
+    overlay.destroyed_by_association = Member.reflect_on_association(:home_delivery_addresses)
+
+    assert_no_difference -> { @member.audits.count } do
+      overlay.destroy!
+    end
+  end
+
   test "can_member_destroy? is false when frozen dates remain" do
     overlay = HomeDeliveryAddress.create!(
       member: @member,

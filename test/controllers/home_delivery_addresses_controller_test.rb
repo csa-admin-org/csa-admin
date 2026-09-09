@@ -336,6 +336,24 @@ class HomeDeliveryAddressesControllerTest < ActionDispatch::IntegrationTest
     assert_select ".status-tag", text: /#{Regexp.escape(HomeDeliveryAddress.model_name.human)}/i
   end
 
+  test "member audits show a created overlay" do
+    members(:bob).update_column(:created_at, 1.day.ago)
+    HomeDeliveryAddress.create!(
+      member: members(:bob),
+      name: "Valentine Schneider",
+      street: "Chantemerle 16",
+      zip: "2000",
+      city: "Neuchatel",
+      delivery_ids: [ deliveries(:monday_1).id ])
+
+    get member_member_audits_path(members(:bob))
+
+    assert_response :success
+    assert_select "h4", text: Member.human_attribute_name(:home_delivery_address)
+    assert_select ".audit-change", text: /Valentine Schneider/
+    assert_select ".audit-change", text: /Chantemerle 16/
+  end
+
   test "destroy redirects to the member" do
     overlay = HomeDeliveryAddress.create!(
       member: members(:bob),

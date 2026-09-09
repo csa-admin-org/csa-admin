@@ -380,4 +380,27 @@ class AuditsHelperTest < ActionView::TestCase
     # Actually, it shouldn't appear at all since it's unchanged
     assert_equal 1, result.scan("→").count  # Only one change shown
   end
+
+  test "render_audit_diff formats a temporary address snapshot" do
+    delivery = deliveries(:monday_1)
+    after = {
+      "id" => 10,
+      "name" => "Valentine Schneider",
+      "street" => "Chantemerle 16",
+      "zip" => "2000",
+      "city" => "Neuchatel",
+      "note" => "Leave at door",
+      "delivery_ids" => [ delivery.id ]
+    }
+
+    result = render_audit_diff("home_delivery_address", nil, after)
+
+    assert_includes result, t("active_admin.empty")
+    assert_includes result, "Valentine Schneider"
+    assert_includes result, "Chantemerle 16"
+    assert_includes result, "2000 Neuchatel"
+    assert_includes result, "Leave at door"
+    assert_includes result, l(delivery.date, format: :medium)
+    assert_not_includes result, "10"
+  end
 end
