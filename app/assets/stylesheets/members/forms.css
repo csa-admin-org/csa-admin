@@ -56,6 +56,11 @@
     line-height: 1.5rem;
   }
 
+  .form-label-tight:has(+ .radio_buttons),
+  .form-label-tight:has(+ .select) {
+    margin-bottom: 0.5rem;
+  }
+
   .form-label-spread {
     justify-content: space-between;
   }
@@ -75,6 +80,7 @@
   }
 
   .form-fields-loose {
+    margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -107,7 +113,7 @@
   }
 
   .form-richtext-md {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
