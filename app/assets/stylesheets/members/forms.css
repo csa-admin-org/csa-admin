@@ -92,6 +92,10 @@
     color: var(--color-gray-500);
   }
 
+  .form-fields-tight > .form-copy {
+    margin-bottom: 0;
+  }
+
   .form-copy .form-root {
     margin-top: 2rem;
   }

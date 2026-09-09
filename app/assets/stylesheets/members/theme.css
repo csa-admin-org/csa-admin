@@ -226,6 +226,12 @@
         color: var(--color-ink-secondary);
       }
 
+      /* SimpleForm marks hidden inputs with div.input.hidden. Without this they
+         still take the sibling gap between basket complement options. */
+      div.input.hidden {
+        display: none;
+      }
+
       span.hint {
         display: inline-block;
         width: 100%;
@@ -332,9 +338,14 @@
       div.quantity_inputs {
         display: flex;
         flex-direction: column;
+        gap: 0.5rem;
 
-        & > :not(:last-child) {
-          margin-bottom: 0.5rem;
+        .check_boxes {
+          margin-block: 0;
+
+          & > label {
+            margin-bottom: 0;
+          }
         }
 
         .quantity {
