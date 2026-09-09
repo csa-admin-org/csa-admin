@@ -28,6 +28,24 @@ class Member < ApplicationRecord
     Tenant.current || raise("Cannot generate calendar token outside tenant context")
   end
 
+  # Temporary read of webcal tokens minted before 90b9509. Those signed only
+  # [member.id]; new links still embed Tenant.current. Calendar clients keep
+  # polling the old URL until members copy a new one. Id-only tokens can still
+  # match another org's member with the same SQLite PK. Drop this fallback
+  # when Members::CalendarsController 401s in AppSignal dry up.
+  def self.find_by_calendar_token(token)
+    find_by_token_for(:calendar, token) || find_by_legacy_id_only_calendar_token(token)
+  end
+
+  def self.find_by_legacy_id_only_calendar_token(token)
+    definition = token_definitions.fetch(:calendar)
+    payload = definition.message_verifier.verified(token, purpose: definition.full_purpose)
+    return unless payload.is_a?(Array) && payload.size == 1
+
+    find_by(id: payload.first)
+  end
+  private_class_method :find_by_legacy_id_only_calendar_token
+
   # Temporary attributes for Delivery XLSX worksheet
   attr_accessor :basket, :shop_order
 

@@ -8,6 +8,11 @@ class Members::CalendarsControllerTest < ActionDispatch::IntegrationTest
     get "/calendar.ics", params: { token: token }.compact, headers: headers
   end
 
+  def legacy_id_only_calendar_token(member)
+    definition = Member.token_definitions.fetch(:calendar)
+    definition.message_verifier.generate([ member.id ], purpose: definition.full_purpose)
+  end
+
   test "without token" do
     request token: nil
     assert_response :unauthorized
@@ -35,7 +40,19 @@ class Members::CalendarsControllerTest < ActionDispatch::IntegrationTest
     with_tenant("beta") do
       assert_equal member.id, Member.find(member.id).id
       assert_nil Member.find_by_token_for(:calendar, token)
+      assert_nil Member.find_by_calendar_token(token)
     end
+  end
+
+  test "still accepts id-only tokens minted before tenant binding" do
+    member = members(:john)
+    token = legacy_id_only_calendar_token(member)
+
+    assert_nil Member.find_by_token_for(:calendar, token)
+
+    request token: token
+
+    assert_response :success
   end
 
   test "token generation requires a tenant context" do
