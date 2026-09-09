@@ -42,7 +42,7 @@ class BiddingRoundMailer < ApplicationMailer
   def set_context
     @bidding_round = params[:bidding_round]
     @member = params[:member]
-    @membership = @member.memberships.during_year(@bidding_round.fiscal_year).first
+    @membership = params[:membership] || @member.membership(@bidding_round.fiscal_year)
     @pledge = params[:bidding_round_pledge] || @bidding_round.pledges.find_by(membership: @membership)
   end
 end

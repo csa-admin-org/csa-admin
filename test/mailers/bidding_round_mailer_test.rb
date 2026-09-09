@@ -96,4 +96,14 @@ class BiddingRoundMailerTest < ActionMailer::TestCase
     assert_equal "Acme <info@acme.test>", mail[:from].decoded
     assert_equal "outbound", mail[:message_stream].to_s
   end
+
+  test "mail preview renders for all bidding round templates" do
+    travel_to "2024-01-01"
+
+    MailTemplate::BIDDING_ROUND_TITLES.each do |title|
+      html = mail_templates(title).mail_preview("en")
+
+      assert_includes html, "https://members.acme.test/memberships", html
+    end
+  end
 end
