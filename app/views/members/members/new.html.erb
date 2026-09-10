@@ -71,22 +71,24 @@
         </div>
       </div>
 
-      <% if Current.org.terms_of_service? %>
-        <div class="check_boxes">
-          <div class="checkbox">
-            <%= f.input :terms_of_service, as: :boolean, label: terms_of_service_label %>
+      <div class="form-footer">
+        <% if Current.org.terms_of_service? %>
+          <div class="check_boxes">
+            <div class="checkbox">
+              <%= f.input :terms_of_service, as: :boolean, label: terms_of_service_label %>
+            </div>
           </div>
-        </div>
-      <% end %>
-
-      <%= cap_token_field %>
-
-      <%= tag.div class: "actions form-submit print-hidden", data: cap_submit_tooltip_data do %>
-        <%= button_tag type: "submit", data: cap_submit_tooltip_target_data do %>
-          <%= icon "check", class: "icon-inline-action" %>
-          <span><%= t(".submit") %></span>
         <% end %>
-      <% end %>
+
+        <%= cap_token_field %>
+
+        <%= tag.div class: "actions print-hidden", data: cap_submit_tooltip_data do %>
+          <%= button_tag type: "submit", data: cap_submit_tooltip_target_data do %>
+            <%= icon "check", class: "icon-inline-action" %>
+            <span><%= t(".submit") %></span>
+          <% end %>
+        <% end %>
+      </div>
     </div>
   <% end %>
 

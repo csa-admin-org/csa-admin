@@ -340,6 +340,16 @@
         flex-direction: column;
         gap: 0.5rem;
 
+        & > label {
+          margin-bottom: 0;
+        }
+
+        .form-richtext,
+        .form-richtext-md,
+        .form-richtext-sm {
+          margin-bottom: 0;
+        }
+
         .check_boxes {
           margin-block: 0;
 

@@ -80,10 +80,13 @@
   }
 
   .form-fields-loose {
-    margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
+  }
+
+  .form-legend + .form-fields-loose {
+    margin-top: 0.5rem;
   }
 
   .form-copy {
@@ -99,6 +102,7 @@
   }
 
   .form-fields-tight > .form-copy {
+    margin-top: 0;
     margin-bottom: 0;
   }
 
@@ -107,7 +111,7 @@
   }
 
   .form-richtext {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
@@ -161,8 +165,14 @@
     width: 6rem;
   }
 
-  .form-submit {
-    margin-top: -1rem;
+  .form-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-footer .actions {
+    margin-top: 0;
   }
 
   .form-hint {
