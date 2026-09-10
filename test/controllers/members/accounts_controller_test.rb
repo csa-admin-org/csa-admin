@@ -35,6 +35,7 @@ class Members::AccountsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "form[action='#{members_account_path}']"
+    assert_select ".member-read-only-banner", text: I18n.t("members.read_only_sessions.alert")
   end
 
   test "update is blocked for an admin-originated session" do
@@ -55,18 +56,35 @@ class Members::AccountsControllerTest < ActionDispatch::IntegrationTest
     member = members(:john)
     login_as_admin_originated(member)
 
-    original_env = Rails.instance_variable_get(:@_env)
-
-    begin
-      Rails.instance_variable_set(:@_env, ActiveSupport::EnvironmentInquirer.new("development"))
+    with_rails_env("development") do
+      get edit_members_account_path
+      assert_response :success
+      assert_select ".member-read-only-banner", count: 0
 
       assert_changes -> { member.reload.name }, to: "John Updated" do
         patch members_account_path, params: {
           member: { name: "John Updated" }
         }
       end
-    ensure
-      Rails.instance_variable_set(:@_env, original_env)
+    end
+
+    assert_redirected_to members_account_path
+  end
+
+  test "update is allowed for an admin-originated session on a demo tenant" do
+    member = members(:john)
+    login_as_admin_originated(member)
+
+    Tenant.stub(:demo?, true) do
+      get edit_members_account_path
+      assert_response :success
+      assert_select ".member-read-only-banner", count: 0
+
+      assert_changes -> { member.reload.name }, to: "John Updated" do
+        patch members_account_path, params: {
+          member: { name: "John Updated" }
+        }
+      end
     end
 
     assert_redirected_to members_account_path

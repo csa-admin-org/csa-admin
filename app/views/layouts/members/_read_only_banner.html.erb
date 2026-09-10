@@ -1,4 +1,4 @@
-<% if current_session&.admin_originated? %>
+<% if admin_originated_session_read_only? %>
   <div class="member-read-only-banner">
     <%= icon "triangle-alert", class: "member-read-only-icon" %>
     <span><%= t("members.read_only_sessions.alert") %></span>
