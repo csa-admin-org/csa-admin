@@ -25,7 +25,7 @@ Tariffa di base
 {% elsif extra == 1.5 %}
 + {{ extra }}/<%= Basket.model_name.human.downcase %>
 {% else %}
-+ {{ extra | ceil }}.-/<%= Basket.model_name.human.downcase %>
++ {{ extra | ceil }}.00/<%= Basket.model_name.human.downcase %>
 {% endif %}
 ~~~
 
@@ -36,9 +36,9 @@ Puoi anche scegliere di aggiungere più dettagli all'etichetta, per esempio util
 
 ~~~ liquid
 {% if extra == 1.5 %}
-salario ~{{ extra | plus: 20 }} netto/ora, ~{{ extra | plus: 20 | times: 100 | ceil }}.- netto/mese al 50%
+salario ~{{ extra | plus: 20 }} netto/ora, ~{{ extra | plus: 20 | times: 100 | ceil }} netto/mese al 50%
 {% else %}
-salario ~{{ extra | plus: 20 | ceil }}.- netto/ora, ~{{ extra | plus: 20 | times: 100 | ceil }}.- netto/mese al 50%
+salario ~{{ extra | plus: 20 | ceil }} netto/ora, ~{{ extra | plus: 20 | times: 100 | ceil }} netto/mese al 50%
 {% endif %}
 ~~~
 

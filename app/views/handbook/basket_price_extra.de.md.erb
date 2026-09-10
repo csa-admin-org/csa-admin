@@ -25,7 +25,7 @@ Basispreis
 {% elsif extra == 1.5 %}
 + {{ extra }}/<%= Basket.model_name.human %>
 {% else %}
-+ {{ extra | ceil }}.-/<%= Basket.model_name.human %>
++ {{ extra | ceil }}.00/<%= Basket.model_name.human %>
 {% endif %}
 ~~~
 
@@ -36,9 +36,9 @@ Du kannst auch wählen, dem Label mehr Details hinzuzufügen, zum Beispiel mit H
 
 ~~~ liquid
 {% if extra == 1.5 %}
-Gehalt ~{{ extra | plus: 20 }} netto/Stunde, ~{{ extra | plus: 20 | times: 100 | ceil }}.- netto/Monat bei 50%
+Gehalt ~{{ extra | plus: 20 }} netto/Stunde, ~{{ extra | plus: 20 | times: 100 | ceil }} netto/Monat bei 50%
 {% else %}
-Gehalt ~{{ extra | plus: 20 | ceil }}.- netto/Stunde, ~{{ extra | plus: 20 | times: 100 | ceil }}.- netto/Monat bei 50%
+Gehalt ~{{ extra | plus: 20 | ceil }} netto/Stunde, ~{{ extra | plus: 20 | times: 100 | ceil }} netto/Monat bei 50%
 {% endif %}
 ~~~
 

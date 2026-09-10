@@ -62,7 +62,7 @@ acme:
       {% if extra == 0 %}
       Base price
       {% else %}
-      + {{ extra | ceil }}.-/basket
+      + {{ extra | ceil }}.00/basket
       {% endif %}
   basket_price_extra_label_details:
     en: "{% if extra != 0 %}{{ full_year_price }}{% endif %}"

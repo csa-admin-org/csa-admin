@@ -25,7 +25,7 @@ Base price
 {% elsif extra == 1.5 %}
 + {{ extra }}/<%= Basket.model_name.human.downcase %>
 {% else %}
-+ {{ extra | ceil }}.-/<%= Basket.model_name.human.downcase %>
++ {{ extra | ceil }}.00/<%= Basket.model_name.human.downcase %>
 {% endif %}
 ~~~
 
@@ -36,9 +36,9 @@ You can also choose to add more details to the label, for example using [Liquid 
 
 ~~~ liquid
 {% if extra == 1.5 %}
-salary ~{{ extra | plus: 20 }} net/hour, ~{{ extra | plus: 20 | times: 100 | ceil }}.- net/month at 50%
+salary ~{{ extra | plus: 20 }} net/hour, ~{{ extra | plus: 20 | times: 100 | ceil }} net/month at 50%
 {% else %}
-salary ~{{ extra | plus: 20 | ceil }}.- net/hour, ~{{ extra | plus: 20 | times: 100 | ceil }}.- net/month at 50%
+salary ~{{ extra | plus: 20 | ceil }} net/hour, ~{{ extra | plus: 20 | times: 100 | ceil }} net/month at 50%
 {% endif %}
 ~~~
 

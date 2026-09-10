@@ -25,7 +25,7 @@ Basisprijs
 {% elsif extra == 1.5 %}
 + {{ extra }}/<%= Basket.model_name.human.downcase %>
 {% else %}
-+ {{ extra | ceil }}.-/<%= Basket.model_name.human.downcase %>
++ {{ extra | ceil }}.00/<%= Basket.model_name.human.downcase %>
 {% endif %}
 ~~~
 
@@ -36,9 +36,9 @@ Je kunt er ook voor kiezen om meer details aan het label toe te voegen, bijvoorb
 
 ~~~ liquid
 {% if extra == 1.5 %}
-salaris ~{{ extra | plus: 20 }} netto/uur, ~{{ extra | plus: 20 | times: 100 | ceil }}.- netto/maand bij 50%
+salaris ~{{ extra | plus: 20 }} netto/uur, ~{{ extra | plus: 20 | times: 100 | ceil }} netto/maand bij 50%
 {% else %}
-salaris ~{{ extra | plus: 20 | ceil }}.- netto/uur, ~{{ extra | plus: 20 | times: 100 | ceil }}.- netto/maand bij 50%
+salaris ~{{ extra | plus: 20 | ceil }} netto/uur, ~{{ extra | plus: 20 | times: 100 | ceil }} netto/maand bij 50%
 {% endif %}
 ~~~
 

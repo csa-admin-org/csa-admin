@@ -50,7 +50,7 @@ class BasketPriceExtraFeatureTest < ActiveSupport::TestCase
     assert_includes result_decimal, "+ 1.5/basket"
 
     result_integer = template.render("extra" => 3)
-    assert_includes result_integer, "+ 3.-/basket"
+    assert_includes result_integer, "+ 3.00/basket"
   end
 
   test "default_basket_price_extra_label_details returns details for all languages" do

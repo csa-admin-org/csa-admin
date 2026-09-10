@@ -19,29 +19,29 @@ class Members::MembersTest < ApplicationSystemTestCase
     fill_in "Phone(s)", with: "077 142 42 42, 077 143 44 44"
 
     assert_text "Basket size"
-    assert_text "Large basketCHF 300-600 (30.- x 10-20 deliveries), 3 half-days"
-    assert_text "Medium basketCHF 200-400 (20.- x 10-20 deliveries), 2 half-days"
-    assert_text "Small basketCHF 100-200 (10.- x 10-20 deliveries), 2 half-days"
+    assert_text "Large basketCHF 300-600 (30.00 x 10-20 deliveries), 3 half-days"
+    assert_text "Medium basketCHF 200-400 (20.00 x 10-20 deliveries), 2 half-days"
+    assert_text "Small basketCHF 100-200 (10.00 x 10-20 deliveries), 2 half-days"
     assert_text "Supporting memberAnnual fee only"
     choose "Large basket"
 
     assert_text "Basket complements"
-    assert_text "BreadCHF 40.00 (4.- x 0-10 deliveries)"
-    assert_text "EggsCHF 60.00 (6.- x 0-10 deliveries)"
+    assert_text "BreadCHF 40.00 (4.00 x 0-10 deliveries)"
+    assert_text "EggsCHF 60.00 (6.00 x 0-10 deliveries)"
     check "Bread"
     check "Eggs"
 
     assert_text "Support"
     assert_text "Base price"
-    assert_text "+ 1.-/basketCHF 10-20"
-    assert_text "+ 2.-/basketCHF 20-40"
-    assert_text "+ 3.-/basketCHF 30-60"
-    choose "+ 1.-/basket"
+    assert_text "+ 1.00/basketCHF 10-20"
+    assert_text "+ 2.00/basketCHF 20-40"
+    assert_text "+ 3.00/basketCHF 30-60"
+    choose "+ 1.00/basket"
 
     assert_text "Depot"
     assert_text "Our farm42 Nowhere, 1234 Unknown"
-    assert_text "BakeryCHF 40-80 (4.- x 10-20 deliveries)"
-    assert_text "HomeCHF 90-180 (9.- x 10-20 deliveries)"
+    assert_text "BakeryCHF 40-80 (4.00 x 10-20 deliveries)"
+    assert_text "HomeCHF 90-180 (9.00 x 10-20 deliveries)"
     choose "Bakery"
 
     assert_text "Alternative depot(s)"
@@ -332,20 +332,20 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     visit "/new"
 
-    assert_text "Large basketCHF 270-540 (30.- x 9-18 deliveries), 3 half-days"
-    assert_text "Medium basketCHF 180-360 (20.- x 9-18 deliveries), 2 half-days"
-    assert_text "Small basketCHF 90-180 (10.- x 9-18 deliveries), 2 half-days"
+    assert_text "Large basketCHF 270-540 (30.00 x 9-18 deliveries), 3 half-days"
+    assert_text "Medium basketCHF 180-360 (20.00 x 9-18 deliveries), 2 half-days"
+    assert_text "Small basketCHF 90-180 (10.00 x 9-18 deliveries), 2 half-days"
 
-    assert_text "BreadCHF 36.00 (4.- x 0-9 deliveries)"
-    assert_text "EggsCHF 54.00 (6.- x 0-9 deliveries)"
+    assert_text "BreadCHF 36.00 (4.00 x 0-9 deliveries)"
+    assert_text "EggsCHF 54.00 (6.00 x 0-9 deliveries)"
 
-    assert_text "+ 1.-/basketCHF 9-18"
-    assert_text "+ 2.-/basketCHF 18-36"
-    assert_text "+ 3.-/basketCHF 27-54"
+    assert_text "+ 1.00/basketCHF 9-18"
+    assert_text "+ 2.00/basketCHF 18-36"
+    assert_text "+ 3.00/basketCHF 27-54"
 
     assert_text "Our farm42 Nowhere, 1234 Unknown"
-    assert_text "BakeryCHF 36-72 (4.- x 9-18 deliveries)"
-    assert_text "HomeCHF 81-162 (9.- x 9-18 deliveries)"
+    assert_text "BakeryCHF 36-72 (4.00 x 9-18 deliveries)"
+    assert_text "HomeCHF 81-162 (9.00 x 9-18 deliveries)"
   end
 
   test "shop-only member form mode" do

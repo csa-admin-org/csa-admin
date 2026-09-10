@@ -23,7 +23,7 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
     fill_in "Eggs", with: "1"
 
     assert_text "Support"
-    choose "+ 2.-/basket"
+    choose "+ 2.00/basket"
 
     choose "All" # 20 Deliveries
     choose "Monthly"

@@ -139,6 +139,13 @@ class MembersHelperTest < ActionView::TestCase
     assert_includes html, I18n.t("active_admin.empty")
   end
 
+  test "short_price uses two decimals for whole amounts" do
+    assert_equal "30.00", short_price(30)
+    assert_equal "30.00", short_price(30.0)
+    assert_equal "45.50", short_price(45.5)
+    assert_equal "~12.35", short_price(12.345)
+  end
+
   test "link_with_session renders unavailable actor as missing data" do
     html = link_with_session(Unavailable.instance, nil).to_s
 

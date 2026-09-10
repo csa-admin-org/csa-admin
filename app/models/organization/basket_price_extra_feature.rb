@@ -58,7 +58,7 @@ module Organization::BasketPriceExtraFeature
           {% elsif extra == 1.5 %}
           + {{ extra }}/#{basket}
           {% else %}
-          + {{ extra | ceil }}.-/#{basket}
+          + {{ extra | ceil }}.00/#{basket}
           {% endif %}
         LIQUID
       }
