@@ -39,10 +39,11 @@
   }
 
   .form-legend {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
+    display: block;
+    font-size: 1.25rem;
+    line-height: 2.5rem;
     font-weight: 500;
-    color: var(--color-ink-secondary);
+    color: var(--color-ink-heading);
   }
 
   .form-label {

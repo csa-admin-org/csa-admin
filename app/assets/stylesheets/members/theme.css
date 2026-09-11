@@ -218,7 +218,7 @@
 
     form {
       .input > label,
-      legend {
+      legend:not(.form-legend) {
         display: block;
         font-size: 0.875rem;
         line-height: 1.25rem;
