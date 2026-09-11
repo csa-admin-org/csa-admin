@@ -3,8 +3,14 @@ import { addClass, removeClass } from "components/utils"
 
 export default class extends Controller {
   connect() {
-    const hash = location.hash.substring(1)
     this._handleHiddenTabs()
+    const selected = this._selectedVisibleTab()
+    if (selected) {
+      this.showTab(selected.getAttribute("aria-controls"))
+      return
+    }
+
+    const hash = location.hash.substring(1)
     if (hash && this.showTab(hash)) {
       document.getElementById(hash)?.scrollIntoView()
     } else {
@@ -28,6 +34,7 @@ export default class extends Controller {
     this._hideActiveTabs()
     tab.setAttribute("aria-selected", "true")
     removeClass(tabContent, "is-hidden")
+    this._syncTabFields()
     return true
   }
 
@@ -45,7 +52,7 @@ export default class extends Controller {
   }
 
   _showDefaultTab() {
-    const tab = this._selectedVisibleTab() || this._firstVisibleTab() || this._selectedTabs()[0]
+    const tab = this._firstVisibleTab() || this._selectedTabs()[0]
     if (tab) this.showTab(tab.getAttribute("aria-controls"))
   }
 
@@ -82,5 +89,29 @@ export default class extends Controller {
     if (hash && hash !== location.hash.substring(1)) {
       history.replaceState(null, null, `#${hash}`)
     }
+  }
+
+  _syncTabFields() {
+    for (const tab of this._tabs()) {
+      const tabContent = document.getElementById(tab.getAttribute("aria-controls"))
+      if (!(tabContent instanceof HTMLFieldSetElement)) continue
+
+      const active = tab.getAttribute("aria-selected") === "true"
+      tabContent.disabled = !active
+
+      for (const input of this._requiredInputs(tabContent)) {
+        if (active) {
+          input.required = true
+        } else {
+          input.required = false
+        }
+      }
+    }
+  }
+
+  _requiredInputs(tabContent) {
+    return Array.from(
+      tabContent.querySelectorAll("li.required input, li.required select, li.required textarea")
+    ).filter((input) => !["hidden", "checkbox", "radio"].includes(input.type))
   }
 }

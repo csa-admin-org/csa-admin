@@ -6,14 +6,18 @@ require "shared/bulk_dates_insert"
 class DeliveryTest < ActiveSupport::TestCase
   include Shared::BulkDatesInsert
 
-  test "validates bulk inserts" do
+  test "creates a unique date even when leftover bulk dates are submitted" do
+    travel_to "2024-09-11"
+
     delivery = Delivery.create(
       bulk_dates_starts_on: Date.current,
       bulk_dates_wdays: [ 1 ],
-      date: Date.current)
+      date: "2024-09-18")
 
-    assert_not delivery.valid?(:bulk_dates_starts_on)
-    assert_not delivery.valid?(:bulk_dates_wdays)
+    assert delivery.persisted?
+    assert_equal Date.new(2024, 9, 18), delivery.date
+    assert_nil delivery.bulk_dates_starts_on
+    assert_empty delivery.bulk_dates_wdays
   end
 
   test "validates date not in a fiscal year too far in the future" do

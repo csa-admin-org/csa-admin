@@ -75,6 +75,18 @@ class InvoicesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 10, invoice.reload.amount
   end
 
+  test "new form selects the first tab and disables the others server-side" do
+    login admins(:ultra)
+
+    get new_invoice_path
+
+    assert_response :success
+    assert_select "a[aria-controls=activity_participation][aria-selected=true]"
+    assert_select "fieldset#activity_participation:not([disabled])"
+    assert_select "fieldset#items[disabled]"
+    assert_select "input#invoice_missing_activity_participations_count[required]"
+  end
+
   test "pdf action stays on show while the PDF is stale" do
     enable_invoice_pdf
     invoice = create_other_invoice(amount: 10)

@@ -9,12 +9,8 @@ module BulkDatesInsert
     attribute :bulk_dates_weeks_frequency, :integer
     attribute :bulk_dates_wdays, :json, default: -> { [] }
 
-    with_options if: :date? do
-      validates :bulk_dates_starts_on, absence: true
-      validates :bulk_dates_ends_on, absence: true
-      validates :bulk_dates_weeks_frequency, absence: true
-      validates :bulk_dates_wdays, absence: true
-    end
+    before_validation :clear_bulk_dates_when_unique_date_present
+
     with_options unless: :date? do
       validates :bulk_dates_starts_on, presence: true
       validates :bulk_dates_starts_on, date: { before: :bulk_dates_ends_on }, if: :bulk_dates_ends_on
@@ -46,8 +42,8 @@ module BulkDatesInsert
   end
 
   def bulk_dates
-    return @dates if defined? @dates
     return if date?
+    return @dates if defined? @dates
     return unless bulk_dates_weeks_frequency
     return unless bulk_dates_starts_on
     return unless bulk_dates_ends_on
@@ -68,6 +64,15 @@ module BulkDatesInsert
   end
 
   private
+
+  def clear_bulk_dates_when_unique_date_present
+    return unless date?
+
+    self.bulk_dates_starts_on = nil
+    self.bulk_dates_ends_on = nil
+    self.bulk_dates_weeks_frequency = nil
+    self.bulk_dates_wdays = []
+  end
 
   def bulk_dates_must_be_present
     errors.add(:bulk_dates_wdays, :invalid) unless bulk_dates.present?

@@ -5,12 +5,16 @@ class Tabs < ActiveAdmin::Component
 
   def tab(title, options = {}, &block)
     title = title.to_s.titleize if title.is_a? Symbol
+    options = options.dup
+    assign_default_selection!(options)
+    selected = options[:selected]
     @menu << build_menu_item(title, options, &block)
     options.delete(:html_options)
-    @tabs_content << build_content_item(title, options, &block)
+    @tabs_content << build_content_item(title, options.merge(selected: selected), &block)
   end
 
   def build(attributes = {}, &block)
+    @selected_assigned = false
     super(attributes)
     add_class "tabs"
     set_attribute :data, controller: "tabs"
@@ -36,15 +40,30 @@ class Tabs < ActiveAdmin::Component
 
   def build_content_item(title, options, &block)
     extra_class = options.delete(:class)
+    selected = options.delete(:selected)
+    options.delete(:hidden)
     options = options.reverse_merge(
       id: fragmentize(title),
       role: "tabpanel",
       "aria-labelledby": "#{title}-tab")
-    options[:class] = [ extra_class, "is-hidden" ].flatten.compact.join(" ")
-    div(options, &block)
+    options[:class] = [ extra_class, ("is-hidden" unless selected) ].flatten.compact.join(" ")
+    options[:disabled] = true unless selected
+    fieldset(options, &block)
   end
 
   private
+
+  def assign_default_selection!(options)
+    return if @selected_assigned
+    return if options[:hidden]
+
+    if options[:selected]
+      @selected_assigned = true
+    elsif !options.key?(:selected)
+      options[:selected] = true
+      @selected_assigned = true
+    end
+  end
 
   def fragmentize(string)
     "tabs-#{string.parameterize}-#{object_id}"

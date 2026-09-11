@@ -16,6 +16,21 @@ module Shared
         assert_nil @model.bulk_dates
       end
 
+      test "clears bulk dates when a unique date is present" do
+        @model.date = Date.current
+        @model.bulk_dates_starts_on = Date.current
+        @model.bulk_dates_ends_on = Date.tomorrow
+        @model.bulk_dates_weeks_frequency = 1
+        @model.bulk_dates_wdays = [ 1 ]
+
+        @model.validate
+
+        assert_nil @model.bulk_dates_starts_on
+        assert_nil @model.bulk_dates_ends_on
+        assert_nil @model.bulk_dates_weeks_frequency
+        assert_empty @model.bulk_dates_wdays
+      end
+
       test "bulk_dates includes all the days between starts and ends dates" do
         @model.bulk_dates_starts_on = Date.current
         @model.bulk_dates_ends_on = Date.tomorrow

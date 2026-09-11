@@ -453,9 +453,24 @@ ActiveAdmin.register Invoice do
     end
     f.inputs do
       tabs do
+        invoice_tab =
+          if f.object.activity_participation_type?
+            :activity_participation
+          elsif f.object.share_type?
+            :share
+          elsif f.object.other_type? || f.object.persisted?
+            :items
+          elsif feature?("activity")
+            :activity_participation
+          elsif feature?("shares")
+            :share
+          else
+            :items
+          end
         unless f.object.persisted?
           if feature?("activity")
-            tab activities_human_name, id: "activity_participation" do
+            tab activities_human_name, id: "activity_participation",
+              selected: invoice_tab == :activity_participation do
               if f.object.entity.is_a?(ActivityParticipation)
                 li(class: "refused_activity_participation") do
                   parts = []
@@ -478,17 +493,23 @@ ActiveAdmin.register Invoice do
               f.input :missing_activity_participations_count,
                 as: :number,
                 step: 1,
+                min: 1,
+                required: true,
                 input_html: { disabled: f.object.entity.is_a?(ActivityParticipation) }
               f.input :activity_price, as: :number, min: 0, max: 99999.95, step: 0.05, hint: true
             end
           end
           if feature?("shares")
-            tab t_invoice_entity_type("Share"), id: "share", hidden: f.object.entity.is_a?(ActivityParticipation) do
-              f.input :shares_number, as: :number, step: 1
+            tab t_invoice_entity_type("Share"), id: "share",
+              selected: invoice_tab == :share,
+              hidden: f.object.entity.is_a?(ActivityParticipation) do
+              f.input :shares_number, as: :number, step: 1, min: 1, required: true
             end
           end
         end
-        tab t_invoice_entity_type("Other"), id: "items", hidden: f.object.entity.is_a?(ActivityParticipation) do
+        tab t_invoice_entity_type("Other"), id: "items",
+          selected: invoice_tab == :items,
+          hidden: f.object.entity.is_a?(ActivityParticipation) do
           f.semantic_errors :items
           if feature?("vat")
             f.input :vat_rate, as: :number, min: 0, max: 100, step: 0.01
