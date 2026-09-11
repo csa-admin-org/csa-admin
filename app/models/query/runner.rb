@@ -4,7 +4,6 @@ module Query
   class Runner
     DEFAULT_PER = 100
     MAX_PER = 500
-    TIMEOUT_SECONDS = 5
 
     def self.sql(sql, page: 1, per: DEFAULT_PER)
       new(sql, page: page, per: per).run
@@ -82,13 +81,15 @@ module Query
     rescue ActiveRecord::ReadOnlyError
       raise Error, "write query attempted while in readonly mode"
     rescue ActiveRecord::StatementInvalid => e
-      raise Error, "query_timeout" if e.cause.is_a?(SQLite3::InterruptException)
       raise Error, e.cause&.message.presence || e.message
     end
 
     def select_all(sql)
-      connection = ActiveRecord::Base.lease_connection
-      with_timeout(connection) { connection.select_all(sql) }
+      # Do not set sqlite3-ruby `statement_timeout=`. 2.9 aborts on the second
+      # progress tick (~2000 opcodes) regardless of the ms budget
+      # (sparklemotion/sqlite3-ruby#737). `sqlite3_step` holds the GVL, so a
+      # sleeper / Timeout.timeout cannot cancel either. Cap is Cloudflare ~100s.
+      ActiveRecord::Base.lease_connection.select_all(sql)
     end
 
     def with_readonly
@@ -97,16 +98,6 @@ module Query
       ActiveRecord::Base.while_preventing_writes { yield }
     ensure
       connection&.execute("PRAGMA query_only = OFF")
-    end
-
-    def with_timeout(connection)
-      raw = connection.raw_connection
-      raw.statement_timeout = TIMEOUT_SECONDS * 1000
-      yield
-    rescue SQLite3::InterruptException
-      raise Error, "query_timeout"
-    ensure
-      raw&.statement_timeout = 0
     end
 
     def format_result(columns:, rows:, sql:, elapsed_ms: 0, truncated: false)

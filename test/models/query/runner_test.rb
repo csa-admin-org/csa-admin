@@ -33,6 +33,33 @@ class Query::RunnerTest < ActiveSupport::TestCase
     assert_match(/forbidden/, error.message)
   end
 
+  test "group by state is not interrupted" do
+    result = Query::Runner.sql("SELECT state, COUNT(*) FROM members GROUP BY state")
+
+    assert_includes result[:columns], "state"
+    assert result[:rows].any?
+  end
+
+  test "count of inactive members is not interrupted" do
+    result = Query::Runner.sql("SELECT COUNT(*) FROM members WHERE state = 'inactive'")
+
+    assert_equal 1, result[:rows].length
+    assert result[:rows].first.first >= 1
+  end
+
+  test "recursive cte past 2000 opcodes is not interrupted" do
+    result = Query::Runner.sql(<<~SQL)
+      WITH RECURSIVE t(n) AS (
+        SELECT 1
+        UNION ALL
+        SELECT n + 1 FROM t WHERE n < 5000
+      )
+      SELECT COUNT(*) FROM t
+    SQL
+
+    assert_equal 5000, result[:rows].first.first
+  end
+
   test "explain query plan returns plan rows" do
     result = Query::Runner.explain("SELECT id FROM members WHERE id = 1")
 
