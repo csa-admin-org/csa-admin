@@ -69,7 +69,6 @@ module Query
       result = with_readonly { select_all(sql) }
       elapsed_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - started) * 1000).round(1)
 
-      Denylist.check_result!(result.columns)
       rows = result.rows
       truncated = paginate && rows.length > @per
       rows = rows.first(@per) if paginate
@@ -145,14 +144,11 @@ module Query
       raise Error, "not_found" if Denylist.denied_table?(table)
       raise Error, "not_found" unless connection.table_exists?(table)
 
-      denied = Denylist.denied_columns_for(table)
       model = model_for_table(table)
 
       {
         table: table,
-        columns: connection.columns(table).filter_map { |col|
-          next if denied.include?(col.name)
-
+        columns: connection.columns(table).map { |col|
           { name: col.name, type: col.sql_type, null: col.null, default: col.default }
         },
         indexes: connection.indexes(table).map { |idx|

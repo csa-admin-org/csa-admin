@@ -19,7 +19,7 @@ module Query
         method: "GET",
         path: "/:tenant/schema/:table",
         params: { tenant: "Tenant slug (path).", table: "Table name." },
-        one_liner: "Columns, indexes, enums, associations. Denied columns omitted."
+        one_liner: "Columns, indexes, enums, associations."
       },
       {
         method: "GET",
@@ -36,7 +36,7 @@ module Query
           page: "Page (default 1).",
           per: "Rows per page (default 100, max 500)."
         },
-        one_liner: "Read-only SELECT. Organization api_token and calendar token denied. People rows allowed."
+        one_liner: "Read-only SELECT. People rows allowed. Encrypted columns come back as ciphertext."
       },
       {
         method: "POST",

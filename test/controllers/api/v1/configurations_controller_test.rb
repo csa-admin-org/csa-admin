@@ -19,15 +19,6 @@ class API::V1::ConfigurationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
   end
 
-  test "accepts api_token after encrypt" do
-    token = Current.org.api_token
-    Current.org.encrypt
-    Current.reset
-
-    request(api_token: token)
-    assert_response :success
-  end
-
   test "returns basket sizes, depots, and basket_content_products" do
     travel_to "2021-06-17" do
       request

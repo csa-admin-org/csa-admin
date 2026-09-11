@@ -386,23 +386,10 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_includes org.errors[:open_bidding_round_reminder_sent_after_in_days], "must be greater than or equal to 1"
   end
 
-  test "reads plaintext fixture tokens" do
+  test "encrypts fixture tokens" do
     assert_equal "1234abcd", Current.org.api_token
     assert_equal "1234abcd", Current.org.icalendar_auth_token
-    assert_not Current.org.encrypted_attribute?(:api_token)
-    assert_not Current.org.encrypted_attribute?(:icalendar_auth_token)
-  end
-
-  test "encrypt rewrites tokens as ciphertext" do
-    org = Current.org
-    token = org.api_token
-    calendar = org.icalendar_auth_token
-
-    org.encrypt
-
-    assert org.encrypted_attribute?(:api_token)
-    assert org.encrypted_attribute?(:icalendar_auth_token)
-    assert_equal token, org.reload.api_token
-    assert_equal calendar, org.icalendar_auth_token
+    assert Current.org.encrypted_attribute?(:api_token)
+    assert Current.org.encrypted_attribute?(:icalendar_auth_token)
   end
 end

@@ -14,14 +14,14 @@ class Query::SchemasControllerTest < ActionDispatch::IntegrationTest
     assert_includes names, "sessions"
   end
 
-  test "table detail omits secret columns" do
+  test "table detail includes encrypted columns" do
     query_get "/acme/schema/organizations"
 
     assert_response :success
     names = json_response["columns"].map { |col| col["name"] }
     assert_includes names, "name"
-    refute_includes names, "api_token"
-    refute_includes names, "icalendar_auth_token"
+    assert_includes names, "api_token"
+    assert_includes names, "icalendar_auth_token"
   end
 
   test "sqlite_master is 404" do

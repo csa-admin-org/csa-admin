@@ -15,18 +15,20 @@ class Query::SqlControllerTest < ActionDispatch::IntegrationTest
     refute json_response["meta"]["has_more"]
   end
 
-  test "select star on organizations is 400" do
+  test "select star on organizations is 200 and tokens are ciphertext" do
     query_post "/acme/sql", params: { sql: "SELECT * FROM organizations" }
 
-    assert_response :bad_request
-    assert_match(/api_token/, json_response["error"])
-  end
-
-  test "aliased star on organizations is 400" do
-    query_post "/acme/sql", params: { sql: "SELECT o.* FROM organizations o" }
-
-    assert_response :bad_request
-    assert_match(/api_token/, json_response["error"])
+    assert_response :success
+    columns = json_response["columns"]
+    row = json_response["rows"].first
+    assert_includes columns, "api_token"
+    assert_includes columns, "icalendar_auth_token"
+    token = row[columns.index("api_token")]
+    calendar = row[columns.index("icalendar_auth_token")]
+    refute_equal "1234abcd", token
+    refute_equal Current.org.api_token, token
+    refute_equal "1234abcd", calendar
+    refute_equal Current.org.icalendar_auth_token, calendar
   end
 
   test "insert is 400" do

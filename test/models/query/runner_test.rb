@@ -41,7 +41,7 @@ class Query::RunnerTest < ActiveSupport::TestCase
     refute_includes result[:columns], "opcode"
   end
 
-  test "schema omits sqlite internals and secret columns" do
+  test "schema omits sqlite internals" do
     list = Query::Runner.schema
     names = list[:rows].flatten
     refute names.any? { |name| name.start_with?("sqlite_", "_litestream_") }
@@ -49,7 +49,7 @@ class Query::RunnerTest < ActiveSupport::TestCase
 
     org = Query::Runner.schema("organizations")
     column_names = org[:columns].map { |col| col[:name] }
-    refute_includes column_names, "api_token"
+    assert_includes column_names, "api_token"
     assert_includes column_names, "name"
   end
 
