@@ -28,4 +28,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym "EBICS"
   inflect.acronym "SEPA"
   inflect.acronym "IBAN"
+  inflect.uncountable "sql"
 end

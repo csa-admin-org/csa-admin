@@ -9,6 +9,20 @@ class Tenant::MiddlewareTest < ActiveSupport::TestCase
     assert_equal 404, response.first
   end
 
+  test "does not switch tenant on query subdomain" do
+    Tenant.disconnect
+    switched = false
+    app = Tenant::Middleware.new(->(_) {
+      switched = Tenant.inside?
+      [ 200, {}, [ "OK" ] ]
+    })
+
+    response = app.call(Rack::MockRequest.env_for("http://query.acme.test/"))
+
+    assert_equal 200, response.first
+    assert_not switched
+  end
+
   private
 
   def middleware

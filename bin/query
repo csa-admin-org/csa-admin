@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Query API client. No Rails boot.
+#   bin/query /
+#   bin/query /lamule/schema
+#   bin/query /lamule/schema/invoices
+#   bin/query /lamule/models
+#   bin/query /lamule/sql --sql 'SELECT id, state FROM invoices WHERE id = 310'
+#   bin/query /lamule/explain --sql 'SELECT * FROM baskets WHERE membership_id = 12'
+
+root = File.expand_path("..", __dir__)
+$LOAD_PATH.unshift(File.expand_path("lib", root))
+require "bundler/setup"
+
+begin
+  require "dotenv"
+  Dotenv.load(
+    File.join(root, ".env.development.local"),
+    File.join(root, ".env.local"),
+    File.join(root, ".env"))
+rescue LoadError
+end
+
+require "query/cli"
+
+Query::CLI.start(ARGV)

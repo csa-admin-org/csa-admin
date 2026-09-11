@@ -17,7 +17,9 @@ module CSAAdmin
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     # rails_edge: temporary ActiveSupport::ContinuousIntegration polyfill
-    config.autoload_lib(ignore: %w[assets tasks rails_edge])
+    # query: Net::HTTP CLI under lib/query/{client,cli}.rb. Query already
+    # lives in app/models/query/; autoloading both would clash.
+    config.autoload_lib(ignore: %w[assets tasks rails_edge query])
 
     # Configuration for the application, engines, and railties goes here.
     #

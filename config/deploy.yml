@@ -26,6 +26,7 @@ proxy:
     # Static hosts
     - cdn.csa-admin.org
     - mc.csa-admin.org
+    - query.csa-admin.org
     - connect.csa-admin.org
     - app.csa-admin.org
     - app.acp-admin.ch

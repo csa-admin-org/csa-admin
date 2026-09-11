@@ -14,6 +14,7 @@ Rails.application.configure do
 
   config.lograge.base_controller_class = [
     "ActionController::Base",
+    "ActionController::API",
     "ActiveAdmin::BaseController"
   ]
 
@@ -27,6 +28,9 @@ Rails.application.configure do
     end
     if controller.respond_to?(:current_member, true) && controller.send(:current_member)
       payload[:member_id] = controller.send(:current_member)&.id
+    end
+    if controller.respond_to?(:query_token, true) && controller.send(:query_token)
+      payload[:query_token] = controller.send(:query_token).name
     end
     payload
   end

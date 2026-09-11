@@ -10,6 +10,19 @@ Rails.application.routes.draw do
     get "sessions/:tenant" => "mission_control/sessions#show", as: :mc_login
   end
 
+  constraints subdomain: "query" do
+    scope module: "query", as: "query", defaults: { format: :json } do
+      root to: "catalog#show"
+      scope ":tenant" do
+        resource :schema, only: :show
+        get "schema/:table" => "schemas#show"
+        resource :models, only: :show
+        resource :sql, only: :create
+        resource :explain, only: :create
+      end
+    end
+  end
+
   constraints subdomain: "admin" do
     get "favicon" => "favicons#show"
 

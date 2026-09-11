@@ -29,4 +29,5 @@ Rails.application.config.filter_parameters += %i[
   cvv
   cvc
   liquid_data
+  sql
 ]

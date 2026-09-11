@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
 require "public_suffix"
+
 module Tenant
   class Middleware
+    APP_SUBDOMAINS = %w[query].freeze
+
     def initialize(app)
       @app = app
     end
 
     def call(env)
       request = ActionDispatch::Request.new(env)
-      if request.path == "/up"
+      if request.path == "/up" || app_subdomain?(request)
         @app.call(env)
       elsif tenant = Tenant.find_by(host: request.host)
         Tenant.switch(tenant) { @app.call(env) }
@@ -21,6 +24,10 @@ module Tenant
     end
 
     private
+
+    def app_subdomain?(request)
+      APP_SUBDOMAINS.include?(request.subdomains.first)
+    end
 
     def app_domain?(host)
       PublicSuffix.parse(host).domain == ENV["APP_DOMAIN"]
