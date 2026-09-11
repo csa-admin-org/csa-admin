@@ -12,9 +12,7 @@ class Scheduled::BillingPaymentsProcessorJobTest < ActiveJob::TestCase
       attempts += 1
       raise Net::ReadTimeout
     }
-    capture_tags = ->(*args, **kwargs) {
-      tagged << (args.first || {}).merge(kwargs).stringify_keys
-    }
+    capture_tags = ->(tags = {}) { tagged << tags.stringify_keys }
 
     travel_to Time.zone.local(2026, 7, 27, 4) do
       Billing::PaymentsProcessor.stub(:retrieve_and_process!, import) do

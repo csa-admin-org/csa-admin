@@ -32,7 +32,7 @@ module Scheduled
         connection: Current.org.active_bank_connection,
         operation_kind: "payment_import",
         executions: executions)
-      Appsignal.add_tags(**context)
+      Appsignal.add_tags(context)
     end
   end
 end
