@@ -18,16 +18,20 @@ module Query
     end
 
     def get(path, params = {})
-      request(:get, path, params)
+      parse_json(request(:get, path, params))
     end
 
     def post(path, params = {})
-      request(:post, path, params)
+      parse_json(request(:post, path, params))
+    end
+
+    def download(path)
+      request(:get, path).body
     end
 
     private
 
-    def request(method, path, params)
+    def request(method, path, params = {})
       uri = request_uri(path, method == :get ? params : {})
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme == "https"
@@ -39,10 +43,19 @@ module Query
       req.body = JSON.generate(params) if method == :post && params.any?
 
       response = http.request(req)
-      body = JSON.parse(response.body) rescue { "error" => response.body }
-      raise Error, JSON.pretty_generate(body) unless response.is_a?(Net::HTTPSuccess)
+      raise_http_error(response) unless response.is_a?(Net::HTTPSuccess)
+      response
+    end
 
-      body
+    def parse_json(response)
+      JSON.parse(response.body)
+    rescue JSON::ParserError
+      raise Error, response.body
+    end
+
+    def raise_http_error(response)
+      body = JSON.parse(response.body) rescue { "error" => response.body }
+      raise Error, JSON.pretty_generate(body)
     end
 
     def request_uri(path, query)

@@ -43,6 +43,12 @@ module Query
         path: "/:tenant/explain",
         params: { tenant: "Tenant slug (path).", sql: "SELECT / WITH (JSON body)." },
         one_liner: "SQLite EXPLAIN QUERY PLAN. Not bytecode EXPLAIN."
+      },
+      {
+        method: "GET",
+        path: "/:tenant/blobs/:id",
+        params: { tenant: "Tenant slug (path).", id: "active_storage_blobs.id." },
+        one_liner: "Stream blob bytes. SQL finds the row; this fetches the file. Not a signed URL."
       }
     ].freeze
   end

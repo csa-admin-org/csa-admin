@@ -8,6 +8,7 @@
 #   bin/query /lamule/models
 #   bin/query /lamule/sql --sql 'SELECT id, state FROM invoices WHERE id = 310'
 #   bin/query /lamule/explain --sql 'SELECT * FROM baskets WHERE membership_id = 12'
+#   bin/query /lamule/blobs/42 > invoice.pdf
 
 root = File.expand_path("..", __dir__)
 $LOAD_PATH.unshift(File.expand_path("lib", root))

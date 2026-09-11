@@ -25,8 +25,13 @@ module Query
       raise Error, USAGE unless path&.start_with?("/")
 
       body = client_params
-      result = post?(path) ? client.post(path, body) : client.get(path, body)
-      @out.puts JSON.pretty_generate(result)
+      if blob?(path)
+        @out.binmode if @out.respond_to?(:binmode)
+        @out.write(client.download(path))
+      else
+        result = post?(path) ? client.post(path, body) : client.get(path, body)
+        @out.puts JSON.pretty_generate(result)
+      end
     end
 
     private
@@ -39,6 +44,10 @@ module Query
 
     def post?(path)
       path.end_with?("/sql") || path.end_with?("/explain")
+    end
+
+    def blob?(path)
+      path.match?(%r{/blobs/\d+\z})
     end
 
     def client_params

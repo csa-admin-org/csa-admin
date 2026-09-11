@@ -22,6 +22,11 @@ class Query::CLITest < ActiveSupport::TestCase
       @posts << [ path, params ]
       @body
     end
+
+    def download(path)
+      @gets << [ path, {} ]
+      "%PDF-1.4"
+    end
   end
 
   test "catalog hits GET /" do
@@ -52,6 +57,16 @@ class Query::CLITest < ActiveSupport::TestCase
       out: StringIO.new).run
 
     assert_equal [ [ "/lamule/explain", { "sql" => "SELECT 1" } ] ], client.posts
+  end
+
+  test "blob writes raw bytes" do
+    client = FakeClient.new
+    out = StringIO.new
+
+    Query::CLI.new([ "/lamule/blobs/42" ], client: client, out: out).run
+
+    assert_equal [ [ "/lamule/blobs/42", {} ] ], client.gets
+    assert_equal "%PDF-1.4", out.string
   end
 
   test "path is required" do

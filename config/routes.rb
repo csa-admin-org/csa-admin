@@ -19,6 +19,7 @@ Rails.application.routes.draw do
         resource :models, only: :show
         resource :sql, only: :create
         resource :explain, only: :create
+        resources :blobs, only: :show
       end
     end
   end
