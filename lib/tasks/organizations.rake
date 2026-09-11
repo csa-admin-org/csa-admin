@@ -17,4 +17,27 @@ namespace :organizations do
       names.each { |name| puts "  #{name}" }
     end
   end
+
+  desc "Encrypt plaintext api_token and icalendar_auth_token (CONFIRM=true; optional TENANT=slug)"
+  task encrypt_tokens: :environment do
+    abort "CONFIRM=true required" unless ENV["CONFIRM"].in?(%w[1 true yes])
+
+    Tenant.switch_each do |tenant|
+      next if Tenant.custom? && ENV["TENANT"].blank?
+
+      org = Organization.first
+      next unless org
+
+      pending = %i[api_token icalendar_auth_token].select { |attr|
+        org.public_send(attr).present? && !org.encrypted_attribute?(attr)
+      }
+      if pending.empty?
+        puts "#{tenant}: already encrypted"
+        next
+      end
+
+      org.encrypt
+      puts "#{tenant}: encrypted #{pending.join(", ")}"
+    end
+  end
 end

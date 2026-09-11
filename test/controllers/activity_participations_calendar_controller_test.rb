@@ -20,6 +20,16 @@ class ActivityParticipationsCalendarControllerTest < ActionDispatch::Integration
     assert_response :unauthorized
   end
 
+  test "with a good auth token after encrypt" do
+    travel_to "2024-01-01"
+    token = Current.org.icalendar_auth_token
+    Current.org.encrypt
+    Current.reset
+
+    request(auth_token: token)
+    assert_response :success
+  end
+
   test "with a good auth token" do
     travel_to "2024-01-01"
     request

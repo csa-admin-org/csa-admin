@@ -88,6 +88,8 @@ class Organization < ApplicationRecord
 
   encrypts :postmark_server_token
   encrypts :cap_secret_key
+  encrypts :api_token, support_unencrypted_data: true
+  encrypts :icalendar_auth_token, support_unencrypted_data: true
 
   has_one_attached :logo
   has_many_attached :invoice_logos
