@@ -168,11 +168,6 @@
   .form-footer {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .form-footer .actions {
-    margin-top: 0;
   }
 
   .form-hint {
