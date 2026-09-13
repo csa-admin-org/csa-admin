@@ -89,6 +89,7 @@ ActiveAdmin.register Support::Ticket do
           f.input :priority,
             collection: ticket_priority_marks_collection,
             include_blank: false,
+            required: false,
             label: false,
             wrapper_html: { class: "support-ticket-priority" },
             input_html: {
