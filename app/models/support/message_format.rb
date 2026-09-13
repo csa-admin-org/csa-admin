@@ -10,8 +10,7 @@ module Support
       return if text.blank?
 
       html = Kramdown::Document.new(
-        wrap_urls(fence_code(Support::Utf8.repair(text))),
-        hard_wrap: true,
+        hard_breaks(wrap_urls(fence_code(Support::Utf8.repair(text)))),
         syntax_highlighter: nil).to_html
       ActionController::Base.helpers.sanitize(
         html,
@@ -33,6 +32,23 @@ module Support
       }.join
     end
     private_class_method :wrap_urls
+
+    def self.hard_breaks(text)
+      in_fence = false
+      text.to_s.each_line.map { |line|
+        if line.start_with?("~~~")
+          in_fence = !in_fence
+          next line
+        end
+        next line if in_fence || !line.end_with?("\n")
+
+        core = line.chomp
+        next line if core.blank? || core.end_with?("  ")
+
+        "#{core}  \n"
+      }.join
+    end
+    private_class_method :hard_breaks
 
     def self.fence_code(text)
       out = []

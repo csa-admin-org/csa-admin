@@ -21,6 +21,31 @@ class Support::MessageFormatTest < ActiveSupport::TestCase
     assert_includes html, "<li>one</li>"
   end
 
+  test "turns single newlines into line breaks" do
+    html = Support::MessageFormat.to_html("Salut Thibaud,\nMerci.\n\nPeux-tu m'aider?")
+
+    assert_includes html, "Salut Thibaud,<br"
+    assert_includes html, "Merci."
+    assert_includes html, "Peux-tu m"
+    assert_equal 2, html.scan("<p>").size
+  end
+
+  test "blank lines become separate paragraphs" do
+    html = Support::MessageFormat.to_html(<<~TEXT)
+      Salut Thibaud,
+
+      Merci beaucoup pour cette amélioration.
+      Je prend le temps seulement maintenant.
+
+      Peux-tu m'aider?
+    TEXT
+
+    assert_includes html, "Salut Thibaud,"
+    assert_includes html, "Merci beaucoup"
+    assert_includes html, "<br"
+    assert_equal 3, html.scan("<p>").size
+  end
+
   test "keeps mid-body blockquotes" do
     html = Support::MessageFormat.to_html("Salut\n\n> cited\n\nAnswer")
 
