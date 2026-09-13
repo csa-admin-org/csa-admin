@@ -12,10 +12,16 @@ module SupportHelper
 
   def ticket_priority_marks_collection
     [
-      [ "", Support::Ticket.priorities[:normal] ],
-      [ Support::Ticket::PRIORITY_ICONS[:medium], Support::Ticket.priorities[:medium] ],
-      [ Support::Ticket::PRIORITY_ICONS[:high], Support::Ticket.priorities[:high] ]
+      [ "", :normal ],
+      [ Support::Ticket::PRIORITY_ICONS[:medium], :medium ],
+      [ Support::Ticket::PRIORITY_ICONS[:high], :high ]
     ]
+  end
+
+  def ticket_priority_filter_collection
+    ticket_priority_marks_collection.map { |label, key|
+      [ label, Support::Ticket.priorities[key] ]
+    }
   end
 
   def support_message_html(message)

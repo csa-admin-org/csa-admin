@@ -3,6 +3,28 @@
 require "test_helper"
 
 class Support::TicketTest < ActiveSupport::TestCase
+  test "invalid priority is a validation error instead of ArgumentError" do
+    ticket = Support::Ticket.new(
+      priority: "2",
+      subject: "Test",
+      content: "Test",
+      admin: admins(:external))
+
+    assert_not ticket.valid?
+    assert_includes ticket.errors[:priority], I18n.t("errors.messages.inclusion")
+  end
+
+  test "priority accepts enum names" do
+    ticket = Support::Ticket.new(
+      subject: "Test",
+      content: "Test",
+      admin: admins(:external))
+
+    ticket.priority = "high"
+    assert ticket.high?
+    assert ticket.valid?
+  end
+
   test "subject_decorated" do
     ticket = Support::Ticket.new(
       priority: :normal,

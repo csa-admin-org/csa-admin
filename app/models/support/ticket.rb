@@ -10,7 +10,7 @@ module Support
     include HasAttachments
     has_rich_text :html
 
-    enum :priority, %i[normal medium high]
+    enum :priority, %i[normal medium high], validate: true
 
     belongs_to :admin, optional: true
     has_many :messages, class_name: "Support::Message",
