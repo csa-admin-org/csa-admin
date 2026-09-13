@@ -110,9 +110,9 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
     assert_select "label[for=support_ticket_priority]", count: 0
     assert_select "#support_ticket_subject_input .inline-hints", count: 0
     assert_select "select[name='support_ticket[priority]']" do
-      assert_select "option[value=?]", Support::Ticket.priorities[:normal], text: ""
-      assert_select "option[value=?]", Support::Ticket.priorities[:medium], text: Support::Ticket::PRIORITY_ICONS[:medium]
-      assert_select "option[value=?]", Support::Ticket.priorities[:high], text: Support::Ticket::PRIORITY_ICONS[:high]
+      assert_select "option[value=?]", "normal", text: ""
+      assert_select "option[value=?]", "medium", text: Support::Ticket::PRIORITY_ICONS[:medium]
+      assert_select "option[value=?]", "high", text: Support::Ticket::PRIORITY_ICONS[:high]
     end
 
     post support_tickets_path, params: {
@@ -143,6 +143,40 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
     ticket = Support::Ticket.order(:id).last
     assert_redirected_to support_ticket_path(ticket)
     assert_equal "Checkout fails", ticket.messages.first.body
+  end
+
+  test "create accepts high priority from the form enum name" do
+    login admins(:external)
+
+    post support_tickets_path, params: {
+      support_ticket: {
+        priority: "high",
+        subject: "Broken shop",
+        html: "<div>Checkout fails</div>"
+      }
+    }
+
+    ticket = Support::Ticket.order(:id).last
+    assert_redirected_to support_ticket_path(ticket)
+    assert_equal "high", ticket.priority
+  end
+
+  test "create with a numeric priority string re-renders instead of raising" do
+    login admins(:external)
+
+    assert_no_difference "Support::Ticket.count" do
+      post support_tickets_path, params: {
+        support_ticket: {
+          priority: "2",
+          subject: "Broken shop",
+          html: "<div>Checkout fails</div>"
+        }
+      }
+    end
+
+    assert_response :unprocessable_entity
+    assert_select "#support_ticket_priority_input.error"
+    assert_includes response.body, I18n.t("errors.messages.inclusion")
   end
 
   test "show includes the thread and reply box" do

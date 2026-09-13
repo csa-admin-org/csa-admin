@@ -26,7 +26,7 @@ ActiveAdmin.register Support::Ticket do
     collection: -> { ticket_admins_collection(collection) },
     label: -> { Support::Ticket.human_attribute_name(:admin) }
   filter :priority, as: :select,
-    collection: -> { ticket_priority_marks_collection }
+    collection: -> { ticket_priority_filter_collection }
   filter :last_activity_at, as: :date_range
 
   includes :admin, :last_message
