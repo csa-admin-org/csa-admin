@@ -50,6 +50,17 @@ class Support::MessageTest < ActiveSupport::TestCase
     end
   end
 
+  test "support app reply does not ping" do
+    with_env("SUPPORT_EMAIL" => "support@csa-admin.org") do
+      ticket = create_ticket
+      message = ticket.messages.create!(
+        author: "support", body: "Avec plaisir", via: :app)
+
+      assert message.wrap?
+      assert_not message.ping?
+    end
+  end
+
   test "admin inbound wraps other participants and pings" do
     with_env("SUPPORT_EMAIL" => "support@csa-admin.org") do
       ticket = create_ticket

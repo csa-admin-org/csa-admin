@@ -68,7 +68,7 @@ module Support
 
     def ping?
       return false if Tenant.demo?
-      return false if via == :inbound && author_support?
+      return false if author_support?
 
       ticket.ping_address.present?
     end
