@@ -5,8 +5,8 @@
 <% end %>
 
 <% if @previous %>
+  <p class="quoted_header"><%= @quoted_header %></p>
   <blockquote type="cite">
-    <p><%= @quoted_header %></p>
     <%= @quoted_html %>
   </blockquote>
 <% end %>

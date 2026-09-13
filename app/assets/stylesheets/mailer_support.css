@@ -1,0 +1,39 @@
+#csa-admin-reply-above {
+  width: 100%;
+  margin: 0 0 16px 0;
+  padding: 0;
+  border: 0;
+  border-collapse: collapse;
+  -premailer-width: 100%;
+  -premailer-cellpadding: 0;
+  -premailer-cellspacing: 0;
+}
+
+#csa-admin-reply-above td {
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  padding: 8px 12px;
+  font-size: 13px;
+  line-height: 16px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.quoted_header {
+  margin: 1.2em 0 0.4em 0;
+}
+
+blockquote[type="cite"] {
+  margin: 0.4em 0 0 0;
+  padding: 0 0 0 0.75em;
+  border: 0 solid #3478f6;
+  border-left-width: 2px;
+  color: #5e5ce6;
+}
+
+blockquote[type="cite"] a,
+blockquote[type="cite"] p,
+blockquote[type="cite"] ul,
+blockquote[type="cite"] ol {
+  color: #5e5ce6;
+}

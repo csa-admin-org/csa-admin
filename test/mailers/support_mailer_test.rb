@@ -161,11 +161,14 @@ class SupportMailerTest < ActionMailer::TestCase
 
     assert_includes html, "id=\"csa-admin-reply-above\""
     assert_includes html, "Here is the answer"
+    assert_includes html, "quoted_header"
     assert_includes html, "External Consultant"
     assert_includes html, "Test content"
     assert_includes html, "blockquote"
     assert_operator html.index("id=\"csa-admin-reply-above\""), :<, html.index("Here is the answer")
-    assert_operator html.index("Here is the answer"), :<, html.index("Test content")
+    assert_operator html.index("Here is the answer"), :<, html.index("quoted_header")
+    assert_operator html.index("quoted_header"), :<, html.index("<blockquote")
+    assert_operator html.index("<blockquote"), :<, html.index("Test content")
   end
 
   test "wrap_email quotes a previous support hop without the wrap signature" do
