@@ -160,38 +160,40 @@ ActiveAdmin.register Support::Ticket do
           end
         end
 
-        if ticket.marked_as_replied?
-          para class: "support-replied-note" do
-            t("active_admin.resources.support/ticket.marked_as_replied",
-              name: ENV.fetch("ULTRA_ADMIN_NAME", "CSA Admin"),
-              at: l(ticket.replied_at, format: :short))
-          end
-        elsif authorized?(:mark_as_replied, ticket) && !Tenant.demo? && ticket.waiting?
-          div class: "support-mark-replied" do
-            panel_button t("active_admin.resources.support/ticket.mark_as_replied"),
-              mark_as_replied_support_ticket_path(ticket),
-              icon: "check"
-          end
-        end
-
-        unless Tenant.demo?
+        if ticket.marked_as_replied? || !Tenant.demo?
           div class: "support-reply" do
-            active_admin_form_for @support_message || Support::Message.new,
-              url: reply_support_ticket_path(ticket),
-              html: { class: "support-reply-form", multipart: true } do |f|
-              f.semantic_errors :attachments
-              ol do
-                f.input :html, as: :action_text, label: false, input_html: { rows: 10 }
+            if ticket.marked_as_replied?
+              para class: "support-replied-note" do
+                t("active_admin.resources.support/ticket.marked_as_replied",
+                  name: ENV.fetch("ULTRA_ADMIN_NAME", "CSA Admin"),
+                  at: l(ticket.replied_at, format: :short))
               end
-              div class: "support-reply-toolbar" do
-                div class: "support-reply-actions" do
-                  f.action :submit,
-                    label: t("active_admin.resources.support/ticket.submit"),
-                    icon: "send-horizontal",
-                    icon_class: "icon-4",
-                    button_html: { class: "btn btn-sm" }
+            elsif authorized?(:mark_as_replied, ticket) && ticket.waiting?
+              div class: "support-mark-replied" do
+                panel_button t("active_admin.resources.support/ticket.mark_as_replied"),
+                  mark_as_replied_support_ticket_path(ticket),
+                  icon: "check"
+              end
+            end
+
+            unless Tenant.demo?
+              active_admin_form_for @support_message || Support::Message.new,
+                url: reply_support_ticket_path(ticket),
+                html: { class: "support-reply-form", multipart: true } do |f|
+                f.semantic_errors :attachments
+                ol do
+                  f.input :html, as: :action_text, label: false, input_html: { rows: 10 }
                 end
-                render partial: "active_admin/attachments/form", locals: { f: f, add_icon: "paperclip" }
+                div class: "support-reply-toolbar" do
+                  div class: "support-reply-actions" do
+                    f.action :submit,
+                      label: t("active_admin.resources.support/ticket.submit"),
+                      icon: "send-horizontal",
+                      icon_class: "icon-4",
+                      button_html: { class: "btn btn-sm" }
+                  end
+                  render partial: "active_admin/attachments/form", locals: { f: f, add_icon: "paperclip" }
+                end
               end
             end
           end
