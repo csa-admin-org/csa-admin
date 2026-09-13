@@ -264,6 +264,6 @@ class AnalyticsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "a[href='#{analytics_path}'][title='#{I18n.t("active_admin.site_header.analytics")}'][data-turbo-prefetch=false]"
-    assert_select "a[href='#{support_path}'][title='#{I18n.t("active_admin.site_header.support")}'][data-turbo-prefetch=false]"
+    assert_select "a[href='#{support_tickets_path}'][title='#{I18n.t("active_admin.site_header.support")}'][data-turbo-prefetch=false]"
   end
 end

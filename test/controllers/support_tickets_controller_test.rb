@@ -20,7 +20,7 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
       priority: :medium, subject: "Need help", content: "Opening", admin: admins(:external))
     login admins(:super)
 
-    get support_path
+    get support_tickets_path
 
     assert_response :success
     assert_select "a[data-table-row-action=show]", text: "Need help ❗️"
@@ -50,7 +50,7 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
       priority: :medium, subject: "Need help", content: "Opening", admin: admins(:external))
     login admins(:super)
 
-    get support_path, params: { q: { priority_eq: Support::Ticket.priorities[:medium] } }
+    get support_tickets_path, params: { q: { priority_eq: Support::Ticket.priorities[:medium] } }
 
     assert_response :success
     assert_select "select[name='q[priority_eq]'] option[selected][value=?]",
@@ -63,7 +63,7 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
     ticket.update_columns(admin_id: nil)
     login admins(:super)
 
-    get support_path
+    get support_tickets_path
 
     assert_response :success
     assert_select ".support-unknown", text: I18n.t("active_admin.unknown")
@@ -77,7 +77,7 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
     message.save!
     login admins(:super)
 
-    get support_path, params: { scope: "waiting" }
+    get support_tickets_path, params: { scope: "waiting" }
 
     assert_response :success
     assert_select ".empty-state-title",
@@ -87,12 +87,19 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".empty-state-title.is-empty", count: 0
   end
 
+  test "/support redirects to the new ticket form" do
+    login admins(:super)
+
+    get support_path
+
+    assert_redirected_to new_support_ticket_path
+  end
+
   test "create stores referer as context metadata" do
     member = members(:john)
     login admins(:super)
 
-    get support_path, headers: { "HTTP_REFERER" => member_url(member) }
-    get new_support_ticket_path
+    get new_support_ticket_path, headers: { "HTTP_REFERER" => member_url(member) }
 
     assert_response :success
     assert_select "textarea[name='support_ticket[context]']", count: 0

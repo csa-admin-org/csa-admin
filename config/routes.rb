@@ -60,7 +60,7 @@ Rails.application.routes.draw do
     get "handbook/:id" => "handbook#index", as: :handbook_page
     get "analytics/:id" => "analytics#index", as: :analytics_page
 
-    get "support" => "support_tickets#index", as: :support
+    get "support", to: redirect("/support_tickets/new", status: 302), as: :support
 
     namespace :embeds do
       namespace :maps do

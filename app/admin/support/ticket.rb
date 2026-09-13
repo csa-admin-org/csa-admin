@@ -11,7 +11,7 @@ ActiveAdmin.register Support::Ticket do
   breadcrumb do
     links = []
     unless params[:action] == "index"
-      links << link_to(I18n.t("active_admin.resources.support/ticket.menu"), support_path)
+      links << link_to(I18n.t("active_admin.resources.support/ticket.menu"), support_tickets_path)
     end
     links
   end
@@ -234,7 +234,7 @@ ActiveAdmin.register Support::Ticket do
   end
 
   controller do
-    before_action :remember_support_context, only: :index
+    before_action :remember_support_context, only: %i[index new]
 
     before_build do |ticket|
       ticket.priority ||= :normal
