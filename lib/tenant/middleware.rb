@@ -4,7 +4,7 @@ require "public_suffix"
 
 module Tenant
   class Middleware
-    APP_SUBDOMAINS = %w[query].freeze
+    APP_SUBDOMAINS = %w[query inbound].freeze
 
     def initialize(app)
       @app = app

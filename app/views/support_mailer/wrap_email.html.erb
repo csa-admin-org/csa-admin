@@ -1,0 +1,12 @@
+<% if @content.present? %>
+  <%= @content %>
+<% else %>
+  <%= simple_format(@body) %>
+<% end %>
+
+<% if @previous %>
+  <blockquote type="cite">
+    <p><%= @quoted_header %></p>
+    <%= @quoted_html %>
+  </blockquote>
+<% end %>

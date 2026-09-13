@@ -24,6 +24,14 @@ Rails.application.routes.draw do
     end
   end
 
+  constraints subdomain: "inbound" do
+    scope module: "inbound" do
+      namespace :postmark do
+        resources :webhooks, only: :create
+      end
+    end
+  end
+
   constraints subdomain: "admin" do
     get "favicon" => "favicons#show"
 
@@ -52,7 +60,7 @@ Rails.application.routes.draw do
     get "handbook/:id" => "handbook#index", as: :handbook_page
     get "analytics/:id" => "analytics#index", as: :analytics_page
 
-    get "support" => "support_tickets#new", as: :support
+    get "support" => "support_tickets#index", as: :support
 
     namespace :embeds do
       namespace :maps do

@@ -2,7 +2,13 @@
 
 module ActiveAdmin::OrganizationSettingsHelper
   def organization_setting_sections
-    sections = [
+    organization_setting_section_definitions.select { |section|
+      organization_setting_section_visible?(section)
+    }
+  end
+
+  def organization_setting_section_definitions
+    [
       organization_setting_section_definition(:general, :core, "active_admin.resource.form.general", "sliders-horizontal"),
       organization_setting_section_definition(:mailer, :core, "active_admin.resource.form.mailer", "mail", handbook: "emails", handbook_anchor: "email-settings"),
       organization_setting_section_definition(:billing, :core, "active_admin.resource.form.billing", "banknotes", handbook: "billing"),
@@ -31,15 +37,13 @@ module ActiveAdmin::OrganizationSettingsHelper
       organization_setting_section_definition(:new_member_fee, :feature, "features.new_member_fee", "circle-plus", handbook: "new_member_fee"),
       organization_setting_section_definition(:shop, :feature, "shop.title", "shopping-basket", handbook: "shop")
     ]
-
-    sections.select { |section| organization_setting_section_visible?(section) }
   end
 
   def organization_setting_section(key)
     if key.is_a?(Hash)
       key
     else
-      organization_setting_sections.find { |section| section[:key] == key.to_s }
+      organization_setting_section_definitions.find { |section| section[:key] == key.to_s }
     end
   end
 

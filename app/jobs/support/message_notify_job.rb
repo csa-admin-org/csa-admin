@@ -2,12 +2,12 @@
 
 require "net/http"
 
-class Support::TicketNotifyJob < ApplicationJob
+class Support::MessageNotifyJob < ApplicationJob
   retry_on Net::OpenTimeout, Net::ReadTimeout, Socket::ResolutionError,
     OpenSSL::SSL::SSLError, Errno::ECONNRESET, Errno::ECONNREFUSED,
     wait: :polynomially_longer
 
-  def perform(ticket)
+  def perform(message)
     url = Support::Ticket.webhook_url
     return unless url
 
@@ -18,7 +18,7 @@ class Support::TicketNotifyJob < ApplicationJob
     request = Net::HTTP::Post.new(uri,
       "Content-Type" => "application/json",
       "Authorization" => authorization)
-    request.body = Support::Ticket::WebhookPayload.new(ticket).to_json
+    request.body = Support::Message::WebhookPayload.new(message).to_json
 
     response = Net::HTTP.start(uri.host, uri.port,
       use_ssl: uri.scheme == "https",

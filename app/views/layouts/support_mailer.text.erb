@@ -1,0 +1,8 @@
+<% if @header.present? %><%= @header %>
+
+<% end %><% if @reply_marker %><%= t("support.mailer.reply_above_text", url: @ticket.show_url) %>
+CSA-ADMIN-REPLY-ABOVE
+
+<% end %><%= yield %>
+
+<%= t("support.mailer.footer") %>: <%= @ticket.show_url %>

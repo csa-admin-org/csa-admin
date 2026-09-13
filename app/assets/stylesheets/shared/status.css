@@ -41,6 +41,7 @@
     &[data-status="validated"],
     &[data-status="sent"],
     &[data-status="completed"],
+    &[data-status="replied"],
     &[data-status="primary"],
     &[data-status="forced"],
     &[data-status="healthy"],

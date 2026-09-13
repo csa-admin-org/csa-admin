@@ -331,3 +331,16 @@ _:
         _de: nicht verfügbar
         _it: indisponibile
         _nl: niet beschikbaar
+    support/ticket:
+      replied:
+        _en: replied
+        _fr: répondu
+        _de: beantwortet
+        _it: risposto
+        _nl: beantwoord
+      waiting:
+        _en: waiting
+        _fr: en attente
+        _de: wartend
+        _it: in attesa
+        _nl: wachtend

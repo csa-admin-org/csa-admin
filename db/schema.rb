@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_07_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -1191,16 +1191,36 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_07_120000) do
     t.index ["discarded_at"], name: "index_shop_tags_on_discarded_at"
   end
 
+  create_table "support_messages", force: :cascade do |t|
+    t.integer "admin_id"
+    t.string "admin_name"
+    t.string "author", null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.string "rfc_message_id"
+    t.integer "ticket_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_support_messages_on_admin_id"
+    t.index ["rfc_message_id"], name: "idx_support_messages_on_rfc_message_id", unique: true, where: "rfc_message_id IS NOT NULL"
+    t.index ["ticket_id"], name: "index_support_messages_on_ticket_id"
+    t.check_constraint "author IN ('admin', 'support')", name: "chk_support_messages_author"
+  end
+
   create_table "support_tickets", force: :cascade do |t|
     t.integer "admin_id"
     t.text "content", null: false
     t.text "context"
     t.datetime "created_at", null: false
     t.string "emails"
+    t.datetime "last_activity_at", null: false
     t.integer "priority", null: false
+    t.datetime "replied_at"
     t.string "subject", null: false
+    t.string "token", null: false
     t.datetime "updated_at", null: false
     t.index ["admin_id"], name: "index_support_tickets_on_admin_id"
+    t.index ["last_activity_at"], name: "index_support_tickets_on_last_activity_at"
+    t.index ["token"], name: "index_support_tickets_on_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -1263,6 +1283,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_07_120000) do
   add_foreign_key "shop_products_special_deliveries", "shop_special_deliveries", column: "special_delivery_id"
   add_foreign_key "shop_products_tags", "shop_products", column: "product_id"
   add_foreign_key "shop_products_tags", "shop_tags", column: "tag_id"
+  add_foreign_key "support_messages", "admins"
+  add_foreign_key "support_messages", "support_tickets", column: "ticket_id"
   add_foreign_key "support_tickets", "admins"
 
   # Virtual tables defined in this database.

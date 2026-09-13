@@ -4237,7 +4237,20 @@ _:
           _de: sonder
           _it: speciale
           _nl: speciaal
+      support/message:
+        body:
+          _en: Message
+          _fr: Message
+          _de: Nachricht
+          _it: Messaggio
+          _nl: Bericht
       support/ticket:
+        admin:
+          _en: From
+          _fr: De
+          _de: Von
+          _it: Da
+          _nl: Van
         content:
           _en: Request
           _fr: Demande
@@ -4256,6 +4269,12 @@ _:
           _de: CC
           _it: CC
           _nl: CC
+        last_activity_at:
+          _en: Last activity
+          _fr: Dernière activité
+          _de: Letzte Aktivität
+          _it: Ultima attività
+          _nl: Laatste activiteit
         priority:
           _en: Priority
           _fr: Priorité
@@ -5460,3 +5479,29 @@ _:
           _de: Tags
           _it: Tags
           _nl: Tags
+      support/message:
+        one:
+          _en: Message
+          _fr: Message
+          _de: Nachricht
+          _it: Messaggio
+          _nl: Bericht
+        other:
+          _en: Messages
+          _fr: Messages
+          _de: Nachrichten
+          _it: Messaggi
+          _nl: Berichten
+      support/ticket:
+        one:
+          _en: Support request
+          _fr: Demande de support
+          _de: Supportanfrage
+          _it: Richiesta di supporto
+          _nl: Ondersteuningsverzoek
+        other:
+          _en: Support requests
+          _fr: Demandes de support
+          _de: Supportanfragen
+          _it: Richieste di supporto
+          _nl: Ondersteuningsverzoeken

@@ -493,10 +493,13 @@
     }
 
     a.has-many-add {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4375rem;
       border-radius: 0.375rem;
       border: 1px solid var(--color-gray-200);
       background-color: var(--color-white);
-      padding: 0.25rem 0.5rem;
+      padding: 0.125rem 0.5rem;
       font-size: 0.875rem;
       line-height: 1.25rem;
       font-weight: 500;

@@ -2898,24 +2898,12 @@ _:
           _it: La disponibilità individuale dei prodotti selezionati è ignorata qui.
           _nl: De individuele beschikbaarheid van de geselecteerde producten wordt hier genegeerd.
       support_ticket:
-        context:
-          _en: For a quick resolution of your request, please provide direct links, IDs (member, subscription, invoice, etc.) or screenshots (below).
-          _fr: Pour une résolution rapide de votre demande, merci de fournir des liens directs, IDs (membre, abonnement, facture, etc.) ou captures d'écran (ci-dessous).
-          _de: Für eine schnelle Lösung der Anfrage bitte direkte Links, IDs (Mitglied, Abonnement, Rechnung usw.) oder Screenshots (unterhalb) angeben.
-          _it: Per una risoluzione rapida della richiesta, fornite link diretti, ID (socio, abbonamento, fattura, ecc.) o screenshot (sotto).
-          _nl: 'Voor een snelle afhandeling: directe links, ID''s (lid, lidmaatschap, factuur, enz.) of schermafdrukken (hieronder) toevoegen.'
-        emails:
-          _en: Replies will be sent to your admin email (%{to}), but you can add other email addresses in CC.
-          _fr: Les réponses seront envoyées à votre adresse e-mail d'admin (%{to}), mais vous pouvez ajouter d'autres adresses e-mail en CC.
-          _de: Antworten werden an die Admin-E-Mail (%{to}) gesendet, es können aber andere E-Mail-Adressen in CC hinzugefügt werden.
-          _it: Le risposte verranno inviate alla vostra e-mail di amministrazione (%{to}), ma potete aggiungere altri indirizzi email in CC.
-          _nl: Antwoorden worden verzonden naar de admin-e-mail (%{to}), maar er kunnen andere e-mailadressen worden toegevoegd in CC.
-        subject:
-          _en: Briefly describe your issue or request.
-          _fr: Décrivez brièvement votre problème ou votre demande.
-          _de: Das Problem oder die Anfrage kurz beschreiben.
-          _it: Descrivete brevemente il vostro problema o la vostra richiesta.
-          _nl: Het probleem of het verzoek kort beschrijven.
+        html:
+          _en: For a quick resolution of your request, please provide direct links, IDs (member, subscription, invoice, etc.) or screenshots.
+          _fr: Pour une résolution rapide de votre demande, merci de fournir des liens directs, IDs (membre, abonnement, facture, etc.) ou captures d'écran.
+          _de: Für eine schnelle Lösung der Anfrage bitte direkte Links, IDs (Mitglied, Abonnement, Rechnung usw.) oder Screenshots angeben.
+          _it: Per una risoluzione rapida della richiesta, fornite link diretti, ID (socio, abbonamento, fattura, ecc.) o screenshot.
+          _nl: Voor een snelle afhandeling directe links, ID's (lid, lidmaatschap, factuur, enz.) of schermafdrukken toevoegen.
     inputs:
       period:
         _en: Schedule

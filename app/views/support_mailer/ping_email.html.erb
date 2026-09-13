@@ -1,0 +1,10 @@
+<% if @content.present? %>
+  <%= @content %>
+<% else %>
+  <%= simple_format(@body) %>
+<% end %>
+
+<% if @ticket.context.present? %>
+  <p>----</p>
+  <p><%= @ticket.context %></p>
+<% end %>

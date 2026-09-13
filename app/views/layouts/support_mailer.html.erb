@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+  </head>
+
+  <body>
+    <% if @header.present? %>
+      <p><%= @header %></p>
+    <% end %>
+
+    <% if @reply_marker %>
+      <table
+        id="csa-admin-reply-above"
+        width="100%"
+        cellpadding="0"
+        cellspacing="0"
+        border="0"
+        role="presentation"
+        style="border-collapse:collapse;margin:0 0 16px 0;"
+      >
+        <tr>
+          <td
+            align="center"
+            style="border-top:1px solid #cccccc;border-bottom:1px solid #cccccc;padding:8px 12px;font-size:12px;line-height:16px;color:#6b7280;"
+          >
+            <%= t("support.mailer.reply_above_html", url: @ticket.show_url) %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+
+    <%= yield %>
+
+    <p>
+      <%= link_to t("support.mailer.footer"), @ticket.show_url %>
+    </p>
+  </body>
+</html>

@@ -582,6 +582,12 @@ _:
       _de: Ein neues %{model} hinzufügen
       _it: Aggiungere un nuovo %{model}
       _nl: Voeg een nieuw %{model} toe
+    has_many_new_attachment:
+      _en: Add a file
+      _fr: Joindre un fichier
+      _de: Datei hinzufügen
+      _it: Aggiungere un file
+      _nl: Bestand toevoegen
     has_many_remove:
       _en: Remove
       _fr: Enlever
@@ -4268,19 +4274,94 @@ _:
             _it: Passato
             _nl: Verleden
       support/ticket:
+        blank_slate:
+          content:
+            _en: No support request yet. Don't hesitate to contact me!
+            _fr: Aucune demande de support pour le moment. N'hésitez pas à me contacter!
+            _de: Noch keine Supportanfrage. Bei Fragen gerne Kontakt aufnehmen!
+            _it: Nessuna richiesta di supporto per ora. Non esitate a contattarmi!
+            _nl: Nog geen ondersteuningsverzoek. Gerust contact opnemen!
+        demo_disabled:
+          _en: Support requests are disabled in the demo. Please contact me directly at info@csa-admin.org if you have any questions.
+          _fr: Les demandes de support sont désactivées dans la démo. Merci de me contacter directement à info@csa-admin.org pour toute question.
+          _de: Supportanfragen sind in der Demo deaktiviert. Bitte direkt an info@csa-admin.org schreiben bei Fragen.
+          _it: Le richieste di supporto sono disabilitate nella demo. Per qualsiasi domanda, contattatemi direttamente a info@csa-admin.org.
+          _nl: Ondersteuningsverzoeken zijn uitgeschakeld in de demo. Bij vragen rechtstreeks contact opnemen via info@csa-admin.org.
+        demo_disabled_html:
+          _en: Support requests are disabled in the demo. Please contact me directly at <a href="mailto:info@csa-admin.org">info@csa-admin.org</a> if you have any questions.
+          _fr: Les demandes de support sont désactivées dans la démo. Merci de me contacter directement à <a href="mailto:info@csa-admin.org">info@csa-admin.org</a> pour toute question.
+          _de: Supportanfragen sind in der Demo deaktiviert. Bitte direkt an <a href="mailto:info@csa-admin.org">info@csa-admin.org</a> schreiben bei Fragen.
+          _it: Le richieste di supporto sono disabilitate nella demo. Per qualsiasi domanda, contattatemi direttamente a <a href="mailto:info@csa-admin.org">info@csa-admin.org</a>.
+          _nl: Ondersteuningsverzoeken zijn uitgeschakeld in de demo. Bij vragen rechtstreeks contact opnemen via <a href="mailto:info@csa-admin.org">info@csa-admin.org</a>.
+        filters:
+          text:
+            _en: Text
+            _fr: Texte
+            _de: Text
+            _it: Testo
+            _nl: Tekst
         flash:
+          marked_as_replied:
+            _en: Marked as replied.
+            _fr: Marqué comme répondu.
+            _de: Als beantwortet markiert.
+            _it: Segnato come risposto.
+            _nl: Als beantwoord gemarkeerd.
           notice:
             _en: Your support request has been sent successfully, thank you!
             _fr: Votre demande de support a été envoyée avec succès, merci!
             _de: Die Supportanfrage wurde erfolgreich gesendet, danke!
             _it: La richiesta di supporto è stata inviata con successo, grazie!
             _nl: Het ondersteuningsverzoek is succesvol verzonden, bedankt!
+          replied:
+            _en: Reply sent.
+            _fr: Réponse envoyée.
+            _de: Antwort gesendet.
+            _it: Risposta inviata.
+            _nl: Antwoord verzonden.
+        mark_as_replied:
+          _en: Mark as replied
+          _fr: Marquer comme répondu
+          _de: Als beantwortet markieren
+          _it: Segnare come risposto
+          _nl: Als beantwoord markeren
+        marked_as_replied:
+          _en: Marked as replied by %{name} at %{at}.
+          _fr: Marqué comme répondu par %{name} le %{at}.
+          _de: Als beantwortet markiert von %{name} am %{at}.
+          _it: Segnato come risposto da %{name} il %{at}.
+          _nl: Als beantwoord gemarkeerd door %{name} op %{at}.
+        menu:
+          _en: Support
+          _fr: Support
+          _de: Support
+          _it: Supporto
+          _nl: Ondersteuning
         new_model:
-          _en: Support request
-          _fr: Demande de support
-          _de: Supportanfrage
-          _it: Richiesta di supporto
-          _nl: Ondersteuningsverzoek
+          _en: New request
+          _fr: Nouvelle demande
+          _de: Neue Anfrage
+          _it: Nuova richiesta
+          _nl: Nieuw verzoek
+        reply:
+          _en: Reply
+          _fr: Répondre
+          _de: Antworten
+          _it: Rispondere
+          _nl: Antwoorden
+        scopes:
+          replied:
+            _en: Replied
+            _fr: Répondu
+            _de: Beantwortet
+            _it: Risposto
+            _nl: Beantwoord
+          waiting:
+            _en: Waiting
+            _fr: En attente
+            _de: Wartend
+            _it: In attesa
+            _nl: Wachtend
         submit:
           _en: Send
           _fr: Envoyer

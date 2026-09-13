@@ -27,6 +27,7 @@ proxy:
     - cdn.csa-admin.org
     - mc.csa-admin.org
     - query.csa-admin.org
+    - inbound.csa-admin.org
     - connect.csa-admin.org
     - app.csa-admin.org
     - app.acp-admin.ch
@@ -53,7 +54,7 @@ env:
     APP_DOMAIN: csa-admin.org
     ASSET_HOST: https://cdn.csa-admin.org
     ULTRA_ADMIN_EMAIL: info@csa-admin.org
-    HIGH_PRIORITY_SUPPORT_EMAIL: support@csa-admin.org
+    SUPPORT_EMAIL: support@csa-admin.org
     ULTRA_ADMIN_NAME: Thibaud
     ULTRA_ADMIN_LANGUAGE: fr
     MAINTENANCE_MODE: OFF

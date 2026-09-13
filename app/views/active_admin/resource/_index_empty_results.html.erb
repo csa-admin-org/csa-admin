@@ -1,5 +1,9 @@
-<div class="empty-state is-short">
-  <h2 class="empty-state-title is-empty">
-    <%= I18n.t("active_admin.pagination.empty", model: active_admin_config.plural_resource_label) %>
-  </h2>
-</div>
+<% if support_waiting_inbox_empty? %>
+  <%= render "active_admin/resource/index_blank_slate" %>
+<% else %>
+  <div class="empty-state is-short">
+    <h2 class="empty-state-title is-empty">
+      <%= I18n.t("active_admin.pagination.empty", model: active_admin_config.plural_resource_label) %>
+    </h2>
+  </div>
+<% end %>

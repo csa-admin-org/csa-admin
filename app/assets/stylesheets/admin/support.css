@@ -1,0 +1,347 @@
+@layer components {
+  .support-conversation {
+    display: flex;
+    flex-direction: column;
+    max-width: 48rem;
+    margin-inline: auto;
+    padding-bottom: 1.25rem;
+  }
+
+  .support-thread {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem 0.75rem;
+  }
+
+  .support-message {
+    max-width: 100%;
+    padding: 0.5rem 0.5rem 1.25rem;
+    border-bottom: 1px dotted var(--color-border);
+  }
+
+  .support-message:last-child {
+    border-bottom: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .support-message-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .support-message-author {
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+
+  .support-unknown {
+    font-weight: 400;
+    font-style: italic;
+    color: var(--color-gray-400);
+  }
+
+  .support-message.is-support .support-message-meta {
+    flex-direction: row-reverse;
+  }
+
+  .support-message-time {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--color-gray-400);
+  }
+
+  .support-message-body {
+    line-height: 1.6;
+  }
+
+  .support-message-body a {
+    overflow-wrap: anywhere;
+  }
+
+  .support-message-images {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .support-message-files {
+    margin-top: 0.75rem;
+  }
+
+  .support-message-files-title {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-bottom: 0.35rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-ink-secondary);
+  }
+
+  .support-message-files-title svg {
+    opacity: 0.5;
+  }
+
+  html.dark .support-message-body pre,
+  .dark .support-message-body pre,
+  html.dark .support-message-body code,
+  .dark .support-message-body code {
+    background-color: var(--color-neutral-800);
+  }
+
+  .support-reply {
+    border-top: 1px solid var(--color-line);
+    padding: 1.25rem 0.5rem 0.25rem;
+  }
+
+  .support-replied-note {
+    margin-top: 0.75rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--color-gray-400);
+  }
+
+  .support-mark-replied {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.75rem;
+  }
+
+  .support-reply-form {
+    margin: 0;
+  }
+
+  .support-reply-form ol {
+    margin: 0;
+    padding: 0.25rem 0 0;
+  }
+
+  .support-reply-form fieldset.inputs {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .support-reply-form trix-editor {
+    min-height: 6rem;
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+  }
+
+  .support-reply-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .support-reply-actions {
+    order: 2;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    list-style: none;
+  }
+
+  .support-reply-form .has-many-container {
+    display: contents;
+  }
+
+  .support-reply-form a.has-many-add {
+    order: 1;
+  }
+
+  .support-reply-form fieldset.has-many-fields {
+    order: 3;
+    flex: 1 1 100%;
+    margin: 0;
+    margin-top: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px dashed var(--color-gray-300);
+    border-radius: 0.375rem;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  html.dark .support-reply-form fieldset.has-many-fields,
+  .dark .support-reply-form fieldset.has-many-fields {
+    border-color: var(--color-gray-700);
+  }
+
+  .support-reply-form fieldset.has-many-fields .file.input {
+    margin-bottom: 0.25rem;
+  }
+
+  .support-reply-form fieldset.has-many-fields .file.input label {
+    display: none;
+  }
+
+  .support-ticket-form fieldset.inputs:has(trix-editor) {
+    margin-bottom: 2rem;
+  }
+
+  .support-ticket-form .support-ticket-subject-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+
+  .support-ticket-form .support-ticket-subject-row > :not(:last-child) {
+    margin-bottom: 0;
+  }
+
+  .support-ticket-form .support-ticket-subject-row .is-grow {
+    min-width: 0;
+  }
+
+  .support-ticket-form .support-ticket-priority {
+    flex: none;
+  }
+
+  .support-ticket-form .support-ticket-priority select {
+    width: 4.5rem;
+  }
+
+  .support-ticket-form .has-many-container {
+    margin-top: 0.25rem;
+  }
+
+  .support-ticket-form a.has-many-add {
+    padding-block: 0.25rem;
+  }
+
+  .support-ticket-form trix-editor {
+    min-height: 16rem !important;
+  }
+
+  .support-ticket-form fieldset.has-many-fields {
+    margin-block: 0.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .support-ticket-form fieldset.has-many-fields .file.input label {
+    display: none;
+  }
+
+  .support-ticket-form a.has-many-remove,
+  .support-reply-form a.has-many-remove {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    font-weight: 400;
+  }
+}
+
+@layer utilities {
+  /* Beat unlayered Trix gem CSS (`* { margin: 0 }` + image max-width). */
+  .panel-body:has(.support-conversation) {
+    overflow: visible;
+  }
+
+  .support-message-body a.support-app-link {
+    display: inline-flex !important;
+    overflow-wrap: normal !important;
+    text-decoration: none !important;
+    padding: 0 0.5rem !important;
+  }
+
+  .support-message-body p {
+    margin-block: 0.75rem !important;
+  }
+
+  .support-message-body p:first-child {
+    margin-top: 0 !important;
+  }
+
+  .support-message-body p:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  .support-message-body ul,
+  .support-message-body ol {
+    margin: 0.75rem 0 !important;
+    padding-inline-start: 1.25rem !important;
+  }
+
+  .support-message-body pre {
+    margin: 0.75rem 0 !important;
+    overflow-x: auto;
+    border-radius: 0.375rem;
+    background-color: var(--color-neutral-100);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    white-space: pre-wrap !important;
+  }
+
+  .support-message-body pre code {
+    background: transparent;
+    padding: 0;
+  }
+
+  .support-message-body code {
+    border-radius: 0.125rem;
+    background-color: var(--color-neutral-100);
+    padding: 0.0625rem 0.25rem;
+    font-size: 0.8125rem;
+  }
+
+  .support-message-body blockquote {
+    margin-block: 1rem !important;
+    margin-inline: 0 !important;
+    border: 0;
+    border-inline-start: 3px solid var(--color-gray-300);
+    padding-block: 0.25rem !important;
+    padding-inline-start: 1rem !important;
+    color: var(--color-ink-muted);
+  }
+
+  .support-message-body blockquote p {
+    margin-block: 0.35rem !important;
+  }
+
+  html.dark .support-message-body blockquote,
+  .dark .support-message-body blockquote {
+    border-inline-start-color: var(--color-gray-600);
+  }
+
+  .support-message-body img,
+  .support-message-body .attachment,
+  .support-message-body.trix-content img,
+  .support-message-body.trix-content .attachment,
+  .support-message-image {
+    display: block !important;
+    margin-block: 1rem !important;
+    margin-inline: auto !important;
+    max-width: min(100%, 42rem) !important;
+    max-height: 36rem;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 0.375rem;
+  }
+
+  .support-message-body .attachment,
+  .support-message-body.trix-content .attachment {
+    width: fit-content;
+  }
+
+  .support-message-body img[src*="mail-sig"] {
+    max-width: 10rem !important;
+    max-height: 10rem !important;
+    margin-block: 0.5rem !important;
+    margin-inline: initial !important;
+  }
+}

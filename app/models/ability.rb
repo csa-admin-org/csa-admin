@@ -40,7 +40,10 @@ class Ability
     can :pdf, Invoice
     can :sepa_pain, Invoice
     can :sepa_pain_all, Invoice
+    can :read, Support::Ticket
     can :create, Support::Ticket
+    can :reply, Support::Ticket
+    can :create, Support::Message
 
     writable_models = []
 
@@ -189,6 +192,9 @@ class Ability
       can :manage, Admin
       can :manage, Session
       can :manage, Demo::PageVisit if Tenant.demo?
+      can :update, Support::Ticket
+      can :destroy, Support::Ticket
+      can :mark_as_replied, Support::Ticket
     end
 
     can :create, writable_models

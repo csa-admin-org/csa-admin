@@ -1,4 +1,8 @@
-f.has_many :attachments, allow_destroy: true, heading: "" do |a|
+add_icon ||= "plus"
+f.has_many :attachments,
+  allow_destroy: true,
+  heading: "",
+  new_record: "#{icon(add_icon, class: "icon-4")} #{I18n.t("active_admin.has_many_new_attachment")}".html_safe do |a|
     if a.object.persisted?
       content_tag :span, display_attachment(a.object.file), class: "filename"
     elsif a.object.file.attached?

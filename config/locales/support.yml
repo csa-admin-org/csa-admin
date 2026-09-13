@@ -1,22 +1,41 @@
 _:
   support:
+    mailer:
+      footer:
+        _en: View the conversation
+        _fr: Voir la conversation
+        _de: Unterhaltung ansehen
+        _it: Vedere la conversazione
+        _nl: Het gesprek bekijken
+      ping:
+        header:
+          _en: "%{org} (%{tenant}) — %{author}"
+          _fr: "%{org} (%{tenant}) — %{author}"
+          _de: "%{org} (%{tenant}) — %{author}"
+          _it: "%{org} (%{tenant}) — %{author}"
+          _nl: "%{org} (%{tenant}) — %{author}"
+      reply_above_html:
+        _en: Reply above this line / <a href="%{url}" style="color:#6b7280;">view the conversation</a>
+        _fr: Répondre au-dessus de cette ligne / <a href="%{url}" style="color:#6b7280;">voir la conversation</a>
+        _de: Oberhalb dieser Zeile antworten / <a href="%{url}" style="color:#6b7280;">Unterhaltung ansehen</a>
+        _it: Rispondere sopra questa riga / <a href="%{url}" style="color:#6b7280;">vedere la conversazione</a>
+        _nl: Boven deze regel antwoorden / <a href="%{url}" style="color:#6b7280;">het gesprek bekijken</a>
+      reply_above_text:
+        _en: "---- Reply above this line / view the conversation: %{url} ----"
+        _fr: "---- Répondre au-dessus de cette ligne / voir la conversation: %{url} ----"
+        _de: "---- Oberhalb dieser Zeile antworten / Unterhaltung ansehen: %{url} ----"
+        _it: "---- Rispondere sopra questa riga / vedere la conversazione: %{url} ----"
+        _nl: "---- Boven deze regel antwoorden / het gesprek bekijken: %{url} ----"
     ticket:
-      priority:
-        high:
-          _en: Urgent, response in the shortest possible time ‼️
-          _fr: Urgence, réponse dans les plus brefs délais ‼️
-          _de: Dringend, Antwort in kürzester Zeit ‼️
-          _it: Urgente, risposta nei tempi più brevi ‼️
-          _nl: Urgent, antwoord in de kortst mogelijke tijd ‼️
-        medium:
-          _en: Important, response expected within 24 hours ❗️
-          _fr: Importante, réponse attendue dans les 24h ❗️
-          _de: Wichtig, Antwort erwartet innerhalb 24 Stunden ❗️
-          _it: Importante, risposta attesa entro 24 ore ❗️
-          _nl: Belangrijk, antwoord verwacht binnen 24 uur ❗️
-        normal:
-          _en: Normal, response expected within the week
-          _fr: Normale, réponse attendue dans la semaine
-          _de: Normal, Antwort erwartet innerhalb der Woche
-          _it: Normale, risposta attesa entro la settimana
-          _nl: Normaal, antwoord verwacht binnen de week
+      replied:
+        _en: Replied
+        _fr: Répondu
+        _de: Beantwortet
+        _it: Risposto
+        _nl: Beantwoord
+      waiting:
+        _en: Waiting
+        _fr: En attente
+        _de: Wartend
+        _it: In attesa
+        _nl: Wachtend
