@@ -185,7 +185,7 @@ ActiveAdmin.register ActivityParticipation do
   sidebar :calendar, if: -> { Current.org.icalendar_auth_token? }, only: :index do
     side_panel t(".calendar") do
       para t(".activity_participation_ical_text_html")
-      div class: "text-center" do
+      div class: "panel-action-row" do
         link_to activity_participations_calendar_url(auth_token: Current.org.icalendar_auth_token).gsub(/^https/, "webcal"), class: "btn btn-sm" do
           icon("calendar-days", class: "icon-4") + t(".subscribe_ical_link")
         end
