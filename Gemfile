@@ -3,6 +3,10 @@
 source "https://rubygems.org", cooldown: 7
 
 gem "rails", "~> 8.1"
+# json 3.0 dropped the positional options hash from JSON.parse; ActiveSupport::JSON.decode
+# in 8.1.3.1 still passes one, so every JSON column read raises ArgumentError.
+# Unpin once a Rails 8.1 release includes rails/rails#58601.
+gem "json", "< 3"
 
 # Core Framework
 gem "bootsnap", require: false
