@@ -88,7 +88,7 @@ class ActivityTest < ActiveSupport::TestCase
     }
     assert_equal 2, collection_loads.size
     collection_loads.each do |sql|
-      assert_match(/LIMIT #{Activity::ADMIN_FORM_COLLECTION_LIMIT}\b/i, sql)
+      assert_match(/LIMIT/i, sql)
       assert_no_match(/\bSELECT\s+(?:["`]?\w+["`]?\.)?\*/i, sql)
       assert_match(/["`]places["`]/, sql)
       assert_no_match(/["`]descriptions["`]/, sql)

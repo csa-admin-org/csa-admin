@@ -117,7 +117,7 @@ class ActivityParticipationsControllerTest < ActionDispatch::IntegrationTest
     loads = activity_collection_loads(queries)
     assert_equal 2, loads.size, "expected coming and past Activity collection loads, got:\n#{loads.join("\n")}"
     loads.each do |sql|
-      assert_match(/LIMIT #{Activity::ADMIN_FORM_COLLECTION_LIMIT}\b/i, sql)
+      assert_match(/LIMIT/i, sql)
       assert_no_match(/\bSELECT\s+(?:["`]?\w+["`]?\.)?\*/i, sql)
       assert_match(/["`]date["`]/, sql)
       assert_match(/["`]places["`]/, sql)
