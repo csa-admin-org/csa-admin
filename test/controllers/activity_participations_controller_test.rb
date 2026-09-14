@@ -22,17 +22,17 @@ class ActivityParticipationsControllerTest < ActionDispatch::IntegrationTest
     get activity_participations_path
 
     assert_response :success
-    assert_match(/webcal/, response.body)
+    assert_select "#calendar_sidebar_section"
   end
 
   test "index succeeds when icalendar_auth_token cannot be decrypted" do
     travel_to "2024-01-01"
     login admins(:super)
-    Current.org.update_column(:icalendar_auth_token, "invalid-ciphertext")
+    corrupt_icalendar_auth_token!
 
     get activity_participations_path
 
     assert_response :success
-    assert_no_match(/webcal/, response.body)
+    assert_select "#calendar_sidebar_section", false
   end
 end

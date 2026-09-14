@@ -16,7 +16,7 @@ class ActivityParticipationsCalendarControllerTest < ActionDispatch::Integration
   end
 
   test "with an undecryptable auth token" do
-    Current.org.update_column(:icalendar_auth_token, "invalid-ciphertext")
+    corrupt_icalendar_auth_token!
     request(auth_token: "1234abcd")
     assert_response :unauthorized
   end

@@ -5,6 +5,18 @@ module OrganizationsHelper
     Current.org.update_columns(columns)
   end
 
+  def corrupt_icalendar_auth_token!(organization = Current.org)
+    ciphertext = JSON.parse(organization.ciphertext_for(:icalendar_auth_token))
+    ciphertext["p"] = ciphertext.fetch("p").tr("A-Za-z0-9", "B-ZAb-z0-91")
+    # Raw SQL: update_column would re-encrypt this payload as plaintext.
+    Organization.connection.update(
+      Organization.sanitize_sql_array([
+        "UPDATE organizations SET icalendar_auth_token = ? WHERE id = ?",
+        ciphertext.to_json,
+        organization.id
+      ]))
+  end
+
   def german_org(columns = {})
     attrs = {
       languages: [ "de" ],

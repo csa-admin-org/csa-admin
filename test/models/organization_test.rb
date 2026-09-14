@@ -394,11 +394,10 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   test "icalendar_auth_token presence is false when ciphertext cannot be decrypted" do
-    org = Current.org
-    org.update_column(:icalendar_auth_token, "invalid-ciphertext")
-    org.reload
+    corrupt_icalendar_auth_token!
+    organization = Organization.uncached { Organization.find(Current.org.id) }
 
-    assert_nil org.icalendar_auth_token
-    assert_not org.icalendar_auth_token?
+    assert_nil organization.icalendar_auth_token
+    assert_not organization.icalendar_auth_token?
   end
 end
