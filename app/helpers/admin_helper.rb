@@ -79,6 +79,14 @@ module AdminHelper
     Member.pluck(:city).uniq.map(&:presence).compact.sort
   end
 
+  def activity_participation_form_activities_collection(participation = nil)
+    collection = Activity.admin_form_collection(selected: participation&.activity)
+    [
+      [ t("active_admin.scopes.coming"), option_for_select(collection[:coming]) ],
+      [ t("active_admin.scopes.past"), option_for_select(collection[:past]) ]
+    ]
+  end
+
   def grouped_by_date(relation, past: :last)
     if fy_year = params.dig(:q, :during_year)
       relation = relation.during_year(fy_year)

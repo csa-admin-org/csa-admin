@@ -8,6 +8,9 @@ class Activity < ApplicationRecord
   include BulkDatesInsert
   include Availability, Presetable
 
+  ADMIN_FORM_COLLECTION_LIMIT = 200
+  ADMIN_FORM_COLLECTION_COLUMNS = %i[id date start_time end_time places].freeze
+
   attribute :start_time, :time_only
   attribute :end_time, :time_only
 
@@ -26,6 +29,23 @@ class Activity < ApplicationRecord
   validate :period_duration_must_one_hour
 
   scope :ordered, ->(order) { order(date: order, start_time: :asc) }
+  scope :admin_form_select, -> { select(*ADMIN_FORM_COLLECTION_COLUMNS) }
+
+  def self.admin_form_collection(selected: nil)
+    scope = admin_form_select
+    coming = scope.coming.order(:date).limit(ADMIN_FORM_COLLECTION_LIMIT).to_a
+    past = scope.past.reorder(date: :desc).limit(ADMIN_FORM_COLLECTION_LIMIT).to_a
+
+    if selected
+      if selected.coming?
+        coming << selected unless coming.any? { |activity| activity.id == selected.id }
+      elsif selected.past?
+        past.unshift(selected) unless past.any? { |activity| activity.id == selected.id }
+      end
+    end
+
+    { coming: coming, past: past }
+  end
 
   def display_name
     name

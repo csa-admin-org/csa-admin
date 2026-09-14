@@ -198,7 +198,7 @@ ActiveAdmin.register ActivityParticipation do
   form do |f|
     f.inputs t(".details"), icon: "notebook-text" do
       f.input :activity,
-        collection: grouped_by_date(Activity),
+        collection: activity_participation_form_activities_collection(f.object),
         prompt: true
       f.input :member,
         collection: members_collection,
