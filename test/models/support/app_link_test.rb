@@ -116,6 +116,27 @@ class Support::AppLinkTest < ActiveSupport::TestCase
     assert_equal "Orders", links.first.text
   end
 
+  test "flattens an Apple Mail rich-link card to one compacted button" do
+    url = "#{admin_url}/baskets/15463/edit"
+    html = <<~HTML
+      <p>Hello</p>
+      <div class="apple-rich-link" data-url="#{url}">
+        <a class="lp-rich-link" href="#{url}"></a>
+        <table>
+          <tr>
+            <td><a href="#{url}">admin.acme.test</a></td>
+            <td><a href="#{url}"><img src="data:image/png;base64,AA=="></a></td>
+          </tr>
+        </table>
+      </div>
+    HTML
+    links = Nokogiri::HTML.fragment(Support::AppLink.rewrite(html)).css("a")
+
+    assert_equal 1, links.size
+    assert_equal "#{Basket.model_name.human(count: 2)} #15463", links.first.text
+    assert_includes links.first["href"], "/baskets/15463/edit"
+  end
+
   test "autolinked plaintext admin urls compact through message html" do
     html = Support::AppLink.rewrite(Support::MessageFormat.to_html("See #{orders_url}"))
     link = Nokogiri::HTML.fragment(html).at("a.support-app-link")

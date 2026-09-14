@@ -9,6 +9,7 @@ module Support
       return html if source.blank? || !source.match?(/https?:/i)
 
       fragment = Nokogiri::HTML::DocumentFragment.parse(source)
+      flatten_rich_links!(fragment)
       fragment.css("a[href]").each { |node| rewrite_node(node) }
       collapse_host_only!(fragment)
       fragment.to_html.html_safe
@@ -140,6 +141,19 @@ module Support
       nil
     end
     private_class_method :rewrite_node
+
+    def self.flatten_rich_links!(root)
+      root.css(".apple-rich-link").each do |card|
+        href = card["data-url"].presence || card.at("a[href]")&.[]("href")
+        next if href.blank?
+
+        link = Nokogiri::XML::Node.new("a", card.document)
+        link["href"] = href
+        link.content = href
+        card.replace(link)
+      end
+    end
+    private_class_method :flatten_rich_links!
 
     def self.collapse_host_only!(root)
       root.css("a.support-app-link").each do |button|
