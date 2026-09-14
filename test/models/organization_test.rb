@@ -392,4 +392,13 @@ class OrganizationTest < ActiveSupport::TestCase
     assert Current.org.encrypted_attribute?(:api_token)
     assert Current.org.encrypted_attribute?(:icalendar_auth_token)
   end
+
+  test "icalendar_auth_token presence is false when ciphertext cannot be decrypted" do
+    org = Current.org
+    org.update_column(:icalendar_auth_token, "invalid-ciphertext")
+    org.reload
+
+    assert_nil org.icalendar_auth_token
+    assert_not org.icalendar_auth_token?
+  end
 end

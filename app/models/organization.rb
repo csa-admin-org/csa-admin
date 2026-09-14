@@ -134,6 +134,12 @@ class Organization < ApplicationRecord
     first!
   end
 
+  def icalendar_auth_token
+    super
+  rescue ActiveRecord::Encryption::Errors::Decryption
+    nil
+  end
+
   def features
     self[:features].map(&:to_sym) & FEATURES
   end
