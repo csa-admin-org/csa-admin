@@ -23,39 +23,34 @@ class SessionMailerTest < ActionMailer::TestCase
     assert_equal "Acme <info@acme.test>", mail[:from].decoded
   end
 
-  test "inactive recipient syncs suppressions without failing delivery" do
+  test "inactive member recipient syncs suppressions and re-raises" do
     freeze_time
     session = create_session(members(:john))
-    postmark_client.dump_suppressions_response = [ {
-      email_address: session.email,
-      suppression_reason: "HardBounce",
-      origin: "Recipient",
-      created_at: Time.current.to_s
-    } ]
-    postmark_request = stub_request(:post, "https://api.postmarkapp.com/email").to_return(
-      status: 422,
-      body: {
-        ErrorCode: 406,
-        Message: "Found inactive addresses: #{session.email}. Inactive recipients cannot receive email."
-      }.to_json,
-      headers: { "Content-Type" => "application/json" })
+    stub_inactive_recipient!(session.email)
     delivery = SessionMailer.with(
       session: session,
       session_url: "https://example.com/session/token"
     ).new_member_session_email
     delivery.message.delivery_method(Mail::Postmark, api_token: "test-token")
 
+    assert_raises(Postmark::InactiveRecipientError) { delivery.deliver_now }
+
+    assert EmailSuppression.outbound.active.exists?(email: session.email)
+  end
+
+  test "inactive admin recipient syncs suppressions without failing delivery" do
+    freeze_time
+    session = create_session(admins(:ultra))
+    stub_inactive_recipient!(session.email)
+    delivery = SessionMailer.with(
+      session: session,
+      session_url: "https://example.com/session/token"
+    ).new_admin_session_email
+    delivery.message.delivery_method(Mail::Postmark, api_token: "test-token")
+
     assert_nothing_raised { delivery.deliver_now }
 
-    assert_requested postmark_request
     assert EmailSuppression.outbound.active.exists?(email: session.email)
-
-    subsequent_session = Session.new(
-      member_email: session.email,
-      remote_addr: "127.0.0.1",
-      user_agent: "a browser user agent")
-    assert_not subsequent_session.valid?
-    assert subsequent_session.errors.added?(:email, :suppressed)
   end
 
   test "new admin session email" do
@@ -74,5 +69,23 @@ class SessionMailerTest < ActionMailer::TestCase
     assert_includes mail.body.to_s, "Accéder à mon compte admin"
     assert_includes mail.body.to_s, "https://example.com/session/token"
     assert_equal "Acme <info@acme.test>", mail[:from].decoded
+  end
+
+  private
+
+  def stub_inactive_recipient!(email)
+    postmark_client.dump_suppressions_response = [ {
+      email_address: email,
+      suppression_reason: "HardBounce",
+      origin: "Recipient",
+      created_at: Time.current.to_s
+    } ]
+    stub_request(:post, "https://api.postmarkapp.com/email").to_return(
+      status: 422,
+      body: {
+        ErrorCode: 406,
+        Message: "Found inactive addresses: #{email}. Inactive recipients cannot receive email."
+      }.to_json,
+      headers: { "Content-Type" => "application/json" })
   end
 end

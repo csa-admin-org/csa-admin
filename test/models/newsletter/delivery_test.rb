@@ -65,6 +65,9 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     assert_includes mail_body, "Hello Jane Doe,"
     assert_includes mail_body, "Block Jane Doe"
     assert_includes mail_body, "Best regards,\n", "<br>Acme</p>"
+    assert_includes mail_body, "/newsletters/unsubscribe/"
+    assert_not_includes delivery.content, "/newsletters/unsubscribe/"
+    assert_not_includes delivery.mail_preview, "/newsletters/unsubscribe/"
   end
 
   test "send newsletter with custom from" do

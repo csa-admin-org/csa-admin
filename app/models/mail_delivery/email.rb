@@ -15,7 +15,7 @@ class MailDelivery
     scope :with_email, ->(email) { where("email LIKE ?", "%#{email}%") }
 
     before_create :check_email_suppressions
-    after_create_commit -> { ProcessJob.perform_later(self) }
+    after_create_commit :enqueue_process_job
 
     def deliverable?
       email_suppression_ids.empty?
@@ -104,6 +104,11 @@ class MailDelivery
       update_columns(
         email_suppression_ids: suppressions.map(&:id),
         email_suppression_reasons: suppressions.map(&:reason).uniq)
+    end
+
+    def enqueue_process_job
+      queue = mail_delivery.session? ? :critical : :low
+      ProcessJob.set(queue: queue).perform_later(self)
     end
 
     def check_email_suppressions

@@ -5,7 +5,7 @@ class MailDelivery < ApplicationRecord
   include Preview
   include Retention
 
-  MAILABLE_TYPES = %w[Invoice Absence ActivityParticipation Membership BiddingRound Basket SEPAMandate].freeze
+  MAILABLE_TYPES = %w[Invoice Absence ActivityParticipation Membership BiddingRound Basket SEPAMandate Session].freeze
   MISSING_EMAILS_ALLOWED_PERIOD = 1.week
 
   has_states :draft, :processing, :delivered, :partially_delivered, :not_delivered
@@ -85,6 +85,14 @@ class MailDelivery < ApplicationRecord
     source.build_mail_for(member, email: email, **mailable_params)
   end
 
+  def display_name
+    if session?
+      I18n.t("session_mailer.#{session_mailer_method}.subject")
+    else
+      source&.display_name
+    end
+  end
+
   def mailable_missing?
     mailable_ids.present? && mailables.none?
   end
@@ -124,6 +132,8 @@ class MailDelivery < ApplicationRecord
   def source
     @source ||= if newsletter?
       source_newsletter
+    elsif session?
+      mailables.first
     else
       MailTemplate.find_by!(title: mail_template_title)
     end
@@ -136,7 +146,7 @@ class MailDelivery < ApplicationRecord
   # absence_included_reminder lives in the "membership" scope but doesn't start
   # with "membership_", so the candidate won't match — fall back to raw action.
   def mail_template_title
-    return if newsletter?
+    return if newsletter? || session?
 
     candidate = "#{mailable_type.underscore}_#{action}"
     candidate.in?(MailTemplate::TITLES) ? candidate : action
@@ -144,6 +154,10 @@ class MailDelivery < ApplicationRecord
 
   def newsletter?
     mailable_type == "Newsletter"
+  end
+
+  def session?
+    mailable_type == "Session"
   end
 
   def newsletter
@@ -165,7 +179,7 @@ class MailDelivery < ApplicationRecord
   end
 
   def show_missing_emails?
-    missing_emails_allowed? && missing_emails.any?
+    !session? && missing_emails_allowed? && missing_emails.any?
   end
 
   def deliver_missing_email!(email)
@@ -176,6 +190,13 @@ class MailDelivery < ApplicationRecord
 
   private
 
+  def session_mailer_method
+    case action
+    when "created" then "new_member_session_email"
+    when "deletion_confirmation" then "deletion_confirmation_email"
+    end
+  end
+
   def mailable_params
     return {} if mailable_ids.blank?
 
@@ -183,12 +204,13 @@ class MailDelivery < ApplicationRecord
     return {} if records.empty?
 
     key = mailable_type.underscore.to_sym
-
-    if records.size == 1 && mailable_ids.size == 1
+    params = if records.size == 1 && mailable_ids.size == 1
       { key => records.first }
     else
       # For ActivityParticipation groups: pass IDs array
       { "#{key}_ids": mailable_ids }
     end
+    params[:action] = action if session?
+    params
   end
 end

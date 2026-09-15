@@ -421,7 +421,7 @@ ActiveAdmin.register Member do
           panel link_to(t(".email_deliveries"), all_mail_deliveries_path), icon: "mails", count: mail_deliveries_count do
             table_for(mail_deliveries.limit(6), class: "table-auto table-mail-deliveries") do
               column(:subject, sortable: false) { |d|
-                auto_link d, (d.subject || d.source&.display_name), data: { "table-row-action": "show" }
+                auto_link d, (d.subject || d.display_name), data: { "table-row-action": "show" }
               }
               column(:created_at, class: "text-right is-nowrap") { |d| l(d.created_at, format: :short) }
               column(:state, class: "text-right") { |d| aligned_status_tag(d.state) }

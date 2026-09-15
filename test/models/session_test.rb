@@ -277,4 +277,51 @@ class SessionTest < ActiveSupport::TestCase
     assert_nil session.member
     assert_not session.valid?
   end
+
+  test "deliver_login_email! tracks MailDelivery for the session email" do
+    session = create_session(members(:john))
+
+    assert_enqueued_with(job: MailDelivery::ProcessJob, queue: "critical") do
+      assert_difference -> { MailDelivery.count }, 1 do
+        session.deliver_login_email!
+      end
+    end
+
+    delivery = MailDelivery.last
+    assert delivery.session?
+    assert_equal session, delivery.mailables.first
+    assert_equal "created", delivery.action
+    assert_equal [ session.email ], delivery.emails.map(&:email)
+  end
+
+  test "deliver_deletion_confirmation_email! tracks MailDelivery for the session email" do
+    session = create_session(members(:mary))
+
+    assert_difference -> { MailDelivery.count }, 1 do
+      session.deliver_deletion_confirmation_email!
+    end
+
+    delivery = MailDelivery.last
+    assert delivery.session?
+    assert_equal "deletion_confirmation", delivery.action
+    assert_equal [ session.email ], delivery.emails.map(&:email)
+  end
+
+  test "processing a login email stores the preview and sends to the session email" do
+    session = create_session(members(:john))
+    session.deliver_login_email!
+
+    perform_enqueued_jobs
+
+    delivery = MailDelivery.last
+    sent = ActionMailer::Base.deliveries.last
+    sent_html = sent.html_part&.body&.decoded || sent.body.to_s
+    assert_equal "processing", delivery.reload.state
+    assert_equal I18n.t("session_mailer.new_member_session_email.subject"), delivery.subject
+    assert_includes delivery.content, "Access my account"
+    assert_includes sent_html, "/sessions/"
+    assert_not_includes delivery.content, "/sessions/"
+    assert_not_includes delivery.mail_preview, "/sessions/"
+    assert_equal [ session.email ], sent.to
+  end
 end

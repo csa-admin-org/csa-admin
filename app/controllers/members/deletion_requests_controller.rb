@@ -8,9 +8,7 @@ class Members::DeletionRequestsController < Members::BaseController
 
   def create
     current_session.rotate_deletion_code!
-    SessionMailer.with(
-      session: current_session
-    ).deletion_confirmation_email.deliver_later(queue: :critical)
+    current_session.deliver_deletion_confirmation_email!
 
     redirect_to new_members_account_deletion_confirmation_path
   end

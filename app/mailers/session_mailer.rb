@@ -3,6 +3,7 @@
 class SessionMailer < ApplicationMailer
   rescue_from Postmark::InactiveRecipientError do
     EmailSuppression.sync_postmark!(fromdate: 1.week.ago)
+    raise unless action_name == "new_admin_session_email"
   end
 
   def new_member_session_email
@@ -11,7 +12,7 @@ class SessionMailer < ApplicationMailer
       content = liquid_template.render(
         "session_url" => params[:session_url])
       content_mail(content,
-        to: session.email,
+        to: params[:email] || session.email,
         subject: t(".subject"),
         tag: "session-member")
     end
@@ -35,7 +36,7 @@ class SessionMailer < ApplicationMailer
       content = liquid_template.render(
         "code" => session.deletion_code)
       content_mail(content,
-        to: session.email,
+        to: params[:email] || session.email,
         subject: t(".subject"),
         tag: "deletion-confirmation")
     end

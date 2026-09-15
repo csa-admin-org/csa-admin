@@ -35,6 +35,14 @@ class MailDelivery::EmailTest < ActiveSupport::TestCase
     end
   end
 
+  test "session email process job is enqueued on the critical queue" do
+    session = create_session(members(:john))
+
+    assert_enqueued_with(job: MailDelivery::ProcessJob, queue: "critical") do
+      session.deliver_login_email!
+    end
+  end
+
   test "deliverable? returns true when email present and no suppressions" do
     member = members(:john)
     delivery = MailDelivery.deliver!(

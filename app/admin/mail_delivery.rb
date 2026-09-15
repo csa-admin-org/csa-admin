@@ -50,10 +50,19 @@ ActiveAdmin.register MailDelivery do
     when BiddingRound
       links << link_to(BiddingRound.model_name.human(count: 2), bidding_rounds_path(scope: :all))
       links << auto_link(source)
+    when Session
+      links << link_to(Member.model_name.human(count: 2), members_path(scope: :all))
+      links << auto_link(source.member)
     end
 
     if params[:action] == "show"
-      deliveries_params = resource.newsletter? ? { newsletter_id: source.id } : { mail_template_id: source.id }
+      deliveries_params = if resource.newsletter?
+        { newsletter_id: source.id }
+      elsif resource.session?
+        { member_id: resource.member_id }
+      else
+        { mail_template_id: source.id }
+      end
       links << link_to(MailDelivery.model_name.human(count: 2), mail_deliveries_path(**deliveries_params))
     end
 
@@ -105,7 +114,7 @@ ActiveAdmin.register MailDelivery do
   index as: MailDeliveryIndex, download_links: false do
     column :id
     if source_type.in?(%i[member mailable])
-      column :subject, ->(d) { auto_link d, d.subject || d.source&.display_name }, sortable: false
+      column :subject, ->(d) { auto_link d, d.subject || d.display_name }, sortable: false
     end
     column :member, sortable: "members.name" if source_type != :member
     column :created_at, ->(d) { l(d.created_at, format: :short) }, sortable: true, class: "text-right"
@@ -150,7 +159,7 @@ ActiveAdmin.register MailDelivery do
           attributes_table do
             row(:id)
             row(:member) { auto_link(delivery.member) }
-            unless delivery.newsletter?
+            unless delivery.newsletter? || delivery.session?
               mailable = delivery.mailables.first
               if mailable
                 row(mailable.class.model_name.human) { auto_link(mailable) }
@@ -168,7 +177,7 @@ ActiveAdmin.register MailDelivery do
               row(:attachments) { nl.attachments.map { |a| display_attachment(a.file) } }
             end
           end
-        else
+        elsif !delivery.session?
           mt = delivery.source
           panel link_to(MailTemplate.model_name.human, mt), icon: "mail" do
             div class: "panel-copy" do
@@ -340,7 +349,7 @@ ActiveAdmin.register MailDelivery do
       end
 
       if source_type != :newsletter
-        tpl_deliveries = records.reject(&:newsletter?)
+        tpl_deliveries = records.reject { |d| d.newsletter? || d.session? }
         if tpl_deliveries.any?
           templates = MailTemplate.all.index_by(&:title)
           tpl_deliveries.each { |d| d.preload_source!(templates[d.mail_template_title]) }

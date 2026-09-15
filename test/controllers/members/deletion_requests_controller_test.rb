@@ -83,7 +83,7 @@ class Members::DeletionRequestsControllerTest < ActionDispatch::IntegrationTest
     member = members(:mary)
     login(member)
 
-    assert_enqueued_emails 1 do
+    assert_enqueued_with(job: MailDelivery::ProcessJob, queue: "critical") do
       post members_account_deletion_request_path
     end
 

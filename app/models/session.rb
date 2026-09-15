@@ -136,7 +136,49 @@ class Session < ApplicationRecord
     UserAgentParser.parse(user_agent)
   end
 
+  def deliver_login_email!
+    MailDelivery.deliver!(
+      member: member,
+      mailable: self,
+      action: "created",
+      recipients: [ email ])
+  end
+
+  def deliver_deletion_confirmation_email!
+    MailDelivery.deliver!(
+      member: member,
+      mailable: self,
+      action: "deletion_confirmation",
+      recipients: [ email ])
+  end
+
+  def build_mail_for(_member, email:, action:, **)
+    case action
+    when "created"
+      SessionMailer.with(
+        session: self,
+        email: email,
+        session_url: member_session_url
+      ).new_member_session_email
+    when "deletion_confirmation"
+      SessionMailer.with(session: self, email: email).deletion_confirmation_email
+    else
+      raise ArgumentError, "Unknown session mail action: #{action}"
+    end
+  end
+
+  def recipients_for(_member)
+    [ email ].compact
+  end
+
   private
+
+  def member_session_url
+    Rails.application.routes.url_helpers.members_session_url(
+      generate_token_for(:redeem),
+      locale: member.language,
+      **Tenant.local_url_options(Tenant.members_host))
+  end
 
   def redeemable?
     # Link scanners may GET the magic link without following the redirect.
