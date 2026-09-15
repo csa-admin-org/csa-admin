@@ -54,6 +54,17 @@ class Support::ReplyBodyTest < ActiveSupport::TestCase
     assert_equal "My answer", body
   end
 
+  test "keep_cited wraps the quoted original as markdown" do
+    body = Support::ReplyBody.extract(
+      text_body: "Here is the answer\n\nOn Mon, Jane Doe <jane@org.ch> wrote:\nHello",
+      stripped: "Here is the answer",
+      keep_cited: true)
+
+    assert_includes body, "Here is the answer"
+    assert_includes body, "> On Mon, Jane Doe <jane@org.ch> wrote:"
+    assert_includes body, "> Hello"
+  end
+
   test "strips a trailing operator signature" do
     with_env("ULTRA_ADMIN_NAME" => "Thibaud") do
       body = Support::ReplyBody.extract(

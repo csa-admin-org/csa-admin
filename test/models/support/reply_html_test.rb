@@ -66,6 +66,21 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_not_includes extracted, "Jane, 13 Sep"
   end
 
+  test "keeps a cited original when converting informal mail" do
+    html = <<~HTML
+      <html><body>
+        <p>Here is the answer</p>
+        <blockquote type="cite"><div>Hello from the member</div></blockquote>
+      </body></html>
+    HTML
+
+    extracted = Support::ReplyHtml.extract(html, keep_cited: true)
+
+    assert_includes extracted, "Here is the answer"
+    assert_includes extracted, "Hello from the member"
+    assert_includes extracted, "blockquote"
+  end
+
   test "strips a trailing operator signature" do
     html = <<~HTML
       <html><body>

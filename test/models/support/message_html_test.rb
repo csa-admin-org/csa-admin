@@ -15,35 +15,18 @@ class Support::MessageHtmlTest < ActiveSupport::TestCase
     assert_includes rewritten, "https://admin.acme.test/invoices"
   end
 
-  test "repairs mojibake and cuts gmail leftover" do
+  test "repairs mojibake without cutting a stored quote" do
     html = <<~HTML
       <p>Merci pour la rÃ©solution du problÃ¨me!</p>
-      <p>Le 06.04.26 Ã&nbsp; 23:26, info@csa-admin.org a Ã©critÂ :</p>
+      <blockquote><p>On Mon, Jane wrote:</p><p>Hello</p></blockquote>
     HTML
 
     rewritten = Support::MessageHtml.rewrite(html)
 
     assert_includes rewritten, "résolution"
     assert_not_includes rewritten, "Ã"
-    assert_not_includes rewritten, "a écrit"
-    assert_not_includes rewritten, "info@csa-admin.org"
-  end
-
-  test "cuts apple mail dump including gray pre boxes" do
-    html = <<~HTML
-      <p>Oui ça a été corrigé.</p>
-      <pre><code>  Merci</code></pre>
-      <p>Le 28.12.2025 à 21:12, info@csa-admin.org a écrit :</p>
-      <blockquote><p>Hey,</p></blockquote>
-      <blockquote><pre><code>Merci pour ton retour :)</code></pre></blockquote>
-    HTML
-
-    rewritten = Support::MessageHtml.rewrite(html)
-
-    assert_includes rewritten, "corrigé"
-    assert_not_includes rewritten, "Merci pour ton retour"
-    assert_not_includes rewritten, "a écrit"
-    assert_not_includes rewritten, "<blockquote"
+    assert_includes rewritten, "Hello"
+    assert_includes rewritten, "<blockquote"
   end
 
   test "keeps mid-body citations" do

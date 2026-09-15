@@ -15,7 +15,6 @@ module Support
       fragment = Nokogiri::HTML::DocumentFragment.parse(source)
       Support::Utf8.repair_fragment!(fragment)
       drop_broken_markdown!(fragment)
-      Support::ReplyQuote.clean_fragment!(fragment)
       merge_liquid!(fragment)
       format_liquid_pres!(fragment)
       fragment.to_html.html_safe

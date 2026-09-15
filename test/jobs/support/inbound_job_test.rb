@@ -206,7 +206,9 @@ class Support::InboundJobTest < ActiveJob::TestCase
     assert_equal "Informal help", ticket.subject
     assert_equal admins(:external), ticket.admin
     assert_equal "support", message.author
-    assert_equal "Here is the answer", message.body
+    assert_includes message.body, "Here is the answer"
+    assert_includes message.body, "> On Mon, Jane Doe <#{admins(:external).email}> wrote:"
+    assert_includes message.body, "> Hello"
     assert message.wrap?
     assert_equal [ admins(:external).email ], ticket.wrap_emails_for(message)
   end

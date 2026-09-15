@@ -13,12 +13,12 @@ module Support
       Op[[:space:]].+\bschreef.+:
     )/ix
 
-    def self.clean_fragment!(root)
+    def self.clean_fragment!(root, trailing_quotes: true)
       Support::Utf8.repair_fragment!(root)
       cut_quoted_thread!(root)
-      drop_trailing!(root)
+      drop_trailing!(root) if trailing_quotes
       Support::Signature.strip_fragment!(root)
-      drop_trailing!(root)
+      drop_trailing!(root) if trailing_quotes
     end
 
     def self.strip_text(text)
@@ -69,7 +69,9 @@ module Support
         children = meaningful_children(unwrap)
       end
 
-      index = children.index { |node| attribution?(node) }
+      index = children.index { |node|
+        attribution?(node) && node.name != "blockquote"
+      }
       return unless index&.positive?
 
       index -= 1 while index.positive? && dump_filler?(children[index - 1])

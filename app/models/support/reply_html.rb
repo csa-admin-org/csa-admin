@@ -16,13 +16,17 @@ module Support
       "div.OutlookMessageHeader"
     ].join(", ")
 
-    def self.extract(html)
+    def self.extract(html, keep_cited: false)
       return if html.blank?
 
       root = document_root(html)
       cut_at_marker!(root)
-      root.css(QUOTE_CSS).each(&:remove)
-      Support::ReplyQuote.clean_fragment!(root)
+      if keep_cited
+        Support::Signature.strip_fragment!(root)
+      else
+        root.css(QUOTE_CSS).each(&:remove)
+        Support::ReplyQuote.clean_fragment!(root)
+      end
       cleaned = root.inner_html.to_s.strip
       cleaned.presence
     end

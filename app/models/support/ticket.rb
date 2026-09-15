@@ -189,8 +189,8 @@ module Support
       rfc_id = Support::InboundAddress.message_id_from(payload)
       return if rfc_id.present? && Support::Message.exists?(rfc_message_id: rfc_id)
 
-      html = Support::ReplyHtml.extract(payload["HtmlBody"])
-      body = inbound_plain_body(payload)
+      html = Support::ReplyHtml.extract(payload["HtmlBody"], keep_cited: true)
+      body = inbound_plain_body(payload, keep_cited: true)
       return if body.blank? && html.blank?
 
       original_email = Support::ReplyBody.original_from(payload["TextBody"])
@@ -287,10 +287,11 @@ module Support
         cleaned.presence || "Support"
       end
 
-      def inbound_plain_body(payload)
+      def inbound_plain_body(payload, keep_cited: false)
         Support::ReplyBody.extract(
           text_body: payload["TextBody"],
-          stripped: payload["StrippedTextReply"])
+          stripped: payload["StrippedTextReply"],
+          keep_cited: keep_cited)
       end
     end
 
