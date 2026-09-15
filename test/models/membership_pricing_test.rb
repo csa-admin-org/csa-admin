@@ -357,6 +357,41 @@ class MembershipPricingTest < ActiveSupport::TestCase
     assert_equal [ 140 + (2 + 1) * 50 ], pricing.prices
   end
 
+  test "does not raise when activity participations are set but no delivery cycles apply" do
+    org(
+      activity_participations_form_min: 0,
+      activity_participations_form_max: 10,
+      activity_price: 50)
+
+    depot = depots(:farm)
+    depot.delivery_cycles.clear
+
+    pricing = pricing(
+      waiting_basket_size_id: small_id,
+      waiting_depot_id: depot.id,
+      waiting_delivery_cycle_id: "",
+      waiting_basket_price_extra: "1.0",
+      waiting_activity_participations_demanded_annually: "10")
+
+    assert_equal [ 0 ], pricing.prices
+    assert_not pricing.present?
+  end
+
+  test "does not raise when activity participations are set without depot or cycle" do
+    org(
+      activity_participations_form_min: 0,
+      activity_participations_form_max: 10,
+      activity_price: 50)
+    DeliveryCycle.visible.each { |cycle| cycle.update!(depots: []) }
+
+    pricing = pricing(
+      waiting_basket_size_id: small_id,
+      waiting_delivery_cycle_id: "",
+      waiting_activity_participations_demanded_annually: "10")
+
+    assert_equal [ 0 ], pricing.prices
+  end
+
   test "basket size with availability restrictions reduces deliveries count" do
     # Small basket is 10 price, mondays has 10 deliveries = 100
     pricing = pricing(
