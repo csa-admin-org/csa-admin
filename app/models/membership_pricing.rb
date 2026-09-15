@@ -62,13 +62,23 @@ class MembershipPricing
 
     comp_prices = [ 0, 0 ]
     complements_prices.each { |p|
-      comp_prices = comp_prices.zip(p.map(&:round_to_five_cents)).map(&:sum)
+      comp_prices = comp_prices.zip(rounded_prices(p)).map(&:sum)
     }
 
     [
-      deliveries_counts.min * calculate_price_extra(extra, basket_size, comp_prices.min / deliveries_counts.min, deliveries_counts.min),
-      deliveries_counts.max * calculate_price_extra(extra, basket_size, comp_prices.max / deliveries_counts.max, deliveries_counts.max)
+      extra_total(deliveries_counts.min, extra, comp_prices.min),
+      extra_total(deliveries_counts.max, extra, comp_prices.max)
     ]
+  end
+
+  def extra_total(deliveries_count, extra, complements_price)
+    return 0 unless deliveries_count&.positive?
+
+    deliveries_count * calculate_price_extra(
+      extra,
+      basket_size,
+      complements_price / deliveries_count,
+      deliveries_count)
   end
 
   def calculate_price_extra(extra, basket_size, complements_price, deliveries_count)
@@ -96,10 +106,13 @@ class MembershipPricing
     complement = BasketComplement.find_by(id: complement_id)
     return [ 0, 0 ] unless complement
     return [ 0, 0 ] if quantity.zero?
+    return [ 0, 0 ] unless delivery_cycles.any?
 
     deliveries_counts = delivery_cycles.map { |dc|
       dc.billable_deliveries_count_for_basket_complement(complement)
     }.uniq
+    return [ 0, 0 ] if deliveries_counts.empty? || deliveries_counts.any?(&:nil?)
+
     [
       deliveries_counts.min * complement.price * quantity,
       deliveries_counts.max * complement.price * quantity
@@ -109,8 +122,11 @@ class MembershipPricing
   def activity_participations_prices
     return [ 0, 0 ] unless @params[:activity_participations_demanded_annually]
     return [ 0, 0 ] unless basket_size
+    return [ 0, 0 ] unless delivery_cycles.any?
 
-    fy = Delivery.last.fiscal_year
+    fy = Delivery.last&.fiscal_year
+    return [ 0, 0 ] unless fy
+
     counts = delivery_cycles.map { |dc|
       m = Membership.new(
         started_on: fy.beginning_of_year,
@@ -126,6 +142,8 @@ class MembershipPricing
       demanded = ActivityParticipationDemanded.new(m).count
       -1 * (demanded - default)  * Current.org.activity_price
     }
+    return [ 0, 0 ] if counts.empty? || counts.any?(&:nil?)
+
     [ counts.min, counts.max ]
   end
 
@@ -185,6 +203,10 @@ class MembershipPricing
 
   def add(prices)
     @min, @max =
-      [ @min, @max ].zip(prices.map(&:round_to_five_cents)).map(&:sum)
+      [ @min, @max ].zip(rounded_prices(prices)).map(&:sum)
+  end
+
+  def rounded_prices(prices)
+    Array(prices).map { |price| (price || 0).round_to_five_cents }
   end
 end
