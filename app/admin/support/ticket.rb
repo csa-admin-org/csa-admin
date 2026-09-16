@@ -16,8 +16,8 @@ ActiveAdmin.register Support::Ticket do
     links
   end
 
-  scope :all
-  scope :waiting, group: :state, default: true
+  scope :all, default: true
+  scope :waiting, group: :state
   scope :replied, group: :state
 
   filter :text_cont, as: :string,

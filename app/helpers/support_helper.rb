@@ -51,11 +51,11 @@ module SupportHelper
     end
   end
 
-  def support_waiting_inbox_empty?
+  def support_inbox_empty?
     return false unless respond_to?(:active_admin_config)
     return false unless active_admin_config.resource_class == Support::Ticket
     return false if params[:q].present?
 
-    (params[:scope].presence || "waiting") == "waiting"
+    (params[:scope].presence || "all").in?(%w[all waiting])
   end
 end

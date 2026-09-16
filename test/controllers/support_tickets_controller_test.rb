@@ -27,7 +27,7 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".action-item-button", text: I18n.t("active_admin.resources.support/ticket.new_model")
     assert_select "a[href=?]", support_ticket_path(ticket)
     assert_select ".index_table td", text: ticket.id.to_s, count: 0
-    assert_select ".scopes a.index-button-selected", text: /#{I18n.t("active_admin.resources.support/ticket.scopes.waiting")}/
+    assert_select ".scopes a.index-button-selected", text: /#{I18n.t("active_admin.resources.support/ticket.scopes.all")}/
     assert_select ".status-tag[data-status=waiting]", text: /#{I18n.t("states.support\/ticket.waiting")}/i
     assert_select "th a, th", text: /#{I18n.t("attributes.state")}/
     assert_select "th a", text: Support::Ticket.human_attribute_name(:last_activity_at)
@@ -69,6 +69,19 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".support-unknown", text: I18n.t("active_admin.unknown")
   end
 
+  test "empty index invites a new request" do
+    login admins(:super)
+
+    get support_tickets_path
+
+    assert_response :success
+    assert_select ".empty-state-title",
+      text: I18n.t("active_admin.resources.support/ticket.blank_slate.content")
+    assert_select ".empty-state a",
+      text: I18n.t("active_admin.resources.support/ticket.new_model")
+    assert_select ".empty-state-title.is-empty", count: 0
+  end
+
   test "waiting empty slate invites a new request even when replied tickets exist" do
     ticket = Support::Ticket.create!(
       priority: :normal, subject: "Need help", content: "Opening", admin: admins(:external))
@@ -85,6 +98,23 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".empty-state a",
       text: I18n.t("active_admin.resources.support/ticket.new_model")
     assert_select ".empty-state-title.is-empty", count: 0
+  end
+
+  test "index lists replied tickets by default" do
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Need help", content: "Opening", admin: admins(:external))
+    message = ticket.messages.build(author: "support", body: "Done", via: :app)
+    message.skip_notify = true
+    message.save!
+    login admins(:super)
+
+    get support_tickets_path
+
+    assert_response :success
+    assert_select "a[data-table-row-action=show]", text: "Need help"
+    assert_select ".scopes a.index-button-selected", text: /#{I18n.t("active_admin.resources.support/ticket.scopes.all")}/
+    assert_select ".status-tag[data-status=replied]"
+    assert_select ".empty-state-title", count: 0
   end
 
   test "/support redirects to the new ticket form" do

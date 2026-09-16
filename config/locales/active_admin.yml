@@ -4350,18 +4350,24 @@ _:
           _it: Rispondere
           _nl: Antwoorden
         scopes:
+          all:
+            _en: All
+            _fr: Toutes
+            _de: Alle
+            _it: Tutte
+            _nl: Alle
           replied:
             _en: Replied
-            _fr: Répondu
-            _de: Beantwortet
-            _it: Risposto
-            _nl: Beantwoord
+            _fr: Répondues
+            _de: Beantwortete
+            _it: Risposte
+            _nl: Beantwoorde
           waiting:
             _en: Waiting
             _fr: En attente
-            _de: Wartend
+            _de: Wartende
             _it: In attesa
-            _nl: Wachtend
+            _nl: Wachtende
         submit:
           _en: Send
           _fr: Envoyer
