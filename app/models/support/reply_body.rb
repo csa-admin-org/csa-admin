@@ -4,11 +4,11 @@ module Support
   class ReplyBody
     MARKER = /CSA-ADMIN-REPLY-ABOVE/
     QUOTE_SPLIT = %r{
-      \nOn[^\n]+wrote:\s*\n |
-      \nLe[^\n]+a\s+écrit\s*:?\s*\n |
-      \nAm[^\n]+schrieb\.?:?\s*\n |
-      \nIl\s+giorno[^\n]+ha\s+scritto:?\s*\n |
-      \nOp[^\n]+schreef[^\n]*:\s*\n |
+      \nOn[^\n]+wrote:\s*\n? |
+      \nLe[^\n]+a\s+écrit\s*:?\s*\n? |
+      \nAm[^\n]+(?:schrieb\.?:?|hat[^\n]+geschrieben:?)\s*\n? |
+      \nIl\s+giorno[^\n]+ha\s+scritto:?\s*\n? |
+      \nOp[^\n]+schreef[^\n]*:\s*\n? |
       \n-----Original\s+Message----- |
       \n________________________________
     }ix

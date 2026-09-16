@@ -57,5 +57,6 @@ class Support::ForwardedQuoteTest < ActiveSupport::TestCase
     assert Support::ForwardedQuote.original?("De : Rage de Vert\nEnvoyé : samedi\nObjet : Bounce")
     assert Support::ForwardedQuote.original?("---------- Message d'origine ----------\nDe : A")
     refute Support::ForwardedQuote.original?("On 24 Jun 2026, at 20:53, Jane wrote:\nHello")
+    refute Support::ForwardedQuote.original?("Own hop\n\nAm Dienstag, hat <info@org.ch> geschrieben:\nleftover")
   end
 end

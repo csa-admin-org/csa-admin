@@ -25,6 +25,27 @@ class Support::ReplyBodyTest < ActiveSupport::TestCase
     assert_equal "Oui", body
   end
 
+  test "splits apple mail hat geschrieben leftover" do
+    body = Support::ReplyBody.extract(
+      text_body: <<~TEXT,
+        I am changing now all the cycles again.
+
+        Am Dienstag, 6. Januar 2026 um 09:30:31 +01:00, hat <info@grundnahrig.ch> geschrieben:
+        ah and i already received 2 emails
+      TEXT
+      stripped: "")
+
+    assert_equal "I am changing now all the cycles again.", body
+  end
+
+  test "splits a glued hat geschrieben leftover" do
+    body = Support::ReplyBody.extract(
+      text_body: "Own hop\n\nAm Dienstag, 6. Januar 2026 um 09:16:06 +01:00, hat <info@grundnahrig.ch> geschrieben:hey Thibaud",
+      stripped: "")
+
+    assert_equal "Own hop", body
+  end
+
   test "original_from reads quoted address" do
     text = "Answer\n\nOn Mon, Jane Doe <jane@org.ch> wrote:\nHello"
     assert_equal "jane@org.ch", Support::ReplyBody.original_from(text)

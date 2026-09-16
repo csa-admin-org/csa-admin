@@ -8,7 +8,7 @@ module Support
       On[[:space:]].+\bwrote: |
       Le[[:space:]].*\d.+\ba[[:space:]]+écrit[[:space:]]*:? |
       \d{1,2}[[:space:]].+\d{4}.+\ba[[:space:]]+écrit[[:space:]]*:? |
-      Am[[:space:]].+\bschrieb\.?:? |
+      Am[[:space:]].+\b(?:schrieb\.?:?|hat[[:space:]].+\bgeschrieben:?) |
       Il[[:space:]]+giorno[[:space:]].+\bha[[:space:]]+scritto:? |
       Op[[:space:]].+\bschreef.+:
     )/ix

@@ -131,6 +131,20 @@ class Support::ReplyQuoteTest < ActiveSupport::TestCase
     assert_not_includes cleaned, "cas de figure"
   end
 
+  test "cuts an apple mail hat geschrieben leftover" do
+    html = <<~HTML
+      <p>I am changing now all the cycles again.</p>
+      <p>Am Dienstag, 6. Januar 2026 um 09:30:31 +01:00, hat &lt;info@grundnahrig.ch&gt; geschrieben:</p>
+      <p>ah and i already received 2 emails</p>
+    HTML
+
+    cleaned = Support::ReplyQuote.strip_html(html)
+
+    assert_includes cleaned, "changing now"
+    assert_not_includes cleaned, "geschrieben"
+    assert_not_includes cleaned, "already received"
+  end
+
   test "cuts a date-first french leftover" do
     html = <<~HTML
       <p>Parfait, merci.</p>
