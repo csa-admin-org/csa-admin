@@ -96,9 +96,6 @@ FileUtils.chdir APP_ROOT do
   puts "\n== Syncing Dockerfile Ruby version =="
   sync_dockerfile_ruby!
 
-  puts "\n== Updating bundler =="
-  system! "bundle", "update", "--bundler"
-
   puts "\n== Updating gems =="
   system! "bundle", "update", "--all"
 
