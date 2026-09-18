@@ -645,7 +645,8 @@ ActiveAdmin.register Membership do
               recurring_billing_row_content(self,
                 next_date: invoicer.next_date,
                 path: recurring_billing_member_path(resource.member),
-                authorized: authorized?(:recurring_billing, resource.member) && invoicer.billable?)
+                authorized: authorized?(:recurring_billing, resource.member) && invoicer.billable?,
+                membership: resource)
             }
           end
           if authorized?(:future_billing, resource) && resource.future?

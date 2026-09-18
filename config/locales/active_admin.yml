@@ -2739,12 +2739,12 @@ _:
           _de: Wirklich fortfahren? Nicht vergessen, die Rechnung nach der Überprüfung abzusenden.
           _it: Siete sicuri? Non dimenticate d'inviare la fattura dopo la verifica.
           _nl: Echt doorgaan? Niet vergeten de factuur te verzenden na controle.
-        recurring_billing_disabled:
-          _en: Recurring billing disabled
-          _fr: Facturation automatique désactivée
-          _de: Automatische Rechnungsstellung Deaktiviert
-          _it: Fatturazione automatica disattivata
-          _nl: Terugkerende facturering uitgeschakeld
+        recurring_billing_disabled_html:
+          _en: Recurring billing is disabled. Set a weekday in <a href="%{settings_url}">settings</a>.
+          _fr: La facturation automatique est désactivée. Choisissez un jour dans les <a href="%{settings_url}">paramètres</a>.
+          _de: Automatische Rechnungsstellung deaktiviert. Wochentag in den <a href="%{settings_url}">Einstellungen</a> festlegen.
+          _it: La fatturazione automatica è disattivata. Scegliete un giorno nelle <a href="%{settings_url}">impostazioni</a>.
+          _nl: Terugkerende facturering is uitgeschakeld. Weekdag in de <a href="%{settings_url}">instellingen</a> kiezen.
         recurring_billing_iban_missing:
           _en: Your %{iban_type} is not configured. Invoices cannot be created until it is set.
           _fr: Votre %{iban_type} n'est pas configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
@@ -2757,6 +2757,12 @@ _:
           _de: <a href="/handbook/billing#bill-now">Zurzeit nichts abzurechnen.</a>
           _it: <a href="/handbook/billing#bill-now">Niente da fatturare ora.</a>
           _nl: <a href="/handbook/billing#bill-now">Nu niets te factureren.</a>
+        recurring_billing_waiting_for_last_trial:
+          _en: Waiting for the last trial delivery (%{date})
+          _fr: En attente de la dernière livraison à l'essai (%{date})
+          _de: Warten auf die letzte Probelieferung (%{date})
+          _it: In attesa dell'ultima consegna di prova (%{date})
+          _nl: Wachten op de laatste proeflevering (%{date})
         renew:
           _en: Renew
           _fr: Renouveler

@@ -110,7 +110,35 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     get membership_path(memberships(:jane))
 
     assert_response :success
-    assert_select ".muted-data", text: I18n.t("active_admin.resource.show.recurring_billing_disabled")
+    assert_select ".muted-data", text: /Recurring billing is disabled/
+    assert_select ".muted-data a[href='#{edit_organization_path(:billing)}']", text: "settings"
+  end
+
+  test "show explains waiting for the last trial delivery" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    membership.update_baskets_counts!
+    login admins(:super)
+
+    get membership_path(membership)
+
+    assert_response :success
+    assert membership.reload.trial?
+    assert_select "td", text: /Waiting for the last trial delivery \(Mon 22 Apr 24\)/
+  end
+
+  test "show explains waiting for the last trial delivery when billing day is the last trial day" do
+    travel_to "2024-01-01"
+    org(billing_starts_after_first_delivery: true, recurring_billing_wday: 4)
+    membership = memberships(:jane)
+    membership.update_baskets_counts!
+    login admins(:super)
+
+    get membership_path(membership)
+
+    assert_response :success
+    assert membership.reload.trial?
+    assert_select "td", text: /Waiting for the last trial delivery \(Thu 11 Apr 24\)/
   end
 
   test "show displays stop action and icon-only destroy action with confirmations" do

@@ -110,7 +110,19 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     get member_path(member)
 
     assert_response :success
-    assert_select ".muted-data", text: I18n.t("active_admin.resource.show.recurring_billing_disabled")
+    assert_select ".muted-data", text: /Recurring billing is disabled/
+    assert_select ".muted-data a[href='#{edit_organization_path(:billing)}']", text: "settings"
+  end
+
+  test "show links disabled billing to settings overview for read-only admins" do
+    member = members(:john)
+    org(recurring_billing_wday: nil)
+    login admins(:external)
+
+    get member_path(member)
+
+    assert_response :success
+    assert_select ".muted-data a[href='#{organization_path(anchor: :billing)}']"
   end
 
   test "show marks each compact table row with its resource link" do

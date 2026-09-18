@@ -17,10 +17,11 @@ module ActiveAdmin::BillingHelper
     end
   end
 
-  def recurring_billing_row_content(arbre, next_date:, path:, authorized:)
+  def recurring_billing_row_content(arbre, next_date:, path:, authorized:, membership: nil)
     unless Current.org.recurring_billing?
       return arbre.span class: "muted-data" do
-        t("active_admin.resource.show.recurring_billing_disabled")
+        t("active_admin.resource.show.recurring_billing_disabled_html",
+          settings_url: recurring_billing_settings_url).html_safe
       end
     end
 
@@ -31,7 +32,14 @@ module ActiveAdmin::BillingHelper
     end
 
     arbre.div class: "row-actions" do
-      arbre.span { l(next_date, format: :medium) }
+      arbre.span {
+        if waiting_for_last_trial_basket?(membership, next_date)
+          t("active_admin.resource.show.recurring_billing_waiting_for_last_trial",
+            date: l(next_date, format: :medium))
+        else
+          l(next_date, format: :medium)
+        end
+      }
       if authorized
         arbre.div do
           panel_button t("active_admin.resource.show.recurring_billing"), path,
@@ -64,5 +72,19 @@ module ActiveAdmin::BillingHelper
         title: SEPAMandate.model_name.human)
     end
     icon_file_links(*actions)
+  end
+
+  private
+
+  def recurring_billing_settings_url
+    if authorized?(:update, Organization)
+      edit_organization_path(:billing)
+    else
+      organization_path(anchor: :billing)
+    end
+  end
+
+  def waiting_for_last_trial_basket?(membership, next_date)
+    membership&.trial? && next_date && membership.invoices.not_canceled.none?
   end
 end
