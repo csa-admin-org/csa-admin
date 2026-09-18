@@ -20,6 +20,11 @@ class Postmark::WebhooksControllerControllerTest < ActionDispatch::IntegrationTe
     assert_response :unauthorized
   end
 
+  test "webhook url stays on the admin host" do
+    assert_equal "https://admin.acme.test/postmark/webhooks",
+      Postmark.webhook_url
+  end
+
   test "handle broadcast delivery webhook" do
     newsletter = newsletters(:simple)
     member = members(:john)

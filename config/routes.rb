@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   end
 
   constraints subdomain: "inbound" do
-    scope module: "inbound" do
+    scope module: "inbound", as: "inbound" do
       namespace :postmark do
         resources :webhooks, only: :create
       end
