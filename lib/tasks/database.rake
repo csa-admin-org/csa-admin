@@ -9,6 +9,33 @@ def for_each_tenant
   end
 end
 
+# Non-first tenants set `schema_dump: false`, so Rails' migrate_all opens an
+# empty SQLite without loading schema.rb. Replaying post-squash migrations then
+# fails. Empty means missing file or only system tables — a half-migrated leftover
+# already has application tables and is left alone.
+def uninitialized_tenant_database?(pool)
+  system_tables = %w[ar_internal_metadata schema_migrations]
+
+  pool.with_connection do |connection|
+    (connection.tables - system_tables).empty?
+  end
+rescue ActiveRecord::NoDatabaseError
+  true
+end
+
+def ensure_tenant_databases_initialized
+  schema_file = Rails.root.join("db/schema.rb").to_s
+
+  Tenant.all.each do |tenant|
+    ActiveRecord::Tasks::DatabaseTasks.with_temporary_pool_for_each(env: Rails.env, name: tenant) do |pool|
+      next unless uninitialized_tenant_database?(pool)
+
+      puts "Loading schema for new tenant #{tenant}..."
+      ActiveRecord::Tasks::DatabaseTasks.load_schema(pool.db_config, :ruby, schema_file)
+    end
+  end
+end
+
 namespace :db do
   namespace :schema do
     # Override db:schema:load to load schema into all tenant shards.
@@ -37,6 +64,17 @@ namespace :db do
         # Ignore models with shards not defined in this environment (e.g. queue)
       end
     end
+  end
+
+  # Override db:migrate so new / empty tenant DBs get schema.rb before migrate_all.
+  # Skips seeds — Organization is created manually when onboarding a tenant.
+  Rake::Task["db:migrate"].clear
+
+  desc "Migrate the database (options: VERSION=x, VERBOSE=false, SCOPE=blog)"
+  task migrate: :load_config do
+    ensure_tenant_databases_initialized
+    ActiveRecord::Tasks::DatabaseTasks.migrate_all
+    Rake::Task["db:_dump"].invoke
   end
 
   # Override db:rollback to rollback all tenant databases like db:migrate does.

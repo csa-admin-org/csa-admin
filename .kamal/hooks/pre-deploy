@@ -2,6 +2,8 @@
 set -eu
 
 # Migrate every tenant + the queue DB with the image that is about to boot.
+# db:migrate loads schema.rb into tenant DBs that have no application tables
+# yet (new tenant in tenant.yml before the first Organization create).
 # Skip rollbacks: never migrate down automatically.
 # kamal app exec does not take the deploy lock, so this is safe inside deploy.
 
