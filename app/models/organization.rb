@@ -127,6 +127,7 @@ class Organization < ApplicationRecord
     numericality: { greater_than_or_equal_to: 0 }
   validate :only_one_organization, on: :create
 
+  before_validation :become_current, on: :create
   before_create :set_defaults
   after_create :create_default_configurations
 
@@ -271,6 +272,10 @@ class Organization < ApplicationRecord
     return if Organization.count.zero?
 
     errors.add(:base, :only_one_organization_allowed)
+  end
+
+  def become_current
+    Current.org = self unless Organization.exists?
   end
 
   def set_defaults

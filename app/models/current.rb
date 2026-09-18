@@ -3,17 +3,18 @@
 class Current < ActiveSupport::CurrentAttributes
   attribute :session
   attribute :delivery_cycle_visibility
+  attribute :org
 
   delegate :year, :range, to: :fiscal_year, prefix: :fy
 
-  resets { @org = nil; @fiscal_year = nil; @analytics_cache = nil }
+  resets { @fiscal_year = nil; @analytics_cache = nil }
 
   def analytics_cache
     @analytics_cache ||= {}
   end
 
   def org
-    @org ||= Organization.instance
+    super || self.org = Organization.instance
   end
 
   # Picks the next fiscal year when no deliveries exist in the current one.

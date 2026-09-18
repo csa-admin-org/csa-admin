@@ -10,6 +10,31 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_includes org.errors[:base], "Only one organization is allowed"
   end
 
+  test "first organization create sets Current.org without a persisted row" do
+    org = Organization.new(
+      name: "New",
+      email: "info@acme.test",
+      email_default_from: "info@acme.test",
+      country_code: "CH",
+      languages: [ "en" ],
+      fiscal_year_start_month: 1,
+      phone: "+41 76 765 43 21",
+      creditor_name: "New",
+      creditor_street: "Street 123",
+      creditor_city: "Metropolis",
+      creditor_zip: "1234",
+      billing_year_divisions: [ 1 ])
+
+    Organization.stub(:exists?, false) do
+      Organization.stub(:count, 0) do
+        assert org.valid?
+        assert_equal org, Current.org
+      end
+    end
+  ensure
+    Current.reset
+  end
+
   test "validates email_default_from format" do
     travel_to Time.zone.now
     assert_equal "acme.test", Current.org.domain
