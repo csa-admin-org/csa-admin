@@ -7,6 +7,38 @@ module InvoicesHelper
     }.sort_by { |a| a.first }
   end
 
+  def membership_invoice_cancel_confirm(invoice)
+    if invoice.membership_type? && invoice.entity&.current_or_future_year?
+      t("active_admin.shared.action_items.cancel_membership_invoice_confirm")
+    else
+      t("active_admin.shared.action_items.cancel_invoice_confirm")
+    end
+  end
+
+  def membership_invoice_callout_html(invoice)
+    if invoice.entity.current_or_future_year?
+      membership_url =
+        if authorized?(:update, invoice.entity)
+          edit_membership_path(invoice.entity)
+        else
+          membership_path(invoice.entity)
+        end
+      t("active_admin.resource.show.membership_invoice_callout_html",
+        membership_url: membership_url)
+    else
+      t("active_admin.resource.show.membership_invoice_past_fy_callout_html",
+        other_invoice_url: new_invoice_path(member_id: invoice.member_id, entity_type: "Other"))
+    end
+  end
+
+  def membership_invoice_callout_handbook_link(invoice)
+    if invoice.entity.current_or_future_year?
+      handbook_icon_link("billing", anchor: "billing-cookbook")
+    else
+      handbook_icon_link("billing", anchor: "manual-invoice")
+    end
+  end
+
   def display_entity(invoice, link: true)
     if link && invoice.entity
       auto_link invoice.entity

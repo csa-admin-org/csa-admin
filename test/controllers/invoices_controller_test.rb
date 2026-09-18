@@ -87,6 +87,31 @@ class InvoicesControllerTest < ActionDispatch::IntegrationTest
     assert_select "input#invoice_missing_activity_participations_count[required]"
   end
 
+  test "new form opens the Other tab when entity_type is Other" do
+    login admins(:ultra)
+
+    get new_invoice_path(member_id: members(:john).id, entity_type: "Other")
+
+    assert_response :success
+    assert_select "a[aria-controls=items][aria-selected=true]"
+    assert_select "fieldset#items:not([disabled])"
+    assert_select "fieldset#activity_participation[disabled]"
+  end
+
+  test "show renders mail deliveries show more without a relative translation lookup" do
+    invoice = invoices(:annual_fee)
+    5.times do |n|
+      MailDelivery.deliver!(member: invoice.member, mailable: invoice, action: "created")
+        .update!(subject: "Invoice created #{n}")
+    end
+    login admins(:ultra)
+
+    get invoice_path(invoice)
+
+    assert_response :success
+    assert_select ".table-more a[href='#{mail_deliveries_path(mailable_type: "Invoice", mailable_id: invoice.id)}'][title='show more']"
+  end
+
   test "pdf action stays on show while the PDF is stale" do
     enable_invoice_pdf
     invoice = create_other_invoice(amount: 10)

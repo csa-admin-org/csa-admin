@@ -2468,6 +2468,18 @@ _:
           _de: Die Aktivierung erstellt ein Abonnement ab dem %{date}.
           _it: L'attivazione creerà un abbonamento a partire dal %{date}.
           _nl: De activering maakt een lidmaatschap aan vanaf %{date}.
+        membership_invoice_callout_html:
+          _en: To change the amount, <a href="%{membership_url}">edit the membership</a>. Recurring billing will then cancel it and issue a new invoice on the next billing day.
+          _fr: Pour changer le montant, <a href="%{membership_url}">modifier l'abonnement</a>. La facturation récurrente annulera et réémettra alors une nouvelle facture au prochain jour de facturation.
+          _de: Um den Betrag zu ändern, <a href="%{membership_url}">das Abonnement bearbeiten</a>. Die wiederkehrende Abrechnung storniert sie dann und stellt am nächsten Rechnungstag eine neue Rechnung aus.
+          _it: Per modificare l'importo, <a href="%{membership_url}">modificate l'abbonamento</a>. La fatturazione ricorrente annullerà e riemetterà allora una nuova fattura al prossimo giorno di fatturazione.
+          _nl: Om het bedrag te wijzigen, <a href="%{membership_url}">het lidmaatschap bewerken</a>. Terugkerende facturatie annuleert ze dan en factureert een nieuwe factuur op de volgende facturatiedag.
+        membership_invoice_past_fy_callout_html:
+          _en: Recurring billing does not run on a closed fiscal year membership. Correct with <a href="%{other_invoice_url}">an "Other" invoice</a> or a manual payment.
+          _fr: La facturation récurrente ne s'applique plus à un abonnement d'une année fiscale close. Corrigez avec <a href="%{other_invoice_url}">une facture "Autre"</a> ou un paiement manuel.
+          _de: Die wiederkehrende Abrechnung läuft nicht für ein Abonnement eines abgeschlossenen Geschäftsjahres. Korrigieren mit <a href="%{other_invoice_url}">einer Rechnung "Andere"</a> oder einer manuellen Zahlung.
+          _it: La fatturazione ricorrente non viene eseguita su un abbonamento di un anno fiscale chiuso. Correggete con <a href="%{other_invoice_url}">una fattura "Altro"</a> o un pagamento manuale.
+          _nl: Terugkerende facturatie loopt niet voor een lidmaatschap van een afgesloten boekjaar. Corrigeren met <a href="%{other_invoice_url}">een factuur "Overig"</a> of een handmatige betaling.
         membership_validation_no_delivery:
           _en: Validation cannot create a membership because the selected delivery cycle has no upcoming delivery.
           _fr: La validation ne peut pas créer d'abonnement car le cycle de livraisons sélectionné n'a aucune livraison à venir.
@@ -4631,6 +4643,12 @@ _:
           _de: Diese Rechnung kann nicht storniert werden, da eine neuere Rechnung für dasselbe Abonnement oder dieselbe Teilnahme vorhanden ist. Zuerst die neueste Rechnung stornieren oder löschen.
           _it: Questa fattura non può essere annullata perché esiste una fattura più recente per lo stesso abbonamento o la stessa partecipazione. Annullate o eliminate prima la fattura più recente.
           _nl: Deze factuur kan niet worden geannuleerd omdat er een recentere factuur voor hetzelfde lidmaatschap of dezelfde deelname bestaat. Eerst de meest recente factuur annuleren of verwijderen.
+        cancel_membership_invoice_confirm:
+          _en: Canceling this membership invoice re-bills the same amount on the next billing day. Edit the membership first if the amount should change. Continue?
+          _fr: Annuler cette facture d'abonnement refacture le même montant au prochain jour de facturation. Modifiez d'abord l'abonnement si le montant doit changer. Continuer?
+          _de: Die Stornierung dieser Abonnementrechnung stellt denselben Betrag am nächsten Rechnungstag erneut in Rechnung. Zuerst das Abonnement bearbeiten, wenn sich der Betrag ändern soll. Fortfahren?
+          _it: Annullare questa fattura di abbonamento rifattura lo stesso importo al prossimo giorno di fatturazione. Modificate prima l'abbonamento se l'importo deve cambiare. Continuare?
+          _nl: Het annuleren van deze lidmaatschapsfactuur factureert hetzelfde bedrag opnieuw op de volgende facturatiedag. Eerst het lidmaatschap bewerken als het bedrag moet wijzigen. Doorgaan?
         complete:
           _en: Complete
           _fr: Terminer

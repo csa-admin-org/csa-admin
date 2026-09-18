@@ -3,6 +3,54 @@
 require "application_system_test_case"
 
 class InvoicesTest < ApplicationSystemTestCase
+  test "membership invoice show explains to edit the membership and uses a re-bill confirm" do
+    enable_invoice_pdf
+    travel_to "2024-06-01"
+    invoice = create_membership_invoice(membership_amount_fraction: 2)
+    invoice.update!(sent_at: Time.current)
+
+    login admins(:ultra)
+    visit invoice_path(invoice)
+
+    assert_selector ".admin-info-pane", text: "edit the membership"
+    assert_selector ".admin-info-pane a[href='#{edit_membership_path(invoice.entity)}']", text: "edit the membership"
+    assert_selector ".admin-info-pane a[href='#{handbook_page_path("billing", anchor: "billing-cookbook")}'][title='Handbook']"
+    assert_no_selector ".admin-info-pane", text: "Which button?"
+    assert_cancel_confirm invoice,
+      "Canceling this membership invoice re-bills the same amount on the next billing day. Edit the membership first if the amount should change. Continue?"
+  end
+
+  test "past fiscal year membership invoice explains Other invoice and manual payment" do
+    enable_invoice_pdf
+    travel_to "2024-06-01"
+    invoice = create_membership_invoice(
+      entity: memberships(:john_past),
+      membership_amount_fraction: 1)
+    invoice.update!(sent_at: Time.current)
+
+    login admins(:ultra)
+    visit invoice_path(invoice)
+
+    assert_selector ".admin-info-pane", text: "closed fiscal year"
+    assert_selector ".admin-info-pane a[href='#{new_invoice_path(member_id: invoice.member_id, entity_type: "Other")}']", text: 'an "Other" invoice'
+    assert_selector ".admin-info-pane a[href='#{handbook_page_path("billing", anchor: "manual-invoice")}'][title='Handbook']"
+    assert_no_selector ".admin-info-pane", text: "Learn more"
+    assert_cancel_confirm invoice, "Are you sure? Canceling an invoice cannot be undone."
+  end
+
+  test "other invoice cancel confirm stays generic and has no membership callout" do
+    enable_invoice_pdf
+    travel_to "2024-06-01"
+    invoice = create_other_invoice(amount: 10)
+    invoice.update!(sent_at: Time.current)
+
+    login admins(:ultra)
+    visit invoice_path(invoice)
+
+    assert_no_selector ".admin-info-pane"
+    assert_cancel_confirm invoice, "Are you sure? Canceling an invoice cannot be undone."
+  end
+
   test "explains why an older entity invoice cannot be canceled" do
     enable_invoice_pdf
     travel_to "2024-01-01"
@@ -18,6 +66,11 @@ class InvoicesTest < ApplicationSystemTestCase
       text: "This invoice cannot be canceled because a more recent invoice exists for the same membership or participation. Cancel or delete the most recent invoice first.",
       visible: :all
     assert_no_selector "form[action='#{cancel_invoice_path(invoice)}']"
+  end
+
+  def assert_cancel_confirm(invoice, expected)
+    form = find("form[action='#{cancel_invoice_path(invoice)}']")
+    assert_equal expected, form.find("button")["data-confirm"]
   end
 
   test "shows manual SEPA XML export when bank connection cannot upload" do

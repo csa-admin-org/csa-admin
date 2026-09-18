@@ -191,6 +191,14 @@ ActiveAdmin.register Invoice do
   sidebar_handbook_link("billing")
 
   show do |invoice|
+    if invoice.membership_type? && invoice.entity && (invoice.open? || invoice.closed?)
+      info_pane do
+        span class: "cluster is-spread" do
+          span { membership_invoice_callout_html(invoice) }
+          text_node membership_invoice_callout_handbook_link(invoice)
+        end
+      end
+    end
     columns do
       column do
         panel link_to(t(".direct_payments"), payments_path(q: { invoice_id_eq: invoice.id, member_id_eq: invoice.member_id }, scope: :all)), icon: "banknotes", count: invoice.payments.count do
@@ -361,7 +369,9 @@ ActiveAdmin.register Invoice do
 
   action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) && resource.entity_type != "Shop::Order" } do
     action_button t(".cancel_invoice"), cancel_invoice_path(resource),
-      data: { confirm: t(".cancel_invoice_confirm") },
+      data: {
+        confirm: membership_invoice_cancel_confirm(resource)
+      },
       class: "destructive",
       icon: "circle-off"
   end
@@ -555,6 +565,7 @@ ActiveAdmin.register Invoice do
       member = Member.find(params[:member_id])
       invoice.member = member
     end
+    invoice.entity_type = "Other" if params[:entity_type] == "Other"
     if params[:shares_number]
       invoice.shares_number ||= params[:shares_number]
     end

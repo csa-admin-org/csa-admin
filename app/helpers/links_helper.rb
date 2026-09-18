@@ -19,7 +19,7 @@ module LinksHelper
 
   def show_more_link(url)
     content_tag :div, class: "table-more" do
-      link_to url, title: t(".show_more") do
+      link_to url, title: t("active_admin.resource.show.show_more") do
         icon "ellipsis", class: "icon-6"
       end
     end
