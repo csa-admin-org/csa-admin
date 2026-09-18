@@ -11,10 +11,19 @@
   <% if absence.present_or_future? %>
     <span class="absence-actions">
       <%= button_to [ :members, absence ], method: :delete,
-    class: "btn btn-xs",
-    form_class: "inline-form" do %>
-        <%= icon "x", class: "icon-xs" %>
-        <span><%= t(".cancel_link") %></span>
+        class: "icon-destroy",
+        form_class: "inline-form",
+        form: {
+          data: {
+            turbo: false,
+            controller: "confirmation",
+            confirmation_message_value: t(".destroy_confirm"),
+            action: "submit->confirmation#confirm"
+          }
+        },
+        "aria-label": t(".cancel_link") do %>
+        <%= icon "trash", class: "icon-sm" %>
+        <span class="sr-only"><%= t(".cancel_link") %></span>
       <% end %>
     </span>
   <% end %>

@@ -27,6 +27,12 @@ _:
             _de: keine Lieferung
             _it: nessuna consegna
             _nl: geen levering
+        destroy_confirm:
+          _en: Are you sure you want to cancel this absence?
+          _fr: Êtes-vous sûr de vouloir annuler cette absence?
+          _de: Möchtest Du diese Abwesenheit wirklich löschen?
+          _it: Sei sicuro di voler annullare questa assenza?
+          _nl: Weet je zeker dat je deze afwezigheid wilt annuleren?
       basket_shifts_notice:
         absences_included_footnote_html:
           _en: Included absences can also be shifted. The shifted delivery will be billed, and your included absence remains available.
@@ -385,6 +391,12 @@ _:
           _de: Fahrgemeinschaften
           _it: Condivisione veicoli
           _nl: Carpooling
+        destroy_confirm:
+          _en: Are you sure you want to cancel this registration?
+          _fr: Êtes-vous sûr de vouloir annuler cette inscription?
+          _de: Möchtest Du diese Anmeldung wirklich absagen?
+          _it: Sei sicuro di voler annullare questa iscrizione?
+          _nl: Weet je zeker dat je deze inschrijving wilt annuleren?
       create:
         flash:
           notice:

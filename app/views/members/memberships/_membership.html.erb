@@ -1,13 +1,14 @@
 <div id="<%= membership.fiscal_year.year %>">
-  <h2>
-    <%= membership.fiscal_year %>
+  <div class="membership-header">
+    <h2><%= membership.fiscal_year %></h2>
 
     <% if membership.can_member_update? && membership.can_member_update_depot? %>
-      <%= link_to edit_members_membership_path(membership), title: t(".edit"), class: "membership-edit" do %>
-        <%= icon "square-pen", class: "membership-edit-icon" %>
+      <%= link_to edit_members_membership_path(membership), class: "btn btn-sm" do %>
+        <%= icon "square-pen", class: "icon-xs" %>
+        <span><%= t(".edit") %></span>
       <% end %>
     <% end %>
-  </h2>
+  </div>
 
   <ul class="membership-facts">
     <li class="membership-fact is-dates">

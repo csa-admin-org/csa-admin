@@ -149,6 +149,39 @@
     align-items: center;
   }
 
+  .icon-destroy,
+  .account-delete-link,
+  .form-destroy-link {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    border: none;
+    background: none;
+    padding: 0;
+    color: var(--color-red-400);
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--color-red-600);
+      }
+    }
+
+    &:where(.dark, .dark *) {
+      color: var(--color-red-500);
+
+      @media (hover: hover) {
+        &:hover {
+          color: var(--color-red-300);
+        }
+      }
+    }
+  }
+
+  .icon-destroy svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
   .show-more {
     margin-top: 1.5rem;
     width: 100%;
@@ -161,15 +194,17 @@
   }
 
   .basket {
-    margin-inline: -0.5rem;
+    margin-inline: calc(var(--inline-space) * -1);
     flex-grow: 1;
     scroll-margin-block-start: 1rem;
-    border-radius: 0.375rem;
-    padding: 0.5rem;
+    border-radius: 0;
+    padding-block: 0.5rem;
+    padding-inline: var(--inline-space);
 
     @media (width >= 48rem) {
       margin-inline: -0.75rem;
-      padding-inline: 0.75rem;
+      border-radius: var(--radius-md);
+      padding: 0.75rem;
     }
 
     &.is-absent {
@@ -190,8 +225,10 @@
       }
     }
 
-    &:hover {
-      background-color: var(--color-fill);
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--color-fill);
+      }
     }
 
     &:target {
@@ -531,25 +568,31 @@
   }
 
   .invoice {
-    margin-inline: -0.5rem;
+    margin-inline: calc(var(--inline-space) * -1);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    border-radius: 0.125rem;
-    padding: 0.25rem 0.5rem;
+    border-radius: 0;
+    padding-block: 0.5rem;
+    padding-inline: var(--inline-space);
 
-    &:hover {
-      background-color: var(--color-gray-100);
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--color-gray-100);
 
-      &:where(.dark, .dark *) {
-        background-color: var(--color-gray-800);
+        &:where(.dark, .dark *) {
+          background-color: var(--color-gray-800);
+        }
       }
     }
 
     @media (width >= 48rem) {
+      margin-inline: -0.5rem;
       flex-wrap: nowrap;
+      border-radius: var(--radius-sm);
+      padding: 0.25rem 0.5rem;
     }
 
     &.is-open {
@@ -770,7 +813,6 @@
     border: none;
     background: none;
     padding: 0;
-    color: inherit;
   }
 
   .account-delete-label,
@@ -782,7 +824,7 @@
   }
 
   .absence {
-    margin-inline: -0.5rem;
+    margin-inline: calc(var(--inline-space) * -1);
     display: flex;
     flex: none;
     flex-direction: row;
@@ -790,11 +832,20 @@
     align-items: center;
     justify-content: space-between;
     column-gap: 0.5rem;
-    border-radius: 0.125rem;
-    padding: 0.25rem 0.5rem;
+    border-radius: 0;
+    padding-block: 0.5rem;
+    padding-inline: var(--inline-space);
 
-    &:hover {
-      background-color: var(--color-fill);
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--color-fill);
+      }
+    }
+
+    @media (width >= 48rem) {
+      margin-inline: -0.5rem;
+      border-radius: var(--radius-sm);
+      padding: 0.25rem 0.5rem;
     }
   }
 

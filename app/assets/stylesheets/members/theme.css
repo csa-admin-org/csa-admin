@@ -25,6 +25,25 @@
       &:hover {
         color: var(--color-green-500);
       }
+
+      &.icon-destroy,
+      &.account-delete-link,
+      &.form-destroy-link,
+      &.shop-destroy {
+        @media (hover: hover) {
+          &:hover {
+            color: var(--color-red-600);
+          }
+        }
+
+        &:where(.dark, .dark *) {
+          @media (hover: hover) {
+            &:hover {
+              color: var(--color-red-300);
+            }
+          }
+        }
+      }
     }
 
     p a,

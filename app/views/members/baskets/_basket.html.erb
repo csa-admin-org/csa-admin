@@ -1,4 +1,4 @@
-<%# locals: (basket:, home_delivery_cta_basket: nil) %>
+<%# locals: (basket:, home_delivery_cta_basket: nil, edit_prominent: false) %>
 
 <div
   id="<%= dom_id(basket) %>"
@@ -27,8 +27,15 @@
       <% end %>
 
       <% if basket.can_member_update? %>
-        <%= link_to edit_members_basket_path(basket), title: t(".edit") do %>
-          <%= icon "square-pen", class: "icon-edit" %>
+        <% if edit_prominent %>
+          <%= link_to edit_members_basket_path(basket), class: "btn btn-sm" do %>
+            <%= icon "square-pen", class: "icon-xs" %>
+            <span><%= t(".edit") %></span>
+          <% end %>
+        <% else %>
+          <%= link_to edit_members_basket_path(basket), "aria-label": t(".edit") do %>
+            <%= icon "square-pen", class: "icon-edit" %>
+          <% end %>
         <% end %>
       <% end %>
     </div>
