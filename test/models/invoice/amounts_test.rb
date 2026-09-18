@@ -206,12 +206,13 @@ class Invoice::AmountsTest < ActiveSupport::TestCase
 
   test "does not send notification when already notified" do
     invoice = invoices(:annual_fee)
-    create_payment(invoice: invoice, amount: 30)
+    create_payment(invoice: invoice, amount: 100)
     invoice.touch(:overpaid_notification_sent_at)
 
     admin = admins(:ultra)
     admin.update!(notifications: %w[invoice_overpaid])
 
+    assert invoice.reload.overpaid?
     assert_no_difference "AdminMailer.deliveries.size" do
       perform_enqueued_jobs { invoice.send_overpaid_notification_to_admins! }
     end
