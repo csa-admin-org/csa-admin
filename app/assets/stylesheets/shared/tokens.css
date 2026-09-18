@@ -253,13 +253,19 @@
   --space-3: 0.75rem;
   --space-4: 1rem;
 
-  --inline-space: 1ch;
+  --inline-space: 1rem;
   --block-space: 1rem;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
   --text-base: 1rem;
   --text-lg: 1.125rem;
+}
+
+@media (width >= 48rem) {
+  :root {
+    --inline-space: 1ch;
+  }
 }
 
 /* Resolved dark. html[data-theme] is the stored preference (system|light|dark).

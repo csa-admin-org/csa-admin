@@ -14,7 +14,7 @@ Native CSS. Propshaft serves `admin.css` and `member.css`, which `@import` sheet
 - Prefix members layout chrome (`member-app`, `member-nav`) and Stimulus maps (`member-menu-open`). Admin chrome uses `admin-` the same way. Page widgets do not (`shop-cart`, `billing-card`).
 - Tiny utilities live in `shared/utilities.css` (`is-*`, `cluster` / `stack`, `icon-*`, type helpers). Read that file. Do not grow a spacing scale in HTML. Tooltip/menu visibility is nested (`.tooltip.is-visible`).
 - ActiveAdmin gem HTML is styled with descendant selectors. Do not fork gem templates to rename their classes.
-- Members page gutter is `--inline-space` (`1ch`) on rewritten chrome, with matching bleeds. Formtastic and tables stay `rem`. Do not find-replace rem.
+- Members page gutter is `--inline-space` (`1rem` on mobile, `1ch` from `48rem`) on rewritten chrome, with matching bleeds. Formtastic and tables stay `rem`. Do not find-replace rem.
 - `@media` repeats rem (`48rem` / `64rem` / `40rem`). `var()` is invalid in queries. `@custom-media` waits for a later Safari floor (today 16.6).
 - Icons: Lucide SVGs via `icon("name")`. Size and mute them in CSS.
 

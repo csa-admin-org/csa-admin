@@ -1,5 +1,5 @@
-/* Members chrome. Page-column gutter is --inline-space (1ch). Everything
-   else stays rem. Not a rem sweep. */
+/* Members chrome. Page-column gutter is --inline-space (1rem mobile, 1ch
+   from 48rem). Everything else stays rem. Not a rem sweep. */
 
 @layer components {
   body.members {
