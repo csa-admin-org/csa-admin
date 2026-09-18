@@ -39,6 +39,19 @@ class Query::CLITest < ActiveSupport::TestCase
     assert_includes out.string, "routes"
   end
 
+  test "organizations get query params" do
+    client = FakeClient.new
+    Query::CLI.new(
+      [ "/organizations", "--attributes", "features", "--absences_included_mode", "provisional_absence" ],
+      client: client,
+      out: StringIO.new).run
+
+    assert_equal [ [ "/organizations", {
+      "attributes" => "features",
+      "absences_included_mode" => "provisional_absence"
+    } ] ], client.gets
+  end
+
   test "sql posts body" do
     client = FakeClient.new
     Query::CLI.new(
@@ -59,6 +72,28 @@ class Query::CLITest < ActiveSupport::TestCase
     assert_equal [ [ "/lamule/explain", { "sql" => "SELECT 1" } ] ], client.posts
   end
 
+  test "tickets search posts" do
+    client = FakeClient.new
+    Query::CLI.new(
+      [ "/tickets/search", "--q", "absences", "--per", "20" ],
+      client: client,
+      out: StringIO.new).run
+
+    assert_equal [ [ "/tickets/search", { "q" => "absences", "per" => "20" } ] ], client.posts
+  end
+
+  test "tickets search posts tenant filter" do
+    client = FakeClient.new
+    Query::CLI.new(
+      [ "/tickets/search", "--q", "EBICS", "--tenant", "lamule,ortie" ],
+      client: client,
+      out: StringIO.new).run
+
+    assert_equal [
+      [ "/tickets/search", { "q" => "EBICS", "tenant" => "lamule,ortie" } ]
+    ], client.posts
+  end
+
   test "blob writes raw bytes" do
     client = FakeClient.new
     out = StringIO.new
@@ -74,5 +109,28 @@ class Query::CLITest < ActiveSupport::TestCase
       Query::CLI.new([ "schema" ], client: FakeClient.new, out: StringIO.new).run
     }
     assert_equal Query::CLI::USAGE, error.message
+  end
+
+  test "-h prints the configured host without a client" do
+    out = StringIO.new
+    with_env("CSA_ADMIN_API_URL" => "https://query.csa-admin.test", "CSA_ADMIN_API_TOKEN" => nil) do
+      Query::CLI.new([ "-h" ], out: out).run
+    end
+
+    assert_includes out.string, "https://query.csa-admin.test"
+    assert_includes out.string, "Auth: CSA_ADMIN_API_TOKEN (missing)"
+    assert_includes out.string, "bin/query /organizations"
+    assert_includes out.string, "bin/query /tickets/search"
+    assert_includes out.string, "bin/query /lamule/sql"
+  end
+
+  test "no args prints help" do
+    out = StringIO.new
+    with_env("CSA_ADMIN_API_URL" => Query::Client::DEFAULT_URL) do
+      Query::CLI.new([], out: out).run
+    end
+
+    assert_includes out.string, Query::Client::DEFAULT_URL
+    assert_includes out.string, "Fleet"
   end
 end

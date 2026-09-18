@@ -31,11 +31,11 @@ module Query
     end
 
     def tenant_param?
-      params[:tenant].present?
+      request.path_parameters[:tenant].present?
     end
 
     def switch_tenant
-      slug = params[:tenant].to_s
+      slug = request.path_parameters[:tenant].to_s
       unless Tenant.exists?(slug) && query_token.allows?(slug)
         render_auth_error("not_found", :not_found)
         return

@@ -10,6 +10,36 @@ module Query
         one_liner: "Route catalog and token tenant allowlist."
       },
       {
+        method: "POST",
+        path: "/tickets/search",
+        params: {
+          q: "Substring on subject and message body (JSON body).",
+          tenant: "Optional slug or list. Intersect with the token allowlist.",
+          per: "Max tickets (default 50, max 50)."
+        },
+        one_liner: "Support tickets across allowed live tenants. Sequential LIKE. Skip demo/custom. Objects with snippet."
+      },
+      {
+        method: "GET",
+        path: "/organizations",
+        params: {
+          attributes: "Comma-separated org settings (allowlisted).",
+          tenant: "Optional slug or list. Intersect with the token allowlist."
+        },
+        one_liner: "Org settings across live tenants. Equality filters on allowlisted keys. Skip demo/custom."
+      },
+      {
+        method: "GET",
+        path: "/bank_connections",
+        params: {
+          provider: "ebics / bas / bunq / mock.",
+          state: "draft / initializing / waiting_for_bank / ready / disabled / errored.",
+          active: "true / false.",
+          tenant: "Optional slug or list. Intersect with the token allowlist."
+        },
+        one_liner: "Bank connections across live tenants. No credentials. Skip demo/custom."
+      },
+      {
         method: "GET",
         path: "/:tenant/schema",
         params: { tenant: "Tenant slug (path)." },

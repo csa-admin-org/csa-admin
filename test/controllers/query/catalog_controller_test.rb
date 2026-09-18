@@ -17,6 +17,9 @@ class Query::CatalogControllerTest < ActionDispatch::IntegrationTest
     assert_includes paths, "/:tenant/schema/:table"
     assert_includes paths, "/:tenant/models"
     assert_includes paths, "/:tenant/blobs/:id"
+    assert_includes paths, "/tickets/search"
+    assert_includes paths, "/organizations"
+    assert_includes paths, "/bank_connections"
     paths.each { |path| assert_no_match(%r{\A/api/v1}, path) }
     assert_equal [ "*" ], json_response["tenants"]
   end

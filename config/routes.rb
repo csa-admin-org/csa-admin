@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   constraints subdomain: "query" do
     scope module: "query", as: "query", defaults: { format: :json } do
       root to: "catalog#show"
+      post "tickets/search" => "ticket_searches#create"
+      get "organizations" => "organizations#index"
+      get "bank_connections" => "bank_connections#index"
       scope ":tenant" do
         resource :schema, only: :show
         get "schema/:table" => "schemas#show"
