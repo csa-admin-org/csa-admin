@@ -16,10 +16,14 @@ module DeliveryCycle::Visibility
       delivery_cycle_visibility_cache[:shared_depots]
     end
 
+    def visible_records
+      delivery_cycle_visibility_cache[:records]
+    end
+
     # Prioritize visible delivery cycles over non-visible ones, even if a
     # non-visible cycle has more billable deliveries.
     def primary
-      visible.max_by { |dc| [ dc.billable_deliveries_count, dc.depot_ids.size ] }
+      visible_records.max_by { |dc| [ dc.billable_deliveries_count, dc.depot_ids.size ] }
         || kept.max_by { |dc| [ dc.billable_deliveries_count, dc.depot_ids.size ] }
     end
 
@@ -41,9 +45,9 @@ module DeliveryCycle::Visibility
 
     def delivery_cycle_visibility_cache
       Current.delivery_cycle_visibility ||= begin
-        cycles = visible.preload(:depots).to_a
+        cycles = visible.preload(:depots, :periods).to_a
         shared = cycles.flat_map(&:depot_ids).tally.values.any? { |count| count > 1 }
-        { visible: cycles.many? && shared, shared_depots: shared }
+        { visible: cycles.many? && shared, shared_depots: shared, records: cycles }
       end
     end
   end

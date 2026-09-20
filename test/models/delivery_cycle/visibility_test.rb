@@ -172,9 +172,17 @@ class DeliveryCycle::VisibilityTest < ActiveSupport::TestCase
     ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
       DeliveryCycle.visible?
       DeliveryCycle.shared_depots?
+      DeliveryCycle.visible_records
     end
 
     assert_equal 0, queries
+  end
+
+  test "visible_records returns the cached visible cycles" do
+    records = DeliveryCycle.visible_records
+
+    assert_equal DeliveryCycle.visible.ids.sort, records.map(&:id).sort
+    assert_same records, DeliveryCycle.visible_records
   end
 
   test "visible? memo is cleared on Current.reset" do

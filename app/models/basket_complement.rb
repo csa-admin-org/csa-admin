@@ -95,8 +95,8 @@ class BasketComplement < ApplicationRecord
 
   def delivery_ids
     @delivery_ids ||= begin
-      future_count = future_deliveries.count
-      future_count.positive? ? future_deliveries.pluck(:id) : current_deliveries.pluck(:id)
+      source = future_deliveries.any? ? future_deliveries : current_deliveries
+      source.loaded? ? source.map(&:id) : source.pluck(:id)
     end
   end
 
@@ -105,7 +105,9 @@ class BasketComplement < ApplicationRecord
   end
 
   def can_delete?
-    memberships_basket_complements.none? && baskets_basket_complement.none? && !shop_product_variant
+    !memberships_basket_complements.exists? &&
+      !baskets_basket_complement.exists? &&
+      !shop_product_variant
   end
 
   def can_discard?
