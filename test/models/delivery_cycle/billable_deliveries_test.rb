@@ -132,6 +132,24 @@ class DeliveryCycle::BillableDeliveriesTest < ActiveSupport::TestCase
     assert_equal counts, counts.uniq.sort
   end
 
+  test "deliveries_counts_for reuses visible cycles across complements" do
+    BasketComplement.kept.each { |complement| DeliveryCycle.deliveries_counts_for(complement) }
+
+    queries = []
+    callback = ->(_name, _start, _finish, _id, payload) {
+      sql = payload[:sql]
+      queries << sql unless payload[:name] == "SCHEMA"
+    }
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
+      BasketComplement.kept.each { |complement| DeliveryCycle.deliveries_counts_for(complement) }
+    end
+
+    cycle_loads = queries.select { |sql|
+      sql.match?(/SELECT ["`]delivery_cycles["`]\.\*/i)
+    }
+    assert_empty cycle_loads, "expected no DeliveryCycle reloads, got:\n#{cycle_loads.join("\n")}"
+  end
+
   test "class method deliveries_counts_for dispatches for basket_size" do
     basket_size = basket_sizes(:small)
 

@@ -6,7 +6,7 @@ module DeliveryCycle::BillableDeliveries
   class_methods do
     def billable_deliveries_counts
       if visible?
-        visible.map(&:billable_deliveries_count).uniq.sort
+        visible_records.map(&:billable_deliveries_count).uniq.sort
       else
         [ primary.billable_deliveries_count ]
       end
@@ -27,7 +27,7 @@ module DeliveryCycle::BillableDeliveries
 
     def future_deliveries_counts
       if visible?
-        visible.map(&:future_deliveries_count).uniq.sort
+        visible_records.map(&:future_deliveries_count).uniq.sort
       else
         [ primary.future_deliveries_count ]
       end
@@ -38,11 +38,8 @@ module DeliveryCycle::BillableDeliveries
     def aggregate_counts_for(method_prefix, object)
       type = object.class.model_name.singular
       method_name = :"#{method_prefix}_for_#{type}"
-      if visible?
-        visible.map { |dc| dc.public_send(method_name, object) }.uniq.sort
-      else
-        [ primary.public_send(method_name, object) ]
-      end
+      cycles = visible? ? visible_records : [ primary ]
+      cycles.map { |dc| dc.public_send(method_name, object) }.uniq.sort
     end
   end
 

@@ -8,7 +8,11 @@ ActiveAdmin.register BasketComplement do
   scope :visible, group: :visibility, default: true
   scope :hidden, group: :visibility
 
-  includes :memberships_basket_complements, :baskets_basket_complement, :shop_product_variant
+  # Preload only small associations used while rendering rows. Do not eager-load
+  # :baskets_basket_complement or :memberships_basket_complements — those join
+  # tables grow with every basket and would materialize every row just so
+  # can_delete? can check emptiness. That check uses EXISTS instead.
+  includes :current_deliveries, :future_deliveries, :shop_product_variant
   index download_links: false do
     column :id
     column :name, ->(bc) { display_name_with_public_name(bc) }, sortable: true

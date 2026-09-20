@@ -70,6 +70,64 @@ class BasketComplementTest < ActiveSupport::TestCase
     assert_equal 10, complement.deliveries_count
   end
 
+  test "delivery_ids uses preloaded deliveries without plucking" do
+    travel_to "2024-01-01"
+    complement = BasketComplement.preload(:future_deliveries, :current_deliveries).find(bread_id)
+    expected = BasketComplement.find(bread_id).delivery_ids
+
+    queries = collect_sql_queries { complement.delivery_ids }
+
+    assert_equal expected.sort, complement.delivery_ids.sort
+    assert_empty queries.select { |sql|
+      sql.match?(/FROM ["`](?:deliveries|basket_complements_deliveries)["`]/i)
+    }
+  end
+
+  test "can_delete? is false when memberships_basket_complements exist" do
+    assert_not basket_complements(:bread).can_delete?
+  end
+
+  test "can_delete? is false when only baskets_basket_complements exist" do
+    travel_to "2024-01-01"
+    complement = basket_complements(:eggs)
+    BasketsBasketComplement.insert_all([ {
+      basket_id: baskets(:john_1).id,
+      basket_complement_id: complement.id,
+      quantity: 1,
+      price: complement.price,
+      created_at: Time.current,
+      updated_at: Time.current
+    } ])
+
+    assert_not complement.can_delete?
+  end
+
+  test "can_delete? uses existence checks even when join rows are preloaded" do
+    travel_to "2024-01-01"
+    complement = BasketComplement
+      .preload(:baskets_basket_complement, :memberships_basket_complements)
+      .find(bread_id)
+
+    queries = collect_sql_queries { complement.can_delete? }
+    unbounded = queries.select { |sql|
+      sql.match?(/SELECT ["`](?:baskets_basket_complements|memberships_basket_complements)["`]\.\*/i) &&
+        !sql.match?(/\bLIMIT\b/i)
+    }
+
+    assert_not complement.can_delete?
+    assert_empty unbounded
+    assert queries.any? { |sql|
+      sql.match?(/FROM ["`]memberships_basket_complements["`]/i) &&
+        (sql.match?(/SELECT 1 AS one/i) || sql.match?(/LIMIT 1/i))
+    }
+  end
+
+  test "can_discard? is false when current memberships exist" do
+    travel_to "2024-01-01"
+
+    assert_not basket_complements(:bread).can_discard?
+  end
+
   test "adds/removes basket_complement on subscribed baskets" do
     travel_to "2024-01-01"
     eggs = basket_complements(:eggs)
@@ -116,5 +174,17 @@ class BasketComplementTest < ActiveSupport::TestCase
         c.update!(current_delivery_ids: [])
       end
     end
+  end
+
+  private
+
+  def collect_sql_queries
+    queries = []
+    callback = ->(_name, _start, _finish, _id, payload) {
+      sql = payload[:sql]
+      queries << sql unless payload[:name] == "SCHEMA" || sql.match?(/\A(?:BEGIN|COMMIT|SAVEPOINT|RELEASE)/i)
+    }
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") { yield }
+    queries
   end
 end
