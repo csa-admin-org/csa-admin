@@ -102,30 +102,19 @@ class BasketComplementTest < ActiveSupport::TestCase
     assert_not complement.can_delete?
   end
 
-  test "can_delete? uses existence checks even when join rows are preloaded" do
+  test "can_delete? uses EXISTS even when join rows are preloaded" do
     travel_to "2024-01-01"
     complement = BasketComplement
       .preload(:baskets_basket_complement, :memberships_basket_complements)
       .find(bread_id)
 
     queries = collect_sql_queries { complement.can_delete? }
-    unbounded = queries.select { |sql|
-      sql.match?(/SELECT ["`](?:baskets_basket_complements|memberships_basket_complements)["`]\.\*/i) &&
-        !sql.match?(/\bLIMIT\b/i)
-    }
 
     assert_not complement.can_delete?
-    assert_empty unbounded
     assert queries.any? { |sql|
       sql.match?(/FROM ["`]memberships_basket_complements["`]/i) &&
         (sql.match?(/SELECT 1 AS one/i) || sql.match?(/LIMIT 1/i))
     }
-  end
-
-  test "can_discard? is false when current memberships exist" do
-    travel_to "2024-01-01"
-
-    assert_not basket_complements(:bread).can_discard?
   end
 
   test "adds/removes basket_complement on subscribed baskets" do

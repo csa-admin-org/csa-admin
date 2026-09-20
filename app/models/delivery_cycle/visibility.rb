@@ -16,8 +16,6 @@ module DeliveryCycle::Visibility
       delivery_cycle_visibility_cache[:shared_depots]
     end
 
-    # Same records used to compute visibility, so callers can reuse memoized
-    # deliveries without re-querying DeliveryCycle per complement/size.
     def visible_records
       delivery_cycle_visibility_cache[:records]
     end

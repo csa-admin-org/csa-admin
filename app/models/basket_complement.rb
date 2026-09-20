@@ -105,8 +105,8 @@ class BasketComplement < ApplicationRecord
   end
 
   def can_delete?
-    !MembershipsBasketComplement.exists?(basket_complement_id: id) &&
-      !BasketsBasketComplement.exists?(basket_complement_id: id) &&
+    !memberships_basket_complements.exists? &&
+      !baskets_basket_complement.exists? &&
       !shop_product_variant
   end
 
