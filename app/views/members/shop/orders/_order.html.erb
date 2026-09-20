@@ -139,7 +139,7 @@
   </div>
 
   <div class="shop-actions-confirm">
-    <%= button_to confirm_members_shop_order_path(order), disabled: submit_disabled, form: { data: { turbo: false }, class: "shop-confirm-form" }, data: { test_confirm_order: true } do %>
+    <%= button_to confirm_members_shop_order_path(order), disabled: submit_disabled, form: { data: { turbo: false }, class: "shop-confirm-form" }, data: { test_confirm_order: true, disable_with: t("formtastic.processing") } do %>
       <%= icon "check", class: "icon-inline" %>
       <span><%= t(".submit_order") %></span>
     <% end %>
@@ -147,7 +147,7 @@
 </div>
 
 <div class="shop-destroy-wrap">
-  <%= button_to members_shop_order_path(order), method: :delete, form: { data: { turbo: false, controller: "confirmation", confirmation_message_value: t(".destroy_cart_confirm"), action: "submit->confirmation#confirm" } }, class: "shop-destroy" do %>
+  <%= button_to members_shop_order_path(order), method: :delete, form: { data: { turbo: false } }, class: "shop-destroy", data: { confirm: t(".destroy_cart_confirm"), disable_with: t("formtastic.processing") } do %>
     <div class="shop-destroy-inner">
       <%= icon "trash", class: "shop-icon-sm" %>
       <span class="shop-destroy-label"><%= t(".destroy_cart") %></span>

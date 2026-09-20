@@ -49,7 +49,7 @@
           </div>
 
           <div class="actions">
-            <%= button_tag type: "submit", data: { calendar_target: "submit" } do %>
+            <%= button_tag type: "submit", data: { calendar_target: "submit", disable_with: t("formtastic.processing") } do %>
               <%= icon "check", class: "icon-inline-action" %>
               <span><%= t(".activity_form_submit") %></span>
             <% end %>

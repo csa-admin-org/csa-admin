@@ -83,7 +83,7 @@
         <%= cap_token_field %>
 
         <%= tag.div class: "actions print-hidden", data: cap_submit_tooltip_data do %>
-          <%= button_tag type: "submit", data: cap_submit_tooltip_target_data do %>
+          <%= button_tag type: "submit", data: cap_submit_tooltip_target_data.merge(disable_with: t("formtastic.processing")) do %>
             <%= icon "check", class: "icon-inline-action" %>
             <span><%= t(".submit") %></span>
           <% end %>

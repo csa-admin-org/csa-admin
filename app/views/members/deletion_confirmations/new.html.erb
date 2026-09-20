@@ -42,7 +42,7 @@
           <span><%= t(".cancel") %></span>
         <% end %>
 
-        <%= button_tag type: "submit", class: "destructive" do %>
+        <%= button_tag type: "submit", class: "destructive", data: { disable_with: t("formtastic.processing") } do %>
           <%= icon "trash", class: "icon-inline-action" %>
           <span><%= t(".confirm") %></span>
         <% end %>
