@@ -11,16 +11,9 @@
           <div class="sepa-actions">
             <%= button_to members_sepa_mandate_path, method: :delete,
               title: t("members.sepa_mandates.disable.link"),
-              form: {
-                data: {
-                  turbo: false,
-                  controller: "confirmation",
-                  confirmation_message_value: t("members.sepa_mandates.disable.confirm"),
-                  action: "submit->confirmation#confirm"
-                },
-                class: "sepa-disable"
-              },
-              class: "sepa-disable-btn" do %>
+              form: { data: { turbo: false }, class: "sepa-disable" },
+              class: "sepa-disable-btn",
+              data: { confirm: t("members.sepa_mandates.disable.confirm"), disable: true } do %>
               <%= icon "circle-off", class: "sepa-off-icon" %>
             <% end %>
 

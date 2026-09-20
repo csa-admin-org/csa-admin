@@ -6,7 +6,7 @@
       <%= t(".unsubscribed_html", email: email) %>
     </p>
 
-    <%= button_to t(".subscribe"), members_email_suppression_path, method: :delete, class: "btn btn-sm", data: { turbo: false } %>
+    <%= button_to t(".subscribe"), members_email_suppression_path, method: :delete, class: "btn btn-sm", data: { turbo: false, disable_with: t("formtastic.processing") } %>
   </div>
 <% end %>
 

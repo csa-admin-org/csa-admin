@@ -41,14 +41,8 @@
       <% if activity_participation.destroyable? %>
         <%= button_to [ :members, activity_participation ], method: :delete,
           class: "icon-destroy",
-          form: {
-            data: {
-              turbo: false,
-              controller: "confirmation",
-              confirmation_message_value: t(".destroy_confirm"),
-              action: "submit->confirmation#confirm"
-            }
-          },
+          form: { data: { turbo: false } },
+          data: { confirm: t(".destroy_confirm"), disable: true },
           "aria-label": t(".cancel_link") do %>
           <%= icon "trash", class: "icon-sm" %>
           <span class="sr-only"><%= t(".cancel_link") %></span>

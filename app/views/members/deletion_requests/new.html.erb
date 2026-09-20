@@ -32,7 +32,7 @@
         <%= icon "arrow-left", class: "icon-inline-action" %>
         <span><%= t(".cancel") %></span>
       <% end %>
-      <%= button_to members_account_deletion_request_path, method: :post, class: "destructive" do %>
+      <%= button_to members_account_deletion_request_path, method: :post, class: "destructive", data: { disable_with: t("formtastic.processing") } do %>
         <%= icon "send-horizontal", class: "icon-inline-action" %>
         <span><%= t(".request_code") %></span>
       <% end %>

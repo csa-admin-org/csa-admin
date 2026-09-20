@@ -5,5 +5,5 @@
 
 <div class="subscribe-back">
   <p class="subscribe-copy"><%= t(".subscribe_back") %></p>
-  <%= button_to t(".subscribe"), members_subscribe_newsletter_path(params[:token]), form: { class: "subscribe-form" }, class: "subscribe-btn", data: { turbo: false } %>
+  <%= button_to t(".subscribe"), members_subscribe_newsletter_path(params[:token]), form: { class: "subscribe-form" }, class: "subscribe-btn", data: { turbo: false, disable_with: t("formtastic.processing") } %>
 </div>

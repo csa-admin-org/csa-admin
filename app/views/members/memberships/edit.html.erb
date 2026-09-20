@@ -30,7 +30,7 @@
         <span><%= t(".cancel_link") %></span>
       <% end %>
 
-      <%= button_tag type: "submit" do %>
+      <%= button_tag type: "submit", data: { disable_with: t("formtastic.processing") } do %>
         <%= icon "check", class: "icon-inline-action" %>
         <span><%= t(".submit") %></span>
       <% end %>
