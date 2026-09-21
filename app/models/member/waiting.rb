@@ -71,7 +71,7 @@ module Member::Waiting
       waiting_depot_id? ||
       waiting_delivery_cycle_id? ||
       waiting_basket_price_extra.present? ||
-      waiting_activity_participations_demanded_annually.present? ||
+      !waiting_activity_participations_demanded_annually.nil? ||
       members_basket_complements.reject(&:marked_for_destruction?).any? ||
       waiting_alternative_depot_ids.any?
   end

@@ -1251,6 +1251,18 @@ _:
           _de: Jahresendmodus
           _it: Modalità di fine anno
           _nl: Eindejaarmodus
+        activity_participations_demanded_annually:
+          _en: Demanded count (full year)
+          _fr: Nombre demandé (année complète)
+          _de: Geforderte Anzahl (ganzes Jahr)
+          _it: Numero richiesto (anno completo)
+          _nl: Geëist aantal (volledig jaar)
+        activity_participations_demanded_logic:
+          _en: Final demanded count, after the calculation logic is applied.
+          _fr: Nombre demandé final, une fois la logique de calcul appliquée.
+          _de: Endgültige geforderte Anzahl, nach Anwendung der Berechnungslogik.
+          _it: Numero richiesto finale, dopo l'applicazione della logica di calcolo.
+          _nl: Uiteindelijk geëist aantal, na toepassing van de berekeningslogica.
         admin_invitation:
           _en: A welcome email will be sent to the admin to invite them to log in.
           _fr: Un email de bienvenue sera envoyé à l'admin pour l'inviter à se connecter.
@@ -1982,6 +1994,18 @@ _:
           _it: Duplicare
           _nl: Dupliceren
       new:
+        activity_participations_demanded_annually:
+          _en: Demanded count (full year)
+          _fr: Nombre demandé (année complète)
+          _de: Geforderte Anzahl (ganzes Jahr)
+          _it: Numero richiesto (anno completo)
+          _nl: Geëist aantal (volledig jaar)
+        activity_participations_demanded_logic:
+          _en: Final demanded count, after the calculation logic is applied.
+          _fr: Nombre demandé final, une fois la logique de calcul appliquée.
+          _de: Endgültige geforderte Anzahl, nach Anwendung der Berechnungslogik.
+          _it: Numero richiesto finale, dopo l'applicazione della logica di calcolo.
+          _nl: Uiteindelijk geëist aantal, na toepassing van de berekeningslogica.
         availability:
           _en: Availability
           _fr: Disponibilité

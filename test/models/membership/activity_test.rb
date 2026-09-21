@@ -131,6 +131,29 @@ class Membership::ActivityTest < ActiveSupport::TestCase
     assert_equal(-120, membership.activity_participations_annual_price_change)
   end
 
+  test "set_activity_participations keeps a zero price change override" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    membership.update!(
+      activity_participations_demanded_annually: 5,
+      activity_participations_annual_price_change: 0)
+    membership.reload.update!(baskets_annual_price_change: 1)
+
+    assert_equal 2, membership.activity_participations_demanded_diff_from_default
+    assert_equal 5, membership.activity_participations_demanded
+    assert_equal 0, membership.activity_participations_annual_price_change
+  end
+
+  test "set_activity_participations does not rewrite a stored zero on unrelated saves" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+
+    assert_equal 0, membership.activity_participations_annual_price_change
+    membership.update!(basket_quantity: 2)
+
+    assert_equal 0, membership.activity_participations_annual_price_change
+  end
+
   test "set_activity_participations when activity feature is disabled" do
     travel_to "2024-01-01"
     org(features: [])

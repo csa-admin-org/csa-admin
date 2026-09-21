@@ -158,9 +158,10 @@ class Membership < ApplicationRecord
     if Current.org.feature?("basket_price_extra") && member.waiting_basket_price_extra
       self.basket_price_extra = member.waiting_basket_price_extra
     end
-    if member.waiting_activity_participations_demanded_annually
+    unless member.waiting_activity_participations_demanded_annually.nil?
       self.activity_participations_demanded_annually = member.waiting_activity_participations_demanded_annually
     end
+    self.activity_participations_annual_price_change = nil
     self.depot_id ||= member.waiting_depot_id
     self.delivery_cycle_id ||= member.waiting_delivery_cycle_id
     member.members_basket_complements.each do |mbc|

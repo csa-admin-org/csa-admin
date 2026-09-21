@@ -102,6 +102,181 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Lausanne", jane_row[city_header]
   end
 
+  test "edit activity fields blank the default and keep overrides" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert_response :success
+    assert_select "#membership_activity_participations_demanded_annually[value='2']"
+    assert_select "#membership_activity_participations_demanded_annually[placeholder='3']"
+    assert_select ".activity-participations-formula"
+    assert_select "label[for=membership_activity_participations_demanded_annually]", text: "Demanded count (full year)"
+    assert_select "#membership_activity_participations_demanded_annually_input .inline-hints", text: /final demanded count/
+    assert_select "#membership_activity_participations_demanded_annually_input .inline-hints a[href='#{edit_organization_path(:activity, anchor: "activity_participations_demanded_logic")}']"
+    assert_select ".activity-participations-formula-arrow", count: 1
+    assert_select ".activity-participations-demanded.tooltip-wrap"
+    assert_select "#membership_activity_participations_demanded[disabled][value='2']"
+    assert_select "#tooltip-membership_activity_participations_demanded", text: /Final demanded count/
+    assert_select ".activity-participations-formula-logic", count: 0
+    assert_select "#membership_activity_participations_annual_price_change[value='0.0']"
+    assert_select "#membership_activity_participations_annual_price_change[placeholder='50']"
+    assert_select "#membership_activity_participations_annual_price_change_input .inline-hints", text: /Enter 0 to disable/
+    assert_select "turbo-frame#membership-activity-participations [data-default-annually='3'][data-demanded='2'][data-default-price-change='50']"
+  end
+
+  test "edit keeps annually 0 as an override" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    membership.update!(activity_participations_demanded_annually: 0)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert_response :success
+    assert_select "#membership_activity_participations_demanded_annually[value='0']"
+    assert_select "#membership_activity_participations_demanded_annually[placeholder='3']"
+  end
+
+  test "edit activity fields stay blank when they match the default" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    membership.update!(activity_participations_demanded_annually: 3)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert_response :success
+    annually = css_select("#membership_activity_participations_demanded_annually").first
+    assert_equal "", annually["value"].to_s
+    assert_equal "3", annually["placeholder"]
+    price = css_select("#membership_activity_participations_annual_price_change").first
+    assert_equal "", price["value"].to_s
+    assert_equal "0", price["placeholder"]
+    assert_select "#membership_activity_participations_demanded[disabled][value='3']"
+  end
+
+  test "new membership leaves annually blank when basket sizes disagree" do
+    travel_to "2024-05-01"
+    login admins(:super)
+
+    get new_membership_path
+
+    assert_response :success
+    annually = css_select("#membership_activity_participations_demanded_annually").first
+    assert annually
+    assert_equal "", annually["value"].to_s
+    assert_equal "", annually["placeholder"].to_s
+    assert_select "#membership_activity_participations_demanded[disabled]"
+    price = css_select("#membership_activity_participations_annual_price_change").first
+    assert_equal "", price["value"].to_s
+    assert_equal "", price["placeholder"].to_s
+    assert_select "#membership_activity_participations_annual_price_change_input .inline-hints", text: /Enter 0 to disable/
+  end
+
+  test "new membership fills annually placeholder when basket sizes share the same count" do
+    travel_to "2024-05-01"
+    basket_sizes(:large).update!(activity_participations_demanded_annually: 2)
+    login admins(:super)
+
+    get new_membership_path
+
+    assert_response :success
+    annually = css_select("#membership_activity_participations_demanded_annually").first
+    assert_equal "", annually["value"].to_s
+    assert_equal "2", annually["placeholder"]
+  end
+
+  test "activity participations preview returns turbo frame payload" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get activity_participations_preview_memberships_path, params: {
+      membership: {
+        member_id: membership.member_id,
+        basket_size_id: membership.basket_size_id,
+        basket_quantity: 1,
+        depot_id: membership.depot_id,
+        delivery_cycle_id: membership.delivery_cycle_id,
+        started_on: membership.started_on,
+        ended_on: membership.ended_on,
+        activity_participations_demanded_annually: 5
+      }
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-activity-participations [data-default-annually='3'][data-demanded='5'][data-default-price-change='-100']"
+  end
+
+  test "activity participations preview treats empty annually as the default" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get activity_participations_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        activity_participations_demanded_annually: "")
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-activity-participations [data-default-annually='3'][data-demanded='3'][data-default-price-change='0']"
+  end
+
+  test "activity participations preview treats annually 0 as an override" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get activity_participations_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        activity_participations_demanded_annually: "0")
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-activity-participations [data-demanded='0']"
+  end
+
+  test "activity participations preview includes complements in the annually default" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    basket_complements(:bread).update!(activity_participations_demanded_annually: 2)
+    login admins(:super)
+
+    get activity_participations_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        memberships_basket_complements_attributes: {
+          "0" => { basket_complement_id: basket_complements(:bread).id, quantity: 1 }
+        })
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-activity-participations [data-default-annually='5']"
+  end
+
+  test "activity participations preview ignores destroyed complements" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    basket_complements(:bread).update!(activity_participations_demanded_annually: 2)
+    login admins(:super)
+
+    get activity_participations_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        memberships_basket_complements_attributes: {
+          "0" => {
+            basket_complement_id: basket_complements(:bread).id,
+            quantity: 1,
+            _destroy: "1"
+          }
+        })
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-activity-participations [data-default-annually='3']"
+  end
+
   test "show explains when recurring billing is disabled" do
     travel_to "2024-05-01"
     org(recurring_billing_wday: nil)
@@ -205,5 +380,19 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.body, "/settings#absence"
     assert_not_includes response.body, "href='/delivery_cycles'"
+  end
+
+  private
+
+  def preview_membership_params(membership)
+    {
+      member_id: membership.member_id,
+      basket_size_id: membership.basket_size_id,
+      basket_quantity: 1,
+      depot_id: membership.depot_id,
+      delivery_cycle_id: membership.delivery_cycle_id,
+      started_on: membership.started_on,
+      ended_on: membership.ended_on
+    }
   end
 end

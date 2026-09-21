@@ -274,6 +274,16 @@ class Member::WaitingTest < ActiveSupport::TestCase
     assert_not member.validation_creates_membership?
   end
 
+  test "membership_request? treats annually 0 as a request" do
+    member = Member.new(waiting_activity_participations_demanded_annually: 0)
+
+    assert member.membership_request?
+
+    member.waiting_activity_participations_demanded_annually = nil
+
+    assert_not member.membership_request?
+  end
+
   test "create_membership_from_waiting_request! uses selected delivery cycle next delivery week" do
     travel_to "2024-05-01"
     member = members(:aria)
@@ -282,6 +292,17 @@ class Member::WaitingTest < ActiveSupport::TestCase
 
     assert_equal Date.new(2024, 5, 6), membership.started_on
     assert member.reload.active?
+  end
+
+  test "create_membership_from_waiting_request! auto-fills price when annually is 0" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+
+    membership = member.create_membership_from_waiting_request!
+
+    assert_equal 0, membership.activity_participations_demanded_annually
+    assert_equal 0, membership.activity_participations_demanded
+    assert_equal 50, membership.activity_participations_annual_price_change
   end
 
   test "create_membership_from_waiting_request! uses fresh direct start date" do

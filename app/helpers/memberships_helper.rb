@@ -93,6 +93,181 @@ module MembershipsHelper
     end
   end
 
+  def activity_participations_demanded_preview(value, input_id: "membership_activity_participations_demanded")
+    text = t("active_admin.resource.form.activity_participations_demanded_logic")
+    tooltip_id = "tooltip-#{input_id}"
+    content_tag(
+      :div,
+      class: "activity-participations-demanded tooltip-wrap",
+      data: { controller: "tooltip", tooltip_dismissible_value: true }
+    ) do
+      content_tag(
+        :span,
+        class: "tooltip-trigger is-clickable",
+        tabindex: 0,
+        role: "button",
+        data: {
+          "tooltip-target" => "trigger",
+          action: "click->tooltip#toggle mouseenter->tooltip#preview mouseleave->tooltip#hidePreview focus->tooltip#preview blur->tooltip#hidePreview"
+        },
+        aria: { describedby: tooltip_id, controls: tooltip_id, expanded: false },
+        onclick: "event.stopPropagation()"
+      ) {
+        tag.input(
+          type: "text",
+          id: input_id,
+          value: value,
+          disabled: true,
+          tabindex: -1,
+          aria: { label: Membership.human_attribute_name(:activity_participations_demanded) },
+          data: { form_activity_participations_target: "demanded" })
+      } + tooltip_element(text, id: tooltip_id)
+    end
+  end
+
+  def activity_participations_formula_display(annually, demanded)
+    annually = activity_participations_placeholder(annually)
+    demanded = activity_participations_placeholder(demanded)
+    return if annually.nil? && demanded.nil?
+
+    content_tag(:span, class: "cluster is-snug is-nowrap activity-participations-formula-text") do
+      safe_join([
+        content_tag(:span, annually, class: "tabular-nums"),
+        icon("move-right", class: "activity-participations-formula-arrow"),
+        content_tag(:span, demanded, class: "tabular-nums")
+      ])
+    end
+  end
+
+  def activity_participations_demanded_logic_settings_url
+    if authorized?(:update, Organization)
+      edit_organization_path(:activity, anchor: "activity_participations_demanded_logic")
+    else
+      organization_path(anchor: "activity")
+    end
+  end
+
+  def activity_participations_demanded_formula_hint
+    t("formtastic.hints.membership.activity_participations_demanded_formula_html",
+      settings_url: activity_participations_demanded_logic_settings_url)
+  end
+
+  def activity_participations_default_annually(membership)
+    if membership.basket_size
+      membership.activity_participations_demanded_annually_by_default
+    else
+      shared_activity_participations_demanded_annually
+    end
+  end
+
+  def activity_participations_automatic_price_change(membership, demanded: nil)
+    return unless membership.member && membership.basket_size && membership.delivery_cycle
+    return unless membership.started_on && membership.ended_on
+
+    demanded = activity_participations_computed_demanded(membership) if demanded.nil?
+    return if demanded.nil?
+
+    copy = membership.dup
+    copy.activity_participations_demanded_annually = membership.activity_participations_demanded_annually_by_default
+    default_demanded = ActivityParticipationDemanded.new(copy).count
+    -(demanded - default_demanded) * Current.org.activity_price
+  end
+
+  def activity_participations_computed_demanded(membership)
+    return unless membership.member && membership.basket_size && membership.delivery_cycle
+    return unless membership.started_on && membership.ended_on
+
+    ActivityParticipationDemanded.new(membership).count
+  end
+
+  def activity_participations_preview_payload(membership)
+    demanded = activity_participations_computed_demanded(membership)
+    price = activity_participations_automatic_price_change(membership, demanded: demanded)
+    {
+      default_annually: activity_participations_placeholder(activity_participations_default_annually(membership)),
+      demanded: activity_participations_placeholder(demanded),
+      default_price_change: activity_participations_placeholder(price)
+    }
+  end
+
+  def activity_participations_placeholder(value)
+    return if value.nil?
+
+    value == value.to_i ? value.to_i : value
+  end
+
+  def activity_participations_preview_membership(raw)
+    attrs = activity_participations_preview_attrs(raw)
+    membership = Membership.new
+    membership.assign_attributes(attrs.slice(
+      :member_id, :basket_size_id, :basket_quantity,
+      :depot_id, :delivery_cycle_id, :started_on, :ended_on))
+    membership.member ||= Member.new(
+      salary_basket: ActiveRecord::Type::Boolean.new.cast(attrs[:salary_basket]))
+    activity_participations_assign_complements(
+      membership, attrs[:memberships_basket_complements_attributes])
+    activity_participations_assign_annually(
+      membership, attrs[:activity_participations_demanded_annually])
+    membership
+  end
+
+  def activity_participations_preview_from_waiting(raw)
+    attrs = activity_participations_preview_attrs(raw)
+    membership = Membership.new
+    membership.member = Member.new(
+      salary_basket: ActiveRecord::Type::Boolean.new.cast(attrs[:salary_basket]))
+    membership.basket_size_id = attrs[:waiting_basket_size_id]
+    membership.basket_quantity = 1
+    membership.depot_id = attrs[:waiting_depot_id]
+    membership.delivery_cycle_id = attrs[:waiting_delivery_cycle_id]
+    activity_participations_assign_complements(
+      membership, attrs[:members_basket_complements_attributes])
+    activity_participations_assign_waiting_period(
+      membership, attrs[:waiting_membership_started_on])
+    activity_participations_assign_annually(
+      membership, attrs[:waiting_activity_participations_demanded_annually])
+    membership
+  end
+
+  def activity_participations_preview_from_waiting_member(member)
+    membership = Membership.new
+    membership.member = member
+    membership.basket_size_id = member.waiting_basket_size_id
+    membership.basket_quantity = 1
+    membership.depot_id = member.waiting_depot_id
+    membership.delivery_cycle_id = member.waiting_delivery_cycle_id
+    member.members_basket_complements.reject(&:marked_for_destruction?).each do |mbc|
+      next if mbc.basket_complement_id.blank?
+
+      membership.memberships_basket_complements.build(
+        basket_complement_id: mbc.basket_complement_id,
+        quantity: mbc.quantity.presence || 1)
+    end
+    started_on = member.fresh_waiting_membership_started_on || member.waiting_membership_start_on
+    membership.started_on = started_on
+    membership.ended_on = member.waiting_membership_end_on(started_on)
+    activity_participations_assign_annually(
+      membership, member.waiting_activity_participations_demanded_annually)
+    membership
+  end
+
+  def activity_participations_annually_form_value(current, default)
+    return if current.nil?
+    return if !default.nil? && current.to_i == default.to_i
+
+    current
+  end
+
+  def activity_participations_price_change_form_value(membership)
+    current = membership.activity_participations_annual_price_change
+    return if current.nil?
+
+    automatic = activity_participations_automatic_price_change(membership)
+    return current if automatic.nil?
+
+    current unless current.to_d == automatic.to_d
+  end
+
   def baskets_price_extra_info(membership, baskets, highlight: false)
     label_grouped =
       baskets
@@ -222,5 +397,62 @@ module MembershipsHelper
   def precise_cur(number)
     precision = number.to_s.split(".").last.size > 2 ? 3 : 2
     cur(number, unit: false, precision: precision).strip
+  end
+
+  def shared_activity_participations_demanded_annually
+    values = BasketSize.kept.map(&:activity_participations_demanded_annually).uniq
+    values.first if values.one?
+  end
+
+  def activity_participations_preview_attrs(raw)
+    if raw.respond_to?(:to_unsafe_h)
+      raw.to_unsafe_h.with_indifferent_access
+    else
+      (raw || {}).to_h.with_indifferent_access
+    end
+  end
+
+  def activity_participations_assign_complements(membership, nested)
+    Array(nested&.values).each do |comp|
+      next if ActiveRecord::Type::Boolean.new.cast(comp[:_destroy])
+      next if comp[:basket_complement_id].blank?
+
+      membership.memberships_basket_complements.build(
+        basket_complement_id: comp[:basket_complement_id],
+        quantity: comp[:quantity].presence || 1)
+    end
+  end
+
+  def activity_participations_assign_annually(membership, raw_annually)
+    annually =
+      if raw_annually.to_s.strip == ""
+        activity_participations_default_annually(membership)
+      else
+        raw_annually
+      end
+    membership.activity_participations_demanded_annually = annually unless annually.nil?
+  end
+
+  def activity_participations_assign_waiting_period(membership, raw_started_on)
+    started_on =
+      begin
+        Date.parse(raw_started_on.to_s) if raw_started_on.present?
+      rescue Date::Error
+        nil
+      end
+    started_on ||= waiting_preview_start_on(membership.delivery_cycle)
+    membership.started_on = started_on
+    membership.ended_on = Current.org.fiscal_year_for(started_on).end_of_year if started_on
+  end
+
+  def waiting_preview_start_on(delivery_cycle)
+    next_delivery = delivery_cycle&.next_delivery
+    return unless next_delivery
+
+    [
+      Date.current,
+      next_delivery.fy_range.min,
+      next_delivery.date.beginning_of_week
+    ].max
   end
 end

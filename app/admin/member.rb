@@ -222,9 +222,6 @@ ActiveAdmin.register Member do
                       member.members_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
                   }
                 end
-                if feature?("activity")
-                  row(activities_human_name) { member.waiting_activity_participations_demanded_annually }
-                end
                 if feature?("basket_price_extra")
                   row(Current.org.basket_price_extra_title) { cur(member.waiting_basket_price_extra) }
                 end
@@ -241,6 +238,15 @@ ActiveAdmin.register Member do
                 if member.waiting_billing_year_division?
                   row(:billing_year_division) {
                     t("billing.year_division.x#{member.waiting_billing_year_division}")
+                  }
+                end
+                if feature?("activity")
+                  row(activities_human_name) {
+                    waiting = activity_participations_preview_from_waiting_member(member)
+                    payload = activity_participations_preview_payload(waiting)
+                    annually = member.waiting_activity_participations_demanded_annually
+                    annually = payload[:default_annually] if annually.nil?
+                    activity_participations_formula_display(annually, payload[:demanded])
                   }
                 end
                 if member.waiting?
@@ -654,9 +660,22 @@ ActiveAdmin.register Member do
 
     if member.pending? || member.waiting? || (member.inactive? && Current.org.waiting_list?)
       waiting_membership_form = member.waiting? || member.inactive?
-      f.inputs waiting_membership_form ? t("active_admin.resource.show.waiting_membership") : Membership.model_name.human,
+      waiting_preview = if feature?("activity")
+        activity_participations_preview_payload(
+          activity_participations_preview_from_waiting_member(member))
+      end
+      waiting_controllers = [ "form-disabler" ]
+      waiting_controllers << "form-activity-participations" if feature?("activity")
+      waiting_fieldset_options = {
         icon: waiting_membership_form ? "clock" : "calendar-range",
-        data: { controller: "form-disabler" } do
+        "data-controller" => waiting_controllers.join(" ")
+      }
+      if feature?("activity")
+        waiting_fieldset_options["data-form-activity-participations-url-value"] =
+          activity_participations_preview_members_path
+      end
+      f.inputs waiting_membership_form ? t("active_admin.resource.show.waiting_membership") : Membership.model_name.human,
+        **waiting_fieldset_options do
         if member.pending? || member.waiting?
           f.input :waiting_membership_started_on,
             as: :date_picker,
@@ -680,22 +699,6 @@ ActiveAdmin.register Member do
               }
             }
         end
-        f.input :waiting_basket_size,
-          label: BasketSize.model_name.human,
-          collection: admin_basket_sizes_collection,
-          required: false
-        if feature?("activity")
-          f.input :waiting_activity_participations_demanded_annually,
-            label: "#{activities_human_name} (#{t('.full_year')})",
-            min: 0,
-            hint: t("formtastic.hints.membership.activity_participations_demanded_annually_html"),
-            required: false
-        end
-        if feature?("basket_price_extra")
-          f.input :waiting_basket_price_extra,
-            label: Current.org.basket_price_extra_title,
-            required: false
-        end
         f.input :waiting_depot,
           label: Depot.model_name.human,
           required: false,
@@ -713,12 +716,6 @@ ActiveAdmin.register Member do
           label: DeliveryCycle.model_name.human,
           as: :select,
           collection: admin_delivery_cycles_collection_by_visibility
-        f.input :waiting_billing_year_division,
-          label: Membership.human_attribute_name(:billing_year_division),
-          as: :select,
-          collection: billing_year_divisions_collection,
-          prompt: true,
-          required: false
         if Depot.kept.many? && (member.waiting? || Current.org.waiting_list?)
           direct_membership_start = member.direct_membership_start_requested?
           f.input :waiting_alternative_depot_ids,
@@ -736,6 +733,15 @@ ActiveAdmin.register Member do
               data: { form_disabler_target: "label" }
             }
         end
+        f.input :waiting_basket_size,
+          label: BasketSize.model_name.human,
+          collection: admin_basket_sizes_collection,
+          required: false
+        if feature?("basket_price_extra")
+          f.input :waiting_basket_price_extra,
+            label: Current.org.basket_price_extra_title,
+            required: false
+        end
         if BasketComplement.kept.any?
           f.has_many :members_basket_complements, allow_destroy: true do |ff|
             ff.input :basket_complement,
@@ -744,6 +750,46 @@ ActiveAdmin.register Member do
             ff.input :quantity
           end
         end
+        if feature?("activity")
+          div class: "activity-participations-formula" do
+            f.input :waiting_activity_participations_demanded_annually,
+              label: t("active_admin.resource.form.activity_participations_demanded_annually"),
+              min: 0,
+              hint: activity_participations_demanded_formula_hint,
+              required: false,
+              wrapper_html: { class: "activity-participations-annually" },
+              input_html: {
+                value: activity_participations_annually_form_value(
+                  f.object.waiting_activity_participations_demanded_annually,
+                  waiting_preview[:default_annually]),
+                placeholder: waiting_preview[:default_annually],
+                data: {
+                  "1p_ignore": true,
+                  form_activity_participations_target: "annually"
+                }
+              }
+            text_node icon("move-right", class: "activity-participations-formula-arrow")
+            text_node activity_participations_demanded_preview(
+              waiting_preview[:demanded],
+              input_id: "member_waiting_activity_participations_demanded")
+          end
+          turbo_frame(
+            id: "membership-activity-participations",
+            class: "is-hidden",
+            "data-form-activity-participations-target" => "frame") do
+            div(
+              "data-form-activity-participations-target" => "payload",
+              "data-default-annually" => waiting_preview[:default_annually].to_s,
+              "data-demanded" => waiting_preview[:demanded].to_s,
+              "data-default-price-change" => waiting_preview[:default_price_change].to_s)
+          end
+        end
+        f.input :waiting_billing_year_division,
+          label: Membership.human_attribute_name(:billing_year_division),
+          as: :select,
+          collection: billing_year_divisions_collection,
+          prompt: true,
+          required: false
       end
     end
     if feature?("shop") && !member.current_or_future_membership
@@ -975,6 +1021,24 @@ ActiveAdmin.register Member do
   rescue ActiveRecord::RecordInvalid => e
     flash[:alert] = e.record.errors.full_messages.to_sentence.presence || e.message
     redirect_to member_path(resource)
+  end
+
+  collection_action :activity_participations_preview, method: :get do
+    authorize! :read, Member
+    membership = helpers.activity_participations_preview_from_waiting(params[:member])
+    payload = helpers.activity_participations_preview_payload(membership)
+    render html: helpers.turbo_frame_tag(
+      "membership-activity-participations",
+      class: "is-hidden",
+      data: { form_activity_participations_target: "frame" }) {
+        helpers.tag.div(
+          data: {
+            form_activity_participations_target: "payload",
+            default_annually: payload[:default_annually].to_s,
+            demanded: payload[:demanded].to_s,
+            default_price_change: payload[:default_price_change].to_s
+          })
+      }, layout: false
   end
 
   member_action :deactivate, method: :post do

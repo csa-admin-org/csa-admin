@@ -1209,6 +1209,17 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal [ 1, 2 ].sort, membership.memberships_basket_complements.map(&:quantity).sort
   end
 
+  test "populate_from_waiting_member! copies annually 0" do
+    member = Member.new(
+      waiting_basket_size_id: basket_sizes(:medium).id,
+      waiting_activity_participations_demanded_annually: 0)
+    membership = Membership.new
+    membership.populate_from_waiting_member!(member)
+
+    assert_equal 0, membership.activity_participations_demanded_annually
+    assert_nil membership.activity_participations_annual_price_change
+  end
+
   test "populate_default_period_from_next_delivery! uses selected delivery cycle" do
     travel_to "2024-04-02"
 

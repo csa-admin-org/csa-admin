@@ -723,34 +723,6 @@ ActiveAdmin.register Membership do
       end
     end
 
-    if feature?("activity")
-      f.inputs activities_human_name, icon: "handshake", "data-controller" => "form-reset" do
-        div class: "panel-actions" do
-          handbook_icon_link("activity")
-        end
-
-        f.input :activity_participations_demanded_annually,
-          label: "#{activities_human_name} (#{t('.full_year')})",
-          input_html: {
-            data: { "1p_ignore": true, action: "form-reset#reset" }
-          }
-        f.input :activity_participations_annual_price_change,
-          input_html: { data: { form_reset_target: "input" } }
-      end
-    end
-
-    f.inputs t(".billing"), icon: "banknotes" do
-      f.input :billing_year_division,
-        as: :select,
-        collection: billing_year_divisions_collection,
-        prompt: true,
-        hint: f.object.renewed?
-      f.input :baskets_annual_price_change
-      if BasketComplement.kept.any?
-        f.input :basket_complements_annual_price_change
-      end
-    end
-
     h3 t(".config")
     if resource.new_record?
       para t(".membership_configuration_text"), class: "description is-loose"
@@ -804,7 +776,7 @@ ActiveAdmin.register Membership do
             t(".alternate_depot_summary")
           end
           div do
-            para t("formtastic.hints.membership.alternate_depot_text_html").html_safe, class: "text-sm is-muted description is-tight"
+            para t("formtastic.hints.membership.alternate_depot_text_html").html_safe, class: "text-sm is-muted description"
             ol "data-controller" => "form-reset" do
               f.input :alternate_depot,
                 collection: admin_depots_collection,
@@ -867,6 +839,69 @@ ActiveAdmin.register Membership do
         end
       end
     end
+
+    if feature?("activity")
+      preview = activity_participations_preview_payload(f.object)
+      f.inputs activities_human_name, icon: "handshake",
+        "data-controller" => "form-reset form-activity-participations",
+        "data-form-activity-participations-url-value" => activity_participations_preview_memberships_path do
+        div class: "panel-actions" do
+          handbook_icon_link("activity")
+        end
+
+        div class: "activity-participations-formula" do
+          f.input :activity_participations_demanded_annually,
+            label: t(".activity_participations_demanded_annually"),
+            hint: activity_participations_demanded_formula_hint,
+            wrapper_html: { class: "activity-participations-annually" },
+            input_html: {
+              value: activity_participations_annually_form_value(
+                f.object.activity_participations_demanded_annually,
+                preview[:default_annually]),
+              placeholder: preview[:default_annually],
+              data: {
+                "1p_ignore": true,
+                form_activity_participations_target: "annually",
+                action: "form-reset#reset"
+              }
+            }
+          text_node icon("move-right", class: "activity-participations-formula-arrow")
+          text_node activity_participations_demanded_preview(preview[:demanded])
+        end
+        f.input :activity_participations_annual_price_change,
+          input_html: {
+            value: activity_participations_price_change_form_value(f.object) || "",
+            placeholder: preview[:default_price_change],
+            data: {
+              form_reset_target: "input",
+              form_activity_participations_target: "priceChange"
+            }
+          }
+        turbo_frame(
+          id: "membership-activity-participations",
+          class: "is-hidden",
+          "data-form-activity-participations-target" => "frame") do
+          div(
+            "data-form-activity-participations-target" => "payload",
+            "data-default-annually" => preview[:default_annually].to_s,
+            "data-demanded" => preview[:demanded].to_s,
+            "data-default-price-change" => preview[:default_price_change].to_s)
+        end
+      end
+    end
+
+    f.inputs t(".billing"), icon: "banknotes" do
+      f.input :billing_year_division,
+        as: :select,
+        collection: billing_year_divisions_collection,
+        prompt: true,
+        hint: f.object.renewed?
+      f.input :baskets_annual_price_change
+      if BasketComplement.kept.any?
+        f.input :basket_complements_annual_price_change
+      end
+    end
+
     f.actions
   end
 
@@ -917,6 +952,24 @@ ActiveAdmin.register Membership do
     authorize!(:stop, resource)
     resource.stop!
     redirect_to resource, notice: t("active_admin.flash.membership_stop_notice")
+  end
+
+  collection_action :activity_participations_preview, method: :get do
+    authorize! :read, Membership
+    membership = helpers.activity_participations_preview_membership(params[:membership])
+    payload = helpers.activity_participations_preview_payload(membership)
+    render html: helpers.turbo_frame_tag(
+      "membership-activity-participations",
+      class: "is-hidden",
+      data: { form_activity_participations_target: "frame" }) {
+        helpers.tag.div(
+          data: {
+            form_activity_participations_target: "payload",
+            default_annually: payload[:default_annually].to_s,
+            demanded: payload[:demanded].to_s,
+            default_price_change: payload[:default_price_change].to_s
+          })
+      }, layout: false
   end
 
   collection_action :clear_all_activity_participations_demanded, method: :post do

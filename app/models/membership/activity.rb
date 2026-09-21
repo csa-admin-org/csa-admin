@@ -36,7 +36,11 @@ module Membership::Activity
   end
 
   def activity_participations_annual_price_change=(price)
-    super price.presence && rounded_price(price.to_f)
+    if price.to_s.strip == ""
+      super(nil)
+    else
+      super(rounded_price(price.to_f))
+    end
   end
 
   def activity_participations_demanded_annually_by_default
@@ -84,14 +88,18 @@ module Membership::Activity
   private
 
   def set_activity_participations_demanded_annually_default
-    self.activity_participations_demanded_annually ||= activity_participations_demanded_annually_by_default
+    return unless activity_participations_demanded_annually.nil?
+
+    self.activity_participations_demanded_annually = activity_participations_demanded_annually_by_default
   end
 
   def set_activity_participations
     if Current.org.feature?("activity")
       self.activity_participations_demanded = ActivityParticipationDemanded.new(self).count
-      self.activity_participations_annual_price_change ||=
-        -1 * activity_participations_demanded_diff_from_default * Current.org.activity_price
+      if activity_participations_annual_price_change.nil?
+        self.activity_participations_annual_price_change =
+          -1 * activity_participations_demanded_diff_from_default * Current.org.activity_price
+      end
     else
       self.activity_participations_demanded = 0
       self.activity_participations_annual_price_change = 0

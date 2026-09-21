@@ -169,6 +169,52 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "p", text: "Validation will place this member on the waiting list."
     assert_select "tr[data-row='basket_size']"
+    assert_select ".activity-participations-formula-text", text: /0/
+  end
+
+  test "new member form renders the activity formula row" do
+    travel_to "2024-05-01"
+    login admins(:super)
+
+    get new_member_path
+
+    assert_response :success
+    annually = css_select("#member_waiting_activity_participations_demanded_annually").first
+    assert annually
+    assert_equal "", annually["value"].to_s
+    assert_equal "", annually["placeholder"].to_s
+    assert_select "#member_waiting_activity_participations_demanded[disabled]"
+    assert_select "#member_waiting_activity_participations_demanded_annually_input .inline-hints a[href='#{edit_organization_path(:activity, anchor: "activity_participations_demanded_logic")}']"
+  end
+
+  test "edit waiting member keeps annually 0 as an override" do
+    travel_to "2024-05-01"
+    login admins(:super)
+
+    get edit_member_path(members(:aria))
+
+    assert_response :success
+    assert_select "#member_waiting_activity_participations_demanded_annually[value='0']"
+    assert_select "#member_waiting_activity_participations_demanded_annually[placeholder='2']"
+    assert_select "#member_waiting_activity_participations_demanded[disabled]"
+  end
+
+  test "activity participations preview for waiting members uses the start date period" do
+    travel_to "2024-05-01"
+    login admins(:super)
+
+    get activity_participations_preview_members_path, params: {
+      member: {
+        waiting_basket_size_id: basket_sizes(:medium).id,
+        waiting_depot_id: depots(:farm).id,
+        waiting_delivery_cycle_id: delivery_cycles(:mondays).id,
+        waiting_membership_started_on: "2024-05-06",
+        waiting_activity_participations_demanded_annually: 4
+      }
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-activity-participations [data-default-annually='2'][data-demanded]"
   end
 
   test "show disables validation when direct membership has no upcoming delivery" do
