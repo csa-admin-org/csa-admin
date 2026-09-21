@@ -89,19 +89,19 @@ _:
       basket:
         basket_size_price:
           _en: Leave blank for the default price.
-          _fr: Laisser blanc pour le prix par défaut.
+          _fr: Laisser vide pour le prix par défaut.
           _de: Leer lassen für den Standardpreis.
           _it: Lasciare vuoto per il prezzo standard.
           _nl: Laat leeg voor de standaardprijs.
         delivery_cycle_price:
           _en: Leave blank for the default price (delivery cycle).
-          _fr: Laisser blanc pour le prix par défaut (cycle de livraison).
+          _fr: Laisser vide pour le prix par défaut (cycle de livraison).
           _de: Leer lassen für den Standardpreis (Lieferzyklus).
           _it: Lasciare vuoto per il prezzo standard (ciclo di consegna).
           _nl: Laat leeg voor de standaardprijs (leveringscyclus).
         depot_price:
           _en: Leave blank for the default price.
-          _fr: Laisser blanc pour le prix par défaut.
+          _fr: Laisser vide pour le prix par défaut.
           _de: Leer lassen für den Standardpreis.
           _it: Lasciare vuoto per il prezzo standard.
           _nl: Laat leeg voor de standaardprijs.
@@ -432,7 +432,7 @@ _:
       baskets_basket_complement:
         price:
           _en: Leave blank for the default price.
-          _fr: Laisser blanc pour le prix par défaut.
+          _fr: Laisser vide pour le prix par défaut.
           _de: Leer lassen für den Standardpreis.
           _it: Lasciare vuoto per il prezzo standard.
           _nl: Laat leeg voor de standaardprijs.
@@ -1147,7 +1147,7 @@ _:
           _nl: Leeg laten voor het standaardaantal van de mandgrootte en aanvullingen. Het getal rechts is het uiteindelijk geëiste aantal, na toepassing van de logica gedefinieerd in <a href='%{settings_url}'>de instellingen</a>, standaard evenredig aan het aantal manden.
         alternate_depot_price:
           _en: Leave blank for the default price.
-          _fr: Laisser blanc pour le prix par défaut.
+          _fr: Laisser vide pour le prix par défaut.
           _de: Leer lassen für den Standardpreis.
           _it: Lasciare vuoto per il prezzo predefinito.
           _nl: Laat leeg voor de standaardprijs.
@@ -1237,7 +1237,7 @@ _:
           _nl: Prijstoeslag toegevoegd aan elke levering.
         basket_size_price:
           _en: Leave blank for the default price.
-          _fr: Laisser blanc pour le prix par défaut.
+          _fr: Laisser vide pour le prix par défaut.
           _de: Leer lassen für den Standardpreis.
           _it: Lasciare vuoto il campo per il numero predefinito.
           _nl: Laat leeg voor de standaardprijs.
@@ -1285,19 +1285,19 @@ _:
           _nl: Het interval van het vernieuwde lidmaatschap wordt ook automatisch bijgewerkt.
         delivery_cycle_price:
           _en: Leave blank for the default price.
-          _fr: Laisser blanc pour le prix par défaut.
+          _fr: Laisser vide pour le prix par défaut.
           _de: Leer lassen für den Standardpreis.
           _it: Lasciare vuoto per il prezzo standard.
           _nl: Laat leeg voor de standaardprijs.
         depot_price:
           _en: Leave blank for the default price.
-          _fr: Laisser blanc pour le prix par défaut.
+          _fr: Laisser vide pour le prix par défaut.
           _de: Leer lassen für den Standardpreis.
           _it: Lasciare vuoto il campo per il numero predefinito.
           _nl: Laat leeg voor de standaardprijs.
         price:
           _en: Leave blank for the default price.
-          _fr: Laisser blanc pour le prix par défaut.
+          _fr: Laisser vide pour le prix par défaut.
           _de: Leer lassen für den Standardpreis.
           _it: Lasciare vuoto il campo per il numero predefinito.
           _nl: Laat leeg voor de standaardprijs.
@@ -2794,7 +2794,7 @@ _:
       shop/order_item:
         item_price:
           _en: Leave blank for the default price.
-          _fr: Laisser blanc pour le prix par défaut.
+          _fr: Laisser vide pour le prix par défaut.
           _de: Leer lassen für den Standardpreis.
           _it: Lasciare vuoto per il prezzo standard.
           _nl: Laat leeg voor de standaardprijs.

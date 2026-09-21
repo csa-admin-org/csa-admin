@@ -742,8 +742,9 @@ ActiveAdmin.register Membership do
           }
         if Depot.prices?
           f.input :depot_price,
+            hint: true,
             required: false,
-            input_html: { data: { form_reset_target: "input" } }
+            input_html: catalog_price_input_html(f.object.depot_price, f.object.depot&.price)
         end
       end
       ol "data-controller" => "form-reset", class: "form-group" do
@@ -757,7 +758,7 @@ ActiveAdmin.register Membership do
         if DeliveryCycle.prices? || f.object.delivery_cycle_price&.positive?
           f.input :delivery_cycle_price,
             required: false,
-            input_html: { data: { form_reset_target: "input" } }
+            input_html: catalog_price_input_html(f.object.delivery_cycle_price, f.object.delivery_cycle&.price)
         end
         if feature?("absence")
           f.input :absences_included_annually,
@@ -787,7 +788,7 @@ ActiveAdmin.register Membership do
               if Depot.prices?
                 f.input :alternate_depot_price,
                   required: false,
-                  input_html: { data: { form_reset_target: "input" } }
+                  input_html: catalog_price_input_html(f.object.alternate_depot_price, f.object.alternate_depot&.price)
               end
               f.input :alternate_delivery_cycle,
                 collection: admin_delivery_cycles_collection_by_visibility,
@@ -803,15 +804,17 @@ ActiveAdmin.register Membership do
     f.inputs [
       Basket.model_name.human,
       BasketComplement.kept.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
-    ].compact.to_sentence, icon: "shopping-bag", "data-controller" => "form-reset" do
-      f.input :basket_size,
-        collection: admin_basket_sizes_collection,
-        prompt: true,
-        input_html: { data: { action: "form-reset#reset" } }
-      f.input :basket_size_price,
-        hint: true,
-        required: false,
-        input_html: { data: { form_reset_target: "input" } }
+    ].compact.to_sentence, icon: "shopping-bag" do
+      ol "data-controller" => "form-reset" do
+        f.input :basket_size,
+          collection: admin_basket_sizes_collection,
+          prompt: true,
+          input_html: { data: { action: "form-reset#reset" } }
+        f.input :basket_size_price,
+          hint: true,
+          required: false,
+          input_html: catalog_price_input_html(f.object.basket_size_price, f.object.basket_size&.price)
+      end
       if f.object.fiscal_year_has_basket_size_price_percentage?
         f.input :apply_basket_size_price_percentage, hint: true
       end
@@ -829,7 +832,7 @@ ActiveAdmin.register Membership do
           ff.input :price,
             hint: true,
             required: false,
-            input_html: { data: { form_reset_target: "input" } }
+            input_html: catalog_price_input_html(ff.object.price, ff.object.basket_complement&.price)
           ff.input :quantity
           ff.input :delivery_cycle,
             as: :select,

@@ -33,7 +33,8 @@ module BasketsHelper
       [ complement.name, complement.id,
         disabled: complement.current_and_future_delivery_ids.exclude?(basket.delivery_id),
         data: {
-          delivery_ids: complement.current_and_future_delivery_ids.join(",")
+          delivery_ids: complement.current_and_future_delivery_ids.join(","),
+          price: catalog_price_placeholder(complement.price)
         } ]
     end
   end

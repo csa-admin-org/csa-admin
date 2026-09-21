@@ -97,12 +97,13 @@ ActiveAdmin.register Basket do
         f.inputs Delivery.model_name.human(count: 1), icon: "calendar", "data-controller" => "form-reset" do
           f.input :depot,
             prompt: true,
+            collection: admin_depots_collection,
             input_html: { data: { action: "form-reset#reset" } }
           if Depot.prices?
             f.input :depot_price,
               hint: true,
               required: false,
-              input_html: { data: { form_reset_target: "input" } }
+              input_html: catalog_price_input_html(f.object.depot_price, f.object.depot&.price)
           end
           if deliveries_collection.many?
             f.input :delivery,
@@ -116,15 +117,17 @@ ActiveAdmin.register Basket do
         f.inputs [
           Basket.model_name.human,
           BasketComplement.kept.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
-        ].compact.to_sentence, icon: "shopping-bag", "data-controller" => "form-reset" do
-          f.input :basket_size,
-            prompt: true,
-            collection: admin_basket_sizes_collection,
-            input_html: { data: { action: "form-reset#reset" } }
-          f.input :basket_size_price,
-            hint: true,
-            required: false,
-            input_html: { data: { form_reset_target: "input" } }
+        ].compact.to_sentence, icon: "shopping-bag" do
+          ol "data-controller" => "form-reset" do
+            f.input :basket_size,
+              prompt: true,
+              collection: admin_basket_sizes_collection,
+              input_html: { data: { action: "form-reset#reset" } }
+            f.input :basket_size_price,
+              hint: true,
+              required: false,
+              input_html: catalog_basket_size_price_input_html(f.object)
+          end
           if basket_price_extra_for?(f.object)
             f.input :price_extra, required: true, label: Current.org.basket_price_extra_title
           end
@@ -143,7 +146,7 @@ ActiveAdmin.register Basket do
               ff.input :price,
                 hint: true,
                 required: false,
-                input_html: { data: { form_reset_target: "input" } }
+                input_html: catalog_price_input_html(ff.object.price, ff.object.basket_complement&.price)
               ff.input :quantity
             end
           end

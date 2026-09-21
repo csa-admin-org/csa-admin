@@ -109,6 +109,40 @@ module FormsHelper
     }.sort_by { |(name, code)| ActiveSupport::Inflector.transliterate name }
   end
 
+  def catalog_price_placeholder(price)
+    return if price.nil?
+
+    decimal = price.to_d
+    if decimal == decimal.to_i
+      decimal.to_i.to_s
+    else
+      decimal.to_s("F").sub(/0+\z/, "").sub(/\.\z/, "")
+    end
+  end
+
+  def catalog_price_form_value(current, default)
+    return if current.nil?
+    return if !default.nil? && current.to_d == default.to_d
+
+    current
+  end
+
+  def catalog_price_input_html(current, default)
+    {
+      value: catalog_price_form_value(current, default) || "",
+      placeholder: catalog_price_placeholder(default),
+      data: { form_reset_target: "input", form_reset_placeholder: "price" }
+    }
+  end
+
+  def catalog_basket_size_price_input_html(basket)
+    if basket.delivery&.basket_size_price_percentage?
+      { data: { form_reset_target: "input" } }
+    else
+      catalog_price_input_html(basket.basket_size_price, basket.basket_size&.price)
+    end
+  end
+
   def form_modes_collection
     Organization::INPUT_FORM_MODES.map { |mode| [ t("form_modes.#{mode}"), mode ] }
   end

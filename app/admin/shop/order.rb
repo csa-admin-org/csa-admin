@@ -221,7 +221,7 @@ ActiveAdmin.register Shop::Order do
         ff.input :item_price,
           hint: true,
           required: false,
-          input_html: { data: { form_reset_target: "input" } }
+          input_html: catalog_price_input_html(ff.object.item_price, ff.object.product_variant&.price)
       end
       f.semantic_errors :items
     end

@@ -6,7 +6,17 @@ export default class extends Controller {
     return ["input"]
   }
 
-  reset() {
+  reset(event) {
+    const option = event?.currentTarget?.selectedOptions?.[0]
+    if (option && "price" in option.dataset) {
+      const price = option.dataset.price
+      this.inputTargets.forEach((input) => {
+        if (input.dataset.formResetPlaceholder === "price") {
+          input.placeholder = price
+        }
+      })
+    }
+
     removeValues(this.inputTargets)
     addClass(this.inputTargets, "animate-highlight")
     setTimeout(() => {

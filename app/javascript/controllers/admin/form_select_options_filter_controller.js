@@ -29,6 +29,7 @@ export default class extends Controller {
       if (!select.value) {
         Array.from(select.options).find((o) => !o.disabled).selected = true
       }
+      select.dispatchEvent(new Event("change", { bubbles: true }))
     })
   }
 }

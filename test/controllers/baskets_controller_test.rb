@@ -19,6 +19,22 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
     @basket.reload
   end
 
+  test "edit blanks catalog prices that match the default" do
+    basket = memberships(:jane).baskets.first
+
+    get edit_basket_path(basket)
+
+    assert_response :success
+    size_price = css_select("#basket_basket_size_price").first
+    assert_equal "", size_price["value"].to_s
+    assert_equal "30", size_price["placeholder"]
+    depot_price = css_select("#basket_depot_price").first
+    assert_equal "", depot_price["value"].to_s
+    assert_equal "4", depot_price["placeholder"]
+    assert_select "#basket_basket_size_id option[value='#{basket.basket_size_id}'][data-price='30']"
+    assert_select "#basket_depot_id option[value='#{basket.depot_id}'][data-price='4']"
+  end
+
   test "membership links to included absent basket edit form" do
     get membership_path(@membership)
 

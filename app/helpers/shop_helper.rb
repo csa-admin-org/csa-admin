@@ -95,7 +95,11 @@ module ShopHelper
         [
           variant.name,
           variant.id,
-          data: { product_id: variant.product_id, disabled: !!variant.out_of_stock? },
+          data: {
+            product_id: variant.product_id,
+            disabled: !!variant.out_of_stock?,
+            price: catalog_price_placeholder(variant.price)
+          },
           disabled: (variant.out_of_stock? || product.id != product_id)
         ]
       end

@@ -176,6 +176,42 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_select "#membership_activity_participations_annual_price_change_input .inline-hints", text: /Enter 0 to disable/
   end
 
+  test "edit blanks catalog prices that match the default" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert_response :success
+    size_price = css_select("#membership_basket_size_price").first
+    assert_equal "", size_price["value"].to_s
+    assert_equal "30", size_price["placeholder"]
+    depot_price = css_select("#membership_depot_price").first
+    assert_equal "", depot_price["value"].to_s
+    assert_equal "4", depot_price["placeholder"]
+    assert_select "#membership_basket_size_id option[value='#{membership.basket_size_id}'][data-price='30']"
+    assert_select "#membership_depot_id option[value='#{membership.depot_id}'][data-price='4']"
+    assert_select "#membership_depot_price_input .inline-hints", text: /Leave blank for the default price/
+  end
+
+  test "edit keeps a catalog price override including 0" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    membership.update!(basket_size_price: 32, depot_price: 0)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert_response :success
+    size_price = css_select("#membership_basket_size_price").first
+    assert_equal "32.0", size_price["value"]
+    assert_equal "30", size_price["placeholder"]
+    depot_price = css_select("#membership_depot_price").first
+    assert_equal "0.0", depot_price["value"]
+    assert_equal "4", depot_price["placeholder"]
+  end
+
   test "new membership fills annually placeholder when basket sizes share the same count" do
     travel_to "2024-05-01"
     basket_sizes(:large).update!(activity_participations_demanded_annually: 2)

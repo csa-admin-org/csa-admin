@@ -112,8 +112,8 @@ module AdminHelper
       option_for_select(all_records, options)
     else
       [
-        [ t("active_admin.scopes.visible"), option_for_select(visible_records) ],
-        [ t("active_admin.scopes.hidden"), option_for_select(hidden_records) ]
+        [ t("active_admin.scopes.visible"), option_for_select(visible_records, options) ],
+        [ t("active_admin.scopes.hidden"), option_for_select(hidden_records, options) ]
       ]
     end
   end
@@ -124,12 +124,25 @@ module AdminHelper
     cycles.map { |cycle|
       [
         "#{cycle.name} (#{t('helpers.deliveries_count', count: cycle.deliveries_count)})",
-        cycle.id
+        cycle.id,
+        { data: { price: catalog_price_placeholder(cycle.price) } }
       ]
     }
   end
 
   def option_for_select(records, options = nil)
-    records.map { |a| [ a.display_name, a.id, options&.call(a) ].compact }
+    records.map { |record|
+      [ record.display_name, record.id, option_html_options(record, options&.call(record)) ].compact
+    }
+  end
+
+  def option_html_options(record, extra = nil)
+    html = extra ? extra.dup : {}
+    if record.respond_to?(:price)
+      data = (html[:data] || {}).dup
+      data[:price] = catalog_price_placeholder(record.price)
+      html[:data] = data
+    end
+    html.presence
   end
 end

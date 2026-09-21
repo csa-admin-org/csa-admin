@@ -80,4 +80,18 @@ class FormsHelperTest < ActionView::TestCase
     assert_includes srcdoc, "<p>hi</p>"
     assert_includes srcdoc, ApplicationHelper::MAIL_PREVIEW_HEIGHT_MESSAGE
   end
+
+  test "catalog_price_placeholder drops trailing zeros" do
+    assert_equal "20", catalog_price_placeholder(20.0)
+    assert_equal "20.5", catalog_price_placeholder(20.5)
+    assert_nil catalog_price_placeholder(nil)
+  end
+
+  test "catalog_price_form_value blanks a matching default including 0" do
+    assert_nil catalog_price_form_value(20, 20.0)
+    assert_nil catalog_price_form_value(0, 0)
+    assert_equal 0, catalog_price_form_value(0, 4)
+    assert_equal 32, catalog_price_form_value(32, 30)
+    assert_nil catalog_price_form_value(nil, 20)
+  end
 end
