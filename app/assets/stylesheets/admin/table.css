@@ -730,7 +730,8 @@
   }
 
   .sortable-handle {
-    display: flex;
+    display: inline-flex;
+    flex-shrink: 0;
     cursor: grab;
     color: var(--color-gray-400);
 
@@ -741,6 +742,11 @@
     &:where(.dark, .dark *) {
       color: var(--color-gray-500);
     }
+  }
+
+  :where(.data-table tbody > tr > td) .sortable-handle + a {
+    min-width: 0;
+    white-space: normal;
   }
 
   tbody[data-controller="sortable"] tr {

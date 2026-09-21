@@ -82,6 +82,6 @@ class DepotsControllerTest < ActionDispatch::IntegrationTest
     get depot_path(depots(:home))
 
     assert_response :success
-    assert_select "tbody[data-controller='sortable'] .sortable-handle"
+    assert_select "tbody[data-controller='sortable'] .cluster.is-nowrap > .sortable-handle"
   end
 end

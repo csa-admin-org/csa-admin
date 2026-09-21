@@ -37,7 +37,7 @@ if counts.present?
   table_for(counts.all, **attrs) do
     column(Depot.model_name.human, class: "col-name") { |bc|
       if authorized?(:update, Depot)
-        span class: "cluster is-start is-snug" do
+        span class: "cluster is-start is-snug is-nowrap" do
           span class: "sortable-handle" do
             icon "grip-vertical", class: "icon-4"
           end

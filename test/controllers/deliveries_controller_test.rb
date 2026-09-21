@@ -69,6 +69,6 @@ class DeliveriesControllerTest < ActionDispatch::IntegrationTest
     get delivery_path(deliveries(:monday_1))
 
     assert_response :success
-    assert_select "tbody[data-controller='sortable'] .sortable-handle"
+    assert_select "tbody[data-controller='sortable'] .cluster.is-nowrap > .sortable-handle"
   end
 end
