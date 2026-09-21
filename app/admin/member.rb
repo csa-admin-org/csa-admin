@@ -753,7 +753,7 @@ ActiveAdmin.register Member do
         if feature?("activity")
           div class: "activity-participations-formula" do
             f.input :waiting_activity_participations_demanded_annually,
-              label: t("active_admin.resource.form.activity_participations_demanded_annually"),
+              label: "#{activities_human_name} (#{t(".full_year")})",
               min: 0,
               hint: activity_participations_demanded_formula_hint,
               required: false,

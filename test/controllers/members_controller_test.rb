@@ -184,6 +184,7 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "", annually["value"].to_s
     assert_equal "", annually["placeholder"].to_s
     assert_select "#member_waiting_activity_participations_demanded[disabled]"
+    assert_select "label[for=member_waiting_activity_participations_demanded_annually]", text: "½ Days (Full year)"
     assert_select "#member_waiting_activity_participations_demanded_annually_input .inline-hints a[href='#{edit_organization_path(:activity, anchor: "activity_participations_demanded_logic")}']"
   end
 
