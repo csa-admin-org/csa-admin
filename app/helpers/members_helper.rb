@@ -195,11 +195,21 @@ module MembersHelper
     if only_price_per_delivery
       details << t("helpers.price_per_delivery", price: short_price(bc.price))
     else
-      counts = depots_delivery_cycles.map { |dc| dc.billable_deliveries_count_for_basket_complement(bc) }.uniq
-      details << "#{deliveries_based_price_info(bc.price, counts)} (#{short_price(bc.price)} x #{deliveries_count(counts)})".html_safe
+      details << basket_complement_delivery_count_detail(bc, with_tooltip: !force_default)
     end
     details << activities_count(bc.activity_participations_demanded_annually)
     details.compact.join(", ").html_safe
+  end
+
+  def basket_complement_delivery_count_detail(bc, with_tooltip: true)
+    cycles = depots_delivery_cycles
+    counts = cycles.map { |dc| dc.billable_deliveries_count_for_basket_complement(bc) }.uniq
+    price_detail = "#{deliveries_based_price_info(bc.price, counts)} (#{short_price(bc.price)} x #{deliveries_count(counts)})".html_safe
+    return price_detail unless with_tooltip && cycles.any? { |dc|
+      dc.absences_included_count_for_basket_complement(bc).positive?
+    }
+
+    content_tag(:span, price_detail, title: t("helpers.basket_complement_absences_included"))
   end
 
   def basket_complement_label(bc, only_price_per_delivery: false)

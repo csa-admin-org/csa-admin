@@ -146,6 +146,21 @@ class MembersHelperTest < ActionView::TestCase
     assert_equal "~12.35", short_price(12.345)
   end
 
+  test "basket_complement_details tooltips included-absence prorata" do
+    travel_to "2024-01-01"
+    cycle = delivery_cycles(:mondays)
+    cycle.update!(absences_included_annually: 2)
+    complement = basket_complements(:bread)
+    complement.delivery_ids = cycle.current_and_future_delivery_ids.take(5)
+    @depots_delivery_cycles = [ cycle ]
+
+    html = basket_complement_details(complement).to_s
+    hint = I18n.t("helpers.basket_complement_absences_included")
+
+    assert_includes html, "title=\"#{hint}\""
+    assert_not_includes basket_complement_details(complement, force_default: true).to_s, hint
+  end
+
   test "link_with_session renders unavailable actor as missing data" do
     html = link_with_session(Unavailable.instance, nil).to_s
 

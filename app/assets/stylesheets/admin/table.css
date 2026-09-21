@@ -729,8 +729,18 @@
     }
   }
 
-  tbody[data-controller="sortable"] {
-    cursor: move;
+  .sortable-handle {
+    display: flex;
+    cursor: grab;
+    color: var(--color-gray-400);
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    &:where(.dark, .dark *) {
+      color: var(--color-gray-500);
+    }
   }
 
   tbody[data-controller="sortable"] tr {

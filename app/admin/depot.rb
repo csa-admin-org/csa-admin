@@ -161,6 +161,11 @@ ActiveAdmin.register Depot do
             table_for(baskets, **attrs) do
               column Member.model_name.human, ->(b) {
                 div class: "cluster is-start is-snug" do
+                  if attrs[:tbody_html]
+                    span class: "sortable-handle" do
+                      icon "grip-vertical", class: "icon-4"
+                    end
+                  end
                   a b.member.name, href: member_path(b.member)
                   if overlay = overlays[b.member.id]
                     tooltip(

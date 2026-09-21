@@ -137,12 +137,17 @@ ActiveAdmin.register Membership do
           div number_line(t(".invoices_remaining"), cur(missing, unit: false), bold: false)
           div number_line(t(".total"), cur(total), border_top: true)
         end
-        if authorized?(:future_billing, Membership) && missing.positive? && all.minimum(:started_on).future?
+        if authorized?(:future_billing, Membership) && missing.positive?
+          future_only = all.minimum(:started_on).future?
           latest_created_at = Invoice.membership.maximum(:created_at)
-          if !latest_created_at || latest_created_at < 5.seconds.ago
-            div do
-              panel_button t("active_admin.resource.show.future_billing"), future_billing_all_memberships_path,
+          throttled = latest_created_at && latest_created_at >= 5.seconds.ago
+          unless future_only && throttled
+            div class: "cluster is-center" do
+              panel_button t("active_admin.resource.show.future_billing"),
+                future_only ? future_billing_all_memberships_path : nil,
                 icon: "banknotes",
+                disabled: !future_only,
+                disabled_tooltip: t(".future_billing_future_scope_required"),
                 params: { ids: all.ids },
                 form: { class: "cluster is-center", data: { disable_with_value: t(".invoicing") } },
                 data: { confirm: t(".future_billing#{"_with_annual_fee" if feature?("annual_fee")}_confirm") }
@@ -806,7 +811,8 @@ ActiveAdmin.register Membership do
             t(".alternate_depot_summary")
           end
           div do
-            para t("formtastic.hints.membership.alternate_depot_text_html").html_safe, class: "text-sm is-muted description"
+            para t("formtastic.hints.membership.alternate_depot_text_html",
+              settings_url: membership_updates_settings_url).html_safe, class: "text-sm is-muted description"
             ol "data-controller" => "form-reset" do
               f.input :alternate_depot,
                 collection: admin_depots_collection,

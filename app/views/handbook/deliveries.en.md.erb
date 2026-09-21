@@ -96,6 +96,7 @@ A few important points:
 - When a membership is **renewed**, the alternate depot configuration is automatically carried over.
 - If a member changes their **main depot** from the member area, the alternate depot configuration is preserved.
 - If members may change depot from their account, avoid also linking the every-other-week stop to the main weekly cycle under [depot availability](#depot-availability). Otherwise they can pick it on off-weeks. Prefer linking that depot only to the cycle that matches the weeks it is served.
+- Alternate depot is a recurring pattern. For a one-off pickup at another depot, enable member depot modification instead.
 
 ## Individual <%= Basket.model_name.human.downcase %> modifications {#basket-overrides}
 
@@ -121,7 +122,7 @@ A few important points:
 
 ## Delivery sheets (PDFs) {#delivery-sheets}
 
-For each delivery, CSA Admin generates PDF sheets that you can print and use at your depots. These sheets are available from each [delivery page](/deliveries) or from [the dashboard](/dashboard).
+For each delivery, CSA Admin generates PDF sheets that you can print and use at your depots. These sheets are available from each [delivery page](/deliveries) or from [the dashboard](/dashboard). Depot *row* order on those lists is drag-and-drop (grip handle); member order on home-delivery sheets is drag-and-drop in the depot settings.
 
 ### Sheet modes {#sheet-modes}
 

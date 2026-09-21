@@ -698,6 +698,44 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#membership-basket-price-extra [data-billed-extra='#{billed_extra(0)}']"
   end
 
+  test "index disables invoice all in advance outside the Future scope" do
+    travel_to "2024-05-01"
+    login admins(:super)
+
+    get memberships_path, params: { q: { during_year: 2024 } }
+
+    assert_response :success
+    assert_select ".admin-side-panel form[action='#{future_billing_all_memberships_path}']", false
+    assert_select ".admin-side-panel button.is-disabled", text: /Invoice all in advance/
+    assert_select ".admin-side-panel .tooltip-body",
+      text: I18n.t("active_admin.shared.sidebar_section.future_billing_future_scope_required")
+  end
+
+  test "index enables invoice all in advance on the Future scope" do
+    travel_to "2024-05-01"
+    Invoice.update_all(created_at: 1.minute.ago)
+    login admins(:super)
+
+    get memberships_path, params: { q: { during_year: 2025 }, scope: :future }
+
+    assert_response :success
+    assert_select ".admin-side-panel form[action='#{future_billing_all_memberships_path}']"
+    assert_select ".admin-side-panel button.is-disabled", false
+  end
+
+  test "edit explains alternate depot is a recurring pattern" do
+    travel_to "2024-05-01"
+    login admins(:super)
+
+    get edit_membership_path(memberships(:jane))
+
+    assert_response :success
+    assert_select ".description",
+      text: /Recurring pattern only/
+    assert_select ".description a[href='#{edit_organization_path(:membership_updates)}']"
+    assert_select ".handbook-button a[href='#{handbook_page_path(:deliveries, anchor: "alternate-depot")}']"
+  end
+
   private
 
   def preview_membership_params(membership)

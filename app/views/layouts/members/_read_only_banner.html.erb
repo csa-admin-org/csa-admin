@@ -2,5 +2,14 @@
   <div class="member-read-only-banner">
     <%= icon "triangle-alert", class: "member-read-only-icon" %>
     <span><%= t("members.read_only_sessions.alert") %></span>
+
+    <%= button_to members_logout_path,
+      method: :delete,
+      class: "member-logout",
+      form_class: "member-read-only-logout-form",
+      title: t("layouts.members.header.logout"),
+      aria: { label: t("layouts.members.header.logout") } do %>
+      <%= icon "log-out", class: "member-logout-icon" %>
+    <% end %>
   </div>
 <% end %>

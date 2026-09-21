@@ -563,6 +563,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
     border-bottom: 1px solid var(--color-amber-400);
     background-color: var(--color-amber-100);
     padding: 0.5rem;
@@ -582,6 +584,15 @@
     height: 1.25rem;
     margin-inline-end: 0.5rem;
     flex-shrink: 0;
+  }
+
+  .member-read-only-logout-form {
+    display: flex;
+  }
+
+  .member-read-only-banner .member-logout-icon {
+    margin-inline: 0;
+    color: inherit;
   }
 
   .print-hidden {

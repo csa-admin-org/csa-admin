@@ -61,4 +61,14 @@ class DeliveriesControllerTest < ActionDispatch::IntegrationTest
     assert_select "fieldset#bulk_dates[disabled]"
     assert_select "input#delivery_date[value='2024-09-18']"
   end
+
+  test "show depot rows include a sortable grip" do
+    travel_to "2024-04-01"
+    login admins(:super)
+
+    get delivery_path(deliveries(:monday_1))
+
+    assert_response :success
+    assert_select "tbody[data-controller='sortable'] .sortable-handle"
+  end
 end

@@ -35,7 +35,10 @@ class Members::AccountsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "form[action='#{members_account_path}']"
-    assert_select ".member-read-only-banner", text: I18n.t("members.read_only_sessions.alert")
+    assert_select ".member-read-only-banner span",
+      text: I18n.t("members.read_only_sessions.alert")
+    assert_select ".member-read-only-banner form[action='#{members_logout_path}'] button[aria-label='#{I18n.t("layouts.members.header.logout")}']"
+    assert_select ".member-read-only-banner .member-logout-label", false
   end
 
   test "update is blocked for an admin-originated session" do

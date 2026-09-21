@@ -15,6 +15,18 @@ class AdminBatchActionsControllerTest < ActionDispatch::IntegrationTest
     get "/sessions/#{session.generate_token_for(:redeem)}"
   end
 
+  test "batch actions dropdown is disabled with a select-rows placeholder" do
+    travel_to "2024-01-01"
+    login admins(:super)
+
+    get deliveries_path
+
+    assert_response :success
+    assert_select ".batch-actions-dropdown-toggle[disabled]"
+    assert_select ".batch-actions-dropdown-placeholder",
+      text: I18n.t("active_admin.batch_actions.disabled_placeholder")
+  end
+
   test "read-only admin cannot open shop on deliveries" do
     travel_to "2024-01-01"
     org(features: [ :shop ])

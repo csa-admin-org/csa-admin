@@ -300,12 +300,19 @@ ActiveAdmin.register Shop::Order do
     redirect_to resource_path, notice: t(".flash.notice")
   end
 
-  action_item :delivery_pdf, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
+  action_item :delivery_pdf, only: :index do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
-    depot_id = params.dig(:q, :depot_id_eq)
-    action_link t(".delivery_orders"), delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf),
-      icon: "file-down",
-      target: "_blank"
+    if delivery_gid.present?
+      depot_id = params.dig(:q, :depot_id_eq)
+      action_link t(".delivery_orders"), delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf),
+        icon: "file-down",
+        target: "_blank"
+    else
+      action_button t(".delivery_orders"),
+        disabled: true,
+        disabled_tooltip: t(".delivery_orders_filter_required"),
+        icon: "file-down"
+    end
   end
 
   action_item :order_items_xlsx, only: :index do

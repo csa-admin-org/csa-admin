@@ -65,6 +65,12 @@ _:
         _de: "%{count} Arbeitsstunden"
         _it: "%{count} ore di lavoro"
         _nl: "%{count} werkuren"
+    basket_complement_absences_included:
+      _en: Count after included absences (prorated from the cycle).
+      _fr: Nombre après absences incluses (au prorata du cycle).
+      _de: Anzahl nach enthaltenen Abwesenheiten (anteilig zum Zyklus).
+      _it: Conteggio dopo le assenze incluse (in proporzione al ciclo).
+      _nl: Aantal na inbegrepen afwezigheden (naar rato van de cyclus).
     basket_override:
       by_admin:
         _en: by %{name}, on %{date}

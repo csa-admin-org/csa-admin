@@ -14,7 +14,8 @@
       aria-expanded="false"
       disabled
     >
-      <%= I18n.t("active_admin.batch_actions.button_label") %>
+      <span class="batch-actions-dropdown-label"><%= I18n.t("active_admin.batch_actions.button_label") %></span>
+      <span class="batch-actions-dropdown-placeholder"><%= I18n.t("active_admin.batch_actions.disabled_placeholder") %></span>
       <%= icon "chevron-down", class: "icon-3" %>
     </button>
 

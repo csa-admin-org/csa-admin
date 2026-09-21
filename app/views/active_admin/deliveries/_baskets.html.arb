@@ -35,7 +35,18 @@ end
 
 if counts.present?
   table_for(counts.all, **attrs) do
-    column(Depot.model_name.human, class: "col-name") { |bc| link_to bc.depot.name, depot_path(bc.depot, delivery_id: delivery.id) }
+    column(Depot.model_name.human, class: "col-name") { |bc|
+      if authorized?(:update, Depot)
+        span class: "cluster is-start is-snug" do
+          span class: "sortable-handle" do
+            icon "grip-vertical", class: "icon-4"
+          end
+          a bc.depot.name, href: depot_path(bc.depot, delivery_id: delivery.id)
+        end
+      else
+        a bc.depot.name, href: depot_path(bc.depot, delivery_id: delivery.id)
+      end
+    }
     if show_shop_orders
       column link_to(t("shop.title"), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: "text-right"
     end

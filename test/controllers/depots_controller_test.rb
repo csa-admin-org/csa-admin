@@ -74,4 +74,14 @@ class DepotsControllerTest < ActionDispatch::IntegrationTest
     assert_select "input#depot_invoice_name_en[placeholder=?]",
       "#{Depot.model_name.human}: #{depot.public_name}"
   end
+
+  test "home delivery show lists members with a sortable grip" do
+    travel_to "2024-04-01"
+    login admins(:super)
+
+    get depot_path(depots(:home))
+
+    assert_response :success
+    assert_select "tbody[data-controller='sortable'] .sortable-handle"
+  end
 end

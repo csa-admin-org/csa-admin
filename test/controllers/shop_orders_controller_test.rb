@@ -35,6 +35,33 @@ class ShopOrdersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "5", price["placeholder"]
   end
 
+  test "index disables delivery PDF until a delivery is filtered" do
+    travel_to "2024-01-01"
+    login admins(:super)
+
+    get shop_orders_path
+
+    assert_response :success
+    assert_select "a[href*='#{delivery_shop_orders_path(format: :pdf)}']", false
+    assert_select ".action-item-button.is-disabled"
+    assert_select ".tooltip-body",
+      text: I18n.t("active_admin.shared.action_items.delivery_orders_filter_required")
+  end
+
+  test "index enables delivery PDF when filtered by delivery" do
+    travel_to "2024-01-01"
+    login admins(:super)
+    delivery = deliveries(:monday_1)
+
+    get shop_orders_path, params: { q: { _delivery_gid_eq: delivery.gid } }
+
+    assert_response :success
+    assert_select "a.action-item-button[href*='.pdf']",
+      text: I18n.t("active_admin.shared.action_items.delivery_orders")
+    assert_select ".action-item-button.is-disabled",
+      text: I18n.t("active_admin.shared.action_items.delivery_orders"), count: 0
+  end
+
   private
 
   def login(admin)

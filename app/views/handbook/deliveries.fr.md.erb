@@ -96,6 +96,7 @@ Quelques points importants:
 - Lors du **renouvellement** d'un abonnement, la configuration du dépôt alternatif est automatiquement reprise.
 - Si un membre change son **dépôt principal** depuis son espace membre, la configuration du dépôt alternatif est préservée.
 - Si les membres peuvent changer de dépôt depuis leur compte, évitez aussi de lier le point desservi une semaine sur deux au cycle hebdomadaire principal sous [disponibilité par dépôt](#depot-availability). Sinon ils peuvent le choisir les semaines où il n'est pas desservi. Préférez lier ce dépôt uniquement au cycle qui correspond aux semaines où il est desservi.
+- Le dépôt alternatif est un motif récurrent. Pour un retrait ponctuel dans un autre dépôt, activez plutôt la modification du dépôt par le membre.
 
 ## Modifications individuelles des <%= Basket.model_name.human(count: 2).downcase %> {#basket-overrides}
 
@@ -121,7 +122,7 @@ Quelques points importants:
 
 ## Fiches de livraison (PDF) {#delivery-sheets}
 
-Pour chaque livraison, CSA Admin génère des fiches PDF que vous pouvez imprimer et utiliser dans vos dépôts. Ces fiches sont disponibles depuis chaque [page de livraison](/deliveries) ou depuis [le tableau de bord](/dashboard).
+Pour chaque livraison, CSA Admin génère des fiches PDF que vous pouvez imprimer et utiliser dans vos dépôts. Ces fiches sont disponibles depuis chaque [page de livraison](/deliveries) ou depuis [le tableau de bord](/dashboard). L'ordre des *lignes* de dépôts sur ces listes se change par glisser-déposer (poignée); l'ordre des membres sur les fiches à domicile se change par glisser-déposer dans les paramètres du dépôt.
 
 ### Modes de fiches {#sheet-modes}
 

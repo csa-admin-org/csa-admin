@@ -180,6 +180,12 @@ _:
         _de: Sollen diese %{plural_model} wirklich gelöscht werden?
         _it: Siete sicuri di voler eliminare %{plural_model} ?
         _nl: Moeten deze %{plural_model} echt worden verwijderd?
+      disabled_placeholder:
+        _en: Select rows
+        _fr: Sélectionnez des lignes
+        _de: Zeilen auswählen
+        _it: Selezionate delle righe
+        _nl: Rijen selecteren
       labels:
         close_shop:
           _en: Close shop for
@@ -4745,6 +4751,12 @@ _:
           _de: Lieferscheine
           _it: Bolle di consegna
           _nl: Leveringsbonnen
+        delivery_orders_filter_required:
+          _en: Filter by delivery to download the PDF.
+          _fr: Filtrez par livraison pour télécharger le PDF.
+          _de: Nach Lieferung filtern, um das PDF herunterzuladen.
+          _it: Filtrate per consegna per scaricare il PDF.
+          _nl: Filteren op levering om de PDF te downloaden.
         discard_confirm:
           _en: 'This member will be marked for deletion: their page will no longer be accessible and their personal data will be anonymized after %{delay} days. See the "Right to be Forgotten" handbook page for more details. Continue?'
           _fr: 'Ce membre sera marqué pour suppression: sa page ne sera plus accessible et ses données personnelles seront anonymisées après %{delay} jours. Consultez la page " Droit à l''oubli " du manuel pour plus de détails. Continuer?'
@@ -5011,6 +5023,12 @@ _:
           _de: Wirklich fortfahren? Die Abonnements werden in voller Höhe berechnet.
           _it: Siete sicuri? Gli abbonamenti saranno fatturati per intero.
           _nl: Echt doorgaan? De lidmaatschappen worden volledig gefactureerd.
+        future_billing_future_scope_required:
+          _en: Only for future memberships. Switch to the Future scope.
+          _fr: Uniquement pour les abonnements futurs. Passez au filtre Futurs.
+          _de: Nur für zukünftige Abonnements. Zum Filter Zukunft wechseln.
+          _it: Solo per gli abbonamenti futuri. Passate al filtro Futuro.
+          _nl: Alleen voor toekomstige lidmaatschappen. Naar het filter Toekomstig gaan.
         future_billing_with_annual_fee_confirm:
           _en: Are you sure? The memberships will be billed in full, including their annual fee.
           _fr: Êtes-vous sûr? Les abonnements seront facturés dans leur intégralité, y compris leur cotisation annuelle.

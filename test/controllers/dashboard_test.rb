@@ -158,4 +158,14 @@ class DashboardTest < ActionDispatch::IntegrationTest
     assert_select ".calendar"
     assert_select ".calendar-count[title='#{I18n.t("activities.halfday_work.other")}']", count: 0
   end
+
+  test "next delivery depot rows show a sortable grip" do
+    travel_to "2024-04-01"
+    login admins(:super)
+
+    get root_path
+
+    assert_response :success
+    assert_select "tbody[data-controller='sortable'] .sortable-handle"
+  end
 end

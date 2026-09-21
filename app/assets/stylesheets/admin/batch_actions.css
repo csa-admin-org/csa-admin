@@ -35,6 +35,18 @@
       pointer-events: none;
       border-color: color-mix(in oklch, var(--color-gray-200) 70%, transparent);
       color: var(--color-gray-400);
+
+      .batch-actions-dropdown-label {
+        display: none;
+      }
+
+      .batch-actions-dropdown-placeholder {
+        display: inline;
+      }
+    }
+
+    .batch-actions-dropdown-placeholder {
+      display: none;
     }
 
     &:where(.dark, .dark *) {

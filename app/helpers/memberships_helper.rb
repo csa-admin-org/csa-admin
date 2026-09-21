@@ -139,6 +139,14 @@ module MembershipsHelper
     end
   end
 
+  def membership_updates_settings_url
+    if authorized?(:update, Organization)
+      edit_organization_path(:membership_updates)
+    else
+      organization_path(anchor: "membership_updates")
+    end
+  end
+
   def activity_participations_demanded_logic_settings_url
     if authorized?(:update, Organization)
       edit_organization_path(:activity, anchor: "activity_participations_demanded_logic")
