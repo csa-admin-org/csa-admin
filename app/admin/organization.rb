@@ -61,10 +61,11 @@ ActiveAdmin.register Organization do
   end
 
   form title: proc { organization_setting_section_title(settings_section) },
-    html: { novalidate: true },
-    data: { controller: "code-editor", turbo: false } do |f|
+    html: { novalidate: true, autocomplete: "off" },
+    data: { controller: "code-editor form-autofill-guard", turbo: false } do |f|
     section = settings_section
 
+    text_node autofill_sinks
     text_node hidden_field_tag(:section, section[:key])
 
     f.semantic_errors :base
@@ -180,6 +181,8 @@ ActiveAdmin.register Organization do
     include TranslatedCSVFilename
     include ActivitiesHelper
     include FormsHelper
+    include MembersHelper
+    include MembershipsHelper
     include OrganizationsHelper
     include ActiveAdmin::OrganizationSettingsHelper
 
@@ -207,6 +210,14 @@ ActiveAdmin.register Organization do
 
     def settings_section
       @settings_section ||= organization_setting_section(settings_section_key)
+    end
+
+    def form_details_preview
+      authorize! :read, Organization
+      placeholders = helpers.form_details_preview_placeholders(
+        helpers.form_details_preview_organization(params[:organization]),
+        :activity_participations_form_detail)
+      render html: helpers.form_details_preview_frame("organization", placeholders)
     end
 
     private

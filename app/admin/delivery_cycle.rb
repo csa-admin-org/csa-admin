@@ -190,7 +190,10 @@ ActiveAdmin.register DeliveryCycle do
     end
 
     if DeliveryCycle.visible?
-      f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
+      f.inputs t("active_admin.resource.show.member_new_form"), icon: "form",
+        "data-controller" => "form-details-preview",
+        "data-form-details-preview-url-value" => form_details_preview_delivery_cycles_path do
+        form_details = form_details_preview_prepare(f.object)
         f.input :member_order_priority,
           collection: member_order_priorities_collection,
           as: :select,
@@ -198,19 +201,23 @@ ActiveAdmin.register DeliveryCycle do
           hint: t("formtastic.hints.organization.member_order_priority_html")
         translated_input(f, :form_details,
           hint: t("formtastic.hints.delivery_cycle.form_detail"),
+          input_html: { data: { form_details_preview_target: "input" } },
           placeholder: ->(locale) {
-            if f.object.persisted? && !f.object.form_detail?(locale)
-              I18n.with_locale(locale) {
-                delivery_cycle_details(f.object, force_default: true)
-              }
-            end
+            I18n.with_locale(locale) {
+              delivery_cycle_details(form_details, force_default: true)
+            }
           })
+        text_node form_details_preview_frame(
+          "delivery-cycle",
+          form_details_preview_placeholders(form_details, :delivery_cycle_details))
 
         handbook_button(self, "registration", anchor: "delivery-cycles")
       end
     end
 
-    f.inputs t(".billing"), icon: "banknotes" do
+    f.inputs t(".billing"), icon: "banknotes",
+      "data-controller" => "form-invoice-name",
+      "data-form-invoice-name-prefixes-value" => invoice_name_prefixes(f.object).to_json do
       f.input :price,
         min: 0,
         hint: true,
@@ -218,7 +225,8 @@ ActiveAdmin.register DeliveryCycle do
       translated_input(f, :invoice_names,
         required: false,
         hint: t("formtastic.hints.delivery_cycle.invoice_name"),
-        input_html: { placeholder: f.object.invoice_description })
+        input_html: { data: { form_invoice_name_target: "invoice" } },
+        placeholder: ->(locale) { invoice_name_placeholder(f.object, locale) })
       if feature?("absence")
         f.input :absences_included_annually
         handbook_button(self, "absence", anchor: "absence-included")
@@ -312,8 +320,17 @@ ActiveAdmin.register DeliveryCycle do
     cycle.periods.build if cycle.periods.empty?
   end
 
+  collection_action :form_details_preview, method: :get do
+    authorize! :read, DeliveryCycle
+    placeholders = helpers.form_details_preview_placeholders(
+      helpers.form_details_preview_delivery_cycle(params[:delivery_cycle]),
+      :delivery_cycle_details)
+    render html: helpers.form_details_preview_frame("delivery-cycle", placeholders)
+  end
+
   controller do
     include DeliveryCyclesHelper
+    include MembersHelper
 
     def scoped_collection
       super.kept

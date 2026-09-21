@@ -81,15 +81,15 @@ module MembershipsHelper
     feature?("activity") && Current.org.activity_participations_form?
   end
 
-  def activity_participations_form_detail(force_default: false)
-    if !force_default && Current.org.activity_participations_form_detail?
-      Current.org.activity_participations_form_detail
-    elsif Current.org.activity_participations_form_min && Current.org.activity_participations_form_max
-      t("activity_participations.form_detail.min_max", price: cur(Current.org.activity_price))
-    elsif Current.org.activity_participations_form_min
-      t("activity_participations.form_detail.min", price: cur(Current.org.activity_price))
-    elsif Current.org.activity_participations_form_max
-      t("activity_participations.form_detail.max", price: cur(Current.org.activity_price))
+  def activity_participations_form_detail(org = Current.org, force_default: false)
+    if !force_default && org.activity_participations_form_detail?
+      org.activity_participations_form_detail
+    elsif org.activity_participations_form_min && org.activity_participations_form_max
+      t("activity_participations.form_detail.min_max", price: cur(org.activity_price))
+    elsif org.activity_participations_form_min
+      t("activity_participations.form_detail.min", price: cur(org.activity_price))
+    elsif org.activity_participations_form_max
+      t("activity_participations.form_detail.max", price: cur(org.activity_price))
     end
   end
 

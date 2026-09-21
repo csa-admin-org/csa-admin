@@ -44,6 +44,31 @@ class FaviconsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 32, image.height
   end
 
+  test "Chrome's implicit /favicon.ico probe uses the same action" do
+    Current.org.logo.purge
+
+    get "/favicon.ico"
+
+    image = Vips::Image.new_from_buffer(response.body, "")
+    assert_response :success
+    assert_equal "image/png", response.media_type
+    assert_equal 32, image.width
+    assert_equal 32, image.height
+  end
+
+  test "members host /favicon.ico uses the same action" do
+    host! "members.acme.test"
+    Current.org.logo.purge
+
+    get "/favicon.ico"
+
+    image = Vips::Image.new_from_buffer(response.body, "")
+    assert_response :success
+    assert_equal "image/png", response.media_type
+    assert_equal 32, image.width
+    assert_equal 32, image.height
+  end
+
   private
 
   def attach_logo

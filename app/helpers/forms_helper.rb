@@ -1,6 +1,28 @@
 # frozen_string_literal: true
 
 module FormsHelper
+  def autofill_sinks
+    tag.div(class: "autofill-sink", aria: { hidden: true }) {
+      safe_join(
+        [
+          [ "name", "name", "text", "Name" ],
+          [ "email", "email", "email", "Email" ],
+          [ "tel", "tel", "tel", "Phone" ],
+          [ "organization", "organization", "text", "Organization" ]
+        ].map { |name, token, type, label|
+          tag.label {
+            tag.span(label) +
+              tag.input(
+                type: type,
+                name: name,
+                autocomplete: token,
+                tabindex: -1,
+                form: "")
+          }
+        })
+    }
+  end
+
   def newsletter_block_content_hint(block)
     if block.public_content? && block.public_feed?
       content_tag(:span, class: "newsletter-public-hint") do
@@ -54,6 +76,27 @@ module FormsHelper
         end
       end
     end
+  end
+
+  def invoice_name_placeholder(record, locale)
+    I18n.with_locale(locale) {
+      name = record.public_name.presence || record.name
+      [ invoice_name_prefix(record), name ].compact_blank.join(": ")
+    }
+  end
+
+  def invoice_name_prefix(record)
+    case record
+    when Depot then Depot.model_name.human
+    when DeliveryCycle then Delivery.model_name.human(count: 2)
+    else record.class.model_name.human
+    end
+  end
+
+  def invoice_name_prefixes(record)
+    Current.org.languages.index_with { |locale|
+      I18n.with_locale(locale) { invoice_name_prefix(record) }
+    }
   end
 
   def translated_input(form, attr, options = {})

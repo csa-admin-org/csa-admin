@@ -236,8 +236,8 @@ module MembersHelper
     }
   end
 
-  def depot_details(d, show_price: true, only_price_per_delivery: false)
-    return d.form_detail if d.form_detail?
+  def depot_details(d, show_price: true, only_price_per_delivery: false, force_default: false)
+    return d.form_detail if !force_default && d.form_detail?
 
     details = []
     if show_price
@@ -274,10 +274,133 @@ module MembersHelper
       details << deliveries_count(dc.billable_deliveries_count)
     end
     absences_included_text = t("helpers.absences_included", count: dc.absences_included_annually)
-    if dc.absences_included_annually.positive? && dc.public_name.exclude?(absences_included_text)
+    if dc.absences_included_annually.positive? && dc.public_name.to_s.exclude?(absences_included_text)
       details << absences_included_text
     end
     details.compact.join(", ")
+  end
+
+  def form_details_preview_frame(name, placeholders)
+    turbo_frame_tag(
+      "#{name}-form-details",
+      class: "is-hidden",
+      data: { form_details_preview_target: "frame" }) {
+        tag.div(data: {
+          form_details_preview_target: "payload",
+          **placeholders.transform_keys { |locale| :"placeholder_#{locale}" }
+        })
+      }
+  end
+
+  def form_details_preview_placeholders(record, method_name)
+    Current.org.languages.index_with { |locale|
+      I18n.with_locale(locale) { public_send(method_name, record, force_default: true).to_s }
+    }
+  end
+
+  def form_details_preview_prepare(record)
+    case record
+    when DeliveryCycle
+      form_details_preview_stamp_cycle_counts!(record)
+    when Depot
+      if record.new_record? && record.delivery_cycle_ids.empty?
+        record.delivery_cycle_ids = DeliveryCycle.kept.ids
+      end
+    end
+    record
+  end
+
+  def form_details_preview_attrs(raw)
+    if raw.respond_to?(:to_unsafe_h)
+      raw.to_unsafe_h.with_indifferent_access
+    else
+      (raw || {}).to_h.with_indifferent_access
+    end
+  end
+
+  def form_details_preview_organization(raw)
+    attrs = form_details_preview_attrs(raw)
+    org = Current.org.dup
+    org.activity_price = attrs[:activity_price].presence || 0
+    org.activity_participations_form_min = attrs[:activity_participations_form_min].presence
+    org.activity_participations_form_max = attrs[:activity_participations_form_max].presence
+    org
+  end
+
+  def form_details_preview_basket_size(raw)
+    attrs = form_details_preview_attrs(raw)
+    BasketSize.new(
+      price: attrs[:price].presence || 0,
+      activity_participations_demanded_annually: attrs[:activity_participations_demanded_annually].presence || 0,
+      shares_number: attrs[:shares_number].presence,
+      first_cweek: attrs[:first_cweek].presence,
+      last_cweek: attrs[:last_cweek].presence)
+  end
+
+  def form_details_preview_basket_complement(raw)
+    attrs = form_details_preview_attrs(raw)
+    complement = BasketComplement.new(
+      price: attrs[:price].presence || 0,
+      activity_participations_demanded_annually: attrs[:activity_participations_demanded_annually].presence || 0)
+    complement.current_delivery_ids = Array(attrs[:current_delivery_ids]).compact_blank
+    complement.future_delivery_ids = Array(attrs[:future_delivery_ids]).compact_blank
+    complement
+  end
+
+  def form_details_preview_depot(raw)
+    attrs = form_details_preview_attrs(raw)
+    depot = Depot.new(
+      price: attrs[:price].presence || 0,
+      street: attrs[:street],
+      zip: attrs[:zip],
+      city: attrs[:city])
+    depot.delivery_cycle_ids = Array(attrs[:delivery_cycle_ids]).compact_blank
+    depot
+  end
+
+  def form_details_preview_delivery_cycle(raw)
+    attrs = form_details_preview_attrs(raw)
+    cycle = DeliveryCycle.new(
+      price: attrs[:price].presence || 0,
+      absences_included_annually: attrs[:absences_included_annually].presence || 0,
+      first_cweek: attrs[:first_cweek].presence,
+      last_cweek: attrs[:last_cweek].presence,
+      exclude_cweek_range: ActiveRecord::Type::Boolean.new.cast(attrs[:exclude_cweek_range]),
+      week_numbers: attrs[:week_numbers].presence || "all")
+    cycle.wdays = Array(attrs[:wdays]).compact_blank
+    Current.org.languages.each do |locale|
+      cycle.public_send("public_name_#{locale}=", attrs["public_name_#{locale}"])
+    end
+    form_details_preview_assign_periods(cycle, attrs[:periods_attributes])
+    form_details_preview_stamp_cycle_counts!(cycle)
+    cycle
+  end
+
+  def form_details_preview_assign_periods(cycle, nested)
+    Array(nested&.values || nested).each do |period|
+      next if ActiveRecord::Type::Boolean.new.cast(period[:_destroy])
+
+      cycle.periods.build(
+        from_fy_month: period[:from_fy_month].presence,
+        to_fy_month: period[:to_fy_month].presence,
+        results: period[:results].presence || "all")
+    end
+    cycle.periods.build(from_fy_month: 1, to_fy_month: 12) if cycle.periods.empty?
+  end
+
+  def form_details_preview_stamp_cycle_counts!(cycle)
+    if Array(cycle.wdays).empty?
+      cycle.deliveries_counts = {}
+      return
+    end
+
+    year = Current.fy_year
+    cycle.deliveries_counts = {
+      year.to_s => cycle.deliveries(year).size,
+      (year + 1).to_s => cycle.deliveries(year + 1).size
+    }
+    cycle.instance_variable_set(:@current_deliveries, nil)
+    cycle.instance_variable_set(:@future_deliveries, nil)
   end
 
   def visible_delivery_cycles_collection(membership: nil, only_with_future_deliveries: false, data: {})

@@ -1317,6 +1317,87 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_includes logic_fieldset.to_html, "Changing this logic"
   end
 
+  test "activity edit has no form details placeholder without min or max" do
+    org(
+      features: Current.org.features | [ "activity" ],
+      activity_price: 50,
+      activity_participations_form_min: nil,
+      activity_participations_form_max: nil)
+    login admins(:super)
+
+    get edit_organization_path(:activity)
+
+    assert_response :success
+    assert_select "input#organization_activity_participations_form_detail_en[placeholder]", false
+  end
+
+  test "activity price and description skip password manager autofill" do
+    org(features: Current.org.features | [ "activity" ])
+    login admins(:super)
+
+    get edit_organization_path(:activity)
+
+    assert_response :success
+    form_attr = css_select(".autofill-sink input[name=organization]").first&.[]("form")
+    assert_equal "", form_attr, "sinks must leave the enclosing form or Rack drops _method"
+    assert_select "form[autocomplete=off][data-controller~='form-autofill-guard']"
+    assert_select "form#edit_organization[method=post]"
+    assert_select "form#edit_organization input[name=_method][value=patch]"
+    assert_select ".autofill-sink input[name=name][autocomplete=name][form='']"
+    assert_select ".autofill-sink input[name=tel][autocomplete=tel][type=tel][form='']"
+    assert_select ".autofill-sink input[name=organization][autocomplete=organization][form='']"
+    assert_select "input#organization_activity_price[autocomplete=off][data-1p-ignore]"
+    assert_select "input#organization_activity_phone[type=tel]", false
+    assert_select "input#organization_activity_phone[autocomplete=off][data-1p-ignore]"
+    assert_select "input#organization_activity_participations_form_detail_en[autocomplete=off][data-1p-ignore]"
+  end
+
+  test "activity edit shows the default form details placeholder" do
+    org(
+      features: Current.org.features | [ "activity" ],
+      activity_price: 50,
+      activity_participations_form_min: 2)
+    login admins(:super)
+
+    get edit_organization_path(:activity)
+
+    assert_response :success
+    assert_select "fieldset[data-controller='form-details-preview']"
+    assert_select "input#organization_activity_participations_form_detail_en[placeholder*='50']"
+  end
+
+  test "activity form details preview follows the form price and min" do
+    org(features: Current.org.features | [ "activity" ])
+    login admins(:super)
+
+    get form_details_preview_organization_path, params: {
+      organization: {
+        activity_price: 99,
+        activity_participations_form_min: 1,
+        activity_participations_form_max: ""
+      }
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#organization-form-details [data-placeholder-en*='99']"
+  end
+
+  test "activity form details preview is blank without min or max" do
+    org(features: Current.org.features | [ "activity" ])
+    login admins(:super)
+
+    get form_details_preview_organization_path, params: {
+      organization: {
+        activity_price: 50,
+        activity_participations_form_min: "",
+        activity_participations_form_max: ""
+      }
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#organization-form-details [data-placeholder-en='']"
+  end
+
   test "focused edit page uses settings breadcrumb and section title" do
     login admins(:super)
 

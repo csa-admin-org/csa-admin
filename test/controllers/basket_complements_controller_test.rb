@@ -30,6 +30,33 @@ class BasketComplementsControllerTest < ActionDispatch::IntegrationTest
     assert_empty join_loads, "expected no SELECT * on join tables, got:\n#{join_loads.join("\n")}"
   end
 
+  test "edit shows the default form details placeholder" do
+    login admins(:super)
+    complement = basket_complements(:bread)
+
+    get edit_basket_complement_path(complement)
+
+    assert_response :success
+    assert_select "fieldset[data-controller='form-details-preview']"
+    assert_select "input#basket_complement_form_detail_en[placeholder*='4']"
+  end
+
+  test "form details preview follows the form price and deliveries" do
+    login admins(:super)
+    delivery = deliveries(:monday_1)
+
+    get form_details_preview_basket_complements_path, params: {
+      basket_complement: {
+        price: 8,
+        activity_participations_demanded_annually: 0,
+        current_delivery_ids: [ delivery.id ]
+      }
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#basket-complement-form-details [data-placeholder-en*='8']"
+  end
+
   private
 
   def collect_sql_queries

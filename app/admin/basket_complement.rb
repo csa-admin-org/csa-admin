@@ -76,7 +76,10 @@ ActiveAdmin.register BasketComplement do
       handbook_button(self, "deliveries", anchor: "complement-notifications")
     end
 
-    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
+    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form",
+      "data-controller" => "form-details-preview",
+      "data-form-details-preview-url-value" => form_details_preview_basket_complements_path do
+      form_details = form_details_preview_prepare(f.object)
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
         as: :select,
@@ -85,13 +88,15 @@ ActiveAdmin.register BasketComplement do
       f.input :visible, as: :select, include_blank: false
       translated_input(f, :form_details,
         hint: t("formtastic.hints.basket_complement.form_detail"),
+        input_html: { data: { form_details_preview_target: "input" } },
         placeholder: ->(locale) {
-          if f.object.persisted? && !f.object.form_detail?(locale)
-            I18n.with_locale(locale) {
-              basket_complement_details(f.object, force_default: true)
-            }
-          end
+          I18n.with_locale(locale) {
+            basket_complement_details(form_details, force_default: true)
+          }
         })
+      text_node form_details_preview_frame(
+        "basket-complement",
+        form_details_preview_placeholders(form_details, :basket_complement_details))
 
       handbook_button(self, "registration", anchor: "basket-complements")
     end
@@ -132,8 +137,17 @@ ActiveAdmin.register BasketComplement do
     current_delivery_ids: [],
     future_delivery_ids: [])
 
+  collection_action :form_details_preview, method: :get do
+    authorize! :read, BasketComplement
+    placeholders = helpers.form_details_preview_placeholders(
+      helpers.form_details_preview_basket_complement(params[:basket_complement]),
+      :basket_complement_details)
+    render html: helpers.form_details_preview_frame("basket-complement", placeholders)
+  end
+
   controller do
     include TranslatedCSVFilename
+    include MembersHelper
 
     def scoped_collection
       super.kept

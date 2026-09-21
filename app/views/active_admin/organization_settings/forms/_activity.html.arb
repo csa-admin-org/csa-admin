@@ -6,9 +6,11 @@ context.instance_eval do
       as: :select,
       collection: Organization.activity_i18n_scopes.map { |s| [ t("activities.#{s}", count: 2), s ] },
       prompt: true
-    f.input :activity_price
-    f.input :activity_phone, as: :phone,
-      hint: t("formtastic.hints.organization.activity_phone_html")
+    f.input :activity_price,
+      input_html: { autocomplete: "off", data: { "1p_ignore": true } }
+    f.input :activity_phone, as: :string,
+      hint: t("formtastic.hints.organization.activity_phone_html"),
+      input_html: { autocomplete: "off", data: { "1p_ignore": true } }
   end
 
   f.inputs t("active_admin.resource.form.member_account"), icon: "users" do
@@ -16,7 +18,9 @@ context.instance_eval do
     f.input :activity_participation_deletion_deadline_in_days
   end
 
-  f.inputs t("active_admin.resource.form.registration_form"), icon: "form" do
+  f.inputs t("active_admin.resource.form.registration_form"), icon: "form",
+    "data-controller" => "form-details-preview",
+    "data-form-details-preview-url-value" => form_details_preview_organization_path do
     f.input :activity_participations_form_min
     f.input :activity_participations_form_max
     f.input :activity_participations_form_step, input_html: { min: 1 }
@@ -30,11 +34,18 @@ context.instance_eval do
     translated_input(f, :activity_participations_form_details,
       hint: t("formtastic.hints.organization.activity_participations_demanded_annually_form_detail"),
       required: false,
+      input_html: {
+        autocomplete: "off",
+        data: { form_details_preview_target: "input", "1p_ignore": true }
+      },
       placeholder: ->(locale) {
         I18n.with_locale(locale) {
           activity_participations_form_detail(force_default: true)
         }
       })
+    text_node form_details_preview_frame(
+      "organization",
+      form_details_preview_placeholders(Current.org, :activity_participations_form_detail))
   end
 
   f.inputs Organization.human_attribute_name(:activity_participations_demanded_logic), icon: "notebook-pen", id: "activity_participations_demanded_logic", class: "settings-anchor inputs" do

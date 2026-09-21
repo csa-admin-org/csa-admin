@@ -37,6 +37,7 @@ Rails.application.routes.draw do
 
   constraints subdomain: "admin" do
     get "favicon" => "favicons#show"
+    get "favicon.ico" => "favicons#show"
 
     resources :sessions, only: %i[show create]
     get "/login" => "sessions#new", as: :login
@@ -56,6 +57,8 @@ Rails.application.routes.draw do
     resource :ebics_initialization_letter, only: :show, controller: :ebics_onboarding_letters
 
     get "settings/:section/edit" => "organizations#edit", as: :edit_organization
+    get "settings/form_details_preview" => "organizations#form_details_preview",
+      as: :form_details_preview_organization
     resource :organization, path: "settings", only: %i[show update]
 
     get "deliveries/next" => "next_delivery#next"
@@ -92,6 +95,7 @@ Rails.application.routes.draw do
   scope module: "members", as: "members" do
     constraints subdomain: Organization::MEMBERS_SUBDOMAINS do
       get "favicon" => "/favicons#show"
+      get "favicon.ico" => "/favicons#show"
       resources :sessions, only: %i[show create]
       get "/login" => "sessions#new", as: :login
       delete "/logout" => "sessions#destroy", as: :logout

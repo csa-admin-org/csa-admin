@@ -77,7 +77,10 @@ ActiveAdmin.register BasketSize do
       end
     end
 
-    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
+    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form",
+      "data-controller" => "form-details-preview",
+      "data-form-details-preview-url-value" => form_details_preview_basket_sizes_path do
+      form_details = form_details_preview_prepare(f.object)
       f.input :visible, as: :select, include_blank: false
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
@@ -86,13 +89,15 @@ ActiveAdmin.register BasketSize do
         hint: t("formtastic.hints.organization.member_order_priority_html")
       translated_input(f, :form_details,
         hint: t("formtastic.hints.basket_size.form_detail"),
+        input_html: { data: { form_details_preview_target: "input" } },
         placeholder: ->(locale) {
-          if f.object.persisted? && !f.object.form_detail?(locale)
-            I18n.with_locale(locale) {
-              basket_size_details(f.object, force_default: true)
-            }
-          end
+          I18n.with_locale(locale) {
+            basket_size_details(form_details, force_default: true)
+          }
         })
+      text_node form_details_preview_frame(
+        "basket-size",
+        form_details_preview_placeholders(form_details, :basket_size_details))
 
       handbook_button(self, "registration", anchor: "basket-sizes")
     end
@@ -114,6 +119,14 @@ ActiveAdmin.register BasketSize do
 
   before_build do |basket_size|
     basket_size.shares_number ||= Current.org.shares_number if Current.org.feature?("shares")
+  end
+
+  collection_action :form_details_preview, method: :get do
+    authorize! :read, BasketSize
+    placeholders = helpers.form_details_preview_placeholders(
+      helpers.form_details_preview_basket_size(params[:basket_size]),
+      :basket_size_details)
+    render html: helpers.form_details_preview_frame("basket-size", placeholders)
   end
 
   controller do

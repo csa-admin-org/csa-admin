@@ -303,7 +303,9 @@ ActiveAdmin.register Depot do
 
     catalog_price_memberships_warning(self, f.object)
 
-    f.inputs t(".billing"), icon: "banknotes" do
+    f.inputs t(".billing"), icon: "banknotes",
+      "data-controller" => "form-invoice-name",
+      "data-form-invoice-name-prefixes-value" => invoice_name_prefixes(f.object).to_json do
       f.input :price,
         min: 0,
         hint: true,
@@ -311,7 +313,8 @@ ActiveAdmin.register Depot do
       translated_input(f, :invoice_names,
         required: false,
         hint: t("formtastic.hints.depot.invoice_name"),
-        input_html: { placeholder: f.object.invoice_description })
+        input_html: { data: { form_invoice_name_target: "invoice" } },
+        placeholder: ->(locale) { invoice_name_placeholder(f.object, locale) })
     end
 
     f.inputs Delivery.human_attribute_name(:sheets_pdf), icon: "file-spreadsheet" do
@@ -348,7 +351,10 @@ ActiveAdmin.register Depot do
       handbook_button(self, "deliveries", anchor: "depot-availability")
     end
 
-    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
+    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form",
+      "data-controller" => "form-details-preview",
+      "data-form-details-preview-url-value" => form_details_preview_depots_path do
+      form_details = form_details_preview_prepare(f.object)
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
         as: :select,
@@ -356,11 +362,13 @@ ActiveAdmin.register Depot do
         hint: t("formtastic.hints.organization.member_order_priority_html")
       translated_input(f, :form_details,
         hint: t("formtastic.hints.depot.form_detail"),
+        input_html: { data: { form_details_preview_target: "input" } },
         placeholder: ->(locale) {
-          if f.object.persisted? && !f.object.form_detail?(locale)
-            I18n.with_locale(locale) { depot_details(f.object) }
-          end
+          I18n.with_locale(locale) { depot_details(form_details, force_default: true) }
         })
+      text_node form_details_preview_frame(
+        "depot",
+        form_details_preview_placeholders(form_details, :depot_details))
 
       handbook_button(self, "registration", anchor: "depots")
     end
@@ -447,9 +455,18 @@ ActiveAdmin.register Depot do
     depot.price ||= 0.0
   end
 
+  collection_action :form_details_preview, method: :get do
+    authorize! :read, Depot
+    placeholders = helpers.form_details_preview_placeholders(
+      helpers.form_details_preview_depot(params[:depot]),
+      :depot_details)
+    render html: helpers.form_details_preview_frame("depot", placeholders)
+  end
+
   controller do
     include TranslatedCSVFilename
     include DeliveryCyclesHelper
+    include MembersHelper
 
     def scoped_collection
       super.kept

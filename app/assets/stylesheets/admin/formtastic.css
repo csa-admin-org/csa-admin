@@ -1,4 +1,14 @@
 @layer components {
+  .autofill-sink {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0.01;
+    pointer-events: none;
+  }
+
   /* Base Form Styles */
   .formtastic {
     font-size: 0.875rem;
