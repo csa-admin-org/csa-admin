@@ -101,7 +101,6 @@ class Member < ApplicationRecord
   validates :annual_fee,
     presence: true,
     numericality: { greater_than_or_equal_to: 1 },
-    on: :create,
     if: -> { public_create && Current.org.feature?("annual_fee") && Current.org.annual_fee_member_form? && !waiting_basket_size_id? }
   validate :email_must_be_unique
 
@@ -161,6 +160,17 @@ class Member < ApplicationRecord
     current_or_future_membership || last_membership
   end
 
+  def can_re_register?
+    (inactive? || support?) &&
+      current_or_future_membership.nil? &&
+      Current.org.member_form_mode == "membership" &&
+      BasketSize.visible.exists?
+  end
+
+  def pending_membership_request?
+    pending? && membership_request?
+  end
+
   def membership(year = nil)
     year ||= Current.fiscal_year
     memberships.during_year(year).first
@@ -194,6 +204,10 @@ class Member < ApplicationRecord
 
   def public_create_and_not_support?
     public_create && !support?
+  end
+
+  def public_create_or_new_record?
+    new_record? || public_create
   end
 
   def update_membership_if_salary_basket_changed

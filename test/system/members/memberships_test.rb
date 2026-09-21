@@ -76,13 +76,59 @@ class Members::MembershipsTest < ApplicationSystemTestCase
       "Membership-level depot change should not create BasketOverride records"
   end
 
-  test "inactive member" do
+  test "never-subscribed inactive member can open the memberships empty state" do
     login(members(:mary))
 
-    assert_includes menu_nav, "½ Days\n⤷ No commitment"
-    assert_includes menu_nav, "Billing\n⤷ View history"
+    assert_includes menu_nav, "Membership\n⤷ Subscribe?"
+    click_on "Membership"
+
+    assert_equal "/memberships", current_path
+    assert_text "You don't have a membership yet."
+    assert_text "Subscribe"
+  end
+
+  test "past membership shows subscribe again" do
+    travel_to "2024-01-01"
+    create_membership(
+      member: members(:mary),
+      started_on: "2023-01-01",
+      ended_on: "2023-12-31")
+    login(members(:mary).reload)
+
+    assert_includes menu_nav, "Membership\n⤷ Subscribe again?"
+    click_on "Membership"
+
+    assert_text "Subscribe again"
+  end
+
+  test "membership that ended this fiscal year keeps Past and still offers subscribe again" do
+    travel_to "2024-05-01"
+    create_membership(
+      member: members(:mary),
+      started_on: "2024-01-01",
+      ended_on: "2024-04-05")
+    login(members(:mary).reload)
+
+    assert_includes menu_nav, "Membership\n⤷ Past"
+    click_on "Membership"
+
+    assert_text "Subscribe again"
+  end
+
+  test "pending membership request shows a notice and no subscribe button" do
+    members(:mary).update_columns(
+      state: "pending",
+      waiting_basket_size_id: basket_sizes(:small).id,
+      waiting_depot_id: depots(:farm).id,
+      waiting_delivery_cycle_id: delivery_cycles(:mondays).id,
+      waiting_billing_year_division: 1)
+    login(members(:mary).reload)
 
     visit "/memberships"
-    assert_equal "/activity_participations", current_path
+
+    assert_includes menu_nav, "Membership"
+    assert_text "Your request has been received and will be reviewed shortly."
+    assert_no_text "You don't have a membership yet."
+    assert_no_text "Subscribe"
   end
 end

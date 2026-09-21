@@ -8,7 +8,7 @@ class Members::MembershipsController < Members::BaseController
     @membership = current_member.closest_membership
     if @membership
       @membership.renewal_decision = :renew
-    else
+    elsif !current_member.can_re_register? && !current_member.pending?
       redirect_to members_member_path
     end
   end

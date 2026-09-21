@@ -12,6 +12,7 @@ class Members::BaseController < ApplicationController
 
   helper_method :current_member
   helper_method :current_order
+  helper_method :member_registration_form?
 
   private
 
@@ -33,6 +34,10 @@ class Members::BaseController < ApplicationController
 
   def current_order
     nil
+  end
+
+  def member_registration_form?
+    controller_path == "members/members" && action_name.in?(%w[new create])
   end
 
   def current_member

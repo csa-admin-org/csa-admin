@@ -11,7 +11,6 @@ module Member::Shop
 
     validates :shop_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }
     validates :shop_depot_id, presence: true,
-      on: :create,
       if: -> { public_create && Current.org.member_form_mode == "shop" && Depot.visible.exists? }
     validates :shop_delivery_cycle, inclusion: { in: proc { DeliveryCycle.all }, allow_nil: true }
   end

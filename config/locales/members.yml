@@ -1732,6 +1732,14 @@ _:
         _it: Informazioni
         _nl: Informatie
     members:
+      create:
+        flash:
+          notice:
+            _en: Your request has been received and will be reviewed shortly.
+            _fr: Votre demande a bien été reçue et sera examinée prochainement.
+            _de: Deine Anfrage ist eingegangen und wird in Kürze geprüft.
+            _it: La tua richiesta è stata ricevuta e verrà esaminata a breve.
+            _nl: Je aanvraag is ontvangen en wordt binnenkort bekeken.
       form_modes:
         membership:
           alternative_depots_show_all:
@@ -2182,6 +2190,31 @@ _:
             _de: "%{count} Lieferungen ab dem %{first_date} werden geändert."
             _it: "%{count} consegne a partire dal %{first_date} verranno modificate."
             _nl: "%{count} leveringen vanaf %{first_date} worden gewijzigd."
+      index:
+        empty:
+          _en: You don't have a membership yet.
+          _fr: Vous n'avez pas encore d'abonnement.
+          _de: Du hast noch kein Abonnement.
+          _it: Non hai ancora un abbonamento.
+          _nl: Je hebt nog geen lidmaatschap.
+        request_received:
+          _en: Your request has been received and will be reviewed shortly.
+          _fr: Votre demande a bien été reçue et sera examinée prochainement.
+          _de: Deine Anfrage ist eingegangen und wird in Kürze geprüft.
+          _it: La tua richiesta è stata ricevuta e verrà esaminata a breve.
+          _nl: Je aanvraag is ontvangen en wordt binnenkort bekeken.
+        subscribe:
+          _en: Subscribe
+          _fr: S'abonner
+          _de: Abonnieren
+          _it: Abbonati
+          _nl: Abonneren
+        subscribe_again:
+          _en: Subscribe again
+          _fr: Se réabonner
+          _de: Erneut abonnieren
+          _it: Abbonati di nuovo
+          _nl: Opnieuw abonneren
       membership:
         absent_baskets_count:
           one:

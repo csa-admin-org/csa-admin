@@ -1,8 +1,27 @@
 <h1><%= Membership.model_name.human %></h1>
 
-<section><%= render @membership %></section>
+<% if current_member.pending? %>
+  <%= notice_pane("mail") do %>
+    <%= t(".request_received") %>
+  <% end %>
+<% end %>
 
-<section>
-  <%= render "trial", membership: @membership %>
-  <%= render "renewal", membership: @membership %>
-</section>
+<% if @membership %>
+  <section><%= render @membership %></section>
+
+  <section>
+    <%= render "trial", membership: @membership %>
+    <%= render "renewal", membership: @membership %>
+  </section>
+<% elsif !current_member.pending? %>
+  <p class="nocontent copy"><%= t(".empty") %></p>
+<% end %>
+
+<% if current_member.can_re_register? %>
+  <div class="account-actions">
+    <%= link_to new_members_member_path, class: "btn" do %>
+      <%= icon "circle-plus", class: "icon-btn" %>
+      <span><%= @membership ? t(".subscribe_again") : t(".subscribe") %></span>
+    <% end %>
+  </div>
+<% end %>

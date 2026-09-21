@@ -120,6 +120,18 @@ _:
           _de: "⤷ Erneuerung?"
           _it: "⤷ Rinnovo ?"
           _nl: "⤷ Vernieuwing?"
+        membership_subscribe:
+          _en: "⤷ Subscribe?"
+          _fr: "⤷ S'abonner?"
+          _de: "⤷ Abonnieren?"
+          _it: "⤷ Abbonati?"
+          _nl: "⤷ Abonneren?"
+        membership_subscribe_again:
+          _en: "⤷ Subscribe again?"
+          _fr: "⤷ Se réabonner?"
+          _de: "⤷ Erneut abonnieren?"
+          _it: "⤷ Abbonati di nuovo?"
+          _nl: "⤷ Opnieuw abonneren?"
         membership_trial:
           _en: "⤷ Trial period"
           _fr: "⤷ Période d'essai"

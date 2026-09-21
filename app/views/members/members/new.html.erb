@@ -19,6 +19,7 @@
 
   <%= simple_form_for @member,
     url: members_member_path,
+    method: :post,
     data: {
       turbo: false,
       controller: "form-pricing form-section-nav",
@@ -80,10 +81,10 @@
           </div>
         <% end %>
 
-        <%= cap_token_field %>
+        <%= cap_token_field unless current_member %>
 
-        <%= tag.div class: "actions print-hidden", data: cap_submit_tooltip_data do %>
-          <%= button_tag type: "submit", data: cap_submit_tooltip_target_data.merge(disable_with: t("formtastic.processing")) do %>
+        <%= tag.div class: "actions print-hidden", data: (cap_submit_tooltip_data unless current_member) do %>
+          <%= button_tag type: "submit", data: (current_member ? { disable_with: t("formtastic.processing") } : cap_submit_tooltip_target_data.merge(disable_with: t("formtastic.processing"))) do %>
             <%= icon "check", class: "icon-inline-action" %>
             <span><%= t(".submit") %></span>
           <% end %>

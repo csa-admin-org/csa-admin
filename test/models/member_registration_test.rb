@@ -152,6 +152,76 @@ class MemberRegistrationTest < ActiveSupport::TestCase
     assert_equal "Mary and John", member.name
   end
 
+  test "persisted inactive member re-registers without email match" do
+    admin = admins(:ultra)
+    admin.update!(notifications: %w[ new_registration ])
+    member = members(:mary)
+    member.public_create = true
+
+    assert_no_difference "Member.count" do
+      assert_changes -> { member.reload.state }, from: "inactive", to: "pending" do
+        member = register(member, {
+          name: "Mary Doe",
+          phones: "+41 79 142 42 42",
+          waiting_basket_size_id: basket_sizes(:small).id,
+          waiting_depot_id: depots(:farm).id,
+          terms_of_service: "1"
+        })
+      end
+    end
+
+    assert_equal members(:mary).id, member.id
+    assert_equal "Mary Doe", member.name
+    assert_equal basket_sizes(:small).id, member.waiting_basket_size_id
+    assert_equal depots(:farm).id, member.waiting_depot_id
+
+    perform_enqueued_jobs
+    assert_equal 1, AdminMailer.deliveries.size
+    assert_equal "New re-registration", AdminMailer.deliveries.last.subject
+  end
+
+  test "persisted support member re-registers without email match" do
+    member = members(:martha)
+    member.public_create = true
+
+    assert_changes -> { member.reload.state }, from: "support", to: "pending" do
+      member = register(member, {
+        name: "Martha Doe",
+        phones: "+41 79 142 42 42",
+        waiting_basket_size_id: basket_sizes(:small).id,
+        waiting_depot_id: depots(:farm).id,
+        terms_of_service: "1"
+      })
+    end
+
+    assert_equal members(:martha).id, member.id
+    assert_equal "Martha Doe", member.name
+  end
+
+  test "persisted active member is not re-registered" do
+    member = members(:john)
+    member.public_create = true
+
+    assert_no_changes -> { member.reload.state } do
+      result = register(member, { name: "John Doe" })
+      assert_equal member.id, result.id
+    end
+  end
+
+  test "persisted public_create update requires a complete membership request" do
+    member = members(:mary)
+    member.public_create = true
+
+    member = register(member, {
+      phones: "+41 79 142 42 42",
+      waiting_basket_size_id: basket_sizes(:small).id,
+      terms_of_service: "1"
+    })
+
+    assert members(:mary).reload.inactive?
+    assert_includes member.errors[:waiting_depot_id], "can't be blank"
+  end
+
   test "can reuse discarded member email" do
     member = discardable_member
     email = member.emails_array.first

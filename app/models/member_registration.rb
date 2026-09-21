@@ -11,6 +11,8 @@ class MemberRegistration
   end
 
   def save
+    return save_existing! if @member.persisted?
+
     if @member.save
       notify_admins!
       return true
@@ -24,13 +26,20 @@ class MemberRegistration
     # (kept out of the kept scope). In this case, the email is still "taken"
     # until anonymization clears it.
     return unless existing_member
-
     return unless existing_member.inactive? || existing_member.support?
 
     public_create = @member.public_create
     @member = existing_member
-    @member.assign_attributes(@permitted_params)
     @member.public_create = public_create
+    save_existing!
+  end
+
+  private
+
+  def save_existing!
+    return unless @member.inactive? || @member.support?
+
+    @member.assign_attributes(@permitted_params)
     prepare_support_only_reregistration! if support_only?
     @member.state = Member::PENDING_STATE
     @member.validated_at = nil
@@ -42,8 +51,6 @@ class MemberRegistration
       true
     end
   end
-
-  private
 
   def notify_admins!(existing: false)
     Admin.notify!(:new_registration, member: @member, existing: existing)

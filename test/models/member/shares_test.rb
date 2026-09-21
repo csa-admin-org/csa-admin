@@ -26,7 +26,7 @@ class Member::SharesTest < ActiveSupport::TestCase
 
     basket_size = basket_sizes(:small)
     basket_size.update(shares_number: 3)
-    member.update(waiting_basket_size_id: basket_size.id)
+    member.update(waiting_basket_size_id: basket_size.id, waiting_depot_id: depots(:farm).id)
     assert_not member.valid?
     member.update(desired_shares_number: 3)
     assert member.valid?

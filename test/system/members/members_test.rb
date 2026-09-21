@@ -209,6 +209,49 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_includes mail.body.encoded, "An existing member, Mary Doe, has re-registered!"
   end
 
+  test "logged-in inactive member can re-register from /new" do
+    travel_to "2024-01-01"
+    create_membership(
+      member: members(:mary),
+      basket_size: basket_sizes(:small),
+      depot: depots(:farm),
+      delivery_cycle: delivery_cycles(:mondays),
+      billing_year_division: 1,
+      started_on: "2023-01-01",
+      ended_on: "2023-12-31")
+    member = members(:mary)
+    login(member)
+
+    visit "/new"
+
+    assert_equal "/new", current_path
+    assert_no_selector ".member-sidebar"
+    assert_field "Name and surname", with: "Mary"
+    assert_field "Address", with: "Nowhere 47"
+    assert has_checked_field?("Small basket", visible: :all)
+    assert has_checked_field?("Our farm", visible: :all)
+    assert_no_selector 'input[name="cap-token"]', visible: :all
+
+    fill_in "Name and surname", with: "Mary Doe"
+    fill_in "Phone(s)", with: "077 142 42 42"
+    check "I have read and agree to the rules."
+    click_on "Submit"
+
+    assert_equal "/memberships", current_path
+    assert_text "Your request has been received and will be reviewed shortly."
+    assert member.reload.pending?
+    assert_equal "Mary Doe", member.name
+    assert_equal members(:mary).id, member.id
+    assert_selector "nav", text: member.name
+  end
+
+  test "logged-in active member is redirected away from /new" do
+    login(members(:john))
+    visit "/new"
+
+    assert_not_equal "/new", current_path
+  end
+
   test "does not allow existing active member" do
     visit "/new"
 
@@ -809,7 +852,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     assert_equal "/billing", current_path
     assert_selector "h1", text: "Billing"
-    assert_equal [ "Billing\n⤷ 1 open invoice" ], menu_nav
+    assert_equal [ "Membership\n⤷ Subscribe?", "Billing\n⤷ 1 open invoice" ], menu_nav
   end
 
   test "redirects inactive user to activity participations" do
@@ -817,6 +860,6 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     assert_equal "/activity_participations", current_path
     assert_selector "h1", text: "½ Days"
-    assert_equal [ "½ Days\n⤷ No commitment", "Billing\n⤷ View history" ], menu_nav
+    assert_equal [ "Membership\n⤷ Subscribe?", "½ Days\n⤷ No commitment", "Billing\n⤷ View history" ], menu_nav
   end
 end

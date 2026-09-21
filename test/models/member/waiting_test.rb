@@ -53,6 +53,67 @@ class Member::WaitingTest < ActiveSupport::TestCase
     assert member.valid?
   end
 
+  test "validates waiting_basket_size_id presence on public_create update" do
+    member = members(:mary)
+    member.public_create = true
+
+    assert_not member.valid?
+    assert_includes member.errors[:waiting_basket_size_id], "can't be blank"
+  end
+
+  test "validates waiting_depot presence on public_create update when a basket size is set" do
+    member = members(:mary)
+    member.public_create = true
+    member.waiting_basket_size = basket_sizes(:small)
+
+    assert_not member.valid?
+    assert_includes member.errors[:waiting_depot_id], "can't be blank"
+  end
+
+  test "assign_waiting_from_last_membership copies catalog-matching last membership choices" do
+    travel_to "2024-01-01"
+    member = members(:mary)
+    membership = create_membership(
+      member: member,
+      basket_size: basket_sizes(:small),
+      depot: depots(:farm),
+      delivery_cycle: delivery_cycles(:mondays),
+      billing_year_division: 1,
+      activity_participations_demanded_annually: 2,
+      started_on: "2023-01-01",
+      ended_on: "2023-12-31",
+      memberships_basket_complements_attributes: {
+        "0" => { basket_complement_id: bread_id, quantity: 2 }
+      })
+    member.reload.assign_waiting_from_last_membership
+
+    assert_equal membership.basket_size_id, member.waiting_basket_size_id
+    assert_equal membership.depot_id, member.waiting_depot_id
+    assert_equal membership.delivery_cycle_id, member.waiting_delivery_cycle_id
+    assert_equal 1, member.waiting_billing_year_division
+    assert_equal 2, member.waiting_activity_participations_demanded_annually
+    complement = member.members_basket_complements.find { |mbc| mbc.basket_complement_id == bread_id }
+    assert_equal 2, complement.quantity
+  end
+
+  test "assign_waiting_from_last_membership drops ids that are no longer in the public catalog" do
+    travel_to "2024-01-01"
+    create_membership(
+      member: members(:mary),
+      basket_size: basket_sizes(:small),
+      depot: depots(:farm),
+      started_on: "2023-01-01",
+      ended_on: "2023-12-31")
+    basket_sizes(:small).update!(visible: false)
+    depots(:farm).update!(visible: false)
+
+    member = members(:mary).reload
+    member.assign_waiting_from_last_membership
+
+    assert_nil member.waiting_basket_size_id
+    assert_nil member.waiting_depot_id
+  end
+
   test "validates waiting_basket_size_id not required on public create in shop mode" do
     org(member_form_mode: "shop")
     member = build_member(public_create: true, waiting_basket_size_id: nil, shop_depot_id: depots(:farm).id)

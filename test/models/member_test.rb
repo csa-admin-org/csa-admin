@@ -101,6 +101,57 @@ class MemberTest < ActiveSupport::TestCase
     assert member.valid?
   end
 
+  test "can_re_register? is true for inactive members without a current membership" do
+    assert members(:mary).can_re_register?
+    assert members(:martha).can_re_register?
+  end
+
+  test "can_re_register? is true with a past membership" do
+    travel_to "2024-01-01"
+    create_membership(
+      member: members(:mary),
+      started_on: "2023-01-01",
+      ended_on: "2023-12-31")
+
+    assert members(:mary).reload.can_re_register?
+  end
+
+  test "can_re_register? is false for active, waiting, and pending members" do
+    assert_not members(:john).can_re_register?
+    assert_not members(:aria).can_re_register?
+
+    members(:mary).update_columns(state: "pending")
+    assert_not members(:mary).can_re_register?
+  end
+
+  test "pending_membership_request? is true only for pending members with a membership request" do
+    assert_not members(:mary).pending_membership_request?
+
+    members(:mary).update_columns(
+      state: "pending",
+      waiting_basket_size_id: basket_sizes(:small).id)
+    assert members(:mary).reload.pending_membership_request?
+  end
+
+  test "can_re_register? is false in shop mode or without visible basket sizes" do
+    org(member_form_mode: "shop")
+    assert_not members(:mary).can_re_register?
+
+    org(member_form_mode: "membership")
+    BasketSize.update_all(visible: false)
+    assert_not members(:mary).can_re_register?
+  end
+
+  test "can_re_register? is false with a current or future membership" do
+    travel_to "2024-01-01"
+    create_membership(
+      member: members(:mary),
+      started_on: "2024-01-01",
+      ended_on: "2024-12-31")
+
+    assert_not members(:mary).reload.can_re_register?
+  end
+
   test "required profession mode on public create" do
     member = build_member(public_create: true, profession: nil, waiting_basket_size_id: 0)
     org(member_profession_form_mode: "visible")

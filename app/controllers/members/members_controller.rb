@@ -6,17 +6,27 @@ class Members::MembersController < Members::BaseController
   include CapVerifiable
 
   skip_before_action :authenticate_member!, only: %i[new create]
+  skip_before_action :verify_cap, if: :current_member
   prepend_before_action :redirect_current_member!, only: %i[new create]
 
   def new
-    @member = Member.new(public_create: true)
-    @member.desired_shares_number = Current.org.shares_number if Current.org.feature?("shares")
-    @member.waiting_activity_participations_demanded_annually = Current.org.activity_participations_form_min.to_i
-    if params[:basket_size_id]
-      @member.waiting_basket_size_id = params[:basket_size_id]
-    end
-    if params[:different_billing_info] == "true"
-      @member.different_billing_info = true
+    @member = current_member || Member.new
+    @member.public_create = true
+    if params[:member]
+      @member.assign_attributes(member_params)
+    else
+      @member.assign_waiting_from_last_membership if current_member
+      @member.waiting_activity_participations_demanded_annually ||=
+        Current.org.activity_participations_form_min.to_i
+      if Current.org.feature?("shares")
+        @member.desired_shares_number ||= Current.org.shares_number
+      end
+      if params[:basket_size_id]
+        @member.waiting_basket_size_id = params[:basket_size_id]
+      end
+      if params[:different_billing_info] == "true"
+        @member.different_billing_info = true
+      end
     end
     set_basket_complements
   end
@@ -34,13 +44,21 @@ class Members::MembersController < Members::BaseController
   end
 
   def create
-    member = Member.new(member_params)
-    member.language = I18n.locale
+    if current_member
+      member = current_member
+    else
+      member = Member.new(member_params)
+      member.language = I18n.locale
+    end
     member.public_create = true
 
     registration = MemberRegistration.new(member, member_params)
     if registration.save
-      redirect_to members_public_page_path("welcome")
+      if current_member
+        redirect_to members_memberships_path, notice: t(".flash.notice")
+      else
+        redirect_to members_public_page_path("welcome")
+      end
     else
       @member = registration.member
       set_basket_complements
@@ -59,7 +77,7 @@ class Members::MembersController < Members::BaseController
   end
 
   def redirect_current_member!
-    redirect_to members_member_path if current_member
+    redirect_to members_member_path if current_member && !current_member.can_re_register?
   end
 
   def set_basket_complements
@@ -69,9 +87,9 @@ class Members::MembersController < Members::BaseController
         .preload(:future_deliveries, :current_deliveries)
         .member_ordered
         .select { |complement| complement.deliveries_count.positive? }
-    members_basket_complements = @member.members_basket_complements.load
-    quantities = members_basket_complements.index_by(&:basket_complement_id)
-    members_basket_complements.clear
+    members_basket_complements = @member.members_basket_complements
+    quantities = members_basket_complements.to_a.index_by(&:basket_complement_id)
+    members_basket_complements.target.replace([])
     complements.each do |complement|
       quantity = params.dig(:basket_complements, complement.id.to_s)
       quantity ||= quantities[complement.id]&.quantity || 0

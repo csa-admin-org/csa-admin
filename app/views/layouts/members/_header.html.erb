@@ -85,23 +85,29 @@
           </li>
         <% end %>
 
-        <% if membership %>
+        <% if membership || current_member.can_re_register? || current_member.pending? %>
           <li class="<%= nav_class("membership") %>">
-            <%= link_to members_memberships_path(anchor: membership.renewal_opened? ? "renewal" : nil) do %>
+            <%= link_to members_memberships_path(anchor: membership&.renewal_opened? ? "renewal" : nil) do %>
               <h2><%= Membership.model_name.human %></h2>
 
-              <% if missing_bidding_round_pledge? %>
-                <span class="warning"><%= t(".bidding_round_pledge") %></span>
-              <% elsif membership.renewal_opened? %>
-                <span class="alert"><%= t(".membership_renewal") %></span>
-              <% elsif membership.trial? %>
-                <span><%= t(".membership_trial") %></span>
-              <% elsif membership.current? %>
-                <span><%= t(".membership_current") %></span>
-              <% elsif membership.future? %>
-                <span><%= t(".membership_future") %></span>
-              <% else %>
-                <span><%= t(".membership_past") %></span>
+              <% if current_member.can_re_register? && membership.nil? %>
+                <span><%= t(".membership_subscribe") %></span>
+              <% elsif current_member.can_re_register? && !membership.current_year? %>
+                <span><%= t(".membership_subscribe_again") %></span>
+              <% elsif membership %>
+                <% if missing_bidding_round_pledge? %>
+                  <span class="warning"><%= t(".bidding_round_pledge") %></span>
+                <% elsif membership.renewal_opened? %>
+                  <span class="alert"><%= t(".membership_renewal") %></span>
+                <% elsif membership.trial? %>
+                  <span><%= t(".membership_trial") %></span>
+                <% elsif membership.current? %>
+                  <span><%= t(".membership_current") %></span>
+                <% elsif membership.future? %>
+                  <span><%= t(".membership_future") %></span>
+                <% else %>
+                  <span><%= t(".membership_past") %></span>
+                <% end %>
               <% end %>
             <% end %>
           </li>

@@ -32,12 +32,13 @@ module Member::Waiting
 
     validates :waiting_billing_year_division,
       inclusion: { in: proc { Current.org.billing_year_divisions }, allow_nil: true },
-      on: :create,
       if: :public_create
     validates :waiting_billing_year_division,
       inclusion: { in: Organization.billing_year_divisions, allow_nil: true }
-    validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
-    validates :waiting_basket_size_id, presence: true, if: :waiting_depot, on: :create
+    validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true },
+      if: :public_create_or_new_record?
+    validates :waiting_basket_size_id, presence: true,
+      if: -> { public_create_or_new_record? && waiting_depot }
     validates :waiting_activity_participations_demanded_annually, numericality: true, allow_nil: true
     validates :waiting_activity_participations_demanded_annually,
       numericality: {
@@ -47,10 +48,11 @@ module Member::Waiting
       },
       if: -> { public_create && Current.org.feature?("activity") }
     validates :waiting_basket_size_id, presence: true,
-      on: :create,
       if: -> { public_create && Current.org.member_form_mode == "membership" && BasketSize.visible.exists? }
-    validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
-    validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
+    validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true },
+      if: :public_create_or_new_record?
+    validates :waiting_depot_id, presence: true,
+      if: -> { public_create_or_new_record? && waiting_basket_size }
     validates :waiting_membership_started_on,
       date: { after_or_equal_to: proc { Date.current } },
       allow_nil: true,
@@ -74,6 +76,46 @@ module Member::Waiting
       !waiting_activity_participations_demanded_annually.nil? ||
       members_basket_complements.reject(&:marked_for_destruction?).any? ||
       waiting_alternative_depot_ids.any?
+  end
+
+  def assign_waiting_from_last_membership
+    membership = last_membership
+    return unless membership
+
+    if BasketSize.visible.exists?(id: membership.basket_size_id)
+      self.waiting_basket_size_id = membership.basket_size_id
+    end
+    if Depot.visible.exists?(id: membership.depot_id)
+      self.waiting_depot_id = membership.depot_id
+    end
+    if waiting_depot_id? && DeliveryCycle.visible? &&
+        membership.delivery_cycle&.visible? &&
+        waiting_depot.delivery_cycle_ids.include?(membership.delivery_cycle_id)
+      self.waiting_delivery_cycle_id = membership.delivery_cycle_id
+    end
+    extras = Current.org[:basket_price_extras]
+    if Current.org.feature?("basket_price_extra") && extras.include?(membership.basket_price_extra.to_f)
+      self.waiting_basket_price_extra = membership.basket_price_extra
+    end
+    if Current.org.feature?("activity")
+      demanded = membership.activity_participations_demanded_annually
+      min = Current.org.activity_participations_form_min || 0
+      max = Current.org.activity_participations_form_max || 1000
+      if demanded && demanded >= min && demanded <= max
+        self.waiting_activity_participations_demanded_annually = demanded
+      end
+    end
+    if Current.org.billing_year_divisions.include?(membership.billing_year_division)
+      self.waiting_billing_year_division = membership.billing_year_division
+    end
+    catalog_ids = BasketComplement.visible.select { |c| c.deliveries_count.positive? }.map(&:id)
+    membership.memberships_basket_complements.each do |mbc|
+      next unless catalog_ids.include?(mbc.basket_complement_id)
+
+      members_basket_complements.build(
+        basket_complement_id: mbc.basket_complement_id,
+        quantity: mbc.quantity)
+    end
   end
 
   def complete_membership_request?
