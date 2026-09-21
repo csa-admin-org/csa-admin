@@ -15,6 +15,16 @@ class AdminsControllerTest < ActionDispatch::IntegrationTest
     get "/sessions/#{session.generate_token_for(:redeem)}"
   end
 
+  test "admin layout tells Trix that PDFs belong in Attachments" do
+    login admins(:super)
+
+    get admins_path
+
+    assert_response :success
+    assert_select "body[data-trix-invalid-file-alert=?]",
+      "Only images in the editor. PDFs go in Attachments below."
+  end
+
   test "index shows a suppressed admin email once with reactivate" do
     admin = admins(:external)
     suppression = suppress_email(admin.email)
