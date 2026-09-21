@@ -24,10 +24,20 @@ module Membership::Absence
     after_commit :update_absences_included!, on: %i[create update]
   end
 
+  def absences_included_annually=(value)
+    if value.to_s.strip == ""
+      super(nil)
+    else
+      super
+    end
+  end
+
   private
 
   def set_absences_included_annually_default
-    self.absences_included_annually ||= delivery_cycle&.absences_included_annually
+    return unless absences_included_annually.nil?
+
+    self.absences_included_annually = delivery_cycle&.absences_included_annually
   end
 
   # Calculates the prorated absences_included for this membership based on

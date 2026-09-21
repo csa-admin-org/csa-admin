@@ -35,6 +35,14 @@ class AbsencesIncluded
     end
   end
 
+  class PreviewMembershipDrop < MembershipDrop
+    def baskets
+      return 0.to_f unless @membership.delivery_cycle && @membership.started_on && @membership.ended_on
+
+      @membership.delivery_cycle.deliveries_in(@membership.period).size.to_f
+    end
+  end
+
   def initialize(membership)
     @membership = membership
     @liquid_template = Liquid::Template.parse(Current.org.absences_included_logic)
@@ -45,6 +53,15 @@ class AbsencesIncluded
 
     [ @liquid_template.render(
       "membership" => MembershipDrop.new(@membership)).to_i, 0 ].max
+  end
+
+  def preview_count
+    return unless @membership.delivery_cycle && @membership.started_on && @membership.ended_on
+
+    return 0 unless fy_deliveries_count.positive? && @membership.absences_included_annually.to_i.positive?
+
+    [ @liquid_template.render(
+      "membership" => PreviewMembershipDrop.new(@membership)).to_i, 0 ].max
   end
 
   private

@@ -732,7 +732,14 @@ ActiveAdmin.register Membership do
         f.input :new_config_from, as: :date_picker, required: true
       end
     end
-    f.inputs Delivery.model_name.human(count: 2), icon: "calendar" do
+    deliveries_fieldset = { icon: "calendar" }
+    if feature?("absence")
+      absences_preview = absences_included_preview_payload(f.object)
+      deliveries_fieldset["data-controller"] = "form-absences-included"
+      deliveries_fieldset["data-form-absences-included-url-value"] =
+        absences_included_preview_memberships_path
+    end
+    f.inputs Delivery.model_name.human(count: 2), **deliveries_fieldset do
       ol "data-controller" => "form-reset" do
         f.input :depot,
           collection: admin_depots_collection,
@@ -761,14 +768,36 @@ ActiveAdmin.register Membership do
             input_html: catalog_price_input_html(f.object.delivery_cycle_price, f.object.delivery_cycle&.price)
         end
         if feature?("absence")
-          f.input :absences_included_annually,
-            required: false,
-            step: 1,
-            input_html: {
-              data: { form_reset_target: "input", "1p_ignore": true }
-            }
-
-          handbook_button(self, "absence", anchor: "absence-included")
+          div class: "admin-formula" do
+            f.input :absences_included_annually,
+              required: false,
+              step: 1,
+              hint: absences_included_formula_hint,
+              wrapper_html: { class: "admin-formula-annually" },
+              input_html: {
+                value: activity_participations_annually_form_value(
+                  f.object.absences_included_annually,
+                  absences_preview[:default_annually]),
+                placeholder: absences_preview[:default_annually],
+                data: {
+                  form_reset_target: "input",
+                  form_reset_placeholder: "absencesIncludedAnnually",
+                  form_absences_included_target: "annually",
+                  "1p_ignore": true
+                }
+              }
+            text_node icon("move-right", class: "admin-formula-arrow")
+            text_node absences_included_preview(absences_preview[:included])
+          end
+          turbo_frame(
+            id: "membership-absences-included",
+            class: "is-hidden",
+            "data-form-absences-included-target" => "frame") do
+            div(
+              "data-form-absences-included-target" => "payload",
+              "data-default-annually" => absences_preview[:default_annually].to_s,
+              "data-included" => absences_preview[:included].to_s)
+          end
         end
       end
       li class: "form-group" do
@@ -971,6 +1000,23 @@ ActiveAdmin.register Membership do
             default_annually: payload[:default_annually].to_s,
             demanded: payload[:demanded].to_s,
             default_price_change: payload[:default_price_change].to_s
+          })
+      }, layout: false
+  end
+
+  collection_action :absences_included_preview, method: :get do
+    authorize! :read, Membership
+    membership = helpers.absences_included_preview_membership(params[:membership])
+    payload = helpers.absences_included_preview_payload(membership)
+    render html: helpers.turbo_frame_tag(
+      "membership-absences-included",
+      class: "is-hidden",
+      data: { form_absences_included_target: "frame" }) {
+        helpers.tag.div(
+          data: {
+            form_absences_included_target: "payload",
+            default_annually: payload[:default_annually].to_s,
+            included: payload[:included].to_s
           })
       }, layout: false
   end

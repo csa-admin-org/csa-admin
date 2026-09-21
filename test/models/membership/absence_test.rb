@@ -383,6 +383,41 @@ class Membership::AbsenceTest < ActiveSupport::TestCase
     assert_equal 4, membership.reload.absences_included
   end
 
+  test "blank absences_included_annually uses the cycle default" do
+    travel_to "2024-01-01"
+    cycle = delivery_cycles(:mondays)
+    cycle.update!(absences_included_annually: 5)
+    membership = create_membership(
+      delivery_cycle: cycle,
+      absences_included_annually: "")
+
+    assert_equal 5, membership.absences_included_annually
+  end
+
+  test "zero absences_included_annually sticks when the cycle default is 5" do
+    travel_to "2024-01-01"
+    cycle = delivery_cycles(:mondays)
+    cycle.update!(absences_included_annually: 5)
+    membership = create_membership(
+      delivery_cycle: cycle,
+      absences_included_annually: 0)
+
+    assert_equal 0, membership.absences_included_annually
+  end
+
+  test "unrelated save keeps persisted zero absences_included_annually" do
+    travel_to "2024-01-01"
+    cycle = delivery_cycles(:mondays)
+    cycle.update!(absences_included_annually: 5)
+    membership = create_membership(
+      delivery_cycle: cycle,
+      absences_included_annually: 0)
+
+    membership.update!(basket_quantity: 2)
+
+    assert_equal 0, membership.reload.absences_included_annually
+  end
+
   test "destroying forced delivery reverts basket to provisional absence" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 0, absences_billed: true)

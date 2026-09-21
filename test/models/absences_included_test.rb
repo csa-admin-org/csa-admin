@@ -139,6 +139,18 @@ class AbsencesIncludedTest < ActiveSupport::TestCase
     assert_equal 0, included_for(membership.reload)
   end
 
+  test "preview count uses deliveries in the form period, not persisted baskets" do
+    travel_to "2024-01-01"
+    membership = Membership.new(
+      delivery_cycle: delivery_cycles(:thursdays),
+      started_on: Date.new(2024, 1, 1),
+      ended_on: Date.new(2024, 12, 31),
+      absences_included_annually: 4)
+
+    assert_equal 0, included_for(membership)
+    assert_equal 4, AbsencesIncluded.new(membership).preview_count
+  end
+
   test "skips the write when the absence feature is off" do
     travel_to "2024-01-01"
     membership = memberships(:jane)

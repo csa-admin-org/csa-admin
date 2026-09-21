@@ -152,6 +152,52 @@ module MembershipsHelper
       settings_url: activity_participations_demanded_logic_settings_url)
   end
 
+  def absences_included_logic_settings_url
+    if authorized?(:update, Organization)
+      edit_organization_path(:absence, anchor: "absences_included_logic")
+    else
+      organization_path(anchor: "absence")
+    end
+  end
+
+  def absences_included_formula_hint
+    t("formtastic.hints.membership.absences_included_annually_formula_html",
+      settings_url: absences_included_logic_settings_url,
+      handbook_url: handbook_page_path("absence", anchor: "absence-included"))
+  end
+
+  def absences_included_preview(value, input_id: "membership_absences_included")
+    text = t("active_admin.resource.form.absences_included_logic")
+    tooltip_id = "tooltip-#{input_id}"
+    content_tag(
+      :div,
+      class: "admin-formula-result tooltip-wrap",
+      data: { controller: "tooltip", tooltip_dismissible_value: true }
+    ) do
+      content_tag(
+        :span,
+        class: "tooltip-trigger is-clickable",
+        tabindex: 0,
+        role: "button",
+        data: {
+          "tooltip-target" => "trigger",
+          action: "click->tooltip#toggle mouseenter->tooltip#preview mouseleave->tooltip#hidePreview focus->tooltip#preview blur->tooltip#hidePreview"
+        },
+        aria: { describedby: tooltip_id, controls: tooltip_id, expanded: false },
+        onclick: "event.stopPropagation()"
+      ) {
+        tag.input(
+          type: "text",
+          id: input_id,
+          value: value,
+          disabled: true,
+          tabindex: -1,
+          aria: { label: Membership.human_attribute_name(:absences_included) },
+          data: { form_absences_included_target: "included" })
+      } + tooltip_element(text, id: tooltip_id)
+    end
+  end
+
   def activity_participations_default_annually(membership)
     if membership.basket_size
       membership.activity_participations_demanded_annually_by_default
@@ -188,6 +234,26 @@ module MembershipsHelper
       demanded: activity_participations_placeholder(demanded),
       default_price_change: activity_participations_placeholder(price)
     }
+  end
+
+  def absences_included_preview_payload(membership)
+    copy = membership.dup
+    absences_included_assign_annually(copy, membership.absences_included_annually)
+    {
+      default_annually: activity_participations_placeholder(
+        membership.delivery_cycle&.absences_included_annually),
+      included: activity_participations_placeholder(
+        AbsencesIncluded.new(copy).preview_count)
+    }
+  end
+
+  def absences_included_preview_membership(raw)
+    attrs = activity_participations_preview_attrs(raw)
+    membership = Membership.new
+    membership.assign_attributes(attrs.slice(
+      :basket_size_id, :depot_id, :delivery_cycle_id, :started_on, :ended_on))
+    absences_included_assign_annually(membership, attrs[:absences_included_annually])
+    membership
   end
 
   def activity_participations_placeholder(value)
@@ -431,6 +497,16 @@ module MembershipsHelper
         raw_annually
       end
     membership.activity_participations_demanded_annually = annually unless annually.nil?
+  end
+
+  def absences_included_assign_annually(membership, raw_annually)
+    annually =
+      if raw_annually.to_s.strip == ""
+        membership.delivery_cycle&.absences_included_annually
+      else
+        raw_annually
+      end
+    membership.absences_included_annually = annually unless annually.nil?
   end
 
   def activity_participations_assign_waiting_period(membership, raw_started_on)

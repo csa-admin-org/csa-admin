@@ -414,8 +414,143 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     get new_membership_path
 
     assert_response :success
-    assert_includes response.body, "/settings#absence"
+    hints = css_select("#membership_absences_included_annually_input .inline-hints").first
+    assert_select hints, "a[href='#{edit_organization_path(:absence, anchor: "absences_included_logic")}']"
+    assert_select hints, "a[href='#{handbook_page_path(:absence, anchor: "absence-included")}']"
+    assert_select ".handbook-button a[href='#{handbook_page_path(:absence, anchor: "absence-included")}']", false
     assert_not_includes response.body, "href='/delivery_cycles'"
+  end
+
+  test "edit blanks included absences annually when it matches the cycle default" do
+    travel_to "2024-05-01"
+    cycle = delivery_cycles(:thursdays)
+    cycle.update!(absences_included_annually: 4)
+    membership = memberships(:jane)
+    membership.update!(absences_included_annually: 4)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert_response :success
+    annually = css_select("#membership_absences_included_annually").first
+    assert_equal "", annually["value"].to_s
+    assert_equal "4", annually["placeholder"]
+    assert_select ".admin-formula"
+    assert_select "#membership_absences_included[disabled][value='4']"
+    assert_select "#tooltip-membership_absences_included", text: /Final included absences/
+    assert_select "turbo-frame#membership-absences-included [data-default-annually='4'][data-included='4']"
+    assert_select "#membership_delivery_cycle_id option[value='#{cycle.id}'][data-absences-included-annually='4']"
+  end
+
+  test "edit keeps included absences annually override including 0" do
+    travel_to "2024-05-01"
+    delivery_cycles(:thursdays).update!(absences_included_annually: 4)
+    membership = memberships(:jane)
+    membership.update!(absences_included_annually: 0)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert_response :success
+    annually = css_select("#membership_absences_included_annually").first
+    assert_equal "0", annually["value"]
+    assert_equal "4", annually["placeholder"]
+    assert_select "#membership_absences_included[disabled][value='0']"
+  end
+
+  test "edit keeps a non-zero included absences annually override" do
+    travel_to "2024-05-01"
+    delivery_cycles(:thursdays).update!(absences_included_annually: 4)
+    membership = memberships(:jane)
+    membership.update!(absences_included_annually: 5)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert_response :success
+    annually = css_select("#membership_absences_included_annually").first
+    assert_equal "5", annually["value"]
+    assert_equal "4", annually["placeholder"]
+    assert_select "#membership_absences_included[disabled][value='5']"
+  end
+
+  test "absences included preview returns turbo frame payload" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    delivery_cycles(:thursdays).update!(absences_included_annually: 4)
+    login admins(:super)
+
+    get absences_included_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        absences_included_annually: 5)
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-absences-included [data-default-annually='4'][data-included='5']"
+  end
+
+  test "absences included preview treats empty annually as the cycle default" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    delivery_cycles(:thursdays).update!(absences_included_annually: 4)
+    login admins(:super)
+
+    get absences_included_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        absences_included_annually: "")
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-absences-included [data-default-annually='4'][data-included='4']"
+  end
+
+  test "absences included preview treats annually 0 as an override" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    delivery_cycles(:thursdays).update!(absences_included_annually: 4)
+    login admins(:super)
+
+    get absences_included_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        absences_included_annually: "0")
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-absences-included [data-included='0']"
+  end
+
+  test "absences included preview uses the selected cycle default" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    delivery_cycles(:thursdays).update!(absences_included_annually: 4)
+    delivery_cycles(:mondays).update!(absences_included_annually: 2)
+    login admins(:super)
+
+    get absences_included_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        delivery_cycle_id: delivery_cycles(:mondays).id,
+        absences_included_annually: "")
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-absences-included [data-default-annually='2'][data-included='2']"
+  end
+
+  test "absences included preview uses deliveries in the form period" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    delivery_cycles(:thursdays).update!(absences_included_annually: 4)
+    login admins(:super)
+
+    get absences_included_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        started_on: "2024-01-01",
+        ended_on: deliveries(:thursday_5).date.to_s,
+        absences_included_annually: "4")
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-absences-included [data-included='2']"
   end
 
   private

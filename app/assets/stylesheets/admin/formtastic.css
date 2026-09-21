@@ -490,6 +490,7 @@
     .has-many-add {
       display: inline-block;
       padding-block: 0.75rem;
+      margin-bottom: 0.75rem;
     }
 
     a.has-many-add {

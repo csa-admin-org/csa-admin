@@ -125,7 +125,10 @@ module AdminHelper
       [
         "#{cycle.name} (#{t('helpers.deliveries_count', count: cycle.deliveries_count)})",
         cycle.id,
-        { data: { price: catalog_price_placeholder(cycle.price) } }
+        { data: {
+            price: catalog_price_placeholder(cycle.price),
+            absences_included_annually: cycle.absences_included_annually
+          } }
       ]
     }
   end

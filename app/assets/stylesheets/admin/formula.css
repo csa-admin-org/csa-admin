@@ -1,5 +1,5 @@
 @layer components {
-  .formtastic .inputs .activity-participations-formula {
+  .formtastic .inputs :is(.admin-formula, .activity-participations-formula) {
     display: grid;
     grid-template-columns: max-content max-content max-content minmax(0, 1fr);
     justify-content: start;
@@ -10,25 +10,28 @@
     row-gap: 0;
   }
 
-  .formtastic .inputs .activity-participations-annually {
+  .formtastic .inputs :is(.admin-formula-annually, .activity-participations-annually) {
     display: contents;
   }
 
-  .formtastic .inputs .activity-participations-annually > label {
+  .formtastic .inputs :is(.admin-formula-annually, .activity-participations-annually) > label {
     grid-column: 1 / -1;
     grid-row: 1;
     margin-bottom: 0.375rem;
   }
 
-  .formtastic .inputs .activity-participations-annually input,
-  .formtastic .inputs .activity-participations-annually [type="number"] {
+  .formtastic .inputs :is(.admin-formula-annually, .activity-participations-annually) input,
+  .formtastic
+    .inputs
+    :is(.admin-formula-annually, .activity-participations-annually)
+    [type="number"] {
     grid-column: 1;
     grid-row: 2;
     width: 6.5rem;
     max-width: 6.5rem;
   }
 
-  .formtastic .inputs .activity-participations-formula-arrow {
+  .formtastic .inputs :is(.admin-formula-arrow, .activity-participations-formula-arrow) {
     display: block;
     grid-column: 2;
     grid-row: 2;
@@ -43,25 +46,31 @@
     }
   }
 
-  .formtastic .inputs .activity-participations-demanded {
+  .formtastic .inputs :is(.admin-formula-result, .activity-participations-demanded) {
     display: flex;
     grid-column: 3;
     grid-row: 2;
     align-items: center;
   }
 
-  .formtastic .inputs .activity-participations-demanded .tooltip-trigger {
+  .formtastic
+    .inputs
+    :is(.admin-formula-result, .activity-participations-demanded)
+    .tooltip-trigger {
     display: inline-flex;
   }
 
-  .formtastic .inputs .activity-participations-demanded input {
+  .formtastic .inputs :is(.admin-formula-result, .activity-participations-demanded) input {
     width: 3.25rem;
     max-width: 3.25rem;
     text-align: center;
     pointer-events: none;
   }
 
-  .formtastic .inputs .activity-participations-annually > .inline-hints {
+  .formtastic
+    .inputs
+    :is(.admin-formula-annually, .activity-participations-annually)
+    > .inline-hints {
     grid-column: 1 / -1;
     grid-row: 3;
   }

@@ -8,11 +8,11 @@ export default class extends Controller {
 
   reset(event) {
     const option = event?.currentTarget?.selectedOptions?.[0]
-    if (option && "price" in option.dataset) {
-      const price = option.dataset.price
+    if (option) {
       this.inputTargets.forEach((input) => {
-        if (input.dataset.formResetPlaceholder === "price") {
-          input.placeholder = price
+        const key = input.dataset.formResetPlaceholder
+        if (key && key in option.dataset) {
+          input.placeholder = option.dataset[key]
         }
       })
     }

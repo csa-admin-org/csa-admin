@@ -1251,6 +1251,12 @@ _:
           _de: Jahresendmodus
           _it: Modalità di fine anno
           _nl: Eindejaarmodus
+        absences_included_logic:
+          _en: Final included absences, after the calculation logic is applied.
+          _fr: Nombre d'absences incluses final, une fois la logique de calcul appliquée.
+          _de: Endgültige Anzahl enthaltener Abwesenheiten, nach Anwendung der Berechnungslogik.
+          _it: Numero finale di assenze incluse, dopo l'applicazione della logica di calcolo.
+          _nl: Uiteindelijk aantal inbegrepen afwezigheden, na toepassing van de berekeningslogica.
         activity_participations_demanded_annually:
           _en: Demanded count (full year)
           _fr: Nombre demandé (année complète)
@@ -1994,6 +2000,12 @@ _:
           _it: Duplicare
           _nl: Dupliceren
       new:
+        absences_included_logic:
+          _en: Final included absences, after the calculation logic is applied.
+          _fr: Nombre d'absences incluses final, une fois la logique de calcul appliquée.
+          _de: Endgültige Anzahl enthaltener Abwesenheiten, nach Anwendung der Berechnungslogik.
+          _it: Numero finale di assenze incluse, dopo l'applicazione della logica di calcolo.
+          _nl: Uiteindelijk aantal inbegrepen afwezigheden, na toepassing van de berekeningslogica.
         activity_participations_demanded_annually:
           _en: Demanded count (full year)
           _fr: Nombre demandé (année complète)
