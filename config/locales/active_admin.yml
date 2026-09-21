@@ -1311,6 +1311,12 @@ _:
           _de: 'Inhalt: %{content}'
           _it: 'Contenuto: %{content}'
           _nl: 'Inhoud: %{content}'
+        basket_price_extra_dynamic_pricing:
+          _en: Billed extra per delivery, after the dynamic price formula is applied.
+          _fr: Supplément facturé à chaque livraison, une fois la formule de prix dynamique appliquée.
+          _de: Pro Lieferung fakturierter Zuschlag, nach Anwendung der dynamischen Preisformel.
+          _it: Supplemento fatturato a ogni consegna, dopo l'applicazione della formula di prezzo dinamico.
+          _nl: Toeslag gefactureerd per levering, na toepassing van de dynamische prijsformule.
         basket_shift_absences_included_warning:
           _en: This delivery uses an included absence and is not billed. Only its shift can be changed; its date, depot, and content cannot be modified. If shifted, it will be billed and the included absence will remain available.
           _fr: Cette livraison utilise une absence incluse et n'est pas facturée. Seul son déplacement peut être modifié; sa date, son dépôt et son contenu ne peuvent pas l'être. Si elle est déplacée, elle sera facturée et l'absence incluse restera disponible.
@@ -2024,6 +2030,12 @@ _:
           _de: Verfügbarkeit
           _it: Disponibilità
           _nl: Beschikbaarheid
+        basket_price_extra_dynamic_pricing:
+          _en: Billed extra per delivery, after the dynamic price formula is applied.
+          _fr: Supplément facturé à chaque livraison, une fois la formule de prix dynamique appliquée.
+          _de: Pro Lieferung fakturierter Zuschlag, nach Anwendung der dynamischen Preisformel.
+          _it: Supplemento fatturato a ogni consegna, dopo l'applicazione della formula di prezzo dinamico.
+          _nl: Toeslag gefactureerd per levering, na toepassing van de dynamische prijsformule.
         billing:
           _en: Billing
           _fr: Facturation

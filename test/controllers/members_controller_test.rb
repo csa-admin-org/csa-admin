@@ -218,6 +218,56 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#membership-activity-participations [data-default-annually='2'][data-demanded]"
   end
 
+  test "edit waiting member shows billed extra formula when dynamic pricing is on" do
+    travel_to "2024-05-01"
+    org(basket_price_extra_dynamic_pricing: "{{ extra | times: 2 }}")
+    login admins(:super)
+
+    get edit_member_path(members(:aria))
+
+    assert_response :success
+    extra = css_select("#member_waiting_basket_price_extra").first
+    assert extra
+    assert_equal "0.0", extra["value"].to_s
+    assert_select "#member_waiting_calculated_price_extra[disabled]"
+    assert_select "#member_waiting_basket_price_extra_input .inline-hints a[href='#{edit_organization_path(:basket_price_extra, anchor: "basket_price_extra_dynamic_pricing")}']"
+    assert_select "turbo-frame#membership-basket-price-extra"
+  end
+
+  test "edit waiting member has no extra formula when dynamic pricing is off" do
+    travel_to "2024-05-01"
+    login admins(:super)
+
+    get edit_member_path(members(:aria))
+
+    assert_response :success
+    assert_select "#member_waiting_basket_price_extra"
+    assert_select "#member_waiting_calculated_price_extra", false
+    assert_select "turbo-frame#membership-basket-price-extra", false
+  end
+
+  test "basket price extra preview for waiting members uses size and complements" do
+    travel_to "2024-05-01"
+    org(basket_price_extra_dynamic_pricing: <<-LIQUID)
+      {% assign price = basket_size_price | plus: complements_price %}
+      {{ price | times: extra }}
+    LIQUID
+    login admins(:super)
+
+    get basket_price_extra_preview_members_path, params: {
+      member: {
+        waiting_basket_size_id: basket_sizes(:medium).id,
+        waiting_basket_price_extra: 2,
+        members_basket_complements_attributes: {
+          "0" => { basket_complement_id: basket_complements(:bread).id, quantity: 1 }
+        }
+      }
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-basket-price-extra [data-billed-extra='#{ApplicationController.helpers.cur((20 + 4) * 2)}']"
+  end
+
   test "show disables validation when direct membership has no upcoming delivery" do
     travel_to "2026-01-01"
     org(features: Current.org.features - [ :waiting_list ])

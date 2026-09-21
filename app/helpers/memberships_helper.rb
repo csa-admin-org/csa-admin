@@ -198,6 +198,151 @@ module MembershipsHelper
     end
   end
 
+  def basket_price_extra_dynamic_pricing_settings_url
+    if authorized?(:update, Organization)
+      edit_organization_path(:basket_price_extra, anchor: "basket_price_extra_dynamic_pricing")
+    else
+      organization_path(anchor: "basket_price_extra")
+    end
+  end
+
+  def basket_price_extra_formula_hint
+    t("formtastic.hints.membership.basket_price_extra_formula_html",
+      settings_url: basket_price_extra_dynamic_pricing_settings_url)
+  end
+
+  def basket_price_extra_preview(value, input_id: "membership_calculated_price_extra")
+    text = t("active_admin.resource.form.basket_price_extra_dynamic_pricing")
+    tooltip_id = "tooltip-#{input_id}"
+    content_tag(
+      :div,
+      class: "admin-formula-result admin-formula-result-money tooltip-wrap",
+      data: { controller: "tooltip", tooltip_dismissible_value: true }
+    ) do
+      content_tag(
+        :span,
+        class: "tooltip-trigger is-clickable",
+        tabindex: 0,
+        role: "button",
+        data: {
+          "tooltip-target" => "trigger",
+          action: "click->tooltip#toggle mouseenter->tooltip#preview mouseleave->tooltip#hidePreview focus->tooltip#preview blur->tooltip#hidePreview"
+        },
+        aria: { describedby: tooltip_id, controls: tooltip_id, expanded: false },
+        onclick: "event.stopPropagation()"
+      ) {
+        tag.input(
+          type: "text",
+          id: input_id,
+          value: value,
+          disabled: true,
+          tabindex: -1,
+          aria: { label: t("active_admin.resource.form.basket_price_extra_dynamic_pricing") },
+          data: { form_basket_price_extra_target: "billedExtra" })
+      } + tooltip_element(text, id: tooltip_id)
+    end
+  end
+
+  def basket_price_extra_preview_payload(extra:, basket_size_id:, basket_size_price:, complements_price:, deliveries_count:)
+    extra = extra.to_f
+    basket_size_id = basket_size_id.presence&.to_i
+    basket_size_price = basket_size_price.to_f
+    complements_price = complements_price.to_f
+    billed =
+      if extra.zero? || (basket_size_price.zero? && complements_price.zero?)
+        0
+      else
+        Current.org.calculate_basket_price_extra(
+          extra,
+          basket_size_price,
+          basket_size_id,
+          complements_price,
+          deliveries_count)
+      end
+    { billed_extra: cur(billed) }
+  end
+
+  def basket_price_extra_preview_from_membership_record(membership)
+    year = membership.started_on ? membership.fy_year : Current.fiscal_year.year
+    basket_price_extra_preview_payload(
+      extra: membership.basket_price_extra,
+      basket_size_id: membership.basket_size_id,
+      basket_size_price: membership.basket_size_price.nil? ? membership.basket_size&.price : membership.basket_size_price,
+      complements_price: basket_price_extra_complements_price_from(
+        membership.memberships_basket_complements),
+      deliveries_count: Current.org.deliveries_count(year))
+  end
+
+  def basket_price_extra_preview_from_waiting_member(member)
+    started_on = member.fresh_waiting_membership_started_on || member.waiting_membership_start_on
+    year = started_on ? Current.org.fiscal_year_for(started_on).year : Current.fiscal_year.year
+    complements_price = member.members_basket_complements.reject(&:marked_for_destruction?).sum { |comp|
+      next 0 if comp.basket_complement_id.blank?
+
+      comp.quantity.to_i * comp.basket_complement&.price.to_f
+    }
+    basket_price_extra_preview_payload(
+      extra: member.waiting_basket_price_extra,
+      basket_size_id: member.waiting_basket_size_id,
+      basket_size_price: member.waiting_basket_size&.price,
+      complements_price: complements_price,
+      deliveries_count: Current.org.deliveries_count(year))
+  end
+
+  def basket_price_extra_preview_from_basket_record(basket)
+    basket_price_extra_preview_payload(
+      extra: basket.price_extra,
+      basket_size_id: basket.basket_size_id,
+      basket_size_price: basket.basket_size_price.nil? ? basket.basket_size&.price : basket.basket_size_price,
+      complements_price: basket_price_extra_complements_price_from(
+        basket.baskets_basket_complements),
+      deliveries_count: Current.org.deliveries_count(basket.membership.fy_year))
+  end
+
+  def basket_price_extra_preview_from_membership(raw)
+    attrs = activity_participations_preview_attrs(raw)
+    extra = attrs[:basket_price_extra]
+    size_id = attrs[:basket_size_id]
+    started_on = basket_price_extra_parse_date(attrs[:started_on])
+    year = started_on ? Current.org.fiscal_year_for(started_on).year : Current.fiscal_year.year
+    basket_price_extra_preview_payload(
+      extra: extra,
+      basket_size_id: size_id,
+      basket_size_price: basket_price_extra_preview_size_price(attrs),
+      complements_price: basket_price_extra_preview_complements_price(
+        attrs[:memberships_basket_complements_attributes]),
+      deliveries_count: Current.org.deliveries_count(year))
+  end
+
+  def basket_price_extra_preview_from_waiting(raw)
+    attrs = activity_participations_preview_attrs(raw)
+    extra = attrs[:waiting_basket_price_extra]
+    size_id = attrs[:waiting_basket_size_id]
+    started_on = basket_price_extra_parse_date(attrs[:waiting_membership_started_on])
+    year = started_on ? Current.org.fiscal_year_for(started_on).year : Current.fiscal_year.year
+    basket_price_extra_preview_payload(
+      extra: extra,
+      basket_size_id: size_id,
+      basket_size_price: BasketSize.find_by(id: size_id)&.price,
+      complements_price: basket_price_extra_preview_complements_price(
+        attrs[:members_basket_complements_attributes]),
+      deliveries_count: Current.org.deliveries_count(year))
+  end
+
+  def basket_price_extra_preview_from_basket(raw, year: nil)
+    attrs = activity_participations_preview_attrs(raw)
+    extra = attrs[:price_extra]
+    size_id = attrs[:basket_size_id]
+    year ||= Current.fiscal_year.year
+    basket_price_extra_preview_payload(
+      extra: extra,
+      basket_size_id: size_id,
+      basket_size_price: basket_price_extra_preview_size_price(attrs),
+      complements_price: basket_price_extra_preview_complements_price(
+        attrs[:baskets_basket_complements_attributes]),
+      deliveries_count: Current.org.deliveries_count(year))
+  end
+
   def activity_participations_default_annually(membership)
     if membership.basket_size
       membership.activity_participations_demanded_annually_by_default
@@ -497,6 +642,44 @@ module MembershipsHelper
         raw_annually
       end
     membership.activity_participations_demanded_annually = annually unless annually.nil?
+  end
+
+  def basket_price_extra_preview_size_price(attrs)
+    if attrs[:basket_size_price].to_s.strip == ""
+      BasketSize.find_by(id: attrs[:basket_size_id])&.price
+    else
+      attrs[:basket_size_price]
+    end
+  end
+
+  def basket_price_extra_preview_complements_price(nested)
+    Array(nested&.values).sum { |comp|
+      next 0 if ActiveRecord::Type::Boolean.new.cast(comp[:_destroy])
+      next 0 if comp[:basket_complement_id].blank?
+
+      price =
+        if comp[:price].to_s.strip == ""
+          BasketComplement.find_by(id: comp[:basket_complement_id])&.price
+        else
+          comp[:price]
+        end
+      (comp[:quantity].presence || 1).to_i * price.to_f
+    }
+  end
+
+  def basket_price_extra_complements_price_from(records)
+    records.reject(&:marked_for_destruction?).sum { |comp|
+      next 0 if comp.basket_complement_id.blank?
+
+      price = comp.price.nil? ? comp.basket_complement&.price : comp.price
+      comp.quantity.to_i * price.to_f
+    }
+  end
+
+  def basket_price_extra_parse_date(raw)
+    Date.parse(raw.to_s) if raw.present?
+  rescue Date::Error
+    nil
   end
 
   def absences_included_assign_annually(membership, raw_annually)

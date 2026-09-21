@@ -19,6 +19,60 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
     @basket.reload
   end
 
+  test "edit shows billed extra formula when dynamic pricing is on" do
+    org(
+      features: [ :absence, :basket_price_extra ],
+      basket_price_extra_dynamic_pricing: "{{ extra | times: 2 }}")
+    basket = baskets(:jane_1)
+
+    get edit_basket_path(basket)
+
+    assert_response :success
+    extra = css_select("#basket_price_extra").first
+    assert extra
+    assert_equal "0.0", extra["value"].to_s
+    assert_select "#basket_calculated_price_extra[disabled]"
+    assert_select "#basket_price_extra_input .inline-hints a[href='#{edit_organization_path(:basket_price_extra, anchor: "basket_price_extra_dynamic_pricing")}']"
+    assert_select "turbo-frame#membership-basket-price-extra"
+  end
+
+  test "edit has no extra formula when dynamic pricing is off" do
+    org(features: [ :absence, :basket_price_extra ])
+    basket = baskets(:jane_1)
+
+    get edit_basket_path(basket)
+
+    assert_response :success
+    assert_select "#basket_price_extra"
+    assert_select "#basket_calculated_price_extra", false
+    assert_select "turbo-frame#membership-basket-price-extra", false
+  end
+
+  test "basket price extra preview uses that basket's size and complements" do
+    org(
+      features: [ :absence, :basket_price_extra ],
+      basket_price_extra_dynamic_pricing: <<-LIQUID)
+      {% assign price = basket_size_price | plus: complements_price %}
+      {{ price | times: extra }}
+    LIQUID
+    basket = baskets(:jane_1)
+
+    get basket_price_extra_preview_baskets_path, params: {
+      year: 2024,
+      basket: {
+        price_extra: 2,
+        basket_size_id: basket.basket_size_id,
+        basket_size_price: "",
+        baskets_basket_complements_attributes: {
+          "0" => { basket_complement_id: basket_complements(:bread).id, quantity: 1, price: "" }
+        }
+      }
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-basket-price-extra [data-billed-extra='#{ApplicationController.helpers.cur((30 + 4) * 2)}']"
+  end
+
   test "edit blanks catalog prices that match the default" do
     basket = memberships(:jane).baskets.first
 

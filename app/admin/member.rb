@@ -666,6 +666,10 @@ ActiveAdmin.register Member do
       end
       waiting_controllers = [ "form-disabler" ]
       waiting_controllers << "form-activity-participations" if feature?("activity")
+      extra_preview = if feature?("basket_price_extra") && Current.org.basket_price_extra_dynamic_pricing?
+        waiting_controllers << "form-basket-price-extra"
+        basket_price_extra_preview_from_waiting_member(member)
+      end
       waiting_fieldset_options = {
         icon: waiting_membership_form ? "clock" : "calendar-range",
         "data-controller" => waiting_controllers.join(" ")
@@ -673,6 +677,10 @@ ActiveAdmin.register Member do
       if feature?("activity")
         waiting_fieldset_options["data-form-activity-participations-url-value"] =
           activity_participations_preview_members_path
+      end
+      if extra_preview
+        waiting_fieldset_options["data-form-basket-price-extra-url-value"] =
+          basket_price_extra_preview_members_path
       end
       f.inputs waiting_membership_form ? t("active_admin.resource.show.waiting_membership") : Membership.model_name.human,
         **waiting_fieldset_options do
@@ -738,9 +746,37 @@ ActiveAdmin.register Member do
           collection: admin_basket_sizes_collection,
           required: false
         if feature?("basket_price_extra")
-          f.input :waiting_basket_price_extra,
-            label: Current.org.basket_price_extra_title,
-            required: false
+          if extra_preview
+            div class: "admin-formula" do
+              f.input :waiting_basket_price_extra,
+                label: Current.org.basket_price_extra_title,
+                required: false,
+                hint: basket_price_extra_formula_hint,
+                wrapper_html: { class: "admin-formula-annually" },
+                input_html: {
+                  data: {
+                    form_basket_price_extra_target: "extra",
+                    "1p_ignore": true
+                  }
+                }
+              text_node icon("move-right", class: "admin-formula-arrow")
+              text_node basket_price_extra_preview(
+                extra_preview[:billed_extra],
+                input_id: "member_waiting_calculated_price_extra")
+            end
+            turbo_frame(
+              id: "membership-basket-price-extra",
+              class: "is-hidden",
+              "data-form-basket-price-extra-target" => "frame") do
+              div(
+                "data-form-basket-price-extra-target" => "payload",
+                "data-billed-extra" => extra_preview[:billed_extra].to_s)
+            end
+          else
+            f.input :waiting_basket_price_extra,
+              label: Current.org.basket_price_extra_title,
+              required: false
+          end
         end
         if BasketComplement.kept.any?
           f.has_many :members_basket_complements, allow_destroy: true do |ff|
@@ -1037,6 +1073,21 @@ ActiveAdmin.register Member do
             default_annually: payload[:default_annually].to_s,
             demanded: payload[:demanded].to_s,
             default_price_change: payload[:default_price_change].to_s
+          })
+      }, layout: false
+  end
+
+  collection_action :basket_price_extra_preview, method: :get do
+    authorize! :read, Member
+    payload = helpers.basket_price_extra_preview_from_waiting(params[:member])
+    render html: helpers.turbo_frame_tag(
+      "membership-basket-price-extra",
+      class: "is-hidden",
+      data: { form_basket_price_extra_target: "frame" }) {
+        helpers.tag.div(
+          data: {
+            form_basket_price_extra_target: "payload",
+            billed_extra: payload[:billed_extra].to_s
           })
       }, layout: false
   end

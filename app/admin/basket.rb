@@ -114,10 +114,19 @@ ActiveAdmin.register Basket do
             f.input :delivery_cycle_price, required: false, min: 0
           end
         end
+        basket_fieldset = { icon: "shopping-bag" }
+        extra_preview = if Current.org.basket_price_extra_dynamic_pricing? && basket_price_extra_for?(f.object)
+          basket_fieldset["data-controller"] = "form-basket-price-extra"
+          basket_fieldset["data-form-basket-price-extra-url-value"] =
+            basket_price_extra_preview_baskets_path
+          basket_fieldset["data-form-basket-price-extra-year-value"] =
+            f.object.membership.fy_year
+          basket_price_extra_preview_from_basket_record(f.object)
+        end
         f.inputs [
           Basket.model_name.human,
           BasketComplement.kept.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
-        ].compact.to_sentence, icon: "shopping-bag" do
+        ].compact.to_sentence, **basket_fieldset do
           ol "data-controller" => "form-reset" do
             f.input :basket_size,
               prompt: true,
@@ -129,7 +138,35 @@ ActiveAdmin.register Basket do
               input_html: catalog_basket_size_price_input_html(f.object)
           end
           if basket_price_extra_for?(f.object)
-            f.input :price_extra, required: true, label: Current.org.basket_price_extra_title
+            if extra_preview
+              div class: "admin-formula" do
+                f.input :price_extra,
+                  required: true,
+                  label: Current.org.basket_price_extra_title,
+                  hint: basket_price_extra_formula_hint,
+                  wrapper_html: { class: "admin-formula-annually" },
+                  input_html: {
+                    data: {
+                      form_basket_price_extra_target: "extra",
+                      "1p_ignore": true
+                    }
+                  }
+                text_node icon("move-right", class: "admin-formula-arrow")
+                text_node basket_price_extra_preview(
+                  extra_preview[:billed_extra],
+                  input_id: "basket_calculated_price_extra")
+              end
+              turbo_frame(
+                id: "membership-basket-price-extra",
+                class: "is-hidden",
+                "data-form-basket-price-extra-target" => "frame") do
+                div(
+                  "data-form-basket-price-extra-target" => "payload",
+                  "data-billed-extra" => extra_preview[:billed_extra].to_s)
+              end
+            else
+              f.input :price_extra, required: true, label: Current.org.basket_price_extra_title
+            end
           end
           f.input :quantity
           if BasketComplement.kept.any?
@@ -157,6 +194,21 @@ ActiveAdmin.register Basket do
         cancel_link membership_path(f.object.membership)
       end
     end
+  end
+
+  collection_action :basket_price_extra_preview, method: :get do
+    authorize! :read, Basket
+    payload = helpers.basket_price_extra_preview_from_basket(params[:basket], year: params[:year])
+    render html: helpers.turbo_frame_tag(
+      "membership-basket-price-extra",
+      class: "is-hidden",
+      data: { form_basket_price_extra_target: "frame" }) {
+        helpers.tag.div(
+          data: {
+            form_basket_price_extra_target: "payload",
+            billed_extra: payload[:billed_extra].to_s
+          })
+      }, layout: false
   end
 
   permit_params \

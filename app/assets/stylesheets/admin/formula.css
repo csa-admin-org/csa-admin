@@ -67,6 +67,11 @@
     pointer-events: none;
   }
 
+  .formtastic .inputs .admin-formula-result.admin-formula-result-money input {
+    width: 7.5rem;
+    max-width: 7.5rem;
+  }
+
   .formtastic
     .inputs
     :is(.admin-formula-annually, .activity-participations-annually)

@@ -1235,6 +1235,12 @@ _:
           _de: Preisaufschlag, der zu jeder Lieferung hinzugefügt wird.
           _it: Prezzo aggiuntivo aggiunto ad ogni consegna.
           _nl: Prijstoeslag toegevoegd aan elke levering.
+        basket_price_extra_formula_html:
+          _en: Coefficient used by the dynamic price. The amount on the right is billed per delivery, after applying the formula defined in <a href='%{settings_url}'>the settings</a>.
+          _fr: Coefficient utilisé par le prix dynamique. Le montant à droite est facturé à chaque livraison, une fois la formule définie dans <a href='%{settings_url}'>les paramètres</a> appliquée.
+          _de: Koeffizient für den dynamischen Preis. Der Betrag rechts wird pro Lieferung fakturiert, nach Anwendung der in <a href='%{settings_url}'>den Einstellungen</a> festgelegten Formel.
+          _it: Coefficiente usato dal prezzo dinamico. L'importo a destra è fatturato a ogni consegna, dopo l'applicazione della formula definita nelle <a href='%{settings_url}'>impostazioni</a>.
+          _nl: Coëfficiënt voor de dynamische prijs. Het bedrag rechts wordt per levering gefactureerd, na toepassing van de formule gedefinieerd in <a href='%{settings_url}'>de instellingen</a>.
         basket_size_price:
           _en: Leave blank for the default price.
           _fr: Laisser vide pour le prix par défaut.

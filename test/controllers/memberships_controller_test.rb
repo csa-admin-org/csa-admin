@@ -553,6 +553,151 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#membership-absences-included [data-included='2']"
   end
 
+  test "edit shows billed extra formula when dynamic pricing is on" do
+    travel_to "2024-05-01"
+    org(basket_price_extra_dynamic_pricing: "{{ extra | times: 2 }}")
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert_response :success
+    extra = css_select("#membership_basket_price_extra").first
+    assert extra
+    assert_equal "0.0", extra["value"].to_s
+    assert_select ".admin-formula"
+    assert_select "#membership_calculated_price_extra[disabled][value='#{billed_extra(0)}']"
+    assert_select "#membership_basket_price_extra_input .inline-hints a[href='#{edit_organization_path(:basket_price_extra, anchor: "basket_price_extra_dynamic_pricing")}']"
+    assert_select "turbo-frame#membership-basket-price-extra [data-billed-extra='#{billed_extra(0)}']"
+  end
+
+  test "edit billed extra keeps a free basket size price" do
+    travel_to "2024-05-01"
+    org(basket_price_extra_dynamic_pricing: "{{ extra | times: basket_size_price }}")
+    membership = memberships(:jane)
+    membership.update!(basket_size_price: 0, basket_price_extra: 2)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert_response :success
+    assert_select "#membership_calculated_price_extra[disabled][value='#{billed_extra(0)}']"
+  end
+
+  test "edit has no extra formula when dynamic pricing is off" do
+    travel_to "2024-05-01"
+    login admins(:super)
+
+    get edit_membership_path(memberships(:jane))
+
+    assert_response :success
+    assert_select "#membership_basket_price_extra"
+    assert_select "#membership_calculated_price_extra", false
+    assert_select "turbo-frame#membership-basket-price-extra", false
+  end
+
+  test "basket price extra preview returns billed extra" do
+    travel_to "2024-05-01"
+    org(basket_price_extra_dynamic_pricing: "{{ extra | times: 2 }}")
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get basket_price_extra_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        basket_price_extra: 2,
+        basket_size_price: 30)
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-basket-price-extra [data-billed-extra='#{billed_extra(4)}']"
+  end
+
+  test "basket price extra preview is zero when extra is zero" do
+    travel_to "2024-05-01"
+    org(basket_price_extra_dynamic_pricing: "{{ extra | plus: 99 }}")
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get basket_price_extra_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        basket_price_extra: 0,
+        basket_size_price: 30)
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-basket-price-extra [data-billed-extra='#{billed_extra(0)}']"
+  end
+
+  test "basket price extra preview matches Liquid on string basket_size_id" do
+    travel_to "2024-05-01"
+    size = basket_sizes(:large)
+    org(basket_price_extra_dynamic_pricing: <<-LIQUID)
+      {% if basket_size_id == #{size.id} %}
+        {{ extra | times: 3 }}
+      {% else %}
+        0
+      {% endif %}
+    LIQUID
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get basket_price_extra_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        basket_price_extra: "2",
+        basket_size_id: size.id.to_s,
+        basket_size_price: "30")
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-basket-price-extra [data-billed-extra='#{billed_extra(6)}']"
+  end
+
+  test "basket price extra preview uses size and complements from the form" do
+    travel_to "2024-05-01"
+    org(basket_price_extra_dynamic_pricing: <<-LIQUID)
+      {% assign price = basket_size_price | plus: complements_price %}
+      {{ price | times: extra }}
+    LIQUID
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get basket_price_extra_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        basket_price_extra: 2,
+        basket_size_price: "",
+        memberships_basket_complements_attributes: {
+          "0" => { basket_complement_id: basket_complements(:bread).id, quantity: 1, price: "" }
+        })
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-basket-price-extra [data-billed-extra='#{billed_extra((30 + 4) * 2)}']"
+  end
+
+  test "basket price extra preview ignores destroyed complements" do
+    travel_to "2024-05-01"
+    org(basket_price_extra_dynamic_pricing: "{{ extra | times: complements_price }}")
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get basket_price_extra_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        basket_price_extra: 2,
+        basket_size_price: 30,
+        memberships_basket_complements_attributes: {
+          "0" => {
+            basket_complement_id: basket_complements(:bread).id,
+            quantity: 1,
+            price: 4,
+            _destroy: "1"
+          }
+        })
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-basket-price-extra [data-billed-extra='#{billed_extra(0)}']"
+  end
+
   private
 
   def preview_membership_params(membership)
@@ -565,5 +710,9 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
       started_on: membership.started_on,
       ended_on: membership.ended_on
     }
+  end
+
+  def billed_extra(amount)
+    ApplicationController.helpers.cur(amount)
   end
 end
