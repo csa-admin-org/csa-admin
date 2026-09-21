@@ -11,6 +11,7 @@ class EmailSuppression < ApplicationRecord
 
   scope :active, -> { where(unsuppressed_at: nil) }
   scope :visible, -> { active.where.not(reason: "ManualSuppression") }
+  scope :manual, -> { where(reason: "ManualSuppression") }
   scope :outbound, -> { where(stream_id: "outbound") }
   scope :broadcast, -> { where(stream_id: "broadcast") }
   scope :unsuppressable, -> { active.where.not(reason: %w[SpamComplaint InvalidAddress]) }

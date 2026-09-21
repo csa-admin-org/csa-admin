@@ -102,6 +102,40 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "show displays unsubscribed badge for ManualSuppression without reactivate" do
+    travel_to "2024-05-01"
+    member = members(:john)
+    suppression = suppress_email(member.emails_array.first,
+      stream_id: "broadcast",
+      reason: "ManualSuppression",
+      origin: "Customer")
+    login admins(:super)
+
+    get member_path(member)
+
+    assert_response :success
+    assert_select "a[href=?]", "mailto:#{member.emails_array.first}"
+    assert_select "a[href='#{handbook_page_path("newsletters", anchor: "subscribe")}'][title='Handbook']" do
+      assert_select ".status-tag[data-status=manual_suppression]",
+        text: "Unsubscribed since 1 May 2024"
+    end
+    assert_select "form[action=?]", email_suppression_path(suppression), false
+  end
+
+  test "show still offers reactivate for a hard bounce" do
+    member = members(:john)
+    suppression = suppress_email(member.emails_array.first)
+    login admins(:super)
+
+    get member_path(member)
+
+    assert_response :success
+    assert_select "s", text: member.emails_array.first
+    assert_select ".status-tag", text: /hard bounce/i
+    assert_select "form[action=?]", email_suppression_path(suppression)
+    assert_select ".status-tag[data-status=manual_suppression]", false
+  end
+
   test "show explains when recurring billing is disabled" do
     member = members(:john)
     org(recurring_billing_wday: nil)

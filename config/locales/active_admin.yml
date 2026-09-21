@@ -2407,6 +2407,12 @@ _:
           _de: E-Mail-Verteilungen
           _it: Distribuzioni email
           _nl: E-mailleveringen
+        email_unsubscribed_since:
+          _en: Unsubscribed since %{date}
+          _fr: Désinscrit depuis le %{date}
+          _de: Abgemeldet seit %{date}
+          _it: Disiscritto dal %{date}
+          _nl: Uitgeschreven sinds %{date}
         emails:
           one:
             _en: Email

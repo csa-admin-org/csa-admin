@@ -462,7 +462,7 @@ ActiveAdmin.register Member do
           overlays = coming.sort_by(&:next_delivery_date) + past.sort_by(&:id)
           attributes_table do
             row :name
-            row(:emails) { display_emails_with_link(self, member.emails_array) }
+            row(:emails) { display_member_emails_with_link(self, member.emails_array) }
             row(:phones) { display_phones_with_link(self, member.phones_array) }
             row(Member.human_attribute_name(:address)) {
               div class: "stack is-tight" do

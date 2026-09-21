@@ -83,6 +83,29 @@ module ApplicationHelper
     end
   end
 
+  def display_member_emails_with_link(arbre, emails)
+    return unless emails.present?
+
+    emails = Array(emails)
+    unsubscriptions = EmailSuppression.active.manual.where(email: emails).index_by(&:email)
+
+    arbre.ul class: "cluster is-snug" do
+      emails.each do |email|
+        arbre.li class: "cluster is-snug" do
+          display_email_with_link(arbre, email)
+          if (suppression = unsubscriptions[email])
+            arbre.a href: handbook_page_path("newsletters", anchor: "subscribe"),
+              title: I18n.t("active_admin.site_footer.handbook") do
+              arbre.status_tag :manual_suppression,
+                label: t("active_admin.resource.show.email_unsubscribed_since",
+                  date: l(suppression.created_at.to_date))
+            end
+          end
+        end
+      end
+    end
+  end
+
   def display_name_with_public_name(object)
     txt = object.display_name
     if object.public_name != txt
@@ -107,7 +130,7 @@ module ApplicationHelper
         end
       end
     else
-      mail_to(email)
+      arbre.text_node mail_to(email)
     end
   end
 
