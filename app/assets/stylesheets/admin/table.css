@@ -613,6 +613,28 @@
       & :where(.cluster) {
         justify-content: flex-end;
       }
+
+      /* Buttons must not inherit anywhere-wrap or they collapse to one glyph. */
+      & :where(.btn, button) {
+        overflow-wrap: normal;
+        white-space: nowrap;
+      }
+
+      & :where(.row-actions) {
+        flex-wrap: wrap;
+        width: 100%;
+        min-width: 0;
+        overflow-wrap: normal;
+
+        & > span {
+          flex: 1 1 100%;
+          min-width: 0;
+        }
+
+        & > :not(span) {
+          flex-shrink: 0;
+        }
+      }
     }
 
     &.organization :where(tbody > tr > th) {
