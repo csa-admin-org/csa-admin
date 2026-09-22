@@ -40,7 +40,8 @@ ActiveAdmin.register Membership do
   filter :id
   filter :member,
     as: :select,
-    collection: -> { members_collection(collection) }
+    collection: -> { members_collection(collection) },
+    input_html: -> { searchable_select_input_html }
   filter :member_city,
     as: :select,
     collection: -> { member_cities_collection },
@@ -715,7 +716,8 @@ ActiveAdmin.register Membership do
     f.inputs t(".details"), icon: "notebook-text" do
       f.input :member,
         collection: members_collection,
-        prompt: true
+        prompt: true,
+        input_html: searchable_select_input_html
       div class: "single-line" do
         f.input :started_on, as: :date_picker
         f.input :ended_on, as: :date_picker

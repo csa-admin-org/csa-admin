@@ -41,7 +41,8 @@ ActiveAdmin.register Absence do
     label: -> { Delivery.model_name.human }
   filter :member,
     as: :select,
-    collection: -> { members_collection(collection) }
+    collection: -> { members_collection(collection) },
+    input_html: -> { searchable_select_input_html }
   filter :with_note, as: :boolean
 
   includes :member, :session, { baskets: :membership }
@@ -114,9 +115,9 @@ ActiveAdmin.register Absence do
   form do |f|
     f.inputs t(".details"), icon: "notebook-text" do
       f.input :member,
-        collection: Member.joins(:memberships).distinct.order_by_name.map { |d| [ d.name, d.id ] },
+        collection: members_collection(Membership.all, featured: Absence.all),
         prompt: true,
-        input_html: { disabled: f.object.persisted? }
+        input_html: searchable_select_input_html(disabled: f.object.persisted?)
       div class: "single-line" do
         f.input :started_on, as: :date_picker
         f.input :ended_on, as: :date_picker

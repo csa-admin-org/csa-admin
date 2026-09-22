@@ -37,7 +37,8 @@ ActiveAdmin.register Shop::Order do
   filter :id, as: :numeric
   filter :member,
     as: :select,
-    collection: -> { members_collection(collection) }
+    collection: -> { members_collection(collection) },
+    input_html: -> { searchable_select_input_html }
   filter :depot, as: :select, collection: -> { admin_depots_collection }
   filter :amount
 
@@ -187,7 +188,10 @@ ActiveAdmin.register Shop::Order do
     f.semantic_errors :amount
 
     f.inputs t(".details"), icon: "notebook-text" do
-      f.input :member, collection: members_collection, prompt: true
+      f.input :member,
+        collection: members_collection(featured: Shop::Order.all_without_cart),
+        prompt: true,
+        input_html: searchable_select_input_html
       f.input :delivery_gid,
         label: Delivery.model_name.human,
         prompt: true,

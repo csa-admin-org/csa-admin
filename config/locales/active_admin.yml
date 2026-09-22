@@ -4610,6 +4610,43 @@ _:
         _de: Kein
         _it: Nessun
         _nl: Geen
+    searchable_select:
+      all:
+        _en: All
+        _fr: Tous
+        _de: Alle
+        _it: Tutti
+        _nl: Alle
+      clear:
+        _en: Clear
+        _fr: Effacer
+        _de: Leeren
+        _it: Cancella
+        _nl: Wissen
+      keep_typing:
+        _en: Keep typing to narrow the list
+        _fr: Continuez à taper pour affiner la liste
+        _de: Weiter tippen, um die Liste einzugrenzen
+        _it: Continuare a digitare per restringere l'elenco
+        _nl: Blijven typen om de lijst te verfijnen
+      no_results:
+        _en: No matching members
+        _fr: Aucun membre correspondant
+        _de: Keine passenden Mitglieder
+        _it: Nessun membro corrispondente
+        _nl: Geen overeenkomende leden
+      placeholder:
+        _en: Search by name
+        _fr: Rechercher par nom
+        _de: Nach Name suchen
+        _it: Cercare per nome
+        _nl: Zoeken op naam
+      recent:
+        _en: Recent
+        _fr: Récents
+        _de: Zuletzt verwendet
+        _it: Recenti
+        _nl: Recent
     settings:
       _en: Settings
       _fr: Paramètres

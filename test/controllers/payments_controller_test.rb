@@ -23,6 +23,24 @@ class PaymentsControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes response.body, "<th>#{I18n.t("active_admin.resources.organization.bank_connection.health", locale: admins(:super).language)}</th>"
   end
 
+  test "new payment skips search on a locked member and keeps the contextual select" do
+    login admins(:super)
+    invoice = invoices(:other_closed)
+
+    get new_payment_path(invoice_id: invoice.id)
+
+    assert_response :success
+    assert_select "select[name='payment[member_id]'][disabled]"
+    assert_select "select[name='payment[member_id]'][data-controller*='searchable-select']", count: 0
+    assert_select "input[type=hidden][name='payment[member_id]'][value='#{invoice.member_id}']"
+
+    get new_payment_path, headers: { "HTTP_REFERER" => "#{payments_url}?q[invoice_id_eq]=#{invoice.id}" }
+
+    assert_response :success
+    assert_select "select[name='payment[member_id]'][data-controller='searchable-select'][data-payment-form-target='member'][data-action='payment-form#clearInvoice']"
+    assert_select "input[type=hidden][name='payment[invoice_id]'][value='#{invoice.id}']"
+  end
+
   test "payments sidebar shows active bank connection health and settings link" do
     BankConnection.create!(
       provider: "ebics",

@@ -17,6 +17,7 @@
 @import url("admin/panel.css");
 @import url("admin/table.css");
 @import url("admin/formtastic.css");
+@import url("admin/searchable_select.css");
 @import url("admin/filters.css");
 @import url("admin/batch_actions.css");
 @import url("admin/pagination.css");

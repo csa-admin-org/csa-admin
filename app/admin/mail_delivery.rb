@@ -76,7 +76,8 @@ ActiveAdmin.register MailDelivery do
   filter :member,
     as: :select,
     if: proc { source_type != :member },
-    collection: -> { members_collection(collection) }
+    collection: -> { members_collection(collection) },
+    input_html: -> { searchable_select_input_html }
   filter :member_name_cont,
     label: -> { Member.human_attribute_name(:name) },
     if: proc { source_type != :member }

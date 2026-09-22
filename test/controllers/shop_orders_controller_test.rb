@@ -9,6 +9,22 @@ class ShopOrdersControllerTest < ActionDispatch::IntegrationTest
     login admins(:super)
   end
 
+  test "new form searches members and pins recent shop members" do
+    get new_shop_order_path
+
+    assert_response :success
+    select = css_select("select[name='shop_order[member_id]']").first
+    assert_equal "searchable-select", select["data-controller"]
+    assert_select select, "option[value='']"
+    assert_select select, "optgroup[label=?]", I18n.t("active_admin.searchable_select.recent") do
+      assert_select "option[value='#{members(:john).id}'][data-recent='true']"
+    end
+    assert_select select, "optgroup[label=?] option[value='#{members(:john).id}']",
+      I18n.t("active_admin.searchable_select.all"), count: 0
+    values = select.css("option[value]:not([value=''])").map { |option| option["value"] }
+    assert_equal values.uniq, values
+  end
+
   test "edit blanks item price that matches the variant default" do
     order = shop_orders(:john)
     item = shop_order_items(:john_bread_500)
@@ -42,6 +58,8 @@ class ShopOrdersControllerTest < ActionDispatch::IntegrationTest
     get shop_orders_path
 
     assert_response :success
+    assert_select "select[name='q[member_id_eq]'][data-controller='searchable-select']"
+    assert_select "select[name='q[member_id_eq]'] optgroup", count: 0
     assert_select "a[href*='#{delivery_shop_orders_path(format: :pdf)}']", false
     assert_select ".action-item-button.is-disabled"
     assert_select ".tooltip-body",

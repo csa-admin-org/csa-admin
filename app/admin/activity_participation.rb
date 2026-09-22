@@ -37,7 +37,8 @@ ActiveAdmin.register ActivityParticipation do
     as: :date_range
   filter :member,
     as: :select,
-    collection: -> { members_collection(collection) }
+    collection: -> { members_collection(collection) },
+    input_html: -> { searchable_select_input_html }
   filter :with_note, as: :boolean
   filter :activity,
     as: :select,
@@ -201,8 +202,9 @@ ActiveAdmin.register ActivityParticipation do
         collection: activity_participation_form_activities_collection(f.object),
         prompt: true
       f.input :member,
-        collection: members_collection,
-        prompt: true
+        collection: members_collection(featured: ActivityParticipation.all),
+        prompt: true,
+        input_html: searchable_select_input_html
       f.input :participants_count
       if f.object.persisted?
         f.input :note, as: :text, input_html: { rows: 4 }

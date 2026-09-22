@@ -34,7 +34,8 @@ ActiveAdmin.register Payment do
   filter :id, as: :numeric
   filter :member,
     as: :select,
-    collection: -> { members_collection(collection) }
+    collection: -> { members_collection(collection) },
+    input_html: -> { searchable_select_input_html }
   filter :invoice_id, as: :numeric
   filter :currency_code,
     as: :select,
@@ -202,12 +203,12 @@ ActiveAdmin.register Payment do
         f.input :member_id, as: :hidden
       end
       f.input :member,
-        collection: members_collection,
+        collection: members_collection(featured: Payment.all),
         prompt: true,
-        input_html: {
+        input_html: searchable_select_input_html(
           disabled: invoice_locked,
           data: (invoice_contextual ? { action: "payment-form#clearInvoice", payment_form_target: "member" } : {})
-        }
+        )
       if f.object.invoice_id?
         f.input :invoice_id,
           as: :hidden,

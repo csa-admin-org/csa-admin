@@ -181,6 +181,23 @@
       line-height: 1.25rem;
     }
 
+    input.searchable-select-input {
+      padding-inline-end: 2.25rem;
+    }
+
+    .active input.searchable-select-input {
+      padding-inline-start: calc(0.5rem - 1px);
+    }
+
+    .searchable-select-clear {
+      width: 2.25rem;
+
+      svg {
+        width: 1.125rem;
+        height: 1.125rem;
+      }
+    }
+
     input[type="date"] {
       display: flex;
       align-items: center;

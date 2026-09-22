@@ -32,7 +32,8 @@ ActiveAdmin.register Invoice do
   filter :id, as: :numeric
   filter :member,
     as: :select,
-    collection: -> { members_collection(collection) }
+    collection: -> { members_collection(collection) },
+    input_html: -> { searchable_select_input_html }
   filter :membership,
     as: :select,
     collection: -> { Membership.where(member_id: params.dig(:q, :member_id_eq)).all.map { |m| [ m.id, m.id ] } },
@@ -446,11 +447,11 @@ ActiveAdmin.register Invoice do
 
     f.inputs t(".details"), icon: "notebook-text" do
       f.input :member,
-        collection: members_collection,
+        collection: members_collection(featured: Invoice.all),
         prompt: true,
-        input_html: {
+        input_html: searchable_select_input_html(
           disabled: f.object.entity.is_a?(ActivityParticipation)
-        }
+        )
       if f.object.entity.is_a?(ActivityParticipation)
         f.input :member_id, as: :hidden
       end

@@ -3,6 +3,7 @@
 module MembersHelper
   RADIO_BUTTONS_MAX = 6
   DEPOT_FILTER_MIN = 8
+  FEATURED_MEMBER_LIMIT = 8
 
   def notice_pane(icon_name = nil, &block)
     content_tag :div, class: "pane pane--notice" do
@@ -76,13 +77,60 @@ module MembersHelper
     tag.div content, class: "panel-copy"
   end
 
-  def members_collection(relation = nil)
+  def members_collection(relation = nil, featured: nil)
+    visible = kept_members(relation)
+    featured_ids = featured_member_ids(featured, visible)
+    return visible if featured_ids.blank?
+
+    featured_members = visible.where(id: featured_ids).index_by(&:id).values_at(*featured_ids).compact
+    others = visible.where.not(id: featured_ids).map { |member| [ member.name, member.id ] }
+    [
+      [ t("active_admin.searchable_select.recent"), featured_members.map { |member| [ member.name, member.id, { data: { recent: true } } ] } ],
+      [ t("active_admin.searchable_select.all"), others ]
+    ]
+  end
+
+  def searchable_select_input_html(extra = {})
+    return extra if extra[:disabled]
+
+    extra.merge(
+      data: extra.fetch(:data, {}).merge(
+        controller: "searchable-select",
+        searchable_select_placeholder_value: t("active_admin.searchable_select.placeholder"),
+        searchable_select_empty_value: t("active_admin.searchable_select.no_results"),
+        searchable_select_more_value: t("active_admin.searchable_select.keep_typing"),
+        searchable_select_clear_value: t("active_admin.searchable_select.clear")
+      )
+    )
+  end
+
+  private def kept_members(relation)
     collection = Member.kept
-    if relation
-      member_ids = relation.unscope(where: :member_id).unscope(:limit, :offset).distinct.pluck(:member_id)
-      collection = collection.where(id: member_ids)
-    end
-    collection.order_by_name
+    return collection.order_by_name unless relation
+
+    member_ids = relation.unscope(where: :member_id).unscope(:limit, :offset).distinct.pluck(:member_id)
+    collection.where(id: member_ids).order_by_name
+  end
+
+  private def featured_member_ids(featured, visible)
+    return if featured.nil?
+
+    ids = recent_member_ids(featured) & visible.pluck(:id)
+    return if ids.empty? || ids.size == visible.size
+
+    ids
+  end
+
+  private def recent_member_ids(featured)
+    table = featured.klass.table_name
+    featured
+      .unscope(:order, :limit, :offset, :includes, :select)
+      .joins(:member)
+      .merge(Member.kept)
+      .group(:member_id)
+      .order(Arel.sql("MAX(#{table}.created_at) DESC"))
+      .limit(FEATURED_MEMBER_LIMIT)
+      .pluck(:member_id)
   end
 
   def languages_collection

@@ -77,6 +77,77 @@ class MembersHelperTest < ActionView::TestCase
     assert_equal "42 Nowhere, 1234 Unknown", depot_map_location(farm)
   end
 
+  test "members_collection pins last-used members and does not duplicate them" do
+    jane = members(:jane)
+    john = members(:john)
+    insert_shop_order(jane, 2.days.ago)
+    shop_orders(:john).update_columns(created_at: 1.hour.ago, updated_at: 1.hour.ago)
+
+    recent, others = members_collection(featured: Shop::Order.all_without_cart)
+
+    assert_equal I18n.t("active_admin.searchable_select.recent"), recent.first
+    assert_equal [ john.id, jane.id ], recent.last.map(&:second)
+    assert recent.last.all? { |_, _, html| html.dig(:data, :recent) }
+    assert_not_includes others.last.map(&:second), john.id
+    assert_not_includes others.last.map(&:second), jane.id
+    assert_includes others.last.map(&:second), members(:bob).id
+  end
+
+  test "members_collection caps the recent group at 8" do
+    newest = Array.new(9) { |index|
+      Member.create!(
+        name: "Recent #{index}",
+        street: "Nowhere #{index}",
+        city: "City",
+        zip: "1234",
+        trial_baskets_count: 0)
+    }
+    newest.each_with_index { |member, index| insert_shop_order(member, index.hours.ago) }
+
+    recent, others = members_collection(featured: Shop::Order.where(member: newest))
+
+    assert_equal newest.first(8).map(&:id), recent.last.map(&:second)
+    assert_includes others.last.map(&:second), newest.last.id
+  end
+
+  test "members_collection omits the recent group when there is nothing to pin" do
+    collection = members_collection(featured: Shop::Order.none)
+
+    assert_kind_of ActiveRecord::Relation, collection
+    assert_equal Member.kept.order_by_name.pluck(:id), collection.pluck(:id)
+  end
+
+  test "members_collection omits the recent group when it covers the visible list" do
+    john = members(:john)
+    shop_orders(:john).update_columns(created_at: 1.hour.ago, updated_at: 1.hour.ago)
+
+    collection = members_collection(
+      Shop::Order.where(member_id: john.id),
+      featured: Shop::Order.all_without_cart)
+
+    assert_kind_of ActiveRecord::Relation, collection
+    assert_equal [ john.id ], collection.pluck(:id)
+  end
+
+  test "members_collection drops a discarded member from the recent group" do
+    jane = members(:jane)
+    john = members(:john)
+    insert_shop_order(jane, 1.hour.ago)
+    shop_orders(:john).update_columns(created_at: 2.days.ago, updated_at: 2.days.ago)
+    jane.discard
+
+    recent, = members_collection(featured: Shop::Order.all_without_cart)
+
+    assert_equal [ john.id ], recent.last.map(&:second)
+    assert_not_includes recent.last.map(&:second), jane.id
+  end
+
+  test "members_collection still restricts options to the given relation" do
+    collection = members_collection(Shop::Order.where(member_id: members(:john).id))
+
+    assert_equal [ members(:john).id ], collection.pluck(:id)
+  end
+
   test "depot map icon location falls back to address when maps feature is off" do
     org(features: Current.org.features - [ :maps ])
     farm = depots(:farm)
@@ -173,5 +244,17 @@ class MembersHelperTest < ActionView::TestCase
 
   def member_address(city, zip)
     Struct.new(:city, :zip).new(city, zip)
+  end
+
+  def insert_shop_order(member, created_at)
+    Shop::Order.insert_all!([ {
+      member_id: member.id,
+      delivery_id: deliveries(:monday_2).id,
+      delivery_type: "Delivery",
+      state: "pending",
+      amount: 0,
+      created_at: created_at,
+      updated_at: created_at
+    } ])
   end
 end
