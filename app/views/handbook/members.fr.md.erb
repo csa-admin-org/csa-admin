@@ -91,6 +91,16 @@ Chaque membre a accès à un compte personnel sur [le compte membre](<%= Current
 
 Si l'email de connexion n'est pas reconnu, vérifiez une seconde adresse sur le membre. Les membres [supprimés](/handbook/right_to_be_forgotten) ne peuvent plus se connecter et n'apparaissent plus dans les listes admin. Une fois connecté, la session dure un an.
 
+### Le membre ne peut pas se connecter {#cannot-log-in}
+
+Le panneau **Espace membre** affiche la dernière connexion. **Ouvrir une session admin** ouvre le compte de ce membre pendant 6 heures. Les emails de connexion sont dans **Distribution d'emails**. Un email bloqué (rejet, plainte) s'affiche à côté de l'adresse, dans **Contact**.
+
+- **Mauvais email**: le formulaire répond toujours "Si cet email est enregistré…". Vérifiez une seconde adresse sur le membre.
+- **Expiré ou déjà utilisé**: le lien est valable 15 minutes. Ensuite, ou une fois utilisé, le message est le même ("n'est plus valide"). Demandez-en un nouveau.
+- **Déjà connecté**: la page de connexion demande de se déconnecter. Le lien d'un autre membre n'est pas utilisé, et reste valable 15 minutes. **Ouvrir une session admin** ouvre quand même le compte demandé.
+- **Navigateur trop ancien**: une page demande de le mettre à jour (Safari 16.6, Chrome 120, Firefox 128 ou plus récent).
+- **Supprimé**: un HardBounce sortant peut être **réactivé**. Une plainte spam non: le membre doit écrire à l'organisation, puis transmettre cette demande via [le support](/support). Les adresses invalides ne peuvent pas être réactivées. La désinscription newsletter est une suppression de diffusion; elle ne bloque pas la connexion.
+
 Depuis son compte, le membre peut:
 
 - **Consulter les livraisons**: Voir ses prochains, futurs et passés <%= Basket.model_name.human(count: 2).downcase %>, y compris le détail du contenu lorsqu'il est disponible.
@@ -125,4 +135,4 @@ Ce contenu est configuré depuis [les paramètres de la page d'information](/set
 
 ### Accès admin au compte d'un membre {#admin-access}
 
-Depuis la page admin d'un membre, le bouton "Compte" permet d'ouvrir le compte membre en tant que ce membre. Cela est utile pour vérifier ce qu'un membre voit ou pour résoudre un problème. Les sessions initiées par un admin expirent après 6 heures (au lieu de l'année habituelle).
+Depuis la page admin d'un membre, **Ouvrir une session admin** dans **Espace membre** ouvre le compte de ce membre. Cela permet de vérifier ce qu'un membre voit ou de résoudre un problème. Les sessions initiées par un admin expirent après 6 heures (au lieu de l'année habituelle).

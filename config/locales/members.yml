@@ -2571,6 +2571,12 @@ _:
           _nl: SEPA-machtiging doorlopende incasso
     sessions:
       flash:
+        other_account:
+          _en: You are already logged in to an account. Log out first.
+          _fr: Vous êtes déjà connecté à un compte. Déconnectez-vous d'abord.
+          _de: Du bist bereits bei einem Konto angemeldet. Melde Dich zuerst ab.
+          _it: Sei già connesso a un account. Disconnettiti prima.
+          _nl: Je bent al ingelogd bij een account. Log eerst uit.
         suppressed:
           _en: This email address is blocked. Please contact the organization.
           _fr: Cette adresse email est bloquée. Veuillez contacter l'organisation.
@@ -2578,6 +2584,12 @@ _:
           _it: Questo indirizzo e-mail è bloccato. Contatta l'organizzazione.
           _nl: Dit e-mailadres is geblokkeerd. Neem contact op met de organisatie.
       new:
+        back_to_account:
+          _en: Back to account
+          _fr: Retour au compte
+          _de: Zurück zum Konto
+          _it: Torna all'account
+          _nl: Terug naar je account
         email_input:
           _en: Your email
           _fr: Votre email

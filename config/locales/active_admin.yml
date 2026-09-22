@@ -2516,6 +2516,12 @@ _:
           _de: Registrierungsformular
           _it: Formulario d'iscrizione
           _nl: Registratieformulier
+        member_space:
+          _en: Member space
+          _fr: Espace membre
+          _de: Mitgliedsbereich
+          _it: Spazio socio
+          _nl: Ledenruimte
         membership_activation_no_delivery:
           _en: Activation cannot create a membership because the selected delivery cycle has no upcoming delivery.
           _fr: L'activation ne peut pas créer d'abonnement car le cycle de livraisons sélectionné n'a aucune livraison à venir.
@@ -2582,6 +2588,12 @@ _:
           _de: Der Zeitraum für die Verteilung an neue E-Mails ist abgelaufen.
           _it: Il periodo per l'invio a nuove email è scaduto.
           _nl: De periode voor verzending naar nieuwe e-mails is verlopen.
+        never_logged_in:
+          _en: Never logged in
+          _fr: Jamais connecté
+          _de: Nie angemeldet
+          _it: Mai effettuato l'accesso
+          _nl: Nooit ingelogd
         newsletter_scheduled_at_html:
           _en: Delivery scheduled during the <strong>%{on}</strong> night
           _fr: Envoi planifié pendant la nuit du <strong>%{on}</strong>
@@ -2696,6 +2708,12 @@ _:
           _de: Notizen
           _it: Note
           _nl: Notities
+        open_admin_session:
+          _en: Open admin session
+          _fr: Ouvrir une session admin
+          _de: Admin-Sitzung öffnen
+          _it: Aprire una sessione admin
+          _nl: Adminsessie openen
         open_renewal:
           _en: Send request
           _fr: Envoyer la demande
@@ -4618,12 +4636,6 @@ _:
           _de: Dies erstellt eine Mitgliedschaft und aktiviert das Mitglied. Die Mitgliedschaft kann bei Bedarf nachträglich bearbeitet werden. Fortfahren?
           _it: Creerete l'abbonamento e attiverete il socio. Potrete modificare l'abbonamento in seguito se necessario. Continuare?
           _nl: Het lidmaatschap wordt aangemaakt en het lid wordt geactiveerd. Het lidmaatschap kan nadien indien nodig worden bewerkt. Doorgaan?
-        become_member:
-          _en: Account
-          _fr: Compte
-          _de: Konto
-          _it: Account
-          _nl: Account
         bidding_round:
           complete_confirm/bag:
             _en: Are you sure you want to complete this bidding round? The memberships bag price will be updated with the pledged amount.

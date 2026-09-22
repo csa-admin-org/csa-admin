@@ -448,6 +448,28 @@ ActiveAdmin.register Member do
             row :validator
           end
         end
+        panel t(".member_space"), icon: "circle-user-round",
+          action: handbook_icon_link("members", anchor: "cannot-log-in") do
+          last_used_at = member.sessions.used.member_initiated.maximum(:last_used_at)
+
+          attributes_table do
+            row(Member.human_attribute_name(:last_session_used_at)) {
+              if last_used_at
+                l(last_used_at, format: :medium)
+              else
+                span(class: "attributes-table-empty-value") { t(".never_logged_in") }
+              end
+            }
+          end
+
+          div class: "panel-action-row" do
+            button_to become_member_path(member),
+              class: "action-item-button action-item-link-button is-compact",
+              form: { target: "_blank", rel: "noopener", data: { turbo: false } } do
+              icon("log-in", class: "icon-4") + t(".open_admin_session")
+            end
+          end
+        end
         if feature?("shop") && member.use_shop_depot?
           panel t("shop.title"), icon: "shopping-basket", action: handbook_icon_link("shop", anchor: "access-without-membership") do
             attributes_table do
@@ -1035,12 +1057,6 @@ ActiveAdmin.register Member do
       aria: { label: delete_label }
   end
 
-  action_item :become, only: :show do
-    content = icon("log-in", class: "icon-5") + t(".become_member")
-    button_to content, become_member_path(resource),
-      class: "action-item-button action-item-link-button",
-      form: { target: "_blank", rel: "noopener", data: { turbo: false } }
-  end
 
   action_item :resend_welcome_email, only: :show, if: -> {
     authorized?(:resend_welcome_email, resource) && resource.can_resend_welcome_email?

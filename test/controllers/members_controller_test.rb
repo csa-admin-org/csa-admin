@@ -85,6 +85,25 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action='#{resend_welcome_email_member_path(members(:jane))}']", false
   end
 
+  test "show resend welcome email stays available after an admin session" do
+    travel_to "2024-05-01"
+    mail_templates(:member_activated).update!(active: true)
+    members(:jane).update_columns(activated_at: Time.current)
+    Session.create!(
+      member: members(:jane),
+      admin: admins(:super),
+      email: admins(:super).email,
+      remote_addr: "127.0.0.1",
+      user_agent: "Test Browser",
+      last_used_at: Time.current)
+    login admins(:super)
+
+    get member_path(members(:jane))
+
+    assert_response :success
+    assert_select "form[action='#{resend_welcome_email_member_path(members(:jane))}']"
+  end
+
   test "index renders membership scopes, shop mode, and CSV" do
     login admins(:super)
 
@@ -120,6 +139,43 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
         text: "Unsubscribed since 1 May 2024"
     end
     assert_select "form[action=?]", email_suppression_path(suppression), false
+  end
+
+  test "show member space lists last member login and admin session" do
+    travel_to "2024-05-01 10:00"
+    member = members(:john)
+    Session.create!(
+      member: member,
+      email: member.emails_array.first,
+      remote_addr: "127.0.0.1",
+      user_agent: "Test Browser",
+      last_used_at: 2.hours.ago)
+    Session.create!(
+      member: member,
+      admin: admins(:super),
+      email: admins(:super).email,
+      remote_addr: "127.0.0.1",
+      user_agent: "Test Browser",
+      last_used_at: Time.current)
+    login admins(:super)
+
+    get member_path(member)
+
+    assert_response :success
+    assert_select "h3", text: "Member space"
+    assert_select "th", text: "Last login on"
+    assert_select "td", text: I18n.l(2.hours.ago, format: :medium)
+    assert_select "form[action='#{become_member_path(member)}'] button.action-item-link-button.is-compact",
+      text: "Open admin session"
+  end
+
+  test "show member space when the member never logged in" do
+    login admins(:super)
+
+    get member_path(members(:john))
+
+    assert_response :success
+    assert_select "td .attributes-table-empty-value", text: "Never logged in"
   end
 
   test "show still offers reactivate for a hard bounce" do
@@ -343,7 +399,7 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "form[action='#{become_member_path(member)}'][method='post'][target='_blank'][rel='noopener'][data-turbo='false']" do |forms|
       assert_nil forms.first["data-controller"]
-      assert_select "button.action-item-button.action-item-link-button", text: /Account/
+      assert_select "button.action-item-link-button.is-compact", text: "Open admin session"
     end
   end
 

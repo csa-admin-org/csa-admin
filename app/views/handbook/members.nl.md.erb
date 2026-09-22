@@ -90,6 +90,16 @@ Elk lid heeft toegang tot een persoonlijk account op [het ledenaccount](<%= Curr
 
 Als het inlog-e-mailadres niet herkend wordt, controleer een tweede adres op het lid. [Verwijderde](/handbook/right_to_be_forgotten) leden kunnen niet inloggen en staan niet meer in de adminlijsten. Na het inloggen duurt de sessie een jaar.
 
+### Lid kan niet inloggen {#cannot-log-in}
+
+**Ledenruimte** toont de laatste login. **Adminsessie openen** opent het account van dat lid voor 6 uur. Inlogmails staan in **E-mailleveringen**. Een geblokkeerd adres (bounce, klacht) staat naast het adres in **Contact**.
+
+- **Verkeerd e-mailadres**: het formulier antwoordt altijd "Als dit e-mailadres geregistreerd is…". Controleer een tweede adres op het lid.
+- **Verlopen of al gebruikt**: de link is 15 minuten geldig. Daarna, of na gebruik, is de melding hetzelfde ("niet meer geldig"). Vraag een nieuwe aan.
+- **Al ingelogd**: de inlogpagina vraagt om eerst uit te loggen. De link voor een ander lid wordt niet gebruikt en blijft 15 minuten geldig. **Adminsessie openen** opent toch het gevraagde account.
+- **Te oude browser**: er verschijnt een pagina die om een update vraagt (Safari 16.6, Chrome 120, Firefox 128 of nieuwer).
+- **Onderdrukt**: een uitgaande HardBounce kan **heractiveerd** worden. Een spamklacht niet: het lid moet de organisatie schriftelijk mailen, daarna dat verzoek doorsturen via [support](/support). Ongeldige adressen kunnen niet heractiveerd worden. Nieuwsbrief-uitschrijving is een broadcast-onderdrukking; die blokkeert inloggen niet.
+
 Vanuit het account kan het lid:
 
 - **Leveringen bekijken**: de volgende, toekomstige en eerdere <%= Basket.model_name.human(count: 2).downcase %> bekijken, inclusief inhoudsdetails wanneer beschikbaar.
@@ -124,4 +134,4 @@ Deze inhoud wordt geconfigureerd in [de instellingen voor de informatiepagina](/
 
 ### Admin-toegang tot een ledenaccount {#admin-access}
 
-Vanaf de adminpagina van een lid opent de knop "Account" het ledenaccount als dat lid. Dit is handig om te controleren wat een lid ziet of om een probleem op te lossen. Door admins geïnitieerde sessies verlopen na 6 uur (in plaats van het gebruikelijke jaar).
+Op de adminpagina van een lid opent **Adminsessie openen** in **Ledenruimte** het account van dat lid. Gebruik het om te zien wat een lid ziet, of om een probleem op te lossen. Door admins geïnitieerde sessies verlopen na 6 uur (in plaats van het gebruikelijke jaar).

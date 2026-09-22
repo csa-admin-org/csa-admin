@@ -90,6 +90,16 @@ Ogni socio ha accesso a un [account personale](<%= Current.org.members_url %>). 
 
 Se l'email di accesso non è riconosciuta, controlla un secondo indirizzo sul socio. I soci [eliminati](/handbook/right_to_be_forgotten) non possono accedere e non compaiono più negli elenchi admin. Dopo l'accesso, la sessione dura un anno.
 
+### Il socio non riesce ad accedere {#cannot-log-in}
+
+**Spazio socio** mostra l'ultimo accesso. **Aprire una sessione admin** apre l'account di quel socio per 6 ore. Le email di accesso sono in **Distribuzioni email**. Un indirizzo bloccato (rifiuto, reclamo) compare accanto all'indirizzo in **Contatto**.
+
+- **Email sbagliata**: il modulo risponde sempre "Se questa e-mail è registrata…". Controlla un secondo indirizzo sul socio.
+- **Scaduto o già usato**: il collegamento vale 15 minuti. Dopo, o una volta usato, il messaggio è lo stesso ("non è più valido"). Richiedine uno nuovo.
+- **Già connesso**: la pagina di accesso chiede di disconnettersi. Il link per un altro socio non viene usato e resta valido 15 minuti. **Aprire una sessione admin** apre comunque l'account richiesto.
+- **Browser troppo vecchio**: compare una pagina che chiede di aggiornarlo (Safari 16.6, Chrome 120, Firefox 128 o più recente).
+- **Soppresso**: un HardBounce in uscita può essere **riattivato**. Un reclamo spam no: il socio deve scrivere all'organizzazione, poi inoltrare la richiesta tramite il [supporto](/support). Gli indirizzi non validi non si riattivano. La disiscrizione newsletter è una soppressione di diffusione; non blocca l'accesso.
+
 Dal proprio account, il socio può:
 
 - **Consultare le consegne**: Vedere le prossime, future e passate <%= Basket.model_name.human(count: 2).downcase %>, compresi i dettagli del contenuto quando disponibili.
@@ -124,4 +134,4 @@ Questo contenuto viene configurato nelle [impostazioni della pagina informativa]
 
 ### Accesso admin all'account di un socio {#admin-access}
 
-Dalla pagina admin di un socio, il pulsante "Account" permette di aprire l'account socio come quel socio. Questo è utile per verificare ciò che un socio vede o per risolvere un problema. Le sessioni iniziate da un admin scadono dopo 6 ore (invece dell'anno abituale).
+Dalla pagina admin di un socio, **Aprire una sessione admin** in **Spazio socio** apre l'account di quel socio. Così puoi verificare ciò che un socio vede o risolvere un problema. Le sessioni iniziate da un admin scadono dopo 6 ore (invece dell'anno abituale).

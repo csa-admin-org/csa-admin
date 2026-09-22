@@ -90,6 +90,16 @@ Jedes Mitglied hat Zugang zu einem persönlichen Konto auf [dem Mitgliederkonto]
 
 Wird die Login-E-Mail nicht erkannt, prüfe eine zweite Adresse beim Mitglied. [Gelöschte](/handbook/right_to_be_forgotten) Mitglieder können sich nicht anmelden und erscheinen nicht mehr in den Admin-Listen. Nach der Anmeldung dauert die Sitzung ein Jahr.
 
+### Mitglied kann sich nicht anmelden {#cannot-log-in}
+
+**Mitgliedsbereich** zeigt die letzte Anmeldung. **Admin-Sitzung öffnen** öffnet das Konto dieses Mitglieds für 6 Stunden. Anmelde-E-Mails stehen in **E-Mail-Verteilungen**. Eine gesperrte Adresse (Rückweisung, Beschwerde) steht neben der Adresse in **Kontakt**.
+
+- **Falsche E-Mail**: Das Formular antwortet immer "Wenn diese E-Mail-Adresse registriert ist…". Eine zweite Adresse beim Mitglied prüfen.
+- **Abgelaufen oder schon verwendet**: Der Link gilt 15 Minuten. Danach oder nach der Nutzung ist die Meldung dieselbe ("nicht mehr gültig"). Einen neuen anfordern.
+- **Bereits angemeldet**: Die Anmeldeseite fordert zum Abmelden auf. Der Link für ein anderes Mitglied wird nicht verbraucht und bleibt 15 Minuten gültig. **Admin-Sitzung öffnen** öffnet trotzdem das gewünschte Konto.
+- **Veralteter Browser**: Eine Seite bittet um ein Update (Safari 16.6, Chrome 120, Firefox 128 oder neuer).
+- **Unterdrückt**: Ein ausgehender HardBounce kann **reaktiviert** werden. Eine Spam-Beschwerde nicht: Das Mitglied muss die Organisation schriftlich anschreiben, dann die Anfrage über den [Support](/support) weiterleiten. Ungültige Adressen können nicht reaktiviert werden. Newsletter-Abmeldung ist eine Broadcast-Unterdrückung; sie blockiert die Anmeldung nicht.
+
 Über sein Konto kann das Mitglied:
 
 - **Lieferungen einsehen**: Die nächsten, zukünftigen und vergangenen <%= Basket.model_name.human(count: 2) %> ansehen, einschliesslich Inhaltsdetails wenn verfügbar.
@@ -124,4 +134,4 @@ Dieser Inhalt wird in [den Einstellungen zur Informationsseite](/settings#member
 
 ### Admin-Zugang zum Mitgliederkonto {#admin-access}
 
-Von der Admin-Seite eines Mitglieds aus ermöglicht die Schaltfläche "Konto" das Öffnen des Mitgliederkontos als dieses Mitglied. Dies ist nützlich, um zu prüfen, was ein Mitglied sieht, oder um ein Problem zu beheben. Vom Admin initiierte Sitzungen laufen nach 6 Stunden ab (statt des üblichen Jahres).
+Auf der Admin-Seite eines Mitglieds öffnet **Admin-Sitzung öffnen** im **Mitgliedsbereich** das Konto dieses Mitglieds. Damit kannst Du prüfen, was ein Mitglied sieht, oder ein Problem beheben. Vom Admin initiierte Sitzungen laufen nach 6 Stunden ab (statt des üblichen Jahres).

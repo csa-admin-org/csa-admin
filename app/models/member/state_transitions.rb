@@ -96,7 +96,7 @@ module Member::StateTransitions
   end
 
   def can_resend_welcome_email?
-    emails? && !pending? && sessions.none? && recently_welcomed? &&
+    emails? && !pending? && sessions.member_initiated.none? && recently_welcomed? &&
       MailTemplate.active_template?(welcome_email_template)
   end
 

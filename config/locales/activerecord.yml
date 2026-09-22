@@ -1657,6 +1657,12 @@ _:
           _de: Rechnungen
           _it: Fatture
           _nl: Facturen
+        last_session_used_at:
+          _en: Last login on
+          _fr: Dernière connexion le
+          _de: Letzte Anmeldung am
+          _it: Ultima connessione il
+          _nl: Laatste inlog op
         next_basket/bag:
           _en: Next bag
           _fr: Prochain sac

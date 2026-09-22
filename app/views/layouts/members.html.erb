@@ -26,7 +26,7 @@
     data-controller="menu theme"
     data-theme-preference-value="<%= current_member&.theme || "system" %>"
   >
-    <% if current_member && !member_registration_form? %>
+    <% if current_member && !member_registration_form? && !member_login_form? %>
       <%= render "layouts/members/read_only_banner" %>
       <div class="member-app">
         <div class="member-sidebar">

@@ -90,6 +90,16 @@ Each member has access to a personal account on [their member account](<%= Curre
 
 If the login email is not recognized, check a second address on the member. [Discarded](/handbook/right_to_be_forgotten) members cannot log in and no longer appear in admin lists. Once logged in, the session lasts one year.
 
+### Member cannot log in {#cannot-log-in}
+
+**Member space** shows the last login. **Open admin session** opens that member's account for 6 hours. Login emails are in **Email deliveries**. A blocked address (bounce, complaint) shows next to the address in **Contact**.
+
+- **Wrong email**: the form always answers "If this email is registered…". Check a second address on the member.
+- **Expired or already used**: the link is valid 15 minutes. After that, or after it has been used, the flash is the same ("no longer valid"). Ask for a new one.
+- **Already logged in**: the login page asks them to log out first. A link for a different member is not used, and stays valid for 15 minutes. **Open admin session** still opens the requested account.
+- **Browser too old**: they see a page asking them to upgrade (Safari 16.6, Chrome 120, Firefox 128, or newer).
+- **Suppressed**: outbound HardBounce can be **Reactivated**. A spam complaint cannot: the member must write to the organization, then forward that request via [support](/support). Invalid addresses cannot be reactivated. Newsletter unsubscribe is a broadcast suppression; it does not block login.
+
 From their account, members can:
 
 - **View deliveries**: See their next, future, and past <%= Basket.model_name.human(count: 2).downcase %>, including content details when available.
@@ -124,4 +134,4 @@ This content is configured from [the information page settings](/settings#member
 
 ### Admin access to a member account {#admin-access}
 
-From a member's admin page, the "Account" button lets you open the member account as that member. This is useful for checking what a member sees or troubleshooting an issue. Admin-originated sessions expire after 6 hours (instead of the usual year).
+From a member's admin page, **Open admin session** in **Member space** opens that member's account. Use it to check what a member sees or to troubleshoot an issue. Admin-originated sessions expire after 6 hours (instead of the usual year).

@@ -38,6 +38,7 @@ class Session < ApplicationRecord
   scope :usable, -> { where(revoked_at: nil).where.not(email: nil) }
   scope :admin, -> { where.not(admin_id: nil) }
   scope :member, -> { where.not(member_id: nil) }
+  scope :member_initiated, -> { where(admin_id: nil) }
   scope :owner_type_eq, ->(type) {
     case type
     when "Admin" then admin.where(member_id: nil)

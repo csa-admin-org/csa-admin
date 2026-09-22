@@ -1054,6 +1054,19 @@
     margin-top: 1rem;
   }
 
+  .session-logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .session-logout form.button_to,
+  .session-logout form.button_to button {
+    width: auto;
+  }
+
   .session-register {
     margin-top: 3rem;
     text-align: center;

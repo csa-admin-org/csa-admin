@@ -2,26 +2,45 @@
 
 <div class="session-intro">
   <p><%= t(".text", features: member_features_sentence) %></p>
-  <p class="session-lede"><%= t(".form_text") %></p>
-</div>
 
-<div class="session-form">
-  <%= simple_form_for [ :members, @session ], data: { turbo: false } do |f| %>
-    <div class="session-fields">
-      <%= f.input :email, as: :email, label_html: { class: "sr-only" }, input_html: {  required: true, placeholder: t(".email_placeholder") }, wrapper_html: { class: "form-grow" } %>
-
-      <%= cap_token_field %>
-
-      <%= tag.div class: "actions session-actions", data: cap_submit_tooltip_data do %>
-        <%= button_tag type: "submit", data: cap_submit_tooltip_target_data.merge(disable_with: t("formtastic.processing")) do %>
-          <%= icon "send-horizontal", class: "icon-inline" %>
-          <span><%= t(".submit") %></span>
-        <% end %>
-      <% end %>
-    </div>
+  <% unless current_member %>
+    <p class="session-lede"><%= t(".form_text") %></p>
   <% end %>
 </div>
 
-<p class="session-register">
-  <%= t(".no_account_html", link: link_to(t(".register_link"), new_members_member_path)) %>
-</p>
+<div class="session-form">
+  <% if current_member %>
+    <div class="session-logout">
+      <%= link_to members_member_path, class: "btn" do %>
+        <%= icon "arrow-left", class: "icon-inline" %>
+        <span><%= t(".back_to_account") %></span>
+      <% end %>
+
+      <%= button_to members_logout_path, method: :delete, class: "btn" do %>
+        <%= icon "log-out", class: "icon-inline" %>
+        <span><%= t("layouts.members.header.logout") %></span>
+      <% end %>
+    </div>
+  <% else %>
+    <%= simple_form_for [ :members, @session ], data: { turbo: false } do |f| %>
+      <div class="session-fields">
+        <%= f.input :email, as: :email, label_html: { class: "sr-only" }, input_html: {  required: true, placeholder: t(".email_placeholder") }, wrapper_html: { class: "form-grow" } %>
+
+        <%= cap_token_field %>
+
+        <%= tag.div class: "actions session-actions", data: cap_submit_tooltip_data do %>
+          <%= button_tag type: "submit", data: cap_submit_tooltip_target_data.merge(disable_with: t("formtastic.processing")) do %>
+            <%= icon "send-horizontal", class: "icon-inline" %>
+            <span><%= t(".submit") %></span>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<% unless current_member %>
+  <p class="session-register">
+    <%= t(".no_account_html", link: link_to(t(".register_link"), new_members_member_path)) %>
+  </p>
+<% end %>

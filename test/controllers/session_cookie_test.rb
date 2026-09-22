@@ -171,6 +171,53 @@ class SessionCookieTest < ActionDispatch::IntegrationTest
     assert_select "form[action=?]", sessions_path
   end
 
+  test "member login stays on the form when already signed in" do
+    host! "members.acme.test"
+    session = create_member_session(members(:john))
+
+    get "/sessions/#{session.generate_token_for(:redeem)}"
+    follow_redirect!
+    get members_login_path
+
+    assert_response :success
+    assert_equal I18n.t("members.sessions.flash.other_account"), flash[:alert]
+    assert_select ".session-logout a.btn[href=?]", members_member_path,
+      text: I18n.t("members.sessions.new.back_to_account")
+    assert_select ".session-logout button.btn", text: I18n.t("layouts.members.header.logout")
+    assert_select "form[action=?]", members_sessions_path, false
+    assert_select ".session-lede", count: 0
+    assert_no_match %r{webcal:}, response.body
+    assert_select ".member-footer .is-signed-in", false
+  end
+
+  test "invalid login token flash is kept when already signed in" do
+    host! "members.acme.test"
+    session = create_member_session(members(:john))
+    get "/sessions/#{session.generate_token_for(:redeem)}"
+    follow_redirect!
+
+    get "/sessions/not-a-token"
+
+    assert_redirected_to members_login_path
+    follow_redirect!
+    assert_equal I18n.t("sessions.flash.invalid"), flash[:alert]
+  end
+
+  test "member login token for another account is refused until logout" do
+    host! "members.acme.test"
+    john_session = create_member_session(members(:john))
+    get "/sessions/#{john_session.generate_token_for(:redeem)}"
+    follow_redirect!
+
+    jane_session = create_member_session(members(:jane))
+    token = jane_session.generate_token_for(:redeem)
+    get "/sessions/#{token}"
+
+    assert_redirected_to members_login_path
+    assert_equal I18n.t("members.sessions.flash.other_account"), flash[:alert]
+    assert_nil jane_session.reload.redeemed_at
+  end
+
   test "expired member session does not redirect away from login page" do
     host! "members.acme.test"
     session = create_member_session(members(:john))

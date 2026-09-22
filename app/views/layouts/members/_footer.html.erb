@@ -1,8 +1,10 @@
+<% signed_in_footer = current_member && !member_login_form? %>
+
 <footer class="member-footer">
-  <div class="member-footer-inner <%= " is-signed-in" if current_member %>">
-    <ul class="member-footer-list <%= " is-signed-in" if current_member %>">
-      <% if current_member && Current.org.feature?("member_information") %>
-        <li class="member-footer-item <%= " is-signed-in" if current_member %>">
+  <div class="member-footer-inner <%= " is-signed-in" if signed_in_footer %>">
+    <ul class="member-footer-list <%= " is-signed-in" if signed_in_footer %>">
+      <% if signed_in_footer && Current.org.feature?("member_information") %>
+        <li class="member-footer-item <%= " is-signed-in" if signed_in_footer %>">
           <%= link_to members_info_path, class: "member-footer-link" do %>
             <%= icon "newspaper", class: "member-footer-link-icon" %>
             <span class="member-footer-link-label"><%= member_information_title %></span>
@@ -10,8 +12,8 @@
         </li>
       <% end %>
 
-      <% if current_member&.active? %>
-        <li class="member-footer-item is-calendar <%= " is-signed-in" if current_member %>">
+      <% if signed_in_footer && current_member.active? %>
+        <li class="member-footer-item is-calendar <%= " is-signed-in" if signed_in_footer %>">
           <%= link_to calendar_webcal_url, class: "member-footer-link", title: t(".calendar_feed") do %>
             <%= icon "calendar-days", class: "member-footer-link-icon" %>
             <span class="member-footer-link-label"><%= t(".calendar") %></span>
@@ -19,7 +21,7 @@
         </li>
       <% end %>
 
-      <li class="member-footer-item <%= " is-signed-in" if current_member %>">
+      <li class="member-footer-item <%= " is-signed-in" if signed_in_footer %>">
         <%= mail_to Current.org.email, class: "member-footer-link" do %>
           <%= icon "mail", class: "member-footer-link-icon" %>
           <span class="member-footer-link-label"><%= t(".contact") %></span>
@@ -27,7 +29,7 @@
       </li>
 
       <% if Current.org.phone? %>
-        <li class="member-footer-item <%= " is-signed-in" if current_member %>">
+        <li class="member-footer-item <%= " is-signed-in" if signed_in_footer %>">
           <%= link_to "tel:#{Current.org.phone.phony_formatted(spaces: '', format: :international)}", class: "member-footer-link" do %>
             <%= icon "phone", class: "member-footer-link-icon" %>
             <span class="member-footer-link-label"><%= Current.org.phone %></span>
@@ -38,8 +40,8 @@
   </div>
 
   <% if Current.org.social_networks.any? %>
-    <div class="member-social <%= current_member ? " is-signed-in" : " is-guest" %>">
-      <ul class="member-social-list <%= " is-signed-in" if current_member %>">
+    <div class="member-social <%= signed_in_footer ? " is-signed-in" : " is-guest" %>">
+      <ul class="member-social-list <%= " is-signed-in" if signed_in_footer %>">
         <% Current.org.social_networks.each do |network| %>
           <li>
             <%= link_to network.url, class: "member-social-link" do %>
@@ -51,7 +53,7 @@
     </div>
   <% end %>
 
-  <% if Current.org.languages.many? && !current_member %>
+  <% if Current.org.languages.many? && !signed_in_footer %>
     <div class="member-locales">
       <ul class="member-locales-list">
         <% Current.org.languages.each do |locale| %>
@@ -63,7 +65,7 @@
     </div>
   <% end %>
 
-  <div class="member-credit <%= " is-signed-in" if current_member %>">
+  <div class="member-credit <%= " is-signed-in" if signed_in_footer %>">
     <%= link_to csa_admin_website_url, class: "member-credit-link" do %>
       <%= icon "logo", class: "member-credit-icon" %> CSA Admin
     <% end %>

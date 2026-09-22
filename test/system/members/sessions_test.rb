@@ -209,6 +209,35 @@ class Members::SessionsTest < ApplicationSystemTestCase
     end
   end
 
+  test "login page asks to log out when already signed in" do
+    login(members(:john))
+
+    visit "/login"
+
+    assert_equal "/login", current_path
+    assert_text "You are already logged in to an account. Log out first."
+    assert_button "Logout"
+    assert_no_field "session_email"
+  end
+
+  test "refuses another member login token until logout" do
+    login(members(:john))
+    other = create_session(members(:jane))
+    token = other.generate_token_for(:redeem)
+
+    visit "/sessions/#{token}"
+
+    assert_equal "/login", current_path
+    assert_text "You are already logged in to an account. Log out first."
+    assert_nil other.reload.redeemed_at
+
+    click_button "Logout"
+    visit "/sessions/#{token}"
+
+    assert_text "You are now logged in."
+    assert other.reload.redeemed_at?
+  end
+
   test "revoke session on logout" do
     member = members(:john)
     login(member)

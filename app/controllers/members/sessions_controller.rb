@@ -11,11 +11,18 @@ class Members::SessionsController < Members::BaseController
   skip_before_action :authenticate_member!
 
   def new
-    redirect_to members_member_path if current_member
+    if current_member
+      flash.now[:alert] ||= t("members.sessions.flash.other_account")
+    end
     @session = Session.new
   end
 
   def create
+    if current_member
+      redirect_to members_login_path, alert: t("members.sessions.flash.other_account")
+      return
+    end
+
     @session = Session.new(
       member_email: params.require(:session)[:email],
       request: request)
@@ -35,7 +42,9 @@ class Members::SessionsController < Members::BaseController
   def show
     return head :ok if request.head?
 
-    if @session = Session.redeem_token(params[:id], owner_type: :member)
+    if current_member && other_member_login_token?
+      redirect_to members_login_path, alert: t("members.sessions.flash.other_account")
+    elsif @session = Session.redeem_token(params[:id], owner_type: :member)
       sign_in_session(@session)
       redirect_to members_member_path, notice: t("sessions.flash.created")
     else
@@ -49,6 +58,15 @@ class Members::SessionsController < Members::BaseController
   end
 
   private
+
+  def other_member_login_token?
+    token_session = Session.find_by_token_for(:redeem, params[:id]) ||
+      Session.find_by_token_for(:demo_invite, params[:id])
+    return false unless token_session&.redeemable_as?(:member)
+    return false if token_session.admin_originated?
+
+    token_session.member_id != current_member.id
+  end
 
   def allow_admin_originated_session_write?
     action_name == "destroy"
