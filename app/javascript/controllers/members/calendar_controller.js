@@ -24,7 +24,7 @@ export default class extends Controller {
     this.media = window.matchMedia(TWO_MONTHS)
     this._onMedia = () => this._applyLayout()
 
-    const { Calendar } = await import("vanilla-calendar-pro")
+    const { Calendar, months } = await import("vanilla-calendar-pro")
     if (generation !== this.generation) return
 
     this.host = document.createElement("div")
@@ -32,6 +32,7 @@ export default class extends Controller {
 
     const twoMonths = this.media.matches
     this.calendar = new Calendar(this.host, {
+      extensions: [months],
       ...this._layoutParams(twoMonths),
       locale: document.documentElement.lang,
       firstWeekday: 1,
