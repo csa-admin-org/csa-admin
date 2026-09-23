@@ -81,6 +81,66 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_includes extracted, "blockquote"
   end
 
+  test "drops a proton mail quote block" do
+    html = <<~HTML
+      <div>Yes super ! Merci :)</div>
+      <div>Au plaisir !</div>
+      <div class="protonmail_quote">
+        -------- Original Message --------<br>
+        On Tuesday, 09/22/26 at 13:12 CSA Admin &lt;ticket@support.csa-admin.org&gt; wrote:
+      </div>
+    HTML
+
+    extracted = Support::ReplyHtml.extract(html)
+
+    assert_includes extracted, "Yes super"
+    assert_includes extracted, "Au plaisir"
+    assert_not_includes extracted, "Original Message"
+    assert_not_includes extracted, "wrote"
+  end
+
+  test "present drops a stored proton quote and a leftover separator" do
+    html = <<~HTML
+      <div>Yes super ! Merci :)</div>
+      <br>
+      <div class="protonmail_quote">-------- Original Message --------</div>
+      <p>——– Original Message ——–</p>
+    HTML
+
+    presented = Support::ReplyHtml.present(html)
+
+    assert_includes presented, "Yes super"
+    assert_not_includes presented, "Original Message"
+    assert_not_includes presented, "protonmail_quote"
+    assert_not_includes presented, "<br"
+  end
+
+  test "present drops a proton sent-from line and an indented sign-off" do
+    signoff = Support::ReplyHtml.present(<<~HTML)
+      <div class="trix-content">
+        <p>Oui bien sûr !</p>
+        <pre><code>    Arthur Pasquier
+</code></pre>
+      </div>
+    HTML
+    sent = Support::ReplyHtml.present(<<~HTML)
+      <div class="trix-content">
+        <p>Pour lui c’est une habitude.</p>
+        <p>Arthur</p>
+        <p>Sent from <a href="https://proton.me/mail/home">Proton Mail</a> for Android.</p>
+        <p>——– Original Message ——–</p>
+      </div>
+    HTML
+
+    assert_includes signoff, "Oui bien sûr"
+    assert_not_includes signoff, "Pasquier"
+    assert_not_includes signoff, "<pre"
+    assert_includes sent, "habitude"
+    assert_includes sent, "Arthur"
+    assert_not_includes sent, "Proton Mail"
+    assert_not_includes sent, "Original Message"
+  end
+
   test "strips a trailing operator signature" do
     html = <<~HTML
       <html><body>

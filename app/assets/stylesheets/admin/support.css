@@ -254,9 +254,17 @@
 
   .support-message-body a.support-app-link {
     display: inline-flex !important;
+    align-items: center;
+    gap: 0.375rem;
+    vertical-align: middle;
     overflow-wrap: normal !important;
     text-decoration: none !important;
     padding: 0 0.5rem !important;
+  }
+
+  .support-message-body a.support-app-link svg {
+    flex: none;
+    opacity: 0.5;
   }
 
   .support-message-body p {

@@ -3,6 +3,34 @@
 module Support
   class AppLink
     SKIP_ANCESTORS = %w[pre code].freeze
+    ICONS = {
+      "Absence" => "tent",
+      "Activity" => "handshake",
+      "ActivityParticipation" => "handshake",
+      "ActivityPreset" => "handshake",
+      "Announcement" => "megaphone",
+      "Basket" => "shopping-bag",
+      "BasketContent" => "sprout",
+      "BasketContent::Product" => "sprout",
+      "BiddingRound" => "scale",
+      "BiddingRound::Pledge" => "scale",
+      "Comment" => "message-square-text",
+      "Delivery" => "calendar",
+      "DeliveryCycle" => "calendar-days",
+      "HomeDeliveryAddress" => "clock-fading",
+      "Invoice" => "banknotes",
+      "MailDelivery" => "mails",
+      "MailTemplate" => "clipboard",
+      "Member" => "users",
+      "Membership" => "calendar-range",
+      "Newsletter" => "megaphone",
+      "Newsletter::Template" => "megaphone",
+      "Payment" => "banknotes",
+      "Shop::Order" => "shopping-basket",
+      "Shop::Product" => "shopping-basket",
+      "Shop::SpecialDelivery" => "shopping-basket",
+      "Support::Ticket" => "life-buoy"
+    }.freeze
 
     def self.rewrite(html)
       source = html.to_s
@@ -10,6 +38,7 @@ module Support
 
       fragment = Nokogiri::HTML::DocumentFragment.parse(source)
       flatten_rich_links!(fragment)
+      link_bare_urls!(fragment)
       fragment.css("a[href]").each { |node| rewrite_node(node) }
       collapse_host_only!(fragment)
       fragment.to_html.html_safe
@@ -63,7 +92,7 @@ module Support
     def label
       return unless admin?
 
-      params = self.class.recognize(@uri.path)
+      params = recognized
       return unless params
 
       case params[:controller]
@@ -76,6 +105,22 @@ module Support
           I18n.t("active_admin.site_header.analytics")
       when "sessions" then nil
       else resource_label(params)
+      end
+    end
+
+    def icon_name
+      params = recognized
+      return unless params
+
+      case params[:controller]
+      when "organizations" then settings_icon(params)
+      when "handbook" then "book-open"
+      when "dashboard" then "house"
+      when "updates" then "gift"
+      when "analytics"
+        Analytics::PAGES[params[:id]&.to_sym]&.icon || "chart-no-axes-combined"
+      when "sessions" then nil
+      else resource_icon(params)
       end
     end
 
@@ -137,10 +182,72 @@ module Support
       node["class"] = [ node["class"], "btn support-app-link" ].compact.join(" ").squish
       node["title"] = original
       node.content = link.label
+      prepend_icon!(node, link.icon_name)
     rescue URI::InvalidURIError
       nil
     end
     private_class_method :rewrite_node
+
+    def self.prepend_icon!(node, name)
+      icon = icon_node(name, node.document)
+      node.prepend_child(icon) if icon
+    end
+    private_class_method :prepend_icon!
+
+    def self.icon_node(name, document)
+      return if name.blank?
+
+      path = Rails.root.join("app/assets/images/icons/#{name}.svg")
+      return unless path.file?
+
+      icon = Nokogiri::HTML::DocumentFragment.parse(path.read).at("svg")
+      return unless icon
+
+      node = document.fragment(icon.to_html).at("svg")
+      node.xpath(".//text()").each { |text| text.remove if text.content.blank? }
+      node["class"] = "icon-4"
+      node["aria-hidden"] = "true"
+      node["data-icon"] = name
+      node
+    end
+    private_class_method :icon_node
+
+    BARE_URL = %r{https?://[^\s<>"']+}
+    private_constant :BARE_URL
+
+    def self.link_bare_urls!(root)
+      root.xpath(".//text()").each do |node|
+        next if node.ancestors.any? { |ancestor| %w[a pre code].include?(ancestor.name) }
+        next unless node.content.match?(BARE_URL)
+
+        link_text_node!(node)
+      end
+    end
+    private_class_method :link_bare_urls!
+
+    def self.link_text_node!(node)
+      frag = Nokogiri::XML::DocumentFragment.new(node.document)
+      rest = node.content.dup
+      while (match = rest.match(BARE_URL))
+        frag << match.pre_match if match.pre_match.present?
+        url = trim_url(match[0])
+        trailing = match[0][url.length..]
+        link = Nokogiri::XML::Node.new("a", node.document)
+        link["href"] = url
+        link.content = url
+        frag << link
+        frag << trailing if trailing.present?
+        rest = match.post_match
+      end
+      frag << rest if rest.present?
+      node.replace(frag)
+    end
+    private_class_method :link_text_node!
+
+    def self.trim_url(url)
+      url.sub(/[.,;:!?]+\z/, "").sub(/\)+\z/, "")
+    end
+    private_class_method :trim_url
 
     def self.flatten_rich_links!(root)
       root.css(".apple-rich-link").each do |card|
@@ -200,6 +307,21 @@ module Support
     private_class_method :same_path?
 
     private
+
+    def recognized
+      @recognized ||= self.class.recognize(@uri.path)
+    end
+
+    def settings_icon(params)
+      key = params[:section].presence || @uri.fragment.presence
+      section = self.class.settings.organization_setting_section(key) if key.present?
+      section&.dig(:icon) || "sliders-horizontal"
+    end
+
+    def resource_icon(params)
+      resource = self.class.resource_for(params[:controller])
+      ICONS[resource&.resource_class&.name]
+    end
 
     def settings_label(params)
       page = I18n.t("active_admin.resources.organization.edit_model")

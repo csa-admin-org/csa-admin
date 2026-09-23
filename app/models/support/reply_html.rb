@@ -13,7 +13,9 @@ module Support
       "div.yahoo_quoted",
       "#divRplyFwdMsg",
       "div#appendonsend",
-      "div.OutlookMessageHeader"
+      "div.OutlookMessageHeader",
+      "blockquote.protonmail_quote",
+      "div.protonmail_quote"
     ].join(", ")
 
     def self.extract(html, keep_cited: false)
@@ -30,6 +32,22 @@ module Support
       cleaned = root.inner_html.to_s.strip
       cleaned.presence
     end
+
+    def self.present(html)
+      return if html.blank?
+
+      root = Nokogiri::HTML::DocumentFragment.parse(html.to_s)
+      root.css("blockquote.protonmail_quote, div.protonmail_quote").each(&:remove)
+      Support::ReplyQuote.drop_separators!(root)
+      drop_trailing_break!(root)
+      root.inner_html.to_s.strip.presence
+    end
+
+    def self.drop_trailing_break!(root)
+      node = root.children.reverse.find { |child| child.element? || !child.text.strip.empty? }
+      node.remove if node&.name == "br"
+    end
+    private_class_method :drop_trailing_break!
 
     def self.document_root(html)
       if html.to_s.match?(/<html[\s>]/i)

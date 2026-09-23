@@ -12,6 +12,10 @@ module Support
       Il[[:space:]]+giorno[[:space:]].+\bha[[:space:]]+scritto:? |
       Op[[:space:]].+\bschreef.+:
     )/ix
+    SEPARATOR = /[-\u2012\u2013\u2014_]{2,}\s*Original\s+Message\b/i
+    ORIGINAL_SEPARATOR = /\A#{SEPARATOR}/i
+    PROTON_SENT = /\ASent from\b.+\bProton Mail\b/i
+    INDENTED_SIGNOFF = /\A[[:space:]]{2,}[[:upper:]][[:alpha:]'’.-]+(?:[[:space:]]+[[:upper:]][[:alpha:]'’.-]+){0,3}[[:space:]]*\z/
 
     def self.clean_fragment!(root, trailing_quotes: true)
       Support::Utf8.repair_fragment!(root)
@@ -28,6 +32,28 @@ module Support
       end
       cleaned = lines.join("\n").strip
       Support::Signature.strip_text(cleaned.presence || text.to_s.strip)
+    end
+
+    def self.drop_separators!(root)
+      drop_client_trail!(root)
+    end
+
+    def self.drop_client_trail!(root)
+      loop do
+        last = last_meaningful(root)
+        break unless last
+
+        if wrapper?(last)
+          before = last.inner_html
+          drop_client_trail!(last)
+          last.remove if blank_node?(last)
+          break if last.parent && last.inner_html == before
+          next
+        end
+        break unless client_trailer?(last)
+
+        last.remove
+      end
     end
 
     def self.drop_trailing!(root)
@@ -83,7 +109,9 @@ module Support
 
     def self.trailing_text_line?(line)
       stripped = normalize(line)
-      stripped.blank? || line.to_s.strip.start_with?(">") || stripped.match?(ATTRIBUTION)
+      stripped.blank? || line.to_s.strip.start_with?(">") ||
+        stripped.match?(ATTRIBUTION) || stripped.match?(ORIGINAL_SEPARATOR) ||
+        stripped.match?(PROTON_SENT) || line.match?(INDENTED_SIGNOFF)
     end
     private_class_method :trailing_text_line?
 
@@ -92,7 +120,7 @@ module Support
       return true if %w[blockquote hr].include?(node.name)
       return true if blank_node?(node)
 
-      attribution?(node)
+      attribution?(node) || client_trailer?(node)
     end
     private_class_method :trailing_html_node?
 
@@ -100,6 +128,27 @@ module Support
       normalize(node.text).match?(ATTRIBUTION)
     end
     private_class_method :attribution?
+
+    def self.separator?(node)
+      normalize(node.text).match?(ORIGINAL_SEPARATOR)
+    end
+    private_class_method :separator?
+
+    def self.client_trailer?(node)
+      return true if separator?(node)
+      return true if normalize(node.text).match?(PROTON_SENT)
+
+      indented_signoff?(node)
+    end
+    private_class_method :client_trailer?
+
+    def self.indented_signoff?(node)
+      return false unless node.element? && node.name == "pre"
+      return false if node.text.match?(/\{[%{]/)
+
+      node.text.match?(INDENTED_SIGNOFF)
+    end
+    private_class_method :indented_signoff?
 
     def self.dump_filler?(node)
       return true if blank_node?(node)

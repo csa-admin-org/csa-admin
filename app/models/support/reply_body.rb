@@ -9,7 +9,7 @@ module Support
       \nAm[^\n]+(?:schrieb\.?:?|hat[^\n]+geschrieben:?)\s*\n? |
       \nIl\s+giorno[^\n]+ha\s+scritto:?\s*\n? |
       \nOp[^\n]+schreef[^\n]*:\s*\n? |
-      \n-----Original\s+Message----- |
+      \n#{Support::ReplyQuote::SEPARATOR.source} |
       \n________________________________
     }ix
 
@@ -22,14 +22,21 @@ module Support
         return Support::ForwardedQuote.wrap(body).presence || body.presence
       end
 
-      body = Support::Utf8.repair(stripped.to_s).strip
-      body = before_marker(body) if body.present?
+      body = cut_quoted(Support::Utf8.repair(stripped.to_s)).strip
       body = Support::ReplyQuote.strip_text(body) if body.present?
       return body if body.present?
 
-      Support::ReplyQuote.strip_text(
-        before_marker(source.split(QUOTE_SPLIT, 2).first.to_s))
+      Support::ReplyQuote.strip_text(cut_quoted(source))
     end
+
+    def self.without_quote(text)
+      cut_quoted(text).strip.presence
+    end
+
+    def self.cut_quoted(text)
+      before_marker(text.to_s).split(QUOTE_SPLIT, 2).first.to_s
+    end
+    private_class_method :cut_quoted
 
     def self.before_marker(text)
       text.to_s.split(MARKER, 2).first.to_s.strip

@@ -86,6 +86,39 @@ class Support::ReplyBodyTest < ActiveSupport::TestCase
     assert_includes body, "> Hello"
   end
 
+  test "strips a proton original message left in the stripped reply" do
+    body = Support::ReplyBody.extract(
+      text_body: nil,
+      stripped: <<~TEXT)
+        Yes super ! Merci :)
+        Au plaisir !
+
+        Arthur
+
+        -------- Original Message --------
+        On Tuesday, 09/22/26 at 13:12 CSA Admin <ticket@support.csa-admin.org> wrote:
+        quoted
+      TEXT
+
+    assert_includes body, "Yes super"
+    assert_includes body, "Arthur"
+    assert_not_includes body, "Original Message"
+    assert_not_includes body, "quoted"
+  end
+
+  test "strips a proton sent-from line and an indented sign-off" do
+    body = Support::ReplyBody.extract(
+      text_body: nil,
+      stripped: <<~TEXT)
+        Oui bien sûr !
+
+            Arthur Pasquier
+        Sent from Proton Mail for Android.
+      TEXT
+
+    assert_equal "Oui bien sûr !", body
+  end
+
   test "strips a trailing operator signature" do
     with_env("ULTRA_ADMIN_NAME" => "Thibaud") do
       body = Support::ReplyBody.extract(

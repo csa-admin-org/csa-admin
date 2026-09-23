@@ -59,6 +59,18 @@ class Support::ReplyQuoteTest < ActiveSupport::TestCase
     assert_includes cleaned, "Oui, mais"
   end
 
+  test "strips a trailing proton original message separator" do
+    html = <<~HTML
+      <p>À demain :)</p>
+      <p>——– Original Message ——–</p>
+    HTML
+
+    cleaned = Support::ReplyQuote.strip_html(html)
+
+    assert_includes cleaned, "À demain"
+    assert_not_includes cleaned, "Original Message"
+  end
+
   test "strips trailing markdown quotes from text" do
     text = <<~TEXT
       Merci :)

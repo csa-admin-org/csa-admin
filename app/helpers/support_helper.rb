@@ -26,9 +26,10 @@ module SupportHelper
 
   def support_message_html(message)
     html = if message.html.present?
-      message.html.to_s
+      message.author_admin? ? Support::ReplyHtml.present(message.html.body.to_html) : message.html.to_s
     else
-      Support::MessageFormat.to_html(message.body)
+      text = message.author_admin? ? Support::ReplyBody.without_quote(message.body) : message.body
+      Support::MessageFormat.to_html(text)
     end
     Support::AppLink.rewrite(Support::MessageHtml.rewrite(html))
   end

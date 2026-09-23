@@ -9,6 +9,7 @@ class Support::AppLinkTest < ActiveSupport::TestCase
     assert_equal "Orders", link.text
     assert_includes link["class"], "support-app-link"
     assert_includes link["href"], "/shop_orders"
+    assert_equal "shopping-basket", link.at("svg.icon-4")["data-icon"]
   end
 
   test "compacts a member show url as Membres #id in French" do
@@ -41,6 +42,7 @@ class Support::AppLinkTest < ActiveSupport::TestCase
 
     assert_equal "Pierre", link.text
     assert_not_includes link["class"].to_s, "support-app-link"
+    assert_nil link.at("svg")
     assert_includes link["href"], "/members/32"
   end
 
@@ -143,6 +145,19 @@ class Support::AppLinkTest < ActiveSupport::TestCase
 
     assert link
     assert_equal "Orders", link.text
+  end
+
+  test "compacts a bare handbook url left as text in stored html" do
+    I18n.with_locale(:fr) do
+      url = "#{admin_url}/handbook/shop#billing"
+      html = Support::AppLink.rewrite(%(<div>Voir: #{url}</div>))
+      link = Nokogiri::HTML.fragment(html).at("a.support-app-link")
+
+      assert link
+      assert_equal "Manuel: \u00c9picerie > Facturation", link.text
+      assert_includes link["href"], "/handbook/shop#billing"
+      assert_equal "book-open", link.at("svg.icon-4")["data-icon"]
+    end
   end
 
   private
