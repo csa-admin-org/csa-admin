@@ -101,6 +101,26 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
     end
   end
 
+  test "rejects operator email domains" do
+    in_demo_tenant do
+      [
+        "solver@csa-admin.org",
+        "  Solver@CSA-Admin.ORG  ",
+        "solver@mail.csa-admin.org",
+        "solver@acp-admin.ch",
+        "solver@mail.acp-admin.ch"
+      ].each do |email|
+        registration = Demo::Registration.new(name: "Test User", email: email)
+
+        assert_no_enqueued_emails do
+          assert_not registration.save, email
+        end
+        assert_includes registration.errors[:email], I18n.t("errors.messages.blocked_domain"), email
+        assert_not Admin.exists?(email: email.downcase.strip)
+      end
+    end
+  end
+
   test "invalid with malformed email" do
     in_demo_tenant do
       registration = Demo::Registration.new(

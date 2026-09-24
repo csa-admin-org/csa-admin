@@ -11,7 +11,10 @@ class Demo::Registration
   attr_accessor :request
   attr_reader :session
 
+  BLOCKED_EMAIL_DOMAINS = %w[csa-admin.org acp-admin.ch].freeze
+
   validate :admin_must_be_valid
+  validate :email_must_be_accepted
 
   def save
     return false unless valid?
@@ -32,6 +35,17 @@ class Demo::Registration
 
       errors.add(error.attribute, error.type, **error.options)
     end
+  end
+
+  def email_must_be_accepted
+    domain = email.to_s.downcase.strip.split("@", 2).last
+    return if domain.blank? || !blocked_email_domain?(domain)
+
+    errors.add(:email, :blocked_domain)
+  end
+
+  def blocked_email_domain?(domain)
+    BLOCKED_EMAIL_DOMAINS.any? { |blocked| domain == blocked || domain.end_with?(".#{blocked}") }
   end
 
   def create_admin!

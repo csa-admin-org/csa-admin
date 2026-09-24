@@ -70,6 +70,12 @@ _:
         _de: muss ausgefüllt werden
         _it: deve essere riempito/a
         _nl: mag niet leeg zijn
+      blocked_domain:
+        _en: must be an address you receive
+        _fr: doit être une adresse que vous recevez
+        _de: muss eine erreichbare Adresse sein
+        _it: deve essere un indirizzo che ricevete
+        _nl: moet een bereikbaar adres zijn
       confirmation:
         _en: doesn't match confirmation
         _fr: ne concorde pas avec la confirmation
