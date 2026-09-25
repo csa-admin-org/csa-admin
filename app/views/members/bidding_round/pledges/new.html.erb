@@ -60,15 +60,13 @@
     </div>
   <% end %>
 
-  <%= form_for @pledge,
+  <%= form_with model: @pledge,
     url: members_bidding_round_pledge_path,
     method: :post,
-    html: {
-      class: "pledge-form",
-      data: {
-        controller: "price-range",
-        price_range_default_price_value: @pledge.default_price
-      }
+    class: "pledge-form",
+    data: {
+      controller: "price-range",
+      price_range_default_price_value: @pledge.default_price
     } do |f| %>
     <div class="input pledge-input-label">
       <%= f.label :basket_size_price %>

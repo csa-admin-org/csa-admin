@@ -1,8 +1,8 @@
 <h1><%= t(".billing") %></h1>
 
 <section>
-  <%= render "summary", membership: @membership %>
-  <%= render "membership" %>
+  <%= render "members/billing/summary", membership: @membership %>
+  <%= render "members/billing/membership" %>
 </section>
 
 <% if @open_invoices.any? %>
@@ -12,7 +12,7 @@
     <ul class="invoices">
       <% @open_invoices.each do |invoice| %>
         <li class="invoice is-open">
-          <%= render "line", object: invoice %>
+          <%= render partial: "members/billing/line", locals: { object: invoice } %>
         </li>
       <% end %>
     </ul>
@@ -33,16 +33,16 @@
           class="invoice <%= " is-canceled" if object.respond_to?(:canceled?) && object.canceled? %>"
           data-hover-id="<%= (object.is_a?(Invoice) && object.entity ? dom_id(object.entity) : nil) %>"
         >
-          <%= render "line", object: object %>
+          <%= render partial: "members/billing/line", locals: { object: object } %>
         </li>
       <% end %>
     </ul>
-    <%= render "members/shared/show_all_button", collection: @billing_history, limit: limit, anchor: "billing_history" %>
+    <%= render partial: "members/shared/show_all_button", locals: { collection: @billing_history, limit: limit, anchor: "billing_history" } %>
   <% end %>
 
   <p class="billing-note">
     <%= t(".explanation") %>
   </p>
 
-  <%= render "sepa" %>
+  <%= render "members/billing/sepa" %>
 </section>

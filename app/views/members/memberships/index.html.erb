@@ -7,11 +7,13 @@
 <% end %>
 
 <% if @membership %>
-  <section><%= render @membership %></section>
+  <section>
+    <%= render partial: "members/memberships/membership", object: @membership %>
+  </section>
 
   <section>
-    <%= render "trial", membership: @membership %>
-    <%= render "renewal", membership: @membership %>
+    <%= render "members/memberships/trial", membership: @membership %>
+    <%= render "members/memberships/renewal", membership: @membership %>
   </section>
 <% elsif !current_member.pending? %>
   <p class="nocontent copy"><%= t(".empty") %></p>

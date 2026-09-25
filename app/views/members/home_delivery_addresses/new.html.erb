@@ -8,7 +8,7 @@
   </div>
 
   <%= simple_form_for @home_delivery_address, url: members_home_delivery_addresses_path, html: { class: "form-root" } do |f| %>
-    <%= render "form", f: f, home_delivery_address: @home_delivery_address %>
+    <%= render "members/home_delivery_addresses/form", f: f, home_delivery_address: @home_delivery_address %>
 
     <div class="actions">
       <%= link_to members_deliveries_path, class: "cancel-link" do %>

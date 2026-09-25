@@ -1,34 +1,33 @@
 <%# Skip if this is a trial-canceled membership (handled by _trial.html.erb) %>
+<% unless membership.trial? && membership.canceled? %>
+  <% if membership.renewal_opened? %>
+    <div id="renewal" class="renewal">
+      <h2 class="section-title">
+        <%= t(".title") %>
+      </h2>
 
-<% return if membership.trial? && membership.canceled? %>
+      <div class="trix-content justify copy">
+        <%= Current.org.open_renewal_text %>
+      </div>
 
-<% if membership.renewal_opened? %>
-  <div id="renewal" class="renewal">
-    <h2 class="section-title">
-      <%= t(".title") %>
-    </h2>
+      <%= simple_form_for membership, url: new_members_membership_renewal_path, method: :get, data: { remote: false } do |f| %>
+        <div class="renewal-options">
+          <%= f.input :renewal_decision, as: :radio_buttons, collection: renewal_decisions_collection, required: false, label: t(".options_label") %>
+        </div>
 
-    <div class="trix-content justify copy">
-      <%= Current.org.open_renewal_text %>
+        <div class="actions">
+          <%= button_tag type: "submit" do %>
+            <%= icon "check", class: "icon-inline-action" %>
+            <span><%= t(".submit") %></span>
+          <% end %>
+        </div>
+      <% end %>
     </div>
-
-    <%= simple_form_for membership, url: new_members_membership_renewal_path, method: :get, data: { remote: false } do |f| %>
-      <div class="renewal-options">
-        <%= f.input :renewal_decision, as: :radio_buttons, collection: renewal_decisions_collection, required: false, label: t(".options_label") %>
-      </div>
-
-      <div class="actions">
-        <%= button_tag type: "submit" do %>
-          <%= icon "check", class: "icon-inline-action" %>
-          <span><%= t(".submit") %></span>
-        <% end %>
-      </div>
-    <% end %>
-  </div>
-<% elsif membership.renewed? %>
-  <%= render membership.renewed_membership %>
-<% elsif membership.canceled? && membership.current? %>
-  <p class="text-justify copy-late">
-    <%= t(".canceled_html", last_delivery_date: l(membership.deliveries.last.date)) %>
-  </p>
+  <% elsif membership.renewed? %>
+    <%= render partial: "members/memberships/membership", object: membership.renewed_membership %>
+  <% elsif membership.canceled? && membership.current? %>
+    <p class="text-justify copy-late">
+      <%= t(".canceled_html", last_delivery_date: l(membership.deliveries.last.date)) %>
+    </p>
+  <% end %>
 <% end %>

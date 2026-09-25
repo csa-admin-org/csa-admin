@@ -3,7 +3,7 @@
   <%= render "members/calendars/subscribe_button" %>
 </h1>
 
-<%= render "absences_included_notice" %>
+<%= render "members/deliveries/absences_included_notice" %>
 
 <% if @next_basket %>
   <section>
@@ -13,7 +13,7 @@
 
     <ul class="list">
       <li class="list-item">
-        <%= render @next_basket, home_delivery_cta_basket: @home_delivery_cta_basket, edit_prominent: true %>
+        <%= render partial: "members/baskets/basket", object: @next_basket, locals: { home_delivery_cta_basket: @home_delivery_cta_basket, edit_prominent: true } %>
       </li>
     </ul>
 
@@ -36,7 +36,7 @@
 <section id="future_deliveries">
   <h2><%= t(".future_deliveries") %></h2>
 
-  <%= render "baskets_list", baskets: @future_baskets, empty_text: t(".no_future_deliveries"), anchor: "future_deliveries", home_delivery_cta_basket: @home_delivery_cta_basket %>
+  <%= render "members/deliveries/baskets_list", baskets: @future_baskets, empty_text: t(".no_future_deliveries"), anchor: "future_deliveries", home_delivery_cta_basket: @home_delivery_cta_basket %>
 
   <% if @future_baskets.provisionally_absent.any? %>
     <div class="footnote">
@@ -49,5 +49,5 @@
 <section id="past_deliveries">
   <h2><%= t(".past_deliveries") %></h2>
 
-  <%= render "baskets_list", baskets: @past_baskets, empty_text: t(".no_past_deliveries"), anchor: "past_deliveries" %>
+  <%= render "members/deliveries/baskets_list", baskets: @past_baskets, empty_text: t(".no_past_deliveries"), anchor: "past_deliveries" %>
 </section>

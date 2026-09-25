@@ -29,9 +29,9 @@
           <% confirmation_text = render_or_call_method_or_proc_on(self, batch_action.confirm) %>
           <% default_title = render_or_call_method_or_proc_on(self, batch_action.title) %>
           <% title = I18n.t("active_admin.batch_actions.labels.#{batch_action.sym}", default: default_title) %>
-          <% label = I18n.t("active_admin.batch_actions.action_label", title: title) %>
+          <% action_label = I18n.t("active_admin.batch_actions.action_label", title: title) %>
 
-          <%= link_to(label, "#batch-action-menu", batch_action.link_html_options.merge(data: { action: batch_action.sym, confirm: confirmation_text.presence, batch_action_item: "" })) %>
+          <%= link_to(action_label, "#batch-action-menu", batch_action.link_html_options.merge(data: { action: batch_action.sym, confirm: confirmation_text.presence, batch_action_item: "" })) %>
         </li>
       <% end %>
     </ul>

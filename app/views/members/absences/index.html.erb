@@ -1,6 +1,6 @@
 <h1><%= Absence.model_name.human(count: 2) %></h1>
 
-<%= render "basket_shifts_notice" %>
+<%= render "members/absences/basket_shifts_notice" %>
 
 <section>
   <h2><%= t(".form_title") %></h2>
@@ -60,7 +60,7 @@
     <h2><%= t(".present_or_future_absences") %></h2>
 
     <ul class="list-tight">
-      <%= render @present_or_future_absences %>
+      <%= render partial: "members/absences/absence", collection: @present_or_future_absences %>
     </ul>
   </section>
 <% end %>
@@ -70,6 +70,9 @@
 <% if @past_absences.any? %>
   <section>
     <h2><%= t(".past_absences") %></h2>
-    <ul class="list-tight"><%= render @past_absences %></ul>
+
+    <ul class="list-tight">
+      <%= render partial: "members/absences/absence", collection: @past_absences %>
+    </ul>
   </section>
 <% end %>

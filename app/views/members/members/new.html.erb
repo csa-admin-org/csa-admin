@@ -52,7 +52,14 @@
         </div>
       </div>
 
-      <%= render "members/members/form_modes/#{Current.org.member_form_mode}", f: f, member: @member %>
+      <% case Current.org.member_form_mode %>
+      <% when "membership" %>
+        <%= render "members/members/form_modes/membership", f: f, member: @member %>
+      <% when "shop" %>
+        <%= render "members/members/form_modes/shop", f: f, member: @member %>
+      <% else %>
+        <%= raise ArgumentError, "Unknown member form mode: #{Current.org.member_form_mode}" %>
+      <% end %>
 
       <div>
         <legend class="form-legend">

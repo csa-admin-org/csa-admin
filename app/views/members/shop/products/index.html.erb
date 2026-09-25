@@ -40,9 +40,9 @@
 
     <% if available_tags.any? %>
       <ul class="shop-tags">
-        <% available_tags.each do |tag| %>
+        <% available_tags.each do |product_tag| %>
           <li>
-            <%= render partial: "members/shop/products/tag", object: tag %>
+            <%= render partial: "members/shop/products/tag", object: product_tag %>
           </li>
         <% end %>
       </ul>

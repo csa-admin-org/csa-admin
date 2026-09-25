@@ -4,9 +4,9 @@
 
     <% if product.tags.any? %>
       <ul class="shop-product-tags">
-        <% product.tags.each do |tag| %>
+        <% product.tags.each do |product_tag| %>
           <li>
-            <%= render partial: "members/shop/products/tag", object: tag %>
+            <%= render partial: "members/shop/products/tag", object: product_tag %>
           </li>
         <% end %>
       </ul>

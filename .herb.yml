@@ -11,7 +11,10 @@
 # GitHub Repo: https://github.com/marcoroth/herb
 #
 
-version: 0.10.4
+version: 0.11.0
+
+# Action View templates: helpers, partials, and strict locals.
+framework: actionview
 
 files:
   # Patterns to exclude (can exclude defaults too)
@@ -48,6 +51,19 @@ linter:
     html-require-script-nonce:
       exclude:
         - 'app/views/shared/_theme_script.html.erb'
+    # lib/tasks/bookmarks.rake renders this with ERB.new, not Action View.
+    actionview-prefer-link-to-helper:
+      exclude:
+        - 'lib/templates/**/*'
+    # Admin and members still start @rails/ujs. These attributes are live, not leftovers.
+    ujs-no-remote-attribute:
+      enabled: false
+    ujs-prefer-turbo-confirm:
+      enabled: false
+    ujs-prefer-turbo-method:
+      enabled: false
+    ujs-prefer-turbo-submits-with:
+      enabled: false
 
 formatter:
   enabled: true

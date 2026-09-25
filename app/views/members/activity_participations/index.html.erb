@@ -67,7 +67,7 @@
     <h2><%= t(".coming_activity_participations") %></h2>
 
     <ul id="coming_participations" class="activity-list">
-      <%= render @coming_participations %>
+      <%= render partial: "members/activity_participations/activity_participation", collection: @coming_participations %>
     </ul>
 
     <% if @coming_participations.any? { |p| !p.destroyable? } %>
@@ -92,6 +92,8 @@
   <% if @past_participations.empty? %>
     <p class="nocontent"><%= t(".no_past_activity_participations") %></p>
   <% else %>
-    <ul class="activity-list"><%= render @past_participations %></ul>
+    <ul class="activity-list">
+      <%= render partial: "members/activity_participations/activity_participation", collection: @past_participations %>
+    </ul>
   <% end %>
 </section>

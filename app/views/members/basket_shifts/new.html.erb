@@ -24,7 +24,7 @@
       <p><%= t(".absences_included_warning") %></p>
     <% end %>
 
-    <%= form_for @basket, url: members_basket_basket_shifts_path(@basket), method: :post, html: { class: "form-root" } do |f| %>
+    <%= form_with model: @basket, url: members_basket_basket_shifts_path(@basket), method: :post, class: "form-root" do |f| %>
       <div class="input">
         <%= f.label :shift_target_basket_id %>
         <%= f.select :shift_target_basket_id, basket_shift_targets_member_collection(@basket), { include_blank: false } %>
