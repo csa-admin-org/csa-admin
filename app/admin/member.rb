@@ -470,11 +470,22 @@ ActiveAdmin.register Member do
             end
           end
         end
-        if feature?("shop") && member.use_shop_depot?
-          panel t("shop.title"), icon: "shopping-basket", action: handbook_icon_link("shop", anchor: "access-without-membership") do
+        if feature?("shop") && (member.use_shop_depot? || member.effective_shop_invoice_period.present?)
+          shop_panel = {
+            icon: "shopping-basket"
+          }
+          if member.use_shop_depot?
+            shop_panel[:action] = handbook_icon_link("shop", anchor: "access-without-membership")
+          end
+          panel t("shop.title"), **shop_panel do
             attributes_table do
-              row(:depot) { member.shop_depot }
-              row(:delivery_cycle) { delivery_cycle_link(member.shop_delivery_cycle) }
+              if member.use_shop_depot?
+                row(:depot) { member.shop_depot }
+                row(:delivery_cycle) { delivery_cycle_link(member.shop_delivery_cycle) }
+              end
+              if label = shop_invoice_period_label(member)
+                row(:shop_invoice_period) { label }
+              end
             end
           end
         end
@@ -850,20 +861,28 @@ ActiveAdmin.register Member do
           required: false
       end
     end
-    if feature?("shop") && !member.current_or_future_membership
+    if feature?("shop")
       f.inputs t("shop.title"), icon: "shopping-basket" do
-        f.input :shop_depot,
-          label: Depot.model_name.human,
-          required: false,
-          collection: admin_depots_collection,
-          hint: true
-        f.input :shop_delivery_cycle,
-          label: DeliveryCycle.model_name.human,
+        unless member.current_or_future_membership
+          f.input :shop_depot,
+            label: Depot.model_name.human,
+            required: false,
+            include_blank: true,
+            collection: admin_depots_collection,
+            hint: true
+          f.input :shop_delivery_cycle,
+            label: DeliveryCycle.model_name.human,
+            as: :select,
+            collection: admin_delivery_cycles_collection,
+            required: false,
+            include_blank: true,
+            hint: true
+        end
+        f.input :shop_invoice_period,
+          **shop_invoice_period_select(member),
           as: :select,
-          collection: admin_delivery_cycles_collection,
           required: false,
-          include_blank: true,
-          hint: true
+          hint: shop_invoice_period_hint
       end
     end
 
@@ -979,7 +998,7 @@ ActiveAdmin.register Member do
     :waiting_activity_participations_demanded_annually,
     :waiting_depot_id, :waiting_delivery_cycle_id,
     :waiting_billing_year_division,
-    :shop_depot_id, :shop_delivery_cycle_id,
+    :shop_depot_id, :shop_delivery_cycle_id, :shop_invoice_period,
     :profession, :come_from, :delivery_note, :food_note, :note,
     :contact_sharing,
     :send_validation_email,

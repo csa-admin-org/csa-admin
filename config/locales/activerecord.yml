@@ -1801,6 +1801,12 @@ _:
           _de: Depot (Hofladen)
           _it: Punto di ritiro (drogheria)
           _nl: Depot (winkel)
+        shop_invoice_period:
+          _en: Grouped shop invoicing
+          _fr: Facturation groupée de l'épicerie
+          _de: Gruppierte Hofladen-Abrechnung
+          _it: Fatturazione raggruppata della bottega
+          _nl: Gegroepeerde winkelfacturering
         use_local_currency:
           _en: Invoice in local currency
           _fr: Facturer en monnaie locale
@@ -3989,6 +3995,12 @@ _:
           _de: Informationszeile Rechnung
           _it: Riga d'informazione della fattura
           _nl: Factuur informatielijn
+        shop_invoice_period:
+          _en: Grouped shop invoicing
+          _fr: Facturation groupée de l'épicerie
+          _de: Gruppierte Hofladen-Abrechnung
+          _it: Fatturazione raggruppata della bottega
+          _nl: Gegroepeerde winkelfacturering
         shop_member_percentages:
           _en: Available percentages for members
           _fr: Pourcentages disponibles pour les membres

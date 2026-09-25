@@ -2840,12 +2840,24 @@ _:
             _de: eingegangene
             _it: ricevuto
             _nl: ontvangen
+          pending_group_order_html:
+            _en: Your order is being prepared. It will be invoiced with your other orders of the period on %{date}.
+            _fr: Votre commande est en cours de préparation. Elle sera facturée avec vos autres commandes de la période le %{date}.
+            _de: Deine Bestellung wird vorbereitet. Sie wird mit Deinen anderen Bestellungen des Zeitraums am %{date} abgerechnet.
+            _it: Il tuo ordine è in preparazione. Sarà fatturato con gli altri ordini del periodo il %{date}.
+            _nl: Je bestelling wordt voorbereid. Hij wordt samen met je andere bestellingen van de periode gefactureerd op %{date}.
           pending_order_html:
             _en: Your order is being prepared. An invoice will be sent to you shortly by email. Please pay it quickly.
             _fr: Votre commande est en train d'être préparée. Une facture vous sera bientôt envoyée par e-mail. Merci de la régler rapidement.
             _de: Deine Bestellung wird gerade vorbereitet. Eine Rechnung wird Dir in Kürze per E-Mail zugesandt. Bitte begleiche diese schnell.
             _it: Il tuo ordine è in preparazione e una fattura ti sarà inviata a breve via e-mail. Pagala al più presto.
             _nl: Je bestelling wordt voorbereid. Een factuur wordt je binnenkort per e-mail gestuurd. Betaal deze zo snel mogelijk.
+          received_group_order_html:
+            _en: Your order has been received but can still be changed until <strong>%{date}</strong>. It will be invoiced with your other orders of the period on %{invoice_date}.
+            _fr: Votre commande a bien été reçue mais peut encore être modifiée jusqu'au <strong>%{date}</strong>. Elle sera facturée avec vos autres commandes de la période le %{invoice_date}.
+            _de: Deine Bestellung ist eingegangen, kann aber noch bis zum <strong>%{date}</strong> geändert werden. Sie wird mit Deinen anderen Bestellungen des Zeitraums am %{invoice_date} abgerechnet.
+            _it: Il tuo ordine è stato ricevuto ma può ancora essere modificato fino al <strong>%{date}</strong>. Sarà fatturato con gli altri ordini del periodo il %{invoice_date}.
+            _nl: Je bestelling is ontvangen maar kan nog worden gewijzigd tot <strong>%{date}</strong>. Hij wordt samen met je andere bestellingen van de periode gefactureerd op %{invoice_date}.
           received_order_html:
             _en: Your order has been received but can still be canceled or modified until <strong>%{date}</strong>. An invoice will be sent to you later, before delivery, by email. Please pay it quickly.
             _fr: Votre commande a bien été reçue mais peut encore être annulée ou modifiée jusqu'au <strong>%{date}</strong>. Une facture vous sera envoyée ultérieurement, avant la livraison, par email. Merci de la régler rapidement.

@@ -80,6 +80,54 @@ class ShopOrdersControllerTest < ActionDispatch::IntegrationTest
       text: I18n.t("active_admin.shared.action_items.delivery_orders"), count: 0
   end
 
+  test "pending period order shows a star and no single invoice action" do
+    travel_to "2024-04-10"
+    members(:jane).update!(shop_invoice_period: "month")
+    order = create_shop_order(member: members(:jane), delivery: deliveries(:monday_1))
+    sibling = create_shop_order(member: members(:jane), delivery: deliveries(:thursday_1))
+    deliveries(:monday_2).update!(date: Date.new(2024, 4, 20))
+    future = create_shop_order(member: members(:jane), delivery: deliveries(:monday_2))
+
+    get shop_orders_path, params: { scope: :pending }
+
+    assert_response :success
+    assert_select "#tooltip-shop-order-#{order.id}-period .tooltip-body",
+      text: I18n.t("shop.group_invoice.waiting_tooltip",
+        date: I18n.l(order.group_billing_on, format: :long))
+    assert_select ".tooltip-wrap:has(#tooltip-shop-order-#{order.id}-period) .tooltip-trigger[role=button] .status-tag[data-status=pending]",
+      text: "#{I18n.t("shop.group_invoice.to_invoice")}*"
+    assert_select ".tooltip-wrap:has(#tooltip-shop-order-#{future.id}-period) .tooltip-trigger[role=button] .status-tag[data-status=pending]",
+      text: "#{future.state_i18n_name}*"
+    assert order.pending?
+    assert future.pending?
+
+    get shop_order_path(order)
+
+    assert_response :success
+    assert_select ".admin-info-pane", text: /##{sibling.id}/
+    assert_select ".admin-info-pane", text: I18n.t("shop.group_invoice.no_other_orders"), count: 0
+    assert_select "form[action='#{invoice_period_shop_order_path(order)}'] button[data-confirm=?]",
+      I18n.t("shop.group_invoice.future_confirm")
+    assert_select "form[action='#{invoice_shop_order_path(order)}']", count: 0
+    assert_select "a[href='#{invoice_shop_order_path(order)}']", count: 0
+    assert future.delivery_date.future?
+  end
+
+  test "invoice now bills every pending order in the period" do
+    travel_to "2024-04-10"
+    members(:jane).update!(shop_invoice_period: "month")
+    order = create_shop_order(member: members(:jane), delivery: deliveries(:monday_1))
+    sibling = create_shop_order(member: members(:jane), delivery: deliveries(:thursday_1))
+
+    assert_difference -> { Invoice.count }, 1 do
+      post invoice_period_shop_order_path(order)
+    end
+
+    assert_redirected_to invoice_path(order.reload.invoice)
+    assert_equal order.invoice, sibling.reload.invoice
+    assert_equal "Shop::OrderGroup", order.invoice.entity_type
+  end
+
   private
 
   def login(admin)

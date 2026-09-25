@@ -10,7 +10,7 @@ export default class extends Controller {
     if (!row) return
 
     if (event.target.closest("a")) return
-    if (event.target.closest("button, form.button_to")) return
+    if (event.target.closest("button, form.button_to, [role='button']")) return
     if (event.target.closest("input, select, textarea")) return
 
     event.preventDefault()
@@ -39,15 +39,17 @@ export default class extends Controller {
     if (!row) return
 
     if (event.target.closest("input, select, textarea, button, form.button_to")) return
+    if (event.target.closest(".tooltip-trigger, [role='button']")) return
 
-    row.focus()
+    row.focus({ preventScroll: true })
   }
 
   handleKeydown(event) {
     const row = event.target.closest("tr")
     if (!row) return
 
-    if (event.target.closest("input, select, textarea")) return
+    if (event.target.closest("input, select, textarea, button, form.button_to, [role='button']"))
+      return
 
     if (event.key === "Enter") {
       this.navigate(event)

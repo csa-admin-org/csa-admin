@@ -1000,6 +1000,47 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "#shop tr[data-row='shop_admin_only'] [data-status='yes']"
   end
 
+  test "shop period disables the per-order delay and keeps the stored value" do
+    locale = admins(:super).language
+    org(
+      features: Current.org.features | [ "shop" ],
+      shop_order_automatic_invoicing_delay_in_days: 3,
+      shop_invoice_period: "month")
+    login admins(:super)
+
+    get organization_path
+
+    assert_response :success
+    period = I18n.t("shop.group_invoice.periods.month", locale: locale)
+    assert_select "#shop tr[data-row='shop_invoice_period']", text: /#{Regexp.escape(period)}/
+    assert_select "#shop tr[data-row='shop_order_automatic_invoicing_delay_in_days'] .attributes-table-empty-value", text: "\u2013"
+    assert_select "#shop tr[data-row='shop_order_automatic_invoicing_delay_in_days']", text: /\b3\b/, count: 0
+
+    get edit_organization_path(:shop)
+
+    assert_response :success
+    assert_select "select[name='organization[shop_invoice_period]'][data-action*='form-shop-invoice-period#sync'] option[selected][value='month']", text: period
+    assert_select "label[for=organization_shop_order_automatic_invoicing_delay_in_days]"
+    assert_select "input#organization_shop_order_automatic_invoicing_delay_in_days:not([type=hidden])[disabled][value='3']"
+    assert_select "input[type=hidden][id=organization_shop_order_automatic_invoicing_delay_in_days]", count: 0
+    assert_select "input[type=hidden][name='organization[shop_order_automatic_invoicing_delay_in_days]']:not([disabled])[value='3']"
+    assert_select "[data-controller='form-shop-invoice-period'][data-form-shop-invoice-period-grouped-hint-value]"
+    assert_select "#organization_shop_order_automatic_invoicing_delay_in_days_input .inline-hints",
+      text: I18n.t("formtastic.hints.organization.shop_order_automatic_invoicing_delay_in_days_grouped", locale: locale)
+
+    patch organization_path, params: {
+      section: "shop",
+      organization: {
+        shop_invoice_period: "quarter",
+        shop_order_automatic_invoicing_delay_in_days: "3"
+      }
+    }
+
+    assert_redirected_to organization_path(anchor: "shop")
+    assert_equal "quarter", Current.org.reload.shop_invoice_period
+    assert_equal 3, Current.org.shop_order_automatic_invoicing_delay_in_days
+  end
+
   test "settings overview shows local currency public identifiers but not secret" do
     Current.org.update!(
       features: Current.org.features | [ :local_currency ],

@@ -16,7 +16,11 @@
   </section>
 <% when Shop::Order::PENDING_STATE %>
   <p class="shop-lede">
-    <% if @order.can_member_update? %>
+    <% if @order.group_invoice? && @order.can_member_update? %>
+      <%= t(".received_group_order_html", date: l(@order.delivery.shop_closing_at, format: :long), invoice_date: group_invoice_when(@order)) %>
+    <% elsif @order.group_invoice? %>
+      <%= t(".pending_group_order_html", date: group_invoice_when(@order)) %>
+    <% elsif @order.can_member_update? %>
       <%= t(".received_order_html", date: l(@order.delivery.shop_closing_at, format: :long)) %>
     <% else %>
       <%= t(".pending_order_html") %>

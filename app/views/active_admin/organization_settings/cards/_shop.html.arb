@@ -6,6 +6,19 @@ context.instance_eval do
     row(:shop_order_minimal_amount) { organization_settings_currency_value(org.shop_order_minimal_amount) }
     row(:shop_order_maximum_weight_in_kg) { organization_settings_weight_value(org.shop_order_maximum_weight_in_kg) }
     row(t("active_admin.resource.form.opening")) { organization_settings_shop_opening(org) }
-    row(:shop_order_automatic_invoicing_delay_in_days) { org.shop_order_automatic_invoicing_delay_in_days.presence || organization_settings_missing_status_tag }
+    row(:shop_invoice_period) {
+      if org.shop_invoice_period?
+        t("shop.group_invoice.periods.#{org.shop_invoice_period}")
+      else
+        organization_settings_missing_status_tag
+      end
+    }
+    row(:shop_order_automatic_invoicing_delay_in_days) {
+      if org.shop_invoice_period?
+        span("\u2013", class: "attributes-table-empty-value")
+      else
+        org.shop_order_automatic_invoicing_delay_in_days.presence || organization_settings_missing_status_tag
+      end
+    }
   end
 end

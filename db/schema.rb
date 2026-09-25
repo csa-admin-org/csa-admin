@@ -10,38 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_24_120000) do
   create_table "absences", force: :cascade do |t|
-    t.datetime "admins_notified_at"
-    t.datetime "created_at"
-    t.date "ended_on"
     t.bigint "member_id"
-    t.text "note"
-    t.bigint "session_id"
     t.date "started_on"
+    t.date "ended_on"
+    t.text "note"
+    t.datetime "created_at"
     t.datetime "updated_at"
+    t.bigint "session_id"
+    t.datetime "admins_notified_at"
     t.index ["member_id"], name: "index_absences_on_member_id"
     t.index ["session_id"], name: "index_absences_on_session_id"
   end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
-    t.text "body"
-    t.datetime "created_at", null: false
     t.string "name", null: false
-    t.bigint "record_id", null: false
+    t.text "body"
     t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_admin_comments", force: :cascade do |t|
-    t.bigint "author_id"
-    t.string "author_type", limit: 255
-    t.text "body"
-    t.datetime "created_at"
     t.string "namespace", limit: 255
+    t.text "body"
     t.string "resource_id", limit: 255, null: false
     t.string "resource_type", limit: 255, null: false
+    t.bigint "author_id"
+    t.string "author_type", limit: 255
+    t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
@@ -49,23 +49,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
-    t.string "name", null: false
-    t.bigint "record_id", null: false
-    t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
     t.bigint "byte_size", null: false
     t.string "checksum"
-    t.string "content_type"
     t.datetime "created_at", null: false
-    t.string "filename", null: false
-    t.string "key", null: false
-    t.text "metadata"
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -77,16 +77,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "activities", force: :cascade do |t|
-    t.datetime "created_at", null: false
     t.date "date", null: false
-    t.json "descriptions", default: {}, null: false
+    t.string "start_time", null: false
     t.string "end_time", null: false
     t.integer "participants_limit"
-    t.json "place_urls", default: {}, null: false
-    t.json "places", default: {}, null: false
-    t.string "start_time", null: false
-    t.json "titles", default: {}, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "places", default: {}, null: false
+    t.json "place_urls", default: {}, null: false
+    t.json "titles", default: {}, null: false
+    t.json "descriptions", default: {}, null: false
     t.boolean "visible", default: true, null: false
     t.index ["date"], name: "index_activities_on_date"
     t.index ["start_time"], name: "index_activities_on_start_time"
@@ -94,21 +94,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
 
   create_table "activity_participations", force: :cascade do |t|
     t.bigint "activity_id", null: false
-    t.datetime "admins_notified_at"
-    t.string "carpooling_city"
+    t.bigint "member_id", null: false
+    t.bigint "validator_id"
+    t.string "state", default: "pending", null: false
+    t.datetime "validated_at"
+    t.datetime "rejected_at"
+    t.integer "participants_count", default: 1, null: false
     t.string "carpooling_phone"
     t.datetime "created_at", null: false
-    t.datetime "latest_reminder_sent_at"
-    t.bigint "member_id", null: false
-    t.text "note"
-    t.integer "participants_count", default: 1, null: false
-    t.datetime "rejected_at"
-    t.datetime "review_sent_at"
-    t.bigint "session_id"
-    t.string "state", default: "pending", null: false
     t.datetime "updated_at", null: false
-    t.datetime "validated_at"
-    t.bigint "validator_id"
+    t.datetime "latest_reminder_sent_at"
+    t.string "carpooling_city"
+    t.bigint "session_id"
+    t.datetime "review_sent_at"
+    t.text "note"
+    t.datetime "admins_notified_at"
     t.index ["activity_id"], name: "index_activity_participations_on_activity_id"
     t.index ["member_id", "updated_at"], name: "index_activity_participations_on_member_id_and_updated_at"
     t.index ["member_id"], name: "index_activity_participations_on_member_id"
@@ -119,56 +119,56 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "activity_presets", force: :cascade do |t|
-    t.json "place_urls", default: {}, null: false
     t.json "places", default: {}, null: false
+    t.json "place_urls", default: {}, null: false
     t.json "titles", default: {}, null: false
     t.index ["places", "titles"], name: "index_activity_presets_on_places_and_titles", unique: true
   end
 
   create_table "admins", force: :cascade do |t|
+    t.string "email", limit: 255, default: "", null: false
     t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string "name", null: false
+    t.json "notifications", default: [], null: false
+    t.string "language", default: "fr", null: false
+    t.string "latest_update_read"
+    t.bigint "permission_id", null: false
+    t.string "theme", default: "system", null: false
     t.datetime "demo_follow_up_sent_at"
     t.text "demo_message"
     t.datetime "demo_registration_notification_sent_at"
-    t.string "email", limit: 255, default: "", null: false
-    t.string "language", default: "fr", null: false
-    t.string "latest_update_read"
-    t.string "name", null: false
-    t.json "notifications", default: [], null: false
-    t.bigint "permission_id", null: false
-    t.string "theme", default: "system", null: false
-    t.datetime "updated_at"
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["permission_id"], name: "index_admins_on_permission_id"
     t.check_constraint "JSON_TYPE(notifications) = 'array'", name: "admins_notifications_is_array"
   end
 
   create_table "announcements", force: :cascade do |t|
-    t.datetime "created_at", null: false
+    t.json "texts", default: {}, null: false
     t.json "delivery_ids", default: [], null: false
     t.json "depot_ids", default: [], null: false
-    t.json "texts", default: {}, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.check_constraint "JSON_TYPE(delivery_ids) = 'array'", name: "announcements_delivery_ids_is_array"
     t.check_constraint "JSON_TYPE(depot_ids) = 'array'", name: "announcements_depot_ids_is_array"
   end
 
   create_table "attachments", force: :cascade do |t|
-    t.integer "attachable_id", null: false
-    t.string "attachable_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "attachable_type", null: false
+    t.integer "attachable_id", null: false
     t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"
   end
 
   create_table "audits", force: :cascade do |t|
-    t.bigint "auditable_id"
+    t.bigint "session_id"
     t.string "auditable_type"
+    t.bigint "auditable_id"
     t.json "audited_changes", default: {}, null: false
     t.datetime "created_at", null: false
-    t.json "metadata", default: {}, null: false
-    t.bigint "session_id"
     t.datetime "updated_at", null: false
+    t.json "metadata", default: {}, null: false
     t.index ["auditable_type", "auditable_id"], name: "index_audits_on_auditable_type_and_auditable_id"
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["session_id"], name: "index_audits_on_session_id"
@@ -176,14 +176,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
 
   create_table "bank_connection_finalization_notifications", force: :cascade do |t|
     t.integer "bank_connection_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "delivered_at"
-    t.string "delivery_claim_token"
-    t.datetime "delivery_started_at"
     t.string "event_id", null: false
-    t.string "last_error_class"
     t.string "recipient", null: false
     t.string "state", default: "pending", null: false
+    t.datetime "delivery_started_at"
+    t.datetime "delivered_at"
+    t.string "delivery_claim_token"
+    t.string "last_error_class"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bank_connection_id", "event_id", "recipient"], name: "index_unique_bank_connection_finalization_notifications", unique: true
     t.index ["bank_connection_id"], name: "idx_on_bank_connection_id_271a22c131"
@@ -193,24 +193,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "bank_connections", force: :cascade do |t|
+    t.string "provider", null: false
+    t.string "name"
     t.boolean "active", default: false, null: false
-    t.json "capabilities", default: {}, null: false
-    t.datetime "created_at", null: false
+    t.string "state", default: "draft", null: false
     t.json "credentials", default: {}, null: false
-    t.string "health_status", default: "unknown", null: false
-    t.string "last_error_class"
-    t.text "last_error_message"
+    t.json "settings", default: {}, null: false
+    t.json "capabilities", default: {}, null: false
+    t.json "status_details", default: {}, null: false
     t.datetime "last_health_check_at"
+    t.string "health_status", default: "unknown", null: false
     t.datetime "last_import_attempted_at"
     t.datetime "last_import_succeeded_at"
     t.datetime "last_no_data_at"
     t.datetime "last_upload_attempted_at"
     t.datetime "last_upload_succeeded_at"
-    t.string "name"
-    t.string "provider", null: false
-    t.json "settings", default: {}, null: false
-    t.string "state", default: "draft", null: false
-    t.json "status_details", default: {}, null: false
+    t.string "last_error_class"
+    t.text "last_error_message"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["active"], name: "index_bank_connections_on_active_unique", unique: true, where: "active = 1"
     t.index ["provider"], name: "index_bank_connections_on_inactive_ebics_onboarding", unique: true, where: "provider = 'ebics' AND active = 0 AND state IN ('initializing', 'waiting_for_bank', 'errored')"
@@ -224,19 +224,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "basket_complements", force: :cascade do |t|
-    t.integer "activity_participations_demanded_annually", default: 0, null: false
+    t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
     t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.json "names", default: {}, null: false
+    t.boolean "visible", default: true, null: false
+    t.json "public_names", default: {}, null: false
+    t.json "form_details", default: {}, null: false
+    t.integer "member_order_priority", default: 1, null: false
+    t.integer "activity_participations_demanded_annually", default: 0, null: false
     t.datetime "discarded_at"
     t.string "emails"
-    t.json "form_details", default: {}, null: false
     t.string "language", default: "fr", null: false
-    t.integer "member_order_priority", default: 1, null: false
-    t.json "names", default: {}, null: false
     t.integer "notify_days_before_delivery", default: 1, null: false
-    t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
-    t.json "public_names", default: {}, null: false
-    t.datetime "updated_at", null: false
-    t.boolean "visible", default: true, null: false
     t.index ["discarded_at"], name: "index_basket_complements_on_discarded_at"
     t.index ["visible"], name: "index_basket_complements_on_visible"
   end
@@ -249,22 +249,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
 
   create_table "basket_content_products", force: :cascade do |t|
     t.datetime "created_at", null: false
-    t.json "default_basket_quantities", default: {}, null: false
-    t.decimal "default_price", precision: 8, scale: 2
-    t.json "names", default: {}, null: false
-    t.string "unit", null: false
     t.datetime "updated_at", null: false
+    t.json "names", default: {}, null: false
     t.string "url"
+    t.string "unit", null: false
+    t.decimal "default_price", precision: 8, scale: 2
+    t.json "default_basket_quantities", default: {}, null: false
   end
 
   create_table "basket_contents", force: :cascade do |t|
-    t.json "basket_quantities", default: {}, null: false
-    t.datetime "created_at", null: false
     t.bigint "delivery_id", null: false
     t.bigint "product_id", null: false
     t.string "unit", null: false
-    t.decimal "unit_price", precision: 8, scale: 2
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "basket_quantities", default: {}, null: false
+    t.decimal "unit_price", precision: 8, scale: 2
     t.index ["delivery_id"], name: "index_basket_contents_on_delivery_id"
     t.index ["product_id"], name: "index_basket_contents_on_product_id"
     t.check_constraint "JSON_TYPE(basket_quantities) = 'object'", name: "basket_contents_basket_quantities_is_object"
@@ -279,11 +279,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "basket_overrides", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "delivery_id", null: false
-    t.json "diff", default: {}, null: false
     t.integer "membership_id", null: false
+    t.integer "delivery_id", null: false
     t.integer "session_id"
+    t.json "diff", default: {}, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["delivery_id"], name: "index_basket_overrides_on_delivery_id"
     t.index ["membership_id", "delivery_id"], name: "index_basket_overrides_on_membership_id_and_delivery_id", unique: true
@@ -293,12 +293,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
 
   create_table "basket_shifts", force: :cascade do |t|
     t.integer "absence_id", null: false
-    t.datetime "created_at", null: false
-    t.integer "membership_id", null: false
     t.json "quantities", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "membership_id", null: false
     t.integer "source_delivery_id", null: false
     t.integer "target_delivery_id", null: false
-    t.datetime "updated_at", null: false
     t.index ["absence_id"], name: "index_basket_shifts_on_absence_id"
     t.index ["membership_id", "source_delivery_id"], name: "index_basket_shifts_on_membership_id_and_source_delivery_id", unique: true
     t.index ["membership_id"], name: "index_basket_shifts_on_membership_id"
@@ -307,40 +307,40 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "basket_sizes", force: :cascade do |t|
-    t.integer "activity_participations_demanded_annually", default: 0, null: false
     t.datetime "created_at"
+    t.datetime "updated_at"
+    t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
+    t.integer "activity_participations_demanded_annually", default: 0, null: false
+    t.json "names", default: {}, null: false
+    t.integer "shares_number"
+    t.boolean "visible", default: true, null: false
+    t.json "public_names", default: {}, null: false
+    t.json "form_details", default: {}, null: false
+    t.integer "member_order_priority", default: 1, null: false
     t.datetime "discarded_at"
     t.integer "first_cweek"
-    t.json "form_details", default: {}, null: false
     t.integer "last_cweek"
-    t.integer "member_order_priority", default: 1, null: false
-    t.json "names", default: {}, null: false
-    t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
-    t.json "public_names", default: {}, null: false
-    t.integer "shares_number"
-    t.datetime "updated_at"
-    t.boolean "visible", default: true, null: false
     t.index ["discarded_at"], name: "index_basket_sizes_on_discarded_at"
     t.index ["visible"], name: "index_basket_sizes_on_visible"
   end
 
   create_table "baskets", force: :cascade do |t|
-    t.bigint "absence_id"
-    t.bigint "basket_size_id", null: false
-    t.decimal "basket_size_price", precision: 8, scale: 3, null: false
-    t.boolean "billable", default: true, null: false
-    t.decimal "calculated_price_extra", precision: 8, scale: 3, default: "0.0", null: false
-    t.datetime "created_at", null: false
-    t.decimal "delivery_cycle_price", precision: 8, scale: 2, null: false
-    t.bigint "delivery_id", null: false
-    t.bigint "depot_id", null: false
-    t.decimal "depot_price", precision: 8, scale: 3, null: false
     t.bigint "membership_id", null: false
-    t.decimal "price_extra", precision: 8, scale: 2, default: "0.0", null: false
-    t.integer "quantity", default: 1, null: false
-    t.datetime "shift_declined_at"
-    t.string "state", default: "normal", null: false
+    t.bigint "delivery_id", null: false
+    t.bigint "basket_size_id", null: false
+    t.bigint "depot_id", null: false
+    t.decimal "basket_size_price", precision: 8, scale: 3, null: false
+    t.decimal "depot_price", precision: 8, scale: 3, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "quantity", default: 1, null: false
+    t.decimal "calculated_price_extra", precision: 8, scale: 3, default: "0.0", null: false
+    t.decimal "price_extra", precision: 8, scale: 2, default: "0.0", null: false
+    t.string "state", default: "normal", null: false
+    t.bigint "absence_id"
+    t.boolean "billable", default: true, null: false
+    t.decimal "delivery_cycle_price", precision: 8, scale: 2, null: false
+    t.datetime "shift_declined_at"
     t.index ["absence_id"], name: "index_baskets_on_absence_id"
     t.index ["basket_size_id"], name: "index_baskets_on_basket_size_id"
     t.index ["delivery_id", "membership_id"], name: "index_baskets_on_delivery_id_and_membership_id", unique: true
@@ -354,19 +354,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   create_table "baskets_basket_complements", force: :cascade do |t|
     t.bigint "basket_complement_id", null: false
     t.bigint "basket_id", null: false
-    t.datetime "created_at", null: false
     t.decimal "price", precision: 8, scale: 3, null: false
-    t.integer "quantity", default: 1, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "quantity", default: 1, null: false
     t.index ["basket_complement_id", "basket_id"], name: "baskets_basket_complements_unique_index", unique: true
     t.index ["basket_id"], name: "index_baskets_basket_complements_on_basket_id"
   end
 
   create_table "bidding_round_pledges", force: :cascade do |t|
-    t.decimal "basket_size_price", precision: 8, scale: 2, null: false
     t.integer "bidding_round_id", null: false
-    t.datetime "created_at", null: false
     t.integer "membership_id", null: false
+    t.decimal "basket_size_price", precision: 8, scale: 2, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bidding_round_id", "membership_id"], name: "idx_on_bidding_round_id_membership_id_bb51442ce9", unique: true
     t.index ["bidding_round_id"], name: "index_bidding_round_pledges_on_bidding_round_id"
@@ -374,14 +374,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "bidding_rounds", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "eligible_memberships_count"
     t.integer "fy_year", null: false
     t.integer "number", null: false
     t.string "state", default: "draft", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "eligible_memberships_count"
     t.decimal "total_expected_value", precision: 8, scale: 2
     t.decimal "total_final_value", precision: 8, scale: 2
-    t.datetime "updated_at", null: false
     t.index ["fy_year", "number"], name: "index_bidding_rounds_on_fy_year_and_number", unique: true
     t.index ["fy_year"], name: "index_bidding_rounds_on_fy_year"
     t.index ["state"], name: "index_bidding_rounds_on_state_draft", unique: true, where: "state = 'draft'"
@@ -394,27 +394,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "deliveries", force: :cascade do |t|
-    t.json "basket_content_avg_prices", default: {}
-    t.json "basket_content_depot_price_ranges", default: {}
-    t.decimal "basket_size_price_percentage", precision: 8, scale: 2
-    t.datetime "created_at"
     t.date "date", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text "note"
     t.integer "number", default: 0, null: false
-    t.json "shop_closed_for_depot_ids", default: []
     t.boolean "shop_open", default: true
-    t.datetime "updated_at"
+    t.json "basket_content_avg_prices", default: {}
+    t.json "shop_closed_for_depot_ids", default: []
+    t.decimal "basket_size_price_percentage", precision: 8, scale: 2
+    t.json "basket_content_depot_price_ranges", default: {}
     t.index ["date"], name: "index_deliveries_on_date", unique: true
     t.index ["shop_open"], name: "index_deliveries_on_shop_open"
     t.check_constraint "JSON_TYPE(shop_closed_for_depot_ids) = 'array'", name: "deliveries_shop_closed_for_depot_ids_is_array"
   end
 
   create_table "delivery_cycle_periods", force: :cascade do |t|
-    t.datetime "created_at", null: false
     t.integer "delivery_cycle_id", null: false
     t.integer "from_fy_month", default: 1, null: false
-    t.integer "results", default: 0, null: false
     t.integer "to_fy_month", default: 12, null: false
+    t.integer "results", default: 0, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["delivery_cycle_id", "from_fy_month", "to_fy_month"], name: "index_delivery_cycle_periods_on_cycle_and_month_range"
     t.index ["delivery_cycle_id"], name: "index_delivery_cycle_periods_on_delivery_cycle_id"
@@ -424,44 +424,44 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "delivery_cycles", force: :cascade do |t|
-    t.integer "absences_included_annually", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.json "deliveries_counts", default: {}, null: false
-    t.datetime "discarded_at"
-    t.boolean "exclude_cweek_range", default: false, null: false
-    t.integer "first_cweek"
-    t.json "form_details", default: {}, null: false
-    t.json "invoice_names", default: {}, null: false
-    t.integer "last_cweek"
-    t.integer "member_order_priority", default: 1, null: false
-    t.json "months", default: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], null: false
     t.json "names", default: {}, null: false
-    t.decimal "price", precision: 8, scale: 2, default: "0.0", null: false
     t.json "public_names", default: {}, null: false
-    t.integer "results", default: 0, null: false
-    t.datetime "updated_at", null: false
     t.json "wdays", default: [0, 1, 2, 3, 4, 5, 6], null: false
+    t.json "months", default: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], null: false
     t.integer "week_numbers", default: 0, null: false
+    t.integer "results", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.json "deliveries_counts", default: {}, null: false
+    t.integer "member_order_priority", default: 1, null: false
+    t.integer "absences_included_annually", default: 0, null: false
+    t.datetime "discarded_at"
+    t.json "form_details", default: {}, null: false
+    t.decimal "price", precision: 8, scale: 2, default: "0.0", null: false
+    t.json "invoice_names", default: {}, null: false
+    t.integer "first_cweek"
+    t.integer "last_cweek"
+    t.boolean "exclude_cweek_range", default: false, null: false
     t.index ["discarded_at"], name: "index_delivery_cycles_on_discarded_at"
     t.check_constraint "JSON_TYPE(months) = 'array'", name: "delivery_cycles_months_is_array"
     t.check_constraint "JSON_TYPE(wdays) = 'array'", name: "delivery_cycles_wdays_is_array"
   end
 
   create_table "delivery_cycles_depots", force: :cascade do |t|
-    t.bigint "delivery_cycle_id", null: false
     t.bigint "depot_id", null: false
+    t.bigint "delivery_cycle_id", null: false
     t.index ["depot_id", "delivery_cycle_id"], name: "index_delivery_cycles_depots_on_depot_id_and_delivery_cycle_id", unique: true
   end
 
   create_table "demo_page_visits", force: :cascade do |t|
-    t.string "action_name", null: false
     t.integer "admin_id", null: false
-    t.string "controller_name", null: false
-    t.datetime "created_at", null: false
-    t.string "page_key", null: false
-    t.string "path", null: false
     t.integer "session_id", null: false
+    t.string "path", null: false
+    t.string "controller_name", null: false
+    t.string "action_name", null: false
+    t.string "page_key", null: false
     t.integer "status", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["admin_id", "created_at"], name: "index_demo_page_visits_on_admin_id_and_created_at"
     t.index ["admin_id", "page_key"], name: "index_demo_page_visits_on_admin_id_and_page_key"
@@ -472,41 +472,41 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "depot_groups", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "member_order_priority", default: 1, null: false
     t.json "names", default: {}, null: false
     t.json "public_names", default: {}, null: false
+    t.integer "member_order_priority", default: 1, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "depots", force: :cascade do |t|
-    t.string "address_name"
+    t.string "street", limit: 255
+    t.string "zip", limit: 255
     t.string "city", limit: 255
-    t.string "contact_name"
     t.datetime "created_at"
-    t.string "delivery_sheets_mode", default: "signature", null: false
-    t.datetime "discarded_at"
+    t.datetime "updated_at"
+    t.decimal "price", precision: 8, scale: 3, null: false
     t.string "emails"
-    t.json "form_details", default: {}, null: false
-    t.bigint "group_id"
-    t.json "invoice_names", default: {}, null: false
+    t.string "address_name"
+    t.string "phones"
+    t.text "note"
     t.string "language", default: "fr", null: false
+    t.boolean "visible", default: true, null: false
+    t.json "public_names", default: {}, null: false
+    t.string "contact_name"
+    t.integer "member_order_priority", default: 1, null: false
+    t.integer "position"
+    t.json "member_ids_position", default: []
+    t.string "delivery_sheets_mode", default: "signature", null: false
+    t.bigint "group_id"
+    t.datetime "discarded_at"
+    t.json "names", default: {}, null: false
+    t.json "form_details", default: {}, null: false
+    t.json "invoice_names", default: {}, null: false
+    t.integer "notify_days_before_delivery", default: 1, null: false
+    t.boolean "maps_visible", default: false, null: false
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
-    t.boolean "maps_visible", default: false, null: false
-    t.json "member_ids_position", default: []
-    t.integer "member_order_priority", default: 1, null: false
-    t.json "names", default: {}, null: false
-    t.text "note"
-    t.integer "notify_days_before_delivery", default: 1, null: false
-    t.string "phones"
-    t.integer "position"
-    t.decimal "price", precision: 8, scale: 3, null: false
-    t.json "public_names", default: {}, null: false
-    t.string "street", limit: 255
-    t.datetime "updated_at"
-    t.boolean "visible", default: true, null: false
-    t.string "zip", limit: 255
     t.index ["discarded_at"], name: "index_depots_on_discarded_at"
     t.index ["group_id"], name: "index_depots_on_group_id"
     t.index ["maps_visible"], name: "index_depots_on_maps_visible"
@@ -515,19 +515,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "email_suppressions", force: :cascade do |t|
-    t.datetime "created_at"
     t.string "email"
-    t.string "origin"
     t.string "reason"
+    t.string "origin"
     t.string "stream_id"
     t.datetime "unsuppressed_at"
+    t.datetime "created_at"
     t.index ["stream_id", "email", "reason", "origin", "created_at"], name: "email_suppressions_unique_index", unique: true
   end
 
   create_table "forced_deliveries", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "delivery_id", null: false
     t.integer "membership_id", null: false
+    t.integer "delivery_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["delivery_id"], name: "index_forced_deliveries_on_delivery_id"
     t.index ["membership_id", "delivery_id"], name: "index_forced_deliveries_on_membership_id_and_delivery_id", unique: true
@@ -535,10 +535,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "home_delivery_address_deliveries", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "delivery_id", null: false
     t.integer "home_delivery_address_id", null: false
+    t.integer "delivery_id", null: false
     t.integer "member_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["delivery_id"], name: "index_home_delivery_address_deliveries_on_delivery_id"
     t.index ["home_delivery_address_id", "delivery_id"], name: "idx_hda_deliveries_on_address_and_delivery", unique: true
@@ -548,67 +548,67 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "home_delivery_addresses", force: :cascade do |t|
-    t.string "city"
-    t.datetime "created_at", null: false
     t.integer "member_id", null: false
-    t.string "name", null: false
-    t.string "note"
     t.integer "session_id"
+    t.string "name", null: false
     t.string "street"
-    t.datetime "updated_at", null: false
     t.string "zip"
+    t.string "city"
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_home_delivery_addresses_on_member_id"
     t.index ["session_id"], name: "index_home_delivery_addresses_on_session_id"
   end
 
   create_table "invoice_items", force: :cascade do |t|
+    t.bigint "invoice_id"
+    t.string "description", null: false
     t.decimal "amount", precision: 8, scale: 2, null: false
     t.datetime "created_at", null: false
-    t.string "description", null: false
-    t.bigint "invoice_id"
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
   end
 
   create_table "invoices", force: :cascade do |t|
-    t.decimal "amount", precision: 8, scale: 2, null: false
-    t.decimal "amount_before_percentage", precision: 8, scale: 2
-    t.decimal "amount_percentage", precision: 8, scale: 2
-    t.decimal "annual_fee", precision: 8, scale: 2
-    t.datetime "canceled_at"
-    t.datetime "created_at"
-    t.string "currency_code", limit: 3, null: false
-    t.date "date", null: false
-    t.bigint "entity_id"
-    t.string "entity_type", null: false
     t.bigint "member_id", null: false
-    t.decimal "memberships_amount", precision: 8, scale: 2
-    t.string "memberships_amount_description"
-    t.integer "missing_activity_participations_count"
-    t.integer "missing_activity_participations_fiscal_year"
-    t.datetime "overdue_notice_sent_at"
-    t.integer "overdue_notices_count", default: 0, null: false
-    t.datetime "overpaid_notification_sent_at"
+    t.date "date", null: false
     t.decimal "paid_amount", precision: 8, scale: 2, default: "0.0", null: false
-    t.decimal "paid_memberships_amount", precision: 8, scale: 2
-    t.boolean "pdf_stale", default: false, null: false
+    t.decimal "amount", precision: 8, scale: 2, null: false
+    t.decimal "annual_fee", precision: 8, scale: 2
+    t.string "memberships_amount_description"
+    t.decimal "memberships_amount", precision: 8, scale: 2
     t.decimal "remaining_memberships_amount", precision: 8, scale: 2
+    t.decimal "paid_memberships_amount", precision: 8, scale: 2
     t.datetime "sent_at"
-    t.string "sepa_debtor_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer "overdue_notices_count", default: 0, null: false
+    t.datetime "overdue_notice_sent_at"
+    t.datetime "canceled_at"
+    t.string "state", default: "processing", null: false
+    t.string "entity_type", null: false
+    t.bigint "entity_id"
+    t.integer "missing_activity_participations_count"
+    t.decimal "vat_amount", precision: 8, scale: 2
+    t.integer "shares_number"
+    t.datetime "overpaid_notification_sent_at"
+    t.decimal "vat_rate", precision: 8, scale: 2
+    t.decimal "amount_percentage", precision: 8, scale: 2
+    t.decimal "amount_before_percentage", precision: 8, scale: 2
+    t.datetime "stamped_at"
+    t.integer "missing_activity_participations_fiscal_year"
+    t.string "currency_code", limit: 3, null: false
     t.string "sepa_direct_debit_order_id"
     t.datetime "sepa_direct_debit_order_uploaded_at"
+    t.integer "sepa_mandate_id"
+    t.string "sepa_debtor_name"
+    t.string "sepa_direct_debit_submission_state"
+    t.datetime "sepa_direct_debit_submission_attempted_at"
+    t.string "sepa_direct_debit_transaction_id"
     t.string "sepa_direct_debit_pain_message_id"
     t.string "sepa_direct_debit_pain_payload_sha256"
-    t.datetime "sepa_direct_debit_submission_attempted_at"
-    t.string "sepa_direct_debit_submission_state"
-    t.string "sepa_direct_debit_transaction_id"
-    t.integer "sepa_mandate_id"
-    t.integer "shares_number"
-    t.datetime "stamped_at"
-    t.string "state", default: "processing", null: false
-    t.datetime "updated_at"
-    t.decimal "vat_amount", precision: 8, scale: 2
-    t.decimal "vat_rate", precision: 8, scale: 2
+    t.boolean "pdf_stale", default: false, null: false
     t.index ["entity_type", "entity_id"], name: "index_invoices_on_entity_type_and_entity_id"
     t.index ["member_id"], name: "index_invoices_on_member_id"
     t.index ["sepa_mandate_id"], name: "index_invoices_on_sepa_mandate_id"
@@ -617,16 +617,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "mail_deliveries", force: :cascade do |t|
-    t.string "action", null: false
-    t.text "content"
-    t.datetime "created_at", null: false
-    t.virtual "mailable_id", type: :integer, as: "CAST(json_extract(mailable_ids, '$[0]') AS INTEGER)", stored: false
-    t.json "mailable_ids", default: [], null: false
     t.string "mailable_type", null: false
+    t.json "mailable_ids", default: [], null: false
+    t.string "action", null: false
     t.integer "member_id", null: false
     t.string "state", default: "processing", null: false
     t.string "subject"
+    t.text "content"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.virtual "mailable_id", type: :integer, as: "CAST(json_extract(mailable_ids, '$[0]') AS INTEGER)", stored: false
     t.index ["mailable_type", "created_at"], name: "idx_mail_deliveries_on_mailable_type_created_at"
     t.index ["mailable_type", "mailable_id"], name: "idx_mail_deliveries_on_mailable_type_id"
     t.index ["mailable_type", "mailable_ids", "member_id"], name: "idx_mail_deliveries_on_mailable_member"
@@ -638,20 +638,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "mail_delivery_emails", force: :cascade do |t|
-    t.string "bounce_description"
+    t.integer "mail_delivery_id", null: false
+    t.string "email", null: false
+    t.string "state", default: "processing", null: false
+    t.datetime "processed_at"
+    t.datetime "delivered_at"
+    t.datetime "bounced_at"
     t.string "bounce_type"
     t.integer "bounce_type_code"
-    t.datetime "bounced_at"
-    t.datetime "created_at", null: false
-    t.datetime "delivered_at"
-    t.string "email", null: false
+    t.string "bounce_description"
+    t.string "postmark_message_id"
+    t.text "postmark_details"
     t.json "email_suppression_ids", default: [], null: false
     t.json "email_suppression_reasons", default: [], null: false
-    t.integer "mail_delivery_id", null: false
-    t.text "postmark_details"
-    t.string "postmark_message_id"
-    t.datetime "processed_at"
-    t.string "state", default: "processing", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["mail_delivery_id", "email"], name: "idx_mail_delivery_emails_on_delivery_id_email", unique: true
     t.index ["mail_delivery_id", "state"], name: "idx_mail_delivery_emails_on_delivery_id_state"
@@ -663,68 +663,69 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "mail_templates", force: :cascade do |t|
+    t.string "title", null: false
     t.boolean "active", default: false, null: false
+    t.json "subjects", default: {}, null: false
     t.json "contents", default: {}, null: false
     t.datetime "created_at", null: false
-    t.json "delivery_cycle_ids"
-    t.json "subjects", default: {}, null: false
-    t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.json "delivery_cycle_ids"
     t.index ["title"], name: "index_mail_templates_on_title", unique: true
     t.check_constraint "JSON_TYPE(delivery_cycle_ids) = 'array'", name: "mail_templates_delivery_cycle_ids_is_array"
   end
 
   create_table "members", force: :cascade do |t|
-    t.datetime "activated_at"
+    t.string "emails"
+    t.string "phones", limit: 255
+    t.string "street", limit: 255
+    t.string "zip", limit: 255
+    t.string "city", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "waiting_started_at"
+    t.text "food_note"
+    t.text "note"
+    t.bigint "validator_id"
+    t.datetime "validated_at"
+    t.bigint "waiting_basket_size_id"
+    t.bigint "waiting_depot_id"
+    t.boolean "salary_basket", default: false
+    t.string "state", default: "pending", null: false
+    t.string "name", null: false
+    t.string "profession"
+    t.text "come_from"
     t.decimal "annual_fee", precision: 8, scale: 2
-    t.datetime "anonymized_at"
-    t.string "billing_city"
+    t.string "language", default: "fr", null: false
+    t.string "shares_info"
+    t.integer "existing_shares_number", default: 0, null: false
+    t.datetime "activated_at"
+    t.decimal "waiting_basket_price_extra", precision: 8, scale: 2
+    t.string "country_code", limit: 2
+    t.boolean "contact_sharing", default: false, null: false
+    t.integer "desired_shares_number", default: 0, null: false
+    t.bigint "waiting_delivery_cycle_id"
     t.string "billing_email"
+    t.integer "memberships_count", default: 0, null: false
+    t.bigint "shop_depot_id"
+    t.string "delivery_note"
+    t.integer "required_shares_number"
+    t.integer "waiting_activity_participations_demanded_annually"
+    t.integer "waiting_billing_year_division"
+    t.datetime "initial_basket_sent_at"
+    t.datetime "final_basket_sent_at"
+    t.integer "trial_baskets_count", null: false
     t.string "billing_name"
     t.string "billing_street"
+    t.string "billing_city"
     t.string "billing_zip"
-    t.string "city", limit: 255
-    t.text "come_from"
-    t.boolean "contact_sharing", default: false, null: false
-    t.string "country_code", limit: 2
-    t.datetime "created_at"
-    t.string "delivery_note"
-    t.integer "desired_shares_number", default: 0, null: false
-    t.datetime "discarded_at"
-    t.string "emails"
-    t.integer "existing_shares_number", default: 0, null: false
-    t.datetime "final_basket_sent_at"
-    t.text "food_note"
-    t.datetime "initial_basket_sent_at"
-    t.string "language", default: "fr", null: false
-    t.integer "memberships_count", default: 0, null: false
-    t.string "name", null: false
-    t.text "note"
-    t.string "phones", limit: 255
-    t.string "profession"
-    t.integer "required_shares_number"
-    t.boolean "salary_basket", default: false
-    t.datetime "sepa_disabled_at"
-    t.string "shares_info"
-    t.integer "shop_delivery_cycle_id"
-    t.bigint "shop_depot_id"
-    t.string "state", default: "pending", null: false
-    t.string "street", limit: 255
-    t.string "theme", default: "system", null: false
-    t.integer "trial_baskets_count", null: false
-    t.datetime "updated_at"
     t.boolean "use_local_currency", default: false
-    t.datetime "validated_at"
-    t.bigint "validator_id"
-    t.integer "waiting_activity_participations_demanded_annually"
-    t.decimal "waiting_basket_price_extra", precision: 8, scale: 2
-    t.bigint "waiting_basket_size_id"
-    t.integer "waiting_billing_year_division"
-    t.bigint "waiting_delivery_cycle_id"
-    t.bigint "waiting_depot_id"
+    t.datetime "discarded_at"
+    t.datetime "anonymized_at"
+    t.string "theme", default: "system", null: false
+    t.datetime "sepa_disabled_at"
+    t.integer "shop_delivery_cycle_id"
     t.date "waiting_membership_started_on"
-    t.datetime "waiting_started_at"
-    t.string "zip", limit: 255
+    t.string "shop_invoice_period"
     t.index ["anonymized_at"], name: "index_members_on_anonymized_at"
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["shop_delivery_cycle_id"], name: "index_members_on_shop_delivery_cycle_id"
@@ -740,9 +741,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
 
   create_table "members_basket_complements", force: :cascade do |t|
     t.bigint "basket_complement_id", null: false
-    t.datetime "created_at"
     t.bigint "member_id", null: false
     t.integer "quantity", default: 1, null: false
+    t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["basket_complement_id", "member_id"], name: "members_basket_complements_unique_index", unique: true
   end
@@ -755,51 +756,51 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "memberships", force: :cascade do |t|
-    t.integer "absences_included", default: 0, null: false
-    t.integer "absences_included_annually", null: false
-    t.datetime "absences_included_reminder_sent_at"
-    t.integer "activity_participations_accepted", default: 0, null: false
+    t.bigint "member_id", null: false
     t.decimal "activity_participations_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
-    t.integer "activity_participations_demanded", default: 0, null: false
     t.integer "activity_participations_demanded_annually", null: false
-    t.bigint "alternate_delivery_cycle_id"
+    t.date "started_on", null: false
+    t.date "ended_on", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer "baskets_count", default: 0, null: false
+    t.integer "activity_participations_demanded", default: 0, null: false
+    t.integer "activity_participations_accepted", default: 0, null: false
+    t.boolean "renew", default: false, null: false
+    t.bigint "basket_size_id", null: false
+    t.bigint "depot_id", null: false
+    t.integer "basket_quantity", default: 1, null: false
+    t.decimal "basket_size_price", precision: 8, scale: 3, null: false
+    t.decimal "depot_price", precision: 8, scale: 3, null: false
+    t.decimal "baskets_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
+    t.decimal "basket_complements_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
+    t.integer "past_baskets_count", default: 0, null: false
+    t.integer "remaining_trial_baskets_count", default: 0, null: false
+    t.decimal "price", precision: 8, scale: 2
+    t.decimal "invoices_amount", precision: 8, scale: 2
+    t.decimal "renewal_annual_fee", precision: 8, scale: 2
+    t.datetime "renewed_at"
+    t.datetime "renewal_opened_at"
+    t.text "renewal_note"
+    t.datetime "renewal_reminder_sent_at"
+    t.decimal "basket_price_extra", precision: 8, scale: 2, default: "0.0", null: false
+    t.datetime "last_trial_basket_sent_at"
+    t.bigint "delivery_cycle_id", null: false
+    t.integer "absences_included_annually", null: false
+    t.integer "absences_included", default: 0, null: false
+    t.integer "billing_year_division", default: 1, null: false
+    t.integer "trial_baskets_count", default: 0
+    t.datetime "first_basket_sent_at"
+    t.datetime "last_basket_sent_at"
+    t.decimal "delivery_cycle_price", precision: 8, scale: 2, null: false
+    t.datetime "bidding_round_opened_reminder_sent_at"
+    t.datetime "second_last_trial_basket_sent_at"
+    t.datetime "absences_included_reminder_sent_at"
+    t.json "previsional_invoicing_amounts", default: {}, null: false
+    t.boolean "apply_basket_size_price_percentage", default: true, null: false
     t.bigint "alternate_depot_id"
     t.decimal "alternate_depot_price", precision: 8, scale: 3
-    t.boolean "apply_basket_size_price_percentage", default: true, null: false
-    t.decimal "basket_complements_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
-    t.decimal "basket_price_extra", precision: 8, scale: 2, default: "0.0", null: false
-    t.integer "basket_quantity", default: 1, null: false
-    t.bigint "basket_size_id", null: false
-    t.decimal "basket_size_price", precision: 8, scale: 3, null: false
-    t.decimal "baskets_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
-    t.integer "baskets_count", default: 0, null: false
-    t.datetime "bidding_round_opened_reminder_sent_at"
-    t.integer "billing_year_division", default: 1, null: false
-    t.datetime "created_at"
-    t.bigint "delivery_cycle_id", null: false
-    t.decimal "delivery_cycle_price", precision: 8, scale: 2, null: false
-    t.bigint "depot_id", null: false
-    t.decimal "depot_price", precision: 8, scale: 3, null: false
-    t.date "ended_on", null: false
-    t.datetime "first_basket_sent_at"
-    t.decimal "invoices_amount", precision: 8, scale: 2
-    t.datetime "last_basket_sent_at"
-    t.datetime "last_trial_basket_sent_at"
-    t.bigint "member_id", null: false
-    t.integer "past_baskets_count", default: 0, null: false
-    t.json "previsional_invoicing_amounts", default: {}, null: false
-    t.decimal "price", precision: 8, scale: 2
-    t.integer "remaining_trial_baskets_count", default: 0, null: false
-    t.boolean "renew", default: false, null: false
-    t.decimal "renewal_annual_fee", precision: 8, scale: 2
-    t.text "renewal_note"
-    t.datetime "renewal_opened_at"
-    t.datetime "renewal_reminder_sent_at"
-    t.datetime "renewed_at"
-    t.datetime "second_last_trial_basket_sent_at"
-    t.date "started_on", null: false
-    t.integer "trial_baskets_count", default: 0
-    t.datetime "updated_at"
+    t.bigint "alternate_delivery_cycle_id"
     t.index ["alternate_delivery_cycle_id"], name: "index_memberships_on_alternate_delivery_cycle_id"
     t.index ["alternate_depot_id"], name: "index_memberships_on_alternate_depot_id"
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
@@ -812,35 +813,35 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
 
   create_table "memberships_basket_complements", force: :cascade do |t|
     t.bigint "basket_complement_id", null: false
-    t.datetime "created_at", null: false
-    t.bigint "delivery_cycle_id"
     t.bigint "membership_id", null: false
     t.decimal "price", precision: 8, scale: 3, null: false
     t.integer "quantity", default: 1, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "delivery_cycle_id"
     t.index ["basket_complement_id", "membership_id"], name: "memberships_basket_complements_unique_index", unique: true
     t.index ["delivery_cycle_id"], name: "index_memberships_basket_complements_on_delivery_cycle_id"
   end
 
   create_table "newsletter_blocks", force: :cascade do |t|
+    t.bigint "newsletter_id", null: false
     t.string "block_id", null: false
     t.datetime "created_at", null: false
-    t.bigint "newsletter_id", null: false
     t.datetime "updated_at", null: false
     t.index ["newsletter_id", "block_id"], name: "index_newsletter_blocks_on_newsletter_id_and_block_id", unique: true
     t.index ["newsletter_id"], name: "index_newsletter_blocks_on_newsletter_id"
   end
 
   create_table "newsletter_publications", force: :cascade do |t|
-    t.string "atom_id", null: false
-    t.string "content_digest", null: false
-    t.datetime "created_at", null: false
     t.integer "newsletter_id", null: false
     t.integer "newsletter_template_id", null: false
-    t.json "payload", default: {}, null: false
     t.datetime "published_at", null: false
-    t.datetime "updated_at", null: false
     t.datetime "withdrawn_at"
+    t.string "atom_id", null: false
+    t.string "content_digest", null: false
+    t.json "payload", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["atom_id"], name: "index_newsletter_publications_on_atom_id", unique: true
     t.index ["newsletter_id"], name: "index_newsletter_publications_on_newsletter_id", unique: true
     t.index ["newsletter_template_id", "published_at"], name: "index_newsletter_publications_on_template_and_published_at"
@@ -848,21 +849,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "newsletter_segments", force: :cascade do |t|
-    t.json "basket_complement_ids", default: [], null: false
+    t.json "titles", default: {}, null: false
+    t.json "depot_ids", default: [], null: false
     t.json "basket_size_ids", default: [], null: false
+    t.json "basket_complement_ids", default: [], null: false
+    t.json "delivery_cycle_ids", default: [], null: false
+    t.string "renewal_state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "first_membership"
+    t.integer "coming_deliveries_in_days"
     t.integer "billing_year_division"
     t.string "city"
-    t.integer "coming_deliveries_in_days"
-    t.datetime "created_at", null: false
-    t.json "delivery_cycle_ids", default: [], null: false
-    t.json "depot_ids", default: [], null: false
-    t.boolean "first_membership"
+    t.string "membership_scope"
     t.json "member_ids", default: [], null: false
     t.string "member_state"
-    t.string "membership_scope"
-    t.string "renewal_state"
-    t.json "titles", default: {}, null: false
-    t.datetime "updated_at", null: false
     t.check_constraint "JSON_TYPE(basket_complement_ids) = 'array'", name: "newsletter_segments_basket_complement_ids_is_array"
     t.check_constraint "JSON_TYPE(basket_size_ids) = 'array'", name: "newsletter_segments_basket_size_ids_is_array"
     t.check_constraint "JSON_TYPE(delivery_cycle_ids) = 'array'", name: "newsletter_segments_delivery_cycle_ids_is_array"
@@ -873,159 +874,160 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   create_table "newsletter_templates", force: :cascade do |t|
     t.json "contents", default: {}, null: false
     t.datetime "created_at", null: false
-    t.boolean "feed_enabled", default: false, null: false
-    t.json "titles", default: {}, null: false
     t.datetime "updated_at", null: false
+    t.json "titles", default: {}, null: false
+    t.boolean "feed_enabled", default: false, null: false
   end
 
   create_table "newsletters", force: :cascade do |t|
-    t.string "audience", null: false
-    t.json "audience_names", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.string "from"
-    t.json "liquid_data_preview_yamls", default: {}, null: false
     t.bigint "newsletter_template_id", null: false
-    t.datetime "scheduled_at"
-    t.datetime "sent_at"
-    t.json "signatures", default: {}, null: false
-    t.json "subjects", default: {}, null: false
     t.json "template_contents", default: {}, null: false
+    t.json "subjects", default: {}, null: false
+    t.datetime "sent_at"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "audience", null: false
+    t.json "liquid_data_preview_yamls", default: {}, null: false
+    t.string "from"
+    t.json "signatures", default: {}, null: false
+    t.json "audience_names", default: {}, null: false
+    t.datetime "scheduled_at"
     t.index ["audience"], name: "index_newsletters_on_audience"
     t.index ["newsletter_template_id"], name: "index_newsletters_on_newsletter_template_id"
   end
 
   create_table "organizations", force: :cascade do |t|
-    t.boolean "absence_extra_text_only", default: false, null: false
-    t.integer "absence_notice_period_in_days", default: 7, null: false
-    t.boolean "absences_billed", default: true, null: false
-    t.text "absences_included_logic", null: false
-    t.string "absences_included_mode", default: "provisional_absence", null: false
-    t.integer "absences_included_reminder_weeks_before", default: 4, null: false
-    t.integer "activity_availability_limit_in_days", default: 3, null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.json "features", default: [], null: false
+    t.string "email_default_from", null: false
+    t.integer "fiscal_year_start_month", default: 1, null: false
+    t.integer "trial_baskets_count", default: 0, null: false
+    t.decimal "annual_fee", precision: 8, scale: 2
+    t.json "billing_year_divisions", default: [], null: false
     t.string "activity_i18n_scope", default: "halfday_work", null: false
+    t.string "email"
+    t.string "phone"
+    t.string "url"
     t.integer "activity_participation_deletion_deadline_in_days"
-    t.text "activity_participations_demanded_logic", null: false
-    t.json "activity_participations_form_details", default: {}, null: false
-    t.integer "activity_participations_form_max"
-    t.integer "activity_participations_form_min"
-    t.integer "activity_participations_form_step", default: 1, null: false
+    t.string "vat_number"
+    t.decimal "vat_membership_rate", precision: 8, scale: 2
+    t.json "languages", default: ["fr"], null: false
+    t.decimal "share_price", precision: 8, scale: 2
+    t.json "invoice_infos", default: {}, null: false
+    t.json "invoice_footers", default: {}, null: false
+    t.json "delivery_pdf_footers", default: {}, null: false
+    t.json "terms_of_service_urls", default: {}, null: false
+    t.json "statutes_urls", default: {}, null: false
+    t.integer "activity_availability_limit_in_days", default: 3, null: false
     t.string "activity_phone"
     t.decimal "activity_price", precision: 8, scale: 2, default: "0.0", null: false
+    t.boolean "absences_billed", default: true, null: false
+    t.integer "recurring_billing_wday"
+    t.json "email_notifications", default: [], null: false
+    t.json "feature_flags", default: [], null: false
+    t.integer "open_renewal_reminder_sent_after_in_days"
+    t.string "iban"
+    t.string "creditor_name", limit: 70
+    t.string "creditor_street", limit: 70
+    t.string "creditor_city", limit: 35
+    t.string "creditor_zip", limit: 16
+    t.string "country_code", limit: 2, default: "CH", null: false
+    t.string "currency_code", limit: 3, default: "CHF"
+    t.json "email_signatures", default: {}, null: false
+    t.json "email_footers", default: {}, null: false
+    t.boolean "billing_starts_after_first_delivery", default: true, null: false
     t.boolean "allow_alternative_depots", default: false, null: false
-    t.decimal "annual_fee", precision: 8, scale: 2
-    t.boolean "annual_fee_member_form", default: false, null: false
-    t.boolean "annual_fee_support_member_only", default: false, null: false
-    t.string "api_token", null: false
+    t.boolean "member_form_extra_text_only", default: false, null: false
+    t.json "basket_price_extras", default: [], null: false
+    t.json "basket_price_extra_titles", default: {}, null: false
+    t.json "basket_price_extra_texts", default: {}, null: false
+    t.json "basket_price_extra_labels", default: {}, null: false
+    t.json "basket_price_extra_label_details", default: {}, null: false
+    t.boolean "membership_renewal_depot_update", default: true, null: false
+    t.integer "absence_notice_period_in_days", default: 7, null: false
+    t.json "shop_invoice_infos", default: {}, null: false
+    t.decimal "shop_order_maximum_weight_in_kg", precision: 8, scale: 3
+    t.decimal "shop_order_minimal_amount", precision: 8, scale: 2
+    t.integer "shop_delivery_open_delay_in_days"
+    t.string "shop_delivery_open_last_day_end_time"
+    t.json "shop_delivery_pdf_footers", default: {}, null: false
+    t.json "shop_terms_of_sale_urls", default: {}, null: false
+    t.boolean "absence_extra_text_only", default: false, null: false
+    t.boolean "shop_admin_only", default: true, null: false
+    t.json "basket_price_extra_public_titles", default: {}, null: false
+    t.string "icalendar_auth_token"
     t.string "bank_reference"
+    t.text "activity_participations_demanded_logic", null: false
+    t.boolean "send_closed_invoice", default: false, null: false
+    t.string "member_profession_form_mode", default: "visible", null: false
+    t.string "member_come_from_form_mode", default: "visible", null: false
+    t.integer "basket_update_limit_in_days", default: 0, null: false
+    t.boolean "membership_depot_update_allowed", default: false, null: false
+    t.text "basket_price_extra_dynamic_pricing"
+    t.decimal "vat_activity_rate", precision: 8, scale: 2
+    t.decimal "vat_shop_rate", precision: 8, scale: 2
+    t.string "member_form_mode", default: "membership", null: false
+    t.boolean "membership_complements_update_allowed", default: false, null: false
+    t.json "shop_member_percentages", default: [], null: false
+    t.string "basket_sizes_member_order_mode", default: "price_desc", null: false
     t.string "basket_complements_member_order_mode", default: "deliveries_count_desc", null: false
-    t.boolean "basket_content_delivery_pdf_visible", default: false, null: false
-    t.boolean "basket_content_member_display_product_url", default: false, null: false
+    t.string "depots_member_order_mode", default: "price_asc", null: false
+    t.string "delivery_cycles_member_order_mode", default: "deliveries_count_desc", null: false
+    t.integer "shop_order_automatic_invoicing_delay_in_days"
+    t.json "membership_renewed_attributes", default: ["baskets_annual_price_change", "basket_complements_annual_price_change", "activity_participations", "absences_included_annually"]
+    t.decimal "new_member_fee", precision: 8, scale: 2
+    t.json "new_member_fee_descriptions", default: {}, null: false
+    t.json "member_information_titles", default: {}, null: false
+    t.boolean "billing_ends_on_last_delivery_fy_month", default: false, null: false
+    t.integer "shares_number"
+    t.json "privacy_policy_urls", default: {}, null: false
+    t.json "charter_urls", default: {}, null: false
+    t.integer "activity_participations_form_min"
+    t.integer "activity_participations_form_max"
+    t.json "activity_participations_form_details", default: {}, null: false
+    t.string "sepa_creditor_identifier"
+    t.string "delivery_pdf_member_info", default: "none", null: false
+    t.integer "activity_participations_form_step", default: 1, null: false
+    t.boolean "annual_fee_member_form", default: false, null: false
+    t.json "social_network_urls", default: [], null: false
+    t.json "invoice_sepa_infos", default: {}, null: false
+    t.boolean "annual_fee_support_member_only", default: false, null: false
+    t.json "invoice_document_names", default: {}, null: false
+    t.integer "basket_shifts_annually", default: 0
+    t.integer "basket_shift_deadline_in_weeks", default: 4
+    t.string "api_token", null: false
+    t.string "postmark_server_token"
+    t.string "postmark_server_id"
+    t.integer "bidding_round_basket_size_price_min_percentage", default: 0
+    t.integer "bidding_round_basket_size_price_max_percentage", default: 100
+    t.integer "open_bidding_round_reminder_sent_after_in_days"
+    t.string "local_currency_code", limit: 3
+    t.string "local_currency_identifier"
+    t.string "local_currency_wallet"
+    t.string "local_currency_secret"
+    t.boolean "member_form_complement_quantities", default: false, null: false
+    t.string "absences_included_mode", default: "provisional_absence", null: false
+    t.integer "absences_included_reminder_weeks_before", default: 4, null: false
+    t.boolean "invoice_membership_summary_only", default: false, null: false
+    t.json "member_form_delivery_cycle_labels", default: {}, null: false
     t.boolean "basket_content_member_display_quantity", default: true, null: false
     t.json "basket_content_member_notes", default: {}, null: false
     t.json "basket_content_member_titles", default: {}, null: false
     t.boolean "basket_content_member_visible", default: false, null: false
     t.integer "basket_content_member_visible_hours_before", default: 12, null: false
-    t.json "basket_i18n_scopes", default: {"fr" => "basket", "de" => "share", "it" => "basket", "nl" => "package", "en" => "basket"}, null: false
-    t.text "basket_price_extra_dynamic_pricing"
-    t.json "basket_price_extra_label_details", default: {}, null: false
-    t.json "basket_price_extra_labels", default: {}, null: false
-    t.json "basket_price_extra_public_titles", default: {}, null: false
-    t.json "basket_price_extra_texts", default: {}, null: false
-    t.json "basket_price_extra_titles", default: {}, null: false
-    t.json "basket_price_extras", default: [], null: false
-    t.integer "basket_shift_deadline_in_weeks", default: 4
-    t.integer "basket_shifts_annually", default: 0
-    t.string "basket_sizes_member_order_mode", default: "price_desc", null: false
-    t.integer "basket_update_limit_in_days", default: 0, null: false
-    t.integer "bidding_round_basket_size_price_max_percentage", default: 100
-    t.integer "bidding_round_basket_size_price_min_percentage", default: 0
-    t.boolean "billing_ends_on_last_delivery_fy_month", default: false, null: false
-    t.boolean "billing_starts_after_first_delivery", default: true, null: false
-    t.json "billing_year_divisions", default: [], null: false
-    t.string "cap_secret_key"
-    t.string "cap_site_key"
-    t.json "charter_urls", default: {}, null: false
-    t.string "country_code", limit: 2, default: "CH", null: false
-    t.datetime "created_at", null: false
-    t.string "creditor_city", limit: 35
-    t.string "creditor_name", limit: 70
-    t.string "creditor_street", limit: 70
-    t.string "creditor_zip", limit: 16
-    t.string "currency_code", limit: 3, default: "CHF"
-    t.string "delivery_cycles_member_order_mode", default: "deliveries_count_desc", null: false
-    t.json "delivery_pdf_footers", default: {}, null: false
-    t.string "delivery_pdf_member_info", default: "none", null: false
-    t.string "delivery_pdf_member_name_format", default: "none", null: false
-    t.string "depots_member_order_mode", default: "price_asc", null: false
-    t.string "email"
-    t.string "email_default_from", null: false
-    t.json "email_footers", default: {}, null: false
-    t.json "email_notifications", default: [], null: false
-    t.json "email_signatures", default: {}, null: false
-    t.json "feature_flags", default: [], null: false
-    t.json "features", default: [], null: false
-    t.integer "fiscal_year_start_month", default: 1, null: false
-    t.string "iban"
-    t.string "icalendar_auth_token"
-    t.json "invoice_document_names", default: {}, null: false
-    t.json "invoice_footers", default: {}, null: false
-    t.json "invoice_infos", default: {}, null: false
-    t.boolean "invoice_membership_summary_only", default: false, null: false
-    t.json "invoice_sepa_infos", default: {}, null: false
-    t.json "languages", default: ["fr"], null: false
-    t.string "local_currency_code", limit: 3
-    t.string "local_currency_identifier"
     t.boolean "local_currency_membership_annual_fee_only", default: true
-    t.string "local_currency_secret"
-    t.string "local_currency_wallet"
+    t.json "basket_i18n_scopes", default: {"fr" => "basket", "de" => "share", "it" => "basket", "nl" => "package", "en" => "basket"}, null: false
+    t.boolean "basket_content_member_display_product_url", default: false, null: false
+    t.boolean "basket_content_delivery_pdf_visible", default: false, null: false
+    t.string "delivery_pdf_member_name_format", default: "none", null: false
+    t.string "cap_site_key"
+    t.string "cap_secret_key"
     t.string "maps_style", default: "positron", null: false
-    t.string "member_come_from_form_mode", default: "visible", null: false
-    t.boolean "member_form_complement_quantities", default: false, null: false
-    t.json "member_form_delivery_cycle_labels", default: {}, null: false
     t.boolean "member_form_depot_map", default: false, null: false
-    t.boolean "member_form_extra_text_only", default: false, null: false
-    t.string "member_form_mode", default: "membership", null: false
-    t.json "member_information_titles", default: {}, null: false
-    t.string "member_profession_form_mode", default: "visible", null: false
-    t.boolean "membership_complements_update_allowed", default: false, null: false
-    t.boolean "membership_depot_update_allowed", default: false, null: false
-    t.boolean "membership_renewal_depot_update", default: true, null: false
-    t.json "membership_renewed_attributes", default: ["baskets_annual_price_change", "basket_complements_annual_price_change", "activity_participations", "absences_included_annually"]
-    t.string "name", null: false
-    t.decimal "new_member_fee", precision: 8, scale: 2
-    t.json "new_member_fee_descriptions", default: {}, null: false
-    t.integer "open_bidding_round_reminder_sent_after_in_days"
-    t.integer "open_renewal_reminder_sent_after_in_days"
-    t.string "phone"
-    t.string "postmark_server_id"
-    t.string "postmark_server_token"
-    t.json "privacy_policy_urls", default: {}, null: false
-    t.integer "recurring_billing_wday"
-    t.boolean "send_closed_invoice", default: false, null: false
-    t.string "sepa_creditor_identifier"
-    t.decimal "share_price", precision: 8, scale: 2
-    t.integer "shares_number"
-    t.boolean "shop_admin_only", default: true, null: false
-    t.integer "shop_delivery_open_delay_in_days"
-    t.string "shop_delivery_open_last_day_end_time"
-    t.json "shop_delivery_pdf_footers", default: {}, null: false
-    t.json "shop_invoice_infos", default: {}, null: false
-    t.json "shop_member_percentages", default: [], null: false
-    t.integer "shop_order_automatic_invoicing_delay_in_days"
-    t.decimal "shop_order_maximum_weight_in_kg", precision: 8, scale: 3
-    t.decimal "shop_order_minimal_amount", precision: 8, scale: 2
-    t.json "shop_terms_of_sale_urls", default: {}, null: false
-    t.json "social_network_urls", default: [], null: false
-    t.json "statutes_urls", default: {}, null: false
-    t.json "terms_of_service_urls", default: {}, null: false
-    t.integer "trial_baskets_count", default: 0, null: false
-    t.datetime "updated_at", null: false
-    t.string "url"
-    t.decimal "vat_activity_rate", precision: 8, scale: 2
-    t.decimal "vat_membership_rate", precision: 8, scale: 2
-    t.string "vat_number"
-    t.decimal "vat_shop_rate", precision: 8, scale: 2
+    t.text "absences_included_logic", null: false
+    t.string "shop_invoice_period"
     t.check_constraint "JSON_TYPE(basket_price_extras) = 'array'", name: "organizations_basket_price_extras_is_array"
     t.check_constraint "JSON_TYPE(billing_year_divisions) = 'array'", name: "organizations_billing_year_divisions_is_array"
     t.check_constraint "JSON_TYPE(email_notifications) = 'array'", name: "organizations_email_notifications_is_array"
@@ -1038,104 +1040,115 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "payments", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.bigint "invoice_id"
     t.decimal "amount", precision: 8, scale: 2, null: false
-    t.datetime "created_at", null: false
-    t.string "currency_code", limit: 3, null: false
     t.date "date", null: false
     t.string "fingerprint"
-    t.datetime "ignored_at"
-    t.bigint "invoice_id"
-    t.bigint "member_id", null: false
-    t.string "origin", default: "manual", null: false
-    t.datetime "reversal_notification_sent_at"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "ignored_at"
+    t.string "currency_code", limit: 3, null: false
+    t.datetime "reversal_notification_sent_at"
+    t.string "origin", default: "manual", null: false
     t.index ["fingerprint"], name: "index_payments_on_fingerprint", unique: true
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
     t.index ["member_id"], name: "index_payments_on_member_id"
   end
 
   create_table "permissions", force: :cascade do |t|
-    t.datetime "created_at", null: false
     t.json "names", default: {}, null: false
     t.json "rights", default: {}, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "sepa_mandates", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "iban", null: false
-    t.string "ip"
     t.integer "member_id", null: false
     t.integer "session_id"
-    t.date "signed_on", null: false
-    t.string "source", null: false
+    t.string "iban", null: false
     t.string "umr", null: false
+    t.date "signed_on", null: false
+    t.string "ip"
     t.string "user_agent"
+    t.string "source", null: false
+    t.datetime "created_at", null: false
     t.index ["member_id"], name: "index_sepa_mandates_on_member_id"
     t.index ["session_id"], name: "index_sepa_mandates_on_session_id"
   end
 
   create_table "sessions", force: :cascade do |t|
-    t.bigint "admin_id"
-    t.datetime "created_at", null: false
-    t.string "email"
-    t.string "last_remote_addr"
-    t.datetime "last_used_at"
-    t.string "last_user_agent"
     t.bigint "member_id"
-    t.datetime "redeemed_at"
-    t.string "remote_addr", null: false
-    t.datetime "revoked_at"
-    t.datetime "updated_at", null: false
     t.text "user_agent", null: false
+    t.string "remote_addr", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "last_used_at"
+    t.string "last_remote_addr"
+    t.string "last_user_agent"
+    t.string "email"
+    t.bigint "admin_id"
+    t.datetime "revoked_at"
+    t.datetime "redeemed_at"
     t.index ["admin_id"], name: "index_sessions_on_admin_id"
     t.index ["member_id"], name: "index_sessions_on_member_id"
   end
 
-  create_table "shop_order_items", force: :cascade do |t|
+  create_table "shop_order_groups", force: :cascade do |t|
+    t.integer "member_id", null: false
+    t.string "period", null: false
     t.datetime "created_at", null: false
-    t.decimal "item_price", precision: 8, scale: 2, null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id", "period"], name: "index_shop_order_groups_on_member_id_and_period"
+    t.index ["member_id"], name: "index_shop_order_groups_on_member_id"
+  end
+
+  create_table "shop_order_items", force: :cascade do |t|
     t.bigint "order_id", null: false
     t.bigint "product_id", null: false
     t.bigint "product_variant_id", null: false
     t.integer "quantity", default: 1, null: false
+    t.decimal "item_price", precision: 8, scale: 2, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["order_id", "product_id", "product_variant_id"], name: "shop_order_items_unique_index", unique: true
   end
 
   create_table "shop_orders", force: :cascade do |t|
-    t.decimal "amount", precision: 8, scale: 2, default: "0.0", null: false
-    t.decimal "amount_before_percentage", precision: 8, scale: 2
-    t.decimal "amount_percentage", precision: 8, scale: 2
-    t.datetime "created_at", null: false
+    t.bigint "member_id", null: false
     t.bigint "delivery_id", null: false
+    t.string "state", default: "cart", null: false
+    t.decimal "amount", precision: 8, scale: 2, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "delivery_type", default: "Delivery", null: false
     t.bigint "depot_id"
-    t.bigint "member_id", null: false
-    t.string "state", default: "cart", null: false
-    t.datetime "updated_at", null: false
+    t.decimal "amount_percentage", precision: 8, scale: 2
+    t.decimal "amount_before_percentage", precision: 8, scale: 2
+    t.integer "order_group_id"
     t.index ["delivery_id"], name: "index_shop_orders_on_delivery_id"
     t.index ["depot_id"], name: "index_shop_orders_on_depot_id"
     t.index ["member_id", "delivery_type", "delivery_id"], name: "index_shop_orders_on_member_and_delivery", unique: true
+    t.index ["order_group_id"], name: "index_shop_orders_on_order_group_id"
     t.index ["state"], name: "index_shop_orders_on_state"
   end
 
   create_table "shop_producers", force: :cascade do |t|
-    t.datetime "discarded_at"
     t.string "name", null: false
     t.string "website_url"
+    t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_shop_producers_on_discarded_at"
   end
 
   create_table "shop_product_variants", force: :cascade do |t|
-    t.boolean "available", default: true, null: false
-    t.integer "basket_complement_id"
-    t.datetime "discarded_at"
+    t.bigint "product_id", null: false
     t.json "names", default: {}, null: false
     t.decimal "price", precision: 8, scale: 2, null: false
-    t.bigint "product_id", null: false
-    t.integer "stock"
     t.decimal "weight_in_kg", precision: 8, scale: 3
+    t.integer "stock"
+    t.boolean "available", default: true, null: false
+    t.datetime "discarded_at"
+    t.integer "basket_complement_id"
     t.index ["available"], name: "index_shop_product_variants_on_available"
     t.index ["basket_complement_id"], name: "index_shop_product_variants_on_basket_complement_id", unique: true
     t.index ["discarded_at"], name: "index_shop_product_variants_on_discarded_at"
@@ -1143,13 +1156,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "shop_products", force: :cascade do |t|
-    t.boolean "available", default: true, null: false
-    t.datetime "discarded_at"
-    t.boolean "display_in_delivery_sheets", default: false, null: false
-    t.json "names", default: {}, null: false
     t.bigint "producer_id"
-    t.json "unavailable_for_delivery_ids", default: [], null: false
+    t.json "names", default: {}, null: false
+    t.boolean "available", default: true, null: false
     t.json "unavailable_for_depot_ids", default: [], null: false
+    t.json "unavailable_for_delivery_ids", default: [], null: false
+    t.boolean "display_in_delivery_sheets", default: false, null: false
+    t.datetime "discarded_at"
     t.index ["available"], name: "index_shop_products_on_available"
     t.index ["discarded_at"], name: "index_shop_products_on_discarded_at"
     t.index ["producer_id"], name: "index_shop_products_on_producer_id"
@@ -1158,8 +1171,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "shop_products_special_deliveries", id: false, force: :cascade do |t|
-    t.bigint "product_id", null: false
     t.bigint "special_delivery_id", null: false
+    t.bigint "product_id", null: false
     t.index ["product_id"], name: "index_shop_products_special_deliveries_on_product_id"
     t.index ["special_delivery_id"], name: "index_shop_products_special_deliveries_on_special_delivery_id"
   end
@@ -1171,34 +1184,34 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "shop_special_deliveries", force: :cascade do |t|
-    t.datetime "created_at", null: false
     t.date "date", null: false
-    t.boolean "open", default: false, null: false
     t.integer "open_delay_in_days"
     t.string "open_last_day_end_time"
+    t.boolean "open", default: false, null: false
     t.integer "shop_products_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.json "titles", default: {}
     t.json "unavailable_for_depot_ids", default: [], null: false
-    t.datetime "updated_at", null: false
     t.index ["date"], name: "index_shop_special_deliveries_on_date", unique: true
     t.check_constraint "JSON_TYPE(unavailable_for_depot_ids) = 'array'", name: "shop_special_deliveries_unavailable_for_depot_ids_is_array"
   end
 
   create_table "shop_tags", force: :cascade do |t|
-    t.datetime "discarded_at"
-    t.string "emoji"
     t.json "names", default: {}, null: false
+    t.string "emoji"
+    t.datetime "discarded_at"
     t.index ["discarded_at"], name: "index_shop_tags_on_discarded_at"
   end
 
   create_table "support_messages", force: :cascade do |t|
+    t.integer "ticket_id", null: false
+    t.string "author", null: false
     t.integer "admin_id"
     t.string "admin_name"
-    t.string "author", null: false
     t.text "body", null: false
-    t.datetime "created_at", null: false
     t.string "rfc_message_id"
-    t.integer "ticket_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["admin_id"], name: "index_support_messages_on_admin_id"
     t.index ["rfc_message_id"], name: "idx_support_messages_on_rfc_message_id", unique: true, where: "rfc_message_id IS NOT NULL"
@@ -1207,17 +1220,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   end
 
   create_table "support_tickets", force: :cascade do |t|
-    t.integer "admin_id"
+    t.string "subject", null: false
     t.text "content", null: false
     t.text "context"
-    t.datetime "created_at", null: false
-    t.string "emails"
-    t.datetime "last_activity_at", null: false
     t.integer "priority", null: false
-    t.datetime "replied_at"
-    t.string "subject", null: false
-    t.string "token", null: false
+    t.integer "admin_id"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "emails"
+    t.string "token", null: false
+    t.datetime "replied_at"
+    t.datetime "last_activity_at", null: false
     t.index ["admin_id"], name: "index_support_tickets_on_admin_id"
     t.index ["last_activity_at"], name: "index_support_tickets_on_last_activity_at"
     t.index ["token"], name: "index_support_tickets_on_token", unique: true
@@ -1271,11 +1284,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_12_220000) do
   add_foreign_key "payments", "members"
   add_foreign_key "sessions", "admins"
   add_foreign_key "sessions", "members"
+  add_foreign_key "shop_order_groups", "members"
   add_foreign_key "shop_order_items", "shop_orders", column: "order_id"
   add_foreign_key "shop_order_items", "shop_product_variants", column: "product_variant_id"
   add_foreign_key "shop_order_items", "shop_products", column: "product_id"
   add_foreign_key "shop_orders", "depots"
   add_foreign_key "shop_orders", "members"
+  add_foreign_key "shop_orders", "shop_order_groups", column: "order_group_id"
   add_foreign_key "shop_product_variants", "basket_complements"
   add_foreign_key "shop_product_variants", "shop_products", column: "product_id"
   add_foreign_key "shop_products", "shop_producers", column: "producer_id"

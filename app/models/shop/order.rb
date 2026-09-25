@@ -7,6 +7,7 @@ module Shop
     include HasDescription
     include HasAttachments
     include Searchable
+    include GroupInvoice
 
     searchable :id, :amount, :delivery_date, priority: 5, date: :delivery_date
 
@@ -38,11 +39,27 @@ module Shop
       class_name: "Shop::Product",
       through: :items,
       source: :product_displayed_in_delivery_sheet
+    belongs_to :order_group,
+      class_name: "Shop::OrderGroup",
+      optional: true,
+      inverse_of: :orders
     has_many :invoices, as: :entity
     has_one :invoice, -> { not_canceled }, as: :entity
 
     scope :all_without_cart, -> { where.not(state: "cart") }
     scope :uninvoiced, -> { where.not(state: "invoiced") }
+    scope :with_effective_invoice, -> {
+      joins(<<~SQL.squish)
+        LEFT OUTER JOIN invoices order_invoices
+          ON order_invoices.entity_type = 'Shop::Order'
+          AND order_invoices.entity_id = shop_orders.id
+          AND order_invoices.state != 'canceled'
+        LEFT OUTER JOIN invoices group_invoices
+          ON group_invoices.entity_type = 'Shop::OrderGroup'
+          AND group_invoices.entity_id = shop_orders.order_group_id
+          AND group_invoices.state != 'canceled'
+      SQL
+    }
     scope :_delivery_gid_eq, ->(gid) {
       where(delivery: GlobalID::Locator.locate(gid))
     }
@@ -87,6 +104,50 @@ module Shop
         .uniq
         .sort_by(&:name)
     end
+
+    def self.effective_invoice_totals(relation = all)
+      orders = relation.unscope(:includes).offset(nil).limit(nil)
+      rows = orders.with_effective_invoice.pluck(
+        Arel.sql("shop_orders.amount"),
+        Arel.sql("COALESCE(order_invoices.id, group_invoices.id)"))
+      invoices = Invoice.where(id: rows.filter_map(&:last).uniq).index_by(&:id)
+      group_order_counts = order_counts_for(invoices.values)
+      paid = 0.to_d
+      missing = 0.to_d
+
+      rows.group_by(&:last).each do |invoice_id, group|
+        invoice = invoices[invoice_id]
+        next unless invoice
+
+        visible = group.sum { |amount, _| amount.to_d }
+        share = visible_invoice_share(invoice, visible, group.size, group_order_counts)
+        paid += invoice.paid_amount.to_d * share
+        missing += (invoice.amount - invoice.paid_amount.to_d) * share
+      end
+
+      {
+        paid: paid,
+        missing: missing,
+        amount: orders.sum(:amount)
+      }
+    end
+
+    def self.order_counts_for(invoices)
+      group_ids = invoices.select(&:shop_order_group_type?).map(&:entity_id)
+      return {} if group_ids.empty?
+
+      where(order_group_id: group_ids).group(:order_group_id).count
+    end
+    private_class_method :order_counts_for
+
+    def self.visible_invoice_share(invoice, visible, visible_count, group_order_counts)
+      return 0 if invoice.amount.zero?
+      return 1 unless invoice.shop_order_group_type?
+      return 1 if group_order_counts[invoice.entity_id] == visible_count
+
+      visible / invoice.amount
+    end
+    private_class_method :visible_invoice_share
 
     def self.quantity_for(product)
       joins(:items)
@@ -151,7 +212,11 @@ module Shop
     end
 
     def can_invoice?
-      pending?
+      pending? && !group_invoice?
+    end
+
+    def can_invoice_period?
+      pending? && group_invoice?
     end
 
     def can_cancel?
@@ -206,11 +271,17 @@ module Shop
 
     def cancel!
       invalid_transition(:cancel!) unless can_cancel?
+      return order_group.cancel! if order_group_id?
 
       transaction do
         invoice.destroy_or_cancel!
         update_columns(state: PENDING_STATE)
       end
+    end
+
+    # Defined on the class so it overrides has_one :invoice. A concern method would not.
+    def invoice
+      order_group_id? ? order_group&.invoice : super
     end
 
     def complements_description(public_name: true)

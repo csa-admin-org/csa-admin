@@ -157,6 +157,7 @@ module Demo::Seeder::Organization
       shop_delivery_open_delay_in_days: nil,
       shop_delivery_open_last_day_end_time: nil,
       shop_order_automatic_invoicing_delay_in_days: nil,
+      shop_invoice_period: nil,
       shop_invoice_infos: {},
       shop_delivery_pdf_footers: {},
       shop_terms_of_sale_urls: {}

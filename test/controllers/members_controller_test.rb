@@ -528,6 +528,110 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, I18n.t("formtastic.hints.member.salary_basket_html")
   end
 
+  test "grouped shop invoicing sits in the shop section" do
+    travel_to "2024-05-01"
+    login admins(:super)
+    locale = admins(:super).language
+
+    get edit_member_path(members(:jane))
+
+    assert_response :success
+    shop = css_select("fieldset.inputs").find { |fieldset|
+      fieldset.css("legend").text.include?(I18n.t("shop.title", locale: locale))
+    }
+    billing = css_select("fieldset.inputs").find { |fieldset|
+      fieldset.css("legend").text.include?(I18n.t("active_admin.resource.show.billing", locale: locale))
+    }
+
+    assert shop
+    assert_includes shop.to_html, "member_shop_invoice_period"
+    assert_not_includes shop.to_html, "member_shop_depot_id"
+    assert_not_includes billing.to_html, "member_shop_invoice_period"
+    assert_select "#member_shop_invoice_period option[value='']", text: ""
+    assert_select "p.inline-hints a[href=?]", handbook_page_path("shop", anchor: "group-invoicing")
+
+    members(:mary).update!(shop_depot: depots(:farm))
+    get edit_member_path(members(:mary))
+
+    assert_response :success
+    shop = css_select("fieldset.inputs").find { |fieldset|
+      fieldset.css("legend").text.include?(I18n.t("shop.title", locale: locale))
+    }
+    assert_includes shop.to_html, "member_shop_depot_id"
+    assert_includes shop.to_html, "member_shop_invoice_period"
+  end
+
+  test "member period blank names the organization default and hides that period" do
+    login admins(:super)
+    locale = admins(:super).language
+    Current.org.update!(shop_invoice_period: "month")
+
+    get edit_member_path(members(:jane))
+
+    assert_response :success
+    label = I18n.t("shop.group_invoice.default",
+      period: I18n.t("shop.group_invoice.periods.month", locale: locale),
+      locale: locale)
+    assert_select "#member_shop_invoice_period option[value='']", text: label
+    assert_select "#member_shop_invoice_period option[value='month']", false
+    assert_select "#member_shop_invoice_period option[value='quarter']"
+    assert_includes response.body, I18n.t("formtastic.hints.member.shop_invoice_period_default_html",
+      period: I18n.t("shop.group_invoice.periods.month", locale: locale),
+      handbook_url: handbook_page_path("shop", anchor: "group-invoicing"),
+      locale: locale)
+  end
+
+  test "a stored period that matches the organization stays selected" do
+    login admins(:super)
+    Current.org.update!(shop_invoice_period: "month")
+    member = members(:jane)
+    member.update!(shop_invoice_period: "month")
+
+    get edit_member_path(member)
+
+    assert_response :success
+    assert_select "#member_shop_invoice_period option[selected][value='month']"
+
+    patch member_path(member), params: { member: { shop_invoice_period: "month" } }
+
+    assert_equal "month", member.reload.shop_invoice_period
+  end
+
+  test "show puts grouped shop invoicing on the shop panel" do
+    login admins(:super)
+    locale = admins(:super).language
+    members(:jane).update!(shop_invoice_period: "month")
+
+    get member_path(members(:jane))
+
+    assert_response :success
+    shop = css_select(".panel").find { |panel|
+      panel.css(".panel-title h3").text.squish == I18n.t("shop.title", locale: locale)
+    }
+    billing = css_select(".panel").find { |panel|
+      panel.css(".panel-title h3").text.squish == I18n.t("active_admin.resource.show.billing", locale: locale)
+    }
+    period = I18n.t("shop.group_invoice.periods.month", locale: locale)
+
+    assert shop
+    assert_includes shop.to_html, period
+    assert_not_includes billing.to_html, period
+
+    members(:jane).update!(shop_invoice_period: nil)
+    Current.org.update!(shop_invoice_period: "quarter")
+
+    get member_path(members(:jane))
+
+    assert_response :success
+    inherited = I18n.t("shop.group_invoice.default",
+      period: I18n.t("shop.group_invoice.periods.quarter", locale: locale),
+      locale: locale)
+    shop = css_select(".panel").find { |panel|
+      panel.css(".panel-title h3").text.squish == I18n.t("shop.title", locale: locale)
+    }
+    assert_includes shop.to_html, inherited
+  end
+
   test "stale waiting membership start date is hidden and treated as blank" do
     travel_to "2024-05-01"
     member = members(:aria)

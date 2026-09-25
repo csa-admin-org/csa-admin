@@ -4764,6 +4764,12 @@ _:
           _de: Die Stornierung dieser Abonnementrechnung stellt denselben Betrag am nächsten Rechnungstag erneut in Rechnung. Zuerst das Abonnement bearbeiten, wenn sich der Betrag ändern soll. Fortfahren?
           _it: Annullare questa fattura di abbonamento rifattura lo stesso importo al prossimo giorno di fatturazione. Modificate prima l'abbonamento se l'importo deve cambiare. Continuare?
           _nl: Het annuleren van deze lidmaatschapsfactuur factureert hetzelfde bedrag opnieuw op de volgende facturatiedag. Eerst het lidmaatschap bewerken als het bedrag moet wijzigen. Doorgaan?
+        cancel_shop_order_group_confirm:
+          _en: Canceling this invoice puts every shop order on it back to "to be prepared". Are you sure?
+          _fr: Annuler cette facture remet toutes les commandes d'épicerie de celle-ci dans l'état "à préparer". Êtes-vous sûr?
+          _de: Das Stornieren dieser Rechnung setzt alle Hofladen-Bestellungen dieser Rechnung wieder auf "vorzubereiten". Wirklich fortfahren?
+          _it: L'annullamento di questa fattura riporta tutti gli ordini di drogheria di questa fattura allo stato "da preparare". Siete sicuri?
+          _nl: Het annuleren van deze factuur zet alle winkelbestellingen van deze factuur terug op "voor te bereiden". Echt doorgaan?
         complete:
           _en: Complete
           _fr: Terminer

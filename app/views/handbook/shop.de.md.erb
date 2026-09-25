@@ -54,12 +54,22 @@ Es ist auch möglich, die **automatische Abrechnung** der Bestellungen in [den H
 
 > Sobald sie abgerechnet ist, kann die Bestellung nicht mehr bearbeitet werden. Storniere zuerst die Rechnung, wenn Du sie ändern musst, und stelle dann erneut in Rechnung.
 
+### Gruppierte Abrechnung {#group-invoicing}
+
+Einen Zeitraum stellst Du in [den Hofladeneinstellungen](/settings#shop) ein, um alle Mitglieder gemeinsam abzurechnen. Lass ihn leer, um jede Bestellung einzeln abzurechnen, ausser dieses Mitglied hat einen eigenen Zeitraum. Solange ein Zeitraum für die Organisation gesetzt ist, wird die automatische Abrechnung pro Bestellung nicht verwendet.
+
+Am Mitglied, im Abschnitt Hofladen, folgt ein leerer Zeitraum der Organisation. Hat die Organisation einen Zeitraum, kann das Mitglied nur einen anderen Zeitraum wählen.
+
+Die Bestellungen bleiben "vorzubereiten", bis zum Morgen nach Ende des Zeitraums, und stehen dann auf einer Rechnung. Das Abrechnungsdatum steht auf jeder dieser Bestellungen. "Jetzt abrechnen" stellt den Zeitraum vor dem Ende in Rechnung. Stornierst Du eine gruppierte Rechnung, gehen alle Bestellungen dieser Rechnung zurück auf "vorzubereiten".
+
 Es ist möglich, einen spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"](/mail_templates/invoice_created) mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid) hinzuzufügen:
 
 ~~~ liquid
 {% case invoice.entity_type %}
 {% when 'Shop::Order' %}
   <p>Hier ist Deine neue Rechnung für Deine Bestellung Nr. {{ invoice.entity_number }}; alle Details findest Du im angehängten PDF.</p>
+{% when 'Shop::OrderGroup' %}
+  <p>Hier ist Deine neue Rechnung für Deine Hofladen-Bestellungen {{ invoice.entity_period }}. Alle Details findest Du im angehängten PDF.</p>
 {% else %}
   <p>Hier ist Deine neue Rechnung; alle Details findest Du im angehängten PDF.</p>
 {% endcase %}
@@ -89,7 +99,8 @@ Ein häufiger Anwendungsfall ist es, Restaurants oder anderen professionellen K�
 2. **Dieses Depot als "Hofladendepot"** im Profil jedes Restaurant-Mitglieds zuweisen.
 3. **Produktsichtbarkeit über die Depotverfügbarkeit einschränken**: Indem bestimmte Produkte für alle Depots _ausser_ diesem Restaurant-Depot als nicht verfügbar markiert werden, kannst Du einen Katalog ausschliesslich für diese professionellen Käufer anbieten (z.B. Grossgebinde, Mengenpreise). Reguläre Mitglieder mit einer Mitgliedschaft werden diese Produkte nicht sehen.
 4. **Hofladenöffnung pro Depot steuern**: Beim Öffnen des Hofladens für eine Lieferung kannst Du nur das Restaurant-Depot auswählen. So bleibt der Hofladen für Mitglieder mit einer Mitgliedschaft bei dieser Lieferung geschlossen, während er für Restaurants geöffnet ist. Umgekehrt kannst Du den Hofladen für alle Depots öffnen, wenn alle Zugang haben sollen.
-5. **Einen Lieferzyklus zuweisen** (optional): Wenn Restaurants nur an bestimmten Lieferterminen bestellen sollen, weise einen passenden Lieferzyklus zu, um ihre verfügbaren Lieferungen weiter einzuschränken.
+5. **Bestellungen zusammen abrechnen** (optional): Die [gruppierte Abrechnung](#group-invoicing) setzt mehrere Bestellungen auf eine Rechnung. Die Rechnung führt weiterhin jede Bestellung mit ihren Produkten auf.
+6. **Einen Lieferzyklus zuweisen** (optional): Wenn Restaurants nur an bestimmten Lieferterminen bestellen sollen, weise einen passenden Lieferzyklus zu, um ihre verfügbaren Lieferungen weiter einzuschränken.
 
 > Diese Mitglieder legst Du am besten manuell über das [Mitgliedererstellungsformular](/members/new) an, da das Anmeldeformular auf Standardmitglieder ausgerichtet ist, die auch eine Mitgliedschaft abschliessen.
 

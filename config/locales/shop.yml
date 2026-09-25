@@ -7,6 +7,124 @@ _:
         _de: Lieferschein
         _it: Bolla di consegna
         _nl: Leveringsbon
+    group_invoice:
+      confirm:
+        _en: Invoice every pending order in this period?
+        _fr: Facturer toutes les commandes à préparer de cette période?
+        _de: Alle vorzubereitenden Bestellungen dieses Zeitraums abrechnen?
+        _it: Fatturare tutti gli ordini da preparare di questo periodo?
+        _nl: Alle voor te bereiden bestellingen van deze periode factureren?
+      created:
+        _en: The period has been invoiced.
+        _fr: La période a été facturée.
+        _de: Der Zeitraum wurde abgerechnet.
+        _it: Il periodo è stato fatturato.
+        _nl: De periode is gefactureerd.
+      default:
+        _en: "%{period} (default)"
+        _fr: "%{period} (par défaut)"
+        _de: "%{period} (Standard)"
+        _it: "%{period} (predefinito)"
+        _nl: "%{period} (standaard)"
+      future_confirm:
+        _en: This period still includes a delivery that has not happened. Invoice it anyway?
+        _fr: Cette période inclut encore une livraison à venir. La facturer quand même?
+        _de: Dieser Zeitraum enthält noch eine Lieferung, die nicht stattgefunden hat. Trotzdem abrechnen?
+        _it: Questo periodo include ancora una consegna futura. Fatturarlo comunque?
+        _nl: Deze periode bevat nog een levering die niet heeft plaatsgevonden. Toch factureren?
+      info_html:
+        _en: This order will be invoiced automatically on %{when}, with %{orders}.
+        _fr: Cette commande sera facturée automatiquement le %{when}, avec %{orders}.
+        _de: Diese Bestellung wird automatisch abgerechnet am %{when}, zusammen mit %{orders}.
+        _it: Questo ordine sarà fatturato automaticamente il %{when}, con %{orders}.
+        _nl: Deze bestelling wordt automatisch gefactureerd op %{when}, samen met %{orders}.
+      invoice_now:
+        _en: Invoice now
+        _fr: Facturer maintenant
+        _de: Jetzt abrechnen
+        _it: Fattura ora
+        _nl: Nu factureren
+      next_run:
+        _en: the next automatic run
+        _fr: prochain passage automatique
+        _de: nächsten automatischen Lauf
+        _it: prossimo passaggio automatico
+        _nl: de volgende automatische run
+      no_other_orders:
+        _en: no other order yet
+        _fr: aucune autre commande pour le moment
+        _de: noch keine andere Bestellung
+        _it: nessun altro ordine per ora
+        _nl: nog geen andere bestelling
+      nothing_pending:
+        _en: No pending order left in this period.
+        _fr: Plus aucune commande à préparer dans cette période.
+        _de: Keine vorzubereitende Bestellung mehr in diesem Zeitraum.
+        _it: Nessun ordine da preparare rimasto in questo periodo.
+        _nl: Geen voor te bereiden bestelling meer in deze periode.
+      period:
+        quarter:
+          _en: "%{ordinal} quarter %{year}"
+          _fr: "%{ordinal} trimestre %{year}"
+          _de: "%{ordinal}. Quartal %{year}"
+          _it: "%{ordinal}° trimestre %{year}"
+          _nl: "%{ordinal}e kwartaal %{year}"
+      period_phrase:
+        month:
+          _en: for the month of %{month} %{year}
+          _fr: du mois de %{month} %{year}
+          _de: des Monats %{month} %{year}
+          _it: del mese di %{month} %{year}
+          _nl: van de maand %{month} %{year}
+        month_elided:
+          _en: for the month of %{month} %{year}
+          _fr: du mois d'%{month} %{year}
+          _de: des Monats %{month} %{year}
+          _it: del mese di %{month} %{year}
+          _nl: van de maand %{month} %{year}
+        quarter:
+          _en: for the %{ordinal} quarter of %{year}
+          _fr: du %{ordinal} trimestre %{year}
+          _de: des %{ordinal}. Quartals %{year}
+          _it: del %{ordinal}° trimestre %{year}
+          _nl: van het %{ordinal}e kwartaal %{year}
+        year:
+          _en: for the year %{year}
+          _fr: de l'année %{year}
+          _de: des Jahres %{year}
+          _it: dell'anno %{year}
+          _nl: van het jaar %{year}
+      periods:
+        month:
+          _en: End of the month
+          _fr: Fin de mois
+          _de: Ende des Monats
+          _it: Fine mese
+          _nl: Einde van de maand
+        quarter:
+          _en: End of the quarter
+          _fr: Fin de trimestre
+          _de: Ende des Quartals
+          _it: Fine trimestre
+          _nl: Einde van het kwartaal
+        year:
+          _en: End of the year
+          _fr: Fin d'année
+          _de: Ende des Jahres
+          _it: Fine anno
+          _nl: Einde van het jaar
+      to_invoice:
+        _en: to invoice
+        _fr: à facturer
+        _de: abzurechnen
+        _it: da fatturare
+        _nl: te factureren
+      waiting_tooltip:
+        _en: Not invoiced yet. Billed automatically on %{date}. The batch action "Invoice" bills the selected orders directly.
+        _fr: Pas encore facturée. Facturation automatique le %{date}. L'action groupée "Facturer" facture directement les commandes sélectionnées.
+        _de: Noch nicht abgerechnet. Automatische Abrechnung am %{date}. Die Gruppenaktion "Rechnung stellen" rechnet die ausgewählten Bestellungen direkt ab.
+        _it: Non ancora fatturato. Fatturazione automatica il %{date}. L'azione di gruppo "Fatturare" fattura direttamente gli ordini selezionati.
+        _nl: Nog niet gefactureerd. Automatische facturering op %{date}. De groepsactie "Factureren" factureert de geselecteerde bestellingen direct.
     open:
       _en: Open
       _fr: Ouverte
@@ -38,6 +156,12 @@ _:
       _de: Die zu bereitenden Bestellungen werden in der Nacht vom %{date} automatisch fakturiert.
       _it: Gli ordini da preparare verranno fatturati automaticamente, durante la notte, a partire dal %{date}.
       _nl: Bestellingen die moeten worden voorbereid, worden vanaf %{date} 's nachts automatisch gefactureerd.
+    orders_grouped_invoicing:
+      _en: Orders are invoiced together (%{period}).
+      _fr: Les commandes sont facturées ensemble (%{period}).
+      _de: Bestellungen werden gemeinsam abgerechnet (%{period}).
+      _it: Gli ordini sono fatturati insieme (%{period}).
+      _nl: Bestellingen worden samen gefactureerd (%{period}).
     orders_manual_invoicing:
       _en: Automatic invoicing is not configured, orders must be invoiced manually.
       _fr: La facturation automatique n'est pas paramétrée, les commandes à préparer doivent être facturées manuellement.

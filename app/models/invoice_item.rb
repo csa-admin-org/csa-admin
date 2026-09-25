@@ -9,4 +9,8 @@ class InvoiceItem < ApplicationRecord
 
   validates :description, presence: true
   validates :amount, presence: true, numericality: true
+
+  def shop_order_section?
+    amount.zero? && invoice.shop_order_section_description?(description)
+  end
 end

@@ -389,6 +389,12 @@ _:
           _de: Rückzahlung von %{count} Anteilscheinen
           _it: Rimborso di %{count} quote sociali cooperative
           _nl: Terugbetaling van %{count} aandeelcertificaten
+      subtotal:
+        _en: Subtotal
+        _fr: Sous-total
+        _de: Zwischensumme
+        _it: Subtotale
+        _nl: Subtotaal
       total:
         _en: Total
         _fr: Total

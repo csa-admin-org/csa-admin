@@ -40,7 +40,9 @@ module InvoicesHelper
   end
 
   def display_entity(invoice, link: true)
-    if link && invoice.entity
+    if invoice.shop_order_group_type?
+      t("shop.title")
+    elsif link && invoice.entity
       auto_link invoice.entity
     elsif invoice.entity.is_a?(Membership)
       if invoice.annual_fee?
@@ -48,7 +50,7 @@ module InvoicesHelper
       else
         t("invoices.entity_type.membership", fiscal_year: invoice.entity.fiscal_year)
       end
-    elsif invoice.entity_type == "Shop::Order"
+    elsif invoice.shop_order_type?
       t("shop.title")
     else
       t_invoice_entity_type(invoice.entity_type)
@@ -58,7 +60,7 @@ module InvoicesHelper
   def t_invoice_entity_type(type)
     case type
     when "ActivityParticipation" then activity_human_name
-    when "Shop::Order" then I18n.t("shop.title_orders", count: 1)
+    when "Shop::Order", "Shop::OrderGroup" then I18n.t("shop.title_orders", count: 1)
     else
       type.constantize.model_name.human
     end

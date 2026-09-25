@@ -196,8 +196,9 @@ class Analytics::Billing
 
   def amounts_by_type_for(invoices)
     ENTITY_TYPES.index_with { |type|
+      types = Invoice.entity_types_for(type)
       invoices
-        .select { |row| row.entity_type == type }
+        .select { |row| row.entity_type.in?(Array(types)) }
         .sum { |row| row.amount.to_d }
     }
   end

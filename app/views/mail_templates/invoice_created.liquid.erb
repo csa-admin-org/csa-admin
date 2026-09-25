@@ -1,6 +1,8 @@
 {% case invoice.entity_type %}
 {% when 'Shop::Order' %}
   <p><%= t(".new_invoice_order_paragraph") %></p>
+{% when 'Shop::OrderGroup' %}
+  <p><%= t(".new_invoice_order_group_paragraph") %></p>
 {% else %}
   <p><%= t(".new_invoice_paragraph") %></p>
 {% endcase %}

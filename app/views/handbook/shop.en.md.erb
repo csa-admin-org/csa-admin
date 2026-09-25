@@ -54,12 +54,22 @@ It's also possible to configure **automatic billing** of orders, from [the shop 
 
 > Once billed, the order can no longer be edited. Cancel the invoice first if you need to change it, then bill again.
 
+### Grouped invoicing {#group-invoicing}
+
+Set a period in the [shop settings](/settings#shop) to invoice every member together. Leave it blank to invoice each order, unless that member has a period of their own. While an organization period is set, the per-order automatic delay is not used.
+
+On the member, in the shop section, a blank period follows the organization. When the organization has a period, the member can only switch to another period.
+
+Those orders stay "to be prepared" until the morning after the period ends, then one invoice covers them. Each order shows the billing date. "Invoice now" bills the period before it ends. Canceling a grouped invoice puts every order on it back to "to be prepared".
+
 It's possible to add specific text in the ["New invoice" email template](/mail_templates/invoice_created) using [Liquid syntax](https://shopify.github.io/liquid) as follows:
 
 ~~~ liquid
 {% case invoice.entity_type %}
 {% when 'Shop::Order' %}
   <p>Here is your new invoice for order No. {{ invoice.entity_number }}; all details can be found in the attached PDF.</p>
+{% when 'Shop::OrderGroup' %}
+  <p>Here is your new invoice for your shop orders {{ invoice.entity_period }}; all details can be found in the attached PDF.</p>
 {% else %}
   <p>Here is your new invoice; all details can be found in the attached PDF.</p>
 {% endcase %}
@@ -89,7 +99,8 @@ A common use case is to give access to the shop to restaurants or other professi
 2. **Assign this depot as the "shop depot"** on each restaurant member's profile.
 3. **Limit product visibility using depot availability**: by making certain products unavailable for all depots _except_ this restaurant depot, you can offer a catalog exclusively reserved for these professional buyers (e.g. larger formats, bulk pricing). Regular members with a membership will not see these products.
 4. **Control shop opening per depot**: when opening the shop on a delivery, you can select only the restaurant depot. This way, the shop remains closed for members with a membership on that delivery while being open for restaurants. Conversely, you can open the shop for all depots when you want everyone to have access.
-5. **Assign a delivery cycle** (optional): if restaurants should only order on specific delivery dates, assign a matching delivery cycle to further restrict their available deliveries.
+5. **Invoice the orders together** (optional): [grouped invoicing](#group-invoicing) puts several orders on one invoice. The invoice still lists each order, with its products.
+6. **Assign a delivery cycle** (optional): if restaurants should only order on specific delivery dates, assign a matching delivery cycle to further restrict their available deliveries.
 
 > These members are best created manually by an admin via the [member creation form](/members/new), since the registration form focuses on standard members who will also take a membership.
 

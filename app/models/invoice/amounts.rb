@@ -109,7 +109,7 @@ module Invoice::Amounts
       Current.org.vat_membership_rate
     when "ActivityParticipation"
       Current.org.vat_activity_rate
-    when "Shop::Order"
+    when "Shop::Order", "Shop::OrderGroup"
       Current.org.vat_shop_rate
     when "Other", "NewMemberFee"
       vat_rate

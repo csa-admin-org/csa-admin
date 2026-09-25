@@ -78,6 +78,7 @@ class Invoice < ApplicationRecord
       sent_eq sepa_eq
       activity_participations_fiscal_year
       membership_eq
+      entity_type_eq entity_type_in
     ]
   end
 
@@ -132,6 +133,22 @@ class Invoice < ApplicationRecord
     super
     self[:entity_type] = "Other" unless entity_type?
     self[:amount] = items.reject(&:marked_for_destruction?).sum(&:amount)
+  end
+
+  def shop_order_section_description?(description)
+    return false unless shop_order_group_type?
+
+    shop_order_section_descriptions.include?(description)
+  end
+
+  def shop_order_section_descriptions
+    return [] unless shop_order_group_type?
+
+    @shop_order_section_descriptions ||= entity.orders.flat_map { |order|
+      Current.org.languages.map { |locale|
+        I18n.with_locale(locale) { order.invoice_section_description }
+      }
+    }
   end
 
   private

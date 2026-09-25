@@ -54,12 +54,22 @@ Per impostazione predefinita, una volta preparati, gli ordini devono essere fatt
 
 > Una volta fatturato, l'ordine non è più modificabile. Annulla prima la fattura se devi cambiarlo, poi fattura di nuovo.
 
+### Fatturazione raggruppata {#group-invoicing}
+
+Imposta un periodo nelle [impostazioni della bottega](/settings#shop) per fatturare tutti i soci insieme. Lascialo vuoto per fatturare ogni ordine, a meno che quel socio abbia un proprio periodo. Finché un periodo è impostato per l'organizzazione, il ritardo di fatturazione automatica per ordine non è usato.
+
+Sul socio, nella sezione bottega, un periodo vuoto segue l'organizzazione. Se l'organizzazione ha un periodo, il socio può solo passare a un altro periodo.
+
+I suoi ordini restano "da preparare" fino al mattino dopo la fine del periodo, poi una sola fattura li raggruppa. La data di fatturazione è indicata su ciascuno di questi ordini. "Fattura ora" fattura il periodo prima della scadenza. Se annulli una fattura raggruppata, tutti gli ordini di quella fattura tornano allo stato "da preparare".
+
 Puoi aggiungere un testo specifico nel [modello di email "Nuova fattura"](/mail_templates/invoice_created) utilizzando la [sintassi Liquid](https://shopify.github.io/liquid) seguente:
 
 ~~~ liquid
 {% case invoice.entity_type %}
 {% when 'Shop::Order' %}
   <p>Ecco la tua nuova fattura per l'ordine n. {{ invoice.entity_number }}; tutti i dettagli si trovano nel PDF allegato.</p>
+{% when 'Shop::OrderGroup' %}
+  <p>Ecco la tua nuova fattura per gli ordini della bottega {{ invoice.entity_period }}. Tutti i dettagli si trovano nel PDF allegato.</p>
 {% else %}
   <p>Ecco la tua nuova fattura; tutti i dettagli si trovano nel PDF allegato.</p>
 {% endcase %}
@@ -89,7 +99,8 @@ Un caso d'uso comune è dare accesso alla bottega a ristoranti o altri acquirent
 2. **Assegnare questo deposito come "deposito della bottega"** sul profilo di ogni socio ristorante.
 3. **Limitare la visibilità dei prodotti tramite la disponibilità per deposito**: rendendo certi prodotti non disponibili per tutti i depositi _tranne_ questo deposito ristorante, puoi offrire un catalogo esclusivamente riservato a questi acquirenti professionali (ad es. formati più grandi, prezzi all'ingrosso). I soci regolari con un abbonamento non vedranno questi prodotti.
 4. **Controllare l'apertura della bottega per deposito**: all'apertura della bottega su una consegna, puoi selezionare solo il deposito ristorante. In questo modo, la bottega resta chiusa per i soci con un abbonamento su quella consegna, rimanendo aperta per i ristoranti. Viceversa, puoi aprire la bottega per tutti i depositi quando tutti devono avere accesso.
-5. **Assegnare un ciclo di consegne** (opzionale): se i ristoranti devono ordinare solo in certe date di consegna, assegna un ciclo di consegne corrispondente per limitare ulteriormente le loro consegne disponibili.
+5. **Fatturare gli ordini insieme** (opzionale): la [fatturazione raggruppata](#group-invoicing) riunisce più ordini in una sola fattura. La fattura elenca comunque ogni ordine, con i suoi prodotti.
+6. **Assegnare un ciclo di consegne** (opzionale): se i ristoranti devono ordinare solo in certe date di consegna, assegna un ciclo di consegne corrispondente per limitare ulteriormente le loro consegne disponibili.
 
 > Questi soci sono preferibilmente creati manualmente da un admin tramite il [formulario di creazione del socio](/members/new), poiché il formulario d'iscrizione è destinato ai soci standard che sottoscriveranno anche un abbonamento.
 

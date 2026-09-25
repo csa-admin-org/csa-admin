@@ -46,6 +46,91 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     ], pdf_strings
   end
 
+  test "group invoice shows the period and hides section headers with no amount" do
+    travel_to "2024-04-10"
+    members(:jane).update!(shop_invoice_period: "month")
+    order = create_shop_order(
+      member: members(:jane),
+      delivery: deliveries(:monday_1),
+      items_attributes: {
+        "0" => {
+          product_id: shop_products(:oil).id,
+          product_variant_id: shop_product_variants(:oil_500).id,
+          item_price: 6,
+          quantity: 1
+        }
+      })
+    invoice = Shop::OrderGroup.invoice_orders!([ order ], send_email: false).invoice
+    perform_enqueued_jobs
+
+    strings = save_pdf_and_return_strings(invoice)
+
+    assert_includes strings, "Orders April 2024"
+    assert_includes strings, order.invoice_section_description
+    assert_includes strings, order.items.first.description
+    assert_includes strings, "Subtotal"
+    assert_includes strings, "6.00"
+    assert_not_includes strings, "0.00"
+    assert_not_includes invoice.items.map(&:description), "Subtotal"
+  end
+
+  test "group invoice section is a title in the member language" do
+    travel_to "2024-04-10"
+    org(languages: %w[en fr])
+    member = members(:jane)
+    member.update!(shop_invoice_period: "month", language: "fr")
+    order = create_shop_order(
+      member: member,
+      delivery: deliveries(:monday_1),
+      amount_percentage: 10,
+      items_attributes: {
+        "0" => {
+          product_id: shop_products(:oil).id,
+          product_variant_id: shop_product_variants(:oil_500).id,
+          item_price: 6,
+          quantity: 1
+        }
+      })
+    invoice = Shop::OrderGroup.invoice_orders!([ order ], send_email: false).invoice
+    perform_enqueued_jobs
+
+    strings = save_pdf_and_return_strings(invoice)
+
+    assert_includes strings, "Commandes Avril 2024"
+    assert_includes strings, "Commande n°\u00A0#{order.id}, Lun. 1 Avr 24"
+    assert_contains strings, [ "+10.0%", "0.60", "Sous-total", "6.60" ]
+    assert_not_includes strings, "Order"
+    assert_not_includes invoice.items.map(&:description), "Sous-total"
+  end
+
+  test "group invoice keeps section subtotals off the payment slip" do
+    travel_to "2024-04-10"
+    members(:jane).update!(shop_invoice_period: "month")
+    orders = %i[monday_1 thursday_1 monday_2 thursday_2].map { |name|
+      create_shop_order(
+        member: members(:jane),
+        delivery: deliveries(name),
+        items_attributes: {
+          "0" => {
+            product_id: shop_products(:oil).id,
+            product_variant_id: shop_product_variants(:oil_500).id,
+            item_price: 1,
+            quantity: 1
+          }
+        })
+    }
+    invoice = Shop::OrderGroup.invoice_orders!(orders, send_email: false).invoice
+    pdf = PDF::Invoice.new(invoice)
+    pages = PDF::Inspector::Page.analyze(pdf.render).pages
+
+    assert_equal 8, invoice.items.size
+    assert_equal 2, pages.size
+    assert_equal 3, pages.first[:strings].count("Subtotal")
+    assert_not_includes pages.first[:strings], "Payment part"
+    assert_equal 1, pages.last[:strings].count("Subtotal")
+    assert_includes pages.last[:strings], "Payment part"
+  end
+
   test "use different billing info" do
     invoice = invoices(:annual_fee)
     invoice.member.update!(

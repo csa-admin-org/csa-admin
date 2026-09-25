@@ -17,6 +17,9 @@ module Organization::ShopFeature
       numericality: { greater_than_or_equal_to: 1, allow_nil: true }
     validates :shop_order_automatic_invoicing_delay_in_days,
       numericality: { only_integer: true, allow_nil: true }
+    normalizes :shop_invoice_period, with: ->(period) { period.presence }
+    validates :shop_invoice_period,
+      inclusion: { in: Shop::InvoicePeriod::PERIODS, allow_nil: true }
   end
 
   def shop_member_percentages?

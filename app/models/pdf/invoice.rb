@@ -16,9 +16,15 @@ module PDF
       @missing_amount = ::Invoice.find(invoice.id).missing_amount
       super
 
+      items = invoice.items.to_a
       max_per_page = 39
       max_last_page = Current.org.swiss_qr? ? 9 : 14
-      pages = paginate(invoice.items.to_a, max_per_page, max_last_page)
+      pages =
+        if invoice.shop_order_group_type?
+          paginate_group(items, max_per_page, max_last_page)
+        else
+          paginate(items, max_per_page, max_last_page)
+        end
       pages.each_with_index do |items, index|
         page(items, page: index + 1, total_pages: pages.size)
       end
@@ -40,6 +46,47 @@ module PDF
 
       pages << remaining
       pages
+    end
+
+    def paginate_group(items, max_per_page, max_last_page)
+      weights = group_display_weights(items)
+      pages = []
+      remaining = items.dup
+      remaining_weights = weights.dup
+
+      while remaining_weights.sum > max_last_page
+        budget = [
+          max_per_page,
+          [ remaining_weights.sum - max_last_page, max_last_page ].max
+        ].min
+        count = display_item_count(remaining_weights, budget)
+        pages << remaining.shift(count)
+        remaining_weights.shift(count)
+      end
+
+      pages << remaining
+      pages
+    end
+
+    def group_display_weights(items)
+      items.each_index.map { |index| group_display_weight(items, index) }
+    end
+
+    def group_display_weight(items, index)
+      following = items[index + 1]
+      following.nil? || following.shop_order_section? ? 2 : 1
+    end
+
+    def display_item_count(weights, budget)
+      rows = 0
+      weights.each_with_index do |weight, index|
+        next_rows = rows + weight
+        return index if next_rows > budget && index.positive?
+        return 1 if next_rows > budget
+
+        rows = next_rows
+      end
+      weights.size
     end
 
     def page(items, page:, total_pages:)
@@ -69,6 +116,9 @@ module PDF
           text "#{t("numbered", label: ::Shop::Order.model_name.human)}\u00A0#{entity.id}"
           move_down 5
           text "#{::Delivery.model_name.human}: #{I18n.l(entity.delivery.date)}"
+        when "Shop::OrderGroup"
+          move_down 12
+          text entity.display_period, style: :bold, size: 11
         end
       end
       member_address_and_id
@@ -111,6 +161,8 @@ module PDF
         ::Invoice.human_attribute_name(:description),
         "#{::Invoice.human_attribute_name(:amount)} (#{currency_symbol(invoice.currency_code)})"
       ] ]
+      section_rows = []
+      subtotal_rows = []
 
       case invoice.entity_type
       when "Membership"
@@ -203,6 +255,8 @@ module PDF
         items.each do |item|
           data << [ item.description, cur(item.amount) ]
         end
+      when "Shop::OrderGroup"
+        shop_order_group_rows(items, data, section_rows, subtotal_rows)
       end
 
       if last_page
@@ -278,6 +332,8 @@ module PDF
             end
           end
           t.columns(1).rows(1..-1).filter do |cell|
+            next if section_rows.include?(cell.row)
+
             t.row(cell.row).font_style = :italic if cell.content == ""
           end
 
@@ -319,6 +375,28 @@ module PDF
             t.row(row).padding_bottom = 15
             t.row(row - 1).padding_bottom = 10
           end
+        end
+
+        section_rows.each do |row|
+          t.row(row).font_style = :bold
+          t.row(row).size = 9
+          t.row(row).borders = [ :bottom ]
+          t.row(row).border_bottom_width = 0.5
+          t.row(row).border_bottom_color = "000000"
+          t.row(row).padding_top = 10
+          t.row(row).padding_bottom = 3
+          t.columns(0).rows(row).align = :left
+        end
+
+        subtotal_rows.each do |row|
+          t.row(row).padding_top = 1
+          t.row(row).padding_bottom = 6
+          t.columns(1).rows(row).borders = [ :top ]
+          t.columns(1).rows(row).border_top_width = 0.5
+          t.columns(1).rows(row).font_style = :bold
+        end
+        if last_page && subtotal_rows.any?
+          t.row(subtotal_rows.last).padding_bottom = 14
         end
       end
 
@@ -383,6 +461,9 @@ module PDF
             date: I18n.l(invoice.entity.delivery.date)
           }
           text shop_invoice_info, width: 200, align: :right, style: :italic, size: 9
+          move_down 8
+        elsif invoice.shop_order_group_type? && Current.org.shop_invoice_info && !Current.org.shop_invoice_info.include?("%{date}")
+          text Current.org.shop_invoice_info, width: 200, align: :right, style: :italic, size: 9
           move_down 8
         end
 
@@ -727,6 +808,43 @@ module PDF
     end
 
     ## Common
+
+    def shop_order_group_rows(page_items, data, section_rows, subtotal_rows)
+      all_items = invoice.items.to_a
+
+      page_items.each do |item|
+        if item.shop_order_section?
+          section_rows << data.size
+          data << [ item.description, "" ]
+        else
+          data << [ item.description, cur(item.amount) ]
+        end
+
+        next unless shop_order_section_closed?(all_items, item)
+
+        amount = shop_order_section_amount(all_items, item)
+        next if amount.nil?
+
+        subtotal_rows << data.size
+        data << [ t("subtotal"), cur(amount) ]
+      end
+    end
+
+    def shop_order_section_closed?(all_items, item)
+      index = all_items.index(item)
+      return false unless index
+
+      following = all_items[index + 1]
+      following.nil? || following.shop_order_section?
+    end
+
+    def shop_order_section_amount(all_items, item)
+      index = all_items.index(item)
+      header = all_items[0..index].rindex(&:shop_order_section?)
+      return unless header
+
+      all_items[(header + 1)..index].sum(&:amount)
+    end
 
     def appendice_star
       @stars_count ||= 0

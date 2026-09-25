@@ -218,9 +218,11 @@ ActiveAdmin.register Invoice do
         end
         if invoice.items.any?
           panel InvoiceItem.model_name.human(count: 2), icon: "receipt-text", count: invoice.items.count do
-            table_for(invoice.items, class: "table-auto") do
+            table_for(invoice.items, class: "table-auto", row_html: ->(ii) { { class: "row-section" } if ii.shop_order_section? }) do
               column(:description) { |ii| ii.description }
-              column(:amount, class: "text-right tabular-nums") { |ii| ccur(ii, :amount) }
+              column(:amount, class: "text-right tabular-nums") { |ii|
+                ii.shop_order_section? ? "" : ccur(ii, :amount)
+              }
             end
           end
         end
@@ -368,7 +370,7 @@ ActiveAdmin.register Invoice do
       icon: "mail-check"
   end
 
-  action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) && resource.entity_type != "Shop::Order" } do
+  action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) && !resource.shop_order_type? } do
     action_button t(".cancel_invoice"), cancel_invoice_path(resource),
       data: {
         confirm: membership_invoice_cancel_confirm(resource)
@@ -379,7 +381,7 @@ ActiveAdmin.register Invoice do
 
   action_item :cancel_disabled, only: :show, if: -> {
     authorized?(:cancel, Invoice) &&
-      resource.entity_type != "Shop::Order" &&
+      !resource.shop_order_type? &&
       resource.cancellation_blocked_by_newer_invoice?
   } do
     action_button t(".cancel_invoice"),
@@ -388,10 +390,27 @@ ActiveAdmin.register Invoice do
       icon: "circle-off"
   end
 
-  action_item :cancel_and_edit_shop_order, only: :show, if: -> { resource.shop_order_type? && authorized?(:cancel, resource.entity) } do
+  action_item :cancel_and_edit_shop_order, only: :show, if: -> {
+    resource.entity_type == "Shop::Order" && authorized?(:cancel, resource.entity)
+  } do
     action_button t(".cancel_and_edit_shop_order"), cancel_shop_order_path(resource.entity),
       data: { confirm: t(".cancel_action_confirm") },
       icon: "square-pen"
+  end
+
+  action_item :cancel_shop_order_group, only: :show, if: -> {
+    resource.shop_order_group_type? && authorized?(:cancel, resource.entity)
+  } do
+    action_button t(".cancel_and_edit_shop_order"), cancel_shop_order_group_invoice_path(resource),
+      data: { confirm: t("active_admin.shared.action_items.cancel_shop_order_group_confirm") },
+      icon: "square-pen"
+  end
+
+  member_action :cancel_shop_order_group, method: :post do
+    authorize! :cancel, resource.entity
+    resource.entity.cancel!
+    redirect_to shop_orders_path(q: { member_id_eq: resource.member_id }, scope: :pending),
+      notice: t("active_admin.flash.update_notice")
   end
 
   action_item :pdf, only: :show, if: -> { resource.processed? && resource.pdf_current? } do

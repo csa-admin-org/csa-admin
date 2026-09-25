@@ -970,6 +970,18 @@ _:
           _de: Ermöglicht es einem Mitglied ohne Abonnement, Produkte vom Hofladen zu bestellen.
           _it: Consente a un socio senza abbonamento di effettuare ordini di drogheria.
           _nl: Stelt een lid zonder lidmaatschap in staat winkelbestellingen te plaatsen.
+        shop_invoice_period_default_html:
+          _en: Leave blank to use the organization default (%{period}). Pick another period to override it. See the <a href="%{handbook_url}">handbook</a>.
+          _fr: Laisser vide pour utiliser le réglage de l'organisation (%{period}). Choisir une autre période pour le remplacer. Voir le <a href="%{handbook_url}">manuel</a>.
+          _de: Leer lassen, um die Standardeinstellung der Organisation zu verwenden (%{period}). Einen anderen Zeitraum wählen, um sie zu ersetzen. Siehe das <a href="%{handbook_url}">Handbuch</a>.
+          _it: Lasciare vuoto per usare l'impostazione predefinita dell'organizzazione (%{period}). Scegliere un altro periodo per sostituirla. Consultare il <a href="%{handbook_url}">manuale</a>.
+          _nl: Leeg laten om de standaardinstelling van de organisatie te gebruiken (%{period}). Een andere periode kiezen om die te vervangen. Zie het <a href="%{handbook_url}">handboek</a>.
+        shop_invoice_period_html:
+          _en: Pending shop orders for this member are invoiced together on the morning after the period ends. Leave blank to invoice each order. See the <a href="%{handbook_url}">handbook</a>.
+          _fr: Les commandes d'épicerie à préparer de ce membre sont facturées ensemble le matin qui suit la fin de la période. Laisser vide pour facturer chaque commande. Voir le <a href="%{handbook_url}">manuel</a>.
+          _de: Vorzubereitende Hofladen-Bestellungen dieses Mitglieds werden am Morgen nach Ende des Zeitraums gemeinsam abgerechnet. Leer lassen, um jede Bestellung einzeln abzurechnen. Siehe das <a href="%{handbook_url}">Handbuch</a>.
+          _it: Gli ordini della bottega da preparare di questo socio sono fatturati insieme il mattino dopo la fine del periodo. Lasciare vuoto per fatturare ogni ordine. Consultare il <a href="%{handbook_url}">manuale</a>.
+          _nl: Voor te bereiden winkelbestellingen van dit lid worden samen gefactureerd op de ochtend na het einde van de periode. Leeg laten om elke bestelling apart te factureren. Zie het <a href="%{handbook_url}">handboek</a>.
         trial_baskets_count/bag:
           _en: Allows you to change the default number of trial bags, useful if, for example, the member has already received bags before registering.
           _fr: Permet de modifier le nombre de sacs d'essai par défaut, pratique si, par exemple, le membre a déjà reçu des sacs avant son inscription.
@@ -2682,6 +2694,12 @@ _:
           _de: Die Variable "%{date}" wird durch das Datum der Lieferung ersetzt.
           _it: La variabile "%{date}" è sostituita dalla data di consegna.
           _nl: De variabele "%{date}" wordt vervangen door de leveringsdatum.
+        shop_invoice_period_html:
+          _en: Leave blank to invoice each order. A period invoices every member on the morning after it ends, unless that member uses another period. See the <a href="%{handbook_url}">handbook</a>.
+          _fr: Laisser vide pour facturer chaque commande. Une période facture tous les membres le matin qui suit sa fin, sauf si le membre utilise une autre période. Voir le <a href="%{handbook_url}">manuel</a>.
+          _de: Leer lassen, um jede Bestellung einzeln abzurechnen. Ein Zeitraum rechnet alle Mitglieder am Morgen nach dessen Ende ab, ausser das Mitglied verwendet einen anderen Zeitraum. Siehe das <a href="%{handbook_url}">Handbuch</a>.
+          _it: Lasciare vuoto per fatturare ogni ordine. Un periodo fattura tutti i soci il mattino dopo la fine, a meno che il socio usi un altro periodo. Consultare il <a href="%{handbook_url}">manuale</a>.
+          _nl: Leeg laten om elke bestelling apart te factureren. Een periode factureert alle leden op de ochtend na het einde, tenzij het lid een andere periode gebruikt. Zie het <a href="%{handbook_url}">handboek</a>.
         shop_member_percentages:
           _en: Separated by commas. Allows members to increase (support) or decrease (discount) the final price of their order by the available percentages.
           _fr: Séparés par une virgule. Permet aux membres d'augmenter (soutien) ou de diminuer (rabais) lui-même le prix final de sa commande par les pourcentages disponibles.
@@ -2694,6 +2712,12 @@ _:
           _de: Ermöglicht es, die Bestellungen X Tage nach oder vor (-X) dem Lieferdatum automatisch zu fakturieren. Das Feld leer lassen, um die Bestellungen manuell zu fakturieren.
           _it: Permette di fatturare automaticamente, durante la notte, gli ordini X giorni dopo o prima (-X) la data di consegna. Lasciare vuoto per fatturare manualmente gli ordini.
           _nl: Maakt het mogelijk bestellingen automatisch te factureren X dagen na of voor (-X) de leveringsdatum. Laat leeg om bestellingen handmatig te factureren.
+        shop_order_automatic_invoicing_delay_in_days_grouped:
+          _en: Not used while grouped invoicing is set. The stored delay is kept.
+          _fr: Non utilisé tant que la facturation groupée est définie. Le délai enregistré est conservé.
+          _de: Nicht verwendet, solange die gruppierte Abrechnung gesetzt ist. Die gespeicherte Verzögerung bleibt erhalten.
+          _it: Non usato finché la fatturazione raggruppata è impostata. Il ritardo salvato è conservato.
+          _nl: Niet gebruikt zolang gegroepeerde facturering is ingesteld. De opgeslagen vertraging blijft behouden.
         shop_order_maximum_weight_in_kg:
           _en: Leave blank if no limit.
           _fr: Laisser vide si aucune limite.

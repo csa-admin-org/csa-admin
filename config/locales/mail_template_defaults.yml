@@ -852,6 +852,12 @@ _:
         _de: Zugang zu meiner Mitgliederseite
         _it: Accedere alla mia pagina di socio
         _nl: Toegang tot mijn ledenpagina
+      new_invoice_order_group_paragraph:
+        _en: Here is your new invoice for your shop orders {{ invoice.entity_period }}; all the details are in the attached PDF.
+        _fr: Voici votre nouvelle facture pour vos commandes d'épicerie {{ invoice.entity_period }}. Tous les détails se trouvent dans le PDF ci-joint.
+        _de: Hier ist Deine neue Rechnung für Deine Hofladen-Bestellungen {{ invoice.entity_period }}. Alle Details findest Du im angehängten PDF.
+        _it: Ecco la tua nuova fattura per gli ordini della bottega {{ invoice.entity_period }}. Tutti i dettagli si trovano nel PDF allegato.
+        _nl: Hier is je nieuwe factuur voor je boerderijwinkelbestellingen {{ invoice.entity_period }}. Alle details staan in de bijgevoegde PDF.
       new_invoice_order_paragraph:
         _en: Here is your new invoice for your order number {{ invoice.entity_number }}, all the details are in the attached PDF.
         _fr: Voici votre nouvelle facture, pour votre commande N° {{ invoice.entity_number }}, tous les détails se trouvent dans le PDF ci-joint.

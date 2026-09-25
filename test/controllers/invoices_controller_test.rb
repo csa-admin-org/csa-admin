@@ -122,4 +122,25 @@ class InvoicesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to invoice_path(invoice)
   end
+
+  test "shop order filter includes a group invoice and does not add a second object" do
+    travel_to "2024-04-10"
+    members(:jane).update!(shop_invoice_period: "month")
+    order = create_shop_order(member: members(:jane), delivery: deliveries(:monday_1))
+    invoice = Shop::OrderGroup.invoice_orders!([ order ], send_email: false).invoice
+    perform_enqueued_jobs
+    login admins(:ultra)
+
+    get invoices_path, params: { scope: :all }
+
+    assert_response :success
+    options = css_select("select[name='q[entity_type_eq]'] option").map(&:text)
+    assert_equal 1, options.count { |text| text == I18n.t("shop.title_orders", count: 1) }
+    assert_not_includes options, "Shop::OrderGroup"
+
+    get invoices_path, params: { scope: :all, q: { entity_type_eq: "Shop::Order" } }
+
+    assert_response :success
+    assert_select "a[href='#{invoice_path(invoice)}']"
+  end
 end

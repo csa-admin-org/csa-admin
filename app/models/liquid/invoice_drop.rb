@@ -40,6 +40,12 @@ class Liquid::InvoiceDrop < Liquid::Drop
     @invoice.entity_id
   end
 
+  def entity_period
+    return unless @invoice.entity_type == "Shop::OrderGroup"
+
+    @invoice.entity&.period_phrase
+  end
+
   def only_partially_paid
     @invoice.missing_amount < @invoice.amount
   end

@@ -5,11 +5,14 @@ module Scheduled
     def perform
       return unless Current.org.iban?
       return unless Current.org.feature?("shop")
-      return unless Current.org.shop_order_automatic_invoicing_delay_in_days
 
-      Shop::Order.pending.find_each do |order|
-        Billing::ShopOrderAutoInvoicerJob.perform_later(order)
+      if Current.org.shop_order_automatic_invoicing_delay_in_days
+        Shop::Order.pending.without_invoice_period.find_each do |order|
+          Billing::ShopOrderAutoInvoicerJob.perform_later(order)
+        end
       end
+
+      Billing::ShopOrderGroupInvoicerJob.perform_later
     end
   end
 end

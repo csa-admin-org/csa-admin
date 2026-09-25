@@ -128,4 +128,119 @@ module ShopHelper
       title: title,
       date: l(@order.delivery.date, format: :long))
   end
+
+  def shop_invoice_period_collection
+    Shop::InvoicePeriod::PERIODS.map { |period| shop_invoice_period_option(period) }
+  end
+
+  def shop_invoice_period_select(member)
+    {
+      collection: shop_invoice_period_options(member),
+      include_blank: shop_invoice_period_blank,
+      selected: member.shop_invoice_period.presence || ""
+    }
+  end
+
+  def shop_invoice_period_hint
+    url = handbook_page_path("shop", anchor: "group-invoicing")
+    if period = organization_shop_invoice_period
+      t("formtastic.hints.member.shop_invoice_period_default_html",
+        period: shop_invoice_period_name(period),
+        handbook_url: url)
+    else
+      t("formtastic.hints.member.shop_invoice_period_html", handbook_url: url)
+    end
+  end
+
+  def shop_invoice_period_label(member)
+    period = member.effective_shop_invoice_period
+    return if period.blank?
+
+    label = shop_invoice_period_name(period)
+    return label if member.shop_invoice_period?
+
+    t("shop.group_invoice.default", period: label)
+  end
+
+  def group_invoice_waiting_tooltip(order)
+    t("shop.group_invoice.waiting_tooltip", date: group_invoice_when(order))
+  end
+
+  def group_invoice_info_html(order)
+    siblings = period_orders_for(order).reject { |other| other.id == order.id }
+    t("shop.group_invoice.info_html",
+      when: group_invoice_when(order),
+      orders: sibling_order_links(siblings))
+  end
+
+  def invoice_period_button(order)
+    button_to t("shop.group_invoice.invoice_now"),
+      invoice_period_shop_order_path(order),
+      method: :post,
+      class: "btn btn-sm",
+      form: { class: "cluster is-center" },
+      data: {
+        confirm: future_period_delivery?(order) ? t("shop.group_invoice.future_confirm") : t("shop.group_invoice.confirm")
+      }
+  end
+
+  def period_orders_for(order)
+    return Shop::Order.none unless order.invoice_period_key
+
+    order.member.shop_orders.pending
+      .includes(:delivery, items: [ :product, :product_variant ])
+      .select { |other| other.invoice_period_key == order.invoice_period_key }
+      .sort_by { |other| [ other.delivery_date, other.id ] }
+  end
+
+  def group_invoice_when(order)
+    if order.group_invoice_overdue?
+      t("shop.group_invoice.next_run")
+    else
+      l(order.group_billing_on, format: :long)
+    end
+  end
+
+  private
+
+  def shop_invoice_period_options(member)
+    periods = Shop::InvoicePeriod::PERIODS
+    periods -= [ organization_shop_invoice_period ] if omit_organization_period?(member)
+    periods.map { |period| shop_invoice_period_option(period) }
+  end
+
+  # A stored match is an override. Dropping it would submit blank and clear it.
+  def omit_organization_period?(member)
+    organization_shop_invoice_period && member.shop_invoice_period != organization_shop_invoice_period
+  end
+
+  def shop_invoice_period_blank
+    return true if organization_shop_invoice_period.blank?
+
+    t("shop.group_invoice.default", period: shop_invoice_period_name(organization_shop_invoice_period))
+  end
+
+  def shop_invoice_period_option(period)
+    [ shop_invoice_period_name(period), period ]
+  end
+
+  def shop_invoice_period_name(period)
+    t("shop.group_invoice.periods.#{period}")
+  end
+
+  def organization_shop_invoice_period
+    Current.org.shop_invoice_period
+  end
+
+  def future_period_delivery?(order)
+    period_orders_for(order).any? { |other| other.delivery_date&.future? }
+  end
+
+  def sibling_order_links(orders)
+    return t("shop.group_invoice.no_other_orders") if orders.empty?
+
+    orders.map { |other|
+      link_to("##{other.id}, #{l(other.delivery_date, format: :medium)}", other)
+    }.to_sentence.html_safe
+  end
 end

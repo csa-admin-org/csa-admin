@@ -115,6 +115,7 @@ ActiveAdmin.register Organization do
     :shop_member_percentages,
     :shop_delivery_open_delay_in_days, :shop_delivery_open_last_day_end_time,
     :shop_order_automatic_invoicing_delay_in_days,
+    :shop_invoice_period,
     :recurring_billing_wday,
     :send_closed_invoice,
     :open_renewal_reminder_sent_after_in_days,

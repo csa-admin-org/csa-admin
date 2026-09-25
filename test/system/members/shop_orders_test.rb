@@ -7,6 +7,17 @@ class Members::ShopOrdersTest < ApplicationSystemTestCase
     login(members(:jane))
   end
 
+  test "pending period order names the billing date, not an email about to arrive" do
+    travel_to "2024-04-01"
+    members(:jane).update!(shop_invoice_period: "month")
+    order = create_shop_order(state: "pending")
+
+    visit "/shop/orders/#{order.id}"
+
+    assert_text "It will be invoiced with your other orders of the period on Wednesday 1 May 2024"
+    assert_no_text "An invoice will be sent to you shortly"
+  end
+
   test "increase order item with input" do
     travel_to "2024-04-01"
     shop_product_variants(:oil_500).update!(stock: 3)

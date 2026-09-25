@@ -54,12 +54,22 @@ Het is ook mogelijk om **automatische facturering** van bestellingen te configur
 
 > Eenmaal gefactureerd kan de bestelling niet meer worden bewerkt. Annuleer eerst de factuur als je de bestelling wilt wijzigen, en factureer daarna opnieuw.
 
+### Gegroepeerde facturering {#group-invoicing}
+
+Stel een periode in bij [de winkelinstellingen](/settings#shop) om alle leden samen te factureren. Laat die leeg om elke bestelling apart te factureren, tenzij dat lid een eigen periode heeft. Zolang er een periode voor de organisatie is ingesteld, wordt de automatische facturering per bestelling niet gebruikt.
+
+Op het lid, in de sectie Winkel, volgt een lege periode de organisatie. Als de organisatie een periode heeft, kan het lid alleen naar een andere periode wisselen.
+
+Die bestellingen blijven "voor te bereiden" tot de ochtend na het einde van de periode, en staan dan op één factuur. De factuurdatum staat op elk van die bestellingen. "Nu factureren" factureert de periode voordat die eindigt. Een gegroepeerde factuur annuleren zet alle bestellingen van die factuur terug op "voor te bereiden".
+
 Het is mogelijk om specifieke tekst toe te voegen in de ["Nieuwe factuur" e-mailsjabloon](/mail_templates/invoice_created) met behulp van [Liquid syntax](https://shopify.github.io/liquid) als volgt:
 
 ~~~ liquid
 {% case invoice.entity_type %}
 {% when 'Shop::Order' %}
   <p>Hier is je nieuwe factuur, voor je bestelling N° {{ invoice.entity_number }}; alle details zijn te vinden in de bijgevoegde PDF.</p>
+{% when 'Shop::OrderGroup' %}
+  <p>Hier is je nieuwe factuur voor je boerderijwinkelbestellingen {{ invoice.entity_period }}. Alle details staan in de bijgevoegde PDF.</p>
 {% else %}
   <p>Hier is je nieuwe factuur; alle details zijn te vinden in de bijgevoegde PDF.</p>
 {% endcase %}
@@ -89,7 +99,8 @@ Een veelvoorkomend gebruik is om restaurants of andere professionele kopers zond
 2. **Dit depot als "winkeldepot" toewijzen** op het profiel van elk restaurantlid.
 3. **Productzichtbaarheid beperken via depotbeschikbaarheid**: door bepaalde producten niet beschikbaar te maken voor alle depots _behalve_ dit restaurantdepot, kun je een catalogus aanbieden die exclusief gereserveerd is voor deze professionele kopers (bijv. grotere formaten, bulkprijzen). Reguliere leden met een lidmaatschap zullen deze producten niet zien.
 4. **Winkelopening per depot sturen**: bij het openen van de winkel op een levering kun je alleen het restaurantdepot selecteren. Zo blijft de winkel gesloten voor leden met een lidmaatschap op die levering, terwijl deze open is voor restaurants. Omgekeerd kun je de winkel openen voor alle depots wanneer iedereen toegang moet hebben.
-5. **Een leveringscyclus toewijzen** (optioneel): als restaurants alleen op bepaalde leveringsdata mogen bestellen, wijs dan een bijpassende leveringscyclus toe om hun beschikbare leveringen verder te beperken.
+5. **Bestellingen samen factureren** (optioneel): [gegroepeerde facturering](#group-invoicing) zet meerdere bestellingen op één factuur. De factuur vermeldt nog steeds elke bestelling, met de bijbehorende producten.
+6. **Een leveringscyclus toewijzen** (optioneel): als restaurants alleen op bepaalde leveringsdata mogen bestellen, wijs dan een bijpassende leveringscyclus toe om hun beschikbare leveringen verder te beperken.
 
 > Deze leden maak je het beste handmatig aan via het [lidaanmaakformulier](/members/new), want het registratieformulier richt zich op standaardleden die ook een lidmaatschap afsluiten.
 

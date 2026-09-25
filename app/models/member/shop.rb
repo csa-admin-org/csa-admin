@@ -13,6 +13,9 @@ module Member::Shop
     validates :shop_depot_id, presence: true,
       if: -> { public_create && Current.org.member_form_mode == "shop" && Depot.visible.exists? }
     validates :shop_delivery_cycle, inclusion: { in: proc { DeliveryCycle.all }, allow_nil: true }
+    normalizes :shop_invoice_period, with: ->(period) { period.presence }
+    validates :shop_invoice_period,
+      inclusion: { in: Shop::InvoicePeriod::PERIODS, allow_nil: true }
   end
 
   def shop_depot
@@ -21,6 +24,11 @@ module Member::Shop
 
   def use_shop_depot?
     shop_depot_id? && current_or_future_membership.nil?
+  end
+
+  # Column nil follows the organization. A stored period is the only override.
+  def effective_shop_invoice_period
+    shop_invoice_period.presence || Current.org.shop_invoice_period
   end
 
   private

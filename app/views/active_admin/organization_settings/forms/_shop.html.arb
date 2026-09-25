@@ -22,8 +22,39 @@ context.instance_eval do
       hint: t("formtastic.hints.organization.shop_terms_of_sale_url"))
   end
 
-  f.inputs t("active_admin.resource.form.billing"), icon: "receipt-text" do
-    f.input :shop_order_automatic_invoicing_delay_in_days
+  grouped = f.object.shop_invoice_period?
+  f.inputs t("active_admin.resource.form.billing"), icon: "receipt-text",
+    data: {
+      controller: "form-shop-invoice-period",
+      form_shop_invoice_period_manual_hint_value: t("formtastic.hints.organization.shop_order_automatic_invoicing_delay_in_days"),
+      form_shop_invoice_period_grouped_hint_value: t("formtastic.hints.organization.shop_order_automatic_invoicing_delay_in_days_grouped")
+    } do
+    f.input :shop_invoice_period,
+      as: :select,
+      collection: shop_invoice_period_collection,
+      include_blank: true,
+      required: false,
+      hint: t("formtastic.hints.organization.shop_invoice_period_html",
+        handbook_url: handbook_page_path("shop", anchor: "group-invoicing")),
+      input_html: {
+        data: {
+          form_shop_invoice_period_target: "period",
+          action: "change->form-shop-invoice-period#sync"
+        }
+      }
+    text_node f.hidden_field(:shop_order_automatic_invoicing_delay_in_days,
+      id: nil,
+      disabled: !grouped,
+      data: { form_shop_invoice_period_target: "mirror" })
+    f.input :shop_order_automatic_invoicing_delay_in_days,
+      required: false,
+      hint: t(grouped ?
+        "formtastic.hints.organization.shop_order_automatic_invoicing_delay_in_days_grouped" :
+        "formtastic.hints.organization.shop_order_automatic_invoicing_delay_in_days"),
+      input_html: {
+        disabled: grouped,
+        data: { form_shop_invoice_period_target: "delay" }
+      }
     f.input :shop_member_percentages,
       as: :string,
       input_html: { value: f.object.shop_member_percentages }

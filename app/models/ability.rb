@@ -175,7 +175,9 @@ class Ability
       writable_models += models_for(:shop)
 
       can :invoice, Shop::Order, can_invoice?: true
+      can :invoice_period, Shop::Order, can_invoice_period?: true
       can :cancel, Shop::Order, can_cancel?: true
+      can :cancel, Shop::OrderGroup, can_cancel?: true
     end
 
     if admin.permission.can_write?(:newsletter)

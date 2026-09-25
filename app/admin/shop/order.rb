@@ -42,7 +42,9 @@ ActiveAdmin.register Shop::Order do
   filter :depot, as: :select, collection: -> { admin_depots_collection }
   filter :amount
 
-  includes :member, :depot, invoice: { pdf_file_attachment: :blob }
+  includes :member, :depot,
+    order_group: { invoice: { pdf_file_attachment: :blob } },
+    invoice: { pdf_file_attachment: :blob }
   index download_links: [ :csv, :xlsx ], title: -> {
     title = Shop::Order.model_name.human(count: 2)
     if params.dig(:q, :_delivery_gid_eq).present?
@@ -61,7 +63,16 @@ ActiveAdmin.register Shop::Order do
       column :delivery, ->(order) { auto_link order.delivery, order.delivery.display_name  }, sortable: "delivery_id"
     end
     column :amount, ->(order) { cur(order.amount, unit: false) }, class: "text-right"
-    column :state, ->(order) { aligned_status_tag(order.state, label: order.state_i18n_name) }, class: "text-right"
+    column :state, class: "text-right" do |order|
+      if order.group_invoice? && order.pending?
+        tooltip("shop-order-#{order.id}-period", group_invoice_waiting_tooltip(order)) do
+          content_tag(:span, "#{order.group_invoice_status_name}*",
+            class: "status-tag", data: { status: order.state })
+        end
+      else
+        aligned_status_tag(order.state, label: order.state_i18n_name)
+      end
+    end
     actions do |order|
       link_to_invoice_pdf(order.invoice)
     end
@@ -88,13 +99,13 @@ ActiveAdmin.register Shop::Order do
 
   sidebar :total, only: :index do
     side_panel t(".total") do
-      all = collection.unscope(:includes).eager_load(:invoice).offset(nil).limit(nil)
+      totals = Shop::Order.effective_invoice_totals(collection)
       if params[:scope].in? [ "invoiced", nil ]
-        div number_line(t("billing.scope.paid"), cur(all.sum("invoices.paid_amount"), unit: false), bold: false)
-        div number_line(t("billing.scope.missing"), cur(all.sum("invoices.amount - invoices.paid_amount"), unit: false), bold: false)
-        div number_line(t(".amount"), cur(all.sum(:amount)), border_top: true)
+        div number_line(t("billing.scope.paid"), cur(totals[:paid], unit: false), bold: false)
+        div number_line(t("billing.scope.missing"), cur(totals[:missing], unit: false), bold: false)
+        div number_line(t(".amount"), cur(totals[:amount]), border_top: true)
       else
-        div number_line(t(".amount"), cur(all.sum(:amount)))
+        div number_line(t(".amount"), cur(totals[:amount]))
       end
     end
   end
@@ -117,8 +128,10 @@ ActiveAdmin.register Shop::Order do
   end
 
   sidebar :billing, if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
-    side_panel t(".billing"), action: handbook_icon_link("shop", anchor: "billing") do
-      if delay = Current.org.shop_order_automatic_invoicing_delay_in_days
+    side_panel t(".billing"), action: handbook_icon_link("shop", anchor: Current.org.shop_invoice_period? ? "group-invoicing" : "billing") do
+      if period = Current.org.shop_invoice_period
+        span t("shop.orders_grouped_invoicing", period: t("shop.group_invoice.periods.#{period}"))
+      elsif delay = Current.org.shop_order_automatic_invoicing_delay_in_days
         delivery = GlobalID::Locator.locate(params[:q][:_delivery_gid_eq])
         date = delivery.date + delay.days
         span t("shop.orders_automatic_invoicing", date: l(date, format: :long))
@@ -131,6 +144,16 @@ ActiveAdmin.register Shop::Order do
   sidebar_handbook_link("shop#orders")
 
   show do |order|
+    if order.group_invoice? && order.pending?
+      info_pane do
+        span class: "cluster is-spread" do
+          span { group_invoice_info_html(order) }
+          if authorized?(:invoice_period, order) && Current.org.iban?
+            text_node invoice_period_button(order)
+          end
+        end
+      end
+    end
     columns do
       column do
         panel Shop::Product.model_name.human(count: 2), icon: "shopping-basket", count: order.items.size do
@@ -304,6 +327,18 @@ ActiveAdmin.register Shop::Order do
     redirect_to resource_path, notice: t(".flash.notice")
   end
 
+  member_action :invoice_period, method: :post do
+    authorize! :invoice_period, resource
+    orders = period_orders_for(resource)
+    group = Shop::OrderGroup.invoice_orders!(orders)
+    invoice = group&.reload&.invoice
+    if invoice
+      redirect_to invoice, notice: t("shop.group_invoice.created")
+    else
+      redirect_back fallback_location: resource_path, alert: t("shop.group_invoice.nothing_pending")
+    end
+  end
+
   action_item :delivery_pdf, only: :index do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
     if delivery_gid.present?
@@ -330,9 +365,16 @@ ActiveAdmin.register Shop::Order do
     authorized?(:batch_action, Shop::Order) && Current.org.iban? && params[:scope].in?([ nil, "pending" ])
   }, confirm: true do |selection|
     authorize! :batch_action, Shop::Order
-    Shop::Order.where(id: selection).find_each do |order|
-      order.admin = current_admin
-      order.invoice! if order.can_invoice?
+    orders = Shop::Order.where(id: selection).includes(:member, :delivery, items: [ :product, :product_variant ])
+    orders.group_by { |order| order.group_invoice? ? [ order.member_id, order.invoice_period_key ] : order.id }.each_value do |group|
+      if group.first.group_invoice?
+        Shop::OrderGroup.invoice_orders!(group.select(&:pending?))
+      else
+        group.each do |order|
+          order.admin = current_admin
+          order.invoice! if order.can_invoice?
+        end
+      end
     end
     redirect_back fallback_location: collection_path
   end
@@ -386,7 +428,7 @@ ActiveAdmin.register Shop::Order do
     def find_resource
       scoped_collection
         .where(id: params[:id])
-        .includes(items: [ :product, :product_variant ])
+        .includes(:order_group, items: [ :product, :product_variant ])
         .first!
     end
 

@@ -66,6 +66,7 @@ module Query
       shares_number
       shop_admin_only
       shop_delivery_open_delay_in_days
+      shop_invoice_period
       shop_order_automatic_invoicing_delay_in_days
       trial_baskets_count
       url

@@ -62,7 +62,8 @@ class InvoiceTotal
       when "AnnualFee"
         @invoices.sum(:annual_fee)
       else
-        @invoices.where(entity_type: scope).sum(:amount)
+        types = Invoice.entity_types_for(scope)
+        @invoices.where(entity_type: types).sum(:amount)
       end
   end
 
