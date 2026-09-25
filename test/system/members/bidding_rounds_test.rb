@@ -34,6 +34,15 @@ class Members::BiddingRound::PledgesTest < ApplicationSystemTestCase
     assert_text "Thank you for your pledge for the bidding round #1"
   end
 
+  test "shows the selected percentage and slider ticks" do
+    login(members(:jane))
+    visit "/bidding_round/pledge"
+
+    assert_selector ".pledge-percent", exact_text: ""
+    assert_selector ".pledge-tick.is-default"
+    assert_selector ".pledge-tick:not(.is-default)"
+  end
+
   test "redirects when bidding_round feature is not enabled" do
     org(features: [])
 

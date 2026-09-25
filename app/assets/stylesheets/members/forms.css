@@ -873,7 +873,7 @@
   }
 
   .pledge-range-block {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .pledge-range-labels {
@@ -891,16 +891,77 @@
     align-items: center;
   }
 
-  .pledge-range-input {
+  .pledge-range-track {
+    position: relative;
     flex: 1;
+    margin-bottom: 0.75rem;
+  }
+
+  .pledge-range-input {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    margin: 0;
+  }
+
+  .pledge-ticks {
+    position: absolute;
+    z-index: 0;
+    inset-inline: 0.625rem;
+    top: calc(50% + 0.25rem);
+    height: 0.75rem;
+    pointer-events: none;
+  }
+
+  .pledge-tick {
+    position: absolute;
+    inset-inline-start: calc(var(--tick) * 100%);
+    top: 0;
+    width: 1px;
+    height: 0.3125rem;
+    translate: -50% 0;
+    background-color: var(--color-gray-400);
+
+    &:where(.dark, .dark *) {
+      background-color: var(--color-gray-500);
+    }
+
+    &.is-default {
+      width: 2px;
+      height: 0.75rem;
+      background-color: var(--color-green-600);
+    }
   }
 
   .pledge-controls {
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .pledge-recommended {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 0.5rem;
+    row-gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .pledge-percent {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: var(--color-gray-600);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+
+    &:empty {
+      display: none;
+    }
   }
 
   .pledge-amount {

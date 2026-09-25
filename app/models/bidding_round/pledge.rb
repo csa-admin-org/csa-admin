@@ -57,7 +57,35 @@ class BiddingRound::Pledge < ApplicationRecord
     previous_round = BiddingRound.previous(bidding_round)
     previous_pledge = previous_round&.pledges&.find_by(membership: membership)
 
-    previous_pledge&.basket_size_price || membership&.basket_size&.price || 0
+    previous_pledge&.basket_size_price || catalog_basket_size_price || 0
+  end
+
+  def default_price_percentage_difference
+    baseline = default_price
+    return unless baseline&.positive? && basket_size_price
+
+    difference = ((basket_size_price - baseline) / baseline * 100).round
+    difference unless difference.zero?
+  end
+
+  def default_price_tick_ratio
+    scale_ratio(default_price)
+  end
+
+  def basket_size_price_tick_ratios
+    recommended = default_price&.round(2)
+    price_step_ticks.filter_map { |price|
+      next if recommended && (price - recommended).abs < 0.01
+
+      scale_ratio(price)
+    }
+  end
+
+  def basket_size_price_snap_prices
+    prices = price_step_ticks
+    recommended = default_price
+    prices << recommended if recommended && scale_ratio(recommended)
+    prices.map { |price| price.to_f.round(2) }.uniq
   end
 
   private
@@ -88,5 +116,35 @@ class BiddingRound::Pledge < ApplicationRecord
     unless membership.fiscal_year == bidding_round.fiscal_year
       errors.add(:membership, :invalid)
     end
+  end
+
+  def catalog_basket_size_price
+    membership&.basket_size&.price
+  end
+
+  def price_step_ticks
+    catalog = catalog_basket_size_price
+    return [] unless catalog&.positive?
+
+    step = catalog / 10
+    min = min_allowed_price
+    max = max_allowed_price
+    return [] unless max > min
+
+    first = (min / step).ceil
+    last = (max / step).floor
+    return [] if first > last
+
+    (first..last).map { |index| (step * index).round(2) }
+  end
+
+  def scale_ratio(price)
+    span = max_allowed_price - min_allowed_price
+    return unless span.positive? && price
+
+    ratio = (price.to_d - min_allowed_price.to_d) / span.to_d
+    return unless (0..1).cover?(ratio)
+
+    ratio.round(6).to_f
   end
 end

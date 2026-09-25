@@ -105,6 +105,53 @@ class BiddingRound::PledgeTest < ActiveSupport::TestCase
     assert_equal 2 * 10 * 31, pledge.total_membership_baskets_price
   end
 
+  test "marks ten percent steps and the recommended price on the slider scale" do
+    org(
+      bidding_round_basket_size_price_min_percentage: 0,
+      bidding_round_basket_size_price_max_percentage: 100)
+    pledge = BiddingRound::Pledge.new(
+      bidding_round: bidding_rounds(:open_2024),
+      membership: memberships(:jane))
+
+    assert_nil pledge.default_price_percentage_difference
+    assert_in_delta 0.5, pledge.default_price_tick_ratio, 0.000001
+    assert_equal 20, pledge.basket_size_price_tick_ratios.size
+    assert_equal (0..60).step(3).map(&:to_f), pledge.basket_size_price_snap_prices
+    assert_in_delta 0, pledge.basket_size_price_tick_ratios.first, 0.000001
+    assert_in_delta 1, pledge.basket_size_price_tick_ratios.last, 0.000001
+    assert_not pledge.basket_size_price_tick_ratios.any? { |ratio|
+      (ratio - pledge.default_price_tick_ratio).abs < 0.000001
+    }
+
+    pledge.basket_size_price = 31.5
+    assert_equal 5, pledge.default_price_percentage_difference
+
+    pledge.basket_size_price = 28.5
+    assert_equal(-5, pledge.default_price_percentage_difference)
+  end
+
+  test "keeps the recommended tick when it is off the ten percent steps" do
+    org(
+      bidding_round_basket_size_price_min_percentage: 0,
+      bidding_round_basket_size_price_max_percentage: 100)
+    previous_round = bidding_rounds(:open_2024)
+    BiddingRound::Pledge.create!(
+      bidding_round: previous_round,
+      membership: memberships(:jane),
+      basket_size_price: 31)
+    previous_round.fail!
+
+    pledge = BiddingRound::Pledge.new(
+      bidding_round: bidding_rounds(:draft_2024),
+      membership: memberships(:jane))
+
+    assert_equal 31, pledge.default_price
+    assert_nil pledge.default_price_percentage_difference
+    assert_in_delta 31.0 / 60, pledge.default_price_tick_ratio, 0.000001
+    assert_equal 21, pledge.basket_size_price_tick_ratios.size
+    assert_includes pledge.basket_size_price_snap_prices, 31
+  end
+
   test "price_difference_from_default calculates correctly" do
     pledge =  BiddingRound::Pledge.new(membership: memberships(:jane))
 
