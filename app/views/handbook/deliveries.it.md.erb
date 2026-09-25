@@ -10,9 +10,19 @@ La prossima consegna e il suo numero di <%= Basket.model_name.human(count: 2).do
 
 Le consegne appartengono all'**anno fiscale** della tua organizzazione, non all'anno civile. Il mese di inizio si imposta nelle [impostazioni](/settings). Se inizia ad aprile, una consegna invernale a gennaio appartiene ancora a quell'anno fiscale, non all'anno civile successivo.
 
-Quando l'anno fiscale in corso è già iniziato, [il modulo di consegna](/deliveries/new) mostra un avviso rosso: creare una data in quell'anno può aggiungere <%= Basket.model_name.human(count: 2).downcase %> agli abbonamenti esistenti e cambiare la fatturazione. È normale se volevi aggiungere una data quest'anno. Non è un blocco. Crea invece le date del **prossimo** anno fiscale quando prepari il [rinnovo](/handbook/membership_renewal#fiscal-year).
+Quando l'anno fiscale in corso è già iniziato, aggiungere una data di consegna in quell'anno aggiunge 1 <%= Basket.model_name.human.downcase %> agli abbonamenti il cui ciclo include quel giorno, e li rifattura. Crea le date del **prossimo** anno fiscale quando prepari il [rinnovo](/handbook/membership_renewal#fiscal-year). Non creare anche l'anno successivo: il modulo di rinnovo e il rinnovo tacito offrono allora quell'anno in più.
+<% if feature?("shop") %>
 
-Non creare anche l'anno successivo. Consegne in più in un anno fiscale più lontano fanno sì che il modulo di rinnovo e il rinnovo tacito offrano quell'anno in più.
+Per un prodotto una tantum, usa una [<%= Shop::SpecialDelivery.model_name.human.downcase %>](/shop_special_deliveries) invece di una nuova data di consegna.
+<% end %>
+
+### Anno fiscale e stagione {#fiscal-year-vs-season}
+
+L'anno fiscale è ciò che fatturi. La stagione è quando consegni. Puoi fatturare da aprile a marzo e consegnare solo in estate: crea solo le date da aprile a ottobre, e limita il ciclo con le settimane o un periodo.
+
+### Spostare un giorno (festivo) {#holiday-weekday}
+
+Per consegnare una volta in un altro giorno (un lunedì festivo spostato a martedì), assicurati che quel giorno sia coperto dal ciclo di consegne (per esempio in Giorni), poi modifica la data di quella consegna. Gli abbonamenti tengono la stessa consegna, alla nuova data.
 
 ## Cicli di consegne {#delivery-cycles}
 
@@ -41,6 +51,8 @@ Ogni periodo ha le seguenti opzioni:
 
 - **Dal mese / Al mese**: Definisci l'intervallo di mesi dell'anno fiscale a cui si applica questo periodo (es., gennaio a giugno per un primo semestre).
 - **Selezione delle consegne**: All'interno dell'intervallo di mesi del periodo, determina quali consegne vengono conservate (es., tutte, una su due, prima di ogni mese, ecc.).
+
+Dispari e Pari contano le consegne di quel periodo (1ª, 3ª, 5ª… oppure 2ª, 4ª, 6ª…). Non sono numeri di settimana ISO. Se salti una settimana, il conteggio si sposta e una data pari può diventare dispari. Numeri settimana sul ciclo (Tutti / Dispari / Pari) è la settimana ISO. Usalo solo per le settimane di calendario.
 
 Questo permette configurazioni flessibili, come consegne settimanali durante i mesi estivi e consegne quindicinali durante l'inverno, tutto all'interno dello stesso ciclo di consegne.
 

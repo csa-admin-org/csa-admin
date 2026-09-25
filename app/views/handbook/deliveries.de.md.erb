@@ -10,9 +10,19 @@ Die nächste Lieferung sowie die Anzahl ihrer <%= Basket.model_name.human(count:
 
 Lieferungen gehören zum **Geschäftsjahr** Deiner Organisation, nicht zum Kalenderjahr. Der Startmonat wird in [den Einstellungen](/settings) festgelegt. Beginnt er im April, gehört eine Winterlieferung im Januar noch zu diesem Geschäftsjahr, nicht zum nächsten Kalenderjahr.
 
-Wenn das laufende Geschäftsjahr bereits begonnen hat, zeigt [das Lieferformular](/deliveries/new) eine rote Warnung: ein Datum in diesem Jahr kann bestehenden Abonnements <%= Basket.model_name.human(count: 2) %> hinzufügen und ihre Abrechnung ändern. Das ist erwartet, wenn Du in diesem Jahr ein Datum hinzufügen wolltest. Es ist kein Block. Erstelle stattdessen die Daten des **nächsten** Geschäftsjahres, wenn Du die [Erneuerung](/handbook/membership_renewal#fiscal-year) vorbereitest.
+Wenn das laufende Geschäftsjahr bereits begonnen hat, fügt ein Lieferdatum in diesem Jahr den Abonnements, deren Zyklus diesen Wochentag enthält, 1 <%= Basket.model_name.human %> hinzu und rechnet sie neu ab. Lege die Daten des **nächsten** Geschäftsjahres an, wenn Du die [Erneuerung](/handbook/membership_renewal#fiscal-year) vorbereitest. Nicht auch das Jahr danach: das Erneuerungsformular und die stillschweigende Erneuerung bieten dann dieses Extra-Jahr an.
+<% if feature?("shop") %>
 
-Erstelle nicht auch das Jahr danach. Extra-Lieferungen in einem weiteren Geschäftsjahr führen dazu, dass das Erneuerungsformular und die stillschweigende Erneuerung dieses Extra-Jahr anbieten.
+Für ein Einzelprodukt verwendest Du eine [<%= Shop::SpecialDelivery.model_name.human %>](/shop_special_deliveries), kein neues Lieferdatum.
+<% end %>
+
+### Geschäftsjahr und Saison {#fiscal-year-vs-season}
+
+Das Geschäftsjahr ist, was Du abrechnest. Die Saison ist, wann Du lieferst. Du kannst von April bis März abrechnen und nur im Sommer liefern: lege nur die Daten von April bis Oktober an, und begrenze den Zyklus mit den Wochen oder einem Zeitraum.
+
+### Einen Wochentag verschieben (Feiertag) {#holiday-weekday}
+
+Um einmal an einem anderen Wochentag zu liefern (ein Feiertag am Montag, auf Dienstag verschoben), stell sicher, dass dieser Wochentag vom Lieferzyklus abgedeckt ist (zum Beispiel unter Tage), und ändere dann das Datum dieser Lieferung. Die Abonnements behalten dieselbe Lieferung, am neuen Datum.
 
 ## Lieferzyklen {#delivery-cycles}
 
@@ -41,6 +51,8 @@ Jeder Zeitraum hat folgende Optionen:
 
 - **Von Monat / Bis Monat**: Definiere den Geschäftsjahres-Monatsbereich, für den dieser Zeitraum gilt (z.B. Januar bis Juni für ein erstes Semester).
 - **Lieferungsauswahl**: Innerhalb des Monatsbereichs des Zeitraums wird festgelegt, welche Lieferungen behalten werden (z.B. alle, jede zweite, erste jedes Monats, usw.).
+
+Ungerade und Gerade zählen die Lieferungen in diesem Zeitraum (1., 3., 5.… oder 2., 4., 6.). Das sind keine ISO-Wochennummern. Überspringst Du eine Woche, verschiebt sich die Zählung, und eine gerade Lieferung kann ungerade werden. Wochennummern am Zyklus (Alle / Ungerade / Gerade) sind die ISO-Woche. Das nur verwenden, wenn Kalenderwochen gemeint sind.
 
 Dies ermöglicht flexible Konfigurationen, wie wöchentliche Lieferungen in den Sommermonaten und zweiwöchentliche Lieferungen im Winter, alles innerhalb desselben Lieferzyklus.
 

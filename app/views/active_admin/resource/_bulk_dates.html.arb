@@ -18,7 +18,10 @@ if resource.new_record?
           required: false
       end
       context.tab t(".unique_date"), id: "unique_date", selected: unique_date_selected do
-        f.input :date, as: :date_picker, required: true, hint: t(".date_hint")
+        f.input :date,
+          as: :date_picker,
+          required: true,
+          hint: (delivery_fiscal_year_frame(resource.date) if resource.is_a?(Delivery))
       end
     end
   end

@@ -26,6 +26,90 @@ class DeliveriesControllerTest < ActionDispatch::IntegrationTest
     assert_select "fieldset#unique_date[disabled]"
     assert_select "input#delivery_bulk_dates_starts_on[required]"
     assert_select "input#delivery_date[required]"
+    assert_select ".admin-info-pane", text: /not always the calendar year/
+    assert_select ".admin-info-pane a[href='/handbook/deliveries#fiscal-year']"
+    assert_select "#unique_date .delivery-fiscal-year"
+    assert_select ".admin-warning-pane", text: /already started/, count: 0
+    assert_select "button[type=submit][data-confirm]", count: 0
+  end
+
+  test "new delivery form shows the fiscal year of the entered date" do
+    post deliveries_path, params: {
+      delivery: {
+        date: "2025-06-02",
+        basket_size_price_percentage: -1
+      }
+    }
+
+    assert_response :unprocessable_entity
+    assert_select ".delivery-fiscal-year", text: I18n.t(
+      "active_admin.resources.delivery.fiscal_year_of_date", year: "2025")
+    assert_select "button[type=submit][data-confirm]", count: 0
+  end
+
+  test "fiscal year preview returns the fiscal year of a date" do
+    get fiscal_year_deliveries_path(date: "2025-06-02")
+
+    assert_response :success
+    assert_select ".delivery-fiscal-year", text: I18n.t(
+      "active_admin.resources.delivery.fiscal_year_of_date", year: "2025")
+    assert_select ".delivery-fiscal-year[data-confirm=''][data-for-date='2025-06-02']"
+  end
+
+  test "fiscal year preview confirm matches the entered date" do
+    date = Date.new(2024, 9, 16)
+    count = Delivery.memberships_receiving_basket_count(date)
+
+    get fiscal_year_deliveries_path(date: date.iso8601)
+
+    assert_response :success
+    preview = css_select(".delivery-fiscal-year").first
+    assert_equal date.iso8601, preview["data-for-date"]
+    assert_includes preview["data-confirm"], count.to_s
+  end
+
+  test "create confirm for a current fiscal year date includes the membership count" do
+    date = Date.new(2024, 9, 16)
+    count = Delivery.memberships_receiving_basket_count(date)
+    assert count.positive?
+
+    post deliveries_path, params: {
+      delivery: {
+        date: date.to_s,
+        basket_size_price_percentage: -1
+      }
+    }
+
+    assert_response :unprocessable_entity
+    confirm = css_select("button[type=submit]").first["data-confirm"]
+    assert_includes confirm, count.to_s
+    assert_includes confirm, "weekday"
+    assert_not_includes confirm, "special delivery"
+  end
+
+  test "bulk create confirm includes memberships that receive at least one basket" do
+    delivery = Delivery.new(
+      bulk_dates_starts_on: "2024-09-16",
+      bulk_dates_ends_on: "2024-09-30",
+      bulk_dates_weeks_frequency: 1,
+      bulk_dates_wdays: [ 1 ])
+    count = Delivery.memberships_receiving_basket_count_for(delivery.bulk_dates)
+    assert count.positive?
+
+    post deliveries_path, params: {
+      delivery: {
+        bulk_dates_starts_on: "2024-09-16",
+        bulk_dates_ends_on: "2024-09-30",
+        bulk_dates_weeks_frequency: 1,
+        bulk_dates_wdays: [ 1 ],
+        basket_size_price_percentage: -1
+      }
+    }
+
+    assert_response :unprocessable_entity
+    confirm = css_select("button[type=submit]").first["data-confirm"]
+    assert_includes confirm, "at least one"
+    assert_includes confirm, count.to_s
   end
 
   test "creates a unique date even when leftover bulk dates are submitted" do

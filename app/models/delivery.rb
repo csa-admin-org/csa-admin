@@ -65,6 +65,41 @@ class Delivery < ApplicationRecord
     current_year.past.exists?
   end
 
+  def self.memberships_receiving_basket_count(date)
+    memberships_receiving_basket_count_for([ date ])
+  end
+
+  def self.memberships_receiving_basket_count_for(dates)
+    dates = Array(dates).select { |date|
+      Current.org.fiscal_year_for(date).year == Current.fy_year
+    }
+    return 0 if dates.empty?
+
+    range = dates.min..dates.max
+    Membership
+      .during_year(Current.fy_year)
+      .present_or_future
+      .overlaps(range)
+      .includes(:delivery_cycle)
+      .count { |membership|
+        dates.any? { |date|
+          membership.started_on <= date && date <= membership.ended_on &&
+            cycle_covers_date?(membership.delivery_cycle, date)
+        }
+      }
+  end
+
+  def self.cycle_covers_date?(cycle, date)
+    return false unless Array(cycle.wdays).map(&:to_i).include?(date.wday)
+    return false unless cycle.covers_cweek?(date)
+    return false if cycle.odd_week_numbers? && date.cweek.even?
+    return false if cycle.even_week_numbers? && date.cweek.odd?
+
+    true
+  end
+
+  private_class_method :cycle_covers_date?
+
   def self.any_next_year?
     any_in_year?(Current.fy_year + 1)
   end

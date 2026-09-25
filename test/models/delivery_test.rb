@@ -6,6 +6,29 @@ require "shared/bulk_dates_insert"
 class DeliveryTest < ActiveSupport::TestCase
   include Shared::BulkDatesInsert
 
+  test "membership count skips cycles whose week range excludes the date" do
+    travel_to "2024-09-11"
+    date = Date.new(2024, 9, 16) # Monday, ISO week 38
+    cycle = delivery_cycles(:mondays)
+    before = Delivery.memberships_receiving_basket_count(date)
+    covered = Membership
+      .during_year(Current.fy_year)
+      .present_or_future
+      .including_date(date)
+      .where(delivery_cycle: cycle)
+      .count
+    assert covered.positive?
+
+    cycle.update!(first_cweek: 40)
+    assert_equal before - covered, Delivery.memberships_receiving_basket_count(date)
+
+    cycle.update!(first_cweek: 30, last_cweek: 40, exclude_cweek_range: true)
+    assert_equal before - covered, Delivery.memberships_receiving_basket_count(date)
+
+    cycle.update!(exclude_cweek_range: false)
+    assert_equal before, Delivery.memberships_receiving_basket_count(date)
+  end
+
   test "creates a unique date even when leftover bulk dates are submitted" do
     travel_to "2024-09-11"
 

@@ -170,9 +170,15 @@ ActiveAdmin.register Delivery do
   end
 
   form do |f|
-    if f.object.new_record? && Delivery.current_year_ongoing?
-      warning_pane do
-        t("active_admin.resources.delivery.ongoing_fiscal_year_warning_html", year: Current.fiscal_year).html_safe
+    if f.object.new_record?
+      info_pane do
+        if Delivery.current_year_ongoing?
+          text_node t("active_admin.resources.delivery.ongoing_fiscal_year_guidance_html",
+            year: Current.fiscal_year,
+            basket: Basket.model_name.human.downcase).html_safe
+          text_node " "
+        end
+        text_node t("active_admin.resources.delivery.fiscal_year_guidance_html").html_safe
       end
     end
     if f.object.new_record? && Delivery.any_extra_year?
@@ -181,7 +187,18 @@ ActiveAdmin.register Delivery do
       end
     end
 
-    render partial: "bulk_dates", locals: { f: f, resource: resource, context: self }
+    if f.object.new_record?
+      div(
+        "data-controller" => "delivery-fiscal-year",
+        "data-delivery-fiscal-year-url-value" => fiscal_year_deliveries_path,
+        "data-delivery-fiscal-year-start-month-value" => Current.org.fiscal_year_start_month,
+        "data-delivery-fiscal-year-current-year-value" => Current.fy_year,
+        "data-delivery-fiscal-year-year-template-value" => t("active_admin.resources.delivery.fiscal_year_of_date", year: "__YEAR__")) do
+        render partial: "bulk_dates", locals: { f: f, resource: resource, context: self }
+      end
+    else
+      render partial: "bulk_dates", locals: { f: f, resource: resource, context: self }
+    end
 
     if f.object.new_record? && BasketComplement.kept.any?
       f.inputs do
@@ -225,7 +242,21 @@ ActiveAdmin.register Delivery do
       f.input :note, as: :text, input_html: { rows: 3 }
     end
 
-    f.actions
+    confirm = if f.object.new_record?
+      if f.object.date?
+        delivery_create_confirm(f.object.date)
+      else
+        delivery_bulk_create_confirm(f.object)
+      end
+    end
+    if confirm
+      f.actions do
+        f.action :submit, button_html: { data: { confirm: confirm } }
+        f.cancel_link
+      end
+    else
+      f.actions
+    end
   end
 
   permit_params \
@@ -255,6 +286,13 @@ ActiveAdmin.register Delivery do
     authorize! :batch_action, Delivery
     Delivery.where(id: selection).update_all(shop_open: false)
     redirect_back fallback_location: collection_path
+  end
+
+  collection_action :fiscal_year, method: :get do
+    authorize! :create, Delivery
+    render html: helpers.delivery_fiscal_year_frame(
+      params[:date],
+      bulk: helpers.delivery_bulk_preview(params))
   end
 
   before_action only: :index do

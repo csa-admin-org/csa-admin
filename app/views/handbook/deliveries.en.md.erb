@@ -10,9 +10,19 @@ The next delivery as well as its number of <%= Basket.model_name.human(count: 2)
 
 Deliveries belong to your organization's **fiscal year**, not the calendar year. The start month is set in [the settings](/settings). If it starts in April, a January winter delivery still belongs to that fiscal year, not to the next calendar year.
 
-When the current fiscal year has already started, [the delivery form](/deliveries/new) shows a red warning: creating a date in that year can add <%= Basket.model_name.human(count: 2).downcase %> to existing memberships and change their billing. That is expected if you meant to add a date this year. It is not a block. Create dates for the **next** fiscal year instead when you are preparing [renewal](/handbook/membership_renewal#fiscal-year).
+When the current fiscal year has already started, adding a delivery date in that year adds one <%= Basket.model_name.human.downcase %> to memberships whose cycle includes that weekday, and re-bills them. Create dates for the **next** fiscal year when you prepare [renewal](/handbook/membership_renewal#fiscal-year). Do not also create the year after that: the renewal form and tacit renew then offer that extra year.
+<% if feature?("shop") %>
 
-Do not also create the year after that. Extra deliveries in a further fiscal year make the renewal form and tacit renew offer that extra year.
+For a one-off product, use a [<%= Shop::SpecialDelivery.model_name.human.downcase %>](/shop_special_deliveries) instead of a new delivery date.
+<% end %>
+
+### Fiscal year and season {#fiscal-year-vs-season}
+
+The fiscal year is what you bill. The season is when you deliver. You can bill April–March and deliver only in summer: create only the April–October dates, and limit the cycle with weeks or a period.
+
+### Moving a weekday (holiday) {#holiday-weekday}
+
+To deliver once on another weekday (a Monday holiday moved to Tuesday), make sure that weekday is covered by the delivery cycle (for example in Days), then edit the date of that delivery. Memberships keep the same delivery, on the new date.
 
 ## Delivery cycles {#delivery-cycles}
 
@@ -41,6 +51,8 @@ Each period has the following options:
 
 - **From month / To month**: Define the fiscal year month range this period applies to (e.g., January to June for a first semester).
 - **Delivery selection**: Within the period's month range, determines which deliveries are kept (e.g., all, every other, first of each month, etc.).
+
+Odd and Even count deliveries in that period (1st, 3rd, 5th… or 2nd, 4th, 6th…). They are not ISO week numbers. If you skip a week, the count shifts and a date that was even can become odd. Week numbers on the cycle (All / Odd / Even) is the ISO week. Use that only when you mean calendar weeks.
 
 This allows for flexible configurations, such as weekly deliveries during summer months and bi-weekly deliveries during winter, all within the same delivery cycle.
 

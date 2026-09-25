@@ -87,6 +87,24 @@ class DeliveryCycle < ApplicationRecord
     end
   end
 
+  def covers_cweek?(date)
+    return true if first_cweek.blank? && last_cweek.blank?
+
+    fiscal_year = Current.org.fiscal_year_for(date)
+    year = date.cwyear
+    week = date.cweek
+    first_year = fiscal_year.beginning_of_year.year
+    last_year = fiscal_year.end_of_year.year
+    after_first = first_cweek.blank? || year > first_year || week >= first_cweek
+    before_last = last_cweek.blank? || year < last_year || week <= last_cweek
+
+    if first_cweek.present? && last_cweek.present? && exclude_cweek_range?
+      !(after_first && before_last)
+    else
+      after_first && before_last
+    end
+  end
+
   def wdays=(wdays)
     super wdays.map(&:presence).compact.map(&:to_i) & Array(0..6).map(&:to_i)
   end

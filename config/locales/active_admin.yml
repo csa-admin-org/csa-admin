@@ -1088,12 +1088,6 @@ _:
       _nl: Vorige
     resource:
       bulk_dates:
-        date_hint:
-          _en: Leave empty if multiple dates
-          _fr: Laisser vide si dates multiples
-          _de: Leer lassen, wenn Mehrere Daten
-          _it: Lasciare vuoto se più date
-          _nl: Laat leeg bij meerdere datums
         multiple_dates:
           _en: Multiple dates
           _fr: Dates multiples
@@ -3644,6 +3638,18 @@ _:
             _it: Aperte
             _nl: Open
       delivery:
+        create_confirm:
+          _en: This adds one %{basket} to %{count} %{memberships} whose cycle includes this weekday, and re-bills them. Continue?
+          _fr: Cela ajoute 1 %{basket} à %{count} %{memberships} dont le cycle inclut ce jour, et les refacture. Continuer?
+          _de: Fügt 1 %{basket} zu %{count} %{memberships} hinzu, deren Zyklus diesen Wochentag enthält, und rechnet sie neu ab. Fortfahren?
+          _it: Aggiunge 1 %{basket} a %{count} %{memberships} il cui ciclo include questo giorno, e li rifattura. Continuare?
+          _nl: Voegt 1 %{basket} toe aan %{count} %{memberships} waarvan de cyclus deze weekdag bevat, en herberekent ze. Doorgaan?
+        create_confirm_bulk:
+          _en: This adds at least one %{basket} to %{count} %{memberships}, and re-bills them. Continue?
+          _fr: Cela ajoute au moins 1 %{basket} à %{count} %{memberships}, et les refacture. Continuer?
+          _de: Fügt mindestens 1 %{basket} zu %{count} %{memberships} hinzu und rechnet sie neu ab. Fortfahren?
+          _it: Aggiunge almeno 1 %{basket} a %{count} %{memberships} e li rifattura. Continuare?
+          _nl: Voegt minstens 1 %{basket} toe aan %{count} %{memberships} en herberekent ze. Doorgaan?
         delete_confirmation:
           _en: This will permanently delete this delivery and all baskets for memberships whose delivery cycle includes it. Those memberships will be refreshed and their billing may change. Basket contents and related shop orders will also be deleted. Continue?
           _fr: Cette livraison sera définitivement supprimée, ainsi que tous les paniers des abonnements dont le cycle de livraisons l’inclut. Ces abonnements seront mis à jour et leur facturation peut changer. Les contenus de panier et les commandes d’épicerie liées seront aussi supprimés. Continuer?
@@ -3656,12 +3662,30 @@ _:
           _de: <strong>Achtung:</strong> Lieferungen im Geschäftsjahr %{year} zu erstellen, lässt die Erneuerung auf dieses Jahr zielen. Nur das nächste Geschäftsjahr erstellen. <a href="/handbook/membership_renewal#fiscal-year">Mehr erfahren</a>
           _it: <strong>Attenzione:</strong> Creare consegne nell'anno fiscale %{year} fa puntare il rinnovo a quell'anno. Creare solo il prossimo anno fiscale. <a href="/handbook/membership_renewal#fiscal-year">Per saperne di più</a>
           _nl: <strong>Waarschuwing:</strong> Leveringen in boekjaar %{year} aanmaken laat vernieuwing op dat jaar richten. Maak alleen het volgende boekjaar aan. <a href="/handbook/membership_renewal#fiscal-year">Meer informatie</a>
+        fiscal_year_guidance_html:
+          _en: The date of a delivery sets its fiscal year, which is not always the calendar year. <a href="/handbook/deliveries#fiscal-year">Learn more</a>
+          _fr: La date d'une livraison fixe son année fiscale, qui n'est pas toujours l'année civile. <a href="/handbook/deliveries#fiscal-year">En savoir plus</a>
+          _de: Das Datum einer Lieferung legt ihr Geschäftsjahr fest, das nicht immer das Kalenderjahr ist. <a href="/handbook/deliveries#fiscal-year">Mehr erfahren</a>
+          _it: La data di una consegna fissa il suo anno fiscale, che non è sempre l'anno civile. <a href="/handbook/deliveries#fiscal-year">Per saperne di più</a>
+          _nl: De datum van een levering bepaalt het boekjaar, en dat is niet altijd het kalenderjaar. <a href="/handbook/deliveries#fiscal-year">Meer informatie</a>
+        fiscal_year_of_date:
+          _en: Fiscal year %{year}.
+          _fr: Année fiscale %{year}.
+          _de: Geschäftsjahr %{year}.
+          _it: Anno fiscale %{year}.
+          _nl: Boekjaar %{year}.
         new_model:
           _en: New %{model}
           _fr: Nouvelle %{model}
           _de: Neue %{model}
           _it: Nuova %{model}
           _nl: Nieuwe %{model}
+        ongoing_fiscal_year_guidance_html:
+          _en: The current fiscal year (%{year}) has already started. Adding a delivery date in that year adds one %{basket} to memberships whose cycle includes that weekday, and re-bills them.
+          _fr: L'année fiscale en cours (%{year}) a déjà commencé. Ajouter une date de livraison dans cette année ajoute 1 %{basket} aux abonnements dont le cycle inclut ce jour, et les refacture.
+          _de: Das laufende Geschäftsjahr (%{year}) hat bereits begonnen. Ein Lieferdatum in diesem Jahr fügt den Abonnements, deren Zyklus diesen Wochentag enthält, 1 %{basket} hinzu und rechnet sie neu ab.
+          _it: L'anno fiscale in corso (%{year}) è già iniziato. Aggiungere una data di consegna in quell'anno aggiunge 1 %{basket} agli abbonamenti il cui ciclo include quel giorno, e li rifattura.
+          _nl: Het lopende boekjaar (%{year}) is al begonnen. Een leveringsdatum in dat jaar toevoegen voegt 1 %{basket} toe aan lidmaatschappen waarvan de cyclus die weekdag bevat, en herberekent ze.
         ongoing_fiscal_year_warning/bag_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started. Creating deliveries within this fiscal year may add bags to existing memberships, affecting their billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé. La création de livraisons au sein de cette année fiscale peut ajouter des sacs aux abonnements existants, affectant leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.

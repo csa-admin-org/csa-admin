@@ -10,9 +10,19 @@ De volgende levering evenals het aantal <%= Basket.model_name.human(count: 2).do
 
 Leveringen horen bij het **boekjaar** van je organisatie, niet bij het kalenderjaar. De startmaand staat in [de instellingen](/settings). Begint die in april, dan hoort een winterlevering in januari nog bij dat boekjaar, niet bij het volgende kalenderjaar.
 
-Als het lopende boekjaar al is begonnen, toont [het leveringsformulier](/deliveries/new) een rode waarschuwing: een datum in dat jaar kan <%= Basket.model_name.human(count: 2).downcase %> toevoegen aan bestaande lidmaatschappen en hun facturering wijzigen. Dat is verwacht als je dit jaar een datum wilde toevoegen. Het is geen blokkade. Maak in plaats daarvan de datums van het **volgende** boekjaar aan wanneer je de [vernieuwing](/handbook/membership_renewal#fiscal-year) voorbereidt.
+Als het lopende boekjaar al is begonnen, voegt een leveringsdatum in dat jaar 1 <%= Basket.model_name.human.downcase %> toe aan lidmaatschappen waarvan de cyclus die weekdag bevat, en herberekent ze. Maak de datums van het **volgende** boekjaar aan wanneer je de [vernieuwing](/handbook/membership_renewal#fiscal-year) voorbereidt. Maak niet ook het jaar daarna aan: het vernieuwingsformulier en de stilzwijgende vernieuwing bieden dan dat extra jaar aan.
+<% if feature?("shop") %>
 
-Maak niet ook het jaar daarna aan. Extra leveringen in een verder boekjaar zorgen dat het vernieuwingsformulier en de stilzwijgende vernieuwing dat extra jaar aanbieden.
+Voor een eenmalig product gebruik je een [<%= Shop::SpecialDelivery.model_name.human.downcase %>](/shop_special_deliveries), geen nieuwe leveringsdatum.
+<% end %>
+
+### Boekjaar en seizoen {#fiscal-year-vs-season}
+
+Het boekjaar is wat je factureert. Het seizoen is wanneer je levert. Je kunt van april tot maart factureren en alleen in de zomer leveren: maak alleen de datums van april tot oktober aan, en beperk de cyclus met de weken of een periode.
+
+### Een weekdag verplaatsen (feestdag) {#holiday-weekday}
+
+Om eenmalig op een andere weekdag te leveren (een feestdag op maandag verschoven naar dinsdag), zorg dat die weekdag door de leveringscyclus wordt gedekt (bijvoorbeeld bij Dagen), en wijzig daarna de datum van die levering. Lidmaatschappen houden dezelfde levering, op de nieuwe datum.
 
 ## Leveringscycli {#delivery-cycles}
 
@@ -41,6 +51,8 @@ Elke periode heeft de volgende opties:
 
 - **Van maand / Tot maand**: Definieer het boekjaar maandbereik waarop deze periode van toepassing is (bijv. januari tot juni voor een eerste semester).
 - **Leveringsselectie**: Binnen het maandbereik van de periode, bepaalt welke leveringen worden behouden (bijv. alle, om de andere, eerste van elke maand, enz.).
+
+Oneven en Even tellen de leveringen in die periode (1e, 3e, 5e… of 2e, 4e, 6e…). Dat zijn geen ISO-weeknummers. Als je een week overslaat, verschuift de telling en kan een even datum oneven worden. Weeknummers op de cyclus (Alle / Oneven / Even) is de ISO-week. Gebruik dat alleen voor kalenderweken.
 
 Dit maakt flexibele configuraties mogelijk, zoals wekelijkse leveringen tijdens de zomermaanden en tweewekelijkse leveringen tijdens de winter, allemaal binnen dezelfde leveringscyclus.
 

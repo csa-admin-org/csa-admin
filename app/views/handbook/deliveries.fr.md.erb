@@ -10,9 +10,19 @@ La prochaine livraison ainsi que son nombre de <%= Basket.model_name.human(count
 
 Les livraisons appartiennent à **l'année fiscale** de votre organisation, pas à l'année civile. Le mois de début se règle dans [les paramètres](/settings). S'il commence en avril, une livraison d'hiver en janvier appartient encore à cette année fiscale, pas à l'année civile suivante.
 
-Quand l'année fiscale en cours a déjà commencé, [le formulaire de livraison](/deliveries/new) affiche un bandeau rouge: créer une date dans cette année peut ajouter des <%= Basket.model_name.human(count: 2).downcase %> aux abonnements existants et changer leur facturation. C'est normal si vous vouliez ajouter une date cette année. Ce n'est pas un blocage. Créez plutôt les dates de l'année fiscale **suivante** quand vous préparez le [renouvellement](/handbook/membership_renewal#fiscal-year).
+Quand l'année fiscale en cours a déjà commencé, ajouter une date de livraison dans cette année ajoute 1 <%= Basket.model_name.human.downcase %> aux abonnements dont le cycle inclut ce jour, et les refacture. Créez les dates de l'année fiscale **suivante** quand vous préparez le [renouvellement](/handbook/membership_renewal#fiscal-year). Ne créez pas aussi l'année d'après: le formulaire de renouvellement et le renouvellement tacite proposent alors cette année-là.
+<% if feature?("shop") %>
 
-Ne créez pas aussi l'année d'après. Des livraisons en trop dans une année fiscale plus loin font que le formulaire de renouvellement et le renouvellement tacite proposent cette année-là.
+Pour un produit ponctuel, utilisez une [<%= Shop::SpecialDelivery.model_name.human.downcase %>](/shop_special_deliveries) plutôt qu'une nouvelle date de livraison.
+<% end %>
+
+### Année fiscale et saison {#fiscal-year-vs-season}
+
+L'année fiscale, c'est ce que vous facturez. La saison, c'est quand vous livrez. Vous pouvez facturer d'avril à mars et ne livrer qu'en été: créez seulement les dates d'avril à octobre, et limitez le cycle avec les semaines ou une période.
+
+### Déplacer un jour (jour férié) {#holiday-weekday}
+
+Pour livrer une fois un autre jour (un lundi férié reporté au mardi), assurez-vous que ce jour est couvert par le cycle de livraisons (par exemple dans Jours), puis modifiez la date de cette livraison. Les abonnements gardent la même livraison, à la nouvelle date.
 
 ## Cycles de livraisons {#delivery-cycles}
 
@@ -41,6 +51,8 @@ Chaque période dispose des options suivantes:
 
 - **Du mois / Au mois**: Définissez la plage de mois de l'année fiscale à laquelle cette période s'applique (par ex., janvier à juin pour un premier semestre).
 - **Sélection des livraisons**: Dans la plage de mois de la période, détermine quelles livraisons sont conservées (par ex., toutes, une sur deux, première de chaque mois, etc.).
+
+Impaires et Paires comptent les livraisons de cette période (1re, 3e, 5e… ou 2e, 4e, 6e…). Ce ne sont pas des numéros de semaine ISO. Si vous sautez une semaine, le compte décale et une date paire peut devenir impaire. Numéros de semaine sur le cycle (Tous / Impairs / Pairs), c'est la semaine ISO. Utilisez-le seulement pour les semaines du calendrier.
 
 Cela permet des configurations flexibles, comme des livraisons hebdomadaires pendant les mois d'été et bimensuelles pendant l'hiver, le tout au sein du même cycle de livraisons.
 
