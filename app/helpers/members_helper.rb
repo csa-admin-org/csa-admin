@@ -93,15 +93,33 @@ module MembersHelper
   def searchable_select_input_html(extra = {})
     return extra if extra[:disabled]
 
+    data = extra.fetch(:data, {})
     extra.merge(
-      data: extra.fetch(:data, {}).merge(
+      data: {
         controller: "searchable-select",
         searchable_select_placeholder_value: t("active_admin.searchable_select.placeholder"),
         searchable_select_empty_value: t("active_admin.searchable_select.no_results"),
         searchable_select_more_value: t("active_admin.searchable_select.keep_typing"),
         searchable_select_clear_value: t("active_admin.searchable_select.clear")
-      )
+      }.merge(data)
     )
+  end
+
+  def searchable_select_collection(options, recent_ids)
+    return options if recent_ids.empty?
+
+    by_id = options.index_by { |(_, id, _)| id }
+    recent = recent_ids.filter_map { |id| by_id[id] }
+    return options if recent.empty?
+
+    recent.each { |(_, _, html)| html[:data][:recent] = true }
+    return options if recent.size == options.size
+
+    others = options.reject { |(_, id, _)| recent_ids.include?(id) }
+    [
+      [ t("active_admin.searchable_select.recent"), recent ],
+      [ t("active_admin.searchable_select.all"), others ]
+    ]
   end
 
   private def kept_members(relation)

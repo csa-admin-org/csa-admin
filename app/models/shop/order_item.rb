@@ -48,6 +48,8 @@ module Shop
 
     def product_variant_id=(product_variant_id)
       super
+      return unless product_variant
+
       self.product = product_variant.product
       self.item_price = product_variant.price
     end

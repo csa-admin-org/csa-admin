@@ -4641,6 +4641,24 @@ _:
         _de: Nach Name suchen
         _it: Cercare per nome
         _nl: Zoeken op naam
+      product_and_variant:
+        _en: Product and variant
+        _fr: Produit et variante
+        _de: Produkt und Variante
+        _it: Prodotto e variante
+        _nl: Product en variant
+      products_no_results:
+        _en: No matching products
+        _fr: Aucun produit correspondant
+        _de: Keine passenden Produkte
+        _it: Nessun prodotto corrispondente
+        _nl: Geen overeenkomende producten
+      products_placeholder:
+        _en: Product, variant, producer, or tag
+        _fr: Produit, variante, producteur ou tag
+        _de: Produkt, Variante, Produzent oder Tag
+        _it: Prodotto, variante, produttore o tag
+        _nl: Product, variant, producent of tag
       recent:
         _en: Recent
         _fr: Récents

@@ -50,6 +50,7 @@ export default class extends Controller {
     return this.enabledOptions().map((option) => ({
       value: option.value,
       label: option.label,
+      search: option.dataset.search || "",
       recent: option.dataset.recent === "true",
       group: option.parentElement?.tagName === "OPTGROUP" ? option.parentElement.label : null
     }))
@@ -103,8 +104,12 @@ export default class extends Controller {
 
     this.input.addEventListener("focus", () => this.open())
     this.input.addEventListener("blur", () => this.onBlur())
-    this.input.addEventListener("input", () => this.onInput())
     this.input.addEventListener("keydown", (event) => this.onKeydown(event))
+    // Not a submitted field. Keystrokes must not look like form edits.
+    this.input.addEventListener("input", (event) => {
+      event.stopPropagation()
+      this.onInput()
+    })
     this.input.addEventListener("change", (event) => event.stopPropagation())
     this.clearButton.addEventListener("pointerdown", (event) => {
       event.preventDefault()
@@ -255,10 +260,13 @@ export default class extends Controller {
   }
 
   matches() {
-    const query = this.normalize(this.query)
-    if (!query) return this.recentOptions()
+    const tokens = this.normalize(this.query).split(/\s+/).filter(Boolean)
+    if (tokens.length === 0) return this.recentOptions()
 
-    return this.options.filter((option) => this.normalize(option.label).includes(query))
+    return this.options.filter((option) => {
+      const haystack = this.normalize(`${option.label} ${option.search}`)
+      return tokens.every((token) => haystack.includes(token))
+    })
   }
 
   render(matches) {

@@ -354,6 +354,22 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#basket-content-form"
   end
 
+  test "new form searches products and pins recently distributed ones" do
+    product = basket_content_products(:carrots)
+    create_basket_content(product: product, delivery: deliveries(:monday_1))
+
+    get new_basket_content_path
+
+    assert_response :success
+    select = css_select("select[name='basket_content[product_id]']").first
+    assert_equal "searchable-select", select["data-controller"]
+    assert_equal "change->basket-content-form#changed form-hint-url#change", select["data-action"]
+    assert_select select, "optgroup[label=?] option[value='#{product.id}'][data-recent='true']",
+      I18n.t("active_admin.searchable_select.recent")
+    assert_select select, "optgroup[label=?] option[value='#{product.id}']",
+      I18n.t("active_admin.searchable_select.all"), count: 0
+  end
+
   test "edit form frame applies product defaults when product changes" do
     bc = create_basket_content(
       basket_size_ids_quantities: { small_id => 500 },

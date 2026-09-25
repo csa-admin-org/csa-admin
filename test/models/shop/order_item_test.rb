@@ -3,6 +3,27 @@
 require "test_helper"
 
 class Shop::OrderItemTest < ActiveSupport::TestCase
+  test "product variant assignment sets the product without a product id" do
+    order = create_shop_order(items_attributes: {
+      "0" => {
+        product_variant_id: shop_product_variants(:oil_500).id,
+        quantity: 1
+      }
+    })
+
+    assert_equal shop_products(:oil), order.items.sole.product
+    assert_equal 6, order.items.sole.item_price
+  end
+
+  test "blank product variant assignment does not raise" do
+    item = Shop::OrderItem.new
+    item.product_variant_id = ""
+
+    assert_nil item.product_variant
+    assert_nil item.product
+    assert_nil item.item_price
+  end
+
   test "set product variant price by default" do
     order = create_shop_order(items_attributes: {
       "0" => {

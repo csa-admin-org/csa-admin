@@ -25,6 +25,45 @@ class ShopOrdersControllerTest < ActionDispatch::IntegrationTest
     assert_equal values.uniq, values
   end
 
+  test "new form searches variants in the added item template" do
+    get new_shop_order_path
+
+    assert_response :success
+    html = css_select("a.has-many-add").first["data-html"]
+    assert_includes html, "product_variant_id"
+    assert_includes html, "searchable-select"
+    assert_includes html, "form-reset#reset"
+    assert_includes html, I18n.t("active_admin.searchable_select.products_placeholder")
+    assert_not_includes html, "[product_id]"
+    assert_select "select[name*='[product_id]']", count: 0
+  end
+
+  test "edit form searches variants by product producer and tag" do
+    order = shop_orders(:john)
+    variant = shop_product_variants(:bread_500)
+    shop_products(:bread).tags << Shop::Tag.create!(names: { "en" => "Bakery" }, emoji: "🍞")
+
+    get edit_shop_order_path(order)
+
+    assert_response :success
+    select = css_select("select[name='shop_order[items_attributes][0][product_variant_id]']").first
+    assert_select "label[for='#{select["id"]}']",
+      text: I18n.t("active_admin.searchable_select.product_and_variant")
+    assert_equal "searchable-select", select["data-controller"]
+    assert_equal I18n.t("active_admin.searchable_select.products_placeholder"),
+      select["data-searchable-select-placeholder-value"]
+    option = css_select(select, "option[value='#{variant.id}']").first
+    assert_equal "Bread > 500g", option.text
+    assert_includes option["data-search"], "Farm"
+    assert_includes option["data-search"], "Bakery"
+    assert_equal "5", option["data-price"]
+    assert_select "select[name*='[product_id]']", count: 0
+    assert_select select, "optgroup[label=?] option[value='#{variant.id}'][data-recent='true']",
+      I18n.t("active_admin.searchable_select.recent")
+    assert_select select, "optgroup[label=?] option[value='#{variant.id}']",
+      I18n.t("active_admin.searchable_select.all"), count: 0
+  end
+
   test "edit blanks item price that matches the variant default" do
     order = shop_orders(:john)
     item = shop_order_items(:john_bread_500)

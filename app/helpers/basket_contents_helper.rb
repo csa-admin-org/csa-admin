@@ -265,18 +265,34 @@ module BasketContentsHelper
     end
   end
 
-  def basket_content_products_collection
-    products = BasketContent::Product.includes(:sibling).ordered
-    products.map do |product|
-      data = {}
+  FEATURED_PRODUCT_LIMIT = 8
 
-      if product.url?
-        data[:form_hint_url] = {
-          text: product.url_domain,
-          href: product.url
-        }
-      end
-      [ product.name_with_unit, product.id, data: data ]
+  def basket_content_products_collection(featured: false)
+    products = BasketContent::Product.includes(:sibling).ordered
+    options = products.map { |product| basket_content_product_option(product) }
+    return options unless featured
+
+    searchable_select_collection(options, recent_basket_content_product_ids & products.map(&:id))
+  end
+
+  private def basket_content_product_option(product)
+    data = {}
+    if product.url?
+      data[:form_hint_url] = {
+        text: product.url_domain,
+        href: product.url
+      }
     end
+    [ product.name_with_unit, product.id, { data: data } ]
+  end
+
+  private def recent_basket_content_product_ids
+    @recent_basket_content_product_ids ||= BasketContent
+      .joins(:delivery)
+      .unscope(:order)
+      .group(:product_id)
+      .order(Arel.sql("MAX(deliveries.date) DESC, MAX(basket_contents.id) DESC"))
+      .limit(FEATURED_PRODUCT_LIMIT)
+      .pluck(:product_id)
   end
 end

@@ -227,23 +227,18 @@ ActiveAdmin.register Shop::Order do
       f.input :amount_percentage,
         step: 0.1, min: -100, max: 200,
         hint: I18n.t("formtastic.hints.shop/order.amount_percentage")
-      f.has_many :items, allow_destroy: true, data: { controller: "form-reset form-select-options-filter", form_select_options_filter_attribute_value: "data-product-id" } do |ff|
-        ff.input :product,
-          collection: products_collection,
-          prompt: true,
-          input_html: {
-            data: { action: "form-reset#reset form-select-options-filter#filter" }
-          }
+      f.has_many :items, allow_destroy: true, data: { controller: "form-reset" } do |ff|
         ff.input :product_variant,
-          collection: product_variants_collection(ff.object.product_id),
-          input_html: {
-            class: "hide-disabled-options",
-              disabled: ff.object.product_variant_id.blank?,
-              data: {
-                action: "form-reset#reset",
-                form_select_options_filter_target: "select"
-              }
+          label: t("active_admin.searchable_select.product_and_variant"),
+          collection: shop_order_variants_collection(ff.object.product_variant),
+          prompt: true,
+          input_html: searchable_select_input_html(
+            data: {
+              action: "form-reset#reset",
+              searchable_select_placeholder_value: t("active_admin.searchable_select.products_placeholder"),
+              searchable_select_empty_value: t("active_admin.searchable_select.products_no_results")
             }
+          )
         ff.input :quantity, as: :number, step: 1, min: 1
         ff.input :item_price,
           hint: true,

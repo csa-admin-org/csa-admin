@@ -65,6 +65,24 @@ class BasketContentsHelperTest < ActionView::TestCase
     assert_equal "Carrots (#{I18n.t('units.kg.short')})", name
   end
 
+  test "featured products collection pins recently distributed products" do
+    carrots = basket_content_products(:carrots)
+    cucumbers = basket_content_products(:cucumbers)
+    unused = BasketContent::Product.create!(names: { "en" => "Leeks" }, unit: "kg")
+    earlier, later = [ deliveries(:monday_1), deliveries(:monday_2) ].sort_by(&:date)
+    create_basket_content(product: carrots, delivery: earlier)
+    create_basket_content(product: cucumbers, delivery: later)
+
+    recent, others = basket_content_products_collection(featured: true)
+
+    assert_equal I18n.t("active_admin.searchable_select.recent"), recent.first
+    assert_equal [ cucumbers.id, carrots.id ], recent.last.map(&:second)
+    assert recent.last.all? { |_, _, html| html.dig(:data, :recent) }
+    assert_not_includes others.last.map(&:second), cucumbers.id
+    assert_not_includes others.last.map(&:second), carrots.id
+    assert_includes others.last.map(&:second), unused.id
+  end
+
   test "products collection does not expose product defaults as data attributes" do
     product = basket_content_products(:carrots)
     product.update!(default_price: 3.25, default_basket_quantities: { small_id.to_s => 500 })

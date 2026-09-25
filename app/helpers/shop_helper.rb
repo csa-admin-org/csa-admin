@@ -43,10 +43,17 @@ module ShopHelper
     end
   end
 
-  def products_collection
-    Shop::Product.kept.includes(:variants).order_by_name.map do |product|
-      [ product.name, product.id, disabled: product.variants.all?(&:out_of_stock?) ]
+  FEATURED_VARIANT_LIMIT = 8
+  VARIANT_LABEL_SEPARATOR = " > "
+
+  def shop_order_variants_collection(selected = nil)
+    variants = shop_order_variants
+    if selected && variants.none? { |variant| variant.id == selected.id }
+      variants = [ selected, *variants ]
     end
+
+    options = variants.map { |variant| shop_variant_option(variant) }
+    searchable_select_collection(options, recent_shop_variant_ids & variants.map(&:id))
   end
 
   def shop_member_percentages_collection
@@ -89,21 +96,53 @@ module ShopHelper
     end
   end
 
-  def product_variants_collection(product_id)
-    Shop::Product.all.includes(:variants).order_by_name.flat_map do |product|
-      product.variants.map do |variant|
-        [
-          variant.name,
-          variant.id,
-          data: {
-            product_id: variant.product_id,
-            disabled: !!variant.out_of_stock?,
-            price: catalog_price_placeholder(variant.price)
-          },
-          disabled: (variant.out_of_stock? || product.id != product_id)
-        ]
-      end
-    end
+  private def shop_order_variants
+    @shop_order_variants ||= Shop::Product.kept
+      .includes(:producer, :tags, :variants)
+      .order_by_name
+      .flat_map(&:variants)
+      .reject(&:out_of_stock?)
+  end
+
+  private def shop_variant_option(variant)
+    [
+      shop_variant_label(variant),
+      variant.id,
+      {
+        data: {
+          search: shop_variant_search_text(variant),
+          price: catalog_price_placeholder(variant.price)
+        }
+      }
+    ]
+  end
+
+  private def shop_variant_label(variant)
+    [ variant.product.name, variant.name ].join(VARIANT_LABEL_SEPARATOR)
+  end
+
+  private def shop_variant_search_text(variant)
+    product = variant.product
+    [
+      product.names&.values,
+      variant.names&.values,
+      product.producer_name,
+      product.tags.flat_map { |tag| [ tag.emoji, *Array(tag.names&.values) ] }
+    ].flatten.compact_blank.uniq.join(" ")
+  end
+
+  private def recent_shop_variant_ids
+    @recent_shop_variant_ids ||= Shop::OrderItem
+      .joins(:order)
+      .merge(Shop::Order.all_without_cart.unscope(:order))
+      .joins(product_variant: :product)
+      .merge(Shop::ProductVariant.kept.unscope(:order))
+      .merge(Shop::Product.kept.unscope(:order))
+      .where("shop_product_variants.stock IS NULL OR shop_product_variants.stock != 0")
+      .group(:product_variant_id)
+      .order(Arel.sql("MAX(shop_order_items.created_at) DESC"))
+      .limit(FEATURED_VARIANT_LIMIT)
+      .pluck(:product_variant_id)
   end
 
   def selected_shop_delivery

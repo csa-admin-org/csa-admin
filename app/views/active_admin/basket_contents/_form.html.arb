@@ -19,18 +19,19 @@ context.instance_eval do
         required: true,
         prompt: true
       f.input :product,
-        input_html: {
+        input_html: searchable_select_input_html(
           data: {
             "distribution-source" => "product",
-            action: "change->basket-content-form#changed form-hint-url#change"
+            action: "change->basket-content-form#changed form-hint-url#change",
+            searchable_select_empty_value: t("active_admin.searchable_select.products_no_results")
           }
-        },
+        ),
         wrapper_html: {
           data: {
             controller: "form-hint-url"
           }
         },
-        collection: basket_content_products_collection,
+        collection: basket_content_products_collection(featured: true),
         required: true,
         prompt: true,
         hint: link_to(f.object.product&.url_domain.to_s, f.object.product&.url, target: "_blank", data: { "form-hint-url-target" => "link" })
