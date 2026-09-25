@@ -21,6 +21,12 @@ _:
           _de: Der Newsletter hat zu viel Inhalt
           _it: La newsletter ha troppo contenuto
           _nl: Nieuwsbrief heeft te veel inhoud
+        past_fiscal_year:
+          _en: This absence ended before the current fiscal year and cannot be changed
+          _fr: Cette absence s'est terminée avant l'année fiscale en cours et ne peut plus être modifiée
+          _de: Diese Abwesenheit endete vor dem laufenden Geschäftsjahr und kann nicht mehr geändert werden
+          _it: Questa assenza è terminata prima dell'anno fiscale in corso e non può più essere modificata
+          _nl: Deze afwezigheid eindigde vóór het lopende boekjaar en kan niet meer worden gewijzigd
         pdf_generation_failed:
           _en: The mandate PDF could not be generated. Please try again.
           _fr: Le PDF du mandat n'a pas pu être généré. Merci de réessayer.
@@ -94,6 +100,12 @@ _:
         _de: Die IDs der "content" Blöcke müssen einzigartig sein
         _it: Gli ID dei blocchi "content" devono essere unici
         _nl: De ID's van de "content" blokken moeten uniek zijn
+      current_fiscal_year:
+        _en: must be in the current fiscal year
+        _fr: doit être dans l'année fiscale en cours
+        _de: muss im laufenden Geschäftsjahr sein
+        _it: deve essere nell'anno fiscale in corso
+        _nl: moet in het lopende boekjaar zijn
       delivery_cycle_periods_overlap:
         _en: periods cannot overlap
         _fr: les périodes ne peuvent pas se chevaucher
@@ -124,6 +136,12 @@ _:
         _de: ist nicht verfügbar
         _it: non è disponibile
         _nl: is gereserveerd
+      fiscal_year_locked:
+        _en: cannot be changed
+        _fr: ne peut pas être modifié
+        _de: kann nicht geändert werden
+        _it: non può essere modificato
+        _nl: kan niet worden gewijzigd
       fiscal_year_too_far_in_future:
         _en: is too far in the future
         _fr: est trop loin dans le futur
@@ -232,6 +250,12 @@ _:
         _de: muss ungerade sein
         _it: deve essere dispari
         _nl: moet oneven zijn
+      on_or_after:
+        _en: must be on or after %{date}
+        _fr: doit être le %{date} ou après
+        _de: muss am %{date} oder danach sein
+        _it: deve essere il %{date} o successivo
+        _nl: moet %{date} of later zijn
       record_invalid:
         _en: 'Validation failed: %{errors}'
         _fr: 'La validation a échoué: %{errors}'

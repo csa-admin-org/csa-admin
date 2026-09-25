@@ -22,13 +22,13 @@
       <div class="date-row">
         <%= f.input :started_on, as: :date, html5: true,
             input_html: {
-              min: Absence.min_started_on,
+              min: Absence.earliest_start_on,
               max: (Absence.max_ended_on - 1.day),
             } %>
 
         <%= f.input :ended_on, as: :date, html5: true,
             input_html: {
-              min: (Absence.min_started_on + 1.day),
+              min: (Absence.earliest_start_on + 1.day),
               max: Absence.max_ended_on,
             } %>
       </div>

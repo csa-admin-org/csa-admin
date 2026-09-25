@@ -15,11 +15,14 @@ class Analytics::AbsencesTest < ActiveSupport::TestCase
   end
 
   test "counts an absence that spans two fiscal years in both years" do
-    create_absence(
-      member: members(:john),
-      started_on: Date.new(2023, 12, 20),
-      ended_on: Date.new(2024, 1, 10),
-      admin: true)
+    travel_to("2023-12-01") {
+      create_absence(
+        member: members(:john),
+        started_on: Date.new(2023, 12, 20),
+        ended_on: Date.new(2024, 1, 10),
+        admin: true)
+    }
+    Current.reset
     years = [ 2023, 2024, 2025 ].map { |year| Current.org.fiscal_year_for(year) }
 
     Analytics.stub(:fiscal_years, years) do
@@ -75,10 +78,14 @@ class Analytics::AbsencesTest < ActiveSupport::TestCase
   test "counts a declared included absence as used quota, not leftover" do
     memberships(:john).update!(absences_included_annually: 1)
     basket = memberships(:john).baskets.second
-    create_absence(
-      member: members(:john),
-      started_on: basket.delivery.date,
-      ended_on: basket.delivery.date + 1.day)
+    travel_to(basket.delivery.date) {
+      Current.reset
+      create_absence(
+        member: members(:john),
+        started_on: basket.delivery.date,
+        ended_on: basket.delivery.date + 1.day)
+    }
+    Current.reset
     year = Analytics::Absences.new.for(2024)
 
     assert_equal 1, year.declared_quota
@@ -110,14 +117,16 @@ class Analytics::AbsencesTest < ActiveSupport::TestCase
     org(absences_billed: false)
     memberships(:john).update!(absences_included_annually: 1)
     john = memberships(:john)
-    create_absence(
-      member: members(:john),
-      started_on: john.baskets.second.delivery.date,
-      ended_on: john.baskets.second.delivery.date + 1.day)
-    create_absence(
-      member: members(:john),
-      started_on: john.baskets.third.delivery.date,
-      ended_on: john.baskets.third.delivery.date + 1.day)
+    [ john.baskets.second, john.baskets.third ].each do |basket|
+      travel_to(basket.delivery.date) {
+        Current.reset
+        create_absence(
+          member: members(:john),
+          started_on: basket.delivery.date,
+          ended_on: basket.delivery.date + 1.day)
+      }
+    end
+    Current.reset
     baskets(:jane_5).update_columns(billable: false)
     year = Analytics::Absences.new.for(2024)
 
@@ -130,10 +139,14 @@ class Analytics::AbsencesTest < ActiveSupport::TestCase
     memberships(:john).update!(absences_included_annually: 1)
     memberships(:jane).update!(absences_included_annually: 1)
     jane = memberships(:jane)
-    create_absence(
-      member: members(:jane),
-      started_on: jane.baskets.third.delivery.date,
-      ended_on: jane.baskets.third.delivery.date + 1.day)
+    travel_to(jane.baskets.third.delivery.date) {
+      Current.reset
+      create_absence(
+        member: members(:jane),
+        started_on: jane.baskets.third.delivery.date,
+        ended_on: jane.baskets.third.delivery.date + 1.day)
+    }
+    Current.reset
     jane.baskets.absent.update_all(billable: false)
     year = Analytics::Absences.new.for(2024)
 

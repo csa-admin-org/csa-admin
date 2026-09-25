@@ -215,7 +215,11 @@ class MemberTest < ActiveSupport::TestCase
     org(trial_baskets_count: 2)
     memberships(:john_past).update_column(:renewed_at, nil)
     memberships(:john_past).update!(started_on: "2023-05-29")
-    create_absence(member: members(:john), started_on: "2023-06-01", ended_on: "2024-04-05")
+    travel_to("2023-06-01") {
+      Current.reset
+      create_absence(member: members(:john), started_on: "2023-06-01", ended_on: "2024-04-05")
+    }
+    Current.reset
 
     members(:john).update_trial_baskets!
     range = Date.new(2023, 5, 25)..Date.new(2024, 4, 15)

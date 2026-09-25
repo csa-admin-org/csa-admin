@@ -104,4 +104,121 @@ class AbsenceTest < ActiveSupport::TestCase
 
     assert absence.valid?
   end
+
+  test "admin cannot create an absence that starts before the current fiscal year" do
+    travel_to "2024-06-01"
+    absence = Absence.new(
+      member: members(:john),
+      admin: admins(:ultra),
+      started_on: "2023-12-01",
+      ended_on: "2023-12-15")
+
+    assert_not absence.valid?
+    assert_includes absence.errors[:started_on], "must be in the current fiscal year"
+  end
+
+  test "a past fiscal year absence cannot be edited, including the note" do
+    absence = travel_to("2023-06-01") {
+      create_absence(started_on: "2023-06-01", ended_on: "2023-06-15", note: "Holiday")
+    }
+    travel_to "2024-06-01"
+    Current.reset
+
+    assert_not absence.can_update?
+    assert_not absence.can_destroy?
+    assert_not absence.update(note: "Changed")
+    assert_includes absence.errors[:base],
+      "This absence ended before the current fiscal year and cannot be changed"
+    assert_equal "Holiday", absence.reload.note
+  end
+
+  test "a spanning absence can end on the last day of the previous fiscal year and no earlier" do
+    travel_to "2024-06-01"
+    absence = travel_to("2023-12-01") {
+      create_absence(started_on: "2023-12-15", ended_on: "2024-01-15", note: "Away")
+    }
+    Current.reset
+
+    assert absence.can_update?
+    assert_not absence.can_destroy?
+    assert absence.started_on_locked?
+    assert absence.update(ended_on: "2024-02-01")
+    assert_equal Date.new(2024, 2, 1), absence.reload.ended_on
+
+    assert_not absence.update(ended_on: Date.new(2023, 12, 30))
+    assert_includes absence.errors[:ended_on], "must be on or after 31 December 2023"
+    assert_equal Date.new(2024, 2, 1), absence.reload.ended_on
+
+    assert absence.update(ended_on: Date.new(2023, 12, 31), note: "Back sooner")
+    assert_equal Date.new(2023, 12, 31), absence.ended_on
+    assert_equal "Back sooner", absence.note
+    assert_not absence.can_update?
+  end
+
+  test "a spanning absence cannot move its start" do
+    travel_to "2024-06-01"
+    absence = travel_to("2023-12-01") {
+      create_absence(started_on: "2023-12-15", ended_on: "2024-01-15")
+    }
+    Current.reset
+
+    assert_not absence.can_destroy?
+    assert_not absence.update(started_on: "2024-01-02")
+    assert_includes absence.errors[:started_on], "cannot be changed"
+    assert_equal Date.new(2023, 12, 15), absence.reload.started_on
+  end
+
+  test "a current fiscal year absence stays fully editable" do
+    travel_to "2024-06-01"
+    absence = create_absence(started_on: "2024-06-10", ended_on: "2024-06-20", note: "Trip")
+
+    assert absence.can_update?
+    assert absence.can_destroy?
+    assert absence.update(started_on: "2024-07-01", ended_on: "2024-07-08", note: "Later")
+    assert_equal Date.new(2024, 7, 1), absence.reload.started_on
+    assert_equal "Later", absence.note
+    assert absence.destroy
+  end
+
+  test "a current absence cannot be moved so that it starts last fiscal year" do
+    travel_to "2024-06-01"
+    absence = create_absence(started_on: "2024-06-10", ended_on: "2024-06-20")
+
+    assert_not absence.update(started_on: "2023-12-20", ended_on: "2024-06-20")
+    assert_includes absence.errors[:started_on], "must be in the current fiscal year"
+    assert_equal Date.new(2024, 6, 10), absence.reload.started_on
+  end
+
+  test "fiscal year boundary is the configured year, not 31 December" do
+    travel_to "2024-06-01"
+    org(fiscal_year_start_month: 4)
+    member = create_member
+    absence = travel_to("2024-03-01") {
+      Current.reset
+      create_absence(member: member, started_on: "2024-03-10", ended_on: "2024-04-10")
+    }
+    Current.reset
+
+    assert_not absence.update(ended_on: Date.new(2024, 3, 30))
+    assert_includes absence.errors[:ended_on], "must be on or after 31 March 2024"
+    assert_equal Date.new(2024, 4, 10), absence.reload.ended_on
+
+    assert absence.update(ended_on: Date.new(2024, 3, 31))
+    assert_equal Date.new(2024, 3, 31), absence.ended_on
+  end
+
+  test "admin can still skip the notice period inside the current fiscal year" do
+    travel_to "2024-06-01"
+    absence = Absence.new(
+      member: members(:john),
+      admin: admins(:ultra),
+      started_on: Date.current,
+      ended_on: Date.current + 2.days)
+
+    assert absence.valid?
+    assert_not Absence.new(
+      member: members(:john),
+      started_on: Date.current,
+      ended_on: Date.current + 2.days).valid?
+  end
 end

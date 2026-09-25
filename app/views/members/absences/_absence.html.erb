@@ -8,7 +8,7 @@
     <%= tooltip("absence-#{absence.id}", absence.note, icon_name: "message-square-text") %>
   <% end %>
 
-  <% if absence.present_or_future? %>
+  <% if absence.present_or_future? && absence.can_destroy? %>
     <span class="absence-actions">
       <%= button_to [ :members, absence ], method: :delete,
         class: "icon-destroy",

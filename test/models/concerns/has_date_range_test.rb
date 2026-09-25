@@ -41,6 +41,7 @@ class HasDateRangeTest < ActiveSupport::TestCase
   end
 
   test "validates started_on can equal ended_on minus one day" do
+    travel_to "2024-06-01"
     record = build_record(
       started_on: Date.new(2024, 6, 1),
       ended_on: Date.new(2024, 6, 2)
@@ -188,6 +189,7 @@ class HasDateRangeTest < ActiveSupport::TestCase
   end
 
   test "scope including_date returns records active on given date" do
+    travel_to "2024-06-01"
     create_absence(started_on: "2024-01-01", ended_on: "2024-06-30")
     absence = Absence.last
 
@@ -196,6 +198,7 @@ class HasDateRangeTest < ActiveSupport::TestCase
   end
 
   test "scope overlaps returns records overlapping with given range" do
+    travel_to "2024-06-01"
     create_absence(started_on: "2024-03-01", ended_on: "2024-06-30")
     absence = Absence.last
 

@@ -6,7 +6,7 @@ class Members::AbsencesController < Members::BaseController
   before_action :ensure_absence_access
 
   def index
-    min = Absence.min_started_on
+    min = Absence.earliest_start_on
     @absence = Absence.new(
       started_on: min,
       ended_on: (min + 1.day).end_of_week)
@@ -26,8 +26,9 @@ class Members::AbsencesController < Members::BaseController
 
   def destroy
     absence = current_member.absences.present_or_future.find(params[:id])
-    absence.destroy
+    raise ActiveRecord::RecordNotFound unless absence.can_destroy?
 
+    absence.destroy
     redirect_to members_absences_path
   end
 

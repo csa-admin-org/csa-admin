@@ -119,8 +119,14 @@ ActiveAdmin.register Absence do
         prompt: true,
         input_html: searchable_select_input_html(disabled: f.object.persisted?)
       div class: "single-line" do
-        f.input :started_on, as: :date_picker
-        f.input :ended_on, as: :date_picker
+        locked_start = f.object.started_on_locked?
+        f.input :started_on, as: :date_picker, input_html: {
+          disabled: locked_start,
+          min: (Current.fy_range.min unless locked_start)
+        }.compact
+        f.input :ended_on, as: :date_picker, input_html: {
+          min: locked_start ? Current.fy_range.min - 1.day : Current.fy_range.min
+        }
       end
       if f.object.persisted?
         f.input :note, as: :text, input_html: { rows: 4 }
