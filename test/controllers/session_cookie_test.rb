@@ -168,6 +168,7 @@ class SessionCookieTest < ActionDispatch::IntegrationTest
     get login_path
 
     assert_response :success
+    assert_select "title", text: /#{Regexp.escape(I18n.t("sessions.new.title"))}/
     assert_select "form[action=?]", sessions_path
   end
 

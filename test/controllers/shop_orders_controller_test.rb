@@ -74,6 +74,12 @@ class ShopOrdersControllerTest < ActionDispatch::IntegrationTest
     get shop_orders_path, params: { q: { _delivery_gid_eq: delivery.gid } }
 
     assert_response :success
+    plain = "#{I18n.l(delivery.date, format: :medium)} ##{delivery.number}"
+    title = css_select("title").text
+    assert_includes title, plain
+    assert_not_includes title, "<"
+    assert_select "h2.admin-page-title", text: /#{Regexp.escape(plain)}/
+    assert_not_includes css_select("h2.admin-page-title").text, "<"
     assert_select "a.action-item-button[href*='.pdf']",
       text: I18n.t("active_admin.shared.action_items.delivery_orders")
     assert_select ".action-item-button.is-disabled",

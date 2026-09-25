@@ -28,6 +28,14 @@ module ApplicationHelper
     "allow-scripts allow-popups allow-popups-to-escape-sandbox"
   end
 
+  # Delivery names in page titles are HTML. Strip tags before joining, or
+  # the document title escapes the markup and the tab shows it as text.
+  def plain_document_title(separator: "-")
+    title = @page_title
+    title = page_title if title.blank? && respond_to?(:page_title)
+    safe_join([ strip_tags(title.to_s), site_title ], " #{separator} ")
+  end
+
   def mail_preview_srcdoc(html)
     html = html.to_s
     return html if html.blank?
