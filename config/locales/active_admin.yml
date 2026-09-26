@@ -3990,6 +3990,13 @@ _:
           _it: Nuovo %{model}
           _nl: Nieuw %{model}
       membership:
+        csv:
+          absences_included_reminder_sent_at:
+            _en: Included absences reminder sent on
+            _fr: Rappel des absences incluses envoyé le
+            _de: Erinnerung an inkludierte Abwesenheiten gesendet am
+            _it: Promemoria assenze incluse inviato il
+            _nl: Herinnering inbegrepen afwezigheden verzonden op
         delete_confirmation:
           _en: This will permanently delete this membership and delete or cancel its related invoices. This cannot be undone. Continue?
           _fr: Cet abonnement sera définitivement supprimé et ses factures liées seront supprimées ou annulées. Cette action est irréversible. Continuer?

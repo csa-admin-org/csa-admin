@@ -305,8 +305,12 @@ ActiveAdmin.register Membership do
     column(:baskets_trial_count, &:trial_baskets_count)
     if feature?("absence")
       column(:absences_included)
-      column(:baskets_absent_count) { |m| m.baskets.count(&:absent?) }
-      column(:absences_included_reminder_sent_at)
+      column(:absences_included_used)
+      column(:absences_included_remaining)
+      column(
+        t("active_admin.resources.membership.csv.absences_included_reminder_sent_at"),
+        humanize_name: false,
+        &:absences_included_reminder_sent_at)
     end
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
     column(:basket_size_price) { |m| cur(m.basket_size_price, precision: 3) }

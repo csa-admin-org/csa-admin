@@ -2085,12 +2085,24 @@ _:
           _de: Abwesenheiten inklusive
           _it: Assenze incluse
           _nl: Afwezige inclusief
+        absences_included_remaining:
+          _en: Remaining included absences
+          _fr: Absences incluses restantes
+          _de: Verbleibende inklusive Abwesenheiten
+          _it: Assenze incluse rimanenti
+          _nl: Resterende inbegrepen afwezigheden
         absences_included_reminder_sent_at:
           _en: Reminder sent on
           _fr: Rappel envoyé le
           _de: Erinnerung gesendet am
           _it: Promemoria inviato il
           _nl: Herinnering verzonden op
+        absences_included_used:
+          _en: Absences used
+          _fr: Absences utilisées
+          _de: Genutzte Abwesenheiten
+          _it: Assenze utilizzate
+          _nl: Gebruikte afwezigheden
         activity_participations_accepted/basket_preparation:
           _en: Basket preparations accepted
           _fr: Mises en panier acceptées
@@ -2651,12 +2663,6 @@ _:
           _de: Anteile
           _it: Parti
           _nl: Delen
-        baskets_absent_count:
-          _en: Absences
-          _fr: Absences
-          _de: Abwesenheiten
-          _it: Assenze
-          _nl: Afwezigheden
         baskets_annual_price_change/bag:
           _en: Membership price adjustment (bags)
           _fr: Ajustement du prix de l'abonnement (sacs)
