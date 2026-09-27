@@ -24,7 +24,8 @@ class MailDeliveriesControllerTest < ActionDispatch::IntegrationTest
     get mail_deliveries_path(newsletter_id: newsletter.id)
 
     assert_response :success
-    assert_select "td", text: "Subject John Doe"
+    assert_select "td a", text: members(:john).name
+    assert_select "td a", text: jane.name
     assert_select "select[name='q[member_id_eq]'] option[value=?]", members(:john).id
     assert_select "select[name='q[member_id_eq]'] option[value=?]", jane.id
     assert_select "select[name='q[member_id_eq]'] option[value=?]", members(:bob).id, count: 0
