@@ -126,8 +126,18 @@ module MembersHelper
     collection = Member.kept
     return collection.order_by_name unless relation
 
-    member_ids = relation.unscope(where: :member_id).unscope(:limit, :offset).distinct.pluck(:member_id)
-    collection.where(id: member_ids).order_by_name
+    collection.where(id: member_ids_for_filter(relation)).order_by_name
+  end
+
+  # DISTINCT member_id only. ActiveAdmin index collections often carry
+  # includes, left_joins(:member), and ORDER BY created_at / name — the
+  # MailDeliveries sidebar was plucking through those and joining emails.
+  private def member_ids_for_filter(relation)
+    relation
+      .unscope(:order, :limit, :offset, :includes, :preload, :eager_load, :left_outer_joins, :select)
+      .unscope(where: :member_id)
+      .distinct
+      .pluck(:member_id)
   end
 
   private def featured_member_ids(featured, visible)

@@ -76,7 +76,7 @@ ActiveAdmin.register MailDelivery do
   filter :member,
     as: :select,
     if: proc { source_type != :member },
-    collection: -> { members_collection(collection) },
+    collection: -> { members_collection(member_filter_scope) },
     input_html: -> { searchable_select_input_html }
   filter :member_name_cont,
     label: -> { Member.human_attribute_name(:name) },
@@ -295,7 +295,7 @@ ActiveAdmin.register MailDelivery do
   end
 
   controller do
-    helper_method :source_type, :source_record
+    helper_method :source_type, :source_record, :member_filter_scope
 
     def source_type
       @source_type ||= if params[:newsletter_id] then :newsletter
@@ -323,6 +323,13 @@ ActiveAdmin.register MailDelivery do
       when :mailable then scope.for_mailable(source_record)
       else scope
       end
+    end
+
+    # Members with deliveries for the current newsletter/mailable/template.
+    # Avoid the index `collection` (includes :emails, left_joins :member,
+    # ORDER BY created_at) so the sidebar DISTINCT member_id pluck stays lean.
+    def member_filter_scope
+      scoped_collection
     end
 
     def apply_sorting(chain)

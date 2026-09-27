@@ -148,6 +148,39 @@ class MembersHelperTest < ActionView::TestCase
     assert_equal [ members(:john).id ], collection.pluck(:id)
   end
 
+  test "members_collection plucks distinct member ids without index-table joins or created_at order" do
+    newsletter = newsletters(:sent)
+    jane = members(:jane)
+    insert_newsletter_delivery(newsletter, jane, emails: %w[jane@doe.com extra@doe.com])
+
+    relation = admin_index_mail_deliveries(newsletter)
+    queries = collect_sql_queries { @members = members_collection(relation) }
+    plucks = member_id_distinct_plucks(queries)
+
+    assert_equal 1, plucks.size, "expected one DISTINCT member_id pluck, got:\n#{queries.join("\n")}"
+    assert_lean_member_id_pluck plucks.first
+    assert_equal [ jane.id, members(:john).id ], @members.pluck(:id)
+  end
+
+  test "members_collection member_id pluck stays a single lean query as deliveries grow" do
+    newsletter = newsletters(:sent)
+    jane = members(:jane)
+    insert_newsletter_deliveries(newsletter, [ jane, members(:john) ], 8)
+
+    few_queries = collect_sql_queries { members_collection(admin_index_mail_deliveries(newsletter)) }
+    insert_newsletter_deliveries(newsletter, [ jane, members(:john) ], 20, start_at: 2.hours.ago)
+    many_queries = collect_sql_queries { members_collection(admin_index_mail_deliveries(newsletter)) }
+
+    few_plucks = member_id_distinct_plucks(few_queries)
+    many_plucks = member_id_distinct_plucks(many_queries)
+
+    assert_equal 1, few_plucks.size
+    assert_equal 1, many_plucks.size
+    assert_lean_member_id_pluck few_plucks.first
+    assert_lean_member_id_pluck many_plucks.first
+    assert_equal few_plucks.first.gsub(/\d+/, "N"), many_plucks.first.gsub(/\d+/, "N")
+  end
+
   test "depot map icon location falls back to address when maps feature is off" do
     org(features: Current.org.features - [ :maps ])
     farm = depots(:farm)
@@ -256,5 +289,78 @@ class MembersHelperTest < ActionView::TestCase
       created_at: created_at,
       updated_at: created_at
     } ])
+  end
+
+  def admin_index_mail_deliveries(newsletter)
+    MailDelivery
+      .newsletter_id_eq(newsletter.id)
+      .includes(:member, :emails)
+      .left_joins(:member)
+      .merge(Member.order_by_name)
+      .order(created_at: :desc)
+      .limit(50)
+  end
+
+  def insert_newsletter_delivery(newsletter, member, emails: [])
+    insert_newsletter_deliveries(newsletter, [ member ], 1, emails: emails)
+  end
+
+  def insert_newsletter_deliveries(newsletter, members, count, start_at: Time.current, emails: %w[one@doe.com two@doe.com])
+    now = start_at
+    rows = members.flat_map { |member|
+      count.times.map { |index|
+        {
+          mailable_type: "Newsletter",
+          mailable_ids: [ newsletter.id ],
+          action: "newsletter",
+          member_id: member.id,
+          subject: "Extra #{member.id} #{index}",
+          state: "delivered",
+          created_at: now - index.minutes,
+          updated_at: now - index.minutes
+        }
+      }
+    }
+    existing_ids = MailDelivery.newsletter_id_eq(newsletter.id).pluck(:id)
+    MailDelivery.insert_all!(rows)
+    return if emails.empty?
+
+    deliveries = MailDelivery.newsletter_id_eq(newsletter.id).where(member: members).where.not(id: existing_ids)
+    MailDelivery::Email.insert_all!(deliveries.flat_map { |delivery|
+      emails.map { |email|
+        {
+          mail_delivery_id: delivery.id,
+          email: "#{delivery.id}-#{email}",
+          state: "delivered",
+          created_at: delivery.created_at,
+          updated_at: delivery.updated_at,
+          email_suppression_ids: [],
+          email_suppression_reasons: []
+        }
+      }
+    })
+  end
+
+  def collect_sql_queries
+    queries = []
+    callback = ->(_name, _start, _finish, _id, payload) {
+      sql = payload[:sql]
+      queries << sql unless payload[:name] == "SCHEMA" || sql.match?(/\A(?:BEGIN|COMMIT|SAVEPOINT|RELEASE)/i)
+    }
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") { yield }
+    queries
+  end
+
+  def member_id_distinct_plucks(queries)
+    queries.select { |sql|
+      sql.match?(/DISTINCT/i) && sql.match?(/["`]mail_deliveries["`]\.["`]member_id["`]/i)
+    }
+  end
+
+  def assert_lean_member_id_pluck(sql)
+    assert_no_match(/JOIN ["`]members["`]/i, sql)
+    assert_no_match(/members_mail_deliveries/i, sql)
+    assert_no_match(/mail_delivery_emails/i, sql)
+    assert_no_match(/ORDER BY ["`]mail_deliveries["`]\.["`]created_at["`]/i, sql)
   end
 end
