@@ -189,6 +189,82 @@ class Demo::SeederTest < ActiveSupport::TestCase
     end
   end
 
+  test "seed_absences! only creates absences in the current fiscal year" do
+    travel_to Date.new(2024, 1, 2)
+    Current.reset
+    with_demo_tenant do
+      create_current_year_membership_for_absences
+      seeder = Demo::Seeder.new
+
+      assert_difference -> { Absence.count }, Demo::Seeder::ABSENCES_PER_YEAR do
+        seeder.stub(:rand, 1) do
+          seeder.send(:seed_absences!)
+        end
+      end
+
+      Absence.find_each do |absence|
+        assert Current.fy_range.cover?(absence.started_on)
+      end
+    end
+  end
+
+  test "seed_absences! stays valid on the first day of a non-January fiscal year" do
+    travel_to Date.new(2024, 4, 1)
+    org(fiscal_year_start_month: 4)
+    Current.reset
+    with_demo_tenant do
+      Demo::Seeder::ABSENCES_PER_YEAR.times do
+        create_current_year_membership_for_absences(
+          started_on: Date.new(2024, 4, 1),
+          ended_on: Date.new(2025, 3, 31))
+      end
+      seeder = Demo::Seeder.new
+
+      assert_difference -> { Absence.count }, Demo::Seeder::ABSENCES_PER_YEAR do
+        seeder.stub(:rand, 1) do
+          seeder.send(:seed_absences!)
+        end
+      end
+
+      Absence.find_each do |absence|
+        assert_operator absence.started_on, :>=, Current.fy_range.min,
+          "expected #{absence.started_on} to be in #{Current.fy_range}"
+      end
+    end
+  end
+
+  test "create_absence_for! skips memberships with no current-FY deliveries" do
+    travel_to Date.new(2024, 1, 2)
+    Current.reset
+    with_demo_tenant do
+      seeder = Demo::Seeder.new
+
+      assert_no_difference -> { Absence.count } do
+        seeder.send(:create_absence_for!, memberships(:john_past))
+      end
+    end
+  end
+
+  test "create_absence_for! uses current-FY delivery dates at an April fiscal-year boundary" do
+    travel_to Date.new(2024, 4, 1)
+    org(fiscal_year_start_month: 4)
+    Current.reset
+    with_demo_tenant do
+      seeder = Demo::Seeder.new
+
+      assert_difference -> { Absence.count }, 1 do
+        seeder.stub(:rand, 1) do
+          seeder.send(:create_absence_for!, memberships(:john))
+        end
+      end
+
+      absence = Absence.order(:id).last
+      assert_operator absence.started_on, :>=, Date.new(2024, 4, 1)
+      assert Current.fy_range.cover?(absence.started_on)
+      assert_operator absence.ended_on, :>, absence.started_on
+    end
+  end
+
   test "seed_bidding_rounds! is a no-op outside demo-de" do
     travel_to Date.new(2024, 8, 15)
     with_demo_tenant do
@@ -253,6 +329,15 @@ class Demo::SeederTest < ActiveSupport::TestCase
       umr: member.id.to_s,
       signed_on: Date.current,
       source: "admin")
+  end
+
+  def create_current_year_membership_for_absences(**attrs)
+    create_membership({
+      member: create_member,
+      basket_size: basket_sizes(:medium),
+      depot: depots(:farm),
+      delivery_cycle: delivery_cycles(:mondays)
+    }.merge(attrs))
   end
 
   def prepare_membership_seeder

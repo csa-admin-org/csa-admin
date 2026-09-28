@@ -7,19 +7,22 @@ module Demo::Seeder::Contents
 
   def seed_absences!
     log "Seeding absences..."
-    seed_fiscal_years.each do |fy|
-      memberships = Membership.during_year(fy).to_a
-      next if memberships.size < Demo::Seeder::ABSENCES_PER_YEAR
+    # Absence#within_current_fiscal_year rejects starts before Current.fy_range,
+    # including admin-created records. Seed only the current fiscal year.
+    fy = Current.fiscal_year
+    memberships = Membership.during_year(fy).select { |membership|
+      membership.deliveries.where(date: Current.fy_range).size >= 4
+    }
+    return if memberships.size < Demo::Seeder::ABSENCES_PER_YEAR
 
-      memberships.sample(Demo::Seeder::ABSENCES_PER_YEAR).each do |membership|
-        create_absence_for!(membership, fy)
-      end
+    memberships.sample(Demo::Seeder::ABSENCES_PER_YEAR).each do |membership|
+      create_absence_for!(membership)
     end
   end
 
-  def create_absence_for!(membership, fy)
-    deliveries = membership.deliveries.order(:date).select { |delivery| fy.range.cover?(delivery.date) }
-    return if deliveries.size < 3
+  def create_absence_for!(membership)
+    deliveries = membership.deliveries.where(date: Current.fy_range).order(:date).to_a
+    return if deliveries.size < 4
 
     start_index = rand(0...(deliveries.size - 3))
     end_index = [ start_index + rand(1..2), deliveries.size - 1 ].min
