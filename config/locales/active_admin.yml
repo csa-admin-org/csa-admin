@@ -2801,9 +2801,9 @@ _:
           _nl: Ontvangers
         recurring_billing:
           _en: Invoice now
-          _fr: Facturer
-          _de: Abrechnen
-          _it: Fatturare
+          _fr: Facturer maintenant
+          _de: Jetzt abrechnen
+          _it: Fatturare ora
           _nl: Nu factureren
         recurring_billing_confirm:
           _en: Are you sure? Don't forget to send the invoice after reviewing it.
@@ -2825,7 +2825,7 @@ _:
           _nl: De %{iban_type} is niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         recurring_billing_nothing_due_html:
           _en: <a href="/handbook/billing#bill-now">Nothing to invoice now.</a>
-          _fr: <a href="/handbook/billing#bill-now">Rien à facturer maintenant.</a>
+          _fr: <a href="/handbook/billing#bill-now">Rien à facturer actuellement.</a>
           _de: <a href="/handbook/billing#bill-now">Zurzeit nichts abzurechnen.</a>
           _it: <a href="/handbook/billing#bill-now">Niente da fatturare ora.</a>
           _nl: <a href="/handbook/billing#bill-now">Nu niets te factureren.</a>

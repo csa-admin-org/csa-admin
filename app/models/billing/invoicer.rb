@@ -35,7 +35,8 @@ module Billing
     end
 
     def billable?
-      @member.billable? && next_date && current_period.cover?(next_date)
+      @member.billable? && next_date && (
+        current_period.cover?(next_date) || (membership && membership.ended_on <= Date.current))
     end
 
     def next_date(previsional: false)
@@ -45,7 +46,7 @@ module Billing
         if membership&.billable?
           n_date =
             if current_period_billed?
-              if current_period == periods.last || membership.overcharged_invoices_amount?
+              if current_period == periods.last || membership.overcharged_invoices_amount? || membership.ended_on <= Date.current
                 next_billing_day
               else
                 next_billing_day(beginning_of_next_period)

@@ -94,8 +94,9 @@ An jedem Abrechnungstag überprüft das System jedes Mitglied und bestimmt, ob e
 
 1. Das Geschäftsjahr wird in Perioden auf Basis des Zahlungsintervalls aufgeteilt (z.B. quartalweise = 4 Perioden à 3 Monate).
 2. Wenn die **aktuelle Periode bereits abgerechnet** wurde, wird die nächste Rechnung für den Beginn der nächsten Periode geplant. Ist bereits zu viel abgerechnet, wird sie stattdessen für den nächsten Abrechnungstag geplant, damit die letzte Rechnung storniert und neu erstellt werden kann.
-3. Wenn die **aktuelle Periode noch nicht abgerechnet** wurde, wird die Rechnung am nächsten Abrechnungstag erstellt, unter Berücksichtigung der oben beschriebenen Einstellung "erste Lieferung" oder "Abonnement-Beginn".
-4. Wenn das berechnete Datum **nach dem Ende des Geschäftsjahres** liegt, wird keine weitere Rechnung für dieses Jahr erstellt.
+3. Wenn das Abonnement **bereits beendet** ist (Endedatum heute oder früher), gelten die restlichen Perioden nicht mehr. Ein Restbetrag wird am nächsten Abrechnungstag abgerechnet.
+4. Wenn die **aktuelle Periode noch nicht abgerechnet** wurde, wird die Rechnung am nächsten Abrechnungstag erstellt, unter Berücksichtigung der oben beschriebenen Einstellung "erste Lieferung" oder "Abonnement-Beginn".
+5. Wenn das berechnete Datum **nach dem Ende des Geschäftsjahres** liegt, wird keine weitere Rechnung für dieses Jahr erstellt.
 
 Die Rechnung wird immer am konfigurierten Wochentag erstellt. Wenn eine Rechnung an einem anderen Tag fällig wird (z.B. eine neue Periode beginnt an einem Mittwoch, aber der Abrechnungstag ist Montag), wird sie am folgenden Montag erstellt.
 
@@ -113,7 +114,7 @@ Die Rechnung wird dann erstellt, aber **nicht gesendet**. Du kannst das PDF eins
 
 > Die Schaltfläche "Jetzt abrechnen" erzeugt exakt die gleiche Rechnung wie das automatische System, der einzige Unterschied ist, dass sie nicht automatisch versendet wird, sodass Du sie vorher überprüfen kannst.
 
-Die Schaltfläche fehlt, wenn die wiederkehrende Abrechnung keinen Wochentag hat, die IBAN fehlt, die aktuelle Periode bereits abgerechnet ist, das Mitglied ein [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) ist, oder nichts mehr abzurechnen bleibt.
+Die Schaltfläche fehlt, wenn die wiederkehrende Abrechnung keinen Wochentag hat, die IBAN fehlt, das Mitglied ein [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) ist, oder nichts mehr abzurechnen bleibt. Sie bleibt auch versteckt, solange die aktuelle Periode bereits abgerechnet ist, ausser das Abonnement ist bereits beendet und ein Restbetrag steht noch aus.
 
 ### Alle in Zukunft abrechnen {#future_billing}
 

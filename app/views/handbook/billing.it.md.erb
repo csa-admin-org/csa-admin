@@ -94,8 +94,9 @@ Ogni giorno di fatturazione, il sistema verifica ogni socio e determina se una f
 
 1. L'anno fiscale è suddiviso in periodi in base all'intervallo di pagamento (ad es. trimestrale = 4 periodi di 3 mesi).
 2. Se il **periodo corrente è già stato fatturato**, la prossima fattura è pianificata per l'inizio del periodo successivo. Se è già stato fatturato in eccesso, è pianificata per il prossimo giorno di fatturazione, così l'ultima fattura può essere annullata e ricreata.
-3. Se il **periodo corrente non è ancora stato fatturato**, la fattura viene creata al prossimo giorno di fatturazione, rispettando l'impostazione "prima consegna" o "inizio dell'abbonamento" descritta sopra.
-4. Se la data calcolata cade **dopo la fine dell'anno fiscale**, nessuna fattura aggiuntiva viene generata per quest'anno.
+3. Se l'abbonamento **è già terminato** (data di fine oggi o precedente), i periodi rimanenti non si applicano più. L'eventuale resto viene fatturato al prossimo giorno di fatturazione.
+4. Se il **periodo corrente non è ancora stato fatturato**, la fattura viene creata al prossimo giorno di fatturazione, rispettando l'impostazione "prima consegna" o "inizio dell'abbonamento" descritta sopra.
+5. Se la data calcolata cade **dopo la fine dell'anno fiscale**, nessuna fattura aggiuntiva viene generata per quest'anno.
 
 La fattura viene sempre creata nel giorno della settimana configurato. Se una fattura diventa dovuta in un altro giorno (ad es. un nuovo periodo inizia di mercoledì ma il giorno di fatturazione è lunedì), sarà creata il lunedì successivo.
 
@@ -113,7 +114,7 @@ La fattura sarà creata, ma **non inviata**. Puoi consultare il PDF e inviarlo m
 
 > Il pulsante "Fatturare ora" produce esattamente la stessa fattura del sistema automatico, l'unica differenza è che non viene inviata automaticamente, dandoti il tempo di verificarla prima.
 
-Il pulsante manca quando la fatturazione ricorrente non ha un giorno della settimana, manca l'IBAN, il periodo corrente è già fatturato, il socio è un [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), o non resta nulla da fatturare.
+Il pulsante manca quando la fatturazione ricorrente non ha un giorno della settimana, manca l'IBAN, il socio è un [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), o non resta nulla da fatturare. Resta anche nascosto finché il periodo corrente è già fatturato, a meno che l'abbonamento sia già terminato e resti un importo da fatturare.
 
 ### Fatturare tutto in anticipo {#future_billing}
 
