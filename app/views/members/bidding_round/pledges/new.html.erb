@@ -82,7 +82,8 @@
 
       <div class="pledge-range">
         <div class="pledge-range-track">
-          <%= range_field_tag :basket_size_price_range, @pledge.basket_size_price,
+          <%= range_field_tag :basket_size_price_range,
+            @pledge.basket_size_price.clamp(@pledge.min_allowed_price, @pledge.max_allowed_price),
             min: @pledge.min_allowed_price,
             max: @pledge.max_allowed_price,
             step: 0.01,
@@ -133,12 +134,11 @@
         <%= f.number_field :basket_size_price,
           value: precise_cur(@pledge.basket_size_price),
           min: @pledge.min_allowed_price,
-          max: @pledge.max_allowed_price,
           step: 0.5,
           class: "form-amount",
           required: true,
           data: {
-            action: "price-range#syncFromInput invalid->price-range#allowCentPrice",
+            action: "change->price-range#syncFromInput invalid->price-range#allowCentPrice",
             price_range_target: "input"
           } %>
       </div>

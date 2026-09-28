@@ -41,6 +41,21 @@ class Members::BiddingRound::PledgesTest < ApplicationSystemTestCase
     assert_selector ".pledge-percent", exact_text: ""
     assert_selector ".pledge-tick.is-default"
     assert_selector ".pledge-tick:not(.is-default)"
+    assert_no_selector "input.form-amount[max]"
+  end
+
+  test "accepts a typed amount above the slider maximum" do
+    login(members(:jane))
+    visit "/bidding_round/pledge"
+
+    fill_in "Price per basket", with: 50
+    click_on "Submit"
+
+    assert_text "Your pledge has been submitted successfully!"
+
+    within "#2024" do
+      assert_text "CHF 580.00"
+    end
   end
 
   test "redirects when bidding_round feature is not enabled" do

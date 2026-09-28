@@ -96,8 +96,6 @@ class BiddingRound::Pledge < ApplicationRecord
 
     if basket_size_price < min_allowed_price
       errors.add(:basket_size_price, :invalid)
-    elsif basket_size_price > max_allowed_price
-      errors.add(:basket_size_price, :invalid)
     end
   end
 

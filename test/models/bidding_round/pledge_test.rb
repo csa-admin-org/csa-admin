@@ -17,7 +17,7 @@ class BiddingRound::PledgeTest < ActiveSupport::TestCase
     assert_includes pledge.errors[:basket_size_price], "is invalid"
   end
 
-  test "validates basket_size_price within allowed range" do
+  test "validates basket_size_price is at least the minimum allowed" do
     org(
       bidding_round_basket_size_price_min_percentage: 50,
       bidding_round_basket_size_price_max_percentage: 50)
@@ -30,10 +30,8 @@ class BiddingRound::PledgeTest < ActiveSupport::TestCase
     assert_includes pledge.errors[:basket_size_price], "is invalid"
 
     pledge.basket_size_price = 45.01
-    assert_not pledge.valid?
-    assert_includes pledge.errors[:basket_size_price], "is invalid"
+    assert pledge.valid?
 
-    # Test within range
     pledge.basket_size_price = 31
     assert pledge.valid?
   end

@@ -12,11 +12,11 @@ export default class extends Controller {
 
   initialize() {
     this.queuePricingRefresh = debounce(100, this.refresh.bind(this))
-    this.syncFromInput = debounce(600, this.syncFromInput.bind(this))
   }
 
   connect() {
     this.dragging = false
+    this.parkRange(parseFloat(this.inputTarget.value) || 0)
     this.updatePercent()
     this.endDrag = this.endDrag.bind(this)
     document.addEventListener("pointerup", this.endDrag)
@@ -63,16 +63,13 @@ export default class extends Controller {
   syncFromInput() {
     let value = parseFloat(this.inputTarget.value) || 0
     let min = parseFloat(this.inputTarget.min)
-    let max = parseFloat(this.inputTarget.max)
 
-    if (min > value) {
+    if (Number.isFinite(min) && value < min) {
       value = min
     }
-    if (max < value) {
-      value = max
-    }
+
     this.inputTarget.value = this.formatPrice(value)
-    this.rangeTarget.value = this.inputTarget.value
+    this.parkRange(value)
     this.updatePercent()
     this.refresh()
   }
@@ -84,11 +81,21 @@ export default class extends Controller {
   }
 
   writePrice(value) {
-    let formatted = this.formatPrice(value)
-    this.rangeTarget.value = formatted
-    this.inputTarget.value = formatted
+    this.inputTarget.value = this.formatPrice(value)
+    this.parkRange(value)
     this.updatePercent()
     this.updateResetButtonDisabled()
+  }
+
+  parkRange(value) {
+    let min = parseFloat(this.rangeTarget.min)
+    let max = parseFloat(this.rangeTarget.max)
+    let parked = value
+
+    if (Number.isFinite(min) && parked < min) parked = min
+    if (Number.isFinite(max) && parked > max) parked = max
+
+    this.rangeTarget.value = this.formatPrice(parked)
   }
 
   magnet(value) {
@@ -161,7 +168,7 @@ export default class extends Controller {
   }
 
   updateResetButtonDisabled() {
-    let value = parseFloat(this.rangeTarget.value)
-    this.resetTarget.disabled = Math.abs(value - this.defaultPriceValue) <= 0.005
+    let value = parseFloat(this.inputTarget.value)
+    this.resetTarget.disabled = this.samePrice(value, this.defaultPriceValue)
   }
 }
