@@ -141,6 +141,42 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_not_includes sent, "Original Message"
   end
 
+  test "drops inbound font styles but keeps the reply" do
+    html = <<~HTML
+      <html><body>
+        <div style="font-family: Arial, sans-serif; font-size: 14px;">top - merci beaucoup !</div>
+        <blockquote type="cite"><div>quoted</div></blockquote>
+      </body></html>
+    HTML
+
+    extracted = Support::ReplyHtml.extract(html)
+
+    assert_includes extracted, "merci beaucoup"
+    assert_not_includes extracted, "font-size"
+    assert_not_includes extracted, "font-family"
+    assert_not_includes extracted, "style="
+    assert_not_includes extracted, "quoted"
+  end
+
+  test "present drops a stored client font size" do
+    html = %(<div style="font-family: Arial, sans-serif; font-size: 14px;">top - merci beaucoup ! manuel</div>)
+
+    presented = Support::ReplyHtml.present(html)
+
+    assert_includes presented, "merci beaucoup"
+    assert_not_includes presented, "font-size"
+    assert_not_includes presented, "style="
+  end
+
+  test "keeps styles inside a liquid code fence" do
+    html = %(<pre style="white-space: pre"><code>{% if member.salary_basket %}</code></pre>)
+
+    extracted = Support::ReplyHtml.extract(html)
+
+    assert_includes extracted, "white-space"
+    assert_includes extracted, "salary_basket"
+  end
+
   test "strips a trailing operator signature" do
     html = <<~HTML
       <html><body>

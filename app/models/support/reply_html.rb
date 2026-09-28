@@ -29,6 +29,7 @@ module Support
         root.css(QUOTE_CSS).each(&:remove)
         Support::ReplyQuote.clean_fragment!(root)
       end
+      strip_styles!(root)
       cleaned = root.inner_html.to_s.strip
       cleaned.presence
     end
@@ -40,8 +41,37 @@ module Support
       root.css("blockquote.protonmail_quote, div.protonmail_quote").each(&:remove)
       Support::ReplyQuote.drop_separators!(root)
       drop_trailing_break!(root)
+      strip_styles!(root)
       root.inner_html.to_s.strip.presence
     end
+
+    def self.strip_styles(html)
+      return html if html.blank?
+
+      root = Nokogiri::HTML::DocumentFragment.parse(html.to_s)
+      strip_styles!(root)
+      root.to_html.html_safe
+    end
+
+    SKIP_STYLE = %w[pre code img figure action-text-attachment].freeze
+    private_constant :SKIP_STYLE
+
+    def self.strip_styles!(root)
+      styled = root.css("[style]")
+      styled = [ root, *styled ] if root.element? && root["style"].present?
+      styled.each do |node|
+        next if skip_style?(node)
+
+        node.remove_attribute("style")
+      end
+    end
+    private_class_method :strip_styles!
+
+    def self.skip_style?(node)
+      SKIP_STYLE.include?(node.name) ||
+        node.ancestors.any? { |ancestor| SKIP_STYLE.include?(ancestor.name) }
+    end
+    private_class_method :skip_style?
 
     def self.drop_trailing_break!(root)
       node = root.children.reverse.find { |child| child.element? || !child.text.strip.empty? }

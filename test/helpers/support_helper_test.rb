@@ -49,6 +49,18 @@ class SupportHelperTest < ActionView::TestCase
     assert_not_includes html, "<pre"
   end
 
+  test "drops a stored client font size on an admin reply" do
+    message = Support::Message.new(author: "admin", body: "merci")
+    message.html = %(<div style="font-family: Arial, sans-serif; font-size: 14px;">top - merci beaucoup ! manuel</div>)
+
+    html = support_message_html(message)
+
+    assert_includes html, "merci beaucoup"
+    assert_not_includes html, "font-size"
+    assert_not_includes html, "font-family"
+    assert_not_includes html, "style="
+  end
+
   test "keeps a cited original on a converted support message" do
     message = Support::Message.new(
       author: "support",

@@ -26,7 +26,8 @@ module SupportHelper
 
   def support_message_html(message)
     html = if message.html.present?
-      message.author_admin? ? Support::ReplyHtml.present(message.html.body.to_html) : message.html.to_s
+      source = message.html.body.to_html
+      message.author_admin? ? Support::ReplyHtml.present(source) : Support::ReplyHtml.strip_styles(source)
     else
       text = message.author_admin? ? Support::ReplyBody.without_quote(message.body) : message.body
       Support::MessageFormat.to_html(text)
