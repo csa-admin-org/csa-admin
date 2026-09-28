@@ -58,13 +58,13 @@ Per impostazione predefinita, le fatture già considerate pagate/chiuse al momen
 
 > È consigliabile scegliere un giorno diverso da quello della consegna. In questo modo, le modifiche all'abbonamento o al paniere effettuate il giorno della consegna saranno considerate nella fattura generata nei giorni successivi, anziché essere fatturate prematuramente lo stesso giorno o dover attendere una settimana intera.
 
-Un IBAN nelle [impostazioni di fatturazione](/settings#invoice) non basta. Senza un giorno della settimana in [Fatturazione automatica](/settings#billing), nessuna fattura di abbonamento viene creata e [Fatturare ora](#bill-now) resta nascosto. I solleciti seguono l'[importazione automatica dei pagamenti](#automatic_payments_processing), non questo giorno della settimana.
+Un IBAN nelle [impostazioni di fatturazione](/settings#invoice) non basta. Senza un giorno della settimana in [Fatturazione automatica](/settings#billing), nessuna fattura di abbonamento viene creata e [Fatturare](#bill-now) resta nascosto. I solleciti seguono l'[importazione automatica dei pagamenti](#automatic_payments_processing), non questo giorno della settimana.
 
 ### Quale pulsante? {#billing-cookbook}
 
 - Abbonamenti **futuri** (data di inizio ancora davanti): [Fatturare tutto in anticipo](#future_billing) dalla pagina dell'abbonamento o dal [filtro Futuro](/memberships?scope=future). Quel pulsante non c'è sugli abbonamenti in corso.
-- Abbonamenti **in corso**: aspetta il giorno di fatturazione, oppure usa [Fatturare ora](#bill-now) sulla pagina del socio o dell'abbonamento quando è visibile.
-- **Fatturare ora** crea la stessa fattura del passaggio automatico, ma **non inviata**. Apri il PDF, poi Inviare. La fatturazione automatica invia nel giorno scelto.
+- Abbonamenti **in corso**: aspetta il giorno di fatturazione, oppure usa [Fatturare](#bill-now) sulla pagina del socio o dell'abbonamento quando è visibile.
+- **Fatturare** crea la stessa fattura del passaggio automatico, ma **non inviata**. Apri il PDF, poi Inviare. La fatturazione automatica invia nel giorno scelto.
 
 I <%= BasketComplement.model_name.human(count: 2).downcase %> sono sulla fattura di abbonamento. Non sono fatturati a parte. Il [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) azzera anche quei complementi.
 
@@ -94,8 +94,9 @@ Ogni giorno di fatturazione, il sistema verifica ogni socio e determina se una f
 
 1. L'anno fiscale è suddiviso in periodi in base all'intervallo di pagamento (ad es. trimestrale = 4 periodi di 3 mesi).
 2. Se il **periodo corrente è già stato fatturato**, la prossima fattura è pianificata per l'inizio del periodo successivo. Se è già stato fatturato in eccesso, è pianificata per il prossimo giorno di fatturazione, così l'ultima fattura può essere annullata e ricreata.
-3. Se il **periodo corrente non è ancora stato fatturato**, la fattura viene creata al prossimo giorno di fatturazione, rispettando l'impostazione "prima consegna" o "inizio dell'abbonamento" descritta sopra.
-4. Se la data calcolata cade **dopo la fine dell'anno fiscale**, nessuna fattura aggiuntiva viene generata per quest'anno.
+3. Se l'abbonamento **è già terminato** (data di fine oggi o precedente), i periodi rimanenti non si applicano più. L'eventuale resto viene fatturato al prossimo giorno di fatturazione, come se l'abbonamento fosse pagato annualmente.
+4. Se il **periodo corrente non è ancora stato fatturato**, la fattura viene creata al prossimo giorno di fatturazione, rispettando l'impostazione "prima consegna" o "inizio dell'abbonamento" descritta sopra.
+5. Se la data calcolata cade **dopo la fine dell'anno fiscale**, nessuna fattura aggiuntiva viene generata per quest'anno.
 
 La fattura viene sempre creata nel giorno della settimana configurato. Se una fattura diventa dovuta in un altro giorno (ad es. un nuovo periodo inizia di mercoledì ma il giorno di fatturazione è lunedì), sarà creata il lunedì successivo.
 
@@ -105,21 +106,21 @@ Dalla pagina di un socio o di un abbonamento, la sezione "Fatturazione" (colonna
 
 Questa data si aggiorna dinamicamente: una volta inviata una fattura, passa alla prossima data pianificata.
 
-### Fatturare ora {#bill-now}
+### Fatturare {#bill-now}
 
-In alcuni casi, per esempio dopo un cambiamento di configurazione dell'abbonamento, potresti voler creare una fattura immediatamente piuttosto che aspettare il prossimo giorno di fatturazione. Per farlo, clicca sul pulsante "Fatturare ora" nella sezione "Fatturazione" (colonna di destra) della pagina del socio o dell'abbonamento.
+In alcuni casi, per esempio dopo un cambiamento di configurazione dell'abbonamento, potresti voler creare una fattura immediatamente piuttosto che aspettare il prossimo giorno di fatturazione. Per farlo, clicca sul pulsante "Fatturare" nella sezione "Fatturazione" (colonna di destra) della pagina del socio o dell'abbonamento.
 
 La fattura sarà creata, ma **non inviata**. Puoi consultare il PDF e inviarlo manualmente utilizzando il pulsante "Inviare" sulla pagina della stessa. Questo è utile se sei in contatto con un socio e vuoi rettificare rapidamente una fattura o verificare il risultato di un cambiamento di configurazione.
 
-> Il pulsante "Fatturare ora" produce esattamente la stessa fattura del sistema automatico, l'unica differenza è che non viene inviata automaticamente, dandoti il tempo di verificarla prima.
+> Il pulsante "Fatturare" produce esattamente la stessa fattura del sistema automatico, l'unica differenza è che non viene inviata automaticamente, dandoti il tempo di verificarla prima.
 
-Il pulsante manca quando la fatturazione ricorrente non ha un giorno della settimana, manca l'IBAN, il periodo corrente è già fatturato, il socio è un [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), o non resta nulla da fatturare.
+Il pulsante manca quando la fatturazione ricorrente non ha un giorno della settimana, manca l'IBAN, il socio è un [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), o non resta nulla da fatturare. Resta anche nascosto finché il periodo corrente è già fatturato, a meno che l'abbonamento sia già terminato e resti un importo da fatturare.
 
 ### Fatturare tutto in anticipo {#future_billing}
 
 È possibile fatturare in anticipo un abbonamento futuro, con una data di inizio nel futuro, sia che si tratti dell'anno fiscale corrente o del prossimo anno fiscale. Gli abbonamenti fatturati in questo modo vengono fatturati completamente in una sola volta, indipendentemente dall'intervallo di pagamento configurato per l'abbonamento.
 
-La fatturazione anticipata può essere effettuata dalla pagina di un abbonamento futuro cliccando sul pulsante "Fatturare tutto in anticipo" nella sezione "Fatturazione" (colonna di destra). Quella fattura è creata **non inviata**, come [Fatturare ora](#bill-now). Dalla [pagina degli abbonamenti](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), lo stesso pulsante sotto i filtri fattura più abbonamenti futuri in una volta e **invia** quelle fatture. Filtra per anno fiscale, e per intervallo di pagamento (ad esempio "Annuale") se vuoi una selezione più stretta.
+La fatturazione anticipata può essere effettuata dalla pagina di un abbonamento futuro cliccando sul pulsante "Fatturare tutto in anticipo" nella sezione "Fatturazione" (colonna di destra). Quella fattura è creata **non inviata**, come [Fatturare](#bill-now). Dalla [pagina degli abbonamenti](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), lo stesso pulsante sotto i filtri fattura più abbonamenti futuri in una volta e **invia** quelle fatture. Filtra per anno fiscale, e per intervallo di pagamento (ad esempio "Annuale") se vuoi una selezione più stretta.
 
 > La quota annuale corrispondente all'anno fiscale dell'abbonamento è automaticamente inclusa nella fattura.
 

@@ -94,8 +94,9 @@ Elke factureringsdag controleert het systeem elk lid en bepaalt of een factuur v
 
 1. Het boekjaar wordt opgedeeld in perioden op basis van het betalingsinterval (bijv. driemaandelijks = 4 perioden van 3 maanden).
 2. Als de **huidige periode al is gefactureerd**, wordt de volgende factuur gepland voor het begin van de volgende periode. Als het lidmaatschap al te veel is gefactureerd, wordt die gepland op de volgende factureringsdag, zodat de laatste factuur kan worden geannuleerd en opnieuw aangemaakt.
-3. Als de **huidige periode nog niet is gefactureerd**, wordt de factuur aangemaakt op de volgende factureringsdag, met inachtneming van de instelling "eerste levering" of "start lidmaatschap" zoals hierboven beschreven.
-4. Als de berekende datum **na het einde van het boekjaar** valt, wordt er geen verdere factuur meer gegenereerd voor dit jaar.
+3. Als het lidmaatschap **al is beëindigd** (einddatum vandaag of eerder), gelden de resterende perioden niet meer. Een restbedrag wordt op de volgende factureringsdag gefactureerd, alsof het lidmaatschap jaarlijks wordt betaald.
+4. Als de **huidige periode nog niet is gefactureerd**, wordt de factuur aangemaakt op de volgende factureringsdag, met inachtneming van de instelling "eerste levering" of "start lidmaatschap" zoals hierboven beschreven.
+5. Als de berekende datum **na het einde van het boekjaar** valt, wordt er geen verdere factuur meer gegenereerd voor dit jaar.
 
 De factuur wordt altijd aangemaakt op de geconfigureerde dag van de week. Als een factuur op een andere dag verschuldigd wordt (bijv. een nieuwe periode begint op woensdag maar de factureringsdag is maandag), wordt deze de volgende maandag aangemaakt.
 
@@ -113,7 +114,7 @@ De factuur wordt dan aangemaakt, maar **niet verstuurd**. Je kunt de PDF raadple
 
 > De knop "Nu factureren" produceert exact dezelfde factuur als het automatische systeem, het enige verschil is dat deze niet automatisch wordt verstuurd, zodat je deze eerst kunt controleren.
 
-De knop ontbreekt wanneer terugkerende facturering geen weekdag heeft, de IBAN ontbreekt, de huidige periode al is gefactureerd, het lid een [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) is, of er niets meer te factureren valt.
+De knop ontbreekt wanneer terugkerende facturering geen weekdag heeft, de IBAN ontbreekt, het lid een [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) is, of er niets meer te factureren valt. Ze blijft ook verborgen zolang de huidige periode al is gefactureerd, tenzij het lidmaatschap al is beëindigd en er nog een restbedrag openstaat.
 
 ### Alles vooraf factureren {#future_billing}
 

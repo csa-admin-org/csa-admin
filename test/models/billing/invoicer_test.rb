@@ -410,6 +410,191 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal "canceled", overcharged_invoice.reload.state
   end
 
+  test "bills remainder immediately when semi-annual membership is stopped mid-period" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    membership.update!(billing_year_division: 2)
+    first_invoice = force_invoice(member)
+
+    travel_to "2024-05-15"
+    membership.update_column(:renewed_at, nil)
+    membership.reload.update!(ended_on: "2024-05-15")
+
+    assert_equal 2, membership.reload.billing_year_division
+    assert membership.missing_invoices_amount.positive?
+
+    invoicer = Billing::Invoicer.new(member.reload)
+    assert invoicer.billable?
+    assert_equal 1, invoicer.billing_year_division
+    assert_equal Date.new(2024, 5, 20), invoicer.next_date
+
+    invoice = force_invoice(member)
+
+    assert_equal membership, invoice.entity
+    assert_equal membership.reload.price - first_invoice.memberships_amount, invoice.memberships_amount
+    assert invoice.memberships_amount.positive?
+    assert_equal 2, membership.billing_year_division
+    assert_equal 0, membership.missing_invoices_amount
+    assert_not Billing::Invoicer.new(member.reload).billable?
+  end
+
+  test "bills remainder immediately when quarterly membership is stopped mid-period" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    membership.update!(billing_year_division: 4)
+    force_invoice(member)
+
+    travel_to "2024-04-01"
+    force_invoice(member)
+    paid = membership.reload.invoices.not_canceled.sum(:memberships_amount)
+
+    travel_to "2024-05-15"
+    membership.update_column(:renewed_at, nil)
+    membership.reload.update!(ended_on: "2024-05-15")
+
+    assert_equal 4, membership.reload.billing_year_division
+    assert membership.missing_invoices_amount.positive?
+
+    invoicer = Billing::Invoicer.new(member.reload)
+    assert invoicer.billable?
+    assert_equal 1, invoicer.billing_year_division
+    assert_equal Date.new(2024, 5, 20), invoicer.next_date
+
+    invoice = force_invoice(member)
+
+    assert_equal membership, invoice.entity
+    assert_equal membership.reload.price - paid, invoice.memberships_amount
+    assert invoice.memberships_amount.positive?
+    assert_equal 4, membership.billing_year_division
+    assert_equal 0, membership.missing_invoices_amount
+    assert_not Billing::Invoicer.new(member.reload).billable?
+  end
+
+  test "does not bill a running semi-annual membership whose current period is already invoiced" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    membership.update!(billing_year_division: 2)
+    force_invoice(member)
+
+    travel_to "2024-05-15"
+    invoicer = Billing::Invoicer.new(member.reload)
+    assert_not invoicer.billable?
+    assert_equal 2, invoicer.billing_year_division
+    assert_equal Date.new(2024, 7, 1), invoicer.next_date
+    assert_no_difference "Invoice.count" do
+      force_invoice(member)
+    end
+  end
+
+  test "does not bill an ended membership that is already fully invoiced" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    membership.update!(billing_year_division: 2)
+    force_invoice(member)
+
+    travel_to "2024-04-29"
+    membership.update_column(:renewed_at, nil)
+    membership.reload.update!(ended_on: "2024-04-29")
+
+    assert_equal 0, membership.reload.missing_invoices_amount
+    assert_not membership.overcharged_invoices_amount?
+    invoicer = Billing::Invoicer.new(member.reload)
+    assert_not invoicer.billable?
+    assert_no_difference "Invoice.count" do
+      force_invoice(member)
+    end
+  end
+
+  test "does not treat a future-ending membership as yearly" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    membership.update!(billing_year_division: 2)
+    force_invoice(member)
+
+    travel_to "2024-05-15"
+    membership.update_column(:renewed_at, nil)
+    membership.reload.update!(ended_on: "2024-05-20")
+
+    invoicer = Billing::Invoicer.new(member.reload)
+    assert_not invoicer.billable?
+    assert_equal 2, invoicer.billing_year_division
+    assert_equal Date.new(2024, 7, 1), invoicer.next_date
+  end
+
+  test "does not treat a canceled but still running membership as yearly" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    membership.update!(billing_year_division: 2)
+    force_invoice(member)
+
+    travel_to "2024-05-15"
+    membership.update_column(:renewed_at, nil)
+    membership.reload.update!(renew: false)
+
+    assert_equal Date.new(2024, 12, 31), membership.ended_on
+    invoicer = Billing::Invoicer.new(member.reload)
+    assert_not invoicer.billable?
+    assert_equal 2, invoicer.billing_year_division
+    assert_equal Date.new(2024, 7, 1), invoicer.next_date
+  end
+
+  test "bills remainder of ended semi-annual membership on the next billing day" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    membership.update!(billing_year_division: 2)
+    first_invoice = force_invoice(member)
+
+    travel_to "2024-05-15"
+    membership.update_column(:renewed_at, nil)
+    membership.reload.update!(ended_on: "2024-05-15")
+
+    assert_no_difference "Invoice.count" do
+      Billing::Invoicer.invoice(member.reload)
+    end
+
+    travel_to "2024-05-20"
+    invoice = nil
+    assert_difference "Invoice.count", 1 do
+      invoice = Billing::Invoicer.invoice(member.reload)
+    end
+
+    assert_equal membership, invoice.entity
+    assert_equal membership.reload.price - first_invoice.memberships_amount, invoice.memberships_amount
+    assert invoice.memberships_amount.positive?
+  end
+
+  test "bills remainder after the end date while still in the original period" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    membership.update!(billing_year_division: 2)
+    first_invoice = force_invoice(member)
+
+    travel_to "2024-05-15"
+    membership.update_column(:renewed_at, nil)
+    membership.reload.update!(ended_on: "2024-05-15")
+
+    travel_to "2024-06-03"
+    invoicer = Billing::Invoicer.new(member.reload)
+    assert invoicer.billable?
+    assert_equal Date.new(2024, 6, 3), invoicer.next_date
+
+    invoice = nil
+    assert_difference "Invoice.count", 1 do
+      invoice = Billing::Invoicer.invoice(member.reload)
+    end
+
+    assert_equal membership.reload.price - first_invoice.memberships_amount, invoice.memberships_amount
+    assert invoice.memberships_amount.positive?
+  end
+
   test "creates an invoice for active member billed quarterly for quarter #4" do
     travel_to "2024-01-01"
     member = members(:john)

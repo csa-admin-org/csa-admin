@@ -28,10 +28,10 @@ module Billing
         else
           member.invoices.not_canceled.current_year
         end
-      @billing_year_division = billing_year_division || @membership&.billing_year_division || 1
       @date = date || Date.current
       @period_date = period_date || @date
       @fy_month = Current.org.fy_month_for(@date)
+      @billing_year_division = billing_year_division || effective_billing_year_division
     end
 
     def billable?
@@ -120,6 +120,19 @@ module Billing
 
     def period_length_in_months
       @period_length_in_months ||= 12 / (billing_year_division)
+    end
+
+    # Ended memberships have no remaining billing periods, so bill any
+    # remainder as a single yearly period. Do not persist this on the membership.
+    def effective_billing_year_division
+      stored = membership&.billing_year_division || 1
+      return 1 if membership_ended?
+
+      stored
+    end
+
+    def membership_ended?
+      membership && membership.ended_on <= date
     end
 
     def current_period

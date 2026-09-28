@@ -58,13 +58,13 @@ Standardmässig werden Rechnungen, die bei ihrer Erstellung bereits als bezahlt/
 
 > Es ist ratsam, einen anderen Tag als den Lieferungstag zu wählen. So werden Änderungen am Abonnement oder an der Tasche, die am Lieferungstag vorgenommen werden, in der Rechnung der folgenden Tage berücksichtigt, anstatt voreilig am selben Tag abgerechnet zu werden oder eine volle Woche warten zu müssen.
 
-Eine IBAN in [den Rechnungseinstellungen](/settings#invoice) reicht nicht. Ohne Wochentag in [Automatische Rechnungsstellung](/settings#billing) werden keine Abonnement-Rechnungen erstellt, und [Jetzt abrechnen](#bill-now) bleibt versteckt. Mahnungen folgen dem [automatischen Zahlungsimport](#automatic_payments_processing), nicht diesem Wochentag.
+Eine IBAN in [den Rechnungseinstellungen](/settings#invoice) reicht nicht. Ohne Wochentag in [Automatische Rechnungsstellung](/settings#billing) werden keine Abonnement-Rechnungen erstellt, und [Abrechnen](#bill-now) bleibt versteckt. Mahnungen folgen dem [automatischen Zahlungsimport](#automatic_payments_processing), nicht diesem Wochentag.
 
 ### Welche Schaltfläche? {#billing-cookbook}
 
 - **Zukünftige** Abonnements (Startdatum noch vor Dir): [Alle in Zukunft abrechnen](#future_billing) auf der Abonnementsseite oder im [Filter Zukunft](/memberships?scope=future). Diese Schaltfläche gibt es nicht bei laufenden Abonnements.
-- **Laufende** Abonnements: auf den Abrechnungstag warten, oder [Jetzt abrechnen](#bill-now) auf der Mitglieds- oder Abonnementsseite nutzen, wenn sie angezeigt wird.
-- **Jetzt abrechnen** erzeugt dieselbe Rechnung wie der automatische Lauf, aber **unversendet**. PDF öffnen, dann Senden. Die automatische Abrechnung sendet am Wochentag.
+- **Laufende** Abonnements: auf den Abrechnungstag warten, oder [Abrechnen](#bill-now) auf der Mitglieds- oder Abonnementsseite nutzen, wenn sie angezeigt wird.
+- **Abrechnen** erzeugt dieselbe Rechnung wie der automatische Lauf, aber **unversendet**. PDF öffnen, dann Senden. Die automatische Abrechnung sendet am Wochentag.
 
 <%= BasketComplement.model_name.human(count: 2) %> stehen auf der Abonnementsrechnung. Sie werden nicht separat abgerechnet. [<%= Member.human_attribute_name(:salary_basket) %>](/handbook/members#salary-basket) setzt diese Ergänzungen ebenfalls auf null.
 
@@ -94,8 +94,9 @@ An jedem Abrechnungstag überprüft das System jedes Mitglied und bestimmt, ob e
 
 1. Das Geschäftsjahr wird in Perioden auf Basis des Zahlungsintervalls aufgeteilt (z.B. quartalweise = 4 Perioden à 3 Monate).
 2. Wenn die **aktuelle Periode bereits abgerechnet** wurde, wird die nächste Rechnung für den Beginn der nächsten Periode geplant. Ist bereits zu viel abgerechnet, wird sie stattdessen für den nächsten Abrechnungstag geplant, damit die letzte Rechnung storniert und neu erstellt werden kann.
-3. Wenn die **aktuelle Periode noch nicht abgerechnet** wurde, wird die Rechnung am nächsten Abrechnungstag erstellt, unter Berücksichtigung der oben beschriebenen Einstellung "erste Lieferung" oder "Abonnement-Beginn".
-4. Wenn das berechnete Datum **nach dem Ende des Geschäftsjahres** liegt, wird keine weitere Rechnung für dieses Jahr erstellt.
+3. Wenn das Abonnement **bereits beendet** ist (Endedatum heute oder früher), gelten die restlichen Perioden nicht mehr. Ein Restbetrag wird am nächsten Abrechnungstag abgerechnet, als wäre das Abonnement jährlich bezahlt.
+4. Wenn die **aktuelle Periode noch nicht abgerechnet** wurde, wird die Rechnung am nächsten Abrechnungstag erstellt, unter Berücksichtigung der oben beschriebenen Einstellung "erste Lieferung" oder "Abonnement-Beginn".
+5. Wenn das berechnete Datum **nach dem Ende des Geschäftsjahres** liegt, wird keine weitere Rechnung für dieses Jahr erstellt.
 
 Die Rechnung wird immer am konfigurierten Wochentag erstellt. Wenn eine Rechnung an einem anderen Tag fällig wird (z.B. eine neue Periode beginnt an einem Mittwoch, aber der Abrechnungstag ist Montag), wird sie am folgenden Montag erstellt.
 
@@ -105,21 +106,21 @@ Auf der Seite eines Mitglieds oder eines Abonnements zeigt der Abschnitt "Abrech
 
 Dieses Datum aktualisiert sich dynamisch: Sobald eine Rechnung versendet wurde, springt es zum nächsten geplanten Datum.
 
-### Jetzt abrechnen {#bill-now}
+### Abrechnen {#bill-now}
 
-In einigen Fällen, beispielsweise nach einer Änderung der Abonnementskonfiguration, möchtest Du möglicherweise sofort eine Rechnung erstellen, anstatt auf den nächsten Abrechnungstag zu warten. Klicke dazu auf die Schaltfläche "Jetzt abrechnen" im Abschnitt "Abrechnung" (rechte Spalte) der Mitglieds- oder Abonnementsseite.
+In einigen Fällen, beispielsweise nach einer Änderung der Abonnementskonfiguration, möchtest Du möglicherweise sofort eine Rechnung erstellen, anstatt auf den nächsten Abrechnungstag zu warten. Klicke dazu auf die Schaltfläche "Abrechnen" im Abschnitt "Abrechnung" (rechte Spalte) der Mitglieds- oder Abonnementsseite.
 
 Die Rechnung wird dann erstellt, aber **nicht gesendet**. Du kannst das PDF einsehen und es manuell mit der Schaltfläche "Senden" auf der Seite der Rechnung versenden. Dies ist nützlich, wenn Du in Kontakt mit einem Mitglied stehst und schnell eine Rechnung korrigieren oder das Ergebnis einer Konfigurationsänderung überprüfen möchtest.
 
-> Die Schaltfläche "Jetzt abrechnen" erzeugt exakt die gleiche Rechnung wie das automatische System, der einzige Unterschied ist, dass sie nicht automatisch versendet wird, sodass Du sie vorher überprüfen kannst.
+> Die Schaltfläche "Abrechnen" erzeugt exakt die gleiche Rechnung wie das automatische System, der einzige Unterschied ist, dass sie nicht automatisch versendet wird, sodass Du sie vorher überprüfen kannst.
 
-Die Schaltfläche fehlt, wenn die wiederkehrende Abrechnung keinen Wochentag hat, die IBAN fehlt, die aktuelle Periode bereits abgerechnet ist, das Mitglied ein [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) ist, oder nichts mehr abzurechnen bleibt.
+Die Schaltfläche fehlt, wenn die wiederkehrende Abrechnung keinen Wochentag hat, die IBAN fehlt, das Mitglied ein [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket) ist, oder nichts mehr abzurechnen bleibt. Sie bleibt auch versteckt, solange die aktuelle Periode bereits abgerechnet ist, ausser das Abonnement ist bereits beendet und ein Restbetrag steht noch aus.
 
 ### Alle in Zukunft abrechnen {#future_billing}
 
 Es ist möglich, ein zukünftiges Abonnement im Voraus abzurechnen, mit einem Startdatum in der Zukunft, sei es im aktuellen Geschäftsjahr oder im nächsten Geschäftsjahr. Abonnements, die auf diese Weise abgerechnet werden, werden vollständig auf einmal abgerechnet, unabhängig vom konfigurierten Zahlungsintervall für das Abonnement.
 
-Die Vorausabrechnung kann von der Seite eines zukünftigen Abonnements aus erfolgen, indem Du auf die Schaltfläche "Alle in Zukunft abrechnen" im Abschnitt "Abrechnung" (rechte Spalte) klickst. Diese Rechnung wird **unversendet** erstellt, wie [Jetzt abrechnen](#bill-now). Von [der Abonnementseite](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>) aus rechnet dieselbe Schaltfläche unter den Filtern mehrere zukünftige Abonnements auf einmal ab und **sendet** diese Rechnungen. Filtere nach Geschäftsjahr und bei Bedarf nach Zahlungsintervall (z.B. "Jährlich").
+Die Vorausabrechnung kann von der Seite eines zukünftigen Abonnements aus erfolgen, indem Du auf die Schaltfläche "Alle in Zukunft abrechnen" im Abschnitt "Abrechnung" (rechte Spalte) klickst. Diese Rechnung wird **unversendet** erstellt, wie [Abrechnen](#bill-now). Von [der Abonnementseite](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>) aus rechnet dieselbe Schaltfläche unter den Filtern mehrere zukünftige Abonnements auf einmal ab und **sendet** diese Rechnungen. Filtere nach Geschäftsjahr und bei Bedarf nach Zahlungsintervall (z.B. "Jährlich").
 
 > Der Jahresbeitrag, der dem Geschäftsjahr des Abonnements entspricht, ist automatisch in der Rechnung enthalten.
 

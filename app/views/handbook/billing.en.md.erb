@@ -58,13 +58,13 @@ By default, invoices that are already considered paid/closed when created are no
 
 > It is advisable to choose a day other than the delivery day. This way, any membership or basket changes made on the delivery day are reflected in the invoice generated in the following days, rather than being invoiced prematurely the same day or waiting a full week.
 
-An IBAN in [the invoice settings](/settings#invoice) is not enough. Without a weekday in [Automatic billing](/settings#billing), no membership invoices are created and [Bill now](#bill-now) stays hidden. Overdue reminders follow [automatic payment import](#automatic_payments_processing), not this weekday.
+An IBAN in [the invoice settings](/settings#invoice) is not enough. Without a weekday in [Automatic billing](/settings#billing), no membership invoices are created and [Invoice now](#bill-now) stays hidden. Overdue reminders follow [automatic payment import](#automatic_payments_processing), not this weekday.
 
 ### Which button? {#billing-cookbook}
 
 - **Future** memberships (start date still ahead): [Invoice all in advance](#future_billing) from the membership page or from [the Future scope](/memberships?scope=future). That button is not on ongoing memberships.
-- **Ongoing** memberships: wait for the billing weekday, or use [Bill now](#bill-now) on the member or membership page when it is shown.
-- **Bill now** creates the same invoice as the automatic run, but **unsent**. Open the PDF, then Send. Automatic billing sends on the weekday.
+- **Ongoing** memberships: wait for the billing weekday, or use [Invoice now](#bill-now) on the member or membership page when it is shown.
+- **Invoice now** creates the same invoice as the automatic run, but **unsent**. Open the PDF, then Send. Automatic billing sends on the weekday.
 
 <%= BasketComplement.model_name.human(count: 2) %> are on the membership invoice. They are not billed separately. [<%= Member.human_attribute_name(:salary_basket) %>](/handbook/members#salary-basket) zeroes those complements too.
 
@@ -94,8 +94,9 @@ Each billing day, the system checks every member and determines whether an invoi
 
 1. The fiscal year is divided into periods based on the payment interval (e.g. quarterly = 4 periods of 3 months).
 2. If the **current period has already been billed**, the next invoice is scheduled for the beginning of the next period. If the membership is already over-invoiced, it is scheduled for the next billing day instead, so the last invoice can be canceled and recreated.
-3. If the **current period has not been billed yet**, the invoice is created on the next billing day, respecting the "first delivery" or "membership start" setting described above.
-4. If the calculated next invoice date falls **after the fiscal year end**, no further invoice is generated for this year.
+3. If the membership **has already ended** (end date today or earlier), remaining periods no longer apply. Any remainder is billed on the next billing day, as if the membership were paid annually.
+4. If the **current period has not been billed yet**, the invoice is created on the next billing day, respecting the "first delivery" or "membership start" setting described above.
+5. If the calculated next invoice date falls **after the fiscal year end**, no further invoice is generated for this year.
 
 The invoice is always created on the configured day of the week. If an invoice becomes due on a different day (e.g. a new period starts on a Wednesday but billing day is Monday), it will be created the following Monday.
 
@@ -105,21 +106,21 @@ From a member's or membership's page, the "Billing" section (right column) displ
 
 This date updates dynamically: once an invoice is sent, it moves to the next scheduled date.
 
-### Bill now {#bill-now}
+### Invoice now {#bill-now}
 
-In some cases, for example after a change in membership configuration, you may want to create an invoice immediately rather than waiting for the next billing day. To do this, click on the "Bill now" button in the "Billing" section (right column) of the member's or membership's page.
+In some cases, for example after a change in membership configuration, you may want to create an invoice immediately rather than waiting for the next billing day. To do this, click on the "Invoice now" button in the "Billing" section (right column) of the member's or membership's page.
 
 The invoice will be created but **not sent**. You can consult the PDF and send it manually using the "Send" button on its page. This is useful if you're in contact with a member and want to quickly rectify an invoice or verify the result of a configuration change.
 
-> The "Bill now" button produces the exact same invoice as the automatic system would, the only difference is that it's not sent automatically, giving you a chance to review it first.
+> The "Invoice now" button produces the exact same invoice as the automatic system would, the only difference is that it's not sent automatically, giving you a chance to review it first.
 
-The button is missing when recurring billing has no weekday, the IBAN is missing, the current period is already billed, the member is a [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), or nothing remains to bill.
+The button is missing when recurring billing has no weekday, the IBAN is missing, the member is a [<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket), or nothing remains to bill. It also stays hidden while the current period is already billed, unless the membership has already ended and a remainder is still due.
 
 ### Invoice all in advance {#future_billing}
 
 It is possible to invoice an upcoming subscription in advance, with a start date in the future, whether it is in the current fiscal year or the next fiscal year. Subscriptions invoiced in this way are fully invoiced at once, regardless of the payment interval configured for the subscription.
 
-Advance invoicing can be done from the page of a future subscription by clicking on the "Invoice all in advance" button in the "Billing" section (right column). That invoice is created **unsent**, like [Bill now](#bill-now). From [the subscriptions page](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), the same button under the filters invoices several future subscriptions at once and **sends** those invoices. Filter by fiscal year, and by payment interval (e.g. "Annual") if you want a narrower set.
+Advance invoicing can be done from the page of a future subscription by clicking on the "Invoice all in advance" button in the "Billing" section (right column). That invoice is created **unsent**, like [Invoice now](#bill-now). From [the subscriptions page](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), the same button under the filters invoices several future subscriptions at once and **sends** those invoices. Filter by fiscal year, and by payment interval (e.g. "Annual") if you want a narrower set.
 
 > The annual fee corresponding to the fiscal year of the subscription is automatically included in the invoice.
 
