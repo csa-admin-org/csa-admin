@@ -250,11 +250,14 @@ class Demo::SeederTest < ActiveSupport::TestCase
     org(fiscal_year_start_month: 4)
     Current.reset
     with_demo_tenant do
+      membership = create_current_year_membership_for_absences(
+        started_on: Date.new(2024, 4, 1),
+        ended_on: Date.new(2025, 3, 31))
       seeder = Demo::Seeder.new
 
       assert_difference -> { Absence.count }, 1 do
         seeder.stub(:rand, 1) do
-          seeder.send(:create_absence_for!, memberships(:john))
+          seeder.send(:create_absence_for!, membership)
         end
       end
 
