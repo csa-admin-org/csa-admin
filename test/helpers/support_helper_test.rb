@@ -3,14 +3,12 @@
 require "test_helper"
 
 class SupportHelperTest < ActionView::TestCase
-  include SupportHelper
-
   test "compacts a bare handbook url in a support reply" do
     message = Support::Message.new(author: "support", body: "voir")
     message.html = "<div>Voir: https://admin.acme.test/handbook/shop#billing</div>"
 
     I18n.with_locale(:fr) do
-      html = support_message_html(message)
+      html = view.support_message_html(message)
       link = Nokogiri::HTML.fragment(html).at("a.support-app-link")
 
       assert link
@@ -27,7 +25,7 @@ class SupportHelperTest < ActionView::TestCase
         <div class="protonmail_quote">-------- Original Message --------<br>quoted</div>
       HTML
 
-    html = support_message_html(message)
+    html = view.support_message_html(message)
 
     assert_includes html, "Yes super"
     assert_not_includes html, "Original Message"
@@ -42,7 +40,7 @@ class SupportHelperTest < ActionView::TestCase
 </code></pre>
     HTML
 
-    html = support_message_html(message)
+    html = view.support_message_html(message)
 
     assert_includes html, "Oui bien sûr"
     assert_not_includes html, "Pasquier"
@@ -53,12 +51,29 @@ class SupportHelperTest < ActionView::TestCase
     message = Support::Message.new(author: "admin", body: "merci")
     message.html = %(<div style="font-family: Arial, sans-serif; font-size: 14px;">top - merci beaucoup ! manuel</div>)
 
-    html = support_message_html(message)
+    html = view.support_message_html(message)
 
     assert_includes html, "merci beaucoup"
     assert_not_includes html, "font-size"
     assert_not_includes html, "font-family"
     assert_not_includes html, "style="
+  end
+
+  test "renders stored action text images" do
+    blob = ActiveStorage::Blob.create_and_upload!(
+      io: file_fixture("logo.png").open,
+      filename: "shot.png",
+      content_type: "image/png")
+    message = Support::Message.new(author: "support", body: "See screenshot")
+    message.html = %(<div>See <action-text-attachment sgid="#{blob.attachable_sgid}" content-type="image/png" filename="shot.png"></action-text-attachment></div>)
+
+    html = view.support_message_html(message)
+
+    assert_includes html, "See"
+    assert_includes html, "shot.png"
+    assert_match %r{<img[^>]+src="[^"]*/rails/active_storage/}, html
+    assert_not_includes html, "action-text-attachment"
+    assert_not_includes html, "trix-content"
   end
 
   test "keeps a cited original on a converted support message" do
@@ -70,7 +85,7 @@ class SupportHelperTest < ActionView::TestCase
         <blockquote type="cite"><div>Hello from the member</div></blockquote>
       HTML
 
-    html = support_message_html(message)
+    html = view.support_message_html(message)
 
     assert_includes html, "Hello from the member"
   end

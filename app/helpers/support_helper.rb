@@ -26,7 +26,7 @@ module SupportHelper
 
   def support_message_html(message)
     html = if message.html.present?
-      source = message.html.body.to_html
+      source = rendered_action_text(message)
       message.author_admin? ? Support::ReplyHtml.present(source) : Support::ReplyHtml.strip_styles(source)
     else
       text = message.author_admin? ? Support::ReplyBody.without_quote(message.body) : message.body
@@ -59,5 +59,11 @@ module SupportHelper
     return false if params[:q].present?
 
     (params[:scope].presence || "all").in?(%w[all waiting])
+  end
+
+  private
+
+  def rendered_action_text(message)
+    ActionTextHtml.unwrap_attachments(render_action_text_content(message.html.body))
   end
 end
