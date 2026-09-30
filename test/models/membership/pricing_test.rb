@@ -257,6 +257,55 @@ class Membership::PricingTest < ActiveSupport::TestCase
     assert_equal 1, queries
   end
 
+  test "basket size price change refreshes membership price cache" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    membership.send(:update_price_and_invoices_amount!)
+    assert_equal 200, membership.reload.price
+
+    membership.baskets.first.update!(basket_size_price: 25)
+
+    assert_equal 205, membership.reload.price
+    assert_nothing_raised { Checker::MembershipPrice.new(membership.reload).check! }
+  end
+
+  test "adding a basket complement refreshes membership price cache" do
+    travel_to "2024-01-01"
+    eggs = basket_complements(:eggs)
+    deliveries(:monday_1).update!(basket_complement_ids: [ eggs.id ])
+    perform_enqueued_jobs only: BasketsBasketComplementsUpdaterJob
+    membership = memberships(:john)
+    membership.send(:update_price_and_invoices_amount!)
+    assert_equal 200, membership.reload.price
+
+    membership.baskets.find_by!(delivery: deliveries(:monday_1))
+      .update!(complement_ids: [ eggs.id ])
+
+    assert_equal 200 + eggs.price, membership.reload.price
+    assert_nothing_raised { Checker::MembershipPrice.new(membership.reload).check! }
+  end
+
+  test "update_price_and_invoices_amount! ignores stale preloaded billable flags" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    membership.update!(basket_price_extra: 1)
+    assert_equal 210, membership.reload.price
+
+    preloaded = Membership.preload(:member, baskets: :baskets_basket_complements)
+      .find(membership.id)
+    last = preloaded.baskets.last
+    Basket.unscoped.where(id: last.id).update_all(billable: false, calculated_price_extra: 0)
+    assert last.billable
+    assert_equal 1, last.calculated_price_extra
+
+    preloaded.send(:update_price_and_invoices_amount!)
+
+    # 9 billable baskets * (20 + 1 extra). A loaded-path write would keep the
+    # stale extra on the last basket and persist 190.
+    assert_equal 189, membership.reload.price
+    assert_nothing_raised { Checker::MembershipPrice.new(membership.reload).check! }
+  end
+
   test "preloaded baskets_price_extra and basket_complements_price match SQL without extra queries" do
     travel_to "2024-01-01"
     membership = create_membership(

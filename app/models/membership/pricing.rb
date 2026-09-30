@@ -139,6 +139,11 @@ module Membership::Pricing
   private
 
   def update_price_and_invoices_amount!
+    # Always recompute from the database. Callers often have baskets loaded
+    # from before an update_all (billable, extras) or insert_all (complements),
+    # and the in-memory path would persist a stale cache.
+    association(:baskets).reset
+
     computed_price = basket_sizes_price +
       baskets_price_extra +
       baskets_annual_price_change +
