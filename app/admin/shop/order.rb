@@ -74,7 +74,10 @@ ActiveAdmin.register Shop::Order do
       end
     end
     actions do |order|
-      link_to_invoice_pdf(order.invoice)
+      text_node link_to(new_shop_order_path(shop_order_id: order.id), title: t(".duplicate")) {
+        icon "copy", class: "icon-5"
+      }
+      text_node link_to_invoice_pdf(order.invoice)
     end
   end
 
@@ -274,6 +277,11 @@ ActiveAdmin.register Shop::Order do
       :_destroy
     ])
 
+  action_item :duplicate, only: :show, if: -> { authorized?(:create, resource) } do
+    action_link t(".duplicate"), new_shop_order_path(shop_order_id: resource.id),
+      icon: "copy"
+  end
+
   action_item :cancel, only: :show, if: -> { resource.can_cancel? } do
     action_button t(".cancel_action"), cancel_shop_order_path(resource),
       data: { confirm: t(".cancel_action_confirm") },
@@ -392,13 +400,6 @@ ActiveAdmin.register Shop::Order do
     end
   end
 
-  before_build do |order|
-    order.member_id ||= smart_referer(:member_id)
-    order.delivery_gid ||= smart_referer(:_delivery_gid)
-    order.delivery ||= Delivery.next
-    order.admin = current_admin
-  end
-
   before_update do |order|
     order.admin = current_admin
   end
@@ -408,6 +409,17 @@ ActiveAdmin.register Shop::Order do
     include ApplicationHelper
     include ShopHelper
     include UncachedSendData
+
+    before_build do |order|
+      if source = Shop::Order.includes(items: [ :product, :product_variant ]).find_by(id: params[:shop_order_id])
+        copy_shop_order(order, source)
+      else
+        order.member_id ||= smart_referer(:member_id)
+        order.delivery_gid ||= smart_referer(:_delivery_gid)
+        order.delivery ||= Delivery.next
+      end
+      order.admin = current_admin
+    end
 
     before_create do |order|
       cart_order = Shop::Order.cart.find_by(member_id: order.member_id, delivery_id: order.delivery_id)
@@ -446,6 +458,34 @@ ActiveAdmin.register Shop::Order do
             filename: xlsx.filename
         end
       end
+    end
+
+    private
+
+    def copy_shop_order(order, source)
+      order.member = source.member
+      order.amount_percentage = source.amount_percentage
+      order.delivery = delivery_for_duplicate(source)
+      source.items.each do |item|
+        next unless item.product&.kept? && item.product_variant&.kept?
+
+        copy = order.items.build(quantity: item.quantity)
+        copy.product_variant_id = item.product_variant_id
+        copy.item_price = item.item_price
+      end
+    end
+
+    def delivery_for_duplicate(order)
+      current = Delivery.shop_open.next
+      return current if current && current != order.delivery
+
+      next_shop_delivery_after(current || order.delivery)
+    end
+
+    def next_shop_delivery_after(delivery)
+      return unless delivery
+
+      Delivery.shop_open.coming.where("date > ?", delivery.date).first
     end
   end
 

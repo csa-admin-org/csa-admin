@@ -90,6 +90,98 @@ class ShopOrdersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "5", price["placeholder"]
   end
 
+  test "index links to a prefilled duplicate order" do
+    order = shop_orders(:john)
+
+    get shop_orders_path
+
+    assert_response :success
+    href = new_shop_order_path(shop_order_id: order.id)
+    title = I18n.t("active_admin.resource.index.duplicate")
+    assert_select "a[href='#{href}'][title='#{title}']"
+  end
+
+  test "show links to a prefilled duplicate order" do
+    order = shop_orders(:john)
+
+    get shop_order_path(order)
+
+    assert_response :success
+    assert_select "a.action-item-button[href='#{new_shop_order_path(shop_order_id: order.id)}']",
+      text: I18n.t("active_admin.shared.action_items.duplicate")
+  end
+
+  test "new form copies the order onto the next delivery when it is already on the current one" do
+    order = shop_orders(:john)
+    item = shop_order_items(:john_bread_500)
+    order.update!(amount_percentage: 12.5)
+    item.update_column(:item_price, 7.5)
+    current = Delivery.shop_open.next
+    nxt = Delivery.shop_open.coming.where("date > ?", current.date).first
+
+    assert_equal current, order.delivery
+
+    get new_shop_order_path(shop_order_id: order.id)
+
+    assert_response :success
+    assert_select "select[name='shop_order[member_id]'] option[selected][value='#{order.member_id}']"
+    assert_select "select[name='shop_order[delivery_gid]'] option[selected][value='#{nxt.gid}']"
+    assert_select "input[name='shop_order[amount_percentage]'][value='12.5']"
+    variant = "select[name='shop_order[items_attributes][0][product_variant_id]']"
+    assert_select "#{variant} option[selected][value='#{item.product_variant_id}']"
+    assert_select "input[name='shop_order[items_attributes][0][quantity]'][value='#{item.quantity}']"
+    assert_select "input[name='shop_order[items_attributes][0][item_price]'][value='7.5']"
+  end
+
+  test "new form copies the order onto the current delivery when it is a different one" do
+    current = Delivery.shop_open.next
+    source = create_shop_order(member: members(:jane), delivery: deliveries(:thursday_1))
+
+    assert_not_equal current, source.delivery
+
+    get new_shop_order_path(shop_order_id: source.id)
+
+    assert_response :success
+    assert_select "select[name='shop_order[member_id]'] option[selected][value='#{source.member_id}']"
+    assert_select "select[name='shop_order[delivery_gid]'] option[selected][value='#{current.gid}']"
+  end
+
+  test "new form skips discarded products and variants" do
+    kept = shop_product_variants(:oil_500)
+    discarded_variant = shop_product_variants(:bread_500)
+    discarded_product = shop_products(:flour)
+    source = create_shop_order(
+      member: members(:jane),
+      delivery: deliveries(:thursday_1),
+      items_attributes: {
+        "0" => {
+          product_id: kept.product_id,
+          product_variant_id: kept.id,
+          quantity: 1
+        },
+        "1" => {
+          product_id: discarded_variant.product_id,
+          product_variant_id: discarded_variant.id,
+          quantity: 2
+        },
+        "2" => {
+          product_id: discarded_product.id,
+          product_variant_id: shop_product_variants(:flour_wheat).id,
+          quantity: 3
+        }
+      }
+    )
+    discarded_variant.discard
+    discarded_product.discard
+
+    get new_shop_order_path(shop_order_id: source.id)
+
+    assert_response :success
+    assert_select "option[selected][value='#{kept.id}']"
+    assert_select "option[selected][value='#{discarded_variant.id}']", count: 0
+    assert_select "option[selected][value='#{shop_product_variants(:flour_wheat).id}']", count: 0
+  end
+
   test "index disables delivery PDF until a delivery is filtered" do
     travel_to "2024-01-01"
     login admins(:super)
