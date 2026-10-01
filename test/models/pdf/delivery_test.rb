@@ -164,7 +164,7 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
 
     pdf_strings = save_pdf_and_return_strings(delivery)
     assert_includes pdf_strings.join, "Supercalifragilistic"
-    assert_includes pdf_strings, "Extra 0"
+    assert_includes pdf_strings, "Extra 0 (1pc)"
   end
 
   test "includes shop orders" do

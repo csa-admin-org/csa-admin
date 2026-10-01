@@ -234,8 +234,8 @@ module PDF
       sp_size += 1 if @shop_orders.any?
       sp_size += shop_products.size
 
-      page_border, width, number_width, depot_name_width =
-        summary_table_geometry(bs_size + bc_size + sp_size)
+      page_border, width, number_width, depot_name_width, _extra_width =
+        fitted_table_geometry(bs_size + bc_size + sp_size)
       total_rotate = 45
       offset_x = 8
       offset_y = 12
@@ -435,22 +435,28 @@ module PDF
       end
     end
 
-    def summary_table_geometry(number_columns)
-      page_border = 65
+    def fitted_table_geometry(number_columns, extra_width: 0, preferred_page_border: 65, min_name_width: 80)
+      min_page_border = 20
       number_width = 25
-      min_name_width = 80
+      page_border = preferred_page_border
       width = bounds.width - 2 * page_border
 
-      if number_columns * number_width + min_name_width > width
-        page_border = 20
+      if min_name_width + extra_width + number_columns * number_width > width
+        page_border = [ page_border, min_page_border ].min
         width = bounds.width - 2 * page_border
       end
 
-      if number_columns.positive? && number_columns * number_width + min_name_width > width
-        number_width = (width - min_name_width).to_f / number_columns
+      leftover = width - min_name_width
+      if leftover < extra_width + number_columns * number_width
+        if leftover > extra_width && number_columns.positive?
+          number_width = (leftover - extra_width).to_f / number_columns
+        elsif leftover.positive? && number_columns.positive?
+          extra_width = leftover * 0.3
+          number_width = (leftover - extra_width).to_f / number_columns
+        end
       end
 
-      [ page_border, width, number_width, width - number_columns * number_width ]
+      [ page_border, width, number_width, width - extra_width - number_columns * number_width, extra_width ]
     end
 
     def summary_baskets_line(depot, title: nil, width:, basket_sizes:, basket_complements:, shop_products:)
@@ -570,11 +576,11 @@ module PDF
       sp_size += 1 if shop_orders.any?
       sp_size += shop_products.size
 
-      page_border = 20
-      width = bounds.width - 2 * page_border
-      number_width = 25
-      extra_width = 110
-      member_name_width = width - (bs_size + bc_size + sp_size) * number_width - extra_width
+      page_border, width, number_width, member_name_width, extra_width =
+        fitted_table_geometry(
+          bs_size + bc_size + sp_size,
+          extra_width: 110,
+          preferred_page_border: 20)
       address_width = depot.delivery_sheets_mode == "home_delivery" ? (member_name_width / 2) : 0
       offset_x = 6
       offset_y = 12
@@ -813,7 +819,14 @@ module PDF
       table(
         data,
         row_colors: %w[DDDDDD FFFFFF],
-        cell_style: { border_width: 0, border_color: "FFFFFF", inline_format: true, valign: :center },
+        cell_style: {
+          border_width: 0,
+          border_color: "FFFFFF",
+          inline_format: true,
+          valign: :center,
+          overflow: :shrink_to_fit,
+          min_font_size: 6
+        },
         position: :center) do |t|
         t.cells.borders = []
 
@@ -828,7 +841,7 @@ module PDF
         t.row(0).valign = :center
         t.row(0).background_color = "FFFFFF"
 
-        t.column(0).padding_right = 10
+        t.column(0).padding_right = member_name_width < 120 ? 4 : 10
 
         colors_offset = depot.delivery_sheets_mode == "home_delivery" ? 1 : 0
         t.cells.column_count.times do |i|
