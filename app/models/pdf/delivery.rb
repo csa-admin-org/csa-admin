@@ -4,6 +4,15 @@ module PDF
   class Delivery < Base
     attr_reader :delivery, :current_time
 
+    DEFAULT_NUMBER_WIDTH = 25
+    MIN_NUMBER_WIDTH = 18
+    EXTRA_WIDTH = 110
+    SUMMARY_MIN_NAME_WIDTH = 90
+    MEMBER_MIN_NAME_WIDTH = 80
+    HOME_DELIVERY_MIN_NAME_WIDTH = 160
+    SUMMARY_PAGE_BORDER = 65
+    MEMBER_PAGE_BORDER = 20
+
     def initialize(delivery, depot = nil)
       @delivery = delivery
       super
@@ -33,6 +42,8 @@ module PDF
         baskets = @baskets.where(depot: depot)
         shop_orders = @shop_orders.where(depot: depot)
         basket_sizes = basket_sizes_for(baskets)
+        basket_complements = basket_complements_for(baskets, shop_orders)
+        shop_products = shop_products_for(shop_orders)
         member_ids = (baskets.filled.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
         members_per_page =
           if Current.org.delivery_pdf_member_info == "phones" || depot.delivery_sheets_mode == "home_delivery"
@@ -42,11 +53,38 @@ module PDF
           else
             22
           end
-        total_pages = (member_ids.count / members_per_page.to_f).ceil
         members = Member.where(id: member_ids).sort_by { |m| depot.member_sorting(m) }
-        members.each_slice(members_per_page).with_index do |slice, i|
+        product_slices = shop_product_column_slices(
+          member_sheet_available_width,
+          core_count: member_sheet_core_column_count(basket_sizes, basket_complements, shop_orders),
+          extra_width: EXTRA_WIDTH,
+          min_name_width: member_sheet_min_name_width(depot),
+          shop_products: shop_products)
+        pages = members.each_slice(members_per_page).flat_map do |slice|
+          product_slices.each_with_index.map do |products_slice, column_i|
+            {
+              members: slice,
+              shop_products: products_slice,
+              include_core: column_i.zero?
+            }
+          end
+        end
+        total_pages = pages.size
+        pages.each_with_index do |page_spec, i|
           page_n = i + 1
-          page(depot, slice, baskets, basket_sizes, shop_orders, page: page_n, total_pages: total_pages)
+          page(
+            depot,
+            page_spec[:members],
+            baskets,
+            basket_sizes,
+            shop_orders,
+            sheet_basket_sizes: page_spec[:include_core] ? basket_sizes : [],
+            basket_complements: page_spec[:include_core] ? basket_complements : [],
+            shop_products: page_spec[:shop_products],
+            include_shop_order_column: page_spec[:include_core] && shop_orders.any?,
+            show_basket_content: page_spec[:include_core],
+            page: page_n,
+            total_pages: total_pages)
           start_new_page unless page_n == total_pages
         end
         start_new_page unless depots.last == depot
@@ -200,6 +238,93 @@ module PDF
       @all_shop_products.select { |p| product_ids.include?(p.id) }
     end
 
+    def summary_available_width
+      bounds.width - 2 * SUMMARY_PAGE_BORDER
+    end
+
+    def member_sheet_available_width
+      bounds.width - 2 * MEMBER_PAGE_BORDER
+    end
+
+    def member_sheet_min_name_width(depot)
+      depot.delivery_sheets_mode == "home_delivery" ? HOME_DELIVERY_MIN_NAME_WIDTH : MEMBER_MIN_NAME_WIDTH
+    end
+
+    def member_sheet_core_column_count(basket_sizes, basket_complements, shop_orders)
+      count = basket_sizes.size + basket_complements.size
+      count += 1 if shop_orders.any?
+      count
+    end
+
+    def shop_product_column_slices(available_width, core_count:, extra_width:, min_name_width:, shop_products:)
+      shop_products = Array(shop_products)
+      return [ [] ] if shop_products.empty?
+
+      total = core_count + shop_products.size
+      layout = sheet_column_widths(
+        available_width,
+        total,
+        extra_width: extra_width,
+        min_name_width: min_name_width)
+      return [ shop_products ] if total <= layout[:max_numbers]
+
+      first_slots = [ layout[:max_numbers] - core_count, 0 ].max
+      slices = [ shop_products.first(first_slots) ]
+      remaining = shop_products.drop(first_slots)
+
+      while remaining.any?
+        follow = sheet_column_widths(
+          available_width,
+          remaining.size,
+          extra_width: extra_width,
+          min_name_width: min_name_width)
+        take = [ follow[:max_numbers], remaining.size ].min
+        take = 1 if take < 1
+        slices << remaining.first(take)
+        remaining = remaining.drop(take)
+      end
+      slices
+    end
+
+    def sheet_column_widths(available_width, number_count, extra_width:, min_name_width:)
+      available_width = available_width.to_f
+      extra_width = extra_width.to_f
+      min_name_width = min_name_width.to_f
+      leftover = available_width - extra_width - min_name_width
+
+      if number_count <= 0
+        return {
+          name_width: available_width - extra_width,
+          extra_width: extra_width,
+          number_width: DEFAULT_NUMBER_WIDTH,
+          max_numbers: 0
+        }
+      end
+
+      if leftover >= number_count * DEFAULT_NUMBER_WIDTH
+        number_width = DEFAULT_NUMBER_WIDTH
+        name_width = available_width - extra_width - number_count * number_width
+        return { name_width: name_width, extra_width: extra_width, number_width: number_width, max_numbers: number_count }
+      end
+
+      shrunk = leftover / number_count.to_f
+      if shrunk >= MIN_NUMBER_WIDTH
+        number_width = shrunk.floor
+        name_width = available_width - extra_width - number_count * number_width
+        return { name_width: name_width, extra_width: extra_width, number_width: number_width, max_numbers: number_count }
+      end
+
+      number_width = MIN_NUMBER_WIDTH
+      max_numbers = [ (leftover / MIN_NUMBER_WIDTH).floor, 0 ].max
+      if max_numbers.zero?
+        max_numbers = 1
+        name_width = [ available_width - extra_width - number_width, 40 ].max
+      else
+        name_width = available_width - extra_width - max_numbers * number_width
+      end
+      { name_width: name_width, extra_width: extra_width, number_width: number_width, max_numbers: max_numbers }
+    end
+
     def org_logo
       StringIO.new(@org_logo_io.string)
     end
@@ -224,20 +349,51 @@ module PDF
       basket_sizes = BasketSize.for(@baskets)
       basket_complements = BasketComplement.for(@baskets, @shop_orders)
       shop_products = @shop_orders.products_displayed_in_delivery_sheets
+      core_count = basket_sizes.size + 1 + basket_complements.size
+      core_count += 1 if @shop_orders.any?
+      product_slices = shop_product_column_slices(
+        summary_available_width,
+        core_count: core_count,
+        extra_width: 0,
+        min_name_width: SUMMARY_MIN_NAME_WIDTH,
+        shop_products: shop_products)
+
+      product_slices.each_with_index do |products_slice, i|
+        if i.positive?
+          start_new_page
+          summary_header
+        end
+        draw_summary_table(
+          basket_sizes: i.zero? ? basket_sizes : [],
+          basket_complements: i.zero? ? basket_complements : [],
+          shop_products: products_slice,
+          include_core: i.zero?)
+      end
+    end
+
+    def draw_summary_table(basket_sizes:, basket_complements:, shop_products:, include_core:)
+      include_shop_order_column = include_core && @shop_orders.any?
+      include_basket_totals = include_core
 
       font_size 9
       move_down 1.cm
 
-      bs_size = basket_sizes.size + 1
+      bs_size = include_basket_totals ? basket_sizes.size + 1 : 0
       bc_size = basket_complements.size
       sp_size = 0
-      sp_size += 1 if @shop_orders.any?
+      sp_size += 1 if include_shop_order_column
       sp_size += shop_products.size
+      shop_header_offset = bs_size + bc_size + (include_shop_order_column ? 1 : 0)
 
-      page_border = 65
+      page_border = SUMMARY_PAGE_BORDER
       width = bounds.width - 2 * page_border
-      number_width = 25
-      depot_name_width = width - (bs_size + bc_size + sp_size) * number_width
+      layout = sheet_column_widths(
+        width,
+        bs_size + bc_size + sp_size,
+        extra_width: 0,
+        min_name_width: SUMMARY_MIN_NAME_WIDTH)
+      number_width = layout[:number_width]
+      depot_name_width = layout[:name_width]
       total_rotate = 45
       offset_x = 8
       offset_y = 12
@@ -246,18 +402,20 @@ module PDF
       header_index = 0
       bounding_box [ page_border, cursor ], width: width, height: 25, position: :bottom do
         text_box "", width: depot_name_width, at: [ 0, cursor ]
-        bs_names = basket_sizes.map(&:public_name)
-        bs_names << I18n.t("delivery.basket_sizes_total")
-        bs_names.each_with_index do |name, i|
-          fill_color header_index.even? ? "666666" : "000000"
-          text_box name,
-            rotate: total_rotate,
-            at: [ depot_name_width + i * number_width + offset_x, cursor + offset_y ],
-            valign: :center,
-            size: name == bs_names.last ? 9 : 8,
-            style: :bold,
-            width: 150
-          header_index += 1
+        if include_basket_totals
+          bs_names = basket_sizes.map(&:public_name)
+          bs_names << I18n.t("delivery.basket_sizes_total")
+          bs_names.each_with_index do |name, i|
+            fill_color header_index.even? ? "666666" : "000000"
+            text_box name,
+              rotate: total_rotate,
+              at: [ depot_name_width + i * number_width + offset_x, cursor + offset_y ],
+              valign: :center,
+              size: name == bs_names.last ? 9 : 8,
+              style: :bold,
+              width: 150
+            header_index += 1
+          end
         end
         basket_complements.each_with_index do |bc, i|
           fill_color header_index.even? ? "666666" : "000000"
@@ -271,7 +429,7 @@ module PDF
             width: 150
           header_index += 1
         end
-        if @shop_orders.any?
+        if include_shop_order_column
           fill_color header_index.even? ? "666666" : "000000"
           text_box I18n.t("shop.title_orders", count: 1),
             rotate: total_rotate,
@@ -286,7 +444,7 @@ module PDF
           fill_color header_index.even? ? "666666" : "000000"
           text_box product.name_with_single_variant,
             rotate: total_rotate,
-            at: [ depot_name_width + (bs_size + bc_size + 1 + i) * number_width + offset_x, cursor + offset_y ],
+            at: [ depot_name_width + (shop_header_offset + i) * number_width + offset_x, cursor + offset_y ],
             valign: :center,
             size: 8,
             style: :bold,
@@ -305,18 +463,20 @@ module PDF
         width: depot_name_width,
         align: :right
       ]
-      basket_sizes.each do |bs|
+      if include_basket_totals
+        basket_sizes.each do |bs|
+          total_line << {
+            content: (@basket_sums_by_size[bs.id] || 0).to_s,
+            width: number_width,
+            align: :center
+          }
+        end
         total_line << {
-          content: (@basket_sums_by_size[bs.id] || 0).to_s,
+          content: @total_basket_sum.to_s,
           width: number_width,
           align: :center
         }
       end
-      total_line << {
-        content: @total_basket_sum.to_s,
-        width: number_width,
-        align: :center
-      }
       basket_complements.each do |c|
         total_line << {
           content: cached_total_complement_count(c.id).to_s,
@@ -324,7 +484,7 @@ module PDF
           align: :center
         }
       end
-      if @shop_orders.any?
+      if include_shop_order_column
         total_line << {
           content: @shop_orders.count.to_s,
           width: number_width,
@@ -344,14 +504,27 @@ module PDF
 
       # Depots
       @depots.each do |depot|
-        data << summary_baskets_line(depot, width: depot_name_width, basket_sizes: basket_sizes, basket_complements: basket_complements, shop_products: shop_products)
+        data << summary_baskets_line(
+          depot,
+          width: depot_name_width,
+          basket_sizes: basket_sizes,
+          basket_complements: basket_complements,
+          shop_products: shop_products,
+          include_shop_order_column: include_shop_order_column)
       end
 
       @delivery.basket_summary_sections(depots: @depots).each do |section|
         summary_section_break_rows << data.size
         data << [ "" ]
         section.rows.each do |row|
-          data << summary_baskets_line(row.depot_ids, title: row.title, width: depot_name_width, basket_sizes: basket_sizes, basket_complements: basket_complements, shop_products: shop_products)
+          data << summary_baskets_line(
+            row.depot_ids,
+            title: row.title,
+            width: depot_name_width,
+            basket_sizes: basket_sizes,
+            basket_complements: basket_complements,
+            shop_products: shop_products,
+            include_shop_order_column: include_shop_order_column)
         end
       end
 
@@ -381,8 +554,10 @@ module PDF
           t.column(1 + i).align = :center
           t.column(1 + i).font_style = :light # Ensure number is well centered in the cell!
         end
-        t.column(bs_size).font_style = :bold
-        t.column(bs_size).padding_top = cell_style[:padding] + 1  # Ensure number is well centered in the cell!
+        if include_basket_totals && bs_size.positive?
+          t.column(bs_size).font_style = :bold
+          t.column(bs_size).padding_top = cell_style[:padding] + 1  # Ensure number is well centered in the cell!
+        end
         t.column(0).padding_top = cell_style[:padding] + 1  # Ensure number is well centered in the cell!
 
         t.row(0).height = 22
@@ -399,6 +574,8 @@ module PDF
           end
         end
 
+        t.column(bs_size).background_color = "999999" if include_basket_totals && bs_size.positive?
+
         if t.cells.row_count%2 == 0
           t.row(-1).borders = %i[bottom right]
           t.row(-1).border_bottom_width = 1
@@ -413,8 +590,6 @@ module PDF
         t.row(0).borders = %i[bottom right]
         t.row(0).border_bottom_width = 1
         t.row(0).border_bottom_color = "000000"
-
-        t.column(bs_size).background_color = "999999"
 
         summary_section_break_rows.each do |row_index|
           t.row(row_index).height = cell_style[:height] + 4
@@ -435,7 +610,7 @@ module PDF
       end
     end
 
-    def summary_baskets_line(depot, title: nil, width:, basket_sizes:, basket_complements:, shop_products:)
+    def summary_baskets_line(depot, title: nil, width:, basket_sizes:, basket_complements:, shop_products:, include_shop_order_column: @shop_orders.any?)
       column_content = title || depot.name
       depot_ids = summary_depot_ids(depot)
       shop_orders = @shop_orders.where(depot_id: depot_ids)
@@ -455,7 +630,7 @@ module PDF
         count = depot_ids.sum { |depot_id| cached_complement_count(depot_id, c.id) }
         line << display_quantity(count)
       end
-      if @shop_orders.any?
+      if include_shop_order_column
         line << display_quantity(shop_orders.count)
       end
       shop_products.each do |p|
@@ -510,10 +685,20 @@ module PDF
       super.merge(Title: "#{::Delivery.human_attribute_name(:sheets)} #{delivery.date}")
     end
 
-    def page(depot, members, baskets, basket_sizes, shop_orders, page:, total_pages:)
+    def page(depot, members, baskets, basket_sizes, shop_orders, page:, total_pages:,
+      sheet_basket_sizes: nil, basket_complements: nil, shop_products: nil,
+      include_shop_order_column: nil, show_basket_content: true)
       header(depot, page: page, total_pages: total_pages)
-      content(depot, members, baskets, basket_sizes, shop_orders)
-      depot_basket_content(depot, baskets, basket_sizes)
+      content(
+        depot,
+        members,
+        baskets,
+        sheet_basket_sizes || basket_sizes,
+        shop_orders,
+        basket_complements: basket_complements,
+        shop_products: shop_products,
+        include_shop_order_column: include_shop_order_column)
+      depot_basket_content(depot, baskets, basket_sizes) if show_basket_content
       footer
     end
 
@@ -539,9 +724,11 @@ module PDF
       end
     end
 
-    def content(depot, members, baskets, basket_sizes, shop_orders)
-      basket_complements = basket_complements_for(baskets, shop_orders)
-      shop_products = shop_products_for(shop_orders)
+    def content(depot, members, baskets, basket_sizes, shop_orders,
+      basket_complements: nil, shop_products: nil, include_shop_order_column: nil)
+      basket_complements ||= basket_complements_for(baskets, shop_orders)
+      shop_products ||= shop_products_for(shop_orders)
+      include_shop_order_column = shop_orders.any? if include_shop_order_column.nil?
 
       font_size 11
       move_down 2.cm
@@ -549,14 +736,20 @@ module PDF
       bs_size = basket_sizes.size
       bc_size = basket_complements.size
       sp_size = 0
-      sp_size += 1 if shop_orders.any?
+      sp_size += 1 if include_shop_order_column
       sp_size += shop_products.size
+      shop_header_offset = bs_size + bc_size + (include_shop_order_column ? 1 : 0)
 
-      page_border = 20
+      page_border = MEMBER_PAGE_BORDER
       width = bounds.width - 2 * page_border
-      number_width = 25
-      extra_width = 110
-      member_name_width = width - (bs_size + bc_size + sp_size) * number_width - extra_width
+      layout = sheet_column_widths(
+        width,
+        bs_size + bc_size + sp_size,
+        extra_width: EXTRA_WIDTH,
+        min_name_width: member_sheet_min_name_width(depot))
+      number_width = layout[:number_width]
+      extra_width = layout[:extra_width]
+      member_name_width = layout[:name_width]
       address_width = depot.delivery_sheets_mode == "home_delivery" ? (member_name_width / 2) : 0
       offset_x = 6
       offset_y = 12
@@ -589,7 +782,7 @@ module PDF
             width: 150
           header_index += 1
         end
-        if shop_orders.any?
+        if include_shop_order_column
           fill_color header_index.even? ? "666666" : "000000"
           text_box I18n.t("shop.title_orders", count: 1),
             rotate: 45,
@@ -604,7 +797,7 @@ module PDF
           fill_color header_index.even? ? "666666" : "000000"
           text_box product.name_with_single_variant,
             rotate: 45,
-            at: [ numbers_width_offset + (bs_size + bc_size + 1 + i) * number_width + offset_x, cursor + offset_y ],
+            at: [ numbers_width_offset + (shop_header_offset + i) * number_width + offset_x, cursor + offset_y ],
             valign: :center,
             overflow: :expand,
             size: 10,
@@ -647,7 +840,7 @@ module PDF
           align: :center
         }
       end
-      if shop_orders.any?
+      if include_shop_order_column
         total_line << {
           content: shop_orders.count.to_s,
           width: number_width,
@@ -746,7 +939,7 @@ module PDF
           content = display_quantity(quantity)
           line << counter_line(content, basket)
         end
-        if shop_orders.any?
+        if include_shop_order_column
           content =
             if basket&.absent?
               "–"

@@ -187,7 +187,7 @@ Si le tableau des produits ne tient pas sur la même page que le tableau des mem
 
 ### Produits d'épicerie {#shop-on-sheets}
 
-Un produit d'épicerie n'apparaît sur les fiches que si une variante est [liée à un complément](/handbook/shop#products) (colonne du complément) ou si "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" est activé (une seule variante). La place est limitée. Tous les produits d'épicerie n'ont pas leur place sur la fiche.
+Un produit d'épicerie n'apparaît sur les fiches que si une variante est [liée à un complément](/handbook/shop#products) (colonne du complément) ou si "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" est activé (une seule variante). La place est limitée; avec beaucoup de produits, les colonnes se resserrent ou continuent sur la page suivante. Pour une liste par membre, imprimez les bulletins de livraison depuis [les commandes d'épicerie](/shop_orders).
 
 ## Notifications de livraison {#delivery-notifications}
 

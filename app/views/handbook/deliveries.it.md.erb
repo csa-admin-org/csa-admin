@@ -187,7 +187,7 @@ Se la tabella dei prodotti non entra nella stessa pagina della tabella dei membr
 
 ### Prodotti bottega {#shop-on-sheets}
 
-Un prodotto bottega appare sui fogli solo se una variante è [collegata a un complemento](/handbook/shop#products) (colonna del complemento) o se "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" è attivo (una sola variante). Lo spazio è limitato. Non ogni prodotto bottega va sul foglio.
+Un prodotto bottega appare sui fogli solo se una variante è [collegata a un complemento](/handbook/shop#products) (colonna del complemento) o se "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" è attivo (una sola variante). Lo spazio è limitato; con molti prodotti le colonne si restringono o continuano alla pagina successiva. Per un elenco per socio, stampate le bolle di consegna dalla [pagina degli ordini bottega](/shop_orders).
 
 ## Notifiche di consegna {#delivery-notifications}
 

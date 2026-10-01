@@ -136,6 +136,42 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     assert_includes pdf_strings, "Bring back the bags!"
   end
 
+  test "renders when many shop products crowd the summary columns" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:monday_1)
+    delivery.update!(shop_open: true)
+
+    products = 25.times.map { |i|
+      Shop::Product.create!(
+        names: { en: "Sheet item #{i + 1}" },
+        display_in_delivery_sheets: true,
+        variants_attributes: {
+          "0" => { name: "1pc", price: 1 }
+        })
+    }
+    create_shop_order(
+      member: members(:anna),
+      delivery: delivery,
+      depot: depots(:bakery),
+      items_attributes: products.each_with_index.to_h { |product, i|
+        [
+          i.to_s,
+          {
+            product_id: product.id,
+            product_variant_id: product.variants.first.id,
+            quantity: 1
+          }
+        ]
+      })
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+
+    assert_includes pdf_strings, "Sheet item 1 (1pc)"
+    assert_includes pdf_strings, "Sheet item 13 (1pc)"
+    assert_includes pdf_strings, "Sheet item 25 (1pc)"
+    assert_includes pdf_strings, "Anna Doe"
+  end
+
   test "includes shop orders" do
     travel_to "2024-01-01"
     delivery = deliveries(:thursday_1)

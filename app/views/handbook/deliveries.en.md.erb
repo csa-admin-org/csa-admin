@@ -187,7 +187,7 @@ If the product table doesn't fit on the same page as the existing members table,
 
 ### Shop products {#shop-on-sheets}
 
-A shop product appears on the sheets only when a variant is [linked to a complement](/handbook/shop#products) (complement column) or when "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" is on (one variant). Space is limited. Not every shop product belongs on the sheet.
+A shop product appears on the sheets only when a variant is [linked to a complement](/handbook/shop#products) (complement column) or when "<%= Shop::Product.human_attribute_name(:display_in_delivery_sheets) %>" is on (one variant). Space is limited; when many products are shown, columns shrink or continue on the next page. For a per-member shop list, print the delivery notes from the [shop orders](/shop_orders) page.
 
 ## Delivery notifications {#delivery-notifications}
 
