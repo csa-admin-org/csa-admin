@@ -136,6 +136,37 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     assert_includes pdf_strings, "Bring back the bags!"
   end
 
+  test "summary table fits many shop product columns and a long depot name" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:thursday_1)
+    delivery.update!(shop_open: true)
+    depots(:bakery).update!(names: { en: "SupercalifragilisticexpialidociousBakery" })
+
+    items_attributes = 16.times.each_with_object({}) do |i, items|
+      product = Shop::Product.create!(
+        name: "Extra #{i}",
+        display_in_delivery_sheets: true,
+        variants_attributes: {
+          "0" => { name: "1pc", price: 1 }
+        })
+      items[i.to_s] = {
+        product_id: product.id,
+        product_variant_id: product.variants.first.id,
+        quantity: 1
+      }
+    end
+
+    create_shop_order(
+      member: members(:jane),
+      delivery: delivery,
+      depot: depots(:bakery),
+      items_attributes: items_attributes)
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+    assert_includes pdf_strings.join, "Supercalifragilistic"
+    assert_includes pdf_strings, "Extra 0 (1pc)"
+  end
+
   test "includes shop orders" do
     travel_to "2024-01-01"
     delivery = deliveries(:thursday_1)
