@@ -34,6 +34,24 @@ class Members::BiddingRound::PledgesTest < ApplicationSystemTestCase
     assert_text "Thank you for your pledge for the bidding round #1"
   end
 
+  test "renders information text lists outside a paragraph" do
+    bidding_rounds(:open_2024).update!(information_text: <<~HTML)
+      <div>You have 4 options:</div>
+      <ol>
+        <li>Leave the slider where it is.</li>
+        <li>Keep last year's price.</li>
+      </ol>
+    HTML
+
+    login(members(:jane))
+    visit "/bidding_round/pledge"
+
+    assert_selector ".pledge-intro.trix-content ol"
+    assert_selector ".pledge-intro li", count: 2
+    assert_no_selector "p.pledge-intro"
+    assert_no_selector "p .pledge-intro, p ol"
+  end
+
   test "shows the selected percentage and slider ticks" do
     login(members(:jane))
     visit "/bidding_round/pledge"
@@ -42,6 +60,22 @@ class Members::BiddingRound::PledgesTest < ApplicationSystemTestCase
     assert_selector ".pledge-tick.is-default"
     assert_selector ".pledge-tick:not(.is-default)"
     assert_no_selector "input.form-amount[max]"
+  end
+
+  test "accepts the displayed minimum when the percentage does not land on a cent" do
+    org(bidding_round_basket_size_price_min_percentage: 80)
+    basket_sizes(:large).update!(price: 31.151)
+
+    login(members(:jane))
+    visit "/bidding_round/pledge"
+
+    assert_selector "input.form-amount[min='24.92'][step='any'][value='31.15']"
+    assert_selector "input.pledge-range-input[min='24.92']"
+
+    fill_in "Price per basket", with: "24.92"
+    click_on "Submit"
+
+    assert_text "Your pledge has been submitted successfully!"
   end
 
   test "accepts a typed amount above the slider maximum" do

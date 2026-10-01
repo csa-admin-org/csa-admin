@@ -36,6 +36,22 @@ class BiddingRound::PledgeTest < ActiveSupport::TestCase
     assert pledge.valid?
   end
 
+  test "floors the minimum pledge to the cent" do
+    org(bidding_round_basket_size_price_min_percentage: 80)
+    basket_sizes(:large).update!(price: 31.151)
+    pledge = BiddingRound::Pledge.new(
+      bidding_round: bidding_rounds(:open_2024),
+      membership: memberships(:jane))
+
+    assert_equal BigDecimal("24.92"), pledge.min_allowed_price
+
+    pledge.basket_size_price = 24.92
+    assert pledge.valid?
+
+    pledge.basket_size_price = 24.91
+    assert_not pledge.valid?
+  end
+
   test "validates bidding round must be open" do
     pledge = BiddingRound::Pledge.new(
       bidding_round: bidding_rounds(:draft_2024),

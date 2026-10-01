@@ -1,7 +1,9 @@
 <h1><%= @bidding_round.title %></h1>
 
 <section>
-  <p class="pledge-intro"><%= @bidding_round.information_text %></p>
+  <div class="trix-content pledge-intro">
+    <%= @bidding_round.information_text %>
+  </div>
 
   <%= turbo_frame_tag "membership-pricing", type: "morph" do %>
     <% membership = @pledge.membership %>
@@ -69,6 +71,8 @@
       price_range_default_price_value: @pledge.default_price,
       price_range_snap_prices_value: @pledge.basket_size_price_snap_prices.to_json
     } do |f| %>
+    <% min_price = format("%.2f", @pledge.min_allowed_price) %>
+
     <div class="input pledge-input-label">
       <%= f.label :basket_size_price %>
     </div>
@@ -84,7 +88,7 @@
         <div class="pledge-range-track">
           <%= range_field_tag :basket_size_price_range,
             @pledge.basket_size_price.clamp(@pledge.min_allowed_price, @pledge.max_allowed_price),
-            min: @pledge.min_allowed_price,
+            min: min_price,
             max: @pledge.max_allowed_price,
             step: 0.01,
             class: "pledge-range-input",
@@ -132,13 +136,13 @@
         <span><%= currency_symbol %></span>
 
         <%= f.number_field :basket_size_price,
-          value: precise_cur(@pledge.basket_size_price),
-          min: @pledge.min_allowed_price,
-          step: 0.5,
+          value: format("%.2f", @pledge.basket_size_price),
+          min: min_price,
+          step: "any",
           class: "form-amount",
           required: true,
           data: {
-            action: "change->price-range#syncFromInput invalid->price-range#allowCentPrice",
+            action: "change->price-range#syncFromInput",
             price_range_target: "input"
           } %>
       </div>

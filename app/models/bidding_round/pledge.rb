@@ -40,9 +40,12 @@ class BiddingRound::Pledge < ApplicationRecord
   def min_allowed_price
     return 0 unless membership&.basket_size
 
-    default_price = membership.basket_size.price
-    min_percentage = Current.org.bidding_round_basket_size_price_min_percentage
-    default_price * (min_percentage / 100.0)
+    catalog = membership.basket_size.price
+    percentage = Current.org.bidding_round_basket_size_price_min_percentage
+    return 0 unless catalog && percentage
+
+    # The pledge is stored in cents. Floor so the displayed minimum is a valid amount.
+    (catalog.to_d * percentage.to_d / 100).floor(2)
   end
 
   def max_allowed_price

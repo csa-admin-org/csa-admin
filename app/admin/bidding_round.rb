@@ -92,7 +92,7 @@ ActiveAdmin.register BiddingRound do
               end
             end
             if bidding_round.open?
-              para t(".total_final_value_explanation"), class: "text-center is-italic text-sm is-muted"
+              para t(".total_final_value_explanation"), class: "pair-grid-note text-center is-italic text-sm is-muted"
             end
           end
         end

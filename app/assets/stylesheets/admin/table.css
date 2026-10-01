@@ -879,6 +879,10 @@
     margin: 1rem;
   }
 
+  .pair-grid-note {
+    margin: 0.25rem 1.5rem 1.25rem;
+  }
+
   .col-name {
     width: 40%;
   }

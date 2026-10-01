@@ -49,17 +49,6 @@ export default class extends Controller {
     this.queuePricingRefresh()
   }
 
-  allowCentPrice(event) {
-    let validity = this.inputTarget.validity
-    if (!validity.stepMismatch) return
-    if (validity.rangeUnderflow || validity.rangeOverflow || validity.valueMissing) return
-
-    event.preventDefault()
-    this.inputTarget.step = "any"
-    this.inputTarget.form.requestSubmit()
-    this.inputTarget.step = "0.5"
-  }
-
   syncFromInput() {
     let value = parseFloat(this.inputTarget.value) || 0
     let min = parseFloat(this.inputTarget.min)
