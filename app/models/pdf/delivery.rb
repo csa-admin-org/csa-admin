@@ -234,10 +234,8 @@ module PDF
       sp_size += 1 if @shop_orders.any?
       sp_size += shop_products.size
 
-      page_border = 65
-      width = bounds.width - 2 * page_border
-      number_width = 25
-      depot_name_width = width - (bs_size + bc_size + sp_size) * number_width
+      page_border, width, number_width, depot_name_width =
+        summary_table_geometry(bs_size + bc_size + sp_size)
       total_rotate = 45
       offset_x = 8
       offset_y = 12
@@ -371,7 +369,9 @@ module PDF
         cell_style: {
           border_width: 0,
           border_color: "FFFFFF",
-          inline_format: true
+          inline_format: true,
+          overflow: :shrink_to_fit,
+          min_font_size: 6
         }.merge(cell_style),
         position: :center) do |t|
         t.cells.borders = []
@@ -391,7 +391,7 @@ module PDF
         t.row(0).padding = [ 6, 2, 6, 2 ]
         t.row(0).background_color = "FFFFFF"
 
-        t.column(0).padding_right = 10
+        t.column(0).padding_right = depot_name_width < 120 ? 4 : 10
 
         t.cells.column_count.times do |i|
           if i%2 == 1
@@ -433,6 +433,24 @@ module PDF
           t.row(row_index + 1).border_top_color = "CCCCCC"
         end
       end
+    end
+
+    def summary_table_geometry(number_columns)
+      page_border = 65
+      number_width = 25
+      min_name_width = 80
+      width = bounds.width - 2 * page_border
+
+      if number_columns * number_width + min_name_width > width
+        page_border = 20
+        width = bounds.width - 2 * page_border
+      end
+
+      if number_columns.positive? && number_columns * number_width + min_name_width > width
+        number_width = (width - min_name_width).to_f / number_columns
+      end
+
+      [ page_border, width, number_width, width - number_columns * number_width ]
     end
 
     def summary_baskets_line(depot, title: nil, width:, basket_sizes:, basket_complements:, shop_products:)
