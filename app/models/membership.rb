@@ -223,6 +223,9 @@ class Membership < ApplicationRecord
 
   def refresh_after_baskets_update!
     save!(validate: false)
+    # save! is a no-op when no membership attributes changed (baskets were
+    # added/removed under no_touching). Always refresh the price cache.
+    update_price_and_invoices_amount!
   end
 
   def refresh_after_complements_change!
@@ -368,6 +371,7 @@ class Membership < ApplicationRecord
     member.update_trial_baskets!
     update_baskets_counts!
     member.review_active_state!
+    update_price_and_invoices_amount! unless destroyed?
   end
 
   def only_one_per_year
