@@ -19,6 +19,33 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
     @basket.reload
   end
 
+  test "index renders without looking up a basket for breadcrumbs" do
+    get baskets_path
+
+    assert_response :success
+    assert_select ".admin-breadcrumb-list a[href=?]", members_path, count: 0
+  end
+
+  test "edit breadcrumbs include member, membership, and basket delivery" do
+    basket = baskets(:jane_1)
+    membership = basket.membership
+    member = membership.member
+
+    get edit_basket_path(basket)
+
+    assert_response :success
+    assert_select ".admin-breadcrumb-list a[href=?]", members_path, text: Member.model_name.human(count: 2)
+    assert_select ".admin-breadcrumb-list a[href=?]", member_path(member), text: member.name
+    assert_select ".admin-breadcrumb-list a[href=?]",
+      memberships_path(q: { member_id_eq: member.id }, scope: :all),
+      text: Membership.model_name.human(count: 2)
+    assert_select ".admin-breadcrumb-list a[href=?]", membership_path(membership)
+    assert_select ".admin-breadcrumb-item .tabular-nums",
+      text: I18n.l(basket.delivery.date, format: :number)
+    assert_select ".admin-breadcrumb-item",
+      text: /#{Regexp.escape(Basket.model_name.human)}.*#{Regexp.escape(basket.delivery.display_number)}/
+  end
+
   test "edit shows billed extra formula when dynamic pricing is on" do
     org(
       features: [ :absence, :basket_price_extra ],

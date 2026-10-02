@@ -5,18 +5,20 @@ ActiveAdmin.register Basket do
   actions :index, :edit, :update
 
   breadcrumb do
-    links = [
-      link_to(Member.model_name.human(count: 2), members_path),
-      auto_link(resource.membership.member),
-      link_to(
-        Membership.model_name.human(count: 2),
-        memberships_path(q: { member_id_eq: resource.membership.member_id }, scope: :all)),
-      auto_link(resource.membership)
-    ]
-    if params["action"].in? %W[edit]
-      links << [ Basket.model_name.human, resource.delivery.display_name(format: :number) ].join(" ").html_safe
+    if params["action"] != "index"
+      links = [
+        link_to(Member.model_name.human(count: 2), members_path),
+        auto_link(resource.membership.member),
+        link_to(
+          Membership.model_name.human(count: 2),
+          memberships_path(q: { member_id_eq: resource.membership.member_id }, scope: :all)),
+        auto_link(resource.membership)
+      ]
+      if params["action"].in? %W[edit]
+        links << [ Basket.model_name.human, resource.delivery.display_name(format: :number) ].join(" ").html_safe
+      end
+      links
     end
-    links
   end
 
   filter :delivery, as: :select
