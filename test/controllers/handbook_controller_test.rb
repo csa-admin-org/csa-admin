@@ -28,6 +28,21 @@ class HandbookControllerTest < ActionDispatch::IntegrationTest
     assert_select "nav[aria-label='#{I18n.t("accessibility.active_admin.breadcrumb")}'] a", count: 0
   end
 
+  test "members handbook does not claim an XLSX export" do
+    admin = admins(:super)
+    login admin
+
+    I18n.available_locales.each do |locale|
+      admin.update!(language: locale.to_s)
+
+      get handbook_page_path(:members)
+
+      assert_response :success
+      assert_not_includes response.body, "XLSX"
+      assert_includes response.body, "CSV"
+    end
+  end
+
   test "price reductions handbook renders in every locale" do
     admin = admins(:super)
     login admin

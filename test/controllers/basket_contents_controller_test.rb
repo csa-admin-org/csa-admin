@@ -68,6 +68,47 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     }, delivery_dates
   end
 
+  test "csv of a cleared delivery filter is the whole fiscal year" do
+    product = basket_content_products(:carrots)
+    create_basket_content(product: product, delivery: deliveries(:monday_1))
+    create_basket_content(product: product, delivery: deliveries(:monday_2))
+    create_basket_content(product: product, delivery: deliveries(:monday_future_1))
+    year = deliveries(:monday_1).fy_year
+    hint = I18n.t("active_admin.resources.basket_content.csv_fiscal_year_hint",
+      delivery: Delivery.model_name.human)
+
+    get basket_contents_path(q: { delivery_id_eq: deliveries(:monday_1).id })
+
+    assert_response :success
+    assert_select ".download-hint", text: hint
+    assert_select ".paginated-collection-footer a[href*='.xlsx']", text: "XLSX"
+
+    get basket_contents_path(q: { during_year: year })
+
+    assert_response :success
+    assert_select ".download-hint", text: hint, count: 0
+    assert_select ".paginated-collection-footer a[href*='.xlsx']", count: 0
+    assert_select ".paginated-collection-footer a[href*='.csv']" do |links|
+      assert_not_includes links.first["href"], "delivery_id_eq"
+    end
+    assert_includes delivery_dates, I18n.l(deliveries(:monday_1).date, format: :number)
+    assert_includes delivery_dates, I18n.l(deliveries(:monday_2).date, format: :number)
+    assert_not_includes delivery_dates, I18n.l(deliveries(:monday_future_1).date, format: :number)
+
+    get basket_contents_path(q: { during_year: year }, format: :csv)
+
+    assert_response :success
+    assert_includes response.body, deliveries(:monday_1).date.to_s
+    assert_includes response.body, deliveries(:monday_2).date.to_s
+    assert_not_includes response.body, deliveries(:monday_future_1).date.to_s
+
+    get basket_contents_path(q: { delivery_id_eq: deliveries(:monday_1).id }, format: :csv)
+
+    assert_response :success
+    assert_includes response.body, deliveries(:monday_1).date.to_s
+    assert_not_includes response.body, deliveries(:monday_2).date.to_s
+  end
+
   test "index filters by producer" do
     product = basket_content_products(:carrots)
     product.update!(producer: producers(:farm))

@@ -3603,6 +3603,12 @@ _:
             _it: Aggiornare la password
             _nl: Wachtwoord bijwerken
       basket_content:
+        csv_fiscal_year_hint:
+          _en: Clear the "%{delivery}" filter to export the whole fiscal year.
+          _fr: Enlever le filtre "%{delivery}" pour exporter toute l'année fiscale.
+          _de: Filter "%{delivery}" leeren, um das ganze Geschäftsjahr zu exportieren.
+          _it: Svuotate il filtro "%{delivery}" per esportare l'intero anno fiscale.
+          _nl: Filter "%{delivery}" leegmaken om het hele boekjaar te exporteren.
         new_model:
           _en: New %{model}
           _fr: Nouveau %{model}

@@ -233,6 +233,7 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
 
     get members_path
     assert_response :success
+    assert_select ".paginated-collection-footer a[href*='.xlsx']", count: 0
 
     get members_path(scope: :waiting)
     assert_response :success
@@ -243,6 +244,7 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
 
     get members_path(format: :csv)
     assert_response :success
+    assert response.body.b.start_with?("\xEF\xBB\xBF".b)
   end
 
   test "show displays unsubscribed badge for ManualSuppression without reactivate" do

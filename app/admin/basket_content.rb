@@ -38,6 +38,8 @@ ActiveAdmin.register BasketContent do
   includes :depots, :delivery, :basketcontents_depots, product: :producer
 
   class BasketContentIndex < ActiveAdmin::Views::IndexAsTable
+    include IndexDownloadHint
+
     def build(_page_presenter, collection)
       if (delivery = helpers.index_delivery) && collection.with_unit_price.any?
         basket_content_prices = delivery.basket_content_prices
@@ -45,19 +47,29 @@ ActiveAdmin.register BasketContent do
           panel nil do
             render partial: "active_admin/basket_contents/prices", locals: { delivery: delivery, basket_content_prices: basket_content_prices, context: self }
           end
-          return div class: "table-wrapper" do
+          div class: "table-wrapper" do
             div class: "table-wrapper-content" do
               super
             end
           end
+          fiscal_year_csv_hint
+          return
         end
       end
       super
+      fiscal_year_csv_hint
+    end
+
+    def fiscal_year_csv_hint
+      return if helpers.request.query_parameters.dig(:q, :delivery_id_eq).blank?
+
+      index_download_hint(I18n.t("active_admin.resources.basket_content.csv_fiscal_year_hint",
+        delivery: Delivery.model_name.human))
     end
   end
 
   index as: BasketContentIndex, download_links: -> {
-    params.dig(:q, :delivery_id_eq).present? ? [ :csv, :xlsx ] : [ :csv ]
+    request.query_parameters.dig(:q, :delivery_id_eq).present? ? [ :csv, :xlsx ] : [ :csv ]
   }, title: -> {
     title = BasketContent.model_name.human(count: 2)
     if (delivery = index_delivery)
@@ -258,6 +270,7 @@ ActiveAdmin.register BasketContent do
 
   before_action only: :index do
     params[:q] ||= {}
+    # A request with no delivery stays that way: the index and the CSV are the fiscal year.
     if delivery_id = params.dig(:q, :delivery_id_eq)
       if delivery = Delivery.find_by(id: delivery_id)
         fy_year = params.dig(:q, :during_year)
@@ -267,8 +280,6 @@ ActiveAdmin.register BasketContent do
           params[:q][:during_year] = delivery.fy_year
         end
       end
-    elsif fy_year = params.dig(:q, :during_year)
-      params[:q][:delivery_id_eq] = BasketContent.closest_delivery(fy_year)&.id
     end
   end
 

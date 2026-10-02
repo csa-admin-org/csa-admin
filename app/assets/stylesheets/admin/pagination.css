@@ -103,6 +103,17 @@
     font-style: italic;
   }
 
+  .download-hint {
+    flex-basis: 100%;
+    margin: 0;
+    padding-inline: 0.5rem;
+    text-align: right;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: var(--color-gray-400);
+    font-style: italic;
+  }
+
   .pagination-page {
     display: flex;
     align-items: center;
