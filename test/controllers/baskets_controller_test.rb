@@ -136,6 +136,122 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
     assert_select "input#basket_quantity", count: 0
   end
 
+  test "membership show links prorated included absences and keeps shift off the row" do
+    @membership.update!(absences_included_annually: 5)
+    present = @membership.baskets.normal.billable.first
+
+    get membership_path(@membership)
+
+    assert_response :success
+    assert_select "a[data-table-row-action='shift']", count: 0
+    assert_select "a[href=?][data-table-row-action='edit']", edit_basket_path(present)
+    assert_select "a[href=?]", handbook_page_path("absence", anchor: "absence-included-logic"),
+      text: I18n.t("active_admin.resource.show.absences_prorated_from", count: 5)
+  end
+
+  test "edit form offers a shift for a billed present basket" do
+    present = @membership.baskets.normal.billable.first
+    target = @membership.baskets.normal.where.not(id: present.id).last
+
+    get edit_basket_path(present)
+
+    assert_response :success
+    assert_select "select#basket_shift_target_basket_id option[value='#{target.id}']"
+    assert_select "p.description",
+      text: I18n.t("active_admin.resource.form.basket_shift_one_step")
+  end
+
+  test "one-step shift creates the absence and moves a billed present basket" do
+    source = @membership.baskets.normal.billable.first
+    target = @membership.baskets.normal.where.not(id: source.id).last
+    source_quantity = source.quantity
+    target_quantity = target.quantity
+
+    assert_difference -> { Absence.count } => 1, -> { BasketShift.count } => 1 do
+      patch basket_path(source), params: {
+        basket: { shift_target_basket_id: target.id }
+      }
+    end
+
+    assert_redirected_to membership_path(@membership)
+    source.reload
+    target.reload
+    absence = source.absence
+
+    assert_equal source.delivery.date, absence.started_on
+    assert_equal source.delivery.date, absence.ended_on
+    assert_equal target, source.shift_as_source.target_basket
+    assert_equal 0, source.quantity
+    assert_equal target_quantity + source_quantity, target.quantity
+    assert_not target.absent?
+  end
+
+  test "one-step shift does not mark the target provisionally absent" do
+    @membership.update!(absences_included_annually: 3)
+    baskets = @membership.baskets.normal.billable.to_a
+    source = baskets.first
+    target = baskets.last
+
+    assert_not_equal source, target
+
+    patch basket_path(source), params: {
+      basket: { shift_target_basket_id: target.id }
+    }
+
+    assert_redirected_to membership_path(@membership)
+    assert_equal target, source.reload.shift_as_source.target_basket
+    assert_not target.reload.absent?
+  end
+
+  test "edit does not offer a shift for a basket that already received one" do
+    source = @membership.baskets.normal.billable.first
+    target = @membership.baskets.normal.where.not(id: source.id).last
+
+    patch basket_path(source), params: {
+      basket: { shift_target_basket_id: target.id }
+    }
+    assert_redirected_to membership_path(@membership)
+
+    get edit_basket_path(target)
+
+    assert_response :success
+    assert_select "select#basket_shift_target_basket_id", count: 0
+    assert_select ".panel-shift-body .cluster.is-nowrap > a.destructive-icon-action"
+    assert_select ".basket-shift",
+      text: /#{Regexp.escape(I18n.l(source.delivery.date, format: :short))}/
+  end
+
+  test "edit form hides the shift when the basket cannot be shifted" do
+    basket = @membership.baskets.normal.billable.first
+    basket.update_columns(quantity: 0)
+
+    get edit_basket_path(basket)
+
+    assert_response :success
+    assert_select "select#basket_shift_target_basket_id", count: 0
+  end
+
+  test "edit warns when an absent basket can still be billed" do
+    basket = baskets(:jane_5)
+
+    get edit_basket_path(basket)
+
+    assert_response :success
+    quantity = css_select("input#basket_quantity").first
+    assert quantity
+    assert_nil quantity["disabled"]
+    assert_select "[data-form-absent-quantity-message-value=?]",
+      I18n.t("active_admin.resource.form.absent_quantity_confirm")
+  end
+
+  test "edit does not warn when quantity is locked on a shift-only basket" do
+    get edit_basket_path(@basket)
+
+    assert_response :success
+    assert_select "input#basket_quantity", count: 0
+    assert_select "[data-controller='form-absent-quantity']", count: 0
+  end
+
   test "update only permits shift for included absent basket" do
     target = @membership.baskets.last
     source_quantity = @basket.quantity

@@ -27,7 +27,7 @@ Se un socio è assente ma vuole comunque pagare, non registrare un'assenza, o ti
 
 È possibile spostare la consegna di una <%= Basket.model_name.human.downcase %> durante un'assenza verso un'altra consegna. Questo permette ai soci di compensare le loro assenze senza cambiare il numero di <%= Basket.model_name.human(count: 2).downcase %> fatturate.
 
-Dal lato amministrativo, è sufficiente modificare una <%= Basket.model_name.human.downcase %> segnata come assente dalla pagina dell'abbonamento e scegliere un'altra data di consegna. Il contenuto della <%= Basket.model_name.human.downcase %> (complementi inclusi) sarà quindi automaticamente spostato verso la <%= Basket.model_name.human.downcase %> scelta.
+Dal lato amministrativo, modifica la <%= Basket.model_name.human.downcase %> dalla pagina dell'abbonamento e scegli un'altra consegna. Se non è già assente, questo crea l'assenza e poi sposta il contenuto. Il contenuto della <%= Basket.model_name.human.downcase %> (complementi inclusi) viene spostato verso la <%= Basket.model_name.human.downcase %> scelta.
 
 Dal lato del socio, lo spostamento di <%= Basket.model_name.human(count: 2).downcase %> non è possibile per impostazione predefinita. Per attivare questa funzionalità, hai la possibilità di [modificare le seguenti impostazioni](/settings#absence):
 

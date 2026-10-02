@@ -216,6 +216,7 @@
 
   .data-table :where(td) {
     padding: 1rem 0.75rem;
+    vertical-align: middle;
   }
 
   .data-table-resource-actions {
@@ -809,6 +810,12 @@
     align-items: center;
     justify-content: flex-end;
     gap: 0.5rem;
+
+    a:has(.status-tag) {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+    }
   }
 
   .table-more {

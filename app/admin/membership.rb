@@ -377,6 +377,7 @@ ActiveAdmin.register Membership do
     columns do
       column do
         next_basket = m.next_basket
+        m.member.absences.load if feature?("absence")
         overrides_by_delivery = BasketOverride.by_delivery_id(m.basket_overrides.includes(session: [ :member, :admin ]))
         panel Basket.model_name.human(count: 2), icon: "shopping-bag", count: m.baskets_count do
           table_for(m.baskets.preload(
@@ -393,14 +394,22 @@ ActiveAdmin.register Membership do
               classes = []
               classes << "row-next" if b == next_basket
               classes << "row-absent" if b.absent? || b.empty?
-              classes << "is-struck" if !b.billable? || b.empty?
               { class: classes.join(" "), data: { "hover-id": dom_id(b) } }
             },
             class: "table-auto"
           ) do
-            column(:delivery, class: "col-delivery") { |b| link_to b.delivery.display_name(format: :number), b.delivery }
-            column(:description) { |b| b.shifted? ? b.shift_as_source.description : b.description }
-            column(:depot)
+            column(:delivery, class: "col-delivery") { |b|
+              link_to b.delivery.display_name(format: :number), b.delivery,
+                class: ("is-struck" if basket_row_struck?(b))
+            }
+            column(:description) { |b|
+              content_tag(:span,
+                b.shifted? ? b.shift_as_source.description : b.description,
+                class: ("is-struck" if basket_row_struck?(b)))
+            }
+            column(:depot) { |b|
+              auto_link(b.depot, class: ("is-struck" if basket_row_struck?(b)))
+            }
             column do |b|
               div class: "row-actions" do
                 ic = "".html_safe
@@ -507,10 +516,7 @@ ActiveAdmin.register Membership do
             attributes_table do
               if m.absences_included_annually.positive?
                 row(:absences_included) {
-                  used = m.absences_included_used
-                  link_to absences_path(q: { member_id_eq: m.member_id, during_year: m.fy_year }, scope: :all) do
-                    t(".absences_used", count: used, limit: m.absences_included)
-                  end
+                  absences_included_usage(m)
                 }
                 row(:absences_included_reminder_sent_at) { l m.absences_included_reminder_sent_at, format: :medium if m.absences_included_reminder_sent_at }
               end

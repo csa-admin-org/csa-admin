@@ -51,12 +51,15 @@ ActiveAdmin.register Basket do
         cancel_link membership_path(f.object.membership)
       end
     else
-      if f.object.can_be_shifted?
+      if f.object.can_be_admin_shifted?
         panel t(".basket_shift_title"), class: "basket-shift is-shift", action: handbook_icon_link("absence", anchor: "basket-shift") do
           div class: "panel-shift-body" do
-            para t(".basket_shift_explanation"), class: "description"
+            para basket_shift_panel_text(f.object), class: "description"
             ol do
-              f.input :shift_target_basket_id, as: :select, collection: basket_shift_targets_collection(f.object), include_blank: true
+              f.input :shift_target_basket_id,
+                as: :select,
+                collection: basket_shift_form_collection(f.object),
+                include_blank: true
             end
           end
         end
@@ -73,20 +76,18 @@ ActiveAdmin.register Basket do
               shifts = f.object.shifts_as_target.includes(:source_delivery)
               shifts.sort_by { |s| s.source_delivery.date }.each do |shift|
                 li do
-                  div class: "cluster" do
+                  div class: "cluster is-nowrap" do
                     span t(".basket_shift_target_description",
                         source_date: l(shift.source_delivery.date, format: :short),
                         description: shift.description)
-                    span do
-                      link_to basket_shift_path(shift),
-                        method: :delete,
-                        class: "btn btn-sm destructive-icon-action",
-                        title: t(".destroy"),
-                        aria: { label: t(".destroy") },
-                        data: { confirm: t("active_admin.delete_confirmation") } do
-                          icon "trash", class: "icon-4"
-                        end
-                    end
+                    text_node link_to(basket_shift_path(shift),
+                      method: :delete,
+                      class: "btn btn-sm destructive-icon-action",
+                      title: t(".destroy"),
+                      aria: { label: t(".destroy") },
+                      data: { confirm: t("active_admin.delete_confirmation") }) {
+                        icon "trash", class: "icon-4"
+                      }
                   end
                 end
               end
@@ -170,7 +171,7 @@ ActiveAdmin.register Basket do
               f.input :price_extra, required: true, label: Current.org.basket_price_extra_title
             end
           end
-          f.input :quantity
+          f.input :quantity, wrapper_html: basket_absent_quantity_wrapper(f.object)
           if BasketComplement.kept.any?
             f.has_many :baskets_basket_complements, allow_destroy: true, data: { controller: "form-reset" } do |ff|
               ff.input :basket_complement,
@@ -238,6 +239,7 @@ ActiveAdmin.register Basket do
     end
 
     def update
+      ensure_shift_absence!
       params[:basket]&.slice!(:shift_target_basket_id) if resource.can_only_be_shifted?
       update! do |success, failure|
         success.html { redirect_to resource.membership }
@@ -253,6 +255,18 @@ ActiveAdmin.register Basket do
     end
 
     private
+
+    def ensure_shift_absence!
+      target_id = params.dig(:basket, :shift_target_basket_id)
+      return if target_id.blank? || target_id == "declined"
+      return if resource.absence_id?
+      return unless resource.can_be_admin_shifted?
+
+      target = resource.membership.baskets.find_by(id: target_id)
+      return unless target && resource.admin_shift_target?(target)
+
+      resource.ensure_definite_absence!(admin: current_admin)
+    end
 
     def build_csv_exporter
       if params[:q][:delivery_id_eq].present?

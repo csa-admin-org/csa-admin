@@ -101,6 +101,9 @@ ActiveAdmin.register Absence do
           attributes_table do
             row :id
             row :member
+            if creator = absence.created_by
+              row(:created_by) { absence_creator(creator) }
+            end
             row(:email_session) { absence.session&.email }
             row(:started_on) { l absence.started_on, format: :long }
             row(:ended_on) { l absence.ended_on, format: :long }
@@ -143,6 +146,7 @@ ActiveAdmin.register Absence do
     absence.started_on ||= Date.current.next_week
     absence.ended_on ||= Date.current.next_week.end_of_week
     absence.member_id ||= smart_referer(:member_id)
+    absence.session ||= Current.session
     absence.admin = current_admin
   end
 

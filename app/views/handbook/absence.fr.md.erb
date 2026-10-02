@@ -27,7 +27,7 @@ Si un membre est absent mais veut quand même payer, n'enregistrez pas d'absence
 
 Il est possible de déplacer la livraison d'un <%= Basket.model_name.human.downcase %> durant une absence vers une autre livraison. Cela permet aux membres de compenser leurs absences sans changer le nombre de <%= Basket.model_name.human(count: 2).downcase %> facturés.
 
-Côté admin, il suffit de modifier un <%= Basket.model_name.human.downcase %> marqué comme absent depuis la page de l'abonnement et de choisir une autre date de livraison. Le contenu du <%= Basket.model_name.human.downcase %> (compléments inclus) sera alors automatiquement déplacé vers le <%= Basket.model_name.human.downcase %> choisi.
+Côté admin, modifiez le <%= Basket.model_name.human.downcase %> depuis la page de l'abonnement et choisissez une autre livraison. Si elle n'est pas déjà absente, cela crée l'absence, puis déplace le contenu. Le contenu du <%= Basket.model_name.human.downcase %> (compléments inclus) est déplacé vers le <%= Basket.model_name.human.downcase %> choisi.
 
 Côté membre, le déplacement de <%= Basket.model_name.human(count: 2).downcase %> n'est pas possible par défaut. Pour activer cette fonctionnalité, vous avez la possibilité de [modifier les paramètres](/settings#absence) suivants:
 

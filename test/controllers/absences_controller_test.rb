@@ -121,6 +121,47 @@ class AbsencesControllerTest < ActionDispatch::IntegrationTest
     assert_equal Date.new(2024, 6, 10), absence.reload.started_on
   end
 
+  test "show links the member who created the absence" do
+    travel_to "2024-06-01"
+    absence = create_absence(member: members(:jane), started_on: "2024-06-10", ended_on: "2024-06-12")
+    absence.update!(session: sessions(:john))
+
+    get absence_path(absence)
+
+    assert_response :success
+    assert_select "th", text: Absence.human_attribute_name(:created_by)
+    assert_select "a[href='#{member_path(members(:john))}']"
+  end
+
+  test "show links the admin when the absence came from an admin session" do
+    travel_to "2024-06-01"
+    absence = create_absence(started_on: "2024-06-10", ended_on: "2024-06-12")
+    absence.update!(session: sessions(:ultra))
+
+    get absence_path(absence)
+
+    assert_response :success
+    assert_select "a[href='#{edit_admin_path(admins(:ultra))}']", text: admins(:ultra).name
+  end
+
+  test "admin create records the admin session" do
+    travel_to "2024-06-01"
+
+    assert_difference "Absence.count", 1 do
+      post absences_path, params: {
+        absence: {
+          member_id: members(:john).id,
+          started_on: "2024-06-10",
+          ended_on: "2024-06-12"
+        }
+      }
+    end
+
+    absence = Absence.order(:id).last
+    assert_redirected_to absence_path(absence)
+    assert_equal admins(:super), absence.session.admin
+  end
+
   private
 
   def login(admin)

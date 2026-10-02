@@ -1264,6 +1264,12 @@ _:
           _de: Endgültige Anzahl enthaltener Abwesenheiten, nach Anwendung der Berechnungslogik.
           _it: Numero finale di assenze incluse, dopo l'applicazione della logica di calcolo.
           _nl: Uiteindelijk aantal inbegrepen afwezigheden, na toepassing van de berekeningslogica.
+        absent_quantity_confirm:
+          _en: This delivery is absent and the quantity is greater than 0. It will still be billed. Save anyway?
+          _fr: Cette livraison est absente et la quantité est supérieure à 0. Elle sera quand même facturée. Enregistrer quand même?
+          _de: Diese Lieferung ist abwesend und die Menge ist grösser als 0. Sie wird trotzdem berechnet. Trotzdem speichern?
+          _it: Questa consegna è assente e la quantità è maggiore di 0. Sarà comunque fatturata. Salvare comunque?
+          _nl: Deze levering is afwezig en het aantal is groter dan 0. Deze wordt toch gefactureerd. Toch opslaan?
         activity_participations_demanded_annually:
           _en: Demanded count (full year)
           _fr: Nombre demandé (année complète)
@@ -1384,6 +1390,12 @@ _:
           _de: Keine Verschiebung
           _it: Nessun spostamento
           _nl: Geen verplaatsing
+        basket_shift_one_step:
+          _en: An absence will be created for this delivery if one does not already exist, then its content will be shifted to the chosen delivery.
+          _fr: Une absence sera créée pour cette livraison si elle n'existe pas déjà, puis le contenu de ce panier sera déplacé vers la livraison choisie.
+          _de: Eine Abwesenheit wird für diese Lieferung angelegt, wenn sie noch nicht existiert, und der Inhalt wird dann auf die gewählte Lieferung verschoben.
+          _it: Verrà creata un'assenza per questa consegna se non esiste già, poi il contenuto sarà spostato verso la consegna scelta.
+          _nl: Er wordt een afwezigheid voor deze levering aangemaakt als die nog niet bestaat, en de inhoud wordt daarna naar de gekozen levering verschoven.
         basket_shift_target_description:
           _en: 'Delivery on %{source_date}: %{description}'
           _fr: 'Livraison du %{source_date}: %{description}'
@@ -2110,6 +2122,12 @@ _:
           _it: Quote sociali della cooperativa
           _nl: Aandelen
       show:
+        absences_prorated_from:
+          _en: "(prorated from %{count})"
+          _fr: "(prorata de %{count})"
+          _de: "(anteilig von %{count})"
+          _it: "(in proporzione da %{count})"
+          _nl: "(naar rato van %{count})"
         absences_used:
           one:
             _en: "%{count} of %{limit} used"

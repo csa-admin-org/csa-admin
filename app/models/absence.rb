@@ -50,6 +50,10 @@ class Absence < ApplicationRecord
     super + %i[including_date during_year]
   end
 
+  def created_by
+    session&.admin || session&.member
+  end
+
   def note_reply_args
     {
       to: session&.email,
@@ -59,6 +63,15 @@ class Absence < ApplicationRecord
   end
 
   private
+
+  # A one-day absence is a single delivery. Other date ranges still require
+  # started_on < ended_on.
+  def valid_date_range
+    return unless started_on && ended_on && started_on > ended_on
+
+    errors.add(:started_on, :before_end)
+    errors.add(:ended_on, :after_start)
+  end
 
   def within_current_fiscal_year
     return if started_on.blank? || ended_on.blank?

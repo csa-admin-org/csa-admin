@@ -27,7 +27,7 @@ If a member is away but still wants to pay, do not mark an absence, or keep bill
 
 It is possible to shift the delivery of a <%= Basket.model_name.human.downcase %> during an absence to another delivery. This allows members to compensate for their absences without changing the number of <%= Basket.model_name.human(count: 2).downcase %> billed.
 
-On the admin side, simply modify a <%= Basket.model_name.human.downcase %> marked as absent from the membership page and choose another delivery date. The <%= Basket.model_name.human.downcase %> content (including complements) will then be automatically shifted to the chosen <%= Basket.model_name.human.downcase %>.
+On the admin side, edit the <%= Basket.model_name.human.downcase %> from the membership page and choose another delivery. If it is not already absent, that creates the absence, then shifts the content. The <%= Basket.model_name.human.downcase %> content (including complements) is shifted to the chosen <%= Basket.model_name.human.downcase %>.
 
 On the member side, <%= Basket.model_name.human.downcase %> shifting is not possible by default. To activate this feature, you have the option to [modify the following settings](/settings#absence):
 

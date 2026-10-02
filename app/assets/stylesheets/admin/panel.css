@@ -296,6 +296,25 @@
   .panel-shift-body {
     padding-inline: 0.5rem;
     margin-bottom: 0.5rem;
+
+    > .disc-list {
+      margin-top: 1.5rem;
+    }
+
+    > .disc-list > li {
+      min-width: 0;
+    }
+
+    > .disc-list > li > .cluster > span {
+      min-width: 0;
+    }
+
+    > .disc-list > li > .cluster > .btn {
+      flex: none;
+      height: 1.5rem;
+      margin-block: 0;
+      padding-block: 0;
+    }
   }
 
   .aligned-status {

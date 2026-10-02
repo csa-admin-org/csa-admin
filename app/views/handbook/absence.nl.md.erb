@@ -27,7 +27,7 @@ Als een lid weg is maar toch wil betalen, markeer geen afwezigheid, of houd fact
 
 Je kunt de levering van een <%= Basket.model_name.human.downcase %> tijdens een afwezigheid naar een andere levering verschuiven. Zo kunnen leden hun afwezigheden compenseren zonder het aantal gefactureerde <%= Basket.model_name.human(count: 2).downcase %> te wijzigen.
 
-Als beheerder hoef je alleen een als afwezig gemarkeerde <%= Basket.model_name.human.downcase %> op de lidmaatschapspagina aan te passen en een andere leveringsdatum te kiezen. De inhoud van de <%= Basket.model_name.human.downcase %>, inclusief aanvullingen, wordt dan automatisch naar de gekozen <%= Basket.model_name.human.downcase %> verschoven.
+Als beheerder bewerk je de <%= Basket.model_name.human.downcase %> op de lidmaatschapspagina en kies je een andere levering. Als die nog niet afwezig is, wordt de afwezigheid aangemaakt en de inhoud verschoven. De inhoud van de <%= Basket.model_name.human.downcase %>, inclusief aanvullingen, wordt naar de gekozen <%= Basket.model_name.human.downcase %> verschoven.
 
 Voor leden is het verschuiven van <%= Basket.model_name.human(count: 2).downcase %> standaard niet mogelijk. Om deze functie te activeren, kun je [de volgende instellingen wijzigen](/settings#absence):
 

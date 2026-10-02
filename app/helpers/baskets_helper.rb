@@ -1,6 +1,37 @@
 # frozen_string_literal: true
 
 module BasketsHelper
+  def absences_included_usage(membership)
+    used = membership.absences_included_used
+    absences = link_to absences_path(
+      q: { member_id_eq: membership.member_id, during_year: membership.fy_year },
+      scope: :all) do
+      t("active_admin.resource.show.absences_used",
+        count: used,
+        limit: membership.absences_included)
+    end
+    prorated = link_to handbook_page_path("absence", anchor: "absence-included-logic") do
+      t("active_admin.resource.show.absences_prorated_from",
+        count: membership.absences_included_annually)
+    end
+    safe_join([ absences, " ", prorated ])
+  end
+
+  def basket_absent_quantity_wrapper(basket)
+    return {} unless basket.absent? && !basket.can_only_be_shifted?
+
+    {
+      data: {
+        controller: "form-absent-quantity",
+        form_absent_quantity_message_value: t("active_admin.resource.form.absent_quantity_confirm")
+      }
+    }
+  end
+
+  def basket_row_struck?(basket)
+    !basket.billable? || basket.empty?
+  end
+
   def display_basket_state(basket)
     if basket.trial?
       content_tag(:span, t("active_admin.status_tag.trial"), class: "status-tag", data: { status: "trial" })
@@ -37,6 +68,40 @@ module BasketsHelper
           price: catalog_price_placeholder(complement.price)
         } ]
     end
+  end
+
+  def basket_shift_form_collection(basket)
+    if basket.absence_id?
+      basket_shift_targets_collection(basket)
+    else
+      basket_admin_shift_targets_collection(basket)
+    end
+  end
+
+  def basket_shift_panel_text(basket)
+    key = basket.absence_id? ? "basket_shift_explanation" : "basket_shift_one_step"
+    t("active_admin.resource.form.#{key}")
+  end
+
+  def basket_admin_shift_targets_collection(source)
+    following = basket_admin_shift_targets_for(source, (source.delivery.date + 1.day)..)
+    previous = basket_admin_shift_targets_for(source, ...source.delivery.date)
+    [
+      [ t("active_admin.resource.form.following_deliveries"), following ],
+      [ t("active_admin.resource.form.previous_deliveries"), previous ]
+    ]
+  end
+
+  def basket_admin_shift_targets_for(source, range)
+    source.membership.baskets.includes(:delivery, :baskets_basket_complements).filter_map { |target|
+      next unless target.delivery.date.in?(range)
+
+      [
+        target.delivery.display_name,
+        target.id,
+        disabled: !source.admin_shift_target?(target)
+      ]
+    }
   end
 
   def basket_shift_targets_collection(source)

@@ -27,6 +27,8 @@ class BasketShift < ApplicationRecord
   after_commit -> { MailTemplate.deliver(:absence_baskets_shifted, absence: absence) }, on: :create
 
   def self.shiftable?(source, target)
+    return false if target.received_shift?
+
     shift = new(
       absence: source.absence,
       membership: source.membership,

@@ -27,7 +27,7 @@ Will ein Mitglied weg sein, aber trotzdem zahlen, markiere keine Abwesenheit, od
 
 Es ist möglich, die Lieferung einer <%= Basket.model_name.human %> während einer Abwesenheit auf eine andere Lieferung zu verschieben. Dies ermöglicht es den Mitgliedern, ihre Abwesenheiten zu kompensieren, ohne die Anzahl der in Rechnung gestellten <%= Basket.model_name.human(count: 2) %> zu ändern.
 
-Auf der Admin-Seite reicht es aus, eine als abwesend markierte <%= Basket.model_name.human %> von der Abonnementseite aus zu bearbeiten und ein anderes Lieferdatum zu wählen. Der Inhalt der <%= Basket.model_name.human %> (einschliesslich Ergänzungen) wird dann automatisch auf die gewählte <%= Basket.model_name.human %> verschoben.
+Bearbeite die <%= Basket.model_name.human %> auf der Abonnementseite und wähle eine andere Lieferung. Wenn sie nicht bereits abwesend ist, wird die Abwesenheit angelegt und der Inhalt verschoben. Der Inhalt der <%= Basket.model_name.human %> (einschliesslich Ergänzungen) wird auf die gewählte <%= Basket.model_name.human %> verschoben.
 
 Auf der Mitgliederseite ist die Verschiebung von <%= Basket.model_name.human(count: 2) %> standardmässig nicht möglich. Um diese Funktion zu aktivieren, hast Du die Möglichkeit, [die folgenden Einstellungen zu ändern](/settings#absence):
 

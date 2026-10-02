@@ -31,6 +31,20 @@ class Basket::ShiftingTest < ActiveSupport::TestCase
     assert basket.can_be_shifted?
   end
 
+  test "can_be_admin_shifted? is true for a billed present basket and false when empty" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 0, absences_billed: true, features: [ :absence ])
+    basket = memberships(:john).baskets.normal.first
+
+    assert basket.billable?
+    assert_not basket.absent?
+    assert basket.can_be_admin_shifted?
+
+    basket.update_columns(quantity: 0)
+    assert_equal :empty, basket.admin_shift_block_reason
+    assert_not basket.can_be_admin_shifted?
+  end
+
   test "can_be_shifted? returns false for non-absent basket" do
     basket = baskets(:jane_6)
 
