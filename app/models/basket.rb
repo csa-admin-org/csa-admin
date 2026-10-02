@@ -52,6 +52,10 @@ class Basket < ApplicationRecord
   }
   scope :countable, -> { billable.filled.distinct }
 
+  def self.ransackable_scopes(_auth_object = nil)
+    super + %i[during_year]
+  end
+
   validates :basket_size_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :price_extra, numericality: true, presence: true
   validates :delivery_cycle_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
