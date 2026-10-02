@@ -155,7 +155,10 @@ class Member < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[ sepa_eq with_email with_phone with_waiting_depots_eq with_member_card]
+    super + %i[
+      sepa_eq with_email with_phone with_waiting_depots_eq with_member_card
+      balance_amount_eq balance_amount_gt balance_amount_lt
+    ]
   end
 
   def update_trial_baskets!

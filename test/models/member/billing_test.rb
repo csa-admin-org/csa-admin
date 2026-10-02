@@ -168,6 +168,35 @@ class Member::BillingTest < ActiveSupport::TestCase
     assert_equal expected, member.balance_amount
   end
 
+  test "balance_amount filters compare payments minus open invoices" do
+    member = members(:john)
+    invoice = member.invoices.first || create_other_invoice(member: member, amount: 10)
+    member.invoices.update_all(state: "canceled")
+    member.payments.update_all(ignored_at: Time.current)
+
+    assert_not_includes Member.balance_amount_gt(0), member
+    assert_includes Member.balance_amount_eq(0), member
+
+    payment = create_payment(member: member, amount: 10, origin: "camt.054")
+    assert_includes Member.balance_amount_gt(0), member
+    assert_includes Member.balance_amount_eq(10), member
+
+    payment.update_columns(ignored_at: Time.current)
+    assert_not_includes Member.balance_amount_gt(0), member
+
+    payment.update_columns(ignored_at: nil)
+    invoice.update_columns(state: "open", amount: 10)
+    assert_not_includes Member.balance_amount_gt(0), member
+    assert_includes Member.balance_amount_eq(0), member
+
+    invoice.update_columns(amount: 9)
+    assert_includes Member.balance_amount_gt(0), member
+    assert_includes Member.balance_amount_lt(2), member
+
+    invoice.update_columns(state: "canceled")
+    assert_includes Member.balance_amount_eq(10), member
+  end
+
   test "credit_amount returns positive balance or zero" do
     member = members(:martha)
 

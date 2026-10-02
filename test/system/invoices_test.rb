@@ -38,6 +38,37 @@ class InvoicesTest < ApplicationSystemTestCase
     assert_cancel_confirm invoice, "Are you sure? Canceling an invoice cannot be undone."
   end
 
+  test "invoice show explains nightly matching next to the reference" do
+    enable_invoice_pdf
+    invoice = create_other_invoice(amount: 10)
+
+    login admins(:ultra)
+    visit invoice_path(invoice)
+
+    assert_text invoice.reference.formatted
+    assert_text "Payments are imported nightly. Only transfers with this reference are matched."
+    assert_no_text "Radis payments are imported nightly."
+  end
+
+  test "invoice show uses the Radis matching note when the invoice is in Radis" do
+    enable_invoice_pdf
+    Current.org.update!(
+      features: Current.org.features | [ :local_currency ],
+      local_currency_code: "RAD",
+      local_currency_identifier: "1",
+      local_currency_wallet: "abc",
+      local_currency_secret: "secret")
+    invoice = create_other_invoice(amount: 10)
+    invoice.update_columns(currency_code: "RAD")
+
+    login admins(:ultra)
+    visit invoice_path(invoice)
+
+    assert_text invoice.reference.formatted
+    assert_text "Radis payments are imported nightly. Only transfers with this reference are matched."
+    assert_no_text "Payments are imported nightly."
+  end
+
   test "other invoice cancel confirm stays generic and has no membership callout" do
     enable_invoice_pdf
     travel_to "2024-06-01"
@@ -98,6 +129,7 @@ class InvoicesTest < ApplicationSystemTestCase
 
     assert_selector "a[href='#{sepa_pain_invoice_path(invoice)}']", text: "SEPA Direct Debit (XML)"
     assert_no_text "Send order to the bank"
+    assert_no_text "Only transfers with this reference are matched."
 
     visit invoices_path(scope: "open")
     sepa_pain_all_path = sepa_pain_all_invoices_path(scope: "open")

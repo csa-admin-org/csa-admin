@@ -2764,6 +2764,18 @@ _:
             _de: "%{count} stornierte"
             _it: "%{count} annullati"
             _nl: "%{count} geannuleerd"
+        payment_matching:
+          _en: Payments are imported nightly. Only transfers with this reference are matched.
+          _fr: Les paiements sont importés chaque nuit. Seuls les virements avec cette référence sont rapprochés.
+          _de: Zahlungen werden jede Nacht importiert. Nur Überweisungen mit dieser Referenz werden zugeordnet.
+          _it: I pagamenti sono importati ogni notte. Solo i bonifici con questo riferimento vengono abbinati.
+          _nl: Betalingen worden elke nacht geïmporteerd. Alleen overschrijvingen met deze referentie worden gekoppeld.
+        payment_matching_radis:
+          _en: Radis payments are imported nightly. Only transfers with this reference are matched.
+          _fr: Les paiements Radis sont importés chaque nuit. Seuls les virements avec cette référence sont rapprochés.
+          _de: Radis-Zahlungen werden jede Nacht importiert. Nur Überweisungen mit dieser Referenz werden zugeordnet.
+          _it: I pagamenti Radis sono importati ogni notte. Solo i bonifici con questo riferimento vengono abbinati.
+          _nl: Radis-betalingen worden elke nacht geïmporteerd. Alleen overschrijvingen met deze referentie worden gekoppeld.
         pledges_count:
           _en: Pledges
           _fr: Engagements
@@ -2776,6 +2788,12 @@ _:
           _de: Partizipation
           _it: Partecipazione
           _nl: Deelname
+        positive_balance_hint_html:
+          _en: It is applied to the <a href="%{payments_url}">next invoice</a>.<br>To refund, create a <a href="%{refund_url}">negative payment</a>.
+          _fr: Elle sera appliquée à la <a href="%{payments_url}">prochaine facture</a>.<br>Pour rembourser, créez un <a href="%{refund_url}">paiement négatif</a>.
+          _de: Wird mit der <a href="%{payments_url}">nächsten Rechnung</a> verrechnet.<br>Zum Erstatten eine <a href="%{refund_url}">negative Zahlung</a> anlegen.
+          _it: Viene applicato alla <a href="%{payments_url}">prossima fattura</a>.<br>Per rimborsare, create un <a href="%{refund_url}">pagamento negativo</a>.
+          _nl: Wordt verrekend met de <a href="%{payments_url}">volgende factuur</a>.<br>Voor terugbetaling een <a href="%{refund_url}">negatieve betaling</a> aanmaken.
         preview:
           _en: Preview
           _fr: Prévisualisation

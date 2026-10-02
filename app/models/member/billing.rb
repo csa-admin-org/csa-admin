@@ -7,6 +7,30 @@ module Member::Billing
     validates :billing_name, :billing_street, :billing_city, :billing_zip,
       presence: true, if: :different_billing_info
     validate :billing_truemail
+
+    scope :balance_amount_eq, ->(amount) { balance_amount_compare("=", amount) }
+    scope :balance_amount_gt, ->(amount) { balance_amount_compare(">", amount) }
+    scope :balance_amount_lt, ->(amount) { balance_amount_compare("<", amount) }
+  end
+
+  class_methods do
+    def balance_amount_compare(operator, amount)
+      raise ArgumentError, "unsupported operator" unless operator.in?(%w[= > <])
+
+      # Payment's default date order is invalid inside this grouped subquery.
+      payment_totals = Payment.not_ignored.unscope(:order)
+        .group(:member_id)
+        .select("member_id, SUM(amount) AS total")
+      invoice_totals = Invoice.not_canceled
+        .group(:member_id)
+        .select("member_id, SUM(amount) AS total")
+
+      joins("LEFT JOIN (#{payment_totals.to_sql}) payment_totals ON payment_totals.member_id = members.id")
+        .joins("LEFT JOIN (#{invoice_totals.to_sql}) invoice_totals ON invoice_totals.member_id = members.id")
+        .where(
+          "COALESCE(payment_totals.total, 0) - COALESCE(invoice_totals.total, 0) #{operator} ?",
+          amount.to_f)
+    end
   end
 
   def first_billable_delivery

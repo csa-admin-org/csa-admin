@@ -183,6 +183,51 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_select "td a[href='#{member_path(member)}']", count: 0
   end
 
+  test "index filters members by balance amount" do
+    login admins(:super)
+    member = members(:john)
+    other = members(:jane)
+    member.invoices.update_all(state: "canceled")
+    other.invoices.update_all(state: "canceled")
+    member.payments.update_all(ignored_at: Time.current)
+    other.payments.update_all(ignored_at: Time.current)
+    create_payment(member: member, amount: 25, origin: "camt.054")
+
+    get members_path(scope: :all)
+
+    assert_response :success
+    assert_select "option[value=balance_amount_gt]"
+    assert_select "option[value=balance_amount_lt]"
+    assert_select "option[value=balance_amount_eq]"
+    assert_select "label", text: "Balance amount"
+
+    get members_path(scope: :all, q: { balance_amount_gt: 0 })
+
+    assert_response :success
+    assert_select "td a[href='#{member_path(member)}']"
+    assert_select "td a[href='#{member_path(other)}']", count: 0
+  end
+
+  test "show explains a positive balance and hides the hint at zero" do
+    login admins(:super)
+    member = members(:john)
+    member.invoices.update_all(state: "canceled")
+    member.payments.update_all(ignored_at: Time.current)
+    create_payment(member: member, amount: 15, origin: "camt.054")
+
+    get member_path(member)
+
+    assert_response :success
+    assert_select "a[href=?]", handbook_page_path("billing", anchor: "payments"), text: "next invoice"
+    assert_select "a[href=?]", handbook_page_path("billing", anchor: "refund"), text: "negative payment"
+
+    member.payments.update_all(ignored_at: Time.current)
+    get member_path(member)
+
+    assert_response :success
+    assert_select "a[href=?]", handbook_page_path("billing", anchor: "refund"), text: "negative payment", count: 0
+  end
+
   test "index renders membership scopes, shop mode, and CSV" do
     login admins(:super)
 

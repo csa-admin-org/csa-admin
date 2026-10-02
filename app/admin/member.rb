@@ -54,6 +54,7 @@ ActiveAdmin.register Member do
     collection: -> { PriceReductionCard.order_by_name.map { |card| [ card.name, card.id ] } },
     if: proc { feature?("price_reductions") && PriceReductionCard.any? }
   filter :sepa, as: :boolean, if: proc { Current.org.sepa_configured? }
+  filter :balance_amount, as: :numeric
 
   index do
     column :id
@@ -588,6 +589,13 @@ ActiveAdmin.register Member do
               else
                 span class: "font-bold" do
                   cur member.balance_amount
+                end
+              end
+              if member.balance_amount.positive?
+                div class: "text-sm is-faint" do
+                  t("active_admin.resource.show.positive_balance_hint_html",
+                    payments_url: handbook_page_path("billing", anchor: "payments"),
+                    refund_url: handbook_page_path("billing", anchor: "refund"))
                 end
               end
             }

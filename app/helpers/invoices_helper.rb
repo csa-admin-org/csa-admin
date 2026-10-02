@@ -68,6 +68,23 @@ module InvoicesHelper
     I18n.t("invoices.entity_type.#{type.underscore}")
   end
 
+  def invoice_payment_matching_note(invoice)
+    return if invoice.sepa?
+
+    key = invoice_paid_in_radis?(invoice) ? "payment_matching_radis" : "payment_matching"
+    tag.div(class: "panel-copy") do
+      safe_join([
+        tag.pre(class: "panel-reference") { tag.code(invoice.reference.formatted) },
+        tag.p(t("active_admin.resource.show.#{key}"), class: "hint text-sm")
+      ])
+    end
+  end
+
+  def invoice_paid_in_radis?(invoice)
+    Current.org.feature?("local_currency") &&
+      invoice.currency_code == LocalCurrency::Radis::CODE
+  end
+
   def link_to_invoice_pdf(invoice, title: "PDF", **options, &block)
     return unless invoice
     return if invoice.processing?

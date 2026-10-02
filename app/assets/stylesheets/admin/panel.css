@@ -274,6 +274,24 @@
     padding: 0.5rem;
   }
 
+  .panel-reference {
+    width: fit-content;
+    margin: 0.75rem auto 0.25rem;
+    border-radius: 0.25rem;
+    background-color: var(--color-neutral-100);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+
+    &:where(.dark, .dark *) {
+      background-color: var(--color-neutral-800);
+    }
+
+    code {
+      font-variant-numeric: tabular-nums;
+    }
+  }
+
   .panel-copy {
     margin-inline: 0.5rem;
     margin-bottom: 0.5rem;

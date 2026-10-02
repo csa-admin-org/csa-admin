@@ -226,11 +226,13 @@ ActiveAdmin.register Invoice do
             end
           end
         end
+        payment_matching_note = invoice_payment_matching_note(invoice)
         if invoice.processing? || !invoice.pdf_current?
           panel "PDF", icon: "eye", data: { controller: "auto-refresh" } do
             div class: "panel-inset" do
               render "invoice_preview", invoice: invoice
             end
+            text_node payment_matching_note if payment_matching_note
           end
         else
           panel "PDF", icon: "eye", action: icon_file_link(:pdf, pdf_invoice_path(invoice), target: "_blank") do
@@ -239,6 +241,7 @@ ActiveAdmin.register Invoice do
                 render "invoice_preview", invoice: invoice
               end
             end
+            text_node payment_matching_note if payment_matching_note
           end
         end
       end
