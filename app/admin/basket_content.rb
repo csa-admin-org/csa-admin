@@ -31,10 +31,11 @@ ActiveAdmin.register BasketContent do
     as: :select,
     collection: -> { grouped_by_date(Delivery, past: :first) }
   filter :product, as: :select, collection: -> { basket_content_products_collection }
+  filter :producer, as: :select, collection: -> { Producer.kept }
   filter :basket_size, as: :select, collection: -> { BasketSize.ordered.paid }
   filter :depots, as: :select, collection: -> { admin_depots_collection }
 
-  includes :depots, :delivery, :product, :basketcontents_depots
+  includes :depots, :delivery, :basketcontents_depots, product: :producer
 
   class BasketContentIndex < ActiveAdmin::Views::IndexAsTable
     def build(_page_presenter, collection)
@@ -116,6 +117,7 @@ ActiveAdmin.register BasketContent do
     column(:month) { |bc| t("date.month_names")[bc.delivery.date.month] }
     column(:wday) { |bc| t("date.day_names")[bc.delivery.date.wday] }
     column(:product) { |bc| bc.product.name }
+    column(:producer) { |bc| bc.product.producer&.name }
     column(:unit) { |bc| t("units.#{bc.unit}.flex") }
     column(:unit_price) { |bc| cur(bc.unit_price) }
     column(:quantity) { |bc| bc.quantity }

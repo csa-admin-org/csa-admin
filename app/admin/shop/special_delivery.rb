@@ -230,7 +230,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
       respond_to do |format|
         format.html
         format.xlsx do
-          producer = Shop::Producer.find(params[:producer_id]) if params[:producer_id].present?
+          producer = Producer.find(params[:producer_id]) if params[:producer_id].present?
           xlsx = XLSX::Shop::OrderItem.new(resource.shop_orders.all_without_cart, producer)
           send_data xlsx.data,
             content_type: xlsx.content_type,

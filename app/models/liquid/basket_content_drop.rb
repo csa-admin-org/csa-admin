@@ -18,6 +18,10 @@ class Liquid::BasketContentDrop < Liquid::Drop
     @basket_content.product.name
   end
 
+  def producer
+    @basket_content.product.producer&.name
+  end
+
   def product_url
     @basket_content.product.url
   end

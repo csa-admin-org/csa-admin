@@ -40,7 +40,7 @@ class Members::Shop::BaseController < Members::BaseController
         .map(&:producer)
         .compact
         .uniq
-        .sort_by(&:name) - [ Shop::NullProducer.instance ]
+        .sort_by(&:name) - [ NullProducer.instance ]
   end
   helper_method :available_producers
 

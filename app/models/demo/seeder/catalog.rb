@@ -157,7 +157,7 @@ module Demo::Seeder::Catalog
     return unless Current.org.feature?("shop")
 
     @shop_producers = Demo::Seeder::SHOP_PRODUCERS.map do |producer_data|
-      ::Shop::Producer.create!(
+      ::Producer.create!(
         name: Demo::Seeder::TRANSLATIONS.dig(producer_data[:key], @org_language),
         website_url: producer_data[:website_url])
     end

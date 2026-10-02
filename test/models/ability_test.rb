@@ -175,12 +175,33 @@ class AbilityTest < ActiveSupport::TestCase
     assert ability.can?(:create, Shop::Product)
     assert ability.can?(:update, Shop::Product)
     assert ability.can?(:batch_action, Shop::Product)
-    assert ability.can?(:create, Shop::Producer)
-    assert ability.can?(:update, Shop::Producer)
+    assert ability.can?(:create, Producer)
+    assert ability.can?(:update, Producer)
+    assert_not ability.can?(:create, BasketContent::Product)
     assert ability.can?(:create, Shop::Tag)
     assert ability.can?(:update, Shop::Tag)
     assert ability.can?(:invoice, Shop::Order)
     assert ability.can?(:cancel, Shop::Order)
+  end
+
+  test "basket content write can manage producers without shop" do
+    org(features: [ :basket_content ])
+    admin = admins(:external)
+    admin.permission.update!(rights: { basket_content: :write })
+    ability = Ability.new(admin)
+
+    assert ability.can?(:read, Producer)
+    assert ability.can?(:create, Producer)
+    assert ability.can?(:update, Producer)
+    assert_not ability.can?(:read, Shop::Product)
+  end
+
+  test "producer is hidden when shop and basket content are off" do
+    org(features: [])
+    ability = Ability.new(admins(:external))
+
+    assert_not ability.can?(:read, Producer)
+    assert_not ability.can?(:create, Producer)
   end
 
   test "discarded resources cannot be managed" do

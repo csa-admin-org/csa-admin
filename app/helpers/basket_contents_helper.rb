@@ -268,7 +268,7 @@ module BasketContentsHelper
   FEATURED_PRODUCT_LIMIT = 8
 
   def basket_content_products_collection(featured: false)
-    products = BasketContent::Product.includes(:sibling).ordered
+    products = BasketContent::Product.includes(:sibling, :producer).ordered
     options = products.map { |product| basket_content_product_option(product) }
     return options unless featured
 
@@ -283,7 +283,14 @@ module BasketContentsHelper
         href: product.url
       }
     end
-    [ product.name_with_unit, product.id, { data: data } ]
+    [ basket_content_product_label(product), product.id, { data: data } ]
+  end
+
+  private def basket_content_product_label(product)
+    name = product.name_with_unit
+    return name unless product.producer
+
+    [ product.producer.name, name ].join(ShopHelper::VARIANT_LABEL_SEPARATOR)
   end
 
   private def recent_basket_content_product_ids

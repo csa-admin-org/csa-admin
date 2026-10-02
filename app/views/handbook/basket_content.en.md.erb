@@ -6,6 +6,10 @@ This feature provides a tool to calculate the content and value of <%= Basket.mo
 
 Before configuring <%= BasketContent.model_name.human.downcase %>, you need to set up your [products](/basket_content_products). Each product has a name, a unit (kg or pieces), a unit price, and optionally a URL linking to the producer's website.
 
+A product can also be linked to [a producer](/producers). The list is shared with the shop, under Other, so the same producer is not entered twice. Producer is optional. On the product index you can filter by producer, and the delivery form searches products by product name or producer name.
+
+The delivery export (CSV and XLSX) includes a producer column next to the product name. When a delivery mixes products from several sources, filter that column in the spreadsheet to keep one producer's lines.
+
 Products are reusable across deliveries — once created, they can be selected when adding content to any delivery. The price and quantities from the last use are automatically saved and pre-filled when adding the product to a new delivery.
 
 ## Configuring <%= BasketContent.model_name.human %> {#configuring-basket-contents}
@@ -81,6 +85,7 @@ The current visibility status for each delivery is shown in the sidebar of [the 
 Each <%= BasketContent.model_name.human.downcase %> in the loop provides the following attributes:
 
 - `content.product`: The product name
+- `content.producer`: The producer name (if set)
 - `content.quantity`: The formatted quantity (e.g. "250g", "3pc")
 - `content.unit`: The raw unit ("kg" or "pc")
 - `content.price`: The formatted price for this product (if a unit price is set)

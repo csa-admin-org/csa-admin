@@ -65,7 +65,7 @@ module XLSX
           order_items.map { |i| i.order.depot&.name })
         unless producer
           add_column(
-            ::Shop::Producer.model_name.human,
+            ::Producer.model_name.human,
             order_items.map { |i| i.product.producer.name })
         end
         add_column(

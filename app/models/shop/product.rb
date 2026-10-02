@@ -14,7 +14,7 @@ module Shop
     translated_attributes :name, required: true
     translated_rich_texts :description
 
-    belongs_to :producer, class_name: "Shop::Producer", optional: true
+    belongs_to :producer, optional: true
     has_many :variants,
       -> { kept },
       class_name: "Shop::ProductVariant"
@@ -141,7 +141,7 @@ module Shop
     end
 
     def producer
-      super || NullProducer.instance
+      super || ::NullProducer.instance
     end
 
     def producer_name

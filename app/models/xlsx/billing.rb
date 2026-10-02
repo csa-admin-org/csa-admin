@@ -170,7 +170,7 @@ module XLSX
       add_headers(
         ::Shop::Product.model_name.human(count: 1),
         ::Shop::ProductVariant.model_name.human(count: 1),
-        ::Shop::Producer.model_name.human(count: 1),
+        ::Producer.model_name.human(count: 1),
         ::Shop::Tag.model_name.human(count: 2),
         ::Shop::OrderItem.human_attribute_name(:quantity),
         Invoice.human_attribute_name(:total))

@@ -68,6 +68,45 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     }, delivery_dates
   end
 
+  test "index filters by producer" do
+    product = basket_content_products(:carrots)
+    product.update!(producer: producers(:farm))
+    create_basket_content(product: product)
+    create_basket_content(product: basket_content_products(:cucumbers))
+
+    get basket_contents_path(q: { producer_id_eq: producers(:farm).id })
+
+    assert_response :success
+    assert_select "tbody tr", count: 1
+    assert_select "td", text: product.name
+  end
+
+  test "product index filters by producer" do
+    product = basket_content_products(:carrots)
+    product.update!(producer: producers(:farm))
+
+    get basket_content_products_path(q: { producer_id_eq: producers(:farm).id })
+
+    assert_response :success
+    assert_select "tbody tr#basket_content_product_#{product.id}"
+    assert_select "tbody tr", count: 1
+  end
+
+  test "new form labels a product with its producer" do
+    product = basket_content_products(:carrots)
+    product.update!(producer: producers(:farm))
+
+    get new_basket_content_path
+
+    assert_response :success
+    select = css_select("select[name='basket_content[product_id]']").first
+    option = css_select(select, "option[value='#{product.id}']").first
+    assert_equal "Farm > Carrots", option.text
+    assert_nil option["data-search"]
+    assert_equal I18n.t("active_admin.searchable_select.basket_content_products_placeholder"),
+      select["data-searchable-select-placeholder-value"]
+  end
+
   test "product index does not use its collection delivery association for ordering" do
     product = basket_content_products(:carrots)
     create_basket_content(product: product, delivery: deliveries(:monday_1))

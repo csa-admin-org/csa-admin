@@ -7,6 +7,7 @@ class BasketContent < ApplicationRecord
 
   belongs_to :delivery
   belongs_to :product, class_name: "BasketContent::Product"
+  has_one :producer, through: :product
   has_and_belongs_to_many :depots
 
   scope :basket_size_eq, ->(id) {

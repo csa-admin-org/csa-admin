@@ -23,6 +23,7 @@ context.instance_eval do
           data: {
             "distribution-source" => "product",
             action: "change->basket-content-form#changed form-hint-url#change",
+            searchable_select_placeholder_value: t("active_admin.searchable_select.basket_content_products_placeholder"),
             searchable_select_empty_value: t("active_admin.searchable_select.products_no_results")
           }
         ),

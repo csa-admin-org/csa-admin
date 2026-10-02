@@ -49,7 +49,7 @@
     <% end %>
 
     <% if params[:producer_id].present? %>
-      <% producer = Shop::Producer.find(params[:producer_id]) %>
+      <% producer = Producer.find(params[:producer_id]) %>
       <% if producer.description? || producer.website_url? %>
         <div class="shop-producer-card">
           <% if producer.description? %>

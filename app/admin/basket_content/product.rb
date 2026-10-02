@@ -20,19 +20,21 @@ class BasketContent
       label: -> { BasketContent::Product.human_attribute_name(:name) },
       as: :string
     filter :unit, collection: -> { units_collection }, as: :select
+    filter :producer, as: :select, collection: -> { Producer.kept }
     filter :default_price
 
-    includes :basket_contents, latest_basket_content: :delivery
+    includes :producer, :basket_contents, latest_basket_content: :delivery
     index do
       column :name, ->(p) {
         display_with_external_url(p.name, p.url)
       }, sortable: true
+      column(:producer) { |p| p.producer&.name }
       column(:unit) { |p| I18n.t("units.#{p.unit}.long") }
       column(:default_price, class: "text-right") { |p|
         if p.default_price.present?
-          span class: "cluster" do
-            span cur(p.default_price, unit: false), class: "tabular-nums"
-            span "/#{t("units.#{p.unit}.short")}", class: "bc-unit"
+          span class: "cluster is-end is-baseline is-snug tabular-nums" do
+            span cur(p.default_price, unit: false)
+            span "/#{t("units.#{p.unit}.short")}", class: "text-sm is-muted"
           end
         end
       }
@@ -48,6 +50,10 @@ class BasketContent
       end
     end
 
+    action_item :producers, only: :index do
+      action_link Producer.model_name.human(count: 2), producers_path, icon: "user-round-group"
+    end
+
     sidebar :info, only: :index do
       side_panel t(".info"), action: handbook_icon_link("basket_content", anchor: "products") do
         para t(".product_info")
@@ -57,6 +63,7 @@ class BasketContent
     csv do
       column(:id)
       column(:name)
+      column(:producer) { |p| p.producer&.name }
       column(:url)
       column(:latest_delivery) { |p|
         p.latest_basket_content&.delivery&.date
@@ -76,6 +83,7 @@ class BasketContent
     form do |f|
       f.inputs t(".details"), icon: "notebook-text" do
         translated_input(f, :names)
+        f.input :producer, collection: Producer.kept
         f.input :url, hint: t("formtastic.hints.basket_content/product.url")
       end
       f.inputs t(".settings"), icon: "sliders-horizontal",
@@ -112,7 +120,7 @@ class BasketContent
       f.actions
     end
 
-    permit_params(:url, :unit, :default_price, *I18n.available_locales.map { |l| "name_#{l}" })
+    permit_params(:url, :unit, :default_price, :producer_id, *I18n.available_locales.map { |l| "name_#{l}" })
 
     controller do
       include TranslatedCSVFilename

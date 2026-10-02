@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_24_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -255,6 +255,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_24_120000) do
     t.string "unit", null: false
     t.decimal "default_price", precision: 8, scale: 2
     t.json "default_basket_quantities", default: {}, null: false
+    t.integer "producer_id"
+    t.index ["producer_id"], name: "index_basket_content_products_on_producer_id"
   end
 
   create_table "basket_contents", force: :cascade do |t|
@@ -1063,6 +1065,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_24_120000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "producers", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "website_url"
+    t.datetime "discarded_at"
+    t.index ["discarded_at"], name: "index_producers_on_discarded_at"
+  end
+
   create_table "sepa_mandates", force: :cascade do |t|
     t.integer "member_id", null: false
     t.integer "session_id"
@@ -1131,13 +1140,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_24_120000) do
     t.index ["member_id", "delivery_type", "delivery_id"], name: "index_shop_orders_on_member_and_delivery", unique: true
     t.index ["order_group_id"], name: "index_shop_orders_on_order_group_id"
     t.index ["state"], name: "index_shop_orders_on_state"
-  end
-
-  create_table "shop_producers", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "website_url"
-    t.datetime "discarded_at"
-    t.index ["discarded_at"], name: "index_shop_producers_on_discarded_at"
   end
 
   create_table "shop_product_variants", force: :cascade do |t|
@@ -1243,6 +1245,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_24_120000) do
   add_foreign_key "activity_participations", "members"
   add_foreign_key "admins", "permissions"
   add_foreign_key "bank_connection_finalization_notifications", "bank_connections", on_delete: :cascade
+  add_foreign_key "basket_content_products", "producers"
   add_foreign_key "basket_contents", "basket_content_products", column: "product_id"
   add_foreign_key "basket_contents", "deliveries"
   add_foreign_key "basket_contents_depots", "basket_contents"
@@ -1293,7 +1296,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_24_120000) do
   add_foreign_key "shop_orders", "shop_order_groups", column: "order_group_id"
   add_foreign_key "shop_product_variants", "basket_complements"
   add_foreign_key "shop_product_variants", "shop_products", column: "product_id"
-  add_foreign_key "shop_products", "shop_producers", column: "producer_id"
+  add_foreign_key "shop_products", "producers"
   add_foreign_key "shop_products_special_deliveries", "shop_products", column: "product_id"
   add_foreign_key "shop_products_special_deliveries", "shop_special_deliveries", column: "special_delivery_id"
   add_foreign_key "shop_products_tags", "shop_products", column: "product_id"

@@ -5373,6 +5373,19 @@ _:
           _de: Berechtigungen
           _it: Permessi
           _nl: Toestemmingen
+      producer:
+        one:
+          _en: Producer
+          _fr: Producteur
+          _de: Produzent
+          _it: Produttore
+          _nl: Producent
+        other:
+          _en: Producers
+          _fr: Producteurs
+          _de: Produzenten
+          _it: Produttori
+          _nl: Producenten
       session:
         one:
           _en: Session
@@ -5438,19 +5451,6 @@ _:
           _de: Produkte
           _it: Prodotti
           _nl: Producten
-      shop/producer:
-        one:
-          _en: Producer
-          _fr: Producteur
-          _de: Produzent
-          _it: Produttore
-          _nl: Producent
-        other:
-          _en: Producers
-          _fr: Producteurs
-          _de: Produzenten
-          _it: Produttori
-          _nl: Producenten
       shop/product:
         one:
           _en: Product

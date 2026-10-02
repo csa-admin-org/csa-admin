@@ -57,6 +57,26 @@ class BasketContentsHelperTest < ActionView::TestCase
     assert_equal "Carrots", name
   end
 
+  test "products collection prefixes the producer when one is set" do
+    product = basket_content_products(:carrots)
+    product.update!(producer: producers(:farm))
+
+    name, _, html = basket_content_products_collection.find { |(_, id, _)| id == product.id }
+
+    assert_equal "Farm > Carrots", name
+    assert_nil html.dig(:data, :search)
+  end
+
+  test "products collection prefixes the producer and keeps the unit when a sibling exists" do
+    product = basket_content_products(:carrots)
+    product.update!(producer: producers(:farm))
+    BasketContent::Product.create!(names: product[:names], unit: "pc")
+
+    name, _, _ = basket_content_products_collection.find { |(_, id, _)| id == product.id }
+
+    assert_equal "Farm > Carrots (#{I18n.t('units.kg.short')})", name
+  end
+
   test "products collection shows name with unit when sibling exists" do
     product = basket_content_products(:carrots)
     BasketContent::Product.create!(names: product[:names], unit: "pc")

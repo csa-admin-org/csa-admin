@@ -112,7 +112,7 @@ module Demo::Seeder::Cleanup
     connection.execute("DELETE FROM shop_products_special_deliveries")
     ::Shop::ProductVariant.delete_all
     ::Shop::Product.delete_all
-    ::Shop::Producer.delete_all
+    ::Producer.delete_all
     ::Shop::Tag.delete_all
     ::Shop::SpecialDelivery.delete_all
     MailTemplate.delete_all

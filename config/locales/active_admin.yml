@@ -4648,6 +4648,12 @@ _:
         _de: Alle
         _it: Tutti
         _nl: Alle
+      basket_content_products_placeholder:
+        _en: Product or producer
+        _fr: Produit ou producteur
+        _de: Produkt oder Produzent
+        _it: Prodotto o produttore
+        _nl: Product of producent
       clear:
         _en: Clear
         _fr: Effacer
@@ -5340,6 +5346,12 @@ _:
           _de: Berechtigungen ermöglichen es, spezifische Zugriffsrechte für die Admins zu definieren. Jedes Berechtigungsprofil steuert, welche Bereiche (Mitglieder, Rechnungsstellung, Lieferungen usw.) ein Admin lesen oder bearbeiten kann.
           _it: I permessi permettono di definire diritti di accesso specifici per i vostri admin. Ogni profilo di permesso controlla quali sezioni (soci, fatturazione, consegne, ecc.) un admin può consultare o modificare.
           _nl: Machtigingen maken het mogelijk specifieke toegangsrechten te definiëren voor de beheerders. Elk machtigingsprofiel bepaalt welke secties (leden, facturering, leveringen, enz.) een beheerder kan lezen of bewerken.
+        producer_info:
+          _en: Producers group shop products and basket content products by origin. Assign one to a product, then filter by producer or split a mixed delivery export by producer.
+          _fr: Les producteurs regroupent les produits de l'épicerie et du contenu des paniers par origine. Associez-en un à un produit, puis filtrez par producteur ou séparez un export de livraison mixte par producteur.
+          _de: Produzenten gruppieren Produkte aus dem Hofladen und dem Korbinhalt nach Herkunft. Einen Produzenten einem Produkt zuordnen, dann nach Produzent filtern oder einen gemischten Lieferungsexport nach Produzent aufteilen.
+          _it: I produttori raggruppano i prodotti della bottega e del contenuto ceste per origine. Associatene uno a un prodotto, poi filtrate per produttore o separate un'esportazione di consegna mista per produttore.
+          _nl: Producenten groeperen producten uit de winkel en de mandinhoud per herkomst. Koppel er een aan een product, filter daarna op producent of splits een gemengde leveringsexport op producent.
         product_info/bag:
           _en: Products represent the items that can go into bags. Once created, they can be reused across deliveries when configuring bag contents.
           _fr: Les produits représentent les articles qui peuvent être mis dans les sacs. Une fois créés, ils peuvent être réutilisés pour chaque livraison lors de la configuration du contenu des sacs.

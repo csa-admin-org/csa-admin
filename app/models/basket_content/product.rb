@@ -8,6 +8,7 @@ class BasketContent
 
     translated_attributes :name, required: true
 
+    belongs_to :producer, optional: true
     has_many :basket_contents
     has_many :deliveries, through: :basket_contents
 

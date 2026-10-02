@@ -2,14 +2,14 @@
 
 require "test_helper"
 
-class Shop::ProducerTest < ActiveSupport::TestCase
+class ProducerTest < ActiveSupport::TestCase
   test "find null producer" do
-    producer = Shop::Producer.find("null")
-    assert_equal Shop::NullProducer.instance, producer
+    producer = Producer.find("null")
+    assert_equal NullProducer.instance, producer
   end
 
   test "can discard / delete" do
-    producer = shop_producers(:farm)
+    producer = producers(:farm)
     product = shop_products(:bread)
 
     product.update!(producer: nil)
@@ -34,5 +34,21 @@ class Shop::ProducerTest < ActiveSupport::TestCase
       producer.destroy
     end
     assert producer.discarded?
+  end
+
+  test "basket content product blocks delete and discard" do
+    producer = producers(:farm)
+    shop_products(:bread).update!(producer: nil)
+    basket_content_products(:carrots).update!(producer: producer)
+    producer.reload
+
+    assert_not producer.can_delete?
+    assert_not producer.can_discard?
+
+    shop_products(:bread).update!(producer: producer)
+    shop_products(:bread).discard
+    producer.reload
+
+    assert_not producer.can_discard?
   end
 end

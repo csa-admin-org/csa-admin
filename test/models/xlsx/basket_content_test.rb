@@ -38,4 +38,27 @@ class XLSX::BasketContentTest < ActiveSupport::TestCase
     assert_equal 0, summary_rows.second[summary_medium_count_column]
     assert_nil farm_rows.second[farm_medium_count_column]
   end
+
+  test "exports producer next to the product name" do
+    delivery = deliveries(:monday_1)
+    product = basket_content_products(:carrots)
+    product.update!(producer: producers(:farm))
+    create_basket_content(
+      delivery: delivery,
+      product: product,
+      basket_size_ids_quantities: { small_id => 100 },
+      depots: Depot.all,
+      unit: "pc")
+
+    rows = rows_for(workbook_for(delivery).worksheets.first)
+    producer_column = rows.first.index(Producer.model_name.human)
+
+    assert producer_column
+    assert_equal "Farm", rows.second[producer_column]
+
+    product.update!(producer: nil)
+    blank_rows = rows_for(workbook_for(delivery).worksheets.first)
+
+    assert_nil blank_rows.second[producer_column]
+  end
 end

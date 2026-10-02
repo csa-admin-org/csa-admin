@@ -54,25 +54,26 @@ The panel icon for a concept **must** match the nav icon when one exists.
 
 #### Resource / Model Icons
 
-| Concept            | Icon Name         | Nav | Notes                                 |
-| ------------------ | ----------------- | :-: | ------------------------------------- |
-| Member             | `users`           |  ✓  | Plural for collections                |
-| Membership         | `calendar-range`  |  ✓  |                                       |
-| Delivery           | `calendar`        |     |                                       |
-| Basket             | `shopping-bag`    |  ✓  | Paniers nav (basket_content.rb)       |
-| Shop / Shop Orders | `shopping-basket` |  ✓  | Shop nav (active_admin.rb)            |
-| Activity           | `handshake`       |  ✓  | Nav uses same icon                    |
-| Invoice / Billing  | `banknotes`       |  ✓  | ⚠️ Custom Heroicon (no Lucide plural) |
-| Payment            | `banknotes`       |  ✓  | Same as above                         |
-| Absence            | `tent`            |     |                                       |
-| Temporary address  | `clock-fading`    |     | Overlay row; CTA uses `map-pin-house` |
-| Email / Mails      | `mails`           |  ✓  | Plural; nav uses `mail`               |
-| Newsletter         | `megaphone`       |     |                                       |
-| Mail Template      | `clipboard`       |     |                                       |
-| Announcement       | `megaphone`       |     | Same as newsletter                    |
-| Bidding Round      | `scale`           |     |                                       |
-| Shares             | `receipt-text`    |     |                                       |
-| Basket Content     | `sprout`          |     |                                       |
+| Concept            | Icon Name          | Nav | Notes                                 |
+| ------------------ | ------------------ | :-: | ------------------------------------- |
+| Member             | `users`            |  ✓  | Plural for collections                |
+| Producer           | `user-round-group` |     | Shared shop and basket content source |
+| Membership         | `calendar-range`   |  ✓  |                                       |
+| Delivery           | `calendar`         |     |                                       |
+| Basket             | `shopping-bag`     |  ✓  | Paniers nav (basket_content.rb)       |
+| Shop / Shop Orders | `shopping-basket`  |  ✓  | Shop nav (active_admin.rb)            |
+| Activity           | `handshake`        |  ✓  | Nav uses same icon                    |
+| Invoice / Billing  | `banknotes`        |  ✓  | ⚠️ Custom Heroicon (no Lucide plural) |
+| Payment            | `banknotes`        |  ✓  | Same as above                         |
+| Absence            | `tent`             |     |                                       |
+| Temporary address  | `clock-fading`     |     | Overlay row; CTA uses `map-pin-house` |
+| Email / Mails      | `mails`            |  ✓  | Plural; nav uses `mail`               |
+| Newsletter         | `megaphone`        |     |                                       |
+| Mail Template      | `clipboard`        |     |                                       |
+| Announcement       | `megaphone`        |     | Same as newsletter                    |
+| Bidding Round      | `scale`            |     |                                       |
+| Shares             | `receipt-text`     |     |                                       |
+| Basket Content     | `sprout`           |     |                                       |
 
 #### Non-Model / Generic Panel Icons
 

@@ -111,7 +111,7 @@ class Shop::ProductTest < ActiveSupport::TestCase
   test "null producer" do
     product = shop_products(:bread)
     product.update(producer: nil)
-    assert_equal Shop::NullProducer.instance, product.producer
+    assert_equal NullProducer.instance, product.producer
   end
 
   test "#display_in_delivery_sheets" do

@@ -27,7 +27,7 @@ ActiveAdmin.register Shop::Product do
     label: -> { Shop::Product.human_attribute_name(:name) },
     as: :string
   filter :tags, as: :select, collection: -> { Shop::Tag.kept }
-  filter :producer, as: :select, collection: -> { Shop::Producer.kept }
+  filter :producer, as: :select, collection: -> { Producer.kept }
   filter :depot, as: :select, collection: -> { admin_depots_collection }
   filter :delivery, as: :select, collection: -> { Delivery.coming.shop_open }
   filter :variant_name_cont,
@@ -52,6 +52,10 @@ ActiveAdmin.register Shop::Product do
 
   action_item :tags, only: :index do
     action_link Shop::Tag.model_name.human(count: 2), shop_tags_path, icon: "tag"
+  end
+
+  action_item :producers, only: :index do
+    action_link Producer.model_name.human(count: 2), producers_path, icon: "user-round-group"
   end
 
   csv do
@@ -82,7 +86,7 @@ ActiveAdmin.register Shop::Product do
         as: :check_boxes,
         collection: Shop::Tag.kept.order_by_name,
         toggle_all: false
-      f.input :producer, collection: Shop::Producer.kept
+      f.input :producer, collection: Producer.kept
       f.input :display_in_delivery_sheets,
         as: :boolean,
         input_html: { disabled: f.object.linked_to_basket_complement? },

@@ -11,7 +11,7 @@ module XLSX
         @delivery
           .basket_contents
           .joins(:product)
-          .includes(:depots, :basketcontents_depots)
+          .includes(:depots, :basketcontents_depots, product: :producer)
           .merge(::BasketContent::Product.order_by_name)
 
       build_summary_worksheet
@@ -131,6 +131,9 @@ module XLSX
       add_column(
         ::BasketContent::Product.model_name.human(count: 2),
         basket_contents.map { |bc| bc.product.name })
+      add_column(
+        ::Producer.model_name.human,
+        basket_contents.map { |bc| bc.product.producer&.name })
     end
 
     def add_unit_columns(basket_contents)

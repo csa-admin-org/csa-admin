@@ -158,8 +158,8 @@ class SearchEntry < ApplicationRecord
       end
     when Activity
       record.participations.includes(:member, :activity).find_each(&:update_search_entry!)
-    when Shop::Producer
-      record.products.kept.includes(:producer).find_each(&:update_search_entry!)
+    when Producer
+      record.shop_products.kept.includes(:producer).find_each(&:update_search_entry!)
     end
   end
 

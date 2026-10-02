@@ -8,6 +8,6 @@ module Basket::Content
       .for_depot(depot_id)
       .with_positive_quantity_for(basket_size_id)
       .joins(:product).merge(BasketContent::Product.ordered)
-      .includes(:product)
+      .includes(product: :producer)
   end
 end

@@ -9,7 +9,7 @@ class Ability
     membership: [ Membership, Basket, BasketShift, BasketOverride ],
     billing: [ Invoice, Payment ],
     activity: [ Activity, ActivityParticipation, ActivityPreset ],
-    basket_content: [ BasketContent, BasketContent::Product ],
+    basket_content: [ BasketContent, BasketContent::Product, Producer ],
     bidding_round: [ BiddingRound, BiddingRound::Pledge ],
     maps: [],
     member: [ Member, HomeDeliveryAddress ],
@@ -19,7 +19,7 @@ class Ability
     shop: [
       Shop::Order,
       Shop::OrderItem,
-      Shop::Producer,
+      Producer,
       Shop::Product,
       Shop::SpecialDelivery,
       Shop::Tag

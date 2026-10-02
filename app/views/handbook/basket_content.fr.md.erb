@@ -6,6 +6,10 @@ Cette fonctionnalité fournit un outil pour calculer le contenu et la valeur des
 
 Avant de configurer le <%= BasketContent.model_name.human.downcase %>, vous devez créer vos [produits](/basket_content_products). Chaque produit a un nom, une unité (kg ou pièces), un prix unitaire, et optionnellement un URL vers le site web du producteur.
 
+Un produit peut aussi être lié à [un producteur](/producers). La liste est partagée avec l'épicerie, dans le menu "Autre", pour ne pas saisir deux fois le même producteur. Le producteur est facultatif. Sur la liste des produits, vous pouvez filtrer par producteur, et le formulaire de livraison recherche les produits par nom de produit ou de producteur.
+
+L'export d'une livraison (CSV et XLSX) inclut une colonne producteur à côté du nom du produit. Quand une livraison mélange des produits de plusieurs provenances, filtrez cette colonne dans le tableur pour ne garder que les lignes d'un producteur.
+
 Les produits sont réutilisables d'une livraison à l'autre — une fois créés, ils peuvent être sélectionnés lors de l'ajout de contenu à n'importe quelle livraison. Le prix et les quantités de la dernière utilisation sont automatiquement sauvegardés et pré-remplis lors de l'ajout du produit à une nouvelle livraison.
 
 ## Configurer le <%= BasketContent.model_name.human.downcase %> {#configuring-basket-contents}
@@ -81,6 +85,7 @@ Le <%= BasketContent.model_name.human.downcase %> est également disponible dans
 Chaque contenu de <%= Basket.model_name.human.downcase %> dans la boucle fournit les attributs suivants:
 
 - `content.product`: Le nom du produit
+- `content.producer`: Le nom du producteur (si défini)
 - `content.quantity`: La quantité formatée (par ex. "250g", "3pc")
 - `content.unit`: L'unité brute ("kg" ou "pc")
 - `content.price`: Le prix formaté pour ce produit (si un prix unitaire est défini)
