@@ -2,7 +2,8 @@
 
 context.instance_eval do
   div "data-controller" => "form-disabler" do
-    f.inputs t("active_admin.resource.form.billing"), icon: "banknotes" do
+    f.inputs t("active_admin.resource.form.billing"), icon: "banknotes",
+      action: handbook_icon_link("absence", anchor: "billing") do
       f.input :absences_billed,
         input_html: { data: { action: "form-disabler#toggleInputs" } }
     end
@@ -18,7 +19,8 @@ context.instance_eval do
       f.input :absence_notice_period_in_days, min: 1, required: true
     end
 
-    f.inputs t("active_admin.resource.form.absence_basket_shifts"), icon: "redo" do
+    f.inputs t("active_admin.resource.form.absence_basket_shifts"), icon: "redo",
+      action: handbook_icon_link("absence", anchor: "basket-shift") do
       para t("active_admin.resource.form.absence_basket_shifts_hint"), class: "description"
       f.input :basket_shifts_annually,
         input_html: {
@@ -34,7 +36,8 @@ context.instance_eval do
     end
   end
 
-  f.inputs t("active_admin.resource.form.absence_included"), icon: "calendar-clock" do
+  f.inputs t("active_admin.resource.form.absence_included"), icon: "calendar-clock",
+    action: handbook_icon_link("absence", anchor: "absence-included") do
     para t("active_admin.resource.form.absence_included_hint"), class: "description"
     f.input :absences_included_mode,
       as: :radio,

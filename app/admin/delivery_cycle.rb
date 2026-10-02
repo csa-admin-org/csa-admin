@@ -178,19 +178,19 @@ ActiveAdmin.register DeliveryCycle do
       render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end
 
-    f.inputs t("active_admin.resource.form.visibility"), icon: "eye" do
+    f.inputs t("active_admin.resource.form.visibility"), icon: "eye",
+      action: handbook_icon_link("deliveries", anchor: "depot-availability") do
       para t("active_admin.resource.form.visibility_hint"), class: "description is-tight"
       f.input :depots,
         as: :check_boxes,
         hint: true,
         disabled: depot_ids_with_only(f.object),
         grouped_collection: admin_depots_grouped_collection
-
-      handbook_button(self, "deliveries", anchor: "depot-availability")
     end
 
     if DeliveryCycle.visible?
       f.inputs t("active_admin.resource.show.member_new_form"), icon: "form",
+        action: handbook_icon_link("registration", anchor: "delivery-cycles"),
         "data-controller" => "form-details-preview",
         "data-form-details-preview-url-value" => form_details_preview_delivery_cycles_path do
         form_details = form_details_preview_prepare(f.object)
@@ -210,8 +210,6 @@ ActiveAdmin.register DeliveryCycle do
         text_node form_details_preview_frame(
           "delivery-cycle",
           form_details_preview_placeholders(form_details, :delivery_cycle_details))
-
-        handbook_button(self, "registration", anchor: "delivery-cycles")
       end
     end
 
@@ -228,12 +226,14 @@ ActiveAdmin.register DeliveryCycle do
         input_html: { data: { form_invoice_name_target: "invoice" } },
         placeholder: ->(locale) { invoice_name_placeholder(f.object, locale) })
       if feature?("absence")
-        f.input :absences_included_annually
-        handbook_button(self, "absence", anchor: "absence-included")
+        f.input :absences_included_annually,
+          hint: t("formtastic.hints.delivery_cycle.absences_included_annually_html",
+            handbook: handbook_hint_link("absence", "absence-included"))
       end
     end
 
-    f.inputs t("delivery_cycle.settings"), icon: "sliders-horizontal" do
+    f.inputs t("delivery_cycle.settings"), icon: "sliders-horizontal",
+      action: handbook_icon_link("deliveries", anchor: "settings") do
       para t("formtastic.hints.delivery_cycle.settings_intro"), class: "description is-tight"
       f.input :wdays,
         as: :check_boxes,
@@ -265,11 +265,10 @@ ActiveAdmin.register DeliveryCycle do
           include_blank: false,
           wrapper_html: { class: "week-numbers-input" }
       end
-
-      handbook_button(self, "deliveries", anchor: "settings")
     end
 
-    f.inputs DeliveryCycle::Period.model_name.human(count: 2), icon: "calendar-days" do
+    f.inputs DeliveryCycle::Period.model_name.human(count: 2), icon: "calendar-days",
+      action: handbook_icon_link("deliveries", anchor: "periods") do
       para t("formtastic.hints.delivery_cycle.periods_intro"), class: "description is-tight"
       f.semantic_errors :periods
       f.has_many :periods, allow_destroy: true, new_record: t("delivery_cycle.add_period"), heading: nil do |ff|
@@ -293,8 +292,6 @@ ActiveAdmin.register DeliveryCycle do
           required: false,
           include_blank: false
       end
-
-      handbook_button(self, "deliveries", anchor: "periods")
     end
 
     f.actions

@@ -1486,12 +1486,6 @@ _:
           _de: <strong>Achtung:</strong> %{count} laufende oder zukünftige Abonnement(e) behalten ihren bestehenden Preis. Diese Änderung gilt nur für neue Abonnements und die nächste Erneuerung. <a href="/handbook/membership_renewal#catalog-prices">Mehr erfahren</a>
           _it: <strong>Attenzione:</strong> %{count} abbonamento/i corrente/i o futuro/i conservano il prezzo esistente. Questa modifica si applica solo ai nuovi abbonamenti e al prossimo rinnovo. <a href="/handbook/membership_renewal#catalog-prices">Per saperne di più</a>
           _nl: <strong>Waarschuwing:</strong> %{count} huidig(e) of toekomstig(e) lidmaatschap(pen) behouden hun bestaande prijs. Deze wijziging geldt alleen voor nieuwe lidmaatschappen en de volgende vernieuwing. <a href="/handbook/membership_renewal#catalog-prices">Meer informatie</a>
-        check_handbook:
-          _en: Check handbook
-          _fr: Consulter le manuel
-          _de: Handbuch konsultieren
-          _it: Consultare il manuale
-          _nl: Handleiding raadplegen
         config:
           _en: Configuration
           _fr: Configuration
@@ -2061,12 +2055,6 @@ _:
           _de: Rechnungsstellung
           _it: Fatturazione
           _nl: Facturering
-        check_handbook:
-          _en: Check handbook
-          _fr: Consulter le manuel
-          _de: Handbuch konsultieren
-          _it: Consultare il manuale
-          _nl: Handleiding raadplegen
         config:
           _en: Configuration
           _fr: Configuration
@@ -2281,12 +2269,6 @@ _:
           _de: Fahrgemeinschaft
           _it: Carpooling
           _nl: Carpooling
-        check_handbook:
-          _en: Handbook
-          _fr: Manuel
-          _de: Handbuch
-          _it: Manuale
-          _nl: Handleiding
         clear_activity_participations_demanded/basket_preparation:
           _en: Clear demanded basket preparations
           _fr: Annuler les préparations de paniers demandées

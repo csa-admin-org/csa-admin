@@ -78,6 +78,7 @@ ActiveAdmin.register BasketSize do
     end
 
     f.inputs t("active_admin.resource.show.member_new_form"), icon: "form",
+      action: handbook_icon_link("registration", anchor: "basket-sizes"),
       "data-controller" => "form-details-preview",
       "data-form-details-preview-url-value" => form_details_preview_basket_sizes_path do
       form_details = form_details_preview_prepare(f.object)
@@ -98,8 +99,6 @@ ActiveAdmin.register BasketSize do
       text_node form_details_preview_frame(
         "basket-size",
         form_details_preview_placeholders(form_details, :basket_size_details))
-
-      handbook_button(self, "registration", anchor: "basket-sizes")
     end
 
     f.actions

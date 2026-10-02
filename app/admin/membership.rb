@@ -838,6 +838,9 @@ ActiveAdmin.register Membership do
             t(".alternate_depot_summary")
           end
           div do
+            div class: "cluster is-end" do
+              handbook_icon_link("deliveries", anchor: "alternate-depot")
+            end
             para t("formtastic.hints.membership.alternate_depot_text_html",
               settings_url: membership_updates_settings_url).html_safe, class: "text-sm is-muted description"
             ol "data-controller" => "form-reset" do
@@ -857,8 +860,6 @@ ActiveAdmin.register Membership do
                 as: :select,
                 include_blank: true
             end
-
-            handbook_button(self, "deliveries", anchor: "alternate-depot")
           end
         end
       end
@@ -941,12 +942,9 @@ ActiveAdmin.register Membership do
     if feature?("activity")
       preview = activity_participations_preview_payload(f.object)
       f.inputs activities_human_name, icon: "handshake",
+        action: handbook_icon_link("activity"),
         "data-controller" => "form-reset form-activity-participations",
         "data-form-activity-participations-url-value" => activity_participations_preview_memberships_path do
-        div class: "panel-actions" do
-          handbook_icon_link("activity")
-        end
-
         div class: "activity-participations-formula" do
           f.input :activity_participations_demanded_annually,
             label: t(".activity_participations_demanded_annually"),

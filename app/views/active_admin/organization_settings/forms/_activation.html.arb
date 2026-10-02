@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
 context.instance_eval do
-  f.inputs t("active_admin.resources.organization.activation"), icon: "toggle-left" do
-    if section[:handbook]
-      li class: "panel-actions" do
-        text_node handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
-      end
-    end
+  f.inputs t("active_admin.resources.organization.activation"), icon: "toggle-left",
+    action: (handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor]) if section[:handbook]) do
     para organization_disabled_setting_section_hint(section), class: "description is-tight"
     f.object.features.map(&:to_s).excluding(section[:key]).each do |feature|
       text_node f.hidden_field(:features, multiple: true, value: feature)

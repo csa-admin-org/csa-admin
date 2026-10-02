@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 context.instance_eval do
-  f.inputs Delivery.human_attribute_name(:sheets), icon: "file-spreadsheet" do
+  f.inputs Delivery.human_attribute_name(:sheets), icon: "file-spreadsheet",
+    action: handbook_icon_link("basket_content", anchor: "delivery-sheets") do
     f.input :basket_content_delivery_pdf_visible,
       as: :boolean,
       hint: t("formtastic.hints.organization.basket_content_delivery_pdf_visible")
   end
 
   f.inputs t("active_admin.resource.form.member_account"), icon: "users",
+    action: handbook_icon_link("basket_content", anchor: "displaying-contents-to-members"),
     data: { controller: "form-checkbox-toggler" } do
     f.input :basket_content_member_visible,
       as: :boolean,

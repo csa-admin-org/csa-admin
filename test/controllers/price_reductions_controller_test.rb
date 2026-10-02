@@ -40,6 +40,7 @@ class PriceReductionsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_select "fieldset", text: /Cap/ do
       assert_select "a[href=?]", handbook_page_path("price_reductions", anchor: "cap")
+      assert_select "ol > li.panel-actions a[href=?]", handbook_page_path("price_reductions", anchor: "cap")
     end
     assert_select "fieldset[data-controller='form-details-preview']" do
       assert_select "select#price_reduction_visible"

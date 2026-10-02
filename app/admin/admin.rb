@@ -89,7 +89,8 @@ ActiveAdmin.register Admin do
         f.input :permission, collection: Permission.all, prompt: true, include_blank: false
       end
     end
-    f.inputs id: "notifications" do
+    f.inputs id: "notifications",
+      action: handbook_icon_link("permissions", anchor: "notifications") do
       f.input :notifications,
         as: :check_boxes,
         wrapper_html: { class: "legend-title single-column" },

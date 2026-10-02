@@ -34,7 +34,8 @@ ActiveAdmin.register Permission do
     end
 
     f.semantic_fields_for :rights do |fr|
-      f.inputs Permission.human_attribute_name(:rights), icon: "key" do
+      f.inputs Permission.human_attribute_name(:rights), icon: "key",
+        action: handbook_icon_link("permissions", anchor: "configurable-features") do
         features = Permission.editable_features
         features.sort_by { |f| feature_name(f) }.each do |feature|
           fr.input feature,
@@ -47,7 +48,8 @@ ActiveAdmin.register Permission do
       end
     end
     f.semantic_fields_for :rights do |fr|
-      f.inputs Permission.human_attribute_name(:superadmin_rights), icon: "key" do
+      f.inputs Permission.human_attribute_name(:superadmin_rights), icon: "key",
+        action: handbook_icon_link("permissions", anchor: "reserved-features") do
         Permission.superadmin_features.sort_by { |f| feature_name(f) }.each do |feature|
           fr.input feature,
             label: feature_name(feature),

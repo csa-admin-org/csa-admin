@@ -662,6 +662,7 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_select hints, "a[href='#{edit_organization_path(:absence, anchor: "absences_included_logic")}']"
     assert_select hints, "a[href='#{handbook_page_path(:absence, anchor: "absence-included")}']"
     assert_select ".handbook-button a[href='#{handbook_page_path(:absence, anchor: "absence-included")}']", false
+    assert_select "li.panel-actions a[href='#{handbook_page_path(:absence, anchor: "absence-included")}']", false
     assert_not_includes response.body, "href='/delivery_cycles'"
   end
 
@@ -977,7 +978,8 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".description",
       text: /Recurring pattern only/
     assert_select ".description a[href='#{edit_organization_path(:membership_updates)}']"
-    assert_select ".handbook-button a[href='#{handbook_page_path(:deliveries, anchor: "alternate-depot")}']"
+    assert_select "details.arrow-details .cluster.is-end a[href='#{handbook_page_path(:deliveries, anchor: "alternate-depot")}']"
+    assert_select "fieldset.inputs > ol > li.panel-actions a[href='#{handbook_page_path(:deliveries, anchor: "alternate-depot")}']", false
   end
 
   private

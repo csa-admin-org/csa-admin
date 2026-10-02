@@ -1026,7 +1026,8 @@ ActiveAdmin.register Member do
     end
 
     if feature?("shares")
-      f.inputs t(".shares"), icon: "receipt-text" do
+      f.inputs t(".shares"), icon: "receipt-text",
+        action: handbook_icon_link("billing", anchor: "share-fields") do
         f.input :existing_shares_number
         if member.shares_number.zero? || member.desired_shares_number.positive?
           f.input :desired_shares_number

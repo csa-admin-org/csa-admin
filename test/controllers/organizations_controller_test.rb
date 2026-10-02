@@ -491,6 +491,16 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "#activity .panel-title", text: activity_title
   end
 
+  test "mailer edit page links email settings from the fieldset" do
+    login admins(:super)
+
+    get edit_organization_path(:mailer)
+
+    assert_response :success
+    assert_select "fieldset.inputs > ol > li.panel-actions a[href=?]",
+      handbook_page_path("emails", anchor: "email-settings")
+  end
+
   test "mailer settings overview shows current language footer text" do
     locale = admins(:super).language
     other_locale = (Current.org.languages - [ locale ]).first || "fr"

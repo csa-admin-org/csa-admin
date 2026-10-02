@@ -202,7 +202,8 @@ ActiveAdmin.register Newsletter do
       f.input :scheduled_at, as: :date_picker, input_html: { min: Date.tomorrow }
     end
 
-    f.inputs Attachment.model_name.human(count: 2), icon: "paperclip" do
+    f.inputs Attachment.model_name.human(count: 2), icon: "paperclip",
+      action: handbook_icon_link("newsletters", anchor: "attachments") do
       render partial: "active_admin/attachments/form", locals: { f: f }
     end
 

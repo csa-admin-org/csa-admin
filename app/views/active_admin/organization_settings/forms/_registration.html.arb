@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
 context.instance_eval do
-  f.inputs t("active_admin.resource.form.registration"), icon: section[:icon] do
-    li class: "panel-actions" do
-      text_node handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
-    end
-
+  f.inputs t("active_admin.resource.form.registration"), icon: section[:icon],
+    action: handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor]) do
     trix_word_count_wrapper(self, threshold: 40) do
       translated_input(f, :member_form_subtitles,
         hint: t("formtastic.hints.organization.member_form_subtitle"),
@@ -61,7 +58,8 @@ context.instance_eval do
     f.input :allow_alternative_depots, as: :boolean
   end
 
-  f.inputs t("members.members.new.more_info"), icon: "notebook-text" do
+  f.inputs t("members.members.new.more_info"), icon: "notebook-text",
+    action: handbook_icon_link("registration", anchor: "more-info") do
     f.input :member_profession_form_mode,
       label: Member.human_attribute_name(:profession),
       as: :select,
@@ -76,7 +74,8 @@ context.instance_eval do
       required: false
   end
 
-  f.inputs t("active_admin.resource.form.documents_to_validate"), icon: "clipboard-check" do
+  f.inputs t("active_admin.resource.form.documents_to_validate"), icon: "clipboard-check",
+    action: handbook_icon_link("registration", anchor: "documents") do
     para t("active_admin.resource.form.documents_to_validate_hint_html"), class: "description is-tight"
     translated_input(f, :charter_urls, required: false)
     translated_input(f, :statutes_urls, required: false)

@@ -27,8 +27,8 @@ module ActiveAdmin
   end
 end
 
-# Override SemanticInputsProxy to support icon: option on f.inputs
-# Usage: f.inputs "Title", icon: "icon-name" do ... end
+# Override SemanticInputsProxy to support icon: and action: on f.inputs.
+# Usage: f.inputs "Title", icon: "icon-name", action: handbook_icon_link(...) do ... end
 ActiveAdmin::Views::SemanticInputsProxy.class_eval do
   def build(form_builder, *args, &block)
     html_options = args.extract_options!
@@ -36,6 +36,7 @@ ActiveAdmin::Views::SemanticInputsProxy.class_eval do
     legend = args.shift if args.first.is_a?(::String)
     legend = html_options.delete(:name) if html_options.key?(:name)
     icon_name = html_options.delete(:icon)
+    action = html_options.delete(:action)
 
     if legend
       if icon_name
@@ -48,8 +49,9 @@ ActiveAdmin::Views::SemanticInputsProxy.class_eval do
       legend_tag = ""
     end
 
+    action_html = action.present? ? helpers.tag.li(action, class: "panel-actions") : ""
     fieldset_attrs = helpers.tag.attributes html_options
-    @opening_tag = "<fieldset #{fieldset_attrs}>#{legend_tag}<ol>"
+    @opening_tag = "<fieldset #{fieldset_attrs}>#{legend_tag}<ol>#{action_html}"
     @closing_tag = "</ol></fieldset>"
     super(*(args << html_options), &block)
   end

@@ -11,11 +11,8 @@ ActiveAdmin.register BankConnection do
   end
 
   form as: :ebics_setup, html: { novalidate: true, data: { turbo: false } } do |f|
-    f.inputs t("active_admin.resources.bank_connection.ebics_setup.instructions_title"), icon: "book-open" do
-      li class: "panel-actions" do
-        text_node handbook_icon_link("billing", anchor: "automatic_payments_processing")
-      end
-
+    f.inputs t("active_admin.resources.bank_connection.ebics_setup.instructions_title"), icon: "book-open",
+      action: handbook_icon_link("billing", anchor: "automatic_payments_processing") do
       li class: "ebics-setup" do
         para sanitize(
           t("active_admin.resources.bank_connection.ebics_setup.intro_html", support_url: support_path),

@@ -1,13 +1,8 @@
 # frozen_string_literal: true
 
 context.instance_eval do
-  f.inputs organization_setting_section_title(section), icon: section[:icon] do
-    if section[:handbook]
-      li class: "panel-actions" do
-        text_node handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
-      end
-    end
-
+  f.inputs organization_setting_section_title(section), icon: section[:icon],
+    action: (handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor]) if section[:handbook]) do
     f.input :iban,
       label: f.object.iban_type_name,
       placeholder: Billing.iban_placeholder(f.object.country_code),

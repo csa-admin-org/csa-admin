@@ -541,12 +541,12 @@ _:
           _it: Stabilisce se i soci possono effettuare ordini di alimentari per questa consegna.
           _nl: Bepaalt of leden winkelbestellingen kunnen plaatsen voor deze levering of niet.
       delivery_cycle:
-        absences_included_annually:
-          _en: Allows you to automatically exclude a certain number of deliveries, enabling members to plan a limited number of non-billed absences.
-          _fr: Permet d'exclure automatiquement un certain nombre de livraisons, laissant aux membres la planification d'un nombre limité d'absences non-facturées.
-          _de: Ermöglicht es, eine bestimmte Anzahl von Lieferungen automatisch auszuschliessen, wodurch den Mitgliedern die Planung einer begrenzten Anzahl von nicht in Rechnung gestellten Abwesenheiten ermöglicht wird.
-          _it: Consente di escludere automaticamente un certo numero di consegne, consentendo ai soci di pianificare un numero limitato di assenze non fatturate.
-          _nl: Maakt het mogelijk om automatisch een bepaald aantal leveringen uit te sluiten, waardoor leden een beperkt aantal niet-gefactureerde afwezigheden kunnen plannen.
+        absences_included_annually_html:
+          _en: Allows you to automatically exclude a certain number of deliveries, enabling members to plan a limited number of non-billed absences.%{handbook}
+          _fr: Permet d'exclure automatiquement un certain nombre de livraisons, laissant aux membres la planification d'un nombre limité d'absences non-facturées.%{handbook}
+          _de: Ermöglicht es, eine bestimmte Anzahl von Lieferungen automatisch auszuschliessen, wodurch den Mitgliedern die Planung einer begrenzten Anzahl von nicht in Rechnung gestellten Abwesenheiten ermöglicht wird.%{handbook}
+          _it: Consente di escludere automaticamente un certo numero di consegne, consentendo ai soci di pianificare un numero limitato di assenze non fatturate.%{handbook}
+          _nl: Maakt het mogelijk om automatisch een bepaald aantal leveringen uit te sluiten, waardoor leden een beperkt aantal niet-gefactureerde afwezigheden kunnen plannen.%{handbook}
         depots:
           _en: Depots members may select with this cycle at registration and when changing depot from their account (if allowed).
           _fr: Dépôts que les membres peuvent choisir avec ce cycle à l'inscription et lors d'un changement de dépôt depuis leur compte (si autorisé).
@@ -762,6 +762,12 @@ _:
           _de: Sortiert standardmässig alphabetisch.
           _it: Ordinato per impostazione predefinita in ordine alfabetico.
           _nl: Standaard alfabetisch gesorteerd.
+      handbook_html:
+        _en: ' <a href="%{url}">Handbook</a>'
+        _fr: ' <a href="%{url}">Manuel</a>'
+        _de: ' <a href="%{url}">Handbuch</a>'
+        _it: ' <a href="%{url}">Manuale</a>'
+        _nl: ' <a href="%{url}">Handboek</a>'
       home_delivery_address:
         deliveries:
           _en: Only the selected deliveries use this address. Leave none selected to keep it unused. The member's home address stays for the others.
@@ -2900,12 +2906,6 @@ _:
           _de: Steht unter dem Namen im Anmeldeformular. Leer lassen, um das erzeugte Standarddetail zu verwenden.
           _it: Mostrato sotto il nome nel modulo di iscrizione. Lasciare vuoto per usare il dettaglio generato predefinito.
           _nl: Staat onder de naam op het inschrijfformulier. Leeg laten om het standaard gegenereerde detail te gebruiken.
-        handbook_html:
-          _en: ' <a href="%{url}">Handbook</a>'
-          _fr: ' <a href="%{url}">Manuel</a>'
-          _de: ' <a href="%{url}">Handbuch</a>'
-          _it: ' <a href="%{url}">Manuale</a>'
-          _nl: ' <a href="%{url}">Handboek</a>'
         renew_html:
           _en: When it still fits, copy this reduction when the membership is renewed.%{handbook}
           _fr: Si possible, copiez cette réduction lors du renouvellement de l'abonnement.%{handbook}

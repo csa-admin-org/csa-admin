@@ -40,7 +40,8 @@ ActiveAdmin.register Newsletter::Template do
     code_editor_preview_path_value: "/newsletter_templates/preview"
   } do |f|
     newsletter_template = f.object
-    f.inputs t(".details"), icon: "notebook-text" do
+    f.inputs t(".details"), icon: "notebook-text",
+      action: handbook_icon_link("newsletters", anchor: "templates") do
       translated_input(f, :titles)
       translated_input(f, :contents,
         as: :text,
@@ -60,8 +61,6 @@ ActiveAdmin.register Newsletter::Template do
           end
         end
       end
-
-      handbook_button(self, "emails")
     end
     mail_preview_inputs(self, f, newsletter_template)
     f.actions

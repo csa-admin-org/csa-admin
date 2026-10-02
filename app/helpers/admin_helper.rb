@@ -113,8 +113,12 @@ module AdminHelper
   def price_reduction_handbook_link(anchor)
     return "".html_safe unless Handbook.new("price_reductions", nil).filepath.exist?
 
-    t("formtastic.hints.price_reduction.handbook_html",
-      url: handbook_page_path("price_reductions", anchor: anchor))
+    handbook_hint_link("price_reductions", anchor)
+  end
+
+  def handbook_hint_link(page, anchor)
+    t("formtastic.hints.handbook_html",
+      url: handbook_page_path(page, anchor: anchor))
   end
 
   def price_reduction_choice_label(reduction, issue)

@@ -213,15 +213,9 @@
     list-style: none;
   }
 
-  .handbook-button,
   .admin-sidebar-center {
-    margin-top: 1.5rem;
     display: flex;
     justify-content: center;
-  }
-
-  .admin-sidebar-center {
-    margin-top: 0;
   }
 
   .admin-sidebar-note {

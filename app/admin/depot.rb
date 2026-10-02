@@ -322,7 +322,8 @@ ActiveAdmin.register Depot do
         placeholder: ->(locale) { invoice_name_placeholder(f.object, locale) })
     end
 
-    f.inputs Delivery.human_attribute_name(:sheets_pdf), icon: "file-spreadsheet" do
+    f.inputs Delivery.human_attribute_name(:sheets_pdf), icon: "file-spreadsheet",
+      action: handbook_icon_link("deliveries", anchor: "sheet-modes") do
       f.input :delivery_sheets_mode,
         as: :radio,
         required: false,
@@ -337,26 +338,25 @@ ActiveAdmin.register Depot do
         }
     end
 
-    f.inputs Admin.human_attribute_name(:notifications), icon: "mail-check" do
+    f.inputs Admin.human_attribute_name(:notifications), icon: "mail-check",
+      action: handbook_icon_link("deliveries", anchor: "depot-delivery-list-notifications") do
       f.input :emails, as: :string
       f.input :notify_days_before_delivery, as: :number, input_html: { min: 0 }
       language_input(f)
-
-      handbook_button(self, "deliveries", anchor: "depot-delivery-list-notifications")
     end
 
-    f.inputs t("active_admin.resource.form.visibility"), icon: "eye" do
+    f.inputs t("active_admin.resource.form.visibility"), icon: "eye",
+      action: handbook_icon_link("deliveries", anchor: "depot-availability") do
       f.input :visible, as: :select, include_blank: false
       f.input :delivery_cycles,
         collection: admin_delivery_cycles_collection,
         input_html: f.object.persisted? ? {} : { checked: true },
         as: :check_boxes,
         required: true
-
-      handbook_button(self, "deliveries", anchor: "depot-availability")
     end
 
     f.inputs t("active_admin.resource.show.member_new_form"), icon: "form",
+      action: handbook_icon_link("registration", anchor: "depots"),
       "data-controller" => "form-details-preview",
       "data-form-details-preview-url-value" => form_details_preview_depots_path do
       form_details = form_details_preview_prepare(f.object)
@@ -374,11 +374,10 @@ ActiveAdmin.register Depot do
       text_node form_details_preview_frame(
         "depot",
         form_details_preview_placeholders(form_details, :depot_details))
-
-      handbook_button(self, "registration", anchor: "depots")
     end
 
-    f.inputs Depot.human_attribute_name(:street), icon: "map" do
+    f.inputs Depot.human_attribute_name(:street), icon: "map",
+      action: (handbook_icon_link("maps", anchor: "depot-review") if Current.org.feature?("maps")) do
       f.input :address_name
       f.input :street
       div class: "single-line" do
@@ -392,7 +391,6 @@ ActiveAdmin.register Depot do
           f.input :longitude, as: :number, input_html: { min: -180, max: 180, step: "any", inputmode: "decimal" }
         end
         render partial: "active_admin/depots/coordinate_map", locals: { depot: f.object, editable: true }
-        handbook_button(self, "maps", anchor: "depot-review")
       end
     end
 

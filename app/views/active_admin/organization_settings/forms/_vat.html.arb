@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
 context.instance_eval do
-  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
-    if section[:handbook] && !organization_setting_section_feature?(section)
-      li class: "panel-actions" do
-        text_node handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
-      end
-    end
-
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal",
+    action: (if section[:handbook] && !organization_setting_section_feature?(section)
+      handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
+             end) do
     f.input :vat_number, required: true, input_html: {
       placeholder: Current.org.swiss_qr? ? "CHE-123.456.789" : nil
     }

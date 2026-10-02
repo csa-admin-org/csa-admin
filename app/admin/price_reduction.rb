@@ -168,7 +168,8 @@ ActiveAdmin.register PriceReduction do
         hint: price_reduction_handbook_hint(:card, "cards")
     end
 
-    f.inputs t(".cap"), icon: "coins" do
+    f.inputs t(".cap"), icon: "coins",
+      action: handbook_icon_link("price_reductions", anchor: "cap") do
       if f.object.persisted? && f.object.capped?
         granted = f.object.fiscal_year_cap? ? f.object.granted_amount(Current.fy_year) : f.object.granted_amount
         para t("formtastic.hints.price_reduction.already_granted", amount: cur(granted)), class: "description"
@@ -194,6 +195,9 @@ ActiveAdmin.register PriceReduction do
     end
 
     f.inputs t("active_admin.resource.show.member_new_form"), icon: "form",
+      action: (if Handbook.new("price_reductions", nil).filepath.exist?
+        handbook_icon_link("price_reductions", anchor: "programs")
+               end),
       "data-controller" => "form-details-preview",
       "data-form-details-preview-url-value" => form_details_preview_price_reductions_path do
       f.input :visible, as: :select, include_blank: false
@@ -212,10 +216,6 @@ ActiveAdmin.register PriceReduction do
       text_node form_details_preview_frame(
         "price-reduction",
         form_details_preview_placeholders(f.object, :price_reduction_form_detail))
-
-      if Handbook.new("price_reductions", nil).filepath.exist?
-        handbook_button(self, "price_reductions", anchor: "programs")
-      end
     end
 
     f.actions

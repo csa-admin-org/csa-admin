@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 context.instance_eval do
-  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal",
+    action: handbook_icon_link("emails", anchor: "email-settings") do
     para t("active_admin.resource.form.mailer_text_html"), class: "description"
     f.input :email_default_from,
       as: :string,

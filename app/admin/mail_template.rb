@@ -74,7 +74,7 @@ ActiveAdmin.register MailTemplate do
         end
       end
       column do
-        panel t(".details"), icon: "notebook-text" do
+        panel t(".details"), icon: "notebook-text", action: handbook_icon_link("mail_templates") do
           div class: "panel-copy is-loose" do
             para mail_template.description, class: "text-base description"
           end
@@ -114,8 +114,6 @@ ActiveAdmin.register MailTemplate do
             end
           end
         end
-
-        handbook_button(self, "mail_templates")
       end
     end
   end
@@ -182,7 +180,7 @@ ActiveAdmin.register MailTemplate do
           }
       end
     end
-    f.inputs do
+    f.inputs action: handbook_icon_link("mail_templates", anchor: "customizing") do
       translated_input(f, :subjects,
         hint: t("formtastic.hints.liquid_html"),
         input_html: {

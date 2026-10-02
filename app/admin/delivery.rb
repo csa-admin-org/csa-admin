@@ -201,13 +201,11 @@ ActiveAdmin.register Delivery do
     end
 
     if f.object.new_record? && BasketComplement.kept.any?
-      f.inputs do
+      f.inputs action: handbook_icon_link("deliveries", anchor: "basket-complements") do
         f.input :basket_complements,
           as: :check_boxes,
           wrapper_html: { class: "legend-title" },
           collection: admin_basket_complements
-
-        handbook_button(self, "deliveries", anchor: "basket-complements")
       end
     end
 
@@ -219,7 +217,9 @@ ActiveAdmin.register Delivery do
     end
 
     if feature?("shop")
-      f.inputs t("shop.title"), icon: "shopping-basket", "data-controller" => "form-checkbox-toggler" do
+      f.inputs t("shop.title"), icon: "shopping-basket",
+        action: handbook_icon_link("shop", anchor: "opening"),
+        "data-controller" => "form-checkbox-toggler" do
         f.input :shop_open,
           as: :boolean,
           input_html: { data: {

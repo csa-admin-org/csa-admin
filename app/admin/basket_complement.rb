@@ -68,15 +68,15 @@ ActiveAdmin.register BasketComplement do
       end
     end
 
-    f.inputs Admin.human_attribute_name(:notifications), icon: "mail-check" do
+    f.inputs Admin.human_attribute_name(:notifications), icon: "mail-check",
+      action: handbook_icon_link("deliveries", anchor: "complement-notifications") do
       f.input :emails, as: :string
       f.input :notify_days_before_delivery, as: :number, input_html: { min: 0 }
       language_input(f)
-
-      handbook_button(self, "deliveries", anchor: "complement-notifications")
     end
 
     f.inputs t("active_admin.resource.show.member_new_form"), icon: "form",
+      action: handbook_icon_link("registration", anchor: "basket-complements"),
       "data-controller" => "form-details-preview",
       "data-form-details-preview-url-value" => form_details_preview_basket_complements_path do
       form_details = form_details_preview_prepare(f.object)
@@ -97,11 +97,10 @@ ActiveAdmin.register BasketComplement do
       text_node form_details_preview_frame(
         "basket-complement",
         form_details_preview_placeholders(form_details, :basket_complement_details))
-
-      handbook_button(self, "registration", anchor: "basket-complements")
     end
 
-    f.inputs Delivery.model_name.human(count: 2), icon: "calendar" do
+    f.inputs Delivery.model_name.human(count: 2), icon: "calendar",
+      action: handbook_icon_link("deliveries", anchor: "basket-complements") do
       if Delivery.current_year.any?
         f.input :current_deliveries,
           label: Current.fiscal_year.to_s,
@@ -116,8 +115,6 @@ ActiveAdmin.register BasketComplement do
           collection: Delivery.future_year,
           hint: f.object.persisted?
       end
-
-      handbook_button(self, "deliveries", anchor: "basket-complements")
     end
 
     f.actions

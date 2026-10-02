@@ -49,7 +49,8 @@ context.instance_eval do
       form_details_preview_placeholders(Current.org, :activity_participations_form_detail))
   end
 
-  f.inputs Organization.human_attribute_name(:activity_participations_demanded_logic), icon: "notebook-pen", id: "activity_participations_demanded_logic", class: "settings-anchor inputs" do
+  f.inputs Organization.human_attribute_name(:activity_participations_demanded_logic), icon: "notebook-pen", id: "activity_participations_demanded_logic", class: "settings-anchor inputs",
+    action: handbook_icon_link("activity", anchor: "activity-participations-logic") do
     f.input :activity_participations_demanded_logic,
       as: :text,
       hint: t("formtastic.hints.organization.activity_participations_demanded_logic_html"),
