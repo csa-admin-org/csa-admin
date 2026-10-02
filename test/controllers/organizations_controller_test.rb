@@ -907,6 +907,36 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "#delivery_sheets tr[data-row='delivery_pdf_footers']", false
   end
 
+  test "price reductions overview links catalogs and shows an empty explanation" do
+    locale = admins(:super).language
+    org(features: Current.org.features | [ "price_reductions" ])
+    login admins(:super)
+
+    get organization_path
+
+    assert_response :success
+    assert_select "#price_reductions a[href='#{price_reductions_path}']",
+      text: PriceReduction.kept.count.to_s
+    assert_select "#price_reductions a[href='#{price_reduction_cards_path}']",
+      text: PriceReductionCard.count.to_s
+    assert_select "#price_reductions tr[data-row='member_form_price_reductions_text'] .attributes-table-empty-value",
+      text: I18n.t("active_admin.empty", locale: locale)
+  end
+
+  test "price reductions overview truncates the explanation" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    Current.org.update!(member_form_price_reductions_text: "Help for qualifying members. " * 20)
+    login admins(:super)
+
+    get organization_path
+
+    assert_response :success
+    assert_select "#price_reductions tr[data-row='member_form_price_reductions_text']",
+      text: /Help for qualifying members\./
+    assert_select "#price_reductions tr[data-row='member_form_price_reductions_text']",
+      text: /…|\.\.\./
+  end
+
   test "delivery sheets overview shows current language footer text when configured" do
     locale = admins(:super).language
     other_locale = (Current.org.languages - [ locale ]).first || "fr"

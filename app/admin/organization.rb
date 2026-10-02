@@ -160,6 +160,7 @@ ActiveAdmin.register Organization do
     *I18n.available_locales.map { |l| "shop_terms_of_sale_url_#{l}" },
     *I18n.available_locales.map { |l| "shop_text_#{l}" },
     *I18n.available_locales.map { |l| "open_renewal_text_#{l}" },
+    *I18n.available_locales.map { |l| "member_form_price_reductions_text_#{l}" },
     *I18n.available_locales.map { |l| "absence_extra_text_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_title_#{l}" },
     *I18n.available_locales.map { |l| "basket_price_extra_public_title_#{l}" },

@@ -68,6 +68,14 @@ class Member < ApplicationRecord
   has_many :payments
   has_many :current_year_invoices, -> { current_year }, class_name: "Invoice"
   has_many :activity_participations, dependent: :destroy
+  has_many :member_cards, dependent: :destroy
+  accepts_nested_attributes_for :member_cards,
+    allow_destroy: true,
+    reject_if: ->(attrs) {
+      attrs["id"].blank? &&
+        attrs["price_reduction_card_id"].blank? &&
+        attrs.values_at("name", "number", "expires_on").all?(&:blank?)
+    }
   has_many :memberships
   has_one :first_membership, -> { order(:started_on) }, class_name: "Membership"
   has_one :current_membership, -> { current }, class_name: "Membership"
@@ -81,11 +89,30 @@ class Member < ApplicationRecord
   has_many :shop_orders, class_name: "Shop::Order"
   has_many :mail_deliveries, dependent: :destroy
 
+  def member_card_for(card)
+    id = card.respond_to?(:id) ? card.id : card
+    member_cards.detect { |member_card| member_card.price_reduction_card_id == id }
+  end
+
+  def current_price_reduction
+    membership = current_or_future_membership
+    return membership.price_reduction if membership
+
+    waiting_price_reduction
+  end
+
   scope :not_pending, -> { where.not(state: "pending") }
   scope :not_inactive, -> { where.not(state: "inactive") }
   scope :trial, -> { joins(:current_membership).merge(Membership.trial) }
   scope :sharing_contact, -> { where(contact_sharing: true) }
   scope :no_salary_basket, -> { where(salary_basket: false) }
+  scope :with_member_card, ->(id) {
+    if id.present?
+      where(id: MemberCard.where(price_reduction_card_id: id).select(:member_id))
+    else
+      all
+    end
+  }
 
   validates_acceptance_of :terms_of_service
   validates :country_code,
@@ -128,7 +155,7 @@ class Member < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[ sepa_eq with_email with_phone with_waiting_depots_eq]
+    super + %i[ sepa_eq with_email with_phone with_waiting_depots_eq with_member_card]
   end
 
   def update_trial_baskets!

@@ -107,6 +107,7 @@ class Members::MembersController < Members::BaseController
         :waiting_activity_participations_demanded_annually,
         :waiting_depot_id, :waiting_delivery_cycle_id,
         :waiting_billing_year_division,
+        :waiting_price_reduction_id,
         :annual_fee, :desired_shares_number,
         :shop_depot_id,
         :different_billing_info,
@@ -116,11 +117,20 @@ class Members::MembersController < Members::BaseController
         waiting_alternative_depot_ids: [],
         members_basket_complements_attributes: [
           :basket_complement_id, :quantity
+        ],
+        member_cards_attributes: [
+          :id, :price_reduction_card_id, :name, :number, :expires_on
         ])
     permitted[:members_basket_complements_attributes]&.select! { |i, attrs|
       attrs["quantity"].to_i > 0
     }
     permitted[:waiting_alternative_depot_ids]&.map!(&:presence)&.compact!
+    if Current.org.feature?("price_reductions")
+      PriceReduction.scope_public_params(permitted, :waiting_price_reduction_id)
+    else
+      permitted.delete(:waiting_price_reduction_id)
+      permitted.delete(:member_cards_attributes)
+    end
     permitted.delete(:annual_fee) unless Current.org.feature?("annual_fee")
     permitted.delete(:desired_shares_number) unless Current.org.feature?("shares")
     permitted

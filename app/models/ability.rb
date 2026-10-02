@@ -13,6 +13,7 @@ class Ability
     bidding_round: [ BiddingRound, BiddingRound::Pledge ],
     maps: [],
     member: [ Member, HomeDeliveryAddress ],
+    price_reductions: [ PriceReduction, PriceReductionCard, MemberCard, MembershipPriceReduction ],
     member_information: [],
     sepa: [ SEPAMandate ],
     vat: [],
@@ -160,6 +161,10 @@ class Ability
 
     if admin.permission.can_write?(:basket_content)
       writable_models += models_for(:basket_content)
+    end
+
+    if admin.permission.can_write?(:price_reductions)
+      writable_models += models_for(:price_reductions)
     end
 
     if admin.permission.can_write?(:bidding_round)

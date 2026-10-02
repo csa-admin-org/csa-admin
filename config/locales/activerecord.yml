@@ -1446,6 +1446,12 @@ _:
           _de: Inhalt
           _it: Contenuto
           _nl: Inhoud
+        remind_before_days:
+          _en: Remind before (days)
+          _fr: Rappel avant (jours)
+          _de: Erinnern vor (Tage)
+          _it: Promemoria prima (giorni)
+          _nl: Herinner voor (dagen)
         subject:
           _en: Subject
           _fr: Sujet
@@ -1663,6 +1669,12 @@ _:
           _de: Letzte Anmeldung am
           _it: Ultima connessione il
           _nl: Laatste inlog op
+        member_form_price_reductions_text:
+          _en: Explanation text
+          _fr: Texte d'explication
+          _de: Erklärungstext
+          _it: Testo di spiegazione
+          _nl: Uitlegtekst
         next_basket/bag:
           _en: Next bag
           _fr: Prochain sac
@@ -2011,6 +2023,18 @@ _:
           _de: Startdatum
           _it: Data d'inizio
           _nl: Startdatum
+        waiting_price_reduction:
+          _en: Price reduction
+          _fr: Réduction de prix
+          _de: Preisreduktion
+          _it: Riduzione di prezzo
+          _nl: Prijsreductie
+        waiting_price_reduction_id:
+          _en: Price reduction
+          _fr: Réduction de prix
+          _de: Preisreduktion
+          _it: Riduzione di prezzo
+          _nl: Prijsreductie
         waiting_started_at:
           _en: On waiting list since
           _fr: Sur liste d'attente depuis
@@ -2035,6 +2059,31 @@ _:
           _de: Adresse
           _it: Indirizzo
           _nl: Adres
+      member_card:
+        expires_on:
+          _en: Expires on
+          _fr: Expire le
+          _de: Gültig bis
+          _it: Scade il
+          _nl: Verloopt op
+        name:
+          _en: Name
+          _fr: Nom
+          _de: Name
+          _it: Nome
+          _nl: Naam
+        number:
+          _en: Number
+          _fr: Numéro
+          _de: Nummer
+          _it: Numero
+          _nl: Nummer
+        price_reduction_card:
+          _en: Type
+          _fr: Type
+          _de: Typ
+          _it: Tipo
+          _nl: Type
       members_basket_complement:
         basket_complement:
           _en: Complement
@@ -2939,6 +2988,24 @@ _:
           _de: Gesamt
           _it: Totale
           _nl: Totaal
+        price_reduction_amount:
+          _en: Price reduction amount
+          _fr: Montant de la réduction de prix
+          _de: Betrag der Preisreduktion
+          _it: Importo della riduzione di prezzo
+          _nl: Bedrag van de prijsreductie
+        price_reduction_choice_id:
+          _en: Reduction type
+          _fr: Type de réduction
+          _de: Art der Reduktion
+          _it: Tipo di riduzione
+          _nl: Type reductie
+        price_reduction_name:
+          _en: Price reduction name
+          _fr: Nom de la réduction de prix
+          _de: Name der Preisreduktion
+          _it: Nome della riduzione di prezzo
+          _nl: Naam van de prijsreductie
         renew:
           _en: Renewal
           _fr: Renouvellement
@@ -3875,6 +3942,12 @@ _:
           _de: Nur zusätzliche Erklärungen anzeigen
           _it: Mostra solo spiegazioni supplementari
           _nl: Toon alleen aanvullende uitleg
+        member_form_price_reductions_text:
+          _en: Explanation text
+          _fr: Texte d'explication
+          _de: Erklärungstext
+          _it: Testo di spiegazione
+          _nl: Uitlegtekst
         member_form_subtitle:
           _en: Introduction text
           _fr: Texte d'introduction
@@ -4099,6 +4172,146 @@ _:
           _de: Zugriffsrechte
           _it: Diritti di accesso
           _nl: Super Admin toegangsrechten
+      price_reduction:
+        average:
+          _en: Average
+          _fr: Moyenne
+          _de: Durchschnitt
+          _it: Media
+          _nl: Gemiddelde
+        cap_amount:
+          _en: Cap
+          _fr: Plafond
+          _de: Plafond
+          _it: Massimale
+          _nl: Plafond
+        cap_mode:
+          _en: Cap period
+          _fr: Période du plafond
+          _de: Plafondzeitraum
+          _it: Periodo del massimale
+          _nl: Plafondperiode
+        cap_mode/fiscal_year:
+          _en: Per fiscal year
+          _fr: Par année fiscale
+          _de: Pro Geschäftsjahr
+          _it: Per anno fiscale
+          _nl: Per boekjaar
+        cap_mode/once:
+          _en: Once
+          _fr: Ponctuel
+          _de: Einmalig
+          _it: Una volta
+          _nl: Eenmalig
+        depot_ids:
+          _en: Depots
+          _fr: Dépôts
+          _de: Depots
+          _it: Punti di ritiro
+          _nl: Depots
+        fixed_amount:
+          _en: Fixed amount
+          _fr: Montant fixe
+          _de: Fester Betrag
+          _it: Importo fisso
+          _nl: Vast bedrag
+        form_detail:
+          _en: Form detail
+          _fr: Détail du formulaire
+          _de: Formulardetail
+          _it: Dettaglio del modulo
+          _nl: Formulierdetail
+        granted:
+          _en: Granted
+          _fr: Accordé
+          _de: Gewährt
+          _it: Concesso
+          _nl: Toegekend
+        member_order_priority:
+          _en: Order
+          _fr: Ordre
+          _de: Reihenfolge
+          _it: Ordine
+          _nl: Volgorde
+        name:
+          _en: Name
+          _fr: Nom
+          _de: Name
+          _it: Nome
+          _nl: Naam
+        percentage:
+          _en: Percentage
+          _fr: Pourcentage
+          _de: Prozentsatz
+          _it: Percentuale
+          _nl: Percentage
+        price_reduction_card:
+          _en: Required card
+          _fr: Carte requise
+          _de: Erforderliche Karte
+          _it: Tessera richiesta
+          _nl: Verplichte kaart
+        remaining:
+          _en: Remaining
+          _fr: Restant
+          _de: Verbleibend
+          _it: Rimanente
+          _nl: Resterend
+        renew:
+          _en: Renew
+          _fr: Reconduire
+          _de: Verlängern
+          _it: Rinnovare
+          _nl: Verlengen
+        rule:
+          _en: Rule
+          _fr: Règle
+          _de: Regel
+          _it: Regola
+          _nl: Regel
+        visible:
+          _en: Visible
+          _fr: Visible
+          _de: Sichtbar
+          _it: Visibile
+          _nl: Zichtbaar
+        waiting:
+          _en: Waiting registrations
+          _fr: Inscriptions en attente
+          _de: Wartende Anmeldungen
+          _it: Iscrizioni in attesa
+          _nl: Wachtende inschrijvingen
+      price_reduction_card:
+        name:
+          _en: Title
+          _fr: Intitulé
+          _de: Titel
+          _it: Titolo
+          _nl: Titel
+        required_field/expires_on:
+          _en: Expiration date
+          _fr: Date d'expiration
+          _de: Ablaufdatum
+          _it: Data di scadenza
+          _nl: Vervaldatum
+        required_field/name:
+          _en: Name
+          _fr: Nom
+          _de: Name
+          _it: Nome
+          _nl: Naam
+        required_field/number:
+          _en: Number
+          _fr: Numéro
+          _de: Nummer
+          _it: Numero
+          _nl: Nummer
+        required_fields:
+          _en: Required fields
+          _fr: Champs requis
+          _de: Pflichtfelder
+          _it: Campi obbligatori
+          _nl: Verplichte velden
       session:
         last_used_at:
           _en: Logged in on
@@ -5269,6 +5482,19 @@ _:
           _de: Mitglieder
           _it: Soci
           _nl: Leden
+      member_card:
+        one:
+          _en: Card
+          _fr: Carte
+          _de: Karte
+          _it: Tessera
+          _nl: Kaart
+        other:
+          _en: Cards
+          _fr: Cartes
+          _de: Karten
+          _it: Tessere
+          _nl: Kaarten
       members_basket_complement:
         one:
           _en: Complement
@@ -5295,6 +5521,13 @@ _:
           _de: Abonnements
           _it: Abbonamenti
           _nl: Lidmaatschappen
+      membership_price_reduction:
+        one:
+          _en: Price reduction
+          _fr: Réduction de prix
+          _de: Preisreduktion
+          _it: Riduzione di prezzo
+          _nl: Prijsreductie
       memberships_basket_complement:
         one:
           _en: Complement
@@ -5373,6 +5606,32 @@ _:
           _de: Berechtigungen
           _it: Permessi
           _nl: Toestemmingen
+      price_reduction:
+        one:
+          _en: Price reduction
+          _fr: Réduction de prix
+          _de: Preisreduktion
+          _it: Riduzione di prezzo
+          _nl: Prijsreductie
+        other:
+          _en: Price reductions
+          _fr: Réductions de prix
+          _de: Preisreduktionen
+          _it: Riduzioni di prezzo
+          _nl: Prijsreducties
+      price_reduction_card:
+        one:
+          _en: Card
+          _fr: Carte
+          _de: Karte
+          _it: Tessera
+          _nl: Kaart
+        other:
+          _en: Cards
+          _fr: Cartes
+          _de: Karten
+          _it: Tessere
+          _nl: Kaarten
       producer:
         one:
           _en: Producer

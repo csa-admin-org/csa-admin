@@ -270,6 +270,12 @@
           </div>
         <% end %>
       </div>
+
+      <%= render "members/shared/price_reductions",
+        f: f,
+        field: :waiting_price_reduction_id,
+        depot_field: :waiting_depot_id,
+        support_checked: support_checked %>
     </div>
   </div>
 

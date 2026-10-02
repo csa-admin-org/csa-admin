@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    if section[:handbook]
+      li class: "panel-actions" do
+        text_node handbook_icon_link(section[:handbook])
+      end
+    end
+
+    trix_word_count_wrapper(self, threshold: 120) do
+      translated_input(f, :member_form_price_reductions_texts,
+        hint: t("formtastic.hints.organization.member_form_price_reductions_text"),
+        as: :action_text,
+        required: false,
+        input_html: { rows: 5 })
+    end
+  end
+end

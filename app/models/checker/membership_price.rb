@@ -13,15 +13,7 @@ module Checker
     end
 
     def check!
-      expected_price =
-        basket_sizes_price +
-        baskets_price_extra +
-        baskets_annual_price_change +
-        basket_complements_price +
-        basket_complements_annual_price_change +
-        depots_price +
-        deliveries_price +
-        activity_participations_annual_price_change
+      expected_price = computed_membership_price
       if price != expected_price
         Rails.error.unexpected("Membership price cache error", context: {
           membership_id: id,

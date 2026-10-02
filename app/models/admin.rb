@@ -86,6 +86,7 @@ class Admin < ApplicationRecord
       all << "new_activity_participation_with_note" # only with note
     end
     all << "new_shop_order" if Current.org.feature?("shop")
+    all << "member_card_expiring" if Current.org.feature?("price_reductions")
     all
   end
 

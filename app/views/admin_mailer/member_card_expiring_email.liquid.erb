@@ -1,0 +1,9 @@
+<p><%= t(".greeting") %></p>
+
+<p><%= t(".intro_paragraph") %></p>
+
+{% highlight_list %}
+  {% for card in member_cards %}
+    <strong><a href="{{ card.member_url }}">{{ card.member_name }}</a></strong>, {{ card.card_name }}, {{ card.expires_on }}
+  {% endfor %}
+{% endhighlight_list %}

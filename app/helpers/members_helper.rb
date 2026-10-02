@@ -5,6 +5,36 @@ module MembersHelper
   DEPOT_FILTER_MIN = 8
   FEATURED_MEMBER_LIMIT = 8
 
+  def price_reduction_options(reductions, selected_id: nil, blank_id: nil)
+    # The blank value still posts nothing. Its generated id ends in "_"
+    # while the label for does not, so clicking the row does nothing.
+    none = [
+      collection_text(t("members.shared.price_reductions.none")),
+      "",
+      { checked: selected_id.blank?, id: blank_id }
+    ]
+    programs = reductions.map { |reduction|
+      [
+        collection_text(reduction.public_name, details: price_reduction_form_detail(reduction)),
+        reduction.id,
+        {
+          checked: selected_id.to_s == reduction.id.to_s,
+          data: {
+            depot_ids: reduction.depot_ids.join(","),
+            card_id: reduction.price_reduction_card_id
+          }
+        }
+      ]
+    }
+    [ none, *programs ]
+  end
+
+  def price_reduction_form_detail(reduction, force_default: false)
+    return reduction.form_detail if !force_default && reduction.form_detail?
+
+    reduction.placeholder_form_detail.to_s
+  end
+
   def notice_pane(icon_name = nil, &block)
     content_tag :div, class: "pane pane--notice" do
       concat icon(icon_name, class: "pane-icon") if icon_name
@@ -411,6 +441,15 @@ module MembersHelper
     org.activity_participations_form_min = attrs[:activity_participations_form_min].presence
     org.activity_participations_form_max = attrs[:activity_participations_form_max].presence
     org
+  end
+
+  def form_details_preview_price_reduction(raw)
+    attrs = form_details_preview_attrs(raw)
+    PriceReduction.new(
+      percentage: attrs[:percentage].presence,
+      fixed_amount: attrs[:fixed_amount].presence,
+      price_reduction_card_id: attrs[:price_reduction_card_id].presence,
+      depot_ids: Array(attrs[:depot_ids]).compact_blank)
   end
 
   def form_details_preview_basket_size(raw)

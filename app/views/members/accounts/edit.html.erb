@@ -44,6 +44,12 @@
       </div>
     <% end %>
 
+    <% if Current.org.feature?("price_reductions") && (card_type = current_member.current_price_reduction&.price_reduction_card) %>
+      <div class="form-block">
+        <%= render "members/accounts/cards", card_type: card_type %>
+      </div>
+    <% end %>
+
     <hr class="rule">
 
     <% if Current.org.languages.many? %>

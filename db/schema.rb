@@ -672,8 +672,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "delivery_cycle_ids"
+    t.integer "remind_before_days"
     t.index ["title"], name: "index_mail_templates_on_title", unique: true
     t.check_constraint "JSON_TYPE(delivery_cycle_ids) = 'array'", name: "mail_templates_delivery_cycle_ids_is_array"
+  end
+
+  create_table "member_cards", force: :cascade do |t|
+    t.integer "member_id", null: false
+    t.integer "price_reduction_card_id", null: false
+    t.string "name"
+    t.string "number"
+    t.date "expires_on"
+    t.date "expiration_notice_sent_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id", "price_reduction_card_id"], name: "index_member_cards_on_member_id_and_price_reduction_card_id", unique: true
+    t.index ["member_id"], name: "index_member_cards_on_member_id"
+    t.index ["price_reduction_card_id"], name: "index_member_cards_on_price_reduction_card_id"
   end
 
   create_table "members", force: :cascade do |t|
@@ -728,6 +743,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
     t.integer "shop_delivery_cycle_id"
     t.date "waiting_membership_started_on"
     t.string "shop_invoice_period"
+    t.integer "waiting_price_reduction_id"
     t.index ["anonymized_at"], name: "index_members_on_anonymized_at"
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["shop_delivery_cycle_id"], name: "index_members_on_shop_delivery_cycle_id"
@@ -738,6 +754,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
     t.index ["waiting_delivery_cycle_id"], name: "index_members_on_waiting_delivery_cycle_id"
     t.index ["waiting_depot_id"], name: "index_members_on_waiting_depot_id"
+    t.index ["waiting_price_reduction_id"], name: "index_members_on_waiting_price_reduction_id"
     t.index ["waiting_started_at"], name: "index_members_on_waiting_started_at"
   end
 
@@ -755,6 +772,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
     t.bigint "member_id", null: false
     t.index ["depot_id"], name: "index_members_waiting_alternative_depots_on_depot_id"
     t.index ["member_id"], name: "index_members_waiting_alternative_depots_on_member_id"
+  end
+
+  create_table "membership_price_reductions", force: :cascade do |t|
+    t.integer "membership_id", null: false
+    t.integer "price_reduction_id", null: false
+    t.decimal "percentage", precision: 5, scale: 2
+    t.decimal "fixed_amount", precision: 8, scale: 2
+    t.decimal "amount", precision: 8, scale: 2, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["membership_id"], name: "index_membership_price_reductions_on_membership_id", unique: true
+    t.index ["price_reduction_id"], name: "index_membership_price_reductions_on_price_reduction_id"
+    t.check_constraint "(percentage IS NULL) <> (fixed_amount IS NULL)", name: "membership_price_reductions_percentage_xor_fixed_amount"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -1065,6 +1095,37 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "price_reduction_cards", force: :cascade do |t|
+    t.json "names", default: {}, null: false
+    t.boolean "require_name", default: true, null: false
+    t.boolean "require_number", default: true, null: false
+    t.boolean "require_expires_on", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "price_reductions", force: :cascade do |t|
+    t.json "names", default: {}, null: false
+    t.json "form_details", default: {}, null: false
+    t.decimal "percentage", precision: 5, scale: 2
+    t.decimal "fixed_amount", precision: 8, scale: 2
+    t.decimal "cap_amount", precision: 8, scale: 2
+    t.string "cap_mode", default: "once", null: false
+    t.boolean "renew", default: false, null: false
+    t.json "depot_ids", default: [], null: false
+    t.integer "price_reduction_card_id"
+    t.boolean "visible", default: true, null: false
+    t.integer "member_order_priority", default: 1, null: false
+    t.datetime "discarded_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.json "public_names", default: {}, null: false
+    t.index ["price_reduction_card_id"], name: "index_price_reductions_on_price_reduction_card_id"
+    t.check_constraint "(percentage IS NULL) <> (fixed_amount IS NULL)", name: "price_reductions_percentage_xor_fixed_amount"
+    t.check_constraint "JSON_TYPE(depot_ids) = 'array'", name: "price_reductions_depot_ids_is_array"
+    t.check_constraint "cap_mode IN ('once', 'fiscal_year')", name: "price_reductions_cap_mode"
+  end
+
   create_table "producers", force: :cascade do |t|
     t.string "name", null: false
     t.string "website_url"
@@ -1271,9 +1332,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
   add_foreign_key "invoices", "sepa_mandates", on_delete: :nullify
   add_foreign_key "mail_deliveries", "members"
   add_foreign_key "mail_delivery_emails", "mail_deliveries"
+  add_foreign_key "member_cards", "members"
+  add_foreign_key "member_cards", "price_reduction_cards"
   add_foreign_key "members", "delivery_cycles", column: "shop_delivery_cycle_id"
   add_foreign_key "members", "depots", column: "shop_depot_id"
   add_foreign_key "members", "depots", column: "waiting_depot_id"
+  add_foreign_key "members", "price_reductions", column: "waiting_price_reduction_id"
+  add_foreign_key "membership_price_reductions", "memberships"
+  add_foreign_key "membership_price_reductions", "price_reductions"
   add_foreign_key "memberships", "delivery_cycles"
   add_foreign_key "memberships", "delivery_cycles", column: "alternate_delivery_cycle_id"
   add_foreign_key "memberships", "depots"
@@ -1285,6 +1351,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
   add_foreign_key "newsletters", "newsletter_templates"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "members"
+  add_foreign_key "price_reductions", "price_reduction_cards"
   add_foreign_key "sessions", "admins"
   add_foreign_key "sessions", "members"
   add_foreign_key "shop_order_groups", "members"

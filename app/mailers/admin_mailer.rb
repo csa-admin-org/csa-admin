@@ -299,6 +299,27 @@ class AdminMailer < ApplicationMailer
     end
   end
 
+  def member_card_expiring_email
+    @admin = params[:admin]
+    I18n.with_locale(@admin.language) do
+      cards = Array(params[:member_cards])
+      content = liquid_template.render(
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "member_cards" => cards.map { |card|
+          {
+            "member_name" => card.member.name,
+            "member_url" => Rails.application.routes.url_helpers.member_url(card.member, host: Current.org.admin_url),
+            "card_name" => card.price_reduction_card.name,
+            "expires_on" => card.expires_on && I18n.l(card.expires_on)
+          }
+        })
+      content_mail(content,
+        to: @admin.email,
+        subject: t(".subject"),
+        tag: "admin-member-card-expiring")
+    end
+  end
+
   private
 
   def demo_page_visit_summary_lines(admin)

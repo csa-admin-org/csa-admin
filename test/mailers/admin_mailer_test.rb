@@ -634,4 +634,22 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_not_includes body, "Member's note:"
     assert_not_includes body, "continue paying the annual fee"
   end
+
+  test "member_card_expiring_email preview" do
+    I18n.locale = :en
+    mail = AdminMailerPreview.new.member_card_expiring_email
+
+    assert_equal [ "admin@csa-admin.org" ], mail.to
+    assert_equal "Reduction cards expiring", mail.subject
+    assert_equal "admin-member-card-expiring", mail.tag
+
+    body = mail.body.to_s
+    assert_includes body, "Hello John,"
+    assert_includes body, "These reduction cards expire soon."
+    assert_includes body, "https://admin.acme.test/members/2"
+    assert_includes body, "Martha"
+    assert_includes body, "Jane"
+    assert_includes body, "CarteCulture, 31 July 2026"
+    assert_includes body, "CarteCulture, 15 August 2026"
+  end
 end

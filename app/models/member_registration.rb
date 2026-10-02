@@ -13,6 +13,7 @@ class MemberRegistration
   def save
     return save_existing! if @member.persisted?
 
+    prepare_support_only_registration! if support_only?
     if @member.save
       notify_admins!
       return true
@@ -60,6 +61,10 @@ class MemberRegistration
     @permitted_params[:waiting_basket_size_id].to_s == "0"
   end
 
+  def prepare_support_only_registration!
+    @member.waiting_price_reduction_id = nil
+  end
+
   def prepare_support_only_reregistration!
     @member.waiting_depot_id = nil
     @member.waiting_delivery_cycle_id = nil
@@ -68,6 +73,7 @@ class MemberRegistration
     @member.waiting_billing_year_division = nil
     @member.waiting_basket_complement_ids = []
     @member.waiting_alternative_depot_ids = []
+    @member.waiting_price_reduction_id = nil
     @member.annual_fee ||= Current.org.annual_fee if Current.org.feature?("annual_fee")
   end
 

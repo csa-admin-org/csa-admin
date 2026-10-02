@@ -117,6 +117,11 @@
                 <% if DeliveryCycle.visible? %>
                   <%= f.input :delivery_cycle_id, as: :radio_buttons, collection: visible_delivery_cycles_collection(membership: @membership, only_with_future_deliveries: true, data: { form_choices_limiter_target: "input", action: "form-pricing#refresh" }), disabled: (DeliveryCycle.pluck(:id) - @membership.depot.delivery_cycle_ids - [ @membership.delivery_cycle_id ]), label: Delivery.model_name.human(count: 2), required: true, label_html: { class: "form-label" } %>
                 <% end %>
+
+                <%= render "members/shared/price_reductions",
+                  f: f,
+                  field: :selected_price_reduction_id,
+                  depot_field: :depot_id %>
               </div>
             <% end %>
 
@@ -154,7 +159,7 @@
     <% if params[:decision] == "renew" %>
       <%= turbo_frame_tag "pricing" do %>
         <% if params[:membership].present? %>
-          <%= render partial: "members/members/pricing", locals: { params: renewal_params.to_unsafe_h } %>
+          <%= render partial: "members/members/pricing", locals: { params: renewal_params.to_unsafe_h.merge(renewal_fiscal_year: @membership.fy_year + 1) } %>
         <% end %>
       <% end %>
     <% end %>

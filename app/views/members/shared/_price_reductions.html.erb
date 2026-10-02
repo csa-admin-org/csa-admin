@@ -1,0 +1,72 @@
+<%# locals: (f:, field:, depot_field:, support_checked: false) %>
+<% if Current.org.feature?("price_reductions") %>
+  <% reductions = PriceReduction.visible.kept.member_ordered.includes(:price_reduction_card) %>
+  <% if reductions.any? %>
+    <div
+      class="print-avoid-break"
+      data-controller="price-reduction"
+      data-price-reduction-depot-field-value="<%= f.object_name %>[<%= depot_field %>]"
+    >
+      <legend class="form-label"><%= PriceReduction.model_name.human %></legend>
+
+      <% if Current.org.member_form_price_reductions_text.present? %>
+        <div class="trix-content form-richtext">
+          <%= Current.org.member_form_price_reductions_text %>
+        </div>
+      <% end %>
+
+      <%= f.input field,
+        as: :radio_buttons,
+        collection: price_reduction_options(
+          reductions,
+          selected_id: f.object.public_send(field),
+          blank_id: f.field_id(field)),
+        label: false,
+        required: false,
+        wrapper_html: { class: ("disabled" if support_checked) },
+        input_html: {
+          disabled: support_checked,
+          data: { action: "price-reduction#filter form-pricing#refresh" }
+        } %>
+
+      <% reductions.filter_map(&:price_reduction_card).uniq.each do |card_type| %>
+        <% owner = f.object.is_a?(Member) ? f.object : current_member %>
+        <% card = owner&.member_card_for(card_type) || MemberCard.new(price_reduction_card: card_type) %>
+
+        <fieldset
+          class="reduction-card is-hidden"
+          disabled
+          data-price-reduction-target="card"
+          data-card-id="<%= card_type.id %>"
+        >
+          <legend class="form-label">
+            <%= PriceReductionCard.model_name.human %>: <%= card_type.name %>
+          </legend>
+
+          <p class="reduction-card-copy">
+            <%= t("members.shared.price_reductions.card_hint") %>
+          </p>
+
+          <div class="form-fields">
+            <%= simple_fields_for "#{f.object_name}[member_cards_attributes][]", card do |card_fields| %>
+              <%= card_fields.hidden_field :id if card.persisted? %>
+              <%= card_fields.hidden_field :price_reduction_card_id, value: card_type.id %>
+
+              <% if card_type.require_name? %>
+                <%= card_fields.input :name, required: true, placeholder: "", input_html: { data: { action: "form-pricing#refresh" } } %>
+              <% end %>
+
+              <% if card_type.require_number? %>
+                <%= card_fields.input :number, required: true, placeholder: "", input_html: { data: { action: "form-pricing#refresh" } } %>
+              <% end %>
+
+              <% if card_type.require_expires_on? %>
+                <%= card_fields.input :expires_on, as: :date, html5: true, required: true, placeholder: "", input_html: { data: { action: "form-pricing#refresh" } } %>
+              <% end %>
+            <% end %>
+          </div>
+        </fieldset>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

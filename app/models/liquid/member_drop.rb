@@ -32,6 +32,16 @@ class Liquid::MemberDrop < Liquid::Drop
     url(:members_member)
   end
 
+  def account_url
+    url(:members_account)
+  end
+
+  def edit_card_url
+    return unless Current.org.feature?("price_reductions")
+
+    url(:edit_members_account, anchor: "card")
+  end
+
   def billing_url
     url(:members_billing)
   end

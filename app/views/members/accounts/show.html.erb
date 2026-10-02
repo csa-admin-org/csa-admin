@@ -51,6 +51,20 @@
       </li>
     <% end %>
 
+    <% if Current.org.feature?("price_reductions") && (card_type = current_member.current_price_reduction&.price_reduction_card) %>
+      <% card = current_member.member_card_for(card_type) %>
+      <li class="account-row">
+        <%= icon "id-card", class: "icon-md" %>
+
+        <span>
+          <%= PriceReductionCard.model_name.human %>: <%= card_type.name %>
+          <% if card&.masked_number.present? %>
+            <span class="is-muted"><%= card.masked_number %></span>
+          <% end %>
+        </span>
+      </li>
+    <% end %>
+
     <% if current_member.use_shop_depot? %>
       <li class="account-row is-shop">
         <%= icon "shopping-basket", class: "icon-md" %>

@@ -7,6 +7,7 @@ module Member::Waiting
     belongs_to :waiting_basket_size, class_name: "BasketSize", optional: true
     belongs_to :waiting_depot, class_name: "Depot", optional: true
     belongs_to :waiting_delivery_cycle, class_name: "DeliveryCycle", optional: true
+    belongs_to :waiting_price_reduction, class_name: "PriceReduction", optional: true
     has_and_belongs_to_many :waiting_alternative_depots,
       class_name: "Depot",
       join_table: "members_waiting_alternative_depots",
@@ -108,6 +109,7 @@ module Member::Waiting
     if Current.org.billing_year_divisions.include?(membership.billing_year_division)
       self.waiting_billing_year_division = membership.billing_year_division
     end
+    assign_waiting_price_reduction(membership)
     catalog_ids = BasketComplement.visible.select { |c| c.deliveries_count.positive? }.map(&:id)
     membership.memberships_basket_complements.each do |mbc|
       next unless catalog_ids.include?(mbc.basket_complement_id)
@@ -157,6 +159,19 @@ module Member::Waiting
     return false unless (ended_on = waiting_membership_end_on(started_on))
 
     waiting_delivery_cycle&.deliveries_in(started_on..ended_on)&.any?
+  end
+
+  def waiting_price_reduction_skip_reason(on: waiting_membership_start_on || Date.current)
+    reduction = waiting_price_reduction
+    return unless reduction
+    return :feature unless Current.org.feature?("price_reductions")
+
+    reduction.skip_reason(
+      waiting_price_reduction_gross,
+      depot: waiting_depot,
+      year: Current.org.fiscal_year_for(on).year,
+      member: self,
+      on: on)
   end
 
   def create_membership_from_waiting_request!(started_on: waiting_membership_start_on)
@@ -210,7 +225,8 @@ module Member::Waiting
       waiting_basket_price_extra: nil,
       waiting_activity_participations_demanded_annually: nil,
       waiting_billing_year_division: nil,
-      waiting_membership_started_on: nil)
+      waiting_membership_started_on: nil,
+      waiting_price_reduction_id: nil)
     self.waiting_basket_complement_ids = []
     self.waiting_alternative_depot_ids = []
   end
@@ -221,6 +237,41 @@ module Member::Waiting
   end
 
   private
+
+  def assign_waiting_price_reduction(membership)
+    return unless Current.org.feature?("price_reductions")
+
+    reduction = membership.price_reduction
+    return unless reduction&.visible? && !reduction.discarded?
+
+    depot = waiting_depot || membership.depot
+    on = Date.current
+    gross = waiting_price_reduction_gross
+    gross = membership.price_before_reduction if gross.zero?
+    return if reduction.skip_reason(
+      gross,
+      depot: depot,
+      year: Current.org.fiscal_year_for(on).year,
+      member: self,
+      on: on)
+
+    self.waiting_price_reduction = reduction
+  end
+
+  def waiting_price_reduction_gross
+    return 0 unless waiting_basket_size && waiting_depot
+
+    complements = members_basket_complements.reject(&:marked_for_destruction?).each_with_index.to_h { |comp, index|
+      [ index.to_s, { basket_complement_id: comp.basket_complement_id, quantity: comp.quantity } ]
+    }
+    pricing = MembershipPricing.new(
+      basket_size_id: waiting_basket_size_id,
+      depot_id: waiting_depot_id,
+      delivery_cycle_id: waiting_delivery_cycle_id,
+      basket_price_extra: waiting_basket_price_extra,
+      members_basket_complements_attributes: complements)
+    pricing.prices.max.to_d
+  end
 
   def clear_stale_waiting_membership_started_on
     return unless stale_waiting_membership_started_on?

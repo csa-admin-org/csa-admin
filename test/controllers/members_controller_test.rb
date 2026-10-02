@@ -104,6 +104,85 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action='#{resend_welcome_email_member_path(members(:jane))}']"
   end
 
+  test "new and edit render card fields and the index filters by card" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features | [ "price_reductions" ])
+    card_type = PriceReductionCard.create!(
+      names: { "en" => "Culture card" },
+      require_name: true,
+      require_number: false,
+      require_expires_on: true)
+    other = PriceReductionCard.create!(
+      names: { "en" => "Other" },
+      require_name: false,
+      require_number: true,
+      require_expires_on: false)
+    member = members(:jane)
+    MemberCard.create!(
+      member: member,
+      price_reduction_card: card_type,
+      name: "Jane",
+      number: "CC-4242",
+      expires_on: Date.new(2023, 12, 31))
+    login admins(:super)
+
+    get new_member_path
+
+    assert_response :success
+    assert_select "fieldset[data-controller=form-member-card]", count: 0
+    add = css_select("a.has-many-add").find { |link| link.text == "Add a new card" }
+    assert add
+    template = CGI.unescapeHTML(add["data-html"])
+    assert_includes template, "data-controller=\"form-member-card\""
+    assert_includes template, "selected=\"selected\" value=\"#{card_type.id}\""
+    assert_includes template, "data-require-name=\"true\""
+    assert_includes template, "data-form-member-card-target=\"name\""
+    assert_includes template, "data-form-member-card-target=\"number\""
+    assert_match(/data-form-member-card-target="name"(?![^>]*is-hidden)/, template)
+    assert_match(/class="is-hidden[^"]*"[^>]*data-form-member-card-target="number"/, template)
+
+    get edit_member_path(member)
+
+    assert_response :success
+    assert_select "label", text: "Type"
+    assert_select "select[name*='price_reduction_card_id'][required]", false
+    assert_select "select[name*='price_reduction_card_id'] option[selected][value=?]", card_type.id.to_s
+    assert_select "input[name*='[name]'][value=?][required]", "Jane"
+    assert_select "li[data-form-member-card-target=name] abbr", text: "*"
+    assert_select "fieldset#cards"
+    assert_select "li[data-form-member-card-target=number].is-hidden input[disabled]"
+
+    get member_path(member)
+
+    assert_response :success
+    assert_select ".panel", text: /Cards/ do
+      assert_select "ul.disc-list.is-outside.member-card-list"
+      assert_select "li", text: /Culture card/ do
+        assert_select "a[href=?]", edit_member_path(member, anchor: "cards"), text: "Culture card"
+        assert_select ".text-xs.is-faint", text: "CC-4242"
+        assert_select ".text-xs.is-faint", text: I18n.l(Date.new(2023, 12, 31))
+        assert_select ".status-tag[data-status=expired]"
+      end
+    end
+
+    get members_path, params: { q: { with_member_card: card_type.id }, scope: :all }
+
+    assert_response :success
+    assert_select "select#q_with_member_card"
+    assert_select "td a[href='#{member_path(member)}']"
+    assert_select "td a[href='#{member_path(members(:john))}']", count: 0
+
+    get member_path(members(:john))
+
+    assert_response :success
+    assert_select "a[href=?]", edit_member_path(members(:john), anchor: "cards"), text: "No card on file"
+
+    get members_path, params: { q: { with_member_card: other.id }, scope: :all }
+
+    assert_response :success
+    assert_select "td a[href='#{member_path(member)}']", count: 0
+  end
+
   test "index renders membership scopes, shop mode, and CSV" do
     login admins(:super)
 

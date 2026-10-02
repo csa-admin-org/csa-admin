@@ -131,6 +131,15 @@
     padding: 0.5rem;
   }
 
+  /* Outside markers sit in the list padding. overflow on the body clips them. */
+  .panel-body:has(> .member-card-list) {
+    overflow: visible;
+  }
+
+  .member-card-list > li + li {
+    margin-top: 0.375rem;
+  }
+
   /* Sidebar cards. p-4 py-3 on the old class list never painted. */
   .admin-side-panel {
     padding: 0.75rem 1rem;
@@ -409,4 +418,9 @@
       }
     }
   }
+}
+
+/* Unlayered so it wins over .disc-list.is-outside { padding-inline-start }. */
+.disc-list.is-outside.member-card-list {
+  padding: 0 0.5rem 0.5rem 2rem;
 }

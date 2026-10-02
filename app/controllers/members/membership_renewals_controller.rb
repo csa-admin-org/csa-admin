@@ -6,8 +6,12 @@ class Members::MembershipRenewalsController < Members::BaseController
   before_action :redirect_renewal_decision_params!, only: :new
 
   def new
+    reduction = @membership.price_reduction
     @membership = @membership.dup
     @membership.renewal_decision = params[:decision]
+    if reduction&.renew? && reduction.visible? && !reduction.discarded?
+      @membership.selected_price_reduction_id = reduction.id
+    end
     set_basket_complements
   end
 
@@ -17,8 +21,10 @@ class Members::MembershipRenewalsController < Members::BaseController
       @membership.cancel!(renewal_params)
       flash[:notice] = t(".flash.canceled")
     when "renew"
-      @membership.renew!(renewal_params)
+      save_renewal_cards!
+      membership = @membership.renew!(renewal_params)
       flash[:notice] = t(".flash.renewed")
+      flash[:alert] = t(".flash.price_reduction_skipped") if membership.price_reduction_skipped
     end
 
     redirect_to members_memberships_path
@@ -71,15 +77,36 @@ class Members::MembershipRenewalsController < Members::BaseController
     end
   end
 
+  def save_renewal_cards!
+    return unless Current.org.feature?("price_reductions")
+
+    cards = params.fetch(:membership, {}).permit(
+      :selected_price_reduction_id,
+      member_cards_attributes: [ :id, :price_reduction_card_id, :name, :number, :expires_on ])
+    PriceReduction.scope_public_params(cards, :selected_price_reduction_id)
+    return if cards[:member_cards_attributes].blank?
+
+    current_member.update!(cards.except(:selected_price_reduction_id))
+  end
+
   def renewal_params
     permitted = params
       .require(:membership)
-      .permit(*renewal_permitted_keys, memberships_basket_complements_attributes: [
-        :basket_complement_id, :quantity
-      ])
+      .permit(*renewal_permitted_keys,
+        memberships_basket_complements_attributes: [
+          :basket_complement_id, :quantity
+        ],
+        member_cards_attributes: [
+          :id, :price_reduction_card_id, :name, :number, :expires_on
+        ])
     permitted[:memberships_basket_complements_attributes]&.select! { |i, attrs|
       attrs["quantity"].to_i > 0
     }
+    if Current.org.feature?("price_reductions")
+      PriceReduction.scope_public_params(permitted, :selected_price_reduction_id)
+    else
+      permitted.delete(:member_cards_attributes)
+    end
     permitted
   end
 
@@ -94,6 +121,7 @@ class Members::MembershipRenewalsController < Members::BaseController
       billing_year_division
     ]
     keys << :basket_price_extra if Current.org.feature?("basket_price_extra")
+    keys << :selected_price_reduction_id if Current.org.feature?("price_reductions")
     keys
   end
   helper_method :renewal_params

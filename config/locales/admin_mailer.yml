@@ -278,6 +278,25 @@ _:
         _de: 'Die 3. Mahnung wurde soeben für die Rechnung #{{ invoice.number }} von <strong>{{ member.name }}</strong> verschickt.'
         _it: 'Il 3° richiamo è stato appena inviato per la fattura #{{ invoice.number }} di <strong>{{ member.name }}</strong>.'
         _nl: 'De 3e herinnering is zojuist verzonden voor factuur #{{ invoice.number }} van <strong>{{ member.name }}</strong>.'
+    member_card_expiring_email:
+      greeting:
+        _en: Hello {{ admin.name }},
+        _fr: Salut {{ admin.name }},
+        _de: Hallo {{ admin.name }},
+        _it: Ciao {{ admin.name }},
+        _nl: Hallo {{ admin.name }},
+      intro_paragraph:
+        _en: These reduction cards expire soon. The reduction stays on the current membership. It is checked again when a membership is created or renewed.
+        _fr: Ces cartes de réduction expirent bientôt. La réduction reste sur l'abonnement en cours. Elle est revérifiée à la création ou au renouvellement d'un abonnement.
+        _de: Diese Reduktionskarten laufen bald ab. Die Reduktion bleibt auf dem laufenden Abo. Sie wird beim Erstellen oder Verlängern eines Abos erneut geprüft.
+        _it: Queste tessere di riduzione scadono presto. La riduzione resta sull'abbonamento in corso. Viene ricontrollata alla creazione o al rinnovo di un abbonamento.
+        _nl: Deze reductiekaarten verlopen binnenkort. De reductie blijft op het lopende lidmaatschap. Ze wordt opnieuw gecontroleerd bij het aanmaken of vernieuwen van een lidmaatschap.
+      subject:
+        _en: Reduction cards expiring
+        _fr: Cartes de réduction bientôt expirées
+        _de: Reduktionskarten laufen ab
+        _it: Tessere di riduzione in scadenza
+        _nl: Reductiekaarten verlopen
     membership_trial_cancelation_email:
       annual_fee_paragraph:
         _en: The member has chosen to continue paying the annual fee.

@@ -17,7 +17,8 @@ module Scheduled
       Notification::ActivityParticipationReminder,
       Notification::ActivityParticipationValidated,
       Notification::ActivityParticipationRejected,
-      Notification::BiddingRoundOpenedReminder
+      Notification::BiddingRoundOpenedReminder,
+      Notification::MemberCardExpiring
     ].freeze
 
     def perform

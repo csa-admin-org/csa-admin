@@ -6,7 +6,7 @@ class Membership < ApplicationRecord
   include HasDescription
   include Timeframe, Absence, AbsencesIncludedRemindable,
           BasketShifts, BasketOverrides, Trial, Renewal, Pricing, Activity,
-          MemberUpdatable
+          PriceReduction, MemberUpdatable
   include Auditing # Must come after all other concerns
   include Searchable
 
@@ -86,11 +86,19 @@ class Membership < ApplicationRecord
     left_joins(:memberships_basket_complements)
       .where(memberships_basket_complements: { basket_complement_id: id })
   }
+  scope :with_price_reduction, ->(id) {
+    if id.present?
+      where(id: MembershipPriceReduction.where(price_reduction_id: id).select(:membership_id))
+    else
+      all
+    end
+  }
 
   def self.ransackable_scopes(_auth_object = nil)
     super + %i[
       renewal_state_eq
       with_memberships_basket_complement
+      with_price_reduction
       activity_participations_missing_eq
       activity_participations_missing_gt
       activity_participations_missing_lt
@@ -170,6 +178,7 @@ class Membership < ApplicationRecord
         quantity: mbc.quantity)
     end
     self.billing_year_division = member.waiting_billing_year_division
+    apply_waiting_price_reduction!(member)
     self
   end
 
@@ -244,6 +253,7 @@ class Membership < ApplicationRecord
   def setup_new_membership!
     create_baskets!
     clear_member_waiting_info!
+    sync_price_reduction!(enforce: true)
   end
 
   def sync_baskets_after_update!
@@ -251,6 +261,7 @@ class Membership < ApplicationRecord
     sync_baskets_with_ended_on_change!
     sync_baskets_with_config_change!
     delete_bidding_round_pledge_on_basket_size_change!
+    sync_price_reduction!(enforce: true)
   end
 
   def cleanup_on_destroy!

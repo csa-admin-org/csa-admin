@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(PriceReduction.model_name.human(count: 2)) {
+      link_to PriceReduction.kept.count, price_reductions_path
+    }
+    row(PriceReductionCard.model_name.human(count: 2)) {
+      link_to PriceReductionCard.count, price_reduction_cards_path
+    }
+    row(:member_form_price_reductions_text) do
+      text = org.member_form_price_reductions_text_as_plain_text
+      if text.present?
+        helpers.truncate(text.squish, length: 180)
+      else
+        organization_settings_empty_value
+      end
+    end
+  end
+end

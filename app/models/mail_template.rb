@@ -11,6 +11,9 @@ class MailTemplate < ApplicationRecord
     member_activated
     member_shop_depot_activated
   ].freeze
+  PRICE_REDUCTION_TITLES = %w[
+    price_reduction_card_expiring
+  ].freeze
   MEMBERSHIP_TITLES = %w[
     membership_renewal
     membership_renewal_reminder
@@ -51,6 +54,7 @@ class MailTemplate < ApplicationRecord
   BILLING_SCOPES = %w[invoice sepa_mandate].freeze
   SCOPE_TITLES = {
     "member" => MEMBER_TITLES,
+    "price_reduction" => PRICE_REDUCTION_TITLES,
     "membership" => MEMBERSHIP_TITLES,
     "basket" => BASKET_TITLES,
     "absence" => ABSENCE_TITLES,
@@ -68,6 +72,7 @@ class MailTemplate < ApplicationRecord
     absence_included_reminder
     activity_participation_reminder
   ].freeze
+  CARD_EXPIRING_REMIND_BEFORE_DAYS = 30
   ACTIVE_BY_DEFAULT_TITLES = ALWAYS_ACTIVE_TITLES + %w[
     invoice_overdue_notice
     bidding_round_opened
@@ -75,6 +80,7 @@ class MailTemplate < ApplicationRecord
     bidding_round_completed
     bidding_round_failed
     sepa_mandate_confirmation
+    price_reduction_card_expiring
   ]
   TITLES_WITH_DELIVERY_CYCLES_SCOPE = BASKET_TITLES.freeze
 
@@ -86,8 +92,13 @@ class MailTemplate < ApplicationRecord
     inclusion: { in: TITLES },
     uniqueness: true
   validates :delivery_cycle_ids, presence: true, if: :active?
+  validates :remind_before_days,
+    numericality: { only_integer: true, greater_than_or_equal_to: 0 },
+    presence: true,
+    if: :card_expiring_delay?
   validate :subjects_must_be_valid, :contents_must_be_valid
 
+  before_validation :set_card_expiring_remind_before_days, if: :card_expiring_delay?
   after_initialize :set_defaults
 
   scope :active, -> { where(active: true) }
@@ -103,6 +114,11 @@ class MailTemplate < ApplicationRecord
 
   def self.active_template?(title)
     active.exists?(title: title)
+  end
+
+  def self.card_expiring_remind_before_days
+    find_by(title: "price_reduction_card_expiring")&.remind_before_days ||
+      CARD_EXPIRING_REMIND_BEFORE_DAYS
   end
 
   def self.create_all!
@@ -168,6 +184,21 @@ class MailTemplate < ApplicationRecord
     title.in?(TITLES_WITH_DELIVERY_CYCLES_SCOPE)
   end
 
+  def price_reduction_card_expiring?
+    title == "price_reduction_card_expiring"
+  end
+
+  def card_expiring_delay?
+    price_reduction_card_expiring? && has_attribute?(:remind_before_days)
+  end
+
+  def remind_before_days
+    value = has_attribute?(:remind_before_days) ? super : nil
+    return value unless price_reduction_card_expiring?
+
+    value || CARD_EXPIRING_REMIND_BEFORE_DAYS
+  end
+
   def scope_name
     TITLE_SCOPE_MAP.fetch(title)
   end
@@ -215,6 +246,8 @@ class MailTemplate < ApplicationRecord
       Current.org.open_renewal_reminder_sent_after_in_days.blank?
     when "member_shop_depot_activated"
       !Current.org.feature?(:shop)
+    when "price_reduction_card_expiring"
+      !Current.org.feature?(:price_reductions)
     when "bidding_round_opened_reminder"
       Current.org.open_bidding_round_reminder_sent_after_in_days.blank?
     when "basket_second_last_trial"
@@ -281,6 +314,12 @@ class MailTemplate < ApplicationRecord
     self.active = active_by_default? if new_record? && !active
     self.subjects = default_subjects
     self.contents = default_contents
+  end
+
+  def set_card_expiring_remind_before_days
+    return unless has_attribute?(:remind_before_days)
+
+    self[:remind_before_days] ||= CARD_EXPIRING_REMIND_BEFORE_DAYS
   end
 
   def default_subjects

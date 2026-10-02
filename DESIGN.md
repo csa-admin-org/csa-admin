@@ -74,6 +74,7 @@ The panel icon for a concept **must** match the nav icon when one exists.
 | Bidding Round      | `scale`            |     |                                       |
 | Shares             | `receipt-text`     |     |                                       |
 | Basket Content     | `sprout`           |     |                                       |
+| Price reduction    | `ticket-percent`   |     | Not the shop tag icon                 |
 
 #### Non-Model / Generic Panel Icons
 

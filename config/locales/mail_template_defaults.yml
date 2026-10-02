@@ -1176,6 +1176,43 @@ _:
         _de: Zugang zum Verlängerungsformular
         _it: Accedere al formulario di rinnovo
         _nl: Toegang tot het vernieuwingsformulier
+    price_reduction_card_expiring:
+      account_button:
+        _en: Update my card
+        _fr: Mettre à jour ma carte
+        _de: Meine Karte aktualisieren
+        _it: Aggiornare la mia tessera
+        _nl: Mijn kaart bijwerken
+      account_paragraph:
+        _en: Update the card from your account so the reduction can still be applied to your membership in the future.
+        _fr: Mettez à jour la carte depuis votre compte afin que la réduction puisse encore être appliquée à votre abonnement à l'avenir.
+        _de: Aktualisiere die Karte in Deinem Konto, damit die Reduktion auch künftig auf Dein Abonnement angewendet werden kann.
+        _it: Aggiorna la tessera dal tuo account perché la riduzione possa ancora essere applicata al tuo abbonamento in futuro.
+        _nl: Werk de kaart bij in je account zodat de reductie in de toekomst nog op je lidmaatschap toegepast kan worden.
+      expires_on_label:
+        _en: 'Expires on:'
+        _fr: 'Expire le:'
+        _de: 'Gültig bis:'
+        _it: 'Scade il:'
+        _nl: 'Verloopt op:'
+      intro_paragraph:
+        _en: Your card "%{card}" expires on %{date}.
+        _fr: Votre carte "%{card}" expire le %{date}.
+        _de: Deine Karte "%{card}" läuft am %{date} ab.
+        _it: La tua tessera "%{card}" scade il %{date}.
+        _nl: Je kaart "%{card}" verloopt op %{date}.
+      name_label:
+        _en: 'Name:'
+        _fr: 'Nom:'
+        _de: 'Name:'
+        _it: 'Nome:'
+        _nl: 'Naam:'
+      number_label:
+        _en: 'Number:'
+        _fr: 'Numéro:'
+        _de: 'Nummer:'
+        _it: 'Numero:'
+        _nl: 'Nummer:'
     sepa_mandate_confirmation:
       billing_button:
         _en: View my billing page

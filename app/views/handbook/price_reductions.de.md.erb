@@ -1,0 +1,56 @@
+# Preisreduktion
+
+Eine Preisreduktion senkt den Gesamtpreis des Abonnements. Sie reduziert weder den [Jahresbeitrag](/handbook/billing#annual-fee), noch die [Anteilscheine](/handbook/billing#share-capital), noch die [Teilnahmegebühr](/handbook/new_member_fee) neuer Mitglieder.
+
+Der [Preis Extra](/handbook/basket_price_extra) dient vor allem dazu, den Preis pro <%= Basket.model_name.human %> zu erhöhen, aber ein negatives Extra bleibt möglich.
+
+Aktiviere diese Funktion in [den Einstellungen](/settings#price_reductions). Der Erklärungstext, falls Du einen schreibst, erscheint über den Auswahlmöglichkeiten des Anmeldeformulars. Sobald die Funktion aktiviert ist, erstellst Du die Reduktionen und die [Karten](#cards) über das Menü Weiteres (…). Mehrere Reduktionen und Karten können gleichzeitig aktiv sein.
+
+## Reduktionen {#programs}
+
+Jede Reduktion hat einen Namen und eine optionale Beschreibung. Die Beschreibung ist die Erklärung im Anmeldeformular. Lass sie leer, um das generierte Detail zu verwenden, wie bei einer <%= BasketSize.model_name.human %> oder einem <%= BasketComplement.model_name.human %>.
+
+Die Reduktion ist ein Prozentsatz oder ein fester Betrag, nicht beides.
+
+Wie <%= BasketSize.model_name.human(count: 2) %> oder <%= BasketComplement.model_name.human(count: 2) %> kann eine Reduktion verborgen sein. Verborgene Reduktionen bleiben in der Administration verfügbar und werden im Anmelde- oder Erneuerungsformular nicht angeboten.
+
+> Eine Reduktion kann auf bestimmte Depots beschränkt sein. Lass die Liste leer, um alle Depots zu erlauben. Die Liste wird nur beim Anwenden der Reduktion geprüft. Ein späterer Depotwechsel entfernt eine bereits gewährte Reduktion nicht. Entferne sie selbst, indem Du das Abonnement änderst, wenn sie nicht bleiben soll.
+
+## Plafond {#cap}
+
+Der Plafond ist optional. **Einmalig** ist ein einzelner Gesamtbetrag, zum Beispiel eine Spende. **Pro Geschäftsjahr** beginnt jedes Jahr neu, zum Beispiel eine jährliche Hilfe.
+
+Der Plafond zählt nur bei der Erstellung oder Erneuerung eines Abonnements, nicht bei der Anmeldung. Wenn der nötige Betrag nicht mehr verfügbar ist, ist die Option im Formular deaktiviert und das Abonnement wird ohne sie erstellt. Vor der Aktivierung erscheint eine Warnung auf der Mitgliedsseite.
+
+Einen Plafond zu speichern, der unter dem bereits gewährten Betrag liegt, wird abgelehnt. Ein jährlicher Plafond wird für das laufende Jahr und die künftigen Jahre geprüft, nicht für vergangene Jahre. Senke zuerst die gewährten Beträge, oder nimm diese Abonnements aus der Reduktion, und speichere dann den Plafond.
+
+Sobald die Reduktion gewährt ist, berechnet jede Preisänderung des Abonnements den Betrag neu. Wenn die neue Reduktion nicht mehr in den Plafond passt, wird sie auf den Rest begrenzt. Sie wird nicht entfernt. Eine bereits gesendete Rechnung wird storniert, wie bei jeder [Preisänderung](/handbook/billing#price-change).
+
+> Eine Änderung der Reduktionskonfiguration ändert die Abonnements nicht, die sie schon haben. Die Konfiguration ist auf dem Abonnement gespeichert, wie ein Preis der <%= Basket.model_name.human %>. Änderungen gelten beim nächsten Anwenden, bei einem neuen Abonnement oder bei einer Erneuerung, die sie übernimmt. Du kannst diese Kopie auf dem Abonnement ändern. Diese Änderung wird nicht übernommen: die Erneuerung nimmt die aktuelle Konfiguration der Reduktion. Das Speichern schlägt fehl, wenn der eingegebene Abzug nicht mehr in den Rest des Plafonds passt.
+
+## Erneuerung {#renewal}
+
+**Verlängern** kopiert die aktuelle Reduktion auf das nächste Abonnement und berechnet den Betrag neu. Wenn der Plafond, das Depot oder die Karte nicht mehr passt, gelingt die Erneuerung trotzdem und die Reduktion wird ignoriert.
+
+Wenn **Verlängern** deaktiviert ist, beginnt das nächste Abonnement ohne die Reduktion. Das Mitglied kann sie im [Erneuerungsformular](/handbook/membership_renewal#renewal-form) trotzdem wählen, wenn sie sichtbar ist und noch in den Plafond passt.
+
+## Karten {#cards}
+
+Eine Reduktion kann eine Karte oder ein Dokument verlangen. Die Kartentypen verwaltest Du unter [Karten](/price_reduction_cards), verlinkt von der Reduktionsliste. Jeder Typ gibt an, welche Felder unter Name, Nummer und Ablaufdatum erforderlich sind. Diese Felder müssen ausgefüllt sein, wenn diese Reduktion ausgewählt ist.
+
+Das Mitglied gibt die Karte im Anmeldeformular nach dem Depot ein und kann sie im Konto aktualisieren. Eine abgelaufene Karte wird ignoriert, wenn die Reduktion angewendet oder verlängert wird. Eine bereits gewährte Reduktion bleibt bis zum Ende des Abonnements, auch wenn die Karte im Laufe des Jahres abläuft. Du kannst sie von Hand entfernen.
+
+[Eine Erinnerungs-E-Mail](/mail_templates/price_reduction_card_expiring) wird gesendet, wenn die Karte in die auf dieser E-Mail gesetzte Erinnerungsfrist fällt. Die Nummer ist dort maskiert. Du kannst die Benachrichtigung "Reduktionskarte läuft ab" aktivieren, um eine einzige E-Mail zu erhalten, für Karten eines laufenden oder künftigen Abonnements oder einer noch auf einer Anmeldung ausgewählten Reduktion.
+
+Um im Validierungs-E-Mail ein Foto oder einen Nachweis zu verlangen, ändere [Mitglied validiert](/mail_templates/member_validated). Der Standardtext wird nicht geändert. Diese Variablen sind verfügbar:
+
+~~~ liquid
+{% if waiting_price_reduction %}
+  Bitte antworte mit einem Foto Deiner Karte, um {{ waiting_price_reduction.name }} zu erhalten.
+  {% if member_card %}
+    Karte endend auf {{ member_card.number }}, gültig bis {{ member_card.expires_on }}.
+  {% endif %}
+{% endif %}
+~~~
+
+Wenn Du diesen Satz nur für eine Reduktion willst, verwende zum Beispiel `{% if waiting_price_reduction.id == 1 %}`. In Abonnement-E-Mails sind `membership.price_reduction.name` und `membership.price_reduction.amount` die gewährte Reduktion.

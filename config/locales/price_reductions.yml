@@ -1,0 +1,59 @@
+_:
+  price_reductions:
+    choice:
+      expired:
+        _en: "%{card} expired"
+        _fr: "%{card} expirée"
+        _de: "%{card} abgelaufen"
+        _it: "%{card} scaduta"
+        _nl: "%{card} verlopen"
+      required:
+        _en: "%{card} required"
+        _fr: "%{card} requise"
+        _de: "%{card} erforderlich"
+        _it: "%{card} richiesta"
+        _nl: "%{card} verplicht"
+    form_detail:
+      card:
+        _en: '%{type} "%{card}" required'
+        _fr: '%{type} "%{card}" requise'
+        _de: '%{type} "%{card}" erforderlich'
+        _it: '%{type} "%{card}" richiesta'
+        _nl: '%{type} "%{card}" verplicht'
+      depots:
+        _en: specific depots only
+        _fr: certains dépôts uniquement
+        _de: nur bestimmte Depots
+        _it: solo alcuni punti di ritiro
+        _nl: alleen bepaalde depots
+    skip_reasons:
+      cap:
+        _en: the cap is used up
+        _fr: le plafond est atteint
+        _de: der Plafond ist aufgebraucht
+        _it: il massimale è esaurito
+        _nl: het plafond is bereikt
+      card:
+        _en: the card is missing or expired
+        _fr: la carte manque ou est expirée
+        _de: die Karte fehlt oder ist abgelaufen
+        _it: la tessera manca o è scaduta
+        _nl: de kaart ontbreekt of is verlopen
+      depot:
+        _en: the depot is not covered
+        _fr: le dépôt n'est pas couvert
+        _de: das Depot ist nicht abgedeckt
+        _it: il punto di ritiro non è coperto
+        _nl: het depot valt er niet onder
+      discarded:
+        _en: the reduction is no longer available
+        _fr: la réduction n'est plus disponible
+        _de: die Reduktion ist nicht mehr verfügbar
+        _it: la riduzione non è più disponibile
+        _nl: de reductie is niet meer beschikbaar
+      feature:
+        _en: the feature is off
+        _fr: la fonction est désactivée
+        _de: die Funktion ist aus
+        _it: la funzione è disattivata
+        _nl: de functie staat uit

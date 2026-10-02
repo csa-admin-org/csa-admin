@@ -1,0 +1,56 @@
+# Réduction de prix
+
+Une réduction de prix baisse le prix total de l'abonnement. Elle ne réduit ni [la cotisation annuelle](/handbook/billing#annual-fee), ni [les parts sociales](/handbook/billing#share-capital), ni [les frais d'adhésion](/handbook/new_member_fee) des nouveaux membres.
+
+Le [prix extra](/handbook/basket_price_extra) sert surtout à augmenter le prix de chaque <%= Basket.model_name.human.downcase %>, mais un extra négatif reste possible.
+
+Activez cette fonctionnalité dans [les paramètres](/settings#price_reductions). Le texte d'explication, si vous en écrivez un, s'affiche au-dessus des choix du formulaire d'inscription. Une fois la fonctionnalité activée, les réductions et les [cartes](#cards) se créent depuis le menu Autre (…). Plusieurs réductions et cartes peuvent être actives en même temps.
+
+## Réductions {#programs}
+
+Chaque réduction a un nom et une description optionnelle. La description est la ligne d'explication du formulaire d'inscription. Laissez-la vide pour utiliser le détail généré, comme pour un <%= BasketSize.model_name.human.downcase %> ou un <%= BasketComplement.model_name.human.downcase %>.
+
+La réduction est soit un pourcentage, soit un montant fixe, pas les deux.
+
+Comme pour les <%= BasketSize.model_name.human(count: 2).downcase %> ou les <%= BasketComplement.model_name.human(count: 2).downcase %>, une réduction peut être cachée. Les réductions cachées restent disponibles dans l'administration et ne sont pas proposées sur le formulaire d'inscription ou de renouvellement.
+
+> Une réduction peut être limitée à certains dépôts. Laissez la liste vide pour autoriser tous les dépôts. La liste n'est contrôlée qu'au moment d'appliquer la réduction. Changer de dépôt ensuite ne retire pas une réduction déjà accordée. Retirez-la vous-même, en modifiant l'abonnement, si elle ne doit pas rester.
+
+## Plafond global {#cap}
+
+Le plafond est optionnel. **Ponctuel** est un total unique, par exemple une donation. **Par année fiscale** repart à zéro chaque année, par exemple une aide annuelle.
+
+Le plafond n'est compté qu'à la création ou au renouvellement d'un abonnement, pas à l'inscription. Si le montant nécessaire n'est plus disponible, l'option est désactivée sur le formulaire et l'abonnement est créé sans elle. Un avertissement s'affiche sur la page du membre avant l'activation.
+
+Enregistrer un plafond inférieur à ce qui est déjà accordé est refusé. Un plafond annuel est contrôlé sur l'année en cours et les années futures, pas sur les années passées. Baissez d'abord les montants accordés, ou retirez ces abonnements de la réduction, puis enregistrez le plafond.
+
+Une fois la réduction accordée, chaque changement de prix de l'abonnement recalcule le montant. Si la nouvelle réduction n'entre plus dans le plafond, elle est limitée à ce qui reste. Elle n'est pas retirée. Une facture déjà envoyée est annulée, comme pour tout [changement de prix](/handbook/billing#price-change).
+
+> Modifier la configuration d'une réduction ne change pas les abonnements qui l'ont déjà. La configuration est enregistrée sur l'abonnement, comme un prix de <%= Basket.model_name.human.downcase %>. Les changements s'appliquent la prochaine fois que la réduction est appliquée, à la création d'un nouvel abonnement ou à un renouvellement qui la reconduit. Vous pouvez modifier cette copie sur l'abonnement. Cette modification n'est pas reconduite: le renouvellement reprend la configuration actuelle de la réduction. L'enregistrement échoue si la réduction saisie n'entre plus dans le plafond restant.
+
+## Renouvellement {#renewal}
+
+**Reconduire** copie la réduction actuelle sur l'abonnement suivant et recalcule le montant. Si le plafond, le dépôt ou la carte ne convient plus, le renouvellement réussit quand même et la réduction est ignorée.
+
+Si **Reconduire** est désactivé, l'abonnement suivant ne commence pas avec la réduction. Le membre peut encore la choisir dans [le formulaire de renouvellement](/handbook/membership_renewal#renewal-form), si elle est visible et qu'elle entre encore dans le plafond.
+
+## Cartes {#cards}
+
+Une réduction peut exiger une carte ou un document. Les types de cartes se gèrent depuis [Cartes](/price_reduction_cards), lié depuis la liste des réductions. Chaque type indique quels champs, parmi le nom, le numéro et la date d'expiration, sont requis. Ces champs doivent être remplis quand cette réduction est sélectionnée.
+
+Le membre saisit sa carte sur le formulaire d'inscription, après le dépôt, et peut la mettre à jour depuis son compte. Une carte expirée est ignorée quand la réduction est appliquée ou reconduite. Une réduction déjà accordée reste jusqu'à la fin de l'abonnement, même si la carte expire en cours d'année. Vous pouvez la retirer à la main.
+
+[Un email de rappel](/mail_templates/price_reduction_card_expiring) est envoyé quand la carte entre dans le délai de rappel défini sur cet email. Le numéro y est masqué. Vous pouvez activer la notification "Carte de réduction bientôt expirée" pour recevoir un seul email, pour les cartes liées à un abonnement en cours ou futur, ou à une réduction encore sélectionnée sur une inscription.
+
+Pour demander une photo ou une preuve dans l'email de validation, modifiez [Membre validé](/mail_templates/member_validated). Le corps par défaut n'est pas modifié. Ces variables sont disponibles:
+
+~~~ liquid
+{% if waiting_price_reduction %}
+  Merci de répondre avec une photo de votre carte pour bénéficier de {{ waiting_price_reduction.name }}.
+  {% if member_card %}
+    Carte se terminant par {{ member_card.number }}, valable jusqu'au {{ member_card.expires_on }}.
+  {% endif %}
+{% endif %}
+~~~
+
+Si vous ne voulez cette phrase que pour une réduction, utilisez par exemple `{% if waiting_price_reduction.id == 1 %}`. Dans les emails d'abonnement, `membership.price_reduction.name` et `membership.price_reduction.amount` sont la réduction accordée.

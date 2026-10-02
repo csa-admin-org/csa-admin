@@ -1319,6 +1319,24 @@ _:
           _de: Leer lassen für den Standardpreis.
           _it: Lasciare vuoto il campo per il numero predefinito.
           _nl: Laat leeg voor de standaardprijs.
+        price_reduction_choice_id_html:
+          _en: One reduction per membership. Some reductions require a card (add it on the member profile first).%{handbook}
+          _fr: Une seule réduction par abonnement. Certaines réductions requièrent une carte (à ajouter en premier sur le profil du membre).%{handbook}
+          _de: Eine Reduktion pro Abonnement. Für manche Reduktionen ist eine Karte erforderlich (zuerst im Mitgliederprofil hinzufügen).%{handbook}
+          _it: Una sola riduzione per abbonamento. Alcune riduzioni richiedono una tessera (da aggiungere prima sul profilo del socio).%{handbook}
+          _nl: Eén reductie per lidmaatschap. Voor sommige reducties is een kaart nodig (eerst toevoegen op het ledenprofiel).%{handbook}
+        price_reduction_cut_html:
+          _en: One or the other. Leave blank for the default values.%{handbook}
+          _fr: L'un ou l'autre. Laisser vide pour les valeurs par défaut.%{handbook}
+          _de: Eines von beiden. Leer lassen für die Standardwerte.%{handbook}
+          _it: Uno o l'altro. Lasciare vuoto per i valori predefiniti.%{handbook}
+          _nl: Eén van beide. Leeg laten voor de standaardwaarden.%{handbook}
+        price_reduction_remaining:
+          _en: 'Remaining cap: %{remaining}.'
+          _fr: 'Plafond restant: %{remaining}.'
+          _de: 'Verbleibender Plafond: %{remaining}.'
+          _it: 'Massimale restante: %{remaining}.'
+          _nl: 'Resterend plafond: %{remaining}.'
         renewal_annual_fee:
           _en: Leave blank if the member does not wish to continue as a supporting member.
           _fr: Laisser blanc si le membre ne désire pas continuer en tant que membre de soutien.
@@ -2460,6 +2478,12 @@ _:
           _de: Entfernt den standardmässig generierten Erklärungstext und zeigt nur die zusätzlichen Erklärungen an.
           _it: Rimuove il testo di spiegazione generato di default e visualizza solo le spiegazioni supplementari.
           _nl: Verwijdert de standaard gegenereerde uitlegtekst en toont alleen de aanvullende uitleg.
+        member_form_price_reductions_text:
+          _en: Shown above the reductions on the registration form, only when at least one visible reduction is available.
+          _fr: Affiché au-dessus des réductions dans le formulaire d'inscription, uniquement lorsqu'au moins une réduction visible est disponible.
+          _de: Steht über den Reduktionen im Anmeldeformular, nur wenn mindestens eine sichtbare Reduktion verfügbar ist.
+          _it: Mostrato sopra le riduzioni nel modulo di iscrizione, solo quando almeno una riduzione visibile è disponibile.
+          _nl: Staat boven de reducties op het inschrijfformulier, alleen wanneer minstens één zichtbare reductie beschikbaar is.
         member_form_subtitle:
           _en: Text displayed below the title of the registration form.
           _fr: Texte affiché en dessous du titre du formulaire d'inscription.
@@ -2814,6 +2838,68 @@ _:
           _de: Die Preise der Plattform sind immer inklusive Mehrwertsteuer, und der Mehrwertsteuerbetrag wird vom Gesamtbetrag der Rechnung abgezogen.
           _it: I prezzi della piattaforma sono sempre IVA inclusa, e l'importo dell'IVA viene detratto dall'importo totale della fattura.
           _nl: Platformprijzen zijn altijd btw-inclusief, en het btw-bedrag wordt afgetrokken van het totale factuurbedrag.
+      price_reduction:
+        already_granted:
+          _en: 'Already granted: %{amount}. A cap cannot go below that.'
+          _fr: 'Déjà accordé: %{amount}. Un plafond ne peut pas descendre en dessous.'
+          _de: 'Bereits gewährt: %{amount}. Ein Plafond kann nicht darunter liegen.'
+          _it: 'Già concesso: %{amount}. Un massimale non può scendere sotto.'
+          _nl: 'Al toegekend: %{amount}. Een plafond kan daar niet onder.'
+        cap_amount_html:
+          _en: Leave empty for no cap.%{handbook}
+          _fr: Laisser vide pour ne pas plafonner.%{handbook}
+          _de: Leer lassen, um nicht zu begrenzen.%{handbook}
+          _it: Lasciare vuoto per non fissare un massimale.%{handbook}
+          _nl: Leeg laten om niet te begrenzen.%{handbook}
+        cap_mode_html:
+          _en: '"Once" is a single total. "Per fiscal year" starts again at the beginning of each fiscal year.%{handbook}'
+          _fr: '"Ponctuel" est un total unique. "Par année fiscale" repart à zéro chaque début d''année fiscale.%{handbook}'
+          _de: '"Einmalig" ist eine Summe für die ganze Laufzeit. "Pro Geschäftsjahr" beginnt zu Beginn jedes Geschäftsjahres neu.%{handbook}'
+          _it: '"Una volta" è un totale unico. "Per anno fiscale" riparte da zero all''inizio di ogni anno fiscale.%{handbook}'
+          _nl: '"Eenmalig" is een totaal voor de hele looptijd. "Per boekjaar" begint opnieuw aan het begin van elk boekjaar.%{handbook}'
+        card_html:
+          _en: This card's details are required. An expired card is not accepted when the membership is created or renewed.%{handbook}
+          _fr: Les informations de cette carte sont requises. Une carte expirée n'est pas acceptée lors de la création ou du renouvellement de l'abonnement.%{handbook}
+          _de: Die Angaben dieser Karte sind erforderlich. Eine abgelaufene Karte wird bei der Erstellung oder Verlängerung des Abonnements nicht akzeptiert.%{handbook}
+          _it: I dati di questa tessera sono obbligatori. Una tessera scaduta non è accettata alla creazione o al rinnovo dell'abbonamento.%{handbook}
+          _nl: De gegevens van deze kaart zijn verplicht. Een verlopen kaart wordt niet geaccepteerd bij het aanmaken of vernieuwen van het lidmaatschap.%{handbook}
+        cut_html:
+          _en: One or the other. Only the membership price is reduced.%{handbook}
+          _fr: L'un ou l'autre. Seul le prix de l'abonnement est réduit.%{handbook}
+          _de: Eines von beiden. Nur der Abonnementpreis wird reduziert.%{handbook}
+          _it: Uno o l'altro. Si riduce solo il prezzo dell'abbonamento.%{handbook}
+          _nl: Eén van beide. Alleen de lidmaatschapsprijs wordt verlaagd.%{handbook}
+        depot_ids:
+          _en: Leave empty to allow every depot. Checked only when the reduction is applied.
+          _fr: Laisser vide pour autoriser tous les dépôts. Vérifié seulement au moment d'appliquer la réduction.
+          _de: Leer lassen, um jedes Depot zu erlauben. Wird nur beim Anwenden der Reduktion geprüft.
+          _it: Lasciare vuoto per consentire tutti i punti di ritiro. Controllato solo quando la riduzione viene applicata.
+          _nl: Leeg laten om elk depot toe te staan. Alleen gecontroleerd bij het toepassen van de reductie.
+        form_detail:
+          _en: Shown under the name on the registration form. Leave blank to use the generated default.
+          _fr: Affiché sous le nom dans le formulaire d'inscription. Laisser vide pour utiliser le détail généré par défaut.
+          _de: Steht unter dem Namen im Anmeldeformular. Leer lassen, um das erzeugte Standarddetail zu verwenden.
+          _it: Mostrato sotto il nome nel modulo di iscrizione. Lasciare vuoto per usare il dettaglio generato predefinito.
+          _nl: Staat onder de naam op het inschrijfformulier. Leeg laten om het standaard gegenereerde detail te gebruiken.
+        handbook_html:
+          _en: ' <a href="%{url}">Handbook</a>'
+          _fr: ' <a href="%{url}">Manuel</a>'
+          _de: ' <a href="%{url}">Handbuch</a>'
+          _it: ' <a href="%{url}">Manuale</a>'
+          _nl: ' <a href="%{url}">Handboek</a>'
+        renew_html:
+          _en: When it still fits, copy this reduction when the membership is renewed.%{handbook}
+          _fr: Si possible, copiez cette réduction lors du renouvellement de l'abonnement.%{handbook}
+          _de: Wenn möglich, diese Reduktion bei der Abonnementverlängerung übernehmen.%{handbook}
+          _it: Se possibile, copiate questa riduzione al rinnovo dell'abbonamento.%{handbook}
+          _nl: Indien mogelijk deze reductie overnemen bij het vernieuwen van het lidmaatschap.%{handbook}
+      price_reduction_card:
+        required_fields:
+          _en: Only the selected fields are requested for this card, and they must be filled in.
+          _fr: Seuls les champs sélectionnés sont demandés pour cette carte et doivent être remplis.
+          _de: Nur die ausgewählten Felder werden für diese Karte abgefragt und sind auszufüllen.
+          _it: Solo i campi selezionati sono richiesti per questa tessera e vanno compilati.
+          _nl: Alleen de geselecteerde velden worden voor deze kaart gevraagd en moeten worden ingevuld.
       shop/order:
         amount_percentage:
           _en: Changes the final amount of the order by a certain percentage.
@@ -2962,6 +3048,12 @@ _:
       _de: Nein
       _it: 'No'
       _nl: Nee
+    or:
+      _en: or
+      _fr: ou
+      _de: oder
+      _it: o
+      _nl: of
     placeholders:
       activity:
         place:

@@ -355,6 +355,12 @@ _:
         _de: Dein Abonnement verlängern (Erinnerung)
         _it: Rinnova il tuo abbonamento (promemoria)
         _nl: Vernieuw je lidmaatschap (herinnering)
+      price_reduction_card_expiring:
+        _en: Your card "{{ member_card.card_name }}" expires soon
+        _fr: Votre carte "{{ member_card.card_name }}" expire bientôt
+        _de: Deine Karte "{{ member_card.card_name }}" läuft bald ab
+        _it: La tua tessera "{{ member_card.card_name }}" scade presto
+        _nl: Je kaart "{{ member_card.card_name }}" verloopt binnenkort
       sepa_mandate_confirmation:
         _en: SEPA mandate confirmation
         _fr: Confirmation du mandat SEPA
@@ -716,6 +722,12 @@ _:
         _de: Gesendet, um das Mitglied daran zu erinnern, dass es das Abonnementserneuerungsformular noch nicht ausgefüllt hat (siehe <a href='/settings#membership_renewal'>die Einstellungen</a> für die Frist).
         _it: Inviato per ricordare al socio che non ha ancora completato il modulo di rinnovo dell'abbonamento (vedi <a href='/settings#membership_renewal'>parametri</a> per le scadenze).
         _nl: Verzonden om het lid eraan te herinneren dat ze het formulier voor lidmaatschapsvernieuwing nog niet hebben ingevuld (zie <a href='/settings#membership_renewal'>instellingen</a> voor de deadline).
+      price_reduction_card_expiring:
+        _en: Sent when a reduction card expires within the reminder period below. The number in the email is masked.
+        _fr: Envoyé quand une carte de réduction expire dans le délai de rappel ci-dessous. Le numéro dans l'email est masqué.
+        _de: Wird gesendet, wenn eine Reduktionskarte innerhalb der unten gesetzten Erinnerungsfrist abläuft. Die Nummer in der E-Mail ist maskiert.
+        _it: Inviato quando una tessera di riduzione scade entro il periodo di promemoria impostato sotto. Il numero nell'email è mascherato.
+        _nl: Verzonden wanneer een reductiekaart verloopt binnen de herinneringstermijn hieronder. Het nummer in de e-mail is gemaskeerd.
       sepa_mandate_confirmation:
         _en: Sent when a member signs or updates their SEPA direct debit mandate via the self-service page. Contains the full mandate text and acts as evidence of consent.
         _fr: Envoyé quand un membre signe ou met à jour son mandat de prélèvement SEPA depuis la page dédiée. Contient le texte complet du mandat et sert de preuve de consentement.
@@ -1077,6 +1089,12 @@ _:
         _de: Abonnement verlängern (Erinnerung)
         _it: Rinnovo abbonamento (promemoria)
         _nl: Lidmaatschapsvernieuwing (herinnering)
+      price_reduction_card_expiring:
+        _en: Reduction card expiring
+        _fr: Carte de réduction bientôt expirée
+        _de: Reduktionskarte läuft ab
+        _it: Tessera di riduzione in scadenza
+        _nl: Reductiekaart verloopt
       sepa_mandate_confirmation:
         _en: SEPA mandate confirmation
         _fr: Confirmation du mandat SEPA

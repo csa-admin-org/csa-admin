@@ -11,6 +11,22 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     end
   end
 
+  test "membership invoice includes the reduction name and a negative amount" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    invoice = invoices(:bob_membership)
+    reduction = PriceReduction.create!(names: { "en" => "Caritas" }, percentage: 10)
+    MembershipPriceReduction.create!(
+      membership: invoice.entity,
+      price_reduction: reduction,
+      percentage: 10,
+      amount: 4)
+
+    strings = save_pdf_and_return_strings(invoice)
+
+    assert_includes strings, "Caritas"
+    assert_includes strings, "-4.00"
+  end
+
   test "simple invoice full layout" do
     invoice = invoices(:annual_fee)
     pdf_strings = save_pdf_and_return_strings(invoice)

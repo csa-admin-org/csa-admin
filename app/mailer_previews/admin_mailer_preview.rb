@@ -250,6 +250,31 @@ class AdminMailerPreview < ActionMailer::Preview
     ).memberships_renewal_pending_email
   end
 
+  def member_card_expiring_email
+    admin = Admin.new(
+      id: 1,
+      name: "John",
+      language: I18n.locale,
+      email: "admin@csa-admin.org")
+    card_type = PriceReductionCard.new(
+      names: { I18n.locale.to_s => "CarteCulture" })
+    martha = Member.new(id: 2, name: "Martha")
+    jane = Member.new(id: 3, name: "Jane")
+    AdminMailer.with(
+      admin: admin,
+      member_cards: [
+        MemberCard.new(
+          member: martha,
+          price_reduction_card: card_type,
+          expires_on: Date.new(2026, 7, 31)),
+        MemberCard.new(
+          member: jane,
+          price_reduction_card: card_type,
+          expires_on: Date.new(2026, 8, 15))
+      ]
+    ).member_card_expiring_email
+  end
+
   private
 
   def ebics_admin

@@ -136,6 +136,21 @@ module Membership::Pricing
     cancel_overcharged_invoice!
   end
 
+  def price_before_reduction
+    basket_sizes_price +
+      baskets_price_extra +
+      baskets_annual_price_change +
+      basket_complements_price +
+      basket_complements_annual_price_change +
+      depots_price +
+      deliveries_price +
+      activity_participations_annual_price_change
+  end
+
+  def computed_membership_price
+    price_before_reduction - price_reduction_amount.to_d
+  end
+
   private
 
   def update_price_and_invoices_amount!
@@ -144,14 +159,8 @@ module Membership::Pricing
     # and the in-memory path would persist a stale cache.
     association(:baskets).reset
 
-    computed_price = basket_sizes_price +
-      baskets_price_extra +
-      baskets_annual_price_change +
-      basket_complements_price +
-      basket_complements_annual_price_change +
-      depots_price +
-      deliveries_price +
-      activity_participations_annual_price_change
+    sync_price_reduction!
+    computed_price = computed_membership_price
     computed_invoices_amount = invoices.not_canceled.sum(:memberships_amount)
 
     # Write to in-memory attributes first so PrevisionalInvoicing

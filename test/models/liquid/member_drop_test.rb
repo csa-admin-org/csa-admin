@@ -18,6 +18,19 @@ class Liquid::MemberDropTest < ActiveSupport::TestCase
     assert_raises(Liquid::UndefinedDropMethod) { drop.liquid_method_missing("unknown") }
   end
 
+  test "edit_card_url points at the account card when reductions are on" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    drop = Liquid::MemberDrop.new(members(:john))
+
+    assert_equal "https://members.acme.test/account/edit#card", drop.edit_card_url
+  end
+
+  test "edit_card_url is absent without price reductions" do
+    drop = Liquid::MemberDrop.new(members(:john))
+
+    assert_nil drop.edit_card_url
+  end
+
   test "escapes member name in Liquid HTML output" do
     member = members(:john)
     member.name = %{<img src=x onerror=alert(1)>}

@@ -71,6 +71,12 @@ class Liquid::MembershipDrop < Liquid::Drop
     end
   end
 
+  def price_reduction
+    if reduction = @membership.price_reduction
+      Liquid::PriceReductionDrop.new(reduction, amount: @membership.price_reduction_amount)
+    end
+  end
+
   def basket_quantity
     @membership.basket_quantity
   end

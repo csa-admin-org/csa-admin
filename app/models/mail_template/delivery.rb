@@ -45,6 +45,10 @@ class MailTemplate
     # basket:, membership:). The one exception is activity_participation_ids
     # for grouped participations, which requires a DB lookup.
     def mailable(**args)
+      # The card is the record the email is about. The member is still the
+      # recipient, passed explicitly, so the rebuild can restore member_card:.
+      return args[:member_card] if title == "price_reduction_card_expiring" && args[:member_card]
+
       if (ids = args[:"#{scope_name}_ids"])
         scope_class.where(id: ids).to_a
       else
@@ -73,7 +77,8 @@ class MailTemplate
     end
 
     def mail_deliveries
-      MailDelivery.where(mailable_type: scope_name.classify, action: action)
+      type = title == "price_reduction_card_expiring" ? "MemberCard" : scope_name.classify
+      MailDelivery.where(mailable_type: type, action: action)
     end
 
     # Returns recent MailDelivery records where the member now has

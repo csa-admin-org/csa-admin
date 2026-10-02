@@ -261,7 +261,21 @@
 
     form {
       .input > label,
-      legend:not(.form-legend) {
+      legend.form-label,
+      legend.form-label-tight {
+        display: block;
+        font-size: 1rem;
+        line-height: 1.5rem;
+        font-weight: 500;
+        color: var(--color-ink-secondary);
+      }
+
+      .reduction-card .input > label {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+      }
+
+      legend:not(.form-legend, .form-label, .form-label-tight) {
         display: block;
         font-size: 0.875rem;
         line-height: 1.25rem;

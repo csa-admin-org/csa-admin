@@ -22,6 +22,7 @@ class MembershipPricing
       add(delivery_cycle_prices)
       complements_prices.each { |prices| add(prices) }
       add(activity_participations_prices)
+      subtract_price_reduction
 
       [ @min, @max ].uniq
     end
@@ -41,6 +42,7 @@ class MembershipPricing
       && deliveries_counts.one?
       && !Current.org.feature?("basket_price_extra")
       && !@params[:activity_participations_demanded_annually]
+      && quoted_price_reduction.nil?
   end
 
   def basket_size
@@ -199,6 +201,65 @@ class MembershipPricing
 
   def depot
     @depot ||= Depot.find_by(id: @params[:depot_id])
+  end
+
+  # Registration starts on the next delivery of the chosen cycle. Renewal quotes
+  # the following membership year, passed in by the renewal form.
+  def quoted_fiscal_year
+    @quoted_fiscal_year ||=
+      if (year = @params[:renewal_fiscal_year].presence)
+        Current.org.fiscal_year_for(year.to_i)
+      else
+        (delivery_cycle&.next_delivery || Delivery.next)&.fiscal_year || Current.fiscal_year
+      end
+  end
+
+  def quoted_price_reduction
+    return unless Current.org.feature?("price_reductions")
+
+    id = @params[:price_reduction_id].presence || @params[:selected_price_reduction_id]
+    @quoted_price_reduction ||= PriceReduction.visible.kept.find_by(id: id)
+  end
+
+  def subtract_price_reduction
+    reduction = quoted_price_reduction
+    return unless reduction
+    return unless reduction.depot_allowed?(depot)
+    return unless quoted_card_valid?(reduction)
+
+    cuts = [ @min, @max ].map { |gross| reduction.raw_amount(gross) }
+    return if reduction.capped? && cuts.max > reduction.remaining_amount(quoted_fiscal_year.year).to_d
+
+    @min -= cuts.min
+    @max -= cuts.max
+  end
+
+  def quoted_card_valid?(reduction)
+    return true unless reduction.price_reduction_card_id
+
+    row = quoted_card_rows.find { |card|
+      card[:price_reduction_card_id].to_s == reduction.price_reduction_card_id.to_s
+    }
+    return false unless row
+
+    MemberCard.new(
+      price_reduction_card: reduction.price_reduction_card,
+      name: row[:name],
+      number: row[:number],
+      expires_on: row[:expires_on]).valid_on?(Date.current)
+  end
+
+  # The registration form posts [] rows. A hash keyed by index is the other shape.
+  def quoted_card_rows
+    cards = @params[:member_cards_attributes]
+    return [] if cards.blank?
+
+    rows = cards.is_a?(Array) ? cards : cards.values
+    Array(rows).filter_map { |row|
+      next unless row.respond_to?(:[])
+
+      row.respond_to?(:with_indifferent_access) ? row.with_indifferent_access : row
+    }
   end
 
   def add(prices)

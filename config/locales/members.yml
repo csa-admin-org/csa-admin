@@ -315,6 +315,19 @@ _:
           _it: Inviare
           _nl: Verzenden
     accounts:
+      cards:
+        empty:
+          _en: No card on file
+          _fr: Aucune carte enregistrée
+          _de: Keine Karte hinterlegt
+          _it: Nessuna tessera registrata
+          _nl: Geen kaart geregistreerd
+        hint:
+          _en: These details are checked when a reduction that requires the card is applied.
+          _fr: Ces informations sont vérifiées quand une réduction qui exige la carte est appliquée.
+          _de: Diese Angaben werden geprüft, wenn eine Reduktion angewendet wird, die die Karte verlangt.
+          _it: Questi dati vengono controllati quando viene applicata una riduzione che richiede la tessera.
+          _nl: Deze gegevens worden gecontroleerd wanneer een reductie wordt toegepast die de kaart vereist.
       edit:
         cancel_link:
           _en: Cancel
@@ -2086,6 +2099,12 @@ _:
             _de: Es ist ein Fehler aufgetreten. Bitte versuche es erneut oder kontaktiere uns.
             _it: Si è verificato un errore. Riprova o contattaci.
             _nl: Er is een fout opgetreden. Probeer opnieuw of contacteer ons.
+          price_reduction_skipped:
+            _en: The membership was renewed without the reduction. It no longer fits.
+            _fr: L'abonnement a été reconduit sans la réduction. Elle ne tient plus.
+            _de: Das Abo wurde ohne die Reduktion verlängert. Sie passt nicht mehr.
+            _it: L'abbonamento è stato rinnovato senza la riduzione. Non entra più.
+            _nl: Het abonnement is verlengd zonder de reductie. Die past niet meer.
           renewed:
             _en: Your membership has been renewed. Thank you!
             _fr: Votre abonnement a été renouvelé. Merci!
@@ -2682,6 +2701,19 @@ _:
           _it: Connessione al tuo account
           _nl: Inloggen op je account
     shared:
+      price_reductions:
+        card_hint:
+          _en: Enter the card details required for the selected reduction.
+          _fr: Saisissez les informations de la carte exigée pour la réduction choisie.
+          _de: Gib die Angaben der Karte ein, die für die gewählte Reduktion nötig ist.
+          _it: Inserisci i dati della tessera richiesta per la riduzione scelta.
+          _nl: Vul de gegevens van de kaart in die je voor de gekozen reductie nodig hebt.
+        none:
+          _en: No reduction
+          _fr: Pas de réduction
+          _de: Keine Reduktion
+          _it: Nessuna riduzione
+          _nl: Geen reductie
       show_all_button:
         show_all:
           _en: Show all

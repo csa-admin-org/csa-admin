@@ -33,12 +33,38 @@ _:
           _de: Das Mandats-PDF konnte nicht erzeugt werden. Bitte erneut versuchen.
           _it: Non è stato possibile generare il PDF del mandato. Riprova.
           _nl: De machtiging-PDF kon niet worden gegenereerd. Probeer het opnieuw.
+        percentage_xor_fixed_amount:
+          _en: choose either a percentage or a fixed amount
+          _fr: choisissez un pourcentage ou un montant fixe
+          _de: entweder einen Prozentsatz oder einen festen Betrag wählen
+          _it: scegliete una percentuale o un importo fisso
+          _nl: een percentage of een vast bedrag kiezen
         public_projection_invalid:
           _en: Public feed content could not be rendered. Fix Liquid in public content blocks or the subject.
           _fr: Le contenu du flux public n'a pas pu être généré. Corrigez le Liquid des blocs publics ou du sujet.
           _de: Der Inhalt für den öffentlichen Feed konnte nicht gerendert werden. Liquid in öffentlichen Inhaltsblöcken oder im Betreff korrigieren.
           _it: Il contenuto del feed pubblico non può essere generato. Correggete il Liquid nei blocchi pubblici o nell'oggetto.
           _nl: De inhoud voor de openbare feed kon niet worden gerenderd. Corrigeer de Liquid in openbare contentblokken of in het onderwerp.
+      cap_amount:
+        below_granted:
+          _en: cannot be lower than %{granted} already granted
+          _fr: ne peut pas être inférieur aux %{granted} déjà accordés
+          _de: kann nicht unter den bereits gewährten %{granted} liegen
+          _it: non può essere inferiore ai %{granted} già concessi
+          _nl: kan niet lager zijn dan de al toegekende %{granted}
+        below_granted_year:
+          _en: cannot be lower than %{granted} already granted in %{year}
+          _fr: ne peut pas être inférieur aux %{granted} déjà accordés en %{year}
+          _de: kann nicht unter den bereits gewährten %{granted} in %{year} liegen
+          _it: non può essere inferiore ai %{granted} già concessi nel %{year}
+          _nl: kan niet lager zijn dan de al toegekende %{granted} in %{year}
+      required_fields:
+        no_required_field:
+          _en: select at least one field
+          _fr: sélectionnez au moins un champ
+          _de: mindestens ein Feld auswählen
+          _it: selezionate almeno un campo
+          _nl: minstens één veld selecteren
     format:
       _en: "%{attribute} %{message}"
       _fr: "%{attribute} %{message}"
@@ -256,6 +282,30 @@ _:
         _de: muss am %{date} oder danach sein
         _it: deve essere il %{date} o successivo
         _nl: moet %{date} of later zijn
+      price_reduction_card:
+        _en: The card for this reduction is missing or expired
+        _fr: La carte de cette réduction manque ou est expirée
+        _de: Die Karte für diese Reduktion fehlt oder ist abgelaufen
+        _it: La tessera di questa riduzione manca o è scaduta
+        _nl: De kaart voor deze reductie ontbreekt of is verlopen
+      price_reduction_depot:
+        _en: This reduction does not cover the selected depot
+        _fr: Cette réduction ne couvre pas le dépôt sélectionné
+        _de: Diese Reduktion deckt das gewählte Depot nicht ab
+        _it: Questa riduzione non copre il punto di ritiro selezionato
+        _nl: Deze reductie dekt het gekozen depot niet
+      price_reduction_discarded:
+        _en: This reduction is no longer available
+        _fr: Cette réduction n'est plus disponible
+        _de: Diese Reduktion ist nicht mehr verfügbar
+        _it: Questa riduzione non è più disponibile
+        _nl: Deze reductie is niet meer beschikbaar
+      price_reduction_exceeds_cap:
+        _en: This reduction does not fit the remaining cap
+        _fr: Cette réduction ne tient pas dans le plafond restant
+        _de: Diese Reduktion passt nicht in den verbleibenden Plafond
+        _it: Questa riduzione non entra nel massimale restante
+        _nl: Deze reductie past niet in het resterende plafond
       record_invalid:
         _en: 'Validation failed: %{errors}'
         _fr: 'La validation a échoué: %{errors}'

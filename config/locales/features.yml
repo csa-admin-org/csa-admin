@@ -252,6 +252,18 @@ _:
       _de: Ermöglicht es, einen bestimmten Betrag (z.B. für wiederverwendbare Behälter) von neuen Mitgliedern zu berechnen (nach der eventuellen Probezeit).
       _it: Permette di fatturare un importo fisso (ad es. per contenitori riutilizzabili) ai nuovi soci (dopo il loro eventuale periodo di prova).
       _nl: Maakt het mogelijk een specifiek bedrag (bijv. voor herbruikbare houders) aan nieuwe leden aan te rekenen (na de eventuele proefperiode).
+    price_reductions:
+      _en: Price reduction
+      _fr: Réduction de prix
+      _de: Preisreduktion
+      _it: Riduzione di prezzo
+      _nl: Prijsreductie
+    price_reductions_hint:
+      _en: Lets you offer reductions on the membership price, with an optional cap.
+      _fr: Permet de proposer des réductions sur le prix de l'abonnement, avec un plafond facultatif.
+      _de: Ermöglicht Reduktionen auf den Abo-Preis, mit einem optionalen Plafond.
+      _it: Permette di offrire riduzioni sul prezzo dell'abbonamento, con un massimale facoltativo.
+      _nl: Maakt reducties op de abonnementsprijs mogelijk, met een optioneel plafond.
     sepa:
       _en: SEPA
       _fr: SEPA

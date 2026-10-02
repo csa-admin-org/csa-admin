@@ -29,6 +29,7 @@ module ActiveAdmin::OrganizationSettingsHelper
       organization_setting_section_definition(:activity, :feature, "features.activity", "handshake", handbook: "activity"),
       organization_setting_section_definition(:basket_content, :feature, BasketContent.model_name.human, "shopping-bag", handbook: "basket_content"),
       organization_setting_section_definition(:basket_price_extra, :feature, "features.basket_price_extra", "coins", handbook: "basket_price_extra"),
+      organization_setting_section_definition(:price_reductions, :feature, "features.price_reductions", "ticket-percent", handbook: "price_reductions"),
       organization_setting_section_definition(:bidding_round, :feature, BiddingRound.model_name.human, "scale", handbook: "bidding_round"),
       organization_setting_section_definition(:contact_sharing, :feature, "features.contact_sharing", "contact-round", handbook: "contact_sharing"),
       organization_setting_section_definition(:maps, :feature, "features.maps", "map", handbook: "maps"),

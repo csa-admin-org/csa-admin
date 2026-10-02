@@ -48,6 +48,11 @@ ActiveAdmin.register Member do
     label: -> { t("features.local_currency") }
   filter :annual_fee,
     if: proc { feature?("annual_fee") }
+  filter :with_member_card,
+    label: -> { MemberCard.model_name.human },
+    as: :select,
+    collection: -> { PriceReductionCard.order_by_name.map { |card| [ card.name, card.id ] } },
+    if: proc { feature?("price_reductions") && PriceReductionCard.any? }
   filter :sepa, as: :boolean, if: proc { Current.org.sepa_configured? }
 
   index do
@@ -213,6 +218,11 @@ ActiveAdmin.register Member do
               if notice = waiting_membership_action_notice(member)
                 para notice, class: waiting_membership_action_notice_class(member)
               end
+              if member.waiting_price_reduction
+                if reason = member.waiting_price_reduction_skip_reason
+                  para t("active_admin.resource.show.price_reduction_skipped", reason: t("price_reductions.skip_reasons.#{reason}")), class: "alert alert-warning"
+                end
+              end
 
               attributes_table do
                 row(:basket_size) { auto_link member.waiting_basket_size }
@@ -224,6 +234,9 @@ ActiveAdmin.register Member do
                 end
                 if feature?("basket_price_extra")
                   row(Current.org.basket_price_extra_title) { cur(member.waiting_basket_price_extra) }
+                end
+                if member.waiting_price_reduction
+                  row(PriceReduction.model_name.human) { auto_link member.waiting_price_reduction }
                 end
                 row(:depot) { auto_link member.waiting_depot }
                 row(:delivery_cycle) { delivery_cycle_link(member.waiting_delivery_cycle) }
@@ -589,6 +602,39 @@ ActiveAdmin.register Member do
           end
         end
 
+        if feature?("price_reductions") && (member.member_cards.any? || PriceReductionCard.any?)
+          panel MemberCard.model_name.human(count: 2), icon: "id-card", action: handbook_icon_link("price_reductions", anchor: "cards") do
+            if member.member_cards.any?
+              ul class: "disc-list is-outside member-card-list" do
+                member.member_cards.includes(:price_reduction_card).each do |card|
+                  li do
+                    span class: "cluster is-snug" do
+                      if authorized?(:update, member)
+                        a href: edit_member_path(member, anchor: "cards") do
+                          card.price_reduction_card.name
+                        end
+                      else
+                        span { card.price_reduction_card.name }
+                      end
+                      span(class: "text-xs is-faint") { card.number } if card.number.present?
+                      span(class: "text-xs is-faint") { l(card.expires_on) } if card.expires_on
+                      status_tag(:expired) if card.complete? && !card.valid_on?
+                    end
+                  end
+                end
+              end
+            else
+              div class: "missing-data" do
+                if authorized?(:update, member)
+                  link_to t("members.accounts.cards.empty"), edit_member_path(member, anchor: "cards")
+                else
+                  t("members.accounts.cards.empty")
+                end
+              end
+            end
+          end
+        end
+
         if Current.org.sepa_configured?
           current_mandate = member.current_sepa_mandate
           panel t(".billing") + " (SEPA)", icon: "banknotes", action: sepa_mandate_panel_actions(current_mandate) do
@@ -774,6 +820,12 @@ ActiveAdmin.register Member do
               data: { form_disabler_target: "label" }
             }
         end
+        if feature?("price_reductions")
+          f.input :waiting_price_reduction,
+            collection: PriceReduction.kept.order_by_name,
+            include_blank: true,
+            required: false
+        end
         f.input :waiting_basket_size,
           label: BasketSize.model_name.human,
           collection: admin_basket_sizes_collection,
@@ -938,6 +990,35 @@ ActiveAdmin.register Member do
       end
     end
 
+    if feature?("price_reductions") && PriceReductionCard.any?
+      f.inputs MemberCard.model_name.human(count: 2), icon: "id-card", id: "cards" do
+        f.has_many :member_cards,
+          allow_destroy: true,
+          new_record: t("active_admin.resources.member.add_member_card"),
+          heading: nil,
+          data: { controller: "form-member-card" } do |card_form|
+          card = card_form.object
+          card.price_reduction_card ||= PriceReductionCard.order_by_name.first if card.new_record?
+          type = card.price_reduction_card
+          card_form.input :price_reduction_card,
+            collection: admin_member_card_type_options,
+            include_blank: false,
+            required: false,
+            input_html: {
+              data: {
+                action: "change->form-member-card#toggle",
+                form_member_card_target: "type"
+              }
+            }
+          card_form.input :name, **member_card_input_options(type&.require_name?, "name")
+          card_form.input :number, **member_card_input_options(type&.require_number?, "number")
+          card_form.input :expires_on,
+            as: :date_picker,
+            **member_card_input_options(type&.require_expires_on?, "expiresOn")
+        end
+      end
+    end
+
     if feature?("annual_fee")
       f.inputs t(".annual_fee"), icon: "calendar-sync" do
         f.input :annual_fee, label: Organization.human_attribute_name(:annual_fee)
@@ -994,7 +1075,7 @@ ActiveAdmin.register Member do
     :shares_info, :existing_shares_number,
     :desired_shares_number, :required_shares_number,
     :waiting, :waiting_membership_started_on,
-    :waiting_basket_size_id, :waiting_basket_price_extra,
+    :waiting_basket_size_id, :waiting_basket_price_extra, :waiting_price_reduction_id,
     :waiting_activity_participations_demanded_annually,
     :waiting_depot_id, :waiting_delivery_cycle_id,
     :waiting_billing_year_division,
@@ -1007,6 +1088,9 @@ ActiveAdmin.register Member do
     sepa_mandates_attributes: [ :iban, :umr, :signed_on ],
     members_basket_complements_attributes: [
       :id, :basket_complement_id, :quantity, :_destroy
+    ],
+    member_cards_attributes: [
+      :id, :price_reduction_card_id, :name, :number, :expires_on, :_destroy
     ]
 
   action_item :mail_deliveries, only: :show do
@@ -1088,6 +1172,7 @@ ActiveAdmin.register Member do
 
   member_action :validate, method: :post do
     result = resource.validate!(current_admin)
+    flash[:alert] = t("active_admin.resource.create_membership.price_reduction_skipped") if result.is_a?(Membership) && result.price_reduction_skipped
     redirect_to result.is_a?(Membership) ? result : member_path(resource)
   rescue ActiveRecord::RecordInvalid => e
     flash[:alert] = e.record.errors.full_messages.to_sentence.presence || e.message
@@ -1133,7 +1218,9 @@ ActiveAdmin.register Member do
   end
 
   member_action :create_membership, method: :post do
-    redirect_to resource.create_membership_from_waiting_request!
+    membership = resource.create_membership_from_waiting_request!
+    flash[:alert] = t(".price_reduction_skipped") if membership.price_reduction_skipped
+    redirect_to membership
   rescue ActiveRecord::RecordInvalid => e
     flash[:alert] = e.record.errors.full_messages.to_sentence.presence || e.message
     redirect_to member_path(resource)
@@ -1189,6 +1276,18 @@ ActiveAdmin.register Member do
 
   controller do
     include TranslatedCSVFilename
+
+    before_action :ignore_price_reduction_params, only: %i[create update]
+
+    def ignore_price_reduction_params
+      return if Current.org.feature?("price_reductions")
+
+      member = params[:member]
+      return unless member.respond_to?(:delete)
+
+      member.delete(:waiting_price_reduction_id)
+      member.delete(:member_cards_attributes)
+    end
 
     def apply_sorting(chain)
       params[:order] ||= "members.waiting_started_at_asc" if params[:scope] == "waiting" && Member.waiting_list_available?

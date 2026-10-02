@@ -27,10 +27,25 @@ class MemberMailer < ApplicationMailer
       "waiting_depot_id" => @member.waiting_depot_id,
       "waiting_depot" => @member.waiting_depot && Liquid::DepotDrop.new(@member.waiting_depot),
       "waiting_delivery_cycle_id" => @member.waiting_delivery_cycle_id,
-      "waiting_delivery_cycle" => @member.waiting_delivery_cycle && Liquid::DeliveryCycleDrop.new(@member.waiting_delivery_cycle))
+      "waiting_delivery_cycle" => @member.waiting_delivery_cycle && Liquid::DeliveryCycleDrop.new(@member.waiting_delivery_cycle),
+      "waiting_price_reduction" => waiting_price_reduction_drop,
+      "member_card" => waiting_member_card_drop)
   end
 
   private
+
+  def waiting_price_reduction_drop
+    reduction = @member.waiting_price_reduction
+    return unless reduction
+
+    Liquid::PriceReductionDrop.new(reduction)
+  end
+
+  def waiting_member_card_drop
+    reduction = @member.waiting_price_reduction
+    card = reduction && @member.member_card_for(reduction.price_reduction_card)
+    Liquid::MemberCardDrop.new(card) if card
+  end
 
   def waiting_list_position
     return unless @member.respond_to?(:waiting?) && @member.waiting?

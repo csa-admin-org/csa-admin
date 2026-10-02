@@ -17,6 +17,31 @@ class AbilityTest < ActiveSupport::TestCase
     ability = Ability.new(admins(:ultra))
 
     assert_not ability.can?(:create, Absence)
+    assert_not ability.can?(:read, PriceReduction)
+    assert_not ability.can?(:read, PriceReductionCard)
+    assert_not ability.can?(:read, MemberCard)
+  end
+
+  test "price reductions are readable when the feature is on" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    ability = Ability.new(admins(:ultra))
+
+    assert ability.can?(:read, PriceReduction)
+    assert ability.can?(:create, PriceReduction)
+    assert ability.can?(:update, PriceReduction)
+    assert ability.can?(:read, PriceReductionCard)
+    assert ability.can?(:create, PriceReductionCard)
+    assert ability.can?(:update, PriceReductionCard)
+    assert ability.can?(:read, MemberCard)
+  end
+
+  test "price reductions stay read-only without write permission" do
+    org(features: [ "price_reductions" ])
+    ability = Ability.new(admins(:external))
+
+    assert ability.can?(:read, PriceReduction)
+    assert_not ability.can?(:create, PriceReduction)
+    assert_not ability.can?(:create, PriceReductionCard)
   end
 
   test "BAS password update is superadmin-only and BAS-only" do

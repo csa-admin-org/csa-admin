@@ -35,6 +35,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
       },
       "member" =>  {
         "absences_url" => "https://members.acme.test/absences",
+        "account_url" => "https://members.acme.test/account",
         "activities_url" => "https://members.acme.test/activity_participations",
         "annual_fee" => "CHF\u00A030.00",
         "balance" => "CHF\u00A00.00",
@@ -116,6 +117,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
           "member_note" => nil,
           "name" => "Our farm"
         },
+        "price_reduction" => nil,
         "end_date" => "31 December 2024",
         "first_delivery" => {
           "date" => "1 April 2024",
@@ -187,6 +189,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
     assert_equal({
       "member" =>  {
         "absences_url" => "https://members.acme.test/absences",
+        "account_url" => "https://members.acme.test/account",
         "activities_url" => "https://members.acme.test/activity_participations",
         "annual_fee" => "CHF\u00A030.00",
         "balance" => "CHF\u00A00.00",
@@ -269,6 +272,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         }
       },
       "member" =>  {
+        "account_url" => "https://members.acme.test/account",
         "annual_fee" => "CHF\u00A030.00",
         "balance" => "CHF\u00A00.00",
         "billing_email" => false,
@@ -320,6 +324,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
           "member_note" => nil,
           "name" => "Our farm"
         },
+        "price_reduction" => nil,
         "end_date" => "31 December 2024",
         "first_delivery" => {
           "date" => "1 April 2024",

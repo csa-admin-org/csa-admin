@@ -22,6 +22,8 @@ ActiveAdmin.register MailTemplate do
 
   scope :all, default: true
   scope :member, group: :type
+  scope -> { PriceReduction.model_name.human }, :price_reduction,
+    group: :type, if: -> { feature?("price_reductions") }
   scope :membership, group: :type
   scope -> { Basket.model_name.human }, :basket, group: :type
   scope -> { I18n.t("active_admin.menu.billing") }, :billing, group: :type
@@ -79,6 +81,9 @@ ActiveAdmin.register MailTemplate do
           if !mail_template.active? || !mail_template.with_delivery_cycles_scope?
             attributes_table do
               row(:active) { aligned_status_tag(mail_template.active?) }
+              if mail_template.price_reduction_card_expiring?
+                row(:remind_before_days)
+              end
             end
           else
             table_for DeliveryCycle.kept.ordered, class: "table-auto" do
@@ -158,6 +163,9 @@ ActiveAdmin.register MailTemplate do
             label: DeliveryCycle.model_name.human(count: 2)
         end
       end
+      if mail_template.price_reduction_card_expiring?
+        f.input :remind_before_days, as: :number, step: 1, min: 0
+      end
     end
     f.inputs do
       translated_input(f, :subjects,
@@ -178,6 +186,7 @@ ActiveAdmin.register MailTemplate do
 
   permit_params(
     :active,
+    :remind_before_days,
     *I18n.available_locales.map { |l| "subject_#{l}" },
     *I18n.available_locales.map { |l| "content_#{l}" },
     liquid_data_preview_yamls: I18n.available_locales,
@@ -206,6 +215,9 @@ ActiveAdmin.register MailTemplate do
       end
       unless feature?("shop")
         scoped = scoped.where.not(title: "member_shop_depot_activated")
+      end
+      unless feature?("price_reductions")
+        scoped = scoped.where.not(title: MailTemplate::PRICE_REDUCTION_TITLES)
       end
       unless Current.org.sepa_configured?
         scoped = scoped.where.not(title: MailTemplate::SEPA_MANDATE_TITLES)

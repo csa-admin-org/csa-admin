@@ -91,6 +91,9 @@ class Liquid::DataPreview
     unless Current.org.feature?(:shop)
       methods -= %w[shop_depot]
     end
+    unless Current.org.feature?(:price_reductions)
+      methods -= %w[edit_card_url]
+    end
     unless Current.org.feature?(:basket_content)
       methods -= %w[contents]
     end

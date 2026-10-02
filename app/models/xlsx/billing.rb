@@ -78,6 +78,8 @@ module XLSX
         add_line("#{t('adjustments')}: #{BasketComplement.model_name.human}", @memberships.sum(:basket_complements_annual_price_change))
       end
       add_line("#{t('adjustments')}: #{activities_human_name}", @memberships.sum(:activity_participations_annual_price_change))
+      reduction_total = -MembershipPriceReduction.joins(membership: :member).merge(@memberships).merge(Member.no_salary_basket).sum(:amount)
+      add_line(PriceReduction.model_name.human, reduction_total) if reduction_total.nonzero?
 
       add_empty_line
       add_line((t("memberships_total")), @memberships.sum(:price))

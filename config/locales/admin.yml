@@ -44,6 +44,18 @@ _:
         _de: Erhalte eine Benachrichtigung, wenn die 3. Mahnung einer Rechnung an ein Mitglied gesendet wird.
         _it: Ricevi una notifica quando il 3° richiamo di una fattura viene inviato ad un socio.
         _nl: Ontvang een melding wanneer de 3e herinnering van een factuur naar een lid is verzonden.
+      member_card_expiring:
+        _en: Reduction card expiring
+        _fr: Carte de réduction bientôt expirée
+        _de: Reduktionskarte läuft ab
+        _it: Tessera di riduzione in scadenza
+        _nl: Reductiekaart verloopt
+      member_card_expiring_hint:
+        _en: Receive one email when a reduction card used on a current or future membership, or still selected on a registration, is about to expire.
+        _fr: Recevoir un email quand une carte de réduction utilisée sur un abonnement en cours ou futur, ou encore sélectionnée sur une inscription, arrive à expiration.
+        _de: Eine E-Mail erhalten, wenn eine Reduktionskarte eines laufenden oder künftigen Abonnements, oder einer noch ausgewählten Anmeldung, bald abläuft.
+        _it: Ricevete una notifica quando una tessera di riduzione usata su un abbonamento in corso o futuro, o ancora selezionata su un'iscrizione, sta per scadere.
+        _nl: Een e-mail ontvangen wanneer een reductiekaart van een huidig of toekomstig lidmaatschap, of nog geselecteerd bij een inschrijving, bijna verloopt.
       membership_trial_cancelation:
         _en: Trial membership canceled
         _fr: Abonnement d'essai annulé

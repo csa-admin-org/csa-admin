@@ -1,0 +1,56 @@
+# Prijsreductie
+
+Een prijsreductie verlaagt de totale prijs van het lidmaatschap. Ze verlaagt noch de [jaarlijkse bijdrage](/handbook/billing#annual-fee), noch de [coöperatieve aandelen](/handbook/billing#share-capital), noch de [inschrijvingskosten](/handbook/new_member_fee) van nieuwe leden.
+
+De [extra prijs](/handbook/basket_price_extra) is vooral bedoeld om de prijs per <%= Basket.model_name.human.downcase %> te verhogen, maar een negatieve extra blijft mogelijk.
+
+Activeer deze functie in [de instellingen](/settings#price_reductions). De uitleg, als je er een schrijft, verschijnt boven de keuzes van het inschrijfformulier. Zodra de functie actief is, maak je de reducties en de [kaarten](#cards) aan via het menu Overig (…). Meerdere reducties en kaarten kunnen tegelijk actief zijn.
+
+## Reducties {#programs}
+
+Elke reductie heeft een naam en een optionele beschrijving. De beschrijving is de uitleg in het inschrijfformulier. Laat ze leeg om het gegenereerde detail te gebruiken, zoals bij een <%= BasketSize.model_name.human.downcase %> of een <%= BasketComplement.model_name.human.downcase %>.
+
+De reductie is een percentage of een vast bedrag, niet allebei.
+
+Net als <%= BasketSize.model_name.human(count: 2).downcase %> of <%= BasketComplement.model_name.human(count: 2).downcase %> kan een reductie verborgen zijn. Verborgen reducties blijven beschikbaar in de administratie en worden niet aangeboden op het inschrijf- of vernieuwingsformulier.
+
+> Een reductie kan beperkt zijn tot bepaalde depots. Laat de lijst leeg om alle depots toe te staan. De lijst wordt alleen gecontroleerd op het moment dat de reductie wordt toegepast. Later van depot wisselen haalt een al toegekende reductie niet weg. Haal ze zelf weg, door het lidmaatschap te wijzigen, als ze niet mag blijven.
+
+## Plafond {#cap}
+
+Het plafond is optioneel. **Eenmalig** is een enkel totaal, bijvoorbeeld een donatie. **Per boekjaar** begint elk jaar opnieuw, bijvoorbeeld een jaarlijkse hulp.
+
+Het plafond telt alleen bij het aanmaken of verlengen van een lidmaatschap, niet bij de inschrijving. Als het benodigde bedrag niet meer beschikbaar is, is de optie uitgeschakeld op het formulier en wordt het lidmaatschap zonder haar aangemaakt. Een waarschuwing verschijnt op de ledenpagina vóór de activering.
+
+Een plafond opslaan dat lager is dan wat al is toegekend, wordt geweigerd. Een jaarlijks plafond wordt gecontroleerd op het lopende jaar en de toekomstige jaren, niet op de voorbije jaren. Verlaag eerst de toegekende bedragen, of haal die lidmaatschappen uit de reductie, en sla daarna het plafond op.
+
+Zodra de reductie is toegekend, herberekent elke prijswijziging van het lidmaatschap het bedrag. Als de nieuwe reductie niet meer in het plafond past, wordt ze beperkt tot wat overblijft. Ze wordt niet verwijderd. Een al verstuurde factuur wordt geannuleerd, zoals bij elke [prijswijziging](/handbook/billing#price-change).
+
+> De configuratie van een reductie wijzigen verandert de lidmaatschappen die haar al hebben niet. De configuratie staat op het lidmaatschap, zoals een prijs van een <%= Basket.model_name.human.downcase %>. Wijzigingen gelden de volgende keer dat de reductie wordt toegepast, bij een nieuw lidmaatschap of bij een verlenging die haar overneemt. Je kunt deze kopie op het lidmaatschap wijzigen. Die wijziging wordt niet overgenomen: de verlenging neemt de huidige configuratie van de reductie. Opslaan mislukt als de ingevulde korting niet meer in het resterende plafond past.
+
+## Vernieuwing {#renewal}
+
+**Verlengen** kopieert de huidige reductie naar het volgende lidmaatschap en herberekent het bedrag. Als het plafond, het depot of de kaart niet meer past, lukt de verlenging toch en wordt de reductie genegeerd.
+
+Als **Verlengen** uit staat, begint het volgende lidmaatschap niet met de reductie. Het lid kan haar nog kiezen in [het vernieuwingsformulier](/handbook/membership_renewal#renewal-form), als ze zichtbaar is en nog in het plafond past.
+
+## Kaarten {#cards}
+
+Een reductie kan een kaart of een document vragen. De kaarttypes beheer je via [Kaarten](/price_reduction_cards), gekoppeld vanuit de reductielijst. Elk type geeft aan welke velden, onder naam, nummer en vervaldatum, verplicht zijn. Die velden moeten ingevuld zijn wanneer deze reductie is geselecteerd.
+
+Het lid vult de kaart in op het inschrijfformulier, na het depot, en kan haar bijwerken vanuit het account. Een verlopen kaart wordt genegeerd wanneer de reductie wordt toegepast of verlengd. Een al toegekende reductie blijft tot het einde van het lidmaatschap, ook als de kaart in de loop van het jaar verloopt. Je kunt haar met de hand verwijderen.
+
+[Een herinneringsmail](/mail_templates/price_reduction_card_expiring) wordt verstuurd wanneer de kaart in de herinneringstermijn valt die op die mail is ingesteld. Het nummer is daar gemaskeerd. Je kunt de melding "Reductiekaart verloopt" aanzetten om één mail te ontvangen, voor kaarten van een huidig of toekomstig lidmaatschap, of van een reductie die nog op een inschrijving is geselecteerd.
+
+Om in de validatiemail een foto of een bewijs te vragen, wijzig je [Lid gevalideerd](/mail_templates/member_validated). De standaardtekst wordt niet gewijzigd. Deze variabelen zijn beschikbaar:
+
+~~~ liquid
+{% if waiting_price_reduction %}
+  Antwoord met een foto van je kaart om {{ waiting_price_reduction.name }} te krijgen.
+  {% if member_card %}
+    Kaart eindigend op {{ member_card.number }}, geldig tot {{ member_card.expires_on }}.
+  {% endif %}
+{% endif %}
+~~~
+
+Als je deze zin alleen voor één reductie wilt, gebruik dan bijvoorbeeld `{% if waiting_price_reduction.id == 1 %}`. In de lidmaatschapsmails zijn `membership.price_reduction.name` en `membership.price_reduction.amount` de toegekende reductie.

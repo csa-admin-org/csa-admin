@@ -34,6 +34,7 @@ class MembershipRenewal
     end
 
     renew_complements(new_membership, attrs)
+    carry_price_reduction(new_membership, attrs)
     if basket_complements_changed?(new_membership)
       new_membership.basket_complements_annual_price_change = nil
     end
@@ -45,6 +46,7 @@ class MembershipRenewal
     end
 
     new_membership.save!
+    new_membership
   end
 
   private
@@ -81,6 +83,20 @@ class MembershipRenewal
     ]
     keys << :basket_price_extra if Current.org.feature?("basket_price_extra")
     keys
+  end
+
+  def carry_price_reduction(new_membership, attrs)
+    return unless Current.org.feature?("price_reductions")
+
+    reduction =
+      if attrs.key?(:selected_price_reduction_id)
+        PriceReduction.visible.kept.find_by(id: attrs[:selected_price_reduction_id])
+      elsif membership.price_reduction&.renew?
+        membership.price_reduction
+      end
+    return unless reduction
+
+    new_membership.apply_price_reduction!(reduction)
   end
 
   def renew_complements(new_membership, attrs)

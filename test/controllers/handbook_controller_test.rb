@@ -27,4 +27,19 @@ class HandbookControllerTest < ActionDispatch::IntegrationTest
       text: I18n.t("active_admin.site_header.handbook")
     assert_select "nav[aria-label='#{I18n.t("accessibility.active_admin.breadcrumb")}'] a", count: 0
   end
+
+  test "price reductions handbook renders in every locale" do
+    admin = admins(:super)
+    login admin
+
+    I18n.available_locales.each do |locale|
+      admin.update!(language: locale.to_s)
+
+      get handbook_page_path(:price_reductions)
+
+      assert_response :success
+      assert_select "h2", text: I18n.t("features.price_reductions", locale: locale)
+      assert_select "a[href='/handbook/basket_price_extra']"
+    end
+  end
 end

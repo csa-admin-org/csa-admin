@@ -147,6 +147,7 @@ class MailDelivery < ApplicationRecord
   # with "membership_", so the candidate won't match — fall back to raw action.
   def mail_template_title
     return if newsletter? || session?
+    return "price_reduction_card_expiring" if mailable_type == "MemberCard"
 
     candidate = "#{mailable_type.underscore}_#{action}"
     candidate.in?(MailTemplate::TITLES) ? candidate : action

@@ -1,0 +1,13 @@
+<p><%= t(".intro_paragraph", card: "{{ member_card.card_name }}", date: "{{ member_card.expires_on }}") %></p>
+
+{% highlight_list %}
+  <strong><%= t(".name_label") %></strong> {{ member_card.name }}
+  <strong><%= t(".number_label") %></strong> {{ member_card.number }}
+  <strong><%= t(".expires_on_label") %></strong> {{ member_card.expires_on }}
+{% endhighlight_list %}
+
+<p><%= t(".account_paragraph") %></p>
+
+{% button member.edit_card_url %}
+  <%= t(".account_button") %>
+{% endbutton %}

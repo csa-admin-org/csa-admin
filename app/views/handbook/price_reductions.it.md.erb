@@ -1,0 +1,56 @@
+# Riduzione di prezzo
+
+Una riduzione di prezzo abbassa il prezzo totale dell'abbonamento. Non riduce né la [quota annuale](/handbook/billing#annual-fee), né le [quote sociali cooperative](/handbook/billing#share-capital), né la [quota di adesione](/handbook/new_member_fee) dei nuovi soci.
+
+Il [prezzo extra](/handbook/basket_price_extra) serve soprattutto ad aumentare il prezzo di ogni <%= Basket.model_name.human.downcase %>, ma un extra negativo resta possibile.
+
+Attiva questa funzione nelle [impostazioni](/settings#price_reductions). Il testo esplicativo, se ne scrivi uno, compare sopra le scelte del modulo di iscrizione. Una volta attivata la funzione, le riduzioni e le [tessere](#cards) si creano dal menu Altro (…). Più riduzioni e tessere possono essere attive insieme.
+
+## Riduzioni {#programs}
+
+Ogni riduzione ha un nome e una descrizione facoltativa. La descrizione è la riga esplicativa del modulo di iscrizione. Lasciala vuota per usare il dettaglio generato, come per una <%= BasketSize.model_name.human.downcase %> o un <%= BasketComplement.model_name.human.downcase %>.
+
+La riduzione è una percentuale o un importo fisso, non entrambi.
+
+Come le <%= BasketSize.model_name.human(count: 2).downcase %> o le <%= BasketComplement.model_name.human(count: 2).downcase %>, una riduzione può essere nascosta. Le riduzioni nascoste restano disponibili nell'amministrazione e non sono proposte nel modulo di iscrizione o di rinnovo.
+
+> Una riduzione può essere limitata ad alcuni punti di ritiro. Lascia la lista vuota per autorizzare tutti i punti di ritiro. La lista è controllata solo quando la riduzione viene applicata. Cambiare punto di ritiro dopo non toglie una riduzione già concessa. Toglila tu, modificando l'abbonamento, se non deve restare.
+
+## Massimale {#cap}
+
+Il massimale è facoltativo. **Una volta** è un totale unico, per esempio una donazione. **Per anno fiscale** riparte da zero ogni anno, per esempio un aiuto annuale.
+
+Il massimale conta solo alla creazione o al rinnovo di un abbonamento, non all'iscrizione. Se l'importo necessario non è più disponibile, l'opzione è disattivata nel modulo e l'abbonamento viene creato senza di essa. Un avviso compare sulla pagina del socio prima dell'attivazione.
+
+Salvare un massimale inferiore a quanto già concesso è rifiutato. Un massimale annuale è controllato sull'anno in corso e sugli anni futuri, non sugli anni passati. Abbassa prima gli importi concessi, o togli questi abbonamenti dalla riduzione, poi salva il massimale.
+
+Una volta concessa la riduzione, ogni cambiamento di prezzo dell'abbonamento ricalcola l'importo. Se la nuova riduzione non entra più nel massimale, è limitata a quanto resta. Non viene tolta. Una fattura già inviata è annullata, come per ogni [cambiamento di prezzo](/handbook/billing#price-change).
+
+> Modificare la configurazione di una riduzione non cambia gli abbonamenti che ce l'hanno già. La configurazione è registrata sull'abbonamento, come un prezzo di <%= Basket.model_name.human.downcase %>. I cambiamenti si applicano la prossima volta che la riduzione viene applicata, alla creazione di un nuovo abbonamento o a un rinnovo che la riprende. Puoi modificare questa copia sull'abbonamento. Questa modifica non è ripresa: il rinnovo riprende la configurazione attuale della riduzione. Il salvataggio fallisce se la riduzione inserita non entra più nel massimale restante.
+
+## Rinnovo {#renewal}
+
+**Rinnovare** copia la riduzione attuale sull'abbonamento successivo e ricalcola l'importo. Se il massimale, il punto di ritiro o la tessera non vanno più bene, il rinnovo riesce comunque e la riduzione è ignorata.
+
+Se **Rinnovare** è disattivato, l'abbonamento successivo non inizia con la riduzione. Il socio può ancora sceglierla nel [modulo di rinnovo](/handbook/membership_renewal#renewal-form), se è visibile e rientra ancora nel massimale.
+
+## Tessere {#cards}
+
+Una riduzione può richiedere una tessera o un documento. I tipi di tessera si gestiscono da [Tessere](/price_reduction_cards), collegato dalla lista delle riduzioni. Ogni tipo indica quali campi, tra nome, numero e data di scadenza, sono obbligatori. Questi campi devono essere compilati quando questa riduzione è selezionata.
+
+Il socio inserisce la tessera nel modulo di iscrizione, dopo il punto di ritiro, e può aggiornarla dal suo account. Una tessera scaduta è ignorata quando la riduzione viene applicata o rinnovata. Una riduzione già concessa resta fino alla fine dell'abbonamento, anche se la tessera scade nel corso dell'anno. Puoi toglierla a mano.
+
+[Un'email di promemoria](/mail_templates/price_reduction_card_expiring) è inviata quando la tessera entra nel periodo di promemoria definito su questa email. Il numero è mascherato. Puoi attivare la notifica "Tessera di riduzione in scadenza" per ricevere una sola email, per le tessere legate a un abbonamento in corso o futuro, o a una riduzione ancora selezionata su un'iscrizione.
+
+Per chiedere una foto o una prova nell'email di convalida, modifica [Socio confermato](/mail_templates/member_validated). Il testo predefinito non è modificato. Queste variabili sono disponibili:
+
+~~~ liquid
+{% if waiting_price_reduction %}
+  Rispondi con una foto della tua tessera per beneficiare di {{ waiting_price_reduction.name }}.
+  {% if member_card %}
+    Tessera che termina con {{ member_card.number }}, valida fino al {{ member_card.expires_on }}.
+  {% endif %}
+{% endif %}
+~~~
+
+Se vuoi questa frase solo per una riduzione, usa per esempio `{% if waiting_price_reduction.id == 1 %}`. Nelle email dell'abbonamento, `membership.price_reduction.name` e `membership.price_reduction.amount` sono la riduzione concessa.

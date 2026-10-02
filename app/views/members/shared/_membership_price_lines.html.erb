@@ -70,6 +70,16 @@
   </li>
 <% end %>
 
+<% if membership.price_reduction_amount.nonzero? %>
+  <li class="price-line">
+    <span class="price-label"><%= membership.price_reduction.public_name %></span>
+
+    <span class="price-value">
+      <%= cur(-membership.price_reduction_amount, unit: false) %>
+    </span>
+  </li>
+<% end %>
+
 <% if feature?("activity") && membership.activity_participations_annual_price_change.nonzero? %>
   <li class="price-line">
     <span class="price-label">

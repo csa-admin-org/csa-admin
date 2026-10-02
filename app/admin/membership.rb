@@ -75,8 +75,13 @@ ActiveAdmin.register Membership do
   filter :activity_participations_accepted, if: proc { feature?("activity") }
   filter :activity_participations_demanded, if: proc { feature?("activity") }
   filter :activity_participations_missing, as: :numeric, if: proc { feature?("activity") }
+  filter :with_price_reduction,
+    as: :select,
+    collection: -> { admin_price_reductions_collection },
+    label: -> { PriceReduction.model_name.human },
+    if: proc { feature?("price_reductions") }
 
-  includes :member
+  includes :member, :price_reduction
   index do
     column :id
     column :member, sortable: "members.name"
@@ -358,6 +363,12 @@ ActiveAdmin.register Membership do
       column(:basket_complements_annual_price_change) { |m| cur(m.basket_complements_annual_price_change) }
     end
     column(:price) { |m| cur(m.price) }
+    if feature?("price_reductions")
+      column(:price_reduction_name) { |m| m.price_reduction&.name }
+      column(:price_reduction_amount) { |m|
+        cur(m.membership_price_reduction.amount) if m.membership_price_reduction
+      }
+    end
     column(:invoices_amount) { |m| cur(m.invoices_amount) }
     column(:missing_invoices_amount) { |m| cur(m.missing_invoices_amount) }
   end
@@ -626,6 +637,16 @@ ActiveAdmin.register Membership do
               if feature?("activity") && m.activity_participations_annual_price_change.nonzero?
                 row(t(".activity_participations_annual_price_change"), class: "tabular-nums") {
                   cur(m.activity_participations_annual_price_change, unit: false)
+                }
+              end
+              if m.price_reduction_amount.nonzero?
+                row(m.price_reduction.name, class: "tabular-nums") {
+                  amount = -m.price_reduction_amount
+                  if (percentage = m.membership_price_reduction.percentage)
+                    text_node display_price_description(amount, price_reduction_percentage_label(percentage))
+                  else
+                    text_node cur(amount, unit: false)
+                  end
                 }
               end
               row(:price, class: "row-rule font-bold tabular-nums") {
@@ -979,6 +1000,63 @@ ActiveAdmin.register Membership do
       end
     end
 
+    if feature?("price_reductions")
+      reduction = membership_price_reduction_selected(f.object)
+      preview = price_reduction_preview_payload(f.object, reduction)
+      f.inputs PriceReduction.model_name.human, icon: "ticket-percent", data: {
+        controller: "form-price-reduction",
+        form_price_reduction_url_value: price_reduction_preview_memberships_path,
+        form_price_reduction_membership_id_value: f.object.id
+      } do
+        refusal = price_reduction_field_error(f.object, preview)
+        f.input :price_reduction_choice_id,
+          as: :select,
+          collection: admin_price_reduction_choices(f.object),
+          include_blank: true,
+          hint: t("formtastic.hints.membership.price_reduction_choice_id_html",
+            handbook: price_reduction_handbook_link("cards")),
+          wrapper_html: { class: ("error" if refusal.present?) }.compact,
+          input_html: {
+            data: {
+              form_price_reduction_target: "choice",
+              action: "change->form-price-reduction#change"
+            }
+          }
+        para preview[:text],
+          class: [
+            "description",
+            ("is-hidden" if preview[:text].blank?)
+          ].compact.join(" "),
+          "data-form-price-reduction-target" => "preview"
+        ul class: [ "errors", ("is-hidden" unless refusal.present?) ].compact.join(" "),
+          role: ("alert" if refusal.present?),
+          "data-form-price-reduction-target" => "error" do
+          li refusal.to_s
+        end
+        # Detached when there is no grant, so an empty form does not autosave one.
+        # fields_for only captures the nested builder; its HTML is written once below.
+        grant = f.object.membership_price_reduction
+        grant = MembershipPriceReduction.new if grant.nil? || grant.marked_for_destruction?
+        grant_form = nil
+        f.form_builder.fields_for(:membership_price_reduction, grant) { |nested|
+          grant_form = nested
+        }
+        div(
+          class: ("is-hidden" if reduction.nil?),
+          "data-form-price-reduction-target" => "rules") do
+          text_node grant_form.input(:id, as: :hidden)
+          div class: "single-line is-paired", data: { controller: "form-exclusive" } do
+            text_node membership_price_reduction_input(
+              grant_form, :percentage, reduction, exclusive: true)
+            span t("formtastic.or"), class: "single-line-separator"
+            text_node membership_price_reduction_input(
+              grant_form, :fixed_amount, reduction, exclusive: true)
+            para membership_price_reduction_hint(:cut, "programs"), class: "inline-hints"
+          end
+        end
+      end
+    end
+
     f.actions
   end
 
@@ -993,6 +1071,10 @@ ActiveAdmin.register Membership do
     :basket_complements_annual_price_change,
     :absences_included_annually,
     :new_config_from,
+    :price_reduction_choice_id,
+    membership_price_reduction_attributes: [
+      :id, :percentage, :fixed_amount
+    ],
     memberships_basket_complements_attributes: [
       :id, :basket_complement_id,
       :price, :quantity,
@@ -1066,6 +1148,13 @@ ActiveAdmin.register Membership do
       }, layout: false
   end
 
+  collection_action :price_reduction_preview, method: :get do
+    authorize! :read, Membership
+    membership = Membership.find_by(id: params[:membership_id]) if params[:membership_id].present?
+    reduction = PriceReduction.kept.find_by(id: params[:price_reduction_id])
+    render json: helpers.price_reduction_preview_payload(membership, reduction, params)
+  end
+
   collection_action :basket_price_extra_preview, method: :get do
     authorize! :read, Membership
     payload = helpers.basket_price_extra_preview_from_membership(params[:membership])
@@ -1130,6 +1219,30 @@ ActiveAdmin.register Membership do
   controller do
     include ApplicationHelper
     include TranslatedCSVFilename
+
+    before_action :ignore_price_reduction_params, only: %i[create update]
+
+    def create
+      super
+    rescue ActiveRecord::RecordInvalid
+      render :new, status: :unprocessable_entity
+    end
+
+    def update
+      super
+    rescue ActiveRecord::RecordInvalid
+      render :edit, status: :unprocessable_entity
+    end
+
+    def ignore_price_reduction_params
+      return if Current.org.feature?("price_reductions")
+
+      membership = params[:membership]
+      return unless membership.respond_to?(:delete)
+
+      membership.delete(:price_reduction_choice_id)
+      membership.delete(:membership_price_reduction_attributes)
+    end
 
     def scoped_collection
       collection = super

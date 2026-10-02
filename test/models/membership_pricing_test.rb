@@ -433,4 +433,89 @@ class MembershipPricingTest < ActiveSupport::TestCase
     # Should be less than 140
     assert pricing.prices.first < 140
   end
+
+  test "a card posted as an array of hashes is subtracted" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    card = price_reduction_card
+    reduction = PriceReduction.create!(
+      names: { "en" => "Culture" },
+      percentage: 10,
+      price_reduction_card: card,
+      visible: true)
+    full = pricing(
+      basket_size_id: small_id,
+      delivery_cycle_id: mondays_id).prices
+
+    quoted = pricing(
+      basket_size_id: small_id,
+      delivery_cycle_id: mondays_id,
+      price_reduction_id: reduction.id,
+      member_cards_attributes: [ {
+        "price_reduction_card_id" => card.id.to_s,
+        "name" => "Ada",
+        "number" => "CC-1",
+        "expires_on" => "2024-12-31"
+      } ]).prices
+
+    assert_equal full.map { |price| price * 0.9 }, quoted
+  end
+
+  test "a fiscal year cap uses the next delivery year, not the last scheduled delivery" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    Delivery.insert({
+      date: Date.new(2025, 6, 2),
+      created_at: Time.current,
+      updated_at: Time.current
+    })
+    reduction = PriceReduction.create!(
+      names: { "en" => "Yearly" },
+      percentage: 10,
+      cap_amount: 10,
+      cap_mode: "fiscal_year",
+      visible: true)
+    MembershipPriceReduction.create!(
+      membership: memberships(:jane),
+      price_reduction: reduction,
+      percentage: 10,
+      amount: 10)
+
+    quoted = pricing(
+      basket_size_id: small_id,
+      delivery_cycle_id: mondays_id,
+      price_reduction_id: reduction.id)
+
+    assert_equal [ 100 ], quoted.prices
+    assert_equal 2024, quoted.send(:quoted_fiscal_year).year
+  end
+
+  test "renewal quotes the following fiscal year" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    reduction = PriceReduction.create!(
+      names: { "en" => "Yearly" },
+      percentage: 10,
+      cap_amount: 10,
+      cap_mode: "fiscal_year",
+      visible: true)
+    MembershipPriceReduction.create!(
+      membership: memberships(:jane),
+      price_reduction: reduction,
+      percentage: 10,
+      amount: 10)
+
+    quoted = pricing(
+      basket_size_id: small_id,
+      delivery_cycle_id: mondays_id,
+      selected_price_reduction_id: reduction.id,
+      renewal_fiscal_year: 2025)
+
+    assert_equal [ 90 ], quoted.prices
+  end
+
+  def price_reduction_card
+    PriceReductionCard.create!(
+      names: { "en" => "Culture card" },
+      require_name: true,
+      require_number: true,
+      require_expires_on: true)
+  end
 end

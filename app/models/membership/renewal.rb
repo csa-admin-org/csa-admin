@@ -102,10 +102,11 @@ module Membership::Renewal
     renewal = MembershipRenewal.new(self)
 
     transaction do
-      renewal.renew!(attrs)
+      new_membership = renewal.renew!(attrs)
       self[:renewal_note] = attrs[:renewal_note]
       self[:renewed_at] = Time.current
       save!
+      new_membership
     end
   end
 

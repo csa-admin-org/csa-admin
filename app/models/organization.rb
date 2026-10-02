@@ -16,6 +16,7 @@ class Organization < ApplicationRecord
     local_currency
     member_information
     new_member_fee
+    price_reductions
     sepa
     shares
     shop
@@ -57,6 +58,7 @@ class Organization < ApplicationRecord
     MapsFeature,
     MemberInformationFeature,
     NewMemberFeeFeature,
+    PriceReductionsFeature,
     SEPAFeature,
     SharesFeature,
     ShopFeature,

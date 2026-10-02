@@ -227,6 +227,12 @@ module PDF
           unless entity.activity_participations_annual_price_change.zero?
             data << [ activity_participations_annual_price_change_description, cur(entity.activity_participations_annual_price_change) ]
           end
+          if entity.price_reduction_amount.nonzero?
+            data << [
+              entity.price_reduction.public_name,
+              cur(-entity.price_reduction_amount)
+            ]
+          end
         end
       when "ActivityParticipation"
         if entity

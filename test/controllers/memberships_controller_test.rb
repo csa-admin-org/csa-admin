@@ -102,6 +102,250 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Lausanne", jane_row[city_header]
   end
 
+  test "index filters and exports memberships by price reduction" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features | [ "price_reductions" ])
+    reduction = PriceReduction.create!(names: { "en" => "Caritas" }, percentage: 30)
+    MembershipPriceReduction.create!(
+      membership: memberships(:jane),
+      price_reduction: reduction,
+      percentage: 30,
+      amount: 12)
+    login admins(:super)
+
+    get memberships_path, params: {
+      q: { with_price_reduction: reduction.id, during_year: 2024 },
+      scope: :all
+    }
+
+    assert_response :success
+    assert_select "select#q_with_price_reduction"
+    assert_select "td a[href='#{membership_path(memberships(:jane))}']"
+    assert_select "td a[href='#{membership_path(memberships(:john))}']", count: 0
+
+    memberships(:jane).membership_price_reduction.update!(percentage: 25)
+
+    get membership_path(memberships(:jane))
+
+    assert_select "tr", text: /Caritas/ do
+      assert_select ".text-sm.is-muted", text: "25%"
+    end
+
+    get memberships_path(format: :csv), params: { scope: :all }
+
+    assert_response :success
+    csv = CSV.parse(response.body.delete_prefix("\uFEFF"), headers: true)
+    name_header = Membership.human_attribute_name(:price_reduction_name)
+    amount_header = Membership.human_attribute_name(:price_reduction_amount)
+    jane_row = csv.find { |row| row[Member.human_attribute_name(:name)] == members(:jane).name }
+
+    assert_includes csv.headers, name_header
+    assert_includes csv.headers, amount_header
+    assert_equal "Caritas", jane_row[name_header]
+    assert_equal "12.00", jane_row[amount_header].delete("^0-9.")
+  end
+
+  test "edit price reduction choice shows the rule and disables a missing or expired card" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features | [ "price_reductions" ])
+    membership = memberships(:jane)
+    missing_card = PriceReductionCard.create!(
+      names: { "en" => "Culture card" },
+      require_name: false,
+      require_number: true,
+      require_expires_on: false)
+    expired_card = PriceReductionCard.create!(
+      names: { "en" => "CarteCulture" },
+      require_name: false,
+      require_number: false,
+      require_expires_on: true)
+    open = PriceReduction.create!(names: { "en" => "Open" }, percentage: 10)
+    missing = PriceReduction.create!(names: { "en" => "Missing" }, percentage: 15, price_reduction_card: missing_card)
+    expired = PriceReduction.create!(names: { "en" => "Expired" }, fixed_amount: 8, price_reduction_card: expired_card)
+    MemberCard.create!(
+      member: membership.member,
+      price_reduction_card: expired_card,
+      expires_on: Date.new(2023, 12, 31))
+    login admins(:super)
+
+    get new_membership_path
+
+    assert_response :success
+    assert_select "fieldset", text: /Billing/ do
+      assert_select "select#membership_price_reduction_choice_id", count: 0
+    end
+    new_fieldset = price_reduction_fieldset
+    assert new_fieldset
+    assert_select new_fieldset, "label[for=membership_price_reduction_choice_id]", text: "Reduction type"
+    assert_select new_fieldset, ".inline-hints", text: /One reduction per membership. Some reductions require a card/
+    assert_select new_fieldset, "[data-form-price-reduction-target=rules].is-hidden" do
+      assert_select "input#membership_membership_price_reduction_attributes_percentage", count: 1
+      assert_select "input#membership_membership_price_reduction_attributes_fixed_amount", count: 1
+      assert_select "input#membership_membership_price_reduction_attributes_min_amount", count: 0
+      assert_select "input#membership_membership_price_reduction_attributes_max_amount", count: 0
+    end
+
+    get edit_membership_path(membership)
+
+    assert_response :success
+    assert_select "fieldset", text: /Billing/ do
+      assert_select "select#membership_price_reduction_choice_id", count: 0
+    end
+    choice_fieldset = price_reduction_fieldset
+    assert choice_fieldset
+    assert_select choice_fieldset, "label[for=membership_price_reduction_choice_id]", text: "Reduction type"
+    assert_select choice_fieldset, "select#membership_price_reduction_choice_id option[value=?]", open.id.to_s, text: "Open, 10%"
+    assert_select choice_fieldset, "select#membership_price_reduction_choice_id option[value=?][data-percentage=?]", open.id.to_s, "10"
+    assert_select choice_fieldset, "select#membership_price_reduction_choice_id option[value=?][disabled]", missing.id.to_s, text: "Missing, 15%, Culture card required"
+    assert_select choice_fieldset, "select#membership_price_reduction_choice_id option[value=?][disabled]", expired.id.to_s, text: /Expired, .*8.*, CarteCulture expired/
+    assert_select choice_fieldset, "a[href=?]", handbook_page_path("price_reductions", anchor: "cards")
+    assert_select choice_fieldset, "[data-form-price-reduction-target=rules].is-hidden"
+
+    MembershipPriceReduction.create!(
+      membership: membership,
+      price_reduction: expired,
+      fixed_amount: 8,
+      amount: 8)
+
+    get edit_membership_path(membership)
+
+    assert_select "select#membership_price_reduction_choice_id option[value=?]", expired.id.to_s do |option|
+      assert_nil option.first["disabled"]
+    end
+    assert_select "fieldset", text: /Billing/ do
+      assert_select "select#membership_price_reduction_choice_id", count: 0
+    end
+    grant_fieldset = price_reduction_fieldset
+    assert grant_fieldset
+    assert_select grant_fieldset, "select#membership_price_reduction_choice_id", count: 1
+    assert_select grant_fieldset, "[data-form-price-reduction-target=rules]" do
+      assert_select ".is-hidden", count: 0
+    end
+    assert_select "input#membership_membership_price_reduction_attributes_percentage", count: 1
+    assert_select "input#membership_membership_price_reduction_attributes_fixed_amount[placeholder='8']" do |input|
+      assert_equal "", input.first["value"].to_s
+    end
+    assert_select grant_fieldset, "[data-controller='form-exclusive']" do
+      assert_select "input#membership_membership_price_reduction_attributes_percentage[data-form-exclusive-target='input']", count: 1
+      assert_select "input#membership_membership_price_reduction_attributes_fixed_amount[data-form-exclusive-target='input']", count: 1
+      assert_select ".single-line-separator", text: "or"
+      assert_select ".inline-hints", text: /One or the other. Leave blank for the default values/
+    end
+    assert_select grant_fieldset, ".inline-hints", text: /Leave blank for the default values/
+
+    membership.membership_price_reduction.update!(fixed_amount: 12)
+    get edit_membership_path(membership)
+
+    assert_select "input#membership_membership_price_reduction_attributes_fixed_amount[placeholder='8']" do |input|
+      assert_equal 12, input.first["value"].to_d
+    end
+  end
+
+  def price_reduction_fieldset
+    css_select("fieldset[data-controller='form-price-reduction']").find { |fieldset|
+      fieldset.at_css("legend.fieldset-title")&.text&.squish == "Price reduction"
+    }
+  end
+
+  test "update ignores a posted cut when the feature is off" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    reduction = PriceReduction.create!(names: { "en" => "Open" }, percentage: 10)
+    grant = MembershipPriceReduction.create!(
+      membership: membership,
+      price_reduction: reduction,
+      percentage: 10,
+      amount: 10)
+    login admins(:super)
+
+    patch membership_path(membership), params: {
+      membership: {
+        price_reduction_choice_id: reduction.id,
+        membership_price_reduction_attributes: {
+          id: grant.id,
+          percentage: "80"
+        }
+      }
+    }
+
+    assert_redirected_to membership_path(membership)
+    assert_equal 10, grant.reload.percentage
+  end
+
+  test "failed update re-renders the price reduction grant fields" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features | [ "price_reductions" ])
+    membership = memberships(:jane)
+    reduction = PriceReduction.create!(names: { "en" => "Open" }, percentage: 10)
+    MembershipPriceReduction.create!(
+      membership: membership,
+      price_reduction: reduction,
+      percentage: 10,
+      amount: 10)
+    login admins(:super)
+
+    patch membership_path(membership), params: {
+      membership: {
+        price_reduction_choice_id: reduction.id,
+        basket_quantity: -1,
+        membership_price_reduction_attributes: {
+          id: membership.membership_price_reduction.id,
+          percentage: "10"
+        }
+      }
+    }
+
+    assert_response :unprocessable_entity
+    assert price_reduction_fieldset
+    assert_select "input#membership_membership_price_reduction_attributes_percentage[min='0.01']", count: 1
+    assert_select "input#membership_membership_price_reduction_attributes_id[type=hidden]"
+  end
+
+  test "price reduction depot mismatch renders inside the fieldset" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features | [ "price_reductions" ])
+    membership = memberships(:jane)
+    reduction = PriceReduction.create!(
+      names: { "en" => "Casino" },
+      fixed_amount: 200)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert_select price_reduction_fieldset, "ul.errors.is-hidden[data-form-price-reduction-target=error]"
+
+    membership.apply_price_reduction!(reduction)
+    membership.save!
+    reduction.update!(depot_ids: [ depots(:farm).id ])
+
+    get edit_membership_path(membership)
+
+    fieldset = price_reduction_fieldset
+    assert_select ".formtastic > ul.errors", count: 0
+    assert_select fieldset, "ul.errors[role=alert] li", text: "This reduction does not cover the selected depot"
+    assert_select fieldset, "li.error select#membership_price_reduction_choice_id"
+
+    get price_reduction_preview_memberships_path(
+      membership_id: membership.id,
+      price_reduction_id: reduction.id),
+      as: :json
+
+    assert_equal "", response.parsed_body["text"]
+    assert_equal "This reduction does not cover the selected depot", response.parsed_body["error"]
+
+    membership.clear_price_reduction!
+    membership.save!
+
+    patch membership_path(membership), params: {
+      membership: { price_reduction_choice_id: reduction.id }
+    }
+
+    assert_response :unprocessable_entity
+    fieldset = price_reduction_fieldset
+    assert_select ".formtastic > ul.errors", count: 0
+    assert_select fieldset, "ul.errors[role=alert] li", text: "This reduction does not cover the selected depot"
+  end
+
   test "edit activity fields blank the default and keep overrides" do
     travel_to "2024-05-01"
     membership = memberships(:jane)

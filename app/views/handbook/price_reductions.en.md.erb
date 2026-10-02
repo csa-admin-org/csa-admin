@@ -1,0 +1,56 @@
+# Price reduction
+
+A price reduction lowers the total price of the membership. It does not reduce the annual fee, shares, or the new-member fee.
+
+The [extra price](/handbook/basket_price_extra) is mainly for raising the price of each <%= Basket.model_name.human.downcase %>, but a negative extra remains possible.
+
+Turn this feature on in [settings](/settings#price_reductions). The explanation text, if you write one, is shown above the choices on the registration form. Reductions and [cards](#cards) are created from the Other (…) menu.
+
+## Reductions {#programs}
+
+Each reduction has a name and an optional form detail. The detail is the line under the name. Leave it blank to use the generated detail, the same idea as a basket size or a complement.
+
+The cut is either a percentage or a fixed amount, not both.
+
+A reduction can be hidden. Hidden reductions stay available in the admin and are not offered on the registration or renewal form.
+
+> A reduction can be limited to specific depots. Leave the list empty to allow every depot. The list is checked only when the reduction is applied. Moving the depot later does not remove a reduction that was already granted. Remove it yourself, by editing the membership, if it should not stay.
+
+## Cap {#cap}
+
+The cap is optional. **Once** is a lifetime total. **Per fiscal year** starts again every year.
+
+A registration does not reserve the cap. The first membership that is created or renewed with a cut that fits takes it. If the cut does not fit, that option is disabled on the form and the membership is created without it. You see a warning on the member page before activation.
+
+Saving a cap below what is already granted is refused. A yearly cap is checked against the current year and every future year, not past years. Lower the granted amounts first, or remove those memberships from the program, then save the cap.
+
+After a reduction is granted, a later change to the membership price recomputes the cut from the copy stored on that membership. If the new cut no longer fits, it is limited to what remains. It is not removed. An invoice that was already sent is canceled by the usual price change, nothing extra.
+
+> Editing the reduction does not change memberships that already have it. The copy is stored on the membership, like a basket price. Catalog changes apply the next time the reduction is applied, including a renewal that copies it again. You can edit that copy on the membership. That edit is not carried forward: renewal copies the current reduction, not the edited copy. The save fails if the typed cut does not fit the remaining cap.
+
+## Renewal {#renewal}
+
+**Renew** copies the current program onto the next membership and recomputes the cut. If the cap, the depot, or the card no longer fits, the renewal still succeeds and the reduction is skipped.
+
+When Renew is off, the next membership does not start with the reduction selected. The member can still choose it, if it is visible and still fits.
+
+## Cards {#cards}
+
+Some reductions require a card. Card types are managed from [Cards](/price_reduction_cards), linked from the price reduction index. A type chooses which of name, number, and expiration date are required. A required field must be filled when that reduction is selected.
+
+The member enters the card on the registration form, after the depot, and can update it from their account. An expired card is ignored when the reduction is applied or renewed. A reduction already granted stays until the end of that membership, even if the card expires during the year. You can remove it by hand.
+
+A [reminder email](/mail_templates/price_reduction_card_expiring) is sent when the card enters the reminder window set on that email. The number in that email is masked. Admins can opt in to one digest for cards tied to a current or future membership, or to a reduction still selected on a registration.
+
+To ask for a copy in the validation email, edit [Member validated](/mail_templates/member_validated). The default body is unchanged. These variables are available:
+
+~~~ liquid
+{% if waiting_price_reduction %}
+  Please reply with a photo of your card to benefit from {{ waiting_price_reduction.name }}.
+  {% if member_card %}
+    Card ending {{ member_card.number }}, valid until {{ member_card.expires_on }}.
+  {% endif %}
+{% endif %}
+~~~
+
+If you only want this sentence for one reduction, use `{% if waiting_price_reduction.id == 1 %}`, for example. On membership emails, `membership.price_reduction.name` and `membership.price_reduction.amount` are the granted reduction.

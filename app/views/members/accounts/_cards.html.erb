@@ -1,0 +1,26 @@
+<%# locals: (card_type:) %>
+<% card = current_member.member_card_for(card_type) || MemberCard.new(price_reduction_card: card_type) %>
+
+<fieldset id="card" class="reduction-card">
+  <legend class="form-label">
+    <%= PriceReductionCard.model_name.human %>: <%= card_type.name %>
+  </legend>
+
+  <p class="reduction-card-copy"><%= t("members.accounts.cards.hint") %></p>
+
+  <div class="form-fields">
+    <%= simple_fields_for "member[member_cards_attributes][]", card do |card_fields| %>
+      <% if card_type.require_name? %>
+        <%= card_fields.input :name, required: true, placeholder: "" %>
+      <% end %>
+
+      <% if card_type.require_number? %>
+        <%= card_fields.input :number, required: true, placeholder: "" %>
+      <% end %>
+
+      <% if card_type.require_expires_on? %>
+        <%= card_fields.input :expires_on, as: :date, html5: true, required: true, placeholder: "" %>
+      <% end %>
+    <% end %>
+  </div>
+</fieldset>

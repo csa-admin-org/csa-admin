@@ -21,6 +21,7 @@ module Member::Anonymization
       nullify_related_session_ids!
       anonymize_member_pii!
       anonymize_absences!
+      anonymize_member_cards!
       anonymize_home_delivery_addresses!
       anonymize_activity_participations!
       delete_mail_deliveries!
@@ -74,6 +75,10 @@ module Member::Anonymization
 
   def anonymize_absences!
     absences.update_all(note: nil)
+  end
+
+  def anonymize_member_cards!
+    member_cards.update_all(name: nil, number: nil)
   end
 
   def anonymize_home_delivery_addresses!

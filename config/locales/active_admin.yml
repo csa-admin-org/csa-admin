@@ -1118,6 +1118,13 @@ _:
           _de: Alle vier Wochen
           _it: Ogni quattro settimane
           _nl: Elke vier weken
+      create_membership:
+        price_reduction_skipped:
+          _en: The membership was created without the requested reduction. It no longer fits.
+          _fr: L'abonnement a été créé sans la réduction demandée. Elle ne tient plus.
+          _de: Das Abo wurde ohne die gewünschte Reduktion erstellt. Sie passt nicht mehr.
+          _it: L'abbonamento è stato creato senza la riduzione richiesta. Non entra più.
+          _nl: Het abonnement is aangemaakt zonder de gevraagde reductie. Die past niet meer.
       form:
         absence_basket_shifts/bag:
           _en: Bag shifts
@@ -1467,6 +1474,12 @@ _:
           _de: Rechnungsstellung
           _it: Fatturazione
           _nl: Facturering
+        cap:
+          _en: Cap
+          _fr: Plafond
+          _de: Plafond
+          _it: Massimale
+          _nl: Plafond
         catalog_price_memberships_warning_html:
           _en: <strong>Warning:</strong> %{count} current or future membership(s) keep their existing price. This change applies only to new memberships and the next renewal. <a href="/handbook/membership_renewal#catalog-prices">Learn more</a>
           _fr: <strong>Attention:</strong> %{count} abonnement(s) actuel(s) ou futur(s) gardent leur prix existant. Ce changement s'applique uniquement aux nouveaux abonnements et au prochain renouvellement. <a href="/handbook/membership_renewal#catalog-prices">En savoir plus</a>
@@ -1864,6 +1877,12 @@ _:
           _de: Min. %{min} (Schrittwert %{step})
           _it: Min. %{min} (passo di %{step})
           _nl: Min. %{min} (stapwaarde %{step})
+        rule:
+          _en: Reduction
+          _fr: Réduction
+          _de: Reduktion
+          _it: Riduzione
+          _nl: Reductie
         send_validation_email:
           _en: Send the "Member validated" automatic email.
           _fr: Envoyer l’e-mail automatique " Membre validé ".
@@ -2498,6 +2517,12 @@ _:
           _de: Die Rechnung muss dem Mitglied vor dem Hochladen des Lastschriftauftrags an die Bank gesendet werden.
           _it: La fattura deve essere inviata al socio prima dell'invio dell'ordine di pagamento alla banca.
           _nl: De factuur moet aan het lid worden verzonden voordat de incasso-opdracht naar de bank wordt gestuurd.
+        lifetime:
+          _en: Lifetime
+          _fr: Total à vie
+          _de: Gesamtsumme
+          _it: Totale complessivo
+          _nl: Totaal
         mark_renewal_as_pending:
           _en: Cancel termination
           _fr: Annuler résiliation
@@ -2558,6 +2583,12 @@ _:
           _de: Die Bestätigung setzt dieses Mitglied auf die Warteliste.
           _it: La conferma inserirà questo socio nella lista d'attesa.
           _nl: De validatie plaatst dit lid op de wachtlijst.
+        memberships:
+          _en: Memberships
+          _fr: Abonnements
+          _de: Abonnements
+          _it: Abbonamenti
+          _nl: Lidmaatschappen
         missing_deliveries:
           _en: New emails not delivered
           _fr: Nouveaux emails non-distribués
@@ -2751,6 +2782,12 @@ _:
           _de: Vorschau
           _it: Anteprima
           _nl: Voorbeeld
+        price_reduction_skipped:
+          _en: 'Activation will skip this reduction: %{reason}.'
+          _fr: 'L''activation ignorera cette réduction: %{reason}.'
+          _de: 'Die Aktivierung überspringt diese Reduktion: %{reason}.'
+          _it: 'L''attivazione ignorerà questa riduzione: %{reason}.'
+          _nl: 'Activeren slaat deze reductie over: %{reason}.'
         provisional_absences/bag:
           _en: The last bags are provisionally marked as absent for the member's unused included absences. Their delivery can be forced if the member decides not to use an included absence.
           _fr: Les derniers sacs sont marqués provisoirement comme absents pour les absences incluses non utilisées du membre. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
@@ -3983,6 +4020,12 @@ _:
             _it: Abbonamento
             _nl: Lidmaatschap
       member:
+        add_member_card:
+          _en: Add a new card
+          _fr: Ajouter une nouvelle carte
+          _de: Eine neue Karte hinzufügen
+          _it: Aggiungere una nuova tessera
+          _nl: Een nieuwe kaart toevoegen
         new_model:
           _en: New %{model}
           _fr: Nouveau %{model}
@@ -4339,6 +4382,20 @@ _:
           _fr: Nouvelle %{model}
           _de: Neue %{model}
           _it: Nuovo %{model}
+          _nl: Nieuwe %{model}
+      price_reduction:
+        new_model:
+          _en: New %{model}
+          _fr: Nouvelle %{model}
+          _de: Neue %{model}
+          _it: Nuova %{model}
+          _nl: Nieuwe %{model}
+      price_reduction_card:
+        new_model:
+          _en: New %{model}
+          _fr: Nouvelle %{model}
+          _de: Neue %{model}
+          _it: Nuova %{model}
           _nl: Nieuwe %{model}
       shop/order:
         new_model:
@@ -5346,6 +5403,12 @@ _:
           _de: Berechtigungen ermöglichen es, spezifische Zugriffsrechte für die Admins zu definieren. Jedes Berechtigungsprofil steuert, welche Bereiche (Mitglieder, Rechnungsstellung, Lieferungen usw.) ein Admin lesen oder bearbeiten kann.
           _it: I permessi permettono di definire diritti di accesso specifici per i vostri admin. Ogni profilo di permesso controlla quali sezioni (soci, fatturazione, consegne, ecc.) un admin può consultare o modificare.
           _nl: Machtigingen maken het mogelijk specifieke toegangsrechten te definiëren voor de beheerders. Elk machtigingsprofiel bepaalt welke secties (leden, facturering, leveringen, enz.) een beheerder kan lezen of bewerken.
+        price_reduction_card_info:
+          _en: Cards are the documents a price reduction can require. Each card says which of the name, number, and expiration date are requested.
+          _fr: Les cartes sont les documents qu'une réduction de prix peut exiger. Chaque carte indique lesquels parmi le nom, le numéro et la date d'expiration sont demandés.
+          _de: Karten sind die Dokumente, die eine Preisreduktion verlangen kann. Jede Karte gibt an, welche der Felder Name, Nummer und Ablaufdatum abgefragt werden.
+          _it: Le tessere sono i documenti che una riduzione di prezzo può richiedere. Ogni tessera indica quali tra nome, numero e data di scadenza sono richiesti.
+          _nl: Kaarten zijn de documenten die een prijsreductie kan vereisen. Elke kaart geeft aan welke van naam, nummer en vervaldatum worden gevraagd.
         producer_info:
           _en: Producers group shop products and basket content products by origin. Assign one to a product, then filter by producer or split a mixed delivery export by producer.
           _fr: Les producteurs regroupent les produits de l'épicerie et du contenu des paniers par origine. Associez-en un à un produit, puis filtrez par producteur ou séparez un export de livraison mixte par producteur.
@@ -5646,6 +5709,12 @@ _:
         _de: Entwurf
         _it: Bozza
         _nl: concept
+      expired:
+        _en: expired
+        _fr: expirée
+        _de: abgelaufen
+        _it: scaduta
+        _nl: verlopen
       'false':
         _en: 'no'
         _fr: non
