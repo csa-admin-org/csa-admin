@@ -575,4 +575,51 @@ class Shop::OrderTest < ActiveSupport::TestCase
 
     assert_equal(-1, order.amount)
   end
+
+  test "effective_invoice_totals ignores ActiveAdmin depot sort on the collection" do
+    travel_to "2024-04-03"
+    included = create_shop_order(
+      depot: depots(:farm),
+      items_attributes: {
+        "0" => {
+          product_id: shop_products(:oil).id,
+          product_variant_id: shop_product_variants(:oil_500).id,
+          item_price: 10,
+          quantity: 1
+        }
+      })
+    excluded = create_shop_order(
+      member: members(:bob),
+      delivery: deliveries(:monday_1),
+      depot: depots(:bakery),
+      items_attributes: {
+        "0" => {
+          product_id: shop_products(:oil).id,
+          product_variant_id: shop_product_variants(:oil_1000).id,
+          item_price: 25,
+          quantity: 1
+        }
+      })
+    included.invoice!
+    perform_enqueued_jobs
+
+    I18n.with_locale(:de) do
+      collection = Shop::Order
+        .where(id: [ included.id, excluded.id ])
+        .where(delivery: included.delivery)
+        .includes(:member, :depot)
+        .joins(:member)
+        .order(*Depot.reorder_by_name("desc").order_values)
+        .merge(Member.order_by_name)
+        .offset(0)
+        .limit(30)
+
+      totals = Shop::Order.effective_invoice_totals(collection)
+
+      assert_equal included.amount, totals[:amount]
+      assert_not_equal included.amount + excluded.amount, totals[:amount]
+      assert_equal 0, totals[:paid]
+      assert_equal included.invoice.amount, totals[:missing]
+    end
+  end
 end
