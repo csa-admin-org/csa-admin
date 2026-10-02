@@ -43,9 +43,8 @@ Une fois les prérequis remplis, il est possible d'envoyer une demande de renouv
 
 ### Email de rappel
 
-Lorsque le champ "Envoyer un rappel après (en jours)" est configuré dans [les paramètres](/settings#membership_renewal), le système envoie automatiquement un e-mail de rappel X jours après la demande à chaque membre qui n'a pas encore renouvelé ou résilié son abonnement.
-
-[Le modèle d'e-mail "Renouvellement abonnement (Rappel)"](/mail_templates/membership_renewal_reminder) doit également être édité et activé au préalable.
+<% renewal_reminder_days = MailTemplate.delay_in_days_for("membership_renewal_reminder") %>
+Quand [l'e-mail "Renouvellement abonnement (Rappel)"](/mail_templates/membership_renewal_reminder) est actif, le système l'envoie une seule fois, <%= renewal_reminder_days %> jours après la demande, à chaque membre qui n'a pas encore renouvelé ou résilié son abonnement. Le délai se règle sur cet e-mail.
 
 > Comme renouveler ou résilier les abonnements n'a de sens qu'avant la première livraison de la nouvelle année fiscale, faites bien attention à ce qu'il reste toujours assez de temps entre l'envoi du rappel et cette échéance.
 

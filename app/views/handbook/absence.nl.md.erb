@@ -95,7 +95,8 @@ Deze modus is nuttig wanneer je de voorkeur geeft dat leden hun <%= Basket.model
 
 ### Herinneringsmail {#absence-included-reminder}
 
-Een herinneringsmail wordt naar leden met ongebruikte inbegrepen afwezigheden gestuurd, een configureerbaar aantal weken vóór de eerste voorlopige afwezigheid (standaard: 4 weken). Zo hebben leden tijd om volgens de gekozen modus te handelen:
+<% absence_reminder_days = MailTemplate.delay_in_days_for("absence_included_reminder") %>
+Een herinneringsmail gaat naar leden met ongebruikte inbegrepen afwezigheden, <%= absence_reminder_days %> dagen voor de eerste voorlopige afwezigheid. De termijn staat op [die e-mail](/mail_templates/absence_included_reminder). In de modus "Levering van resterende afwezigheden" worden die leveringen dan geforceerd en gefactureerd. Zo is er tijd om volgens de gekozen modus te handelen:
 
 - **In de modus "Voorlopige afwezigheid gerespecteerd"**: een levering forceren als ze <%= Basket.model_name.human(count: 2).downcase %> willen ontvangen die voorlopig als afwezig zijn gemarkeerd.
 - **In de modus "Levering van resterende afwezigheden"**: een afwezigheid melden om leveringen te weigeren die ze niet willen.

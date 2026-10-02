@@ -15,17 +15,18 @@ module Membership::AbsencesIncludedRemindable
     def send_absences_included_reminders
       return unless Current.org.feature?("absence")
 
+      delay_in_days = MailTemplate.delay_in_days_for("absence_included_reminder")
       absences_included_remindable.includes(:baskets, :member).find_each do |membership|
-        membership.send_absences_included_reminder!
+        membership.send_absences_included_reminder!(delay_in_days: delay_in_days)
       end
     end
   end
 
-  def absences_included_remindable_on
+  def absences_included_remindable_on(delay_in_days: MailTemplate.delay_in_days_for("absence_included_reminder"))
     first_provisional = baskets.coming.provisionally_absent.first
     return unless first_provisional
 
-    first_provisional.delivery.date - Current.org.absences_included_reminder_period
+    first_provisional.delivery.date - delay_in_days.days
   end
 
   def absences_included_reminded?
@@ -40,8 +41,8 @@ module Membership::AbsencesIncludedRemindable
     [ absences_included - absences_included_used, 0 ].max
   end
 
-  def send_absences_included_reminder!
-    return unless absences_included_must_be_reminded?
+  def send_absences_included_reminder!(delay_in_days: MailTemplate.delay_in_days_for("absence_included_reminder"))
+    return unless absences_included_must_be_reminded?(delay_in_days: delay_in_days)
 
     if Current.org.absences_included_provisional_delivery_mode?
       create_forced_deliveries_for_provisional_baskets!
@@ -53,10 +54,10 @@ module Membership::AbsencesIncludedRemindable
 
   private
 
-  def absences_included_must_be_reminded?
+  def absences_included_must_be_reminded?(delay_in_days: MailTemplate.delay_in_days_for("absence_included_reminder"))
     return false if absences_included_reminded?
 
-    if remindable_on = absences_included_remindable_on
+    if remindable_on = absences_included_remindable_on(delay_in_days: delay_in_days)
       Date.current >= remindable_on
     end
   end

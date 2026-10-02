@@ -116,7 +116,8 @@ Ce mode est utile lorsque vous préférez que les membres reçoivent leurs <%= B
 
 ### Email de rappel {#absence-included-reminder}
 
-Un email de rappel est envoyé aux membres ayant des absences incluses non utilisées un nombre configurable de semaines avant la première absence provisoire (par défaut: 4 semaines). Cela donne aux membres le temps d'agir selon le mode choisi:
+<% absence_reminder_days = MailTemplate.delay_in_days_for("absence_included_reminder") %>
+Un e-mail de rappel est envoyé aux membres qui ont des absences incluses non utilisées, <%= absence_reminder_days %> jours avant la première absence provisoire. Le délai se règle sur [cet e-mail](/mail_templates/absence_included_reminder). En mode "Livraison des absences restantes", ces livraisons sont forcées et facturées à ce moment-là. Cela laisse le temps d'agir selon le mode choisi:
 
 - **En mode "Absence provisoire respectée"**: Forcer une livraison s'ils souhaitent recevoir des <%= Basket.model_name.human(count: 2).downcase %> qui étaient marqués comme provisoirement absents.
 - **En mode "Livraison des absences restantes"**: Annoncer une absence pour refuser les livraisons qu'ils ne souhaitent pas.

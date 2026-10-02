@@ -15,10 +15,11 @@ class Notification::ActivityParticipationReminder < Notification::Base
   private
 
   def eligible_participations
+    delay_in_days = MailTemplate.delay_in_days_for("activity_participation_reminder")
     ActivityParticipation
       .future
       .includes(:activity, :member)
-      .select(&:reminderable?)
+      .select { |participation| participation.reminderable?(delay_in_days: delay_in_days) }
       .select(&:can_send_email?)
   end
 end

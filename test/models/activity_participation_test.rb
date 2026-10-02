@@ -187,6 +187,18 @@ class ActivityParticipationTest < ActiveSupport::TestCase
     assert_not participation.reminderable?
   end
 
+  test "reminderable? follows the activity reminder delay" do
+    mail_templates(:activity_participation_reminder).update!(delay_in_days: 1)
+    participation = activity_participations(:john_harvest)
+    participation.latest_reminder_sent_at = nil
+
+    travel_to "2024-06-29 +02:00"
+    assert_not participation.reminderable?
+
+    travel_to "2024-06-30 +02:00"
+    assert participation.reminderable?
+  end
+
   test "reminderable? is false when activity participation is in more than 3 days" do
     participation = activity_participations(:john_harvest)
     participation.latest_reminder_sent_at = nil

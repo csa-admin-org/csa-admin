@@ -107,7 +107,8 @@ Members can sign up for activities from their member account, even if they don't
 
 When signing up, the member can specify the number of participants, add a note, and choose to share their phone number and departure city for carpooling. This allows a member to register multiple people at once (e.g., family members or friends coming to help). Each participant counts as one participation towards the member's required total.
 
-If the member opts to share carpooling information, it will be included in [the reminder email sent 3 days before the activity](/mail_templates/activity_participation_reminder) alongside the contact details of all other participants who also opted in. This 3-day delay is fixed and cannot be configured.
+<% activity_reminder_days = MailTemplate.delay_in_days_for("activity_participation_reminder") %>
+If the member opts to share carpooling information, it is included in [the reminder email](/mail_templates/activity_participation_reminder), sent <%= activity_reminder_days %> days before the activity, alongside the contact details of the other participants who also opted in. The delay is set on that email.
 
 A sign-up deadline (in days) before the activity date can be defined in [the settings](/settings#activity) to avoid last-minute registrations.
 

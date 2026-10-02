@@ -81,8 +81,10 @@ ActiveAdmin.register MailTemplate do
           if !mail_template.active? || !mail_template.with_delivery_cycles_scope?
             attributes_table do
               row(:active) { aligned_status_tag(mail_template.active?) }
-              if mail_template.price_reduction_card_expiring?
-                row(:remind_before_days)
+              if mail_template.delay?
+                row(t("mail_template.delay_label.#{mail_template.title}")) {
+                  mail_template.delay_in_days
+                }
               end
             end
           else
@@ -118,12 +120,14 @@ ActiveAdmin.register MailTemplate do
     end
   end
 
-  form data: {
-    controller: "code-editor",
-    code_editor_target: "form",
-    code_editor_preview_path_value: "/mail_templates/preview",
-    turbo: false
-  } do |f|
+  form html: { autocomplete: "off" },
+    data: {
+      controller: "code-editor form-autofill-guard",
+      code_editor_target: "form",
+      code_editor_preview_path_value: "/mail_templates/preview",
+      turbo: false
+    } do |f|
+    text_node autofill_sinks
     f.inputs t(".settings"), icon: "sliders-horizontal" do
       para f.object.description, class: "text-base description"
       f.input :title, as: :hidden
@@ -163,8 +167,19 @@ ActiveAdmin.register MailTemplate do
             label: DeliveryCycle.model_name.human(count: 2)
         end
       end
-      if mail_template.price_reduction_card_expiring?
-        f.input :remind_before_days, as: :number, step: 1, min: 0
+      if mail_template.delay?
+        f.input :delay_in_days,
+          as: :number,
+          step: 1,
+          min: mail_template.zero_delay? ? 0 : 1,
+          label: t("mail_template.delay_label.#{mail_template.title}"),
+          hint: t("formtastic.hints.mail_template.delay_in_days.#{mail_template.title}"),
+          input_html: {
+            autocomplete: "off",
+            autocorrect: "off",
+            spellcheck: "false",
+            data: { "1p_ignore": true }
+          }
       end
     end
     f.inputs do
@@ -186,7 +201,7 @@ ActiveAdmin.register MailTemplate do
 
   permit_params(
     :active,
-    :remind_before_days,
+    :delay_in_days,
     *I18n.available_locales.map { |l| "subject_#{l}" },
     *I18n.available_locales.map { |l| "content_#{l}" },
     liquid_data_preview_yamls: I18n.available_locales,

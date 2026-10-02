@@ -24,9 +24,6 @@ module Organization::AbsenceFeature
     validates :absences_included_mode,
       presence: true,
       inclusion: { in: ABSENCES_INCLUDED_MODES }
-    validates :absences_included_reminder_weeks_before,
-      presence: true,
-      numericality: { greater_than_or_equal_to: 1 }
     validates :absences_included_logic, presence: true
     validate :absences_included_logic_must_be_valid
   end
@@ -63,10 +60,6 @@ module Organization::AbsenceFeature
 
   def absences_included_provisional_delivery_mode?
     absences_included_mode == "provisional_delivery"
-  end
-
-  def absences_included_reminder_period
-    absences_included_reminder_weeks_before.weeks
   end
 
   def absence_notice_period_limit_on

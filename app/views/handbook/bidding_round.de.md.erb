@@ -15,9 +15,8 @@ Vor dem Öffnen einer Beitragsrunde bitte in den [Einstellungen](/settings#biddi
 
 - Mindestbeitrag der <%= BasketSize.model_name.human %> (0–100%) — definiert den minimal zulässigen Prozentsatz.
 - Maximalbeitrag der <%= BasketSize.model_name.human %> (0–X%) — definiert den maximal zulässigen Prozentsatz.
-- Erinnerung senden nach (in Tagen).
 
-Diese Einstellungen sorgen für einen konsistenten Rahmen für die Zusagen der Mitglieder und ermöglichen automatische Erinnerungen während der offenen Phase.
+Diese Einstellungen setzen den Rahmen für die Zusagen. Die Erinnerung, wenn Du eine willst, steht auf der Erinnerungs-E-Mail.
 
 > Der Standardbeitrag ist die Zusage der vorherigen Runde, falls vorhanden, sonst der [Preis der <%= BasketSize.model_name.human %>](/basket_sizes). Min und Max nutzen denselben Grössenpreis. Ein bereits im Abonnement gesetzter benutzerdefinierter Betrag wird ignoriert, bis Du auf "Vollständig" klickst und die Zusagen geschrieben werden.
 
@@ -36,7 +35,8 @@ Beim Öffnen der Beitragsrunde wird automatisch eine E‑Mail an die Mitglieder 
 
 ### Erinnerung
 
-Solange die Beitragsrunde geöffnet ist, kann automatisch eine Erinnerung versendet werden. Die Frist zählt ab dem Zeitpunkt, zu dem die Runde **erstellt** wurde, nicht ab dem Öffnen. Ein Entwurf, der diese Tage gelegen hat, kann sofort erinnern, sobald Du ihn öffnest.
+<% bidding_reminder_days = MailTemplate.delay_in_days_for("bidding_round_opened_reminder") %>
+Solange die Beitragsrunde geöffnet ist, kann automatisch eine Erinnerung versendet werden, wenn [die Erinnerungs-E-Mail](/mail_templates/bidding_round_opened_reminder) aktiv ist. Sie geht einmalig raus, <%= bidding_reminder_days %> Tage nachdem die Runde **erstellt** wurde, nicht nach dem Öffnen. Ein Entwurf, der diese Tage gelegen hat, kann sofort erinnern, sobald Du ihn öffnest. Die Frist steht auf dieser E-Mail.
 
 ## Abschliessen (Erfolg) {#finish}
 

@@ -22,7 +22,12 @@ module Demo::Seeder::Catalog
   def create_default_configurations!
     log "Creating default configurations..."
     MailTemplate.create_all!
+    configure_bidding_round_reminder!
     Newsletter::Template.create_defaults!
+  end
+
+  def configure_bidding_round_reminder!
+    MailTemplate.find_by(title: "bidding_round_opened_reminder")&.update!(active: germany?)
   end
 
   def create_delivery_cycles!

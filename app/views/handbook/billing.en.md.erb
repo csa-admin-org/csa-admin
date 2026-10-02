@@ -304,9 +304,8 @@ See the dedicated [SEPA handbook page](/handbook/sepa) for the full setup.
 
 ## Overdue notice {#overdue_notice}
 
-When payments are imported automatically, the system automatically takes care of sending a reminder email to all members who have an unpaid invoice every 35 days, until the invoice is paid (1st reminder after 35 days, 2nd reminder after 70 days, etc.).
-
-You can configure the content of this reminder by modifying [the "Invoice reminder" email template](/mail_templates/invoice_overdue_notice).
+<% overdue_notice_days = MailTemplate.delay_in_days_for("invoice_overdue_notice") %>
+When payments are imported automatically, the system sends a reminder to every member with an unpaid invoice every <%= overdue_notice_days %> days after the invoice is sent, then again after the last notice, until it is paid (1st reminder after <%= overdue_notice_days %> days, 2nd after <%= overdue_notice_days * 2 %> days, and so on). SEPA invoices are not reminded. The delay and the text are set on [the "Invoice reminder" email](/mail_templates/invoice_overdue_notice).
 
 > You can be notified by email when the 3rd reminder of an invoice is sent. Manage your notifications from [your admin account](/admins/<%= current_admin.id %>/edit).
 

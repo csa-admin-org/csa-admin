@@ -49,8 +49,7 @@ context.instance_eval do
           mode
         ]
       }
-    f.input :absences_included_reminder_weeks_before,
-      hint: t("formtastic.hints.organization.absences_included_reminder_weeks_before_html")
+    mail_template_delay_field(self, "absence_included_reminder")
     f.input :absences_included_logic,
       as: :text,
       hint: t("formtastic.hints.organization.absences_included_logic_html"),

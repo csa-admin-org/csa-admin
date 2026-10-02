@@ -21,10 +21,10 @@ class Notification::MemberCardExpiring < Notification::Base
   private
 
   def due_cards
-    remind_before_days = MailTemplate.card_expiring_remind_before_days
+    delay_in_days = MailTemplate.delay_in_days_for("price_reduction_card_expiring")
     MemberCard
       .includes(:member, :price_reduction_card)
-      .select { |card| card.notice_due?(remind_before_days: remind_before_days) }
+      .select { |card| card.notice_due?(delay_in_days: delay_in_days) }
   end
 
   def admin_relevant?(card)

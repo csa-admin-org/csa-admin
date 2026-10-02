@@ -305,9 +305,8 @@ Siehe die [dedizierte SEPA-Handbuchseite](/handbook/sepa) für die vollständige
 
 ## Erinnerungen {#overdue_notice}
 
-Wenn Zahlungen automatisch importiert werden, kümmert sich das System automatisch darum, alle 35 Tage eine Erinnerungs-E-Mail an alle Mitglieder zu senden, die eine unbezahlte Rechnung haben, bis die Rechnung bezahlt ist (1. Erinnerung nach 35 Tagen, 2. Erinnerung nach 70 Tagen usw.).
-
-Du kannst den Inhalt dieser Erinnerung konfigurieren, indem Du [die E-Mail-Vorlage "Rechnungserinnerung"](/mail_templates/invoice_overdue_notice) bearbeitest.
+<% overdue_notice_days = MailTemplate.delay_in_days_for("invoice_overdue_notice") %>
+Wenn Zahlungen automatisch importiert werden, sendet das System alle <%= overdue_notice_days %> Tage nach dem Rechnungsversand eine Erinnerung an jedes Mitglied mit einer unbezahlten Rechnung, danach erneut nach der letzten Mahnung, bis die Rechnung bezahlt ist (1. Erinnerung nach <%= overdue_notice_days %> Tagen, 2. nach <%= overdue_notice_days * 2 %> Tagen, und so weiter). SEPA-Rechnungen werden nicht gemahnt. Frist und Text stehen auf [der E-Mail "Rechnungserinnerung"](/mail_templates/invoice_overdue_notice).
 
 > Du kannst per E-Mail benachrichtigt werden, wenn die 3. Erinnerung einer Rechnung gesendet wird. Verwalte Deine Benachrichtigungen über [Dein Administratorkonto](/admins/<%= current_admin.id %>/edit).
 

@@ -559,7 +559,7 @@ ActiveAdmin.register Membership do
                 end
               elsif m.renewal_opened?
                 row(:renewal_opened_at) { l m.renewal_opened_at.to_date }
-                if Current.org.open_renewal_reminder_sent_after_in_days?
+                if MailTemplate.active_template?("membership_renewal_reminder")
                   row(:renewal_reminder_sent_at) {
                     if m.renewal_reminder_sent_at
                       l m.renewal_reminder_sent_at.to_date

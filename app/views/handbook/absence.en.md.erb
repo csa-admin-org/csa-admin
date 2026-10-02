@@ -116,7 +116,8 @@ This mode is useful when you prefer that members receive their <%= Basket.model_
 
 ### Reminder Email {#absence-included-reminder}
 
-A reminder email is sent to members with unused included absences a configurable number of weeks before the first provisional absence (default: 4 weeks). This gives members time to take action according to the chosen mode:
+<% absence_reminder_days = MailTemplate.delay_in_days_for("absence_included_reminder") %>
+A reminder email is sent to members with unused included absences <%= absence_reminder_days %> days before the first provisional absence. The delay is set on [that email](/mail_templates/absence_included_reminder). In "Delivery of remaining absences" mode, those deliveries are forced and billed at that moment. This gives members time to act according to the chosen mode:
 
 - **In "Provisional Absence Respected" mode**: Force a delivery if they want to receive <%= Basket.model_name.human(count: 2).downcase %> that were marked as provisionally absent.
 - **In "Delivery of Remaining Absences" mode**: Report an absence to opt out of deliveries they don't want.

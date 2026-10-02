@@ -1607,8 +1607,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
       organization: {
         features: [ "bidding_round" ],
         bidding_round_basket_size_price_min_percentage: 10,
-        bidding_round_basket_size_price_max_percentage: 120,
-        open_bidding_round_reminder_sent_after_in_days: 7
+        bidding_round_basket_size_price_max_percentage: 120
       }
     }
 

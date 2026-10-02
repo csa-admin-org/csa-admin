@@ -305,9 +305,8 @@ Zie de [speciale SEPA-handboekpagina](/handbook/sepa) voor de volledige instelli
 
 ## Betalingsherinnering {#overdue_notice}
 
-Wanneer betalingen automatisch worden geïmporteerd, zorgt het systeem er automatisch voor dat elke 35 dagen een herinneringse-mail wordt verzonden naar alle leden die een onbetaalde factuur hebben, totdat de factuur is betaald (1e herinnering na 35 dagen, 2e herinnering na 70 dagen, enz.).
-
-Je kunt de inhoud van deze herinnering configureren door [de "Factuurherinnering" e-mailsjabloon](/mail_templates/invoice_overdue_notice) te wijzigen.
+<% overdue_notice_days = MailTemplate.delay_in_days_for("invoice_overdue_notice") %>
+Als betalingen automatisch worden geïmporteerd, stuurt het systeem elke <%= overdue_notice_days %> dagen na het verzenden van de factuur een herinnering naar elk lid met een onbetaalde factuur, daarna opnieuw na de laatste herinnering, tot de factuur betaald is (1e herinnering na <%= overdue_notice_days %> dagen, 2e na <%= overdue_notice_days * 2 %> dagen, enzovoort). SEPA-facturen krijgen geen herinnering. De termijn en de tekst staan op [de e-mail "Factuurherinnering"](/mail_templates/invoice_overdue_notice).
 
 ## Admin-meldingen {#notifications}
 

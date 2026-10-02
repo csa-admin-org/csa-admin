@@ -91,8 +91,7 @@ class Members::ForcedDeliveriesTest < ApplicationSystemTestCase
 
   test "shows absences included notice with warning in provisional_delivery mode" do
     org(features: [ :absence ],
-        absences_included_mode: "provisional_delivery",
-        absences_included_reminder_weeks_before: 4)
+        absences_included_mode: "provisional_delivery")
     @membership.update_column(:absences_included, 2)
 
     login(@member)

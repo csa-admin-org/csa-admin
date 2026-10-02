@@ -7,7 +7,6 @@ module Query
       absence_notice_period_in_days
       absences_billed
       absences_included_mode
-      absences_included_reminder_weeks_before
       activity_availability_limit_in_days
       activity_i18n_scope
       activity_participation_deletion_deadline_in_days

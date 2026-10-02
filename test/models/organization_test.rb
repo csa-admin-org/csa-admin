@@ -393,24 +393,6 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_includes org.errors[:bidding_round_basket_size_price_min_percentage], "must be greater than or equal to 0"
   end
 
-  test "validates open_bidding_round_reminder_sent_after_in_days setting" do
-    org = Current.org
-
-    org.open_bidding_round_reminder_sent_after_in_days = 7
-    assert org.valid?
-
-    org.open_bidding_round_reminder_sent_after_in_days = nil
-    assert org.valid?
-
-    org.open_bidding_round_reminder_sent_after_in_days = 0
-    assert_not org.valid?
-    assert_includes org.errors[:open_bidding_round_reminder_sent_after_in_days], "must be greater than or equal to 1"
-
-    org.open_bidding_round_reminder_sent_after_in_days = -5
-    assert_not org.valid?
-    assert_includes org.errors[:open_bidding_round_reminder_sent_after_in_days], "must be greater than or equal to 1"
-  end
-
   test "encrypts fixture tokens" do
     assert_equal "1234abcd", Current.org.api_token
     assert_equal "1234abcd", Current.org.icalendar_auth_token

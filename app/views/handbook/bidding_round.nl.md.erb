@@ -15,9 +15,8 @@ Voordat je een biedronde opent, controleer de volgende punten in de [instellinge
 
 - Minimale <%= BasketSize.model_name.human.downcase %>prijs (0-100%) — definieert het minimaal toegestane percentage.
 - Maximale <%= BasketSize.model_name.human.downcase %>prijs (0-X%) — definieert het maximaal toegestane percentage.
-- Verstuur een herinnering na (in dagen).
 
-Deze instellingen zorgen voor een consistent kader voor ledenbiedingen en maken geautomatiseerde herinneringen mogelijk tijdens de openingsperiode.
+Deze instellingen zetten het kader voor de biedingen. De herinnering, als je die wilt, staat op de herinneringsmail.
 
 > Het standaardbod is het bod van de vorige ronde als die er is, anders de [<%= BasketSize.model_name.human.downcase %>prijs](/basket_sizes). Min en max gebruiken dezelfde grootteprijs. Een aangepast bedrag dat al op het lidmaatschap staat, wordt genegeerd tot je op "Voltooien" klikt en de biedingen worden weggeschreven.
 
@@ -36,7 +35,8 @@ Wanneer de biedronde wordt geopend, wordt automatisch een e-mail naar leden verz
 
 ### Herinnering
 
-Een herinnering kan automatisch worden verzonden terwijl de biedronde open is. De vertraging telt vanaf het moment waarop de ronde is **aangemaakt**, niet vanaf het openen. Een concept dat die dagen heeft stilgelegen, kan meteen een herinnering sturen zodra je het opent.
+<% bidding_reminder_days = MailTemplate.delay_in_days_for("bidding_round_opened_reminder") %>
+Een herinnering kan automatisch vertrekken terwijl de biedronde open is, als [de herinneringsmail](/mail_templates/bidding_round_opened_reminder) actief is. Die gaat eenmalig uit, <%= bidding_reminder_days %> dagen nadat de ronde is **aangemaakt**, niet na het openen. Een concept dat die dagen heeft stilgelegen kan meteen herinneren zodra je het opent. De termijn staat op die e-mail.
 
 ## Voltooien (succes) {#finish}
 

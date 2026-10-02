@@ -40,7 +40,8 @@ Mitglieder können sich über ihr Mitgliedskonto für Aktivitäten anmelden, auc
 
 Bei der Anmeldung kann das Mitglied die Anzahl der Teilnehmer angeben, eine Bemerkung hinterlassen und wählen, ob es seine Telefonnummer sowie seinen Abfahrtsort für Fahrgemeinschaften teilen möchte. Dies ermöglicht es einem Mitglied, mehrere Personen auf einmal anzumelden (z.B. Familienmitglieder oder Freunde, die zum Helfen kommen). Jeder Teilnehmer zählt als eine Teilnahme für die erforderliche Gesamtzahl des Mitglieds.
 
-Wenn das Mitglied sich entscheidet, seine Fahrgemeinschaftsinformationen zu teilen, werden diese in [der Erinnerungs-E-Mail, die 3 Tage vor der Aktivität gesendet wird](/mail_templates/activity_participation_reminder) zusammen mit den Kontaktdaten aller anderen Teilnehmer aufgeführt, die ebenfalls zugestimmt haben. Diese 3-Tage-Frist ist fest und kann nicht geändert werden.
+<% activity_reminder_days = MailTemplate.delay_in_days_for("activity_participation_reminder") %>
+Wenn das Mitglied Fahrgemeinschaftsinformationen teilt, stehen diese in [der Erinnerungs-E-Mail](/mail_templates/activity_participation_reminder), die <%= activity_reminder_days %> Tage vor der Aktivität rausgeht, zusammen mit den Kontaktdaten der anderen Teilnehmer, die ebenfalls zugestimmt haben. Die Frist steht auf dieser E-Mail.
 
 Eine Anmeldefrist (in Tagen) vor dem Datum der Aktivität kann in [den Einstellungen](/settings#activity) festgelegt werden, um Anmeldungen in letzter Minute zu vermeiden.
 

@@ -104,8 +104,6 @@ class Organization < ApplicationRecord
   validates_plausible_phone :phone, country_code: ->(org) { org.country_code }
   validates_plausible_phone :activity_phone, country_code: ->(org) { org.country_code }
 
-  validates :open_renewal_reminder_sent_after_in_days,
-    numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validates :country_code,
     presence: true,
     inclusion: { in: ISO3166::Country.all.map(&:alpha2) }

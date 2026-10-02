@@ -303,9 +303,8 @@ Consulta la [pagina SEPA dedicata](/handbook/sepa) del manuale per la configuraz
 
 ## Promemoria {#overdue_notice}
 
-Quando i pagamenti vengono importati automaticamente, il sistema si occupa automaticamente di inviare un promemoria via email a tutti i soci che hanno una fattura non pagata ogni 35 giorni, fino a quando la fattura non viene pagata (1° promemoria dopo 35 giorni, 2° promemoria dopo 70 giorni, ecc.).
-
-Puoi configurare il contenuto di questo promemoria modificando [il modello di email "Promemoria fattura"](/mail_templates/invoice_overdue_notice).
+<% overdue_notice_days = MailTemplate.delay_in_days_for("invoice_overdue_notice") %>
+Quando i pagamenti sono importati automaticamente, il sistema invia un promemoria a ogni socio con una fattura non pagata, ogni <%= overdue_notice_days %> giorni dopo l'invio della fattura, poi di nuovo dopo l'ultimo promemoria, finché non è pagata (1° promemoria dopo <%= overdue_notice_days %> giorni, 2° dopo <%= overdue_notice_days * 2 %> giorni, e così via). Le fatture SEPA non ricevono promemoria. Il ritardo e il testo si impostano sull'[email "Promemoria fattura"](/mail_templates/invoice_overdue_notice).
 
 > Puoi essere notificato via email quando viene inviato il 3° promemoria di una fattura. Gestisci le tue notifiche dal [tuo account admin](/admins/<%= current_admin.id %>/edit).
 

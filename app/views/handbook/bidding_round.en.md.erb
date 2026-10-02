@@ -15,9 +15,8 @@ Before opening a bidding round, check the following in the [settings](/settings#
 
 - Minimum <%= BasketSize.model_name.human.downcase %> price (0-100%) — defines the minimum allowed percentage.
 - Maximum <%= BasketSize.model_name.human.downcase %> price (0-X%) — defines the maximum allowed percentage.
-- Send a reminder after (in days).
 
-These settings ensure a consistent frame for member pledges and enable automated reminders during the opening period.
+These settings set the frame for member pledges. The reminder, if you want one, is configured on the reminder email.
 
 > The default pledge is the previous round's pledge if there is one, otherwise the [<%= BasketSize.model_name.human.downcase %> price](/basket_sizes). Min and max use that same size price. A custom amount already on the membership is ignored until you click "Complete" and the pledges are written.
 
@@ -36,7 +35,8 @@ When the bidding round is opened, an automatic email is sent to members. From th
 
 ### Reminder
 
-A reminder can be sent automatically while the bidding round is open. The delay counts from when the round was **created**, not from when it was opened. A draft that sat for those days can remind as soon as you open it.
+<% bidding_reminder_days = MailTemplate.delay_in_days_for("bidding_round_opened_reminder") %>
+A reminder can be sent automatically while the bidding round is open, if [the reminder email](/mail_templates/bidding_round_opened_reminder) is active. It goes out once, <%= bidding_reminder_days %> days after the round was **created**, not after it was opened. A draft that sat for those days can remind as soon as you open it. The delay is set on that email.
 
 ## Finish (success) {#finish}
 

@@ -6,7 +6,6 @@ class Notification::BiddingRoundOpenedReminder < Notification::Base
   def notify
     return unless Current.org.feature?("bidding_round")
     return unless mail_template_active?
-    return unless reminder_delay_in_days
     return unless bidding_round
     return if reminder_delay.future?
 
@@ -19,7 +18,7 @@ class Notification::BiddingRoundOpenedReminder < Notification::Base
   private
 
   def reminder_delay_in_days
-    Current.org.open_bidding_round_reminder_sent_after_in_days
+    MailTemplate.delay_in_days_for("bidding_round_opened_reminder")
   end
 
   def bidding_round

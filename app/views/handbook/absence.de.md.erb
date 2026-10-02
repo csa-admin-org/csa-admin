@@ -95,7 +95,8 @@ Dieser Modus ist nützlich, wenn Du bevorzugst, dass Mitglieder ihre <%= Basket.
 
 ### Erinnerungs-E-Mail {#absence-included-reminder}
 
-Eine Erinnerungs-E-Mail wird an Mitglieder mit ungenutzten inkludierten Abwesenheiten eine konfigurierbare Anzahl von Wochen vor der ersten vorläufigen Abwesenheit gesendet (Standard: 4 Wochen). Dies gibt den Mitgliedern Zeit, je nach gewähltem Modus zu handeln:
+<% absence_reminder_days = MailTemplate.delay_in_days_for("absence_included_reminder") %>
+Eine Erinnerungs-E-Mail geht an Mitglieder mit ungenutzten inkludierten Abwesenheiten, <%= absence_reminder_days %> Tage vor der ersten vorläufigen Abwesenheit. Die Frist steht auf [dieser E-Mail](/mail_templates/absence_included_reminder). Im Modus "Lieferung der verbleibenden Abwesenheiten" werden diese Lieferungen dann erzwungen und berechnet. Das lässt Zeit, je nach Modus zu handeln:
 
 - **Im Modus "Vorläufige Abwesenheit respektiert"**: Eine Lieferung zu erzwingen, wenn sie <%= Basket.model_name.human(count: 2) %> erhalten möchten, die als vorläufig abwesend markiert waren.
 - **Im Modus "Lieferung der verbleibenden Abwesenheiten"**: Eine Abwesenheit zu melden, um Lieferungen abzulehnen, die sie nicht möchten.

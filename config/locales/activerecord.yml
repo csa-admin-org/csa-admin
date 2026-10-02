@@ -1446,12 +1446,12 @@ _:
           _de: Inhalt
           _it: Contenuto
           _nl: Inhoud
-        remind_before_days:
-          _en: Remind before (days)
-          _fr: Rappel avant (jours)
-          _de: Erinnern vor (Tage)
-          _it: Promemoria prima (giorni)
-          _nl: Herinner voor (dagen)
+        delay_in_days:
+          _en: Delay (days)
+          _fr: Délai (jours)
+          _de: Frist (Tage)
+          _it: Ritardo (giorni)
+          _nl: Termijn (dagen)
         subject:
           _en: Subject
           _fr: Sujet
@@ -3288,12 +3288,6 @@ _:
           _de: Modus der inkludierten Abwesenheiten
           _it: Modalità assenze incluse
           _nl: Modus inbegrepen afwezigheden
-        absences_included_reminder_weeks_before:
-          _en: Unused included absences reminder deadline (in weeks)
-          _fr: Délai du rappel d'absences incluses non utilisées (en semaines)
-          _de: Erinnerungsfrist für ungenutzte enthaltene Abwesenheiten (in Wochen)
-          _it: Scadenza promemoria assenze incluse non utilizzate (in settimane)
-          _nl: Herinneringstermijn voor ongebruikte inbegrepen afwezigheden (in weken)
         activity_availability_limit_in_days:
           _en: Registration deadline (in days)
           _fr: Limite d'inscription à l'avance (en jours)
@@ -3996,18 +3990,6 @@ _:
           _de: Erläuterung
           _it: Spiegazione
           _nl: Uitleg
-        open_bidding_round_reminder_sent_after_in_days:
-          _en: Send a reminder after (in days)
-          _fr: Envoyer un rappel après (en jours)
-          _de: Erinnerung senden nach (in Tagen)
-          _it: Inviare un promemoria dopo (in giorni)
-          _nl: Herinnering verzenden na (in dagen)
-        open_renewal_reminder_sent_after_in_days:
-          _en: Send a reminder after (in days)
-          _fr: Envoyer un rappel après (en jours)
-          _de: Erinnerung senden nach (in Tagen)
-          _it: Inviare un promemoria dopo (in giorni)
-          _nl: Herinnering verzenden na (in dagen)
         open_renewal_text:
           _en: Explanation
           _fr: Explication

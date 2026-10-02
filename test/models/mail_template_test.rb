@@ -136,6 +136,37 @@ class MailTemplateTest < ActiveSupport::TestCase
     end
   end
 
+  test "card delay accepts zero and defaults a blank value to 30" do
+    template = MailTemplate.new(title: "price_reduction_card_expiring")
+
+    assert_equal 30, template.delay_in_days
+    template.delay_in_days = 0
+    assert template.valid?
+    assert_equal 0, template[:delay_in_days]
+  end
+
+  test "renewal, bidding, overdue, absence, and activity delays reject zero" do
+    %w[
+      membership_renewal_reminder
+      bidding_round_opened_reminder
+      invoice_overdue_notice
+      absence_included_reminder
+      activity_participation_reminder
+    ].each do |title|
+      template = MailTemplate.new(title: title, delay_in_days: 0)
+
+      assert_not template.valid?, title
+      assert_equal 0, template[:delay_in_days]
+      assert_includes template.errors[:delay_in_days], "must be greater than or equal to 1"
+    end
+  end
+
+  test "missing delay templates fall back to their defaults" do
+    assert_equal 35, MailTemplate.delay_in_days_for("invoice_overdue_notice")
+    assert_equal 28, MailTemplate.delay_in_days_for("absence_included_reminder")
+    assert_equal 3, MailTemplate.delay_in_days_for("activity_participation_reminder")
+  end
+
   test "delivery_cycle_ids" do
     template = mail_templates(:member_activated)
     c1 = delivery_cycles(:mondays)

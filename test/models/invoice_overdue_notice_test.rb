@@ -120,6 +120,22 @@ class InvoiceOverdueNoticeTest < ActiveSupport::TestCase
     assert_equal [ "john@doe.com" ], mail.to
   end
 
+  test "follows a custom overdue delay instead of 35 days" do
+    mail_templates(:invoice_overdue_notice).update!(delay_in_days: 10)
+    invoice = invoices(:annual_fee)
+    invoice.update!(sent_at: 9.days.ago)
+
+    assert_no_difference -> { InvoiceMailer.deliveries.size } do
+      deliver(invoice)
+    end
+
+    invoice.update!(sent_at: 10.days.ago)
+
+    assert_difference -> { InvoiceMailer.deliveries.size }, 1 do
+      deliver(invoice)
+    end
+  end
+
   test "only send first overdue notice after 35 days" do
     invoice = invoices(:annual_fee)
     invoice.update!(sent_at: 34.days.ago)

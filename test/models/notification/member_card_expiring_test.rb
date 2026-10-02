@@ -36,7 +36,9 @@ class Notification::MemberCardExpiringTest < ActiveSupport::TestCase
 
   test "uses the delay on the expiry mail template" do
     expiring_card(members(:mary))
-    MailTemplate.find_by!(title: "price_reduction_card_expiring").update!(remind_before_days: 0)
+    template = MailTemplate.find_by!(title: "price_reduction_card_expiring")
+    template.update!(delay_in_days: 0)
+    assert_equal 0, template.reload.delay_in_days
 
     assert_no_difference -> { ActionMailer::Base.deliveries.size } do
       Notification::MemberCardExpiring.notify

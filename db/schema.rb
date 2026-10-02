@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_02_120000) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -672,7 +672,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "delivery_cycle_ids"
-    t.integer "remind_before_days"
+    t.integer "delay_in_days"
     t.index ["title"], name: "index_mail_templates_on_title", unique: true
     t.check_constraint "JSON_TYPE(delivery_cycle_ids) = 'array'", name: "mail_templates_delivery_cycle_ids_is_array"
   end
@@ -959,7 +959,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
     t.integer "recurring_billing_wday"
     t.json "email_notifications", default: [], null: false
     t.json "feature_flags", default: [], null: false
-    t.integer "open_renewal_reminder_sent_after_in_days"
     t.string "iban"
     t.string "creditor_name", limit: 70
     t.string "creditor_street", limit: 70
@@ -1034,14 +1033,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
     t.string "postmark_server_id"
     t.integer "bidding_round_basket_size_price_min_percentage", default: 0
     t.integer "bidding_round_basket_size_price_max_percentage", default: 100
-    t.integer "open_bidding_round_reminder_sent_after_in_days"
     t.string "local_currency_code", limit: 3
     t.string "local_currency_identifier"
     t.string "local_currency_wallet"
     t.string "local_currency_secret"
     t.boolean "member_form_complement_quantities", default: false, null: false
     t.string "absences_included_mode", default: "provisional_absence", null: false
-    t.integer "absences_included_reminder_weeks_before", default: 4, null: false
     t.boolean "invoice_membership_summary_only", default: false, null: false
     t.json "member_form_delivery_cycle_labels", default: {}, null: false
     t.boolean "basket_content_member_display_quantity", default: true, null: false

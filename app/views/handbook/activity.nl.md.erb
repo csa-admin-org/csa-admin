@@ -40,7 +40,8 @@ Leden kunnen zich inschrijven voor activiteiten vanuit hun ledenaccount, zelfs a
 
 Bij inschrijving kan het lid het aantal deelnemers specificeren, een opmerking toevoegen en ervoor kiezen om het telefoonnummer en de vertrekplaats te delen voor carpooling. Dit stelt een lid in staat om meerdere personen tegelijk in te schrijven (bijvoorbeeld familieleden of vrienden die komen helpen). Elke deelnemer telt als één deelname voor het vereiste totaal van het lid.
 
-Als het lid ervoor kiest om carpoolinginformatie te delen, wordt deze opgenomen in [de herinneringsmail die 3 dagen voor de activiteit wordt verstuurd](/mail_templates/activity_participation_reminder) samen met de contactgegevens van alle andere deelnemers die ook hebben gekozen om te delen. Deze termijn van 3 dagen is vast en kan niet worden geconfigureerd.
+<% activity_reminder_days = MailTemplate.delay_in_days_for("activity_participation_reminder") %>
+Als het lid carpoolinginformatie deelt, staat die in [de herinneringsmail](/mail_templates/activity_participation_reminder), verstuurd <%= activity_reminder_days %> dagen voor de activiteit, samen met de contactgegevens van de andere deelnemers die ook delen. De termijn staat op die e-mail.
 
 Een inschrijfdeadline (in dagen) voor de activiteitsdatum kan worden gedefinieerd in [de instellingen](/settings#activity) om last-minute registraties te vermijden.
 

@@ -106,7 +106,6 @@ module Demo::Seeder::Organization
       membership_depot_update_allowed: false,
       membership_complements_update_allowed: false,
       basket_update_limit_in_days: 0,
-      open_renewal_reminder_sent_after_in_days: nil,
       membership_renewed_attributes: %w[
         baskets_annual_price_change
         basket_complements_annual_price_change
@@ -129,7 +128,6 @@ module Demo::Seeder::Organization
       basket_shifts_annually: 0,
       basket_shift_deadline_in_weeks: 4,
       absences_included_mode: "provisional_absence",
-      absences_included_reminder_weeks_before: 4,
       absences_included_logic: ::Organization::AbsenceFeature::ABSENCES_INCLUDED_LOGIC_DEFAULT,
       activity_i18n_scope: "halfday_work",
       activity_price: 60,
@@ -149,7 +147,6 @@ module Demo::Seeder::Organization
       basket_price_extra_dynamic_pricing: nil,
       bidding_round_basket_size_price_min_percentage: germany? ? 50 : 0,
       bidding_round_basket_size_price_max_percentage: germany? ? 50 : 100,
-      open_bidding_round_reminder_sent_after_in_days: germany? ? 7 : nil,
       shop_admin_only: false,
       shop_order_maximum_weight_in_kg: nil,
       shop_order_minimal_amount: nil,

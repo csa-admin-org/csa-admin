@@ -147,6 +147,24 @@ module ActiveAdmin::OrganizationSettingsHelper
     I18n.t("features.#{section[:key]}_hint", default: "")
   end
 
+  def mail_template_delay_field(arbre, title)
+    arbre.li class: "input" do
+      arbre.label t("active_admin.resources.organization.reminder_email"), class: "label"
+      arbre.para mail_template_delay_note(title), class: "inline-hints"
+    end
+  end
+
+  def mail_template_delay_note(title)
+    template = MailTemplate.find_by(title: title)
+    days = template ? template.delay_in_days : MailTemplate::DELAY_DEFAULTS.fetch(title)
+    name = template&.display_name || I18n.t("mail_template.title.#{title}")
+    link = link_to(name, mail_template_path(title))
+    state = template&.[](:active) ? "active" : "inactive"
+    t("active_admin.resources.organization.mail_template_delay.#{title}.#{state}_html",
+      days: days,
+      link: link)
+  end
+
   def organization_setting_search_results(query, org = Current.org)
     terms = SearchEntry.search_terms(query)
     return [] if terms.empty?

@@ -95,7 +95,8 @@ Questa modalità è utile quando preferisci che i soci ricevano le loro <%= Bask
 
 ### Email di promemoria {#absence-included-reminder}
 
-Un'email di promemoria viene inviata ai soci con assenze incluse non utilizzate un numero configurabile di settimane prima della prima assenza provvisoria (predefinito: 4 settimane). Questo dà ai soci il tempo di agire secondo la modalità scelta:
+<% absence_reminder_days = MailTemplate.delay_in_days_for("absence_included_reminder") %>
+Un'email di promemoria viene inviata ai soci con assenze incluse non utilizzate, <%= absence_reminder_days %> giorni prima della prima assenza provvisoria. Il ritardo si imposta su [questa email](/mail_templates/absence_included_reminder). In modalità "Consegna delle assenze rimanenti", quelle consegne vengono forzate e fatturate in quel momento. Questo lascia il tempo di agire secondo la modalità scelta:
 
 - **In modalità "Assenza provvisoria rispettata"**: Forzare una consegna se desiderano ricevere <%= Basket.model_name.human(count: 2).downcase %> che erano segnate come provvisoriamente assenti.
 - **In modalità "Consegna delle assenze rimanenti"**: Segnalare un'assenza per rifiutare le consegne che non desiderano.

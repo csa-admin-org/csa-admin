@@ -4332,6 +4332,72 @@ _:
           _de: Einstellungen bearbeiten
           _it: Modificare le impostazioni
           _nl: Instellingen bewerken
+        mail_template_delay:
+          absence_included_reminder:
+            active_html:
+              _en: Sent %{days} days before the first unused provisional absence. In "Delivery of remaining absences" mode, those deliveries are forced and billed at that moment. Edit the delay on %{link}.
+              _fr: Envoyé %{days} jours avant la première absence provisoire non utilisée. En mode "Livraison des absences restantes", ces livraisons sont forcées et facturées à ce moment-là. Modifiez le délai sur %{link}.
+              _de: '%{days} Tage vor der ersten ungenutzten vorläufigen Abwesenheit versendet. Im Modus "Lieferung der verbleibenden Abwesenheiten" werden diese Lieferungen dann erzwungen und berechnet. Frist auf %{link} bearbeiten.'
+              _it: Inviato %{days} giorni prima della prima assenza provvisoria non utilizzata. In modalità "Consegna delle assenze rimanenti", quelle consegne vengono forzate e fatturate in quel momento. Modificate il ritardo su %{link}.
+              _nl: '%{days} dagen voor de eerste ongebruikte voorlopige afwezigheid verstuurd. In de modus "Levering van resterende afwezigheden" worden die leveringen dan geforceerd en gefactureerd. De termijn bewerken op %{link}.'
+            inactive_html:
+              _en: Off. When turned on, it is sent %{days} days before the first unused provisional absence. In "Delivery of remaining absences" mode, those deliveries are forced and billed at that moment. Edit it on %{link}.
+              _fr: Désactivé. Une fois activé, il est envoyé %{days} jours avant la première absence provisoire non utilisée. En mode "Livraison des absences restantes", ces livraisons sont forcées et facturées à ce moment-là. Modifiez-le sur %{link}.
+              _de: Deaktiviert. Nach der Aktivierung %{days} Tage vor der ersten ungenutzten vorläufigen Abwesenheit versendet. Im Modus "Lieferung der verbleibenden Abwesenheiten" werden diese Lieferungen dann erzwungen und berechnet. Auf %{link} bearbeiten.
+              _it: Disattivato. Una volta attivato, viene inviato %{days} giorni prima della prima assenza provvisoria non utilizzata. In modalità "Consegna delle assenze rimanenti", quelle consegne vengono forzate e fatturate in quel momento. Modificatelo su %{link}.
+              _nl: Uitgeschakeld. Eenmaal geactiveerd, %{days} dagen voor de eerste ongebruikte voorlopige afwezigheid verstuurd. In de modus "Levering van resterende afwezigheden" worden die leveringen dan geforceerd en gefactureerd. Bewerken op %{link}.
+          activity_participation_reminder:
+            active_html:
+              _en: Sent %{days} days before the activity, including carpool contacts when the member chose to share them. Edit the delay on %{link}.
+              _fr: Envoyé %{days} jours avant l'activité, avec les contacts de covoiturage si le membre a choisi de les partager. Modifiez le délai sur %{link}.
+              _de: "%{days} Tage vor der Aktivität versendet, inklusive Fahrgemeinschaftskontakte, wenn das Mitglied sie teilt. Frist auf %{link} bearbeiten."
+              _it: Inviato %{days} giorni prima dell'attività, con i contatti di car sharing se il socio ha scelto di condividerli. Modificate il ritardo su %{link}.
+              _nl: "%{days} dagen voor de activiteit verstuurd, inclusief carpoolcontacten als het lid die deelt. De termijn bewerken op %{link}."
+            inactive_html:
+              _en: Off. When turned on, it is sent %{days} days before the activity, including carpool contacts when the member chose to share them. Edit it on %{link}.
+              _fr: Désactivé. Une fois activé, il est envoyé %{days} jours avant l'activité, avec les contacts de covoiturage si le membre a choisi de les partager. Modifiez-le sur %{link}.
+              _de: Deaktiviert. Nach der Aktivierung %{days} Tage vor der Aktivität versendet, inklusive Fahrgemeinschaftskontakte, wenn das Mitglied sie teilt. Auf %{link} bearbeiten.
+              _it: Disattivato. Una volta attivato, viene inviato %{days} giorni prima dell'attività, con i contatti di car sharing se il socio ha scelto di condividerli. Modificatelo su %{link}.
+              _nl: Uitgeschakeld. Eenmaal geactiveerd, %{days} dagen voor de activiteit verstuurd, inclusief carpoolcontacten als het lid die deelt. Bewerken op %{link}.
+          bidding_round_opened_reminder:
+            active_html:
+              _en: Sent once, %{days} days after the bidding round is created, not when it is opened. A draft that waited that long can remind as soon as it opens. Edit the delay on %{link}.
+              _fr: Envoyé une seule fois, %{days} jours après la création du tour d'engagement, pas après son ouverture. Un brouillon qui a attendu ce délai peut relancer dès l'ouverture. Modifiez le délai sur %{link}.
+              _de: Einmalig %{days} Tage nach dem Erstellen der Beitragsrunde versendet, nicht nach dem Öffnen. Ein Entwurf, der so lange gelegen hat, kann sofort nach dem Öffnen erinnern. Frist auf %{link} bearbeiten.
+              _it: Inviato una sola volta, %{days} giorni dopo la creazione del turno di impegno, non dopo l'apertura. Una bozza ferma per quel tempo può inviare il promemoria appena si apre. Modificate il ritardo su %{link}.
+              _nl: Eenmalig verstuurd, %{days} dagen nadat de biedronde is aangemaakt, niet bij het openen. Een concept dat zo lang heeft stilgelegen kan meteen herinneren zodra het opent. De termijn bewerken op %{link}.
+            inactive_html:
+              _en: Off. Turn it on and set the delay on %{link}. When on, it is sent once, %{days} days after the round is created, not when it is opened.
+              _fr: Désactivé. Activez-le et définissez le délai sur %{link}. Une fois activé, il est envoyé une seule fois, %{days} jours après la création du tour, pas après son ouverture.
+              _de: Deaktiviert. Auf %{link} aktivieren und die Frist setzen. Danach einmalig %{days} Tage nach dem Erstellen der Runde versendet, nicht nach dem Öffnen.
+              _it: Disattivato. Attivatelo e impostate il ritardo su %{link}. Una volta attivato, viene inviato una sola volta, %{days} giorni dopo la creazione del turno, non dopo l'apertura.
+              _nl: Uitgeschakeld. Activeren en de termijn instellen op %{link}. Eenmaal geactiveerd, eenmalig verstuurd %{days} dagen na het aanmaken van de ronde, niet bij het openen.
+          invoice_overdue_notice:
+            active_html:
+              _en: Sent every %{days} days after the invoice is sent, then again after the last notice, until it is paid. Not sent for SEPA invoices, and only when payments are imported automatically. Edit the delay on %{link}.
+              _fr: Envoyé tous les %{days} jours après l'envoi de la facture, puis de nouveau après le dernier rappel, jusqu'au paiement. Pas pour les factures SEPA, et seulement si les paiements sont importés automatiquement. Modifiez le délai sur %{link}.
+              _de: Alle %{days} Tage nach dem Rechnungsversand versendet, danach erneut nach der letzten Mahnung, bis die Rechnung bezahlt ist. Nicht bei SEPA-Rechnungen und nur, wenn Zahlungen automatisch importiert werden. Frist auf %{link} bearbeiten.
+              _it: Inviato ogni %{days} giorni dopo l'invio della fattura, poi di nuovo dopo l'ultimo promemoria, finché non è pagata. Non per le fatture SEPA, e solo se i pagamenti sono importati automaticamente. Modificate il ritardo su %{link}.
+              _nl: Elke %{days} dagen verstuurd nadat de factuur is verzonden, daarna opnieuw na de laatste herinnering, tot de factuur betaald is. Niet voor SEPA-facturen, en alleen als betalingen automatisch worden geïmporteerd. De termijn bewerken op %{link}.
+            inactive_html:
+              _en: Off. When turned on, it is sent every %{days} days after the invoice is sent, then again after the last notice, until it is paid. Not sent unless payments are imported automatically. Edit it on %{link}.
+              _fr: Désactivé. Une fois activé, il est envoyé tous les %{days} jours après l'envoi de la facture, puis de nouveau après le dernier rappel, jusqu'au paiement. Pas envoyé si les paiements ne sont pas importés automatiquement. Modifiez-le sur %{link}.
+              _de: Deaktiviert. Nach der Aktivierung alle %{days} Tage nach dem Rechnungsversand versendet, danach erneut nach der letzten Mahnung, bis die Rechnung bezahlt ist. Nicht versendet, wenn Zahlungen nicht automatisch importiert werden. Auf %{link} bearbeiten.
+              _it: Disattivato. Una volta attivato, viene inviato ogni %{days} giorni dopo l'invio della fattura, poi di nuovo dopo l'ultimo promemoria, finché non è pagata. Non inviato se i pagamenti non sono importati automaticamente. Modificatelo su %{link}.
+              _nl: Uitgeschakeld. Eenmaal geactiveerd, elke %{days} dagen verstuurd nadat de factuur is verzonden, daarna opnieuw na de laatste herinnering, tot de factuur betaald is. Niet verstuurd als betalingen niet automatisch worden geïmporteerd. Bewerken op %{link}.
+          membership_renewal_reminder:
+            active_html:
+              _en: Sent once, %{days} days after the renewal request, to members who have not renewed or ended their membership. Edit the delay on %{link}.
+              _fr: Envoyé une seule fois, %{days} jours après la demande de renouvellement, aux membres qui n'ont pas renouvelé ou résilié leur abonnement. Modifiez le délai sur %{link}.
+              _de: Einmalig %{days} Tage nach dem Verlängerungsantrag versendet, an Mitglieder, die das Abonnement weder erneuert noch beendet haben. Frist auf %{link} bearbeiten.
+              _it: Inviato una sola volta, %{days} giorni dopo la domanda di rinnovo, ai soci che non hanno rinnovato o disdetto l'abbonamento. Modificate il ritardo su %{link}.
+              _nl: Eenmalig verstuurd, %{days} dagen na het vernieuwingsverzoek, naar leden die het lidmaatschap niet hebben vernieuwd of beëindigd. De termijn bewerken op %{link}.
+            inactive_html:
+              _en: Off. Turn it on and set the delay on %{link}. When on, it is sent once, %{days} days after the renewal request.
+              _fr: Désactivé. Activez-le et définissez le délai sur %{link}. Une fois activé, il est envoyé une seule fois, %{days} jours après la demande de renouvellement.
+              _de: Deaktiviert. Auf %{link} aktivieren und die Frist setzen. Danach einmalig %{days} Tage nach dem Verlängerungsantrag versendet.
+              _it: Disattivato. Attivatelo e impostate il ritardo su %{link}. Una volta attivato, viene inviato una sola volta, %{days} giorni dopo la domanda di rinnovo.
+              _nl: Uitgeschakeld. Activeren en de termijn instellen op %{link}. Eenmaal geactiveerd, eenmalig verstuurd %{days} dagen na het vernieuwingsverzoek.
         not_configured:
           _en: Not configured
           _fr: Non configuré
@@ -4350,6 +4416,12 @@ _:
           _de: Zeitraum
           _it: Periodo
           _nl: Periode
+        reminder_email:
+          _en: Automatic reminder email
+          _fr: Email automatique de rappel
+          _de: Automatische Erinnerungs-E-Mail
+          _it: Email automatica di promemoria
+          _nl: Automatische herinneringsmail
         submit:
           _en: Save
           _fr: Sauvegarder

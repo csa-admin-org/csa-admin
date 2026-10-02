@@ -367,6 +367,43 @@ _:
         _de: Bestätigung des SEPA-Mandats
         _it: Conferma del mandato SEPA
         _nl: Bevestiging SEPA-machtiging
+    delay_label:
+      absence_included_reminder:
+        _en: Send before (days)
+        _fr: Envoyer avant (jours)
+        _de: Senden vor (Tage)
+        _it: Inviare prima (giorni)
+        _nl: Verzenden voor (dagen)
+      activity_participation_reminder:
+        _en: Send before (days)
+        _fr: Envoyer avant (jours)
+        _de: Senden vor (Tage)
+        _it: Inviare prima (giorni)
+        _nl: Verzenden voor (dagen)
+      bidding_round_opened_reminder:
+        _en: Send after (days)
+        _fr: Envoyer après (jours)
+        _de: Senden nach (Tage)
+        _it: Inviare dopo (giorni)
+        _nl: Verzenden na (dagen)
+      invoice_overdue_notice:
+        _en: Repeat every (days)
+        _fr: Répéter tous les (jours)
+        _de: Wiederholen alle (Tage)
+        _it: Ripetere ogni (giorni)
+        _nl: Herhalen elke (dagen)
+      membership_renewal_reminder:
+        _en: Send after (days)
+        _fr: Envoyer après (jours)
+        _de: Senden nach (Tage)
+        _it: Inviare dopo (giorni)
+        _nl: Verzenden na (dagen)
+      price_reduction_card_expiring:
+        _en: Remind before (days)
+        _fr: Rappel avant (jours)
+        _de: Erinnern vor (Tage)
+        _it: Promemoria prima (giorni)
+        _nl: Herinner voor (dagen)
     description:
       absence_baskets_shifted/bag:
         _en: Sent when one or more bags are shifted during an absence, by a member or an admin.
@@ -411,11 +448,11 @@ _:
         _it: Inviato quando una assenza è creata, da un socio o da un admin.
         _nl: Verzonden wanneer een afwezigheid wordt aangemaakt, door een lid of een beheerder.
       absence_included_reminder:
-        _en: Sent automatically when the reminder date for unused included absences is reached (see <a href='/settings#absence'>settings</a> for configuration).
-        _fr: Envoyé automatiquement lorsque la date de rappel pour les absences incluses non utilisées est atteinte (voir <a href='/settings#absence'>les paramètres</a> pour la configuration).
-        _de: Wird automatisch gesendet, wenn das Erinnerungsdatum für ungenutzte inkludierte Abwesenheiten erreicht ist (siehe <a href='/settings#absence'>Einstellungen</a> für die Konfiguration).
-        _it: Inviato automaticamente quando viene raggiunta la data di promemoria per le assenze incluse non utilizzate (vedi <a href='/settings#absence'>impostazioni</a> per la configurazione).
-        _nl: Automatisch verzonden wanneer de herinneringsdatum voor ongebruikte inbegrepen afwezigheden is bereikt (zie <a href='/settings#absence'>instellingen</a> voor configuratie).
+        _en: Sent %{days} days before the first unused provisional absence. Always sent. In "Delivery of remaining absences" mode, those deliveries are forced and billed at that moment.
+        _fr: Envoyé %{days} jours avant la première absence provisoire non utilisée. Toujours envoyé. En mode "Livraison des absences restantes", ces livraisons sont forcées et facturées à ce moment-là.
+        _de: '%{days} Tage vor der ersten ungenutzten vorläufigen Abwesenheit versendet. Immer versendet. Im Modus "Lieferung der verbleibenden Abwesenheiten" werden diese Lieferungen dann erzwungen und berechnet.'
+        _it: Inviato %{days} giorni prima della prima assenza provvisoria non utilizzata. Sempre inviato. In modalità "Consegna delle assenze rimanenti", quelle consegne vengono forzate e fatturate in quel momento.
+        _nl: '%{days} dagen voor de eerste ongebruikte voorlopige afwezigheid verstuurd. Altijd verstuurd. In de modus "Levering van resterende afwezigheden" worden die leveringen dan geforceerd en gefactureerd.'
       activity_participation_rejected:
         _en: Sent when participation in an activity is rejected.
         _fr: Envoyé quand une participation à une activité est refusée.
@@ -423,11 +460,11 @@ _:
         _it: Inviato quando la partecipazione a un'attività viene rifiutata.
         _nl: Verzonden wanneer deelname aan een activiteit wordt afgewezen.
       activity_participation_reminder:
-        _en: Sent to remind the member of their registration for an activity 3 days before it.
-        _fr: Envoyé pour rappeler au membre son inscription à une activité 3 jours avant celle-ci.
-        _de: Wird gesendet, um das Mitglied 3 Tage vorher an seine Registrierung für eine Aktivität zu erinnern.
-        _it: Inviato per ricordare al socio la sua partecipazione a un'attività 3 giorni prima dell'attività.
-        _nl: Verzonden om het lid te herinneren aan zijn registratie voor een activiteit 3 dagen ervoor.
+        _en: Sent %{days} days before the activity, including carpool contacts when the member chose to share them. Always sent.
+        _fr: Envoyé %{days} jours avant l'activité, avec les contacts de covoiturage si le membre a choisi de les partager. Toujours envoyé.
+        _de: "%{days} Tage vor der Aktivität versendet, inklusive Fahrgemeinschaftskontakte, wenn das Mitglied sie teilt. Immer versendet."
+        _it: Inviato %{days} giorni prima dell'attività, con i contatti di car sharing se il socio ha scelto di condividerli. Sempre inviato.
+        _nl: "%{days} dagen voor de activiteit verstuurd, inclusief carpoolcontacten als het lid die deelt. Altijd verstuurd."
       activity_participation_validated:
         _en: Sent when participation in an activity is confirmed.
         _fr: Envoyé quand une participation à une activité est validée.
@@ -669,11 +706,11 @@ _:
         _it: Inviato quando un turno di impegno viene aperto a tutti i soci eleggibili.
         _nl: Verzonden wanneer een biedronde wordt geopend voor alle gerechtigde leden.
       bidding_round_opened_reminder:
-        _en: Sent to remind the members that they have not yet pledged for the open bidding round (see <a href='/settings#bidding_round'>settings</a> for the deadline).
-        _fr: Envoyé pour rappeler aux membres qu'ils n'ont pas encore fixé leur montant au tour d'engagement ouvert (voir <a href='/settings#bidding_round'>paramètres</a> pour la date limite).
-        _de: Gesendet, um die Mitglieder daran zu erinnern, dass sie für die offene Beitragsrunde noch keinen Betrag zugesagt haben (siehe <a href='/settings#bidding_round'>die Einstellungen</a> für die Frist).
-        _it: Inviato per ricordare al socio che non ha ancora promesso un importo per il turno di impegno aperto (vedi <a href='/settings#bidding_round'>parametri</a> per le scadenze).
-        _nl: Verzonden om de leden eraan te herinneren dat ze nog geen bedrag hebben toegezegd voor de open biedronde (zie <a href='/settings#bidding_round'>instellingen</a> voor de deadline).
+        _en: Sent once, %{days} days after the bidding round is created, not when it is opened, to members who have not pledged. A draft that waited that long can remind as soon as it opens. Turn this email off to stop reminders.
+        _fr: Envoyé une seule fois, %{days} jours après la création du tour d'engagement, pas après son ouverture, aux membres qui n'ont pas fixé leur montant. Un brouillon qui a attendu ce délai peut relancer dès l'ouverture. Désactivez cet email pour arrêter les rappels.
+        _de: Einmalig %{days} Tage nach dem Erstellen der Beitragsrunde versendet, nicht nach dem Öffnen, an Mitglieder ohne Zusage. Ein Entwurf, der so lange gelegen hat, kann sofort nach dem Öffnen erinnern. Diese E-Mail deaktivieren, um Erinnerungen zu stoppen.
+        _it: Inviato una sola volta, %{days} giorni dopo la creazione del turno di impegno, non dopo l'apertura, ai soci che non hanno promesso un importo. Una bozza ferma per quel tempo può inviare il promemoria appena si apre. Disattivate questa email per fermare i promemoria.
+        _nl: Eenmalig verstuurd, %{days} dagen nadat de biedronde is aangemaakt, niet bij het openen, naar leden die nog geen bedrag hebben toegezegd. Een concept dat zo lang heeft stilgelegen kan meteen herinneren zodra het opent. Deze e-mail uitzetten om herinneringen te stoppen.
       invoice_cancelled:
         _en: Sent when an open invoice is canceled.
         _fr: Envoyé quand une facture encore ouverte est annulée.
@@ -687,11 +724,11 @@ _:
         _it: Inviato durante la creazione automatica di una fattura o quando si preme il pulsante "Invia" di una fattura creata manualmente.
         _nl: Verzonden wanneer een factuur automatisch wordt aangemaakt of wanneer de "Verzenden" knop van een handmatig aangemaakte factuur wordt ingedrukt.
       invoice_overdue_notice:
-        _en: Sent automatically when an invoice is still open 35 days after its creation or last reminder.<br><i>Disabled when payments are not processed automatically (EBICS).</i>
-        _fr: Envoyé automatiquement quand une facture est toujours ouverte 35 jours après sa création ou son dernier rappel.<br><i>Désactivé quand les paiements ne sont pas traités automatiquement (EBICS).</i>
-        _de: Wird automatisch gesendet, wenn eine Rechnung 35 Tage nach ihrer Erstellung oder letzten Mahnung noch offen ist.<br><i>Deaktiviert, wenn die Zahlungen nicht automatisch verarbeitet werden (EBICS).</i>
-        _it: Inviato automaticamente quando una fattura è ancora aperta 35 giorni dopo la sua creazione o il suo ultimo promemoria.<br><i>Disattivato quando i pagamenti non vengono elaborati automaticamente (EBICS).</i>
-        _nl: Automatisch verzonden wanneer een factuur nog open staat 35 dagen na aanmaak of laatste herinnering.<br><i>Uitgeschakeld wanneer betalingen niet automatisch worden verwerkt (EBICS).</i>
+        _en: Sent every %{days} days while an invoice is still open, first after it is sent, then after the last notice, until it is paid. Not sent for SEPA invoices.<br><i>Disabled when payments are not imported automatically (EBICS).</i>
+        _fr: Envoyé tous les %{days} jours tant qu'une facture est ouverte, d'abord après son envoi, puis après le dernier rappel, jusqu'au paiement. Pas pour les factures SEPA.<br><i>Désactivé quand les paiements ne sont pas importés automatiquement (EBICS).</i>
+        _de: Alle %{days} Tage versendet, solange eine Rechnung offen ist, zuerst nach dem Versand, dann nach der letzten Mahnung, bis sie bezahlt ist. Nicht bei SEPA-Rechnungen.<br><i>Deaktiviert, wenn Zahlungen nicht automatisch importiert werden (EBICS).</i>
+        _it: Inviato ogni %{days} giorni finché una fattura è aperta, prima dopo l'invio, poi dopo l'ultimo promemoria, finché non è pagata. Non per le fatture SEPA.<br><i>Disattivato quando i pagamenti non sono importati automaticamente (EBICS).</i>
+        _nl: Elke %{days} dagen verstuurd zolang een factuur open staat, eerst na verzending, daarna na de laatste herinnering, tot ze betaald is. Niet voor SEPA-facturen.<br><i>Uitgeschakeld wanneer betalingen niet automatisch worden geïmporteerd (EBICS).</i>
       member_activated:
         _en: Sent when a member becomes active for the first time after their first (current or future) membership is created.
         _fr: Envoyé quand un membre devient actif, pour la première fois, après la création de son premier abonnement (en cours ou futur).
@@ -717,17 +754,17 @@ _:
         _it: Inviato per chiedere al socio se desidera o meno rinnovare il suo abbonamento tramite il modulo nella sua pagina socio.
         _nl: Verzonden om het lid via het formulier op hun ledenpagina te vragen of ze hun lidmaatschap willen vernieuwen of niet.
       membership_renewal_reminder:
-        _en: Sent to remind the member that they have not yet completed the membership renewal form (see <a href='/settings#membership_renewal'>settings</a> for the deadline).
-        _fr: Envoyé afin de rappeler au membre qu'il n'a pas encore rempli le formulaire de renouvellement de son abonnement (voir <a href='/settings#membership_renewal'>les paramètres</a> pour le délai).
-        _de: Gesendet, um das Mitglied daran zu erinnern, dass es das Abonnementserneuerungsformular noch nicht ausgefüllt hat (siehe <a href='/settings#membership_renewal'>die Einstellungen</a> für die Frist).
-        _it: Inviato per ricordare al socio che non ha ancora completato il modulo di rinnovo dell'abbonamento (vedi <a href='/settings#membership_renewal'>parametri</a> per le scadenze).
-        _nl: Verzonden om het lid eraan te herinneren dat ze het formulier voor lidmaatschapsvernieuwing nog niet hebben ingevuld (zie <a href='/settings#membership_renewal'>instellingen</a> voor de deadline).
+        _en: Sent once, %{days} days after the renewal request, to a member who has not renewed or ended their membership. Turn this email off to stop reminders.
+        _fr: Envoyé une seule fois, %{days} jours après la demande de renouvellement, à un membre qui n'a pas renouvelé ou résilié son abonnement. Désactivez cet email pour arrêter les rappels.
+        _de: Einmalig %{days} Tage nach dem Verlängerungsantrag versendet, an ein Mitglied, das das Abonnement weder erneuert noch beendet hat. Diese E-Mail deaktivieren, um Erinnerungen zu stoppen.
+        _it: Inviato una sola volta, %{days} giorni dopo la domanda di rinnovo, a un socio che non ha rinnovato o disdetto l'abbonamento. Disattivate questa email per fermare i promemoria.
+        _nl: Eenmalig verstuurd, %{days} dagen na het vernieuwingsverzoek, naar een lid dat het lidmaatschap niet heeft vernieuwd of beëindigd. Deze e-mail uitzetten om herinneringen te stoppen.
       price_reduction_card_expiring:
-        _en: Sent when a reduction card expires within the reminder period below. The number in the email is masked.
-        _fr: Envoyé quand une carte de réduction expire dans le délai de rappel ci-dessous. Le numéro dans l'email est masqué.
-        _de: Wird gesendet, wenn eine Reduktionskarte innerhalb der unten gesetzten Erinnerungsfrist abläuft. Die Nummer in der E-Mail ist maskiert.
-        _it: Inviato quando una tessera di riduzione scade entro il periodo di promemoria impostato sotto. Il numero nell'email è mascherato.
-        _nl: Verzonden wanneer een reductiekaart verloopt binnen de herinneringstermijn hieronder. Het nummer in de e-mail is gemaskeerd.
+        _en: Sent when a reduction card expires within %{days} days. 0 means on the expiry date. The number in the email is masked.
+        _fr: Envoyé quand une carte de réduction expire dans les %{days} jours. 0 signifie le jour de l'expiration. Le numéro dans l'email est masqué.
+        _de: Versendet, wenn eine Reduktionskarte innerhalb von %{days} Tagen abläuft. 0 bedeutet am Ablaufdatum. Die Nummer in der E-Mail ist maskiert.
+        _it: Inviato quando una tessera di riduzione scade entro %{days} giorni. 0 significa il giorno di scadenza. Il numero nell'email è mascherato.
+        _nl: Verstuurd wanneer een reductiekaart binnen %{days} dagen verloopt. 0 betekent op de vervaldatum. Het nummer in de e-mail is gemaskeerd.
       sepa_mandate_confirmation:
         _en: Sent when a member signs or updates their SEPA direct debit mandate via the self-service page. Contains the full mandate text and acts as evidence of consent.
         _fr: Envoyé quand un membre signe ou met à jour son mandat de prélèvement SEPA depuis la page dédiée. Contient le texte complet du mandat et sert de preuve de consentement.

@@ -39,7 +39,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
     membership.update!(absences_included_annually: 2)
 
     first_provisional = membership.baskets.coming.provisionally_absent.first
-    remindable_on = first_provisional.delivery.date - Current.org.absences_included_reminder_period
+    remindable_on = first_provisional.delivery.date - MailTemplate.delay_in_days_for("absence_included_reminder").days
 
     # Stay before the remindable_on date
     travel_to remindable_on - 1.day
@@ -58,7 +58,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
 
     first_provisional = membership.baskets.coming.provisionally_absent.first
     assert_not_nil first_provisional
-    remindable_on = first_provisional.delivery.date - Current.org.absences_included_reminder_period
+    remindable_on = first_provisional.delivery.date - MailTemplate.delay_in_days_for("absence_included_reminder").days
 
     travel_to remindable_on
     assert_difference "MembershipMailer.deliveries.size", 1 do
@@ -75,7 +75,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
     membership.update_column(:absences_included_reminder_sent_at, 1.day.ago)
 
     first_provisional = membership.baskets.coming.provisionally_absent.first
-    remindable_on = first_provisional.delivery.date - Current.org.absences_included_reminder_period
+    remindable_on = first_provisional.delivery.date - MailTemplate.delay_in_days_for("absence_included_reminder").days
 
     travel_to remindable_on
     assert_no_difference "MembershipMailer.deliveries.size" do
@@ -113,7 +113,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
     assert provisional_count > 0
 
     first_provisional = membership.baskets.coming.provisionally_absent.first
-    remindable_on = first_provisional.delivery.date - Current.org.absences_included_reminder_period
+    remindable_on = first_provisional.delivery.date - MailTemplate.delay_in_days_for("absence_included_reminder").days
 
     travel_to remindable_on
     Membership.send_absences_included_reminders
@@ -130,7 +130,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
     membership.update!(absences_included_annually: 2)
 
     first_provisional = membership.baskets.coming.provisionally_absent.first
-    remindable_on = first_provisional.delivery.date - Current.org.absences_included_reminder_period
+    remindable_on = first_provisional.delivery.date - MailTemplate.delay_in_days_for("absence_included_reminder").days
 
     travel_to remindable_on
     assert_difference "MembershipMailer.deliveries.size", 1 do
@@ -146,7 +146,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
     membership.update!(absences_included_annually: 2)
 
     first_provisional = membership.baskets.coming.provisionally_absent.first
-    remindable_on = first_provisional.delivery.date - Current.org.absences_included_reminder_period
+    remindable_on = first_provisional.delivery.date - MailTemplate.delay_in_days_for("absence_included_reminder").days
 
     # Stay well before the remindable_on date
     travel_to remindable_on - 1.day
@@ -158,12 +158,23 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
     assert_nil membership.reload.absences_included_reminder_sent_at
   end
 
+  test "absences_included_remindable_on follows the mail template delay" do
+    mail_templates(:absence_included_reminder).update!(delay_in_days: 7)
+    membership = memberships(:john)
+    membership.update!(absences_included_annually: 2)
+
+    first_provisional = membership.baskets.coming.provisionally_absent.first
+
+    assert_equal first_provisional.delivery.date - 7.days, membership.absences_included_remindable_on
+    assert_not_equal first_provisional.delivery.date - 28.days, membership.absences_included_remindable_on
+  end
+
   test "absences_included_remindable_on returns correct date" do
     membership = memberships(:john)
     membership.update!(absences_included_annually: 2)
 
     first_provisional = membership.baskets.coming.provisionally_absent.first
-    expected_date = first_provisional.delivery.date - Current.org.absences_included_reminder_period
+    expected_date = first_provisional.delivery.date - MailTemplate.delay_in_days_for("absence_included_reminder").days
 
     assert_equal expected_date, membership.absences_included_remindable_on
   end
@@ -196,7 +207,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
 
     # Should still find the next coming provisional basket
     second_provisional = membership.baskets.coming.provisionally_absent.first
-    expected_date = second_provisional.delivery.date - Current.org.absences_included_reminder_period
+    expected_date = second_provisional.delivery.date - MailTemplate.delay_in_days_for("absence_included_reminder").days
     assert_equal expected_date, membership.absences_included_remindable_on
   end
 
@@ -303,7 +314,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
 
     assert_equal 0, membership.absences_included_used
     assert_equal 1, membership.absences_included_remaining
-    assert_equal provisional.delivery.date - Current.org.absences_included_reminder_period,
+    assert_equal provisional.delivery.date - MailTemplate.delay_in_days_for("absence_included_reminder").days,
       membership.absences_included_remindable_on
 
     source.reload.shift_as_source.destroy!

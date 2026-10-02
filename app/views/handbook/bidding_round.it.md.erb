@@ -14,10 +14,9 @@ Gli importi impegnati sono inquadrati da limiti min/max configurabili.
 Prima di aprire un turno di impegno, verifica quanto segue nelle [impostazioni](/settings#bidding_round):
 
 - Prezzo minimo della <%= BasketSize.model_name.human.downcase %> (0–100%) — definisce la percentuale minima consentita.
-- Prezzo massimo della <%= BasketSize.model_name.human.downcase %> (0–X%) — definisce la percentuale massima consentita.
-- Inviare un promemoria dopo (in giorni).
+- Prezzo massimo della <%= BasketSize.model_name.human.downcase %> (0-X%) — definisce la percentuale massima consentita.
 
-Queste impostazioni garantiscono un quadro coerente per gli impegni dei soci e consentono promemorie automatici durante il periodo di apertura.
+Queste impostazioni fissano il quadro degli impegni. Il promemoria, se lo vuoi, si imposta sull'email di promemoria.
 
 > L'impegno predefinito è quello del turno precedente se c'è, altrimenti il [prezzo della <%= BasketSize.model_name.human.downcase %>](/basket_sizes). Il min e il max usano lo stesso prezzo della dimensione. Un importo personalizzato già sull'abbonamento è ignorato finché non clicchi "Completare" e gli impegni vengono scritti.
 
@@ -36,7 +35,8 @@ All'apertura del turno di impegno viene inviata automaticamente un'email ai soci
 
 ### Promemoria
 
-Un promemoria può essere inviato automaticamente mentre il turno di impegno è aperto. Il ritardo conta dalla **creazione** del turno, non dall'apertura. Una bozza ferma per quei giorni può inviare il promemoria appena lo apri.
+<% bidding_reminder_days = MailTemplate.delay_in_days_for("bidding_round_opened_reminder") %>
+Un promemoria può partire automaticamente mentre il turno di impegno è aperto, se [l'email di promemoria](/mail_templates/bidding_round_opened_reminder) è attiva. Parte una sola volta, <%= bidding_reminder_days %> giorni dopo la **creazione** del turno, non dopo l'apertura. Una bozza ferma per quei giorni può inviare il promemoria appena lo apri. Il ritardo si imposta su questa email.
 
 ## Terminare (successo) {#finish}
 

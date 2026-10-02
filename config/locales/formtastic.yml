@@ -819,6 +819,43 @@ _:
           _de: Diese E-Mail ist obligatorisch und kann nicht deaktiviert werden.
           _it: Questo indirizzo e-mail è obbligatorio e non può essere disattivato.
           _nl: Deze e-mail is verplicht en kan niet worden gedeactiveerd.
+        delay_in_days:
+          absence_included_reminder:
+            _en: Days before the first unused provisional absence. This email is always sent. In "Delivery of remaining absences" mode, those deliveries are forced and billed at that moment.
+            _fr: Jours avant la première absence provisoire non utilisée. Cet email est toujours envoyé. En mode "Livraison des absences restantes", ces livraisons sont forcées et facturées à ce moment-là.
+            _de: Tage vor der ersten ungenutzten vorläufigen Abwesenheit. Diese E-Mail wird immer versendet. Im Modus "Lieferung der verbleibenden Abwesenheiten" werden diese Lieferungen dann erzwungen und berechnet.
+            _it: Giorni prima della prima assenza provvisoria non utilizzata. Questa email è sempre inviata. In modalità "Consegna delle assenze rimanenti", quelle consegne vengono forzate e fatturate in quel momento.
+            _nl: Dagen voor de eerste ongebruikte voorlopige afwezigheid. Deze e-mail wordt altijd verstuurd. In de modus "Levering van resterende afwezigheden" worden die leveringen dan geforceerd en gefactureerd.
+          activity_participation_reminder:
+            _en: Days before the activity. This email is always sent. Carpool contacts shared by the member go out on the same day.
+            _fr: Jours avant l'activité. Cet email est toujours envoyé. Les contacts de covoiturage partagés par le membre partent le même jour.
+            _de: Tage vor der Aktivität. Diese E-Mail wird immer versendet. Geteilte Fahrgemeinschaftskontakte gehen am selben Tag raus.
+            _it: Giorni prima dell'attività. Questa email è sempre inviata. I contatti di car sharing condivisi dal socio partono lo stesso giorno.
+            _nl: Dagen voor de activiteit. Deze e-mail wordt altijd verstuurd. Gedeelde carpoolcontacten gaan dezelfde dag mee.
+          bidding_round_opened_reminder:
+            _en: Sent once, this many days after the round is created, not when it is opened. A draft that waited that long can remind as soon as it opens. Turn "Send" off to stop reminders.
+            _fr: Envoyé une seule fois, ce nombre de jours après la création du tour, pas après son ouverture. Un brouillon qui a attendu ce délai peut relancer dès l'ouverture. Décochez "Envoi" pour arrêter les rappels.
+            _de: Einmalig so viele Tage nach dem Erstellen der Runde, nicht nach dem Öffnen. Ein Entwurf, der so lange gelegen hat, kann sofort nach dem Öffnen erinnern. "Versenden" ausschalten, um Erinnerungen zu stoppen.
+            _it: Inviato una sola volta, questo numero di giorni dopo la creazione del turno, non dopo l'apertura. Una bozza ferma per quel tempo può inviare il promemoria appena si apre. Disattivate "Invio" per fermare i promemoria.
+            _nl: Eenmalig verstuurd, zoveel dagen nadat de ronde is aangemaakt, niet bij het openen. Een concept dat zo lang heeft stilgelegen kan meteen herinneren zodra het opent. "Verzenden" uitzetten om herinneringen te stoppen.
+          invoice_overdue_notice:
+            _en: Repeated this many days after the invoice is sent, then after each notice, until it is paid. Not sent for SEPA invoices. Turn "Send" off to stop notices. Not sent unless payments are imported automatically.
+            _fr: Répété ce nombre de jours après l'envoi de la facture, puis après chaque rappel, jusqu'au paiement. Pas pour les factures SEPA. Décochez "Envoi" pour arrêter les rappels. Pas envoyé si les paiements ne sont pas importés automatiquement.
+            _de: So viele Tage nach dem Rechnungsversand wiederholt, danach nach jeder Mahnung, bis die Rechnung bezahlt ist. Nicht bei SEPA-Rechnungen. "Versenden" ausschalten, um Mahnungen zu stoppen. Nicht versendet, wenn Zahlungen nicht automatisch importiert werden.
+            _it: Ripetuto questo numero di giorni dopo l'invio della fattura, poi dopo ogni promemoria, finché non è pagata. Non per le fatture SEPA. Disattivate "Invio" per fermare i promemoria. Non inviato se i pagamenti non sono importati automaticamente.
+            _nl: Herhaald zoveel dagen nadat de factuur is verzonden, daarna na elke herinnering, tot de factuur betaald is. Niet voor SEPA-facturen. "Verzenden" uitzetten om herinneringen te stoppen. Niet verstuurd als betalingen niet automatisch worden geïmporteerd.
+          membership_renewal_reminder:
+            _en: Sent once, this many days after the renewal request, to members who have not renewed or ended their membership. Turn "Send" off to stop reminders.
+            _fr: Envoyé une seule fois, ce nombre de jours après la demande de renouvellement, aux membres qui n'ont pas renouvelé ou résilié leur abonnement. Décochez "Envoi" pour arrêter les rappels.
+            _de: Einmalig so viele Tage nach dem Verlängerungsantrag, an Mitglieder, die das Abonnement weder erneuert noch beendet haben. "Versenden" ausschalten, um Erinnerungen zu stoppen.
+            _it: Inviato una sola volta, questo numero di giorni dopo la domanda di rinnovo, ai soci che non hanno rinnovato o disdetto l'abbonamento. Disattivate "Invio" per fermare i promemoria.
+            _nl: Eenmalig verstuurd, zoveel dagen na het vernieuwingsverzoek, naar leden die het lidmaatschap niet hebben vernieuwd of beëindigd. "Verzenden" uitzetten om herinneringen te stoppen.
+          price_reduction_card_expiring:
+            _en: Sent when the card expires within this many days. 0 means on the expiry date. The number in the email is masked.
+            _fr: Envoyé quand la carte expire dans ce nombre de jours. 0 signifie le jour de l'expiration. Le numéro dans l'email est masqué.
+            _de: Versendet, wenn die Karte innerhalb dieser Tage abläuft. 0 bedeutet am Ablaufdatum. Die Nummer in der E-Mail ist maskiert.
+            _it: Inviato quando la tessera scade entro questo numero di giorni. 0 significa il giorno di scadenza. Il numero nell'email è mascherato.
+            _nl: Verstuurd wanneer de kaart binnen dit aantal dagen verloopt. 0 betekent op de vervaldatum. Het nummer in de e-mail is gemaskeerd.
         delivery_cycle_ids:
           _en: Only send this email to memberships using the selected delivery cycles.
           _fr: Uniquement envoyer cet email aux abonnements utilisant les cycles de livraison sélectionnés.
@@ -1692,12 +1729,6 @@ _:
           _de: 'Logik mit <a href=''https://shopify.github.io/liquid/'' target=''_blank''>der Liquid-Syntax</a> zur Berechnung der enthaltenen Abwesenheiten eines Abonnements. Standard ist anteilig zur Anzahl der Körbe. Mehr Details und Beispiele im <a href=''/handbook/absence#absence-included-logic''>Handbuch</a>.<br>Verfügbare Variablen:<br>– <b>membership.baskets</b>: Körbe des Abonnements<br>– <b>membership.full_year_deliveries</b>: Lieferungen eines ganzen Jahres für diesen Zyklus<br>– <b>membership.full_year_absences_included</b>: Enthaltene Abwesenheiten für ein ganzes Jahr (Zyklusstandard oder Überschreibung der Mitgliedschaft)<br>– <b>membership.started_fy_month</b>: Monat des Startdatums im Geschäftsjahr (1-12, 1 ist der erste Monat des konfigurierten Geschäftsjahres)<br>– <b>membership.started_day</b>: Kalendertag des Startdatums (1-31)<br>– <b>membership.basket_size_id</b> / <b>membership.depot_id</b> / <b>membership.depot_group_id</b> / <b>membership.delivery_cycle_id</b>: Zugehörige IDs<br>Eine Änderung dieser Logik wirkt erst, wenn eine Mitgliedschaft geändert oder durch eine Liefer- oder Zyklusaktualisierung neu synchronisiert wird. Das kann fakturierte Körbe ändern. Der Zeitstempel der Erinnerung für enthaltene Abwesenheiten wird nicht zurückgesetzt.'
           _it: 'Logica che utilizza <a href=''https://shopify.github.io/liquid/'' target=''_blank''>la sintassi Liquid</a> per calcolare le assenze incluse di un abbonamento. Il valore predefinito è proporzionale al numero di cesti. Maggiori dettagli ed esempi nel <a href=''/handbook/absence#absence-included-logic''>manuale</a>.<br>Variabili disponibili:<br>– <b>membership.baskets</b>: Cesti dell''abbonamento<br>– <b>membership.full_year_deliveries</b>: Consegne di un anno completo per questo ciclo<br>– <b>membership.full_year_absences_included</b>: Assenze incluse per un anno completo (valore predefinito del ciclo o personalizzazione dell''abbonamento)<br>– <b>membership.started_fy_month</b>: Mese della data di inizio nell''anno fiscale (1-12, 1 è il primo mese dell''anno fiscale configurato)<br>– <b>membership.started_day</b>: Giorno civile della data di inizio (1-31)<br>– <b>membership.basket_size_id</b> / <b>membership.depot_id</b> / <b>membership.depot_group_id</b> / <b>membership.delivery_cycle_id</b>: ID correlati<br>Modificare questa logica non ha effetto finché un abbonamento non viene modificato o un aggiornamento di consegne o di ciclo non lo risincronizza. Questo può modificare i cesti fatturati. Il timestamp del promemoria delle assenze incluse non viene azzerato.'
           _nl: 'Logica met <a href=''https://shopify.github.io/liquid/'' target=''_blank''>de Liquid-syntaxis</a> om inbegrepen afwezigheden van een lidmaatschap te berekenen. Standaard evenredig aan het aantal manden. Meer details en voorbeelden in <a href=''/handbook/absence#absence-included-logic''>het handboek</a>.<br>Beschikbare variabelen:<br>– <b>membership.baskets</b>: Manden van het lidmaatschap<br>– <b>membership.full_year_deliveries</b>: Leveringen van een heel jaar voor deze cyclus<br>– <b>membership.full_year_absences_included</b>: Inbegrepen afwezigheden voor een heel jaar (standaard van de cyclus of override van het lidmaatschap)<br>– <b>membership.started_fy_month</b>: Maand van de startdatum in het boekjaar (1-12, 1 is de eerste maand van het geconfigureerde boekjaar)<br>– <b>membership.started_day</b>: Kalenderdag van de startdatum (1-31)<br>– <b>membership.basket_size_id</b> / <b>membership.depot_id</b> / <b>membership.depot_group_id</b> / <b>membership.delivery_cycle_id</b>: Gerelateerde IDs<br>Het wijzigen van deze logica heeft pas effect wanneer een lidmaatschap wordt gewijzigd of een leverings- of cyclusupdate het opnieuw synchroniseert. Dat kan gefactureerde manden wijzigen. Het tijdstip van de herinnering voor inbegrepen afwezigheden wordt niet gereset.'
-        absences_included_reminder_weeks_before_html:
-          _en: Number of weeks before the first unused provisional absence when the <a href='/mail_templates/absence_included_reminder'>reminder email</a> is sent to the member.
-          _fr: Nombre de semaines avant la première absence provisoire non utilisée lorsque <a href='/mail_templates/absence_included_reminder'>l'email de rappel</a> est envoyé au membre.
-          _de: Anzahl der Wochen vor der ersten ungenutzten vorläufigen Abwesenheit, wenn die <a href='/mail_templates/absence_included_reminder'>Erinnerungs-E-Mail</a> an das Mitglied gesendet wird.
-          _it: Numero di settimane prima della prima assenza provvisoria non utilizzata quando <a href='/mail_templates/absence_included_reminder'>l'email di promemoria</a> viene inviata al socio.
-          _nl: Aantal weken voor de eerste ongebruikte voorlopige afwezigheid wanneer de <a href='/mail_templates/absence_included_reminder'>herinneringsmail</a> naar het lid wordt gestuurd.
         activity_availability_limit_in_days:
           _en: Members can register until midnight, X days before the activity date (e.g., 3 days = Sunday midnight for a Wednesday activity). Leave at zero if there is no limit.
           _fr: 'Les membres peuvent s''inscrire jusqu''à minuit, X jours avant la date de l''activité (ex: 3 jours = dimanche minuit pour une activité mercredi). Laisser à zéro si aucune limite.'
@@ -2610,18 +2641,6 @@ _:
           _de: Titel des Artikels auf der Rechnung, die an neue Mitglieder gesendet wird.
           _it: Titolo dell'articolo sulla fattura inviata ai nuovi soci.
           _nl: Titel van het item op de factuur verzonden naar nieuwe leden.
-        open_bidding_round_reminder_sent_after_in_days:
-          _en: The reminder is sent only once, X days after the bidding round is opened. Leave blank if no reminder.
-          _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'ouverture du tour d'engagement. Laisser vide si aucun rappel.
-          _de: Die Erinnerung wird nur einmal verschickt, und zwar X Tage nach Eröffnung der Beitragsrunde. Leer lassen, wenn keine Erinnerung gewünscht ist.
-          _it: Il promemoria è inviato una sola volta, X giorni dopo l'apertura del turno di impegno. Lasciare vuoto se non c'è alcun promemoria.
-          _nl: De herinnering wordt slechts één keer verzonden, X dagen nadat de biedronde is geopend. Laat leeg als er geen herinnering is.
-        open_renewal_reminder_sent_after_in_days:
-          _en: The reminder is sent only once, X days after the renewal request is sent. Leave blank if no reminder.
-          _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'envoi de la demande de renouvellement. Laisser vide si aucun rappel.
-          _de: Die Erinnerung wird nur einmal verschickt, und zwar X Tage, nachdem der Verlängerungsantrag abgeschickt wurde. Das Feld leer lassen, wenn keine Erinnerung erfolgen soll.
-          _it: Il promemoria è inviato una sola volta, X giorni prima dell'invio della domanda di rinnovo. Lasciare vuoto se non c'è alcun promemoria.
-          _nl: De herinnering wordt slechts één keer verzonden, X dagen na het verzenden van het vernieuwingsverzoek. Laat leeg als er geen herinnering is.
         open_renewal_text:
           _en: Text displayed on the member page above the renewal request form.
           _fr: Texte affiché sur la page de membre au-dessus du formulaire de demande du renouvellement.

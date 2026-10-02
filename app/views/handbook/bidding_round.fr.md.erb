@@ -15,9 +15,8 @@ Avant d'ouvrir un tour d'engagement, vérifiez les paramètres suivants dans les
 
 - Prix minimum de la <%= BasketSize.model_name.human.downcase %> (0–100 %) — définit le pourcentage minimal autorisé.
 - Prix maximum de la <%= BasketSize.model_name.human.downcase %> (0–X %) — définit le pourcentage maximal autorisé.
-- Rappel automatique pour un tour d'engagement ouvert — "Envoyer un rappel après (en jours)".
 
-Ces paramètres garantissent un cadre cohérent pour les montants proposés et permettent d'automatiser les relances pendant la période d'ouverture.
+Ces paramètres fixent le cadre des montants proposés. Le rappel, si vous en voulez un, se règle sur l'e-mail de rappel.
 
 > Le montant proposé par défaut est celui du tour précédent s'il y en a un, sinon le [prix de la <%= BasketSize.model_name.human.downcase %>](/basket_sizes). Le min et le max utilisent ce même prix. Un montant déjà personnalisé sur l'abonnement est ignoré jusqu'à ce que vous cliquiez sur "Terminer" et que les propositions soient écrites.
 
@@ -36,7 +35,8 @@ Ces paramètres garantissent un cadre cohérent pour les montants proposés et p
 
 ### Rappel
 
-Un rappel peut être envoyé automatiquement tant que le tour d'engagement est ouvert. Le délai part de la **création** du tour, pas de son ouverture. Un brouillon qui a attendu ces jours-là peut relancer dès que vous l'ouvrez.
+<% bidding_reminder_days = MailTemplate.delay_in_days_for("bidding_round_opened_reminder") %>
+Un rappel peut partir automatiquement tant que le tour d'engagement est ouvert, si [l'e-mail de rappel](/mail_templates/bidding_round_opened_reminder) est actif. Il part une seule fois, <%= bidding_reminder_days %> jours après la **création** du tour, pas après son ouverture. Un brouillon qui a attendu ce délai peut relancer dès que vous l'ouvrez. Le délai se règle sur cet e-mail.
 
 ## Terminer (succès) {#finish}
 

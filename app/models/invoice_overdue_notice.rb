@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class InvoiceOverdueNotice
-  DAYS_DELAY = 35.days.freeze
   attr_reader :invoice
 
   def self.deliver(*args)
@@ -42,7 +41,7 @@ class InvoiceOverdueNotice
     invoice.open?
       && !invoice.sepa?
       && last_sent_at
-      && last_sent_at < DAYS_DELAY.ago
+      && last_sent_at < MailTemplate.delay_in_days_for("invoice_overdue_notice").days.ago
       && invoice.member.billing_emails?
   end
 

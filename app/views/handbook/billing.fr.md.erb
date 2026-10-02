@@ -304,9 +304,8 @@ Voir la [page dédiée SEPA](/handbook/sepa) du manuel pour la configuration com
 
 ## Rappels {#overdue_notice}
 
-Quand les paiements sont importés automatiquement, le système s'occupe automatiquement d'envoyer un rappel par email à tous les membres qui ont une facture non payée tous les 35 jours, jusqu'à ce que la facture soit payée (1er rappel après 35 jours, 2ᵉ rappel après 70 jours, etc.).
-
-Vous pouvez configurer le contenu de ce rappel en modifiant [le modèle d'e-mail "Rappel facture"](/mail_templates/invoice_overdue_notice).
+<% overdue_notice_days = MailTemplate.delay_in_days_for("invoice_overdue_notice") %>
+Quand les paiements sont importés automatiquement, le système envoie un rappel à chaque membre qui a une facture impayée, tous les <%= overdue_notice_days %> jours après l'envoi de la facture, puis de nouveau après le dernier rappel, jusqu'au paiement (1er rappel après <%= overdue_notice_days %> jours, 2e après <%= overdue_notice_days * 2 %> jours, et ainsi de suite). Les factures SEPA ne sont pas relancées. Le délai et le texte se règlent sur [l'e-mail "Rappel facture"](/mail_templates/invoice_overdue_notice).
 
 > Vous pouvez être notifié par email lorsque le 3ᵉ rappel d'une facture est envoyé. Gérer vos notifications depuis [votre compte admin](/admins/<%= current_admin.id %>/edit).
 

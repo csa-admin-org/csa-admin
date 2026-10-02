@@ -43,9 +43,8 @@ Zodra aan de vereisten is voldaan, kun je vanaf de lidmaatschapspagina van één
 
 ### Herinneringse-mail
 
-Wanneer je in [de instellingen](/settings#membership_renewal) het veld "Verstuur een herinnering na (in dagen)" invult, stuurt het systeem X dagen na het vernieuwingsverzoek automatisch een herinneringse-mail naar elk lid dat het lidmaatschap nog niet heeft vernieuwd of beëindigd.
-
-[De e-mailsjabloon "Lidmaatschapsvernieuwing (Herinnering)"](/mail_templates/membership_renewal_reminder) moet vooraf zijn bewerkt en geactiveerd.
+<% renewal_reminder_days = MailTemplate.delay_in_days_for("membership_renewal_reminder") %>
+Als [de e-mail "Lidmaatschapsvernieuwing (Herinnering)"](/mail_templates/membership_renewal_reminder) actief is, verstuurt het systeem die eenmalig, <%= renewal_reminder_days %> dagen na het vernieuwingsverzoek, naar elk lid dat het lidmaatschap nog niet heeft vernieuwd of beëindigd. De termijn staat op die e-mail.
 
 > Omdat het vernieuwen of beëindigen van lidmaatschappen alleen zinvol is vóór de eerste levering van het nieuwe boekjaar, zorg ervoor dat er altijd genoeg tijd is tussen het verzenden van de herinnering en deze deadline.
 

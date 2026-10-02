@@ -72,11 +72,20 @@ class MailTemplate < ApplicationRecord
     absence_included_reminder
     activity_participation_reminder
   ].freeze
+  # Historical migration 20260925120000 reads this constant.
   CARD_EXPIRING_REMIND_BEFORE_DAYS = 30
+  DELAY_DEFAULTS = {
+    "price_reduction_card_expiring" => CARD_EXPIRING_REMIND_BEFORE_DAYS,
+    "membership_renewal_reminder" => 14,
+    "bidding_round_opened_reminder" => 7,
+    "invoice_overdue_notice" => 35,
+    "absence_included_reminder" => 28,
+    "activity_participation_reminder" => 3
+  }.freeze
+  ZERO_DELAY_TITLES = %w[price_reduction_card_expiring].freeze
   ACTIVE_BY_DEFAULT_TITLES = ALWAYS_ACTIVE_TITLES + %w[
     invoice_overdue_notice
     bidding_round_opened
-    bidding_round_opened_reminder
     bidding_round_completed
     bidding_round_failed
     sepa_mandate_confirmation
@@ -92,13 +101,15 @@ class MailTemplate < ApplicationRecord
     inclusion: { in: TITLES },
     uniqueness: true
   validates :delivery_cycle_ids, presence: true, if: :active?
-  validates :remind_before_days,
+  validates :delay_in_days,
     numericality: { only_integer: true, greater_than_or_equal_to: 0 },
-    presence: true,
-    if: :card_expiring_delay?
+    if: :zero_delay?
+  validates :delay_in_days,
+    numericality: { only_integer: true, greater_than_or_equal_to: 1 },
+    if: :positive_delay?
   validate :subjects_must_be_valid, :contents_must_be_valid
 
-  before_validation :set_card_expiring_remind_before_days, if: :card_expiring_delay?
+  before_validation :set_delay_in_days, if: :delay?
   after_initialize :set_defaults
 
   scope :active, -> { where(active: true) }
@@ -116,9 +127,11 @@ class MailTemplate < ApplicationRecord
     active.exists?(title: title)
   end
 
-  def self.card_expiring_remind_before_days
-    find_by(title: "price_reduction_card_expiring")&.remind_before_days ||
-      CARD_EXPIRING_REMIND_BEFORE_DAYS
+  def self.delay_in_days_for(title)
+    record = find_by(title: title)
+    return DELAY_DEFAULTS.fetch(title) unless record
+
+    record.delay_in_days
   end
 
   def self.create_all!
@@ -177,7 +190,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def description
-    I18n.t("mail_template.description.#{title}").html_safe
+    I18n.t("mail_template.description.#{title}", days: delay_in_days).html_safe
   end
 
   def with_delivery_cycles_scope?
@@ -188,15 +201,23 @@ class MailTemplate < ApplicationRecord
     title == "price_reduction_card_expiring"
   end
 
-  def card_expiring_delay?
-    price_reduction_card_expiring? && has_attribute?(:remind_before_days)
+  def delay?
+    DELAY_DEFAULTS.key?(title) && has_attribute?(:delay_in_days)
   end
 
-  def remind_before_days
-    value = has_attribute?(:remind_before_days) ? super : nil
-    return value unless price_reduction_card_expiring?
+  def zero_delay?
+    delay? && title.in?(ZERO_DELAY_TITLES)
+  end
 
-    value || CARD_EXPIRING_REMIND_BEFORE_DAYS
+  def positive_delay?
+    delay? && !title.in?(ZERO_DELAY_TITLES)
+  end
+
+  def delay_in_days
+    value = has_attribute?(:delay_in_days) ? super : nil
+    return value unless DELAY_DEFAULTS.key?(title)
+
+    value.nil? ? DELAY_DEFAULTS[title] : value
   end
 
   def scope_name
@@ -242,14 +263,10 @@ class MailTemplate < ApplicationRecord
     case title
     when "invoice_overdue_notice"
       !Current.org.bank_connection?
-    when "membership_renewal_reminder"
-      Current.org.open_renewal_reminder_sent_after_in_days.blank?
     when "member_shop_depot_activated"
       !Current.org.feature?(:shop)
     when "price_reduction_card_expiring"
       !Current.org.feature?(:price_reductions)
-    when "bidding_round_opened_reminder"
-      Current.org.open_bidding_round_reminder_sent_after_in_days.blank?
     when "basket_second_last_trial"
       Current.org.trial_baskets_count < 2
     when "sepa_mandate_confirmation"
@@ -316,10 +333,10 @@ class MailTemplate < ApplicationRecord
     self.contents = default_contents
   end
 
-  def set_card_expiring_remind_before_days
-    return unless has_attribute?(:remind_before_days)
+  def set_delay_in_days
+    return unless has_attribute?(:delay_in_days)
 
-    self[:remind_before_days] ||= CARD_EXPIRING_REMIND_BEFORE_DAYS
+    self[:delay_in_days] = DELAY_DEFAULTS[title] if self[:delay_in_days].nil?
   end
 
   def default_subjects

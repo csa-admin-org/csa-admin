@@ -28,12 +28,12 @@ class MemberCard < ApplicationRecord
     expires_on >= date
   end
 
-  def notice_due?(on: Date.current, remind_before_days: MailTemplate.card_expiring_remind_before_days)
+  def notice_due?(on: Date.current, delay_in_days: MailTemplate.delay_in_days_for("price_reduction_card_expiring"))
     return false unless price_reduction_card.require_expires_on?
     return false unless expires_on
     return false if expiration_notice_sent_on == expires_on
 
-    expires_on <= on + remind_before_days.days
+    expires_on <= on + delay_in_days.days
   end
 
   def masked_number

@@ -43,9 +43,8 @@ Sobald die Voraussetzungen erfüllt sind, ist es möglich, eine Erneuerungsanfra
 
 ### Erinnerungs-E-Mail
 
-Wenn konfiguriert, Feld "Eine Erinnerung senden nach (in Tagen)" in [den Einstellungen](/settings#membership_renewal), sendet das System automatisch eine Erinnerungs-E-Mail an jedes Mitglied, das sein Abonnement noch nicht erneuert oder gekündigt hat, X Tage nach dem Versand der Erneuerungsanfrage.
-
-[Die E-Mail-Vorlage "Abonnementserneuerung (Erinnerung)"](/mail_templates/membership_renewal_reminder) muss ebenfalls zuvor bearbeitet und aktiviert worden sein.
+<% renewal_reminder_days = MailTemplate.delay_in_days_for("membership_renewal_reminder") %>
+Wenn [die E-Mail "Abonnementserneuerung (Erinnerung)"](/mail_templates/membership_renewal_reminder) aktiv ist, sendet das System sie einmalig, <%= renewal_reminder_days %> Tage nach der Anfrage, an jedes Mitglied, das das Abonnement noch nicht erneuert oder beendet hat. Die Frist steht auf dieser E-Mail.
 
 > Da das Erneuern oder Kündigen von Abonnements nur vor der ersten Lieferung des neuen Geschäftsjahres sinnvoll ist, achte darauf, dass zwischen dem Versand der Erinnerung und dieser Frist immer genug Zeit bleibt.
 

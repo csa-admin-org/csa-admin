@@ -108,7 +108,8 @@ Les membres peuvent s'inscrire à des activités depuis leur compte membre, mêm
 
 Lors de l'inscription, le membre peut spécifier le nombre de participants, ajouter une remarque et choisir de partager son numéro de téléphone et sa ville de départ pour le covoiturage. Cela permet à un membre d'inscrire plusieurs personnes à la fois (par exemple, des membres de sa famille ou des amis venant aider). Chaque participant compte comme une participation dans le total requis du membre.
 
-Si le membre choisit de partager ses informations de covoiturage, elles seront incluses dans [l'email de rappel envoyé 3 jours avant l'activité](/mail_templates/activity_participation_reminder) avec les coordonnées de tous les autres participants ayant également choisi de les partager. Ce délai de 3 jours est fixe et ne peut pas être configuré.
+<% activity_reminder_days = MailTemplate.delay_in_days_for("activity_participation_reminder") %>
+Si le membre choisit de partager ses informations de covoiturage, elles sont incluses dans [l'e-mail de rappel](/mail_templates/activity_participation_reminder), envoyé <%= activity_reminder_days %> jours avant l'activité, avec les coordonnées des autres participants qui ont aussi choisi de les partager. Le délai se règle sur cet e-mail.
 
 Une limite (en jours) d'inscription avant la date de l'activité peut être définie depuis [les paramètres](/settings#activity) pour éviter les inscriptions de dernière minute.
 

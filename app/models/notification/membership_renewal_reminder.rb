@@ -5,7 +5,6 @@ class Notification::MembershipRenewalReminder < Notification::Base
 
   def notify
     return unless mail_template_active?
-    return unless reminder_delay_in_days
 
     eligible_memberships.each do |membership|
       deliver(membership: membership)
@@ -16,7 +15,7 @@ class Notification::MembershipRenewalReminder < Notification::Base
   private
 
   def reminder_delay_in_days
-    Current.org.open_renewal_reminder_sent_after_in_days
+    MailTemplate.delay_in_days_for("membership_renewal_reminder")
   end
 
   def eligible_memberships

@@ -43,9 +43,8 @@ Once the prerequisites are met, send a renewal request to one member (for exampl
 
 ### Reminder email
 
-When you set the "Send a reminder after (in days)" field in [the settings](/settings#membership_renewal), the system sends a reminder email X days after the renewal request to every member who has not yet renewed or terminated their membership.
-
-[The "Membership Renewal (Reminder)" email template](/mail_templates/membership_renewal_reminder) must also have been edited and activated beforehand.
+<% renewal_reminder_days = MailTemplate.delay_in_days_for("membership_renewal_reminder") %>
+When [the "Membership Renewal (Reminder)" email](/mail_templates/membership_renewal_reminder) is active, the system sends it once, <%= renewal_reminder_days %> days after the renewal request, to every member who has not yet renewed or ended their membership. The delay is set on that email.
 
 > As renewing or terminating memberships only makes sense before the first delivery of the new fiscal year, make sure there is always enough time between sending the reminder and this deadline.
 

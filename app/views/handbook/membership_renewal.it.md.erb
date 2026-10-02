@@ -43,9 +43,8 @@ Dopo avere soddisfatto i prerequisiti, puoi inviare dalla pagina dell'abbonament
 
 ### Email di promemoria
 
-Quando configuri il campo "Inviare un promemoria dopo (in giorni)" nelle [impostazioni](/settings#membership_renewal), il sistema invia automaticamente un'email di promemoria X giorni dopo la richiesta a ogni socio che non ha ancora rinnovato o disdetto l'abbonamento.
-
-[Il modello di email "Rinnovo abbonamento (Promemoria)"](/mail_templates/membership_renewal_reminder) deve essere modificato e attivato in anticipo.
+<% renewal_reminder_days = MailTemplate.delay_in_days_for("membership_renewal_reminder") %>
+Quando [l'email "Rinnovo abbonamento (Promemoria)"](/mail_templates/membership_renewal_reminder) è attiva, il sistema la invia una sola volta, <%= renewal_reminder_days %> giorni dopo la domanda, a ogni socio che non ha ancora rinnovato o disdetto l'abbonamento. Il ritardo si imposta su questa email.
 
 > Poiché rinnovare o disdire gli abbonamenti ha senso solo prima della prima consegna del nuovo anno fiscale, fai attenzione che rimanga sempre abbastanza tempo tra l'invio del promemoria e questa scadenza.
 
