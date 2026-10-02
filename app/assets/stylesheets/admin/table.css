@@ -188,6 +188,8 @@
     height: 0.3125rem;
     width: 0.5rem;
     opacity: 0.25;
+    /* Optical nudge: flex centers the SVG box above the uppercase caps. */
+    translate: 0 1px;
   }
 
   :where(th[data-sort-direction]) {
