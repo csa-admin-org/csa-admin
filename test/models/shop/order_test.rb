@@ -609,7 +609,7 @@ class Shop::OrderTest < ActiveSupport::TestCase
         .where(delivery: included.delivery)
         .includes(:member, :depot)
         .joins(:member)
-        .order(Depot.reorder_by_name("desc").order_values.join(" "))
+        .order(*Depot.reorder_by_name("desc").order_values)
         .merge(Member.order_by_name)
         .offset(0)
         .limit(30)
