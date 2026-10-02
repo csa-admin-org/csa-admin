@@ -182,6 +182,18 @@ class ShopOrdersControllerTest < ActionDispatch::IntegrationTest
     assert_select "option[selected][value='#{shop_product_variants(:flour_wheat).id}']", count: 0
   end
 
+  test "index total sidebar succeeds when sorted by depot" do
+    delivery = deliveries(:monday_1)
+    shop_orders(:john).update_column(:depot_id, depots(:farm).id)
+
+    get shop_orders_path, params: {
+      q: { _delivery_gid_eq: delivery.gid },
+      order: "depots.name_desc"
+    }
+
+    assert_response :success
+  end
+
   test "index disables delivery PDF until a delivery is filtered" do
     travel_to "2024-01-01"
     login admins(:super)

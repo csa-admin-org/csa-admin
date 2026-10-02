@@ -106,7 +106,9 @@ module Shop
     end
 
     def self.effective_invoice_totals(relation = all)
-      orders = relation.unscope(:includes).offset(nil).limit(nil)
+      # Index includes/sort (depot names, member name) are display-only.
+      # Unscoping includes alone leaves ORDER BY depots.names without the join.
+      orders = relation.unscope(:includes, :order, :joins).offset(nil).limit(nil)
       rows = orders.with_effective_invoice.pluck(
         Arel.sql("shop_orders.amount"),
         Arel.sql("COALESCE(order_invoices.id, group_invoices.id)"))
