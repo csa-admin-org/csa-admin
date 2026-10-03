@@ -245,7 +245,7 @@ GEM
       base64 (>= 0.1.0)
       csv (>= 3.0.0)
     geom2d (0.4.1)
-    girocode (1.1.0)
+    girocode (1.2.0)
       bigdecimal
       iban-tools
       rqrcode
@@ -854,7 +854,7 @@ CHECKSUMS
   fugit (1.14.0) sha256=e311a9cc85a54bb67649df45060e721282a1e2c8ebad40e41874a3a7d576f37e
   geocoder (1.8.6) sha256=e0ca1554b499f466de9b003f7dff70f89a5888761c2ca68ed9f86b6e5e24e74c
   geom2d (0.4.1) sha256=ea0998ea90c4f2752e24fe13d85a4f89bee689d151316140ebcc6369bf634ed9
-  girocode (1.1.0) sha256=6eb3c64f9d75a8a64ca12b7cf171661e189a77d1eb857721023f45d5041e4c98
+  girocode (1.2.0) sha256=c7f8f838a6daf9d73c1cccc6154763e72893af0547ab7940e55a0931fdaaef3f
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
   has_scope (0.9.0) sha256=783a93006cf898525bb4899696f1d088c0f6ff897d6df2bf03fdbbe0d0b5124c
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
