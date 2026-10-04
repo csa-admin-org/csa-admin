@@ -7,6 +7,12 @@ class Members::MembersControllerTest < ActionDispatch::IntegrationTest
     host! "members.acme.test"
   end
 
+  test "new succeeds when nested member params are empty" do
+    get new_members_member_path, params: { member: {} }
+
+    assert_response :success
+  end
+
   test "new renders required card fields for a visible reduction" do
     org(features: Current.org.features | [ "price_reductions" ])
     card = PriceReductionCard.create!(
