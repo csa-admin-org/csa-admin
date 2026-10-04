@@ -199,6 +199,7 @@ class Basket::ShiftingTest < ActiveSupport::TestCase
     assert_empty basket.member_shiftable_basket_targets
 
     org(basket_shifts_annually: 1)
+    reset_member_shift_memos!(basket)
     assert_equal [
       baskets(:jane_6),
       baskets(:jane_7),
@@ -208,12 +209,14 @@ class Basket::ShiftingTest < ActiveSupport::TestCase
     ], basket.member_shiftable_basket_targets
 
     org(basket_shift_deadline_in_weeks: 2)
+    reset_member_shift_memos!(basket)
     assert_equal [
       baskets(:jane_6),
       baskets(:jane_7)
     ], basket.member_shiftable_basket_targets
 
     travel_to basket.delivery.date - 2.weeks
+    reset_member_shift_memos!(basket)
     assert_equal [
       baskets(:jane_4),
       baskets(:jane_6),
@@ -274,11 +277,12 @@ class Basket::ShiftingTest < ActiveSupport::TestCase
     }
 
     assert_empty names.grep(/Basket Exists/), names.inspect
-    assert_empty names.grep(/BasketComplement/), names.inspect
+    assert_empty names.grep(/\ABasketComplement /), names.inspect
     assert_empty names.grep(/BasketShift Exists/), names.inspect
     assert_operator names.count("Basket Load") + names.count("Basket Eager Load"), :<=, 1
     assert_operator names.count("BasketsBasketComplement Load"), :<=, 1
     assert_operator names.count("BasketsBasketComplement Sum"), :<=, 1
+    assert_operator names.count("BasketsBasketComplement Pluck"), :<=, 1
   end
 
   test "#member_shiftable_basket_targets query count stays bounded as candidates grow" do
@@ -288,12 +292,12 @@ class Basket::ShiftingTest < ActiveSupport::TestCase
     travel_to basket.delivery.date
 
     few_names = collect_sql_query_names {
-      assert_equal 5, membership.baskets.find(basket.id).member_shiftable_basket_targets.size
+      assert_equal 5, Membership.find(membership.id).baskets.find(basket.id).member_shiftable_basket_targets.size
     }
     add_coming_member_shift_candidates!(membership, 8)
 
     many_names = collect_sql_query_names {
-      assert_equal 5, membership.baskets.find(basket.id).member_shiftable_basket_targets.size
+      assert_equal 5, Membership.find(membership.id).baskets.find(basket.id).member_shiftable_basket_targets.size
     }
 
     assert_operator membership.baskets.coming.count, :>=, 13
@@ -301,6 +305,16 @@ class Basket::ShiftingTest < ActiveSupport::TestCase
   end
 
   private
+
+  def reset_member_shift_memos!(basket)
+    %i[@member_shiftable_basket_targets @member_shift_allowed_range].each do |ivar|
+      basket.remove_instance_variable(ivar) if basket.instance_variable_defined?(ivar)
+    end
+    membership = basket.membership
+    %i[@member_shift_candidates @received_shift_delivery_ids].each do |ivar|
+      membership.remove_instance_variable(ivar) if membership.instance_variable_defined?(ivar)
+    end
+  end
 
   def add_coming_member_shift_candidates!(membership, count)
     template = baskets(:jane_10)

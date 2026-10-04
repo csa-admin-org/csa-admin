@@ -96,10 +96,7 @@ module Basket::Shifting
 
   def member_shiftable_basket_targets
     return @member_shiftable_basket_targets if defined?(@member_shiftable_basket_targets)
-
-    unless can_be_shifted? && membership.basket_shift_allowed?
-      return @member_shiftable_basket_targets = []
-    end
+    return [] unless can_be_shifted? && membership.basket_shift_allowed?
 
     candidates = member_shift_candidates
     if range_allowed = member_shift_allowed_range
@@ -154,17 +151,21 @@ module Basket::Shifting
   end
 
   def same_complements?(target)
-    ids = complement_ids_for_shift
-    ids & target.complement_ids_for_shift == ids
+    ids = complement_ids_for(self)
+    ids & complement_ids_for(target) == ids
   end
 
-  def complement_ids_for_shift
-    bbc = baskets_basket_complements
-    if bbc.loaded?
+  def complement_ids_for(basket)
+    cache = basket.instance_variable_get(:@shift_complement_ids)
+    return cache if cache
+
+    bbc = basket.baskets_basket_complements
+    ids = if bbc.loaded?
       bbc.map(&:basket_complement_id)
     else
       bbc.pluck(:basket_complement_id)
     end
+    basket.instance_variable_set(:@shift_complement_ids, ids)
   end
 
   def received_shift_delivery_ids

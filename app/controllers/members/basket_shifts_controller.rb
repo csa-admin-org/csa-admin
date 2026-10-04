@@ -17,7 +17,7 @@ class Members::BasketShiftsController < Members::BaseController
 
   def load_basket
     @basket = current_member.baskets
-      .includes(:delivery, :baskets_basket_complements, :shift_as_source)
+      .includes(:delivery, :baskets_basket_complements)
       .find(params[:basket_id])
   end
 
