@@ -16,7 +16,9 @@ class Members::BasketShiftsController < Members::BaseController
   private
 
   def load_basket
-    @basket = current_member.baskets.find(params[:basket_id])
+    @basket = current_member.baskets
+      .includes(:delivery, :baskets_basket_complements, :shift_as_source)
+      .find(params[:basket_id])
   end
 
   def ensure_member_can_shift_basket!

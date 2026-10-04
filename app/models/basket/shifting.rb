@@ -41,7 +41,7 @@ module Basket::Shifting
   end
 
   def can_be_member_shifted?
-    can_be_shifted? && member_shiftable_basket_targets.any?
+    member_shiftable_basket_targets.any?
   end
 
   # Admin one-step: create the absence if needed, then shift.
@@ -95,14 +95,19 @@ module Basket::Shifting
   end
 
   def member_shiftable_basket_targets
-    return [] unless can_be_shifted?
-    return [] unless membership.basket_shift_allowed?
+    return @member_shiftable_basket_targets if defined?(@member_shiftable_basket_targets)
 
-    baskets = membership.baskets.coming.includes(:delivery)
-    if range_allowed = Current.org.basket_shift_allowed_range_for(self)
-      baskets = baskets.between(range_allowed)
+    unless can_be_shifted? && membership.basket_shift_allowed?
+      return @member_shiftable_basket_targets = []
     end
-    baskets.select { |target| BasketShift.shiftable?(self, target) }
+
+    candidates = member_shift_candidates
+    if range_allowed = member_shift_allowed_range
+      candidates = candidates.select { |target| target.delivery.date.in?(range_allowed) }
+    end
+    @member_shiftable_basket_targets = candidates.select { |target|
+      admin_shift_target?(target)
+    }
   end
 
   def shift_target_basket_id
@@ -134,9 +139,32 @@ module Basket::Shifting
     membership.instance_variable_set(:@admin_shift_candidates, records)
   end
 
+  def member_shift_candidates
+    cache = membership.instance_variable_get(:@member_shift_candidates)
+    return cache if cache
+
+    records = membership.baskets.coming.includes(:delivery, :baskets_basket_complements).to_a
+    membership.instance_variable_set(:@member_shift_candidates, records)
+  end
+
+  def member_shift_allowed_range
+    return @member_shift_allowed_range if defined?(@member_shift_allowed_range)
+
+    @member_shift_allowed_range = Current.org.basket_shift_allowed_range_for(self)
+  end
+
   def same_complements?(target)
-    ids = complement_ids
-    ids & target.complement_ids == ids
+    ids = complement_ids_for_shift
+    ids & target.complement_ids_for_shift == ids
+  end
+
+  def complement_ids_for_shift
+    bbc = baskets_basket_complements
+    if bbc.loaded?
+      bbc.map(&:basket_complement_id)
+    else
+      bbc.pluck(:basket_complement_id)
+    end
   end
 
   def received_shift_delivery_ids

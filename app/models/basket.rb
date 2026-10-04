@@ -107,7 +107,13 @@ class Basket < ApplicationRecord
   end
 
   def empty?
-    (quantity + baskets_basket_complements.sum(:quantity)).zero?
+    complements = baskets_basket_complements
+    extra = if complements.loaded?
+      complements.sum { |bbc| bbc.quantity.to_i }
+    else
+      complements.sum(:quantity)
+    end
+    (quantity.to_i + extra).zero?
   end
 
   def deliverable?

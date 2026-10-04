@@ -90,6 +90,22 @@ class BasketShiftTest < ActiveSupport::TestCase
     end
   end
 
+  test "shiftable? matches in-memory target rules without running validations" do
+    assert BasketShift.shiftable?(@source_basket, @target_basket)
+    assert_not BasketShift.shiftable?(@source_basket, @source_basket)
+    assert_not BasketShift.shiftable?(@source_basket, baskets(:john_7))
+
+    @source_basket.decrement!(:quantity)
+    @source_basket.baskets_basket_complements.first.decrement!(:quantity)
+    assert_not BasketShift.shiftable?(@source_basket.reload, @target_basket)
+  end
+
+  test "shiftable? does not build a BasketShift per candidate" do
+    BasketShift.stub(:new, ->(*) { raise "should not instantiate BasketShift" }) do
+      assert BasketShift.shiftable?(@source_basket, @target_basket)
+    end
+  end
+
   test "keeps the delivery price unchanged when shifting" do
     @membership.baskets.update_all(delivery_cycle_price: 2)
     @membership.touch

@@ -36,6 +36,60 @@ class Members::BasketShiftsControllerTest < ActionDispatch::IntegrationTest
     assert_equal I18n.t("members.basket_shifts.flash.alert"), flash[:alert]
   end
 
+  test "new lists member shiftable targets" do
+    basket = baskets(:jane_5)
+    travel_to basket.delivery.date
+
+    get new_members_basket_basket_shifts_path(basket)
+
+    assert_response :success
+    assert_select "select#basket_shift_target_basket_id option[value='#{baskets(:jane_6).id}']"
+    assert_select "select#basket_shift_target_basket_id option[value='declined']"
+  end
+
+  test "create shifts to an allowed target" do
+    basket = baskets(:jane_5)
+    target = baskets(:jane_6)
+    travel_to basket.delivery.date
+
+    assert_changes -> { basket.reload.shifted? }, from: false, to: true do
+      post members_basket_basket_shifts_path(basket), params: {
+        basket: { shift_target_basket_id: target.id }
+      }
+    end
+
+    assert_redirected_to members_deliveries_path
+    assert_equal I18n.t("members.basket_shifts.flash.notice"), flash[:notice]
+    assert_equal target.id, basket.reload.shift_target_basket_id
+  end
+
+  test "create declines a shift" do
+    basket = baskets(:jane_5)
+    travel_to basket.delivery.date
+
+    assert_changes -> { basket.reload.shift_declined_at }, from: nil do
+      post members_basket_basket_shifts_path(basket), params: {
+        basket: { shift_target_basket_id: "declined" }
+      }
+    end
+
+    assert_redirected_to members_deliveries_path
+    assert_equal "declined", basket.reload.shift_target_basket_id
+  end
+
+  test "create ignores a target that is not member-shiftable" do
+    basket = baskets(:jane_5)
+    travel_to basket.delivery.date
+
+    assert_no_changes -> { basket.reload.shift_as_source } do
+      post members_basket_basket_shifts_path(basket), params: {
+        basket: { shift_target_basket_id: baskets(:john_7).id }
+      }
+    end
+
+    assert_redirected_to members_deliveries_path
+  end
+
   private
 
   def login(member)
