@@ -46,6 +46,23 @@ module Membership::Renewal
     after_update :keep_renewed_membership_up_to_date!
   end
 
+  class_methods do
+    # Past-FY opened renewals, once current-FY deliveries have started.
+    # Leaves renewal_pending (not opened) and current-FY / renewed rows alone.
+    def stale_open_renewals
+      return none unless Delivery.current_year_ongoing?
+
+      renewal_state_eq(:renewal_opened).where(ended_on: ...Current.fy_range.min)
+    end
+
+    def cancel_stale_open_renewals!
+      stale_open_renewals.find_each do |membership|
+        membership.cancel!
+        Rails.logger.info "Canceled stale open renewal for membership ##{membership.id}"
+      end
+    end
+  end
+
   def renewal_state
     if renewed?
       :renewed

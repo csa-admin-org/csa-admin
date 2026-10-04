@@ -222,4 +222,92 @@ class Membership::RenewalTest < ActiveSupport::TestCase
       membership.update!(billing_year_division: 4)
     end
   end
+
+  test "stale_open_renewals is empty before first current-year delivery" do
+    travel_to "2025-04-06"
+    open_renewal! memberships(:jane), at: 1.year.ago
+
+    assert_not Delivery.current_year_ongoing?
+    assert_empty Membership.stale_open_renewals
+  end
+
+  test "stale_open_renewals includes last-FY opened renewals after first delivery" do
+    travel_to "2025-04-08"
+    open_renewal! memberships(:jane), at: 1.year.ago
+
+    assert Delivery.current_year_ongoing?
+    assert_includes Membership.stale_open_renewals, memberships(:jane)
+  end
+
+  test "stale_open_renewals includes older-than-last-FY leftovers" do
+    travel_to "2025-04-08"
+    open_renewal! memberships(:john_past), at: 2.years.ago
+
+    assert_includes Membership.stale_open_renewals, memberships(:john_past)
+  end
+
+  test "stale_open_renewals excludes current-FY open renewals" do
+    travel_to "2025-04-08"
+    open_renewal! memberships(:john_future), at: 1.day.ago
+
+    assert_not_includes Membership.stale_open_renewals, memberships(:john_future)
+  end
+
+  test "stale_open_renewals excludes ended current-FY memberships" do
+    travel_to "2024-06-01"
+    open_renewal! memberships(:bob), at: 1.month.ago
+
+    assert Delivery.current_year_ongoing?
+    assert_not_includes Membership.stale_open_renewals, memberships(:bob)
+  end
+
+  test "stale_open_renewals excludes renewed memberships" do
+    travel_to "2025-04-08"
+
+    assert memberships(:john).renewed?
+    assert_not_includes Membership.stale_open_renewals, memberships(:john)
+  end
+
+  test "stale_open_renewals excludes renewal_pending memberships" do
+    travel_to "2025-04-08"
+    memberships(:jane).update_columns(
+      renew: true, renewed_at: nil, renewal_opened_at: nil)
+
+    assert memberships(:jane).renewal_pending?
+    assert_not_includes Membership.stale_open_renewals, memberships(:jane)
+  end
+
+  test "cancel_stale_open_renewals! is a no-op before first current-year delivery" do
+    travel_to "2025-04-06"
+    open_renewal! memberships(:jane), at: 1.year.ago
+
+    Membership.cancel_stale_open_renewals!
+
+    assert memberships(:jane).reload.renewal_opened?
+  end
+
+  test "cancel_stale_open_renewals! cancels past-FY opened renewals silently" do
+    travel_to "2025-04-08"
+    open_renewal! memberships(:jane), at: 1.year.ago
+    open_renewal! memberships(:john_past), at: 2.years.ago
+    open_renewal! memberships(:john_future), at: 1.day.ago
+
+    assert_no_difference -> { ActionMailer::Base.deliveries.size } do
+      Membership.cancel_stale_open_renewals!
+    end
+
+    assert memberships(:jane).reload.canceled?
+    assert memberships(:john_past).reload.canceled?
+    assert memberships(:john_future).reload.renewal_opened?
+    assert memberships(:john).reload.renewed?
+  end
+
+  private
+
+  def open_renewal!(membership, at:)
+    membership.update_columns(
+      renew: true,
+      renewed_at: nil,
+      renewal_opened_at: at)
+  end
 end
