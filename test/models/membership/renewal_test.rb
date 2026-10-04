@@ -222,4 +222,99 @@ class Membership::RenewalTest < ActiveSupport::TestCase
       membership.update!(billing_year_division: 4)
     end
   end
+
+  test "stale_open_renewals selects past-FY opened renewals including older leftovers" do
+    travel_to "2025-04-11"
+    Current.reset
+    last_year = mark_open_renewal!(memberships(:jane))
+    leftover = mark_open_renewal!(memberships(:john_past))
+    current_year = mark_open_renewal!(memberships(:john_future))
+    pending = memberships(:bob)
+    renewed = memberships(:john)
+
+    stale = Membership.stale_open_renewals
+
+    assert_includes stale, last_year
+    assert_includes stale, leftover
+    assert_not_includes stale, current_year
+    assert_not_includes stale, pending
+    assert_not_includes stale, renewed
+  end
+
+  test "cancel_stale_open_renewals leaves late renewals open before the current year is delivering" do
+    last_year = mark_open_renewal!(memberships(:jane))
+    leftover = mark_open_renewal!(memberships(:john_past))
+    current_year = mark_open_renewal!(memberships(:john_future))
+    pending = memberships(:bob)
+    renewed = memberships(:john)
+
+    travel_to "2025-01-05"
+    Current.reset
+    assert_not Delivery.current_year_ongoing?
+
+    Membership.cancel_stale_open_renewals
+
+    assert last_year.reload.renewal_opened?
+    assert leftover.reload.renewal_opened?
+    assert current_year.reload.renewal_opened?
+    assert pending.reload.renewal_pending?
+    assert renewed.reload.renewed?
+  end
+
+  test "cancel_stale_open_renewals cancels past-FY opened leftovers once the current year is delivering" do
+    last_year = mark_open_renewal!(memberships(:jane))
+    leftover = mark_open_renewal!(memberships(:john_past))
+    current_year = mark_open_renewal!(memberships(:john_future))
+    pending = memberships(:bob)
+    renewed = memberships(:john)
+
+    travel_to "2025-04-11"
+    Current.reset
+    assert Delivery.current_year_ongoing?
+
+    assert_no_difference -> { MembershipMailer.deliveries.size } do
+      assert_no_difference -> { AdminMailer.deliveries.size } do
+        Membership.cancel_stale_open_renewals
+        perform_enqueued_jobs
+      end
+    end
+
+    last_year.reload
+    leftover.reload
+    assert last_year.canceled?
+    assert leftover.canceled?
+    assert_not last_year.renew
+    assert_not leftover.renew
+    assert_nil last_year.renewal_opened_at
+    assert_nil leftover.renewal_opened_at
+    assert current_year.reload.renewal_opened?
+    assert pending.reload.renewal_pending?
+    assert renewed.reload.renewed?
+  end
+
+  test "cancel! itself sends no member or admin emails" do
+    mail_templates(:membership_renewal).update!(active: true)
+    mail_templates(:membership_renewal_reminder).update!(active: true)
+    membership = memberships(:jane)
+    mark_open_renewal!(membership)
+
+    assert_no_difference -> { MembershipMailer.deliveries.size } do
+      assert_no_difference -> { AdminMailer.deliveries.size } do
+        membership.cancel!
+        perform_enqueued_jobs
+      end
+    end
+
+    assert membership.reload.canceled?
+  end
+
+  private
+
+  def mark_open_renewal!(membership)
+    membership.update_columns(
+      renew: true,
+      renewed_at: nil,
+      renewal_opened_at: Time.current)
+    membership.reload
+  end
 end

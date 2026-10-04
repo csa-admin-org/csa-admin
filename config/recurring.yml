@@ -100,6 +100,12 @@ production:
     queue: low
     schedule: at 3:30am every day
 
+  memberships_stale_open_renewals:
+    class: TenantSwitchEachJob
+    args: [Scheduled::MembershipsStaleOpenRenewalsCancelerJob]
+    queue: low
+    schedule: at 5:15am every day
+
   search_prune:
     class: TenantSwitchEachJob
     args: [Scheduled::SearchPruneJob]
