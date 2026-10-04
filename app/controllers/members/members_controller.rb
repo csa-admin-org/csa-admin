@@ -12,7 +12,7 @@ class Members::MembersController < Members::BaseController
   def new
     @member = current_member || Member.new
     @member.public_create = true
-    if params[:member]
+    if params[:member].present?
       @member.assign_attributes(member_params)
     else
       @member.assign_waiting_from_last_membership if current_member
