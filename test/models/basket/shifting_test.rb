@@ -199,6 +199,7 @@ class Basket::ShiftingTest < ActiveSupport::TestCase
     assert_empty basket.member_shiftable_basket_targets
 
     org(basket_shifts_annually: 1)
+    reset_member_shift_memos!(basket)
     assert_equal [
       baskets(:jane_6),
       baskets(:jane_7),
@@ -208,16 +209,148 @@ class Basket::ShiftingTest < ActiveSupport::TestCase
     ], basket.member_shiftable_basket_targets
 
     org(basket_shift_deadline_in_weeks: 2)
+    reset_member_shift_memos!(basket)
     assert_equal [
       baskets(:jane_6),
       baskets(:jane_7)
     ], basket.member_shiftable_basket_targets
 
     travel_to basket.delivery.date - 2.weeks
+    reset_member_shift_memos!(basket)
     assert_equal [
       baskets(:jane_4),
       baskets(:jane_6),
       baskets(:jane_7)
     ], basket.member_shiftable_basket_targets
+  end
+
+  test "#member_shiftable_basket_targets excludes incompatible candidates" do
+    org(basket_shifts_annually: nil, basket_shift_deadline_in_weeks: nil)
+    basket = baskets(:jane_5)
+    travel_to baskets(:jane_4).delivery.date
+    create_absence(
+      member: members(:jane),
+      started_on: baskets(:jane_4).delivery.date,
+      ended_on: baskets(:jane_4).delivery.date)
+    earlier = baskets(:jane_4).reload
+    BasketShift.create!(
+      absence: earlier.absence,
+      membership: earlier.membership,
+      source_delivery: earlier.delivery,
+      target_delivery: baskets(:jane_8).delivery)
+
+    travel_to basket.delivery.date
+    baskets(:jane_6).update_columns(basket_size_id: basket_sizes(:medium).id)
+    baskets(:jane_7).baskets_basket_complements.delete_all
+
+    assert_equal [ baskets(:jane_9), baskets(:jane_10) ], basket.reload.member_shiftable_basket_targets
+  end
+
+  test "#member_shiftable_basket_targets is memoized for the request" do
+    org(basket_shifts_annually: 1, basket_shift_deadline_in_weeks: nil)
+    basket = baskets(:jane_5)
+    travel_to basket.delivery.date
+
+    assert basket.can_be_member_shifted?
+    expected = [
+      baskets(:jane_6),
+      baskets(:jane_7),
+      baskets(:jane_8),
+      baskets(:jane_9),
+      baskets(:jane_10)
+    ]
+    assert_equal expected, basket.member_shiftable_basket_targets
+
+    queries = collect_sql_queries { basket.member_shiftable_basket_targets }
+
+    assert_empty queries
+    assert_equal expected, basket.member_shiftable_basket_targets
+  end
+
+  test "#member_shiftable_basket_targets does not query per candidate" do
+    org(basket_shifts_annually: 1, basket_shift_deadline_in_weeks: nil)
+    basket = baskets(:jane_5)
+    travel_to basket.delivery.date
+
+    names = collect_sql_query_names {
+      assert_equal 5, basket.member_shiftable_basket_targets.size
+    }
+
+    assert_empty names.grep(/Basket Exists/), names.inspect
+    assert_empty names.grep(/\ABasketComplement /), names.inspect
+    assert_empty names.grep(/BasketShift Exists/), names.inspect
+    assert_operator names.count("Basket Load") + names.count("Basket Eager Load"), :<=, 1
+    assert_operator names.count("BasketsBasketComplement Load"), :<=, 1
+    assert_operator names.count("BasketsBasketComplement Sum"), :<=, 1
+    assert_operator names.count("BasketsBasketComplement Pluck"), :<=, 1
+  end
+
+  test "#member_shiftable_basket_targets query count stays bounded as candidates grow" do
+    org(basket_shifts_annually: 1, basket_shift_deadline_in_weeks: nil)
+    membership = memberships(:jane)
+    basket = baskets(:jane_5)
+    travel_to basket.delivery.date
+
+    few_names = collect_sql_query_names {
+      assert_equal 5, Membership.find(membership.id).baskets.find(basket.id).member_shiftable_basket_targets.size
+    }
+    add_coming_member_shift_candidates!(membership, 8)
+
+    many_names = collect_sql_query_names {
+      assert_equal 5, Membership.find(membership.id).baskets.find(basket.id).member_shiftable_basket_targets.size
+    }
+
+    assert_operator membership.baskets.coming.count, :>=, 13
+    assert_equal few_names.tally, many_names.tally
+  end
+
+  private
+
+  def reset_member_shift_memos!(basket)
+    %i[@member_shiftable_basket_targets @member_shift_allowed_range].each do |ivar|
+      basket.remove_instance_variable(ivar) if basket.instance_variable_defined?(ivar)
+    end
+    membership = basket.membership
+    %i[@member_shift_candidates @received_shift_delivery_ids].each do |ivar|
+      membership.remove_instance_variable(ivar) if membership.instance_variable_defined?(ivar)
+    end
+  end
+
+  def add_coming_member_shift_candidates!(membership, count)
+    template = baskets(:jane_10)
+    last_date = template.delivery.date
+
+    count.times do |i|
+      delivery = Delivery.create!(date: last_date + (i + 1).weeks)
+      membership.baskets.create!(
+        delivery: delivery,
+        basket_size: template.basket_size,
+        basket_size_price: template.basket_size_price,
+        depot: template.depot,
+        depot_price: template.depot_price,
+        delivery_cycle_price: template.delivery_cycle_price,
+        quantity: template.quantity)
+    end
+  end
+
+  def collect_sql_queries
+    queries = []
+    callback = ->(_name, _start, _finish, _id, payload) {
+      sql = payload[:sql]
+      queries << sql unless payload[:name] == "SCHEMA" || sql.match?(/\A(?:BEGIN|COMMIT|SAVEPOINT|RELEASE)/i)
+    }
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") { yield }
+    queries
+  end
+
+  def collect_sql_query_names
+    names = []
+    callback = ->(_name, _start, _finish, _id, payload) {
+      next if payload[:name] == "SCHEMA" || payload[:sql].match?(/\A(?:BEGIN|COMMIT|SAVEPOINT|RELEASE)/i)
+
+      names << payload[:name]
+    }
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") { yield }
+    names
   end
 end
