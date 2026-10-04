@@ -41,9 +41,22 @@ module Membership::Renewal
         renewed
       end
     }
+    # Past fiscal year memberships can keep an open renewal forever.
+    # Select those leftovers so they can be closed once the current year is delivering.
+    scope :stale_open_renewals, -> {
+      renewal_state_eq(:renewal_opened).where(ended_on: ...Current.fy_range.min)
+    }
 
     before_save :set_renew
     after_update :keep_renewed_membership_up_to_date!
+  end
+
+  class_methods do
+    def cancel_stale_open_renewals
+      return unless Delivery.current_year_ongoing?
+
+      stale_open_renewals.find_each(&:cancel!)
+    end
   end
 
   def renewal_state
