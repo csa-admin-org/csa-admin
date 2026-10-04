@@ -66,6 +66,27 @@ class Membership::RenewalTest < ActiveSupport::TestCase
     end
   end
 
+  test "member_can_decide_renewal? allows late renewal until the new FY has past deliveries" do
+    travel_to "2024-11-01"
+    membership = memberships(:jane)
+    membership.touch(:renewal_opened_at)
+
+    assert membership.renewal_opened?
+    assert membership.member_can_decide_renewal?
+
+    travel_to "2025-01-05"
+    Current.reset
+    membership.reload
+    assert membership.renewal_opened?
+    assert membership.member_can_decide_renewal?
+
+    travel_to "2025-04-11"
+    Current.reset
+    membership.reload
+    assert membership.renewal_opened?
+    assert_not membership.member_can_decide_renewal?
+  end
+
   test "open_renewal! sets renewal_opened_at and sends member-renewal email template" do
     travel_to "2024-01-01"
     mail_templates(:membership_renewal).update!(active: true)

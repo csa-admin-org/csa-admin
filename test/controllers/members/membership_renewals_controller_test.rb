@@ -39,4 +39,78 @@ class Members::MembershipRenewalsControllerTest < ActionDispatch::IntegrationTes
     assert_select "form[action='#{members_membership_renewal_path}'][data-turbo=false] button[type=submit][data-disable-with=?]",
       I18n.t("formtastic.processing")
   end
+
+  test "GET late opened renewal is allowed before the new FY has past deliveries" do
+    memberships(:jane).touch(:renewal_opened_at)
+    login(members(:jane))
+    travel_to "2025-01-05"
+    Current.reset
+
+    get members_renew_membership_path
+
+    assert_response :success
+  end
+
+  test "POST late opened renewal creates the next membership before deliveries start" do
+    memberships(:jane).touch(:renewal_opened_at)
+    login(members(:jane))
+    travel_to "2025-01-05"
+    Current.reset
+
+    assert_difference -> { Membership.count }, 1 do
+      post members_membership_renewal_path, params: {
+        membership: { renewal_decision: "renew" }
+      }
+    end
+
+    assert_redirected_to members_memberships_path
+    membership = memberships(:jane).reload
+    assert membership.renewed?
+    assert_equal "2025-01-01", membership.renewed_membership.started_on.to_s
+  end
+
+  test "GET past-year opened renewal redirects after the new FY has past deliveries" do
+    memberships(:jane).touch(:renewal_opened_at)
+    login(members(:jane))
+    travel_to "2025-04-11"
+    Current.reset
+
+    get members_renew_membership_path
+
+    assert_redirected_to members_memberships_path
+  end
+
+  test "POST past-year opened renewal redirects and creates nothing after deliveries started" do
+    memberships(:jane).touch(:renewal_opened_at)
+    login(members(:jane))
+    travel_to "2025-04-11"
+    Current.reset
+
+    assert_no_difference -> { Membership.count } do
+      post members_membership_renewal_path, params: {
+        membership: { renewal_decision: "renew" }
+      }
+    end
+
+    assert_redirected_to members_memberships_path
+    membership = memberships(:jane).reload
+    assert membership.renewal_opened?
+    assert_not membership.renewed?
+  end
+
+  test "GET past-year opened renewal redirects inactive members to re-register after deliveries started" do
+    travel_to "2024-01-01"
+    membership = create_membership(
+      member: members(:mary),
+      started_on: "2023-01-01",
+      ended_on: "2023-12-31")
+    membership.update_columns(renew: true, renewal_opened_at: Time.current)
+    travel_to "2024-10-02"
+    Current.reset
+    login(members(:mary).reload)
+
+    get members_renew_membership_path
+
+    assert_redirected_to new_members_member_path
+  end
 end

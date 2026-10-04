@@ -2,7 +2,7 @@
 
 class Members::MembershipRenewalsController < Members::BaseController
   before_action :load_membership
-  before_action :ensure_renewal_opened!, only: :new
+  before_action :ensure_member_can_decide_renewal!
   before_action :redirect_renewal_decision_params!, only: :new
 
   def new
@@ -43,6 +43,20 @@ class Members::MembershipRenewalsController < Members::BaseController
     raise ActiveRecord::RecordNotFound unless @membership&.renewal_opened?
   end
 
+  def ensure_member_can_decide_renewal!
+    return if @membership.member_can_decide_renewal?
+
+    redirect_to member_renewal_fallback_path
+  end
+
+  def member_renewal_fallback_path
+    if current_member.can_re_register?
+      new_members_member_path
+    else
+      members_memberships_path
+    end
+  end
+
   def set_basket_complements
     complement_ids =
       BasketComplement
@@ -61,12 +75,6 @@ class Members::MembershipRenewalsController < Members::BaseController
         quantity: quantity || 0,
         basket_complement_id: id)
     end
-  end
-
-  def ensure_renewal_opened!
-    return if @membership.renewal_opened?
-
-    redirect_to members_member_path
   end
 
   def redirect_renewal_decision_params!
