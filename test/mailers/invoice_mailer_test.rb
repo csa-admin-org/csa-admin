@@ -275,7 +275,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
       InvoiceMailer.with(
         template: template,
         invoice: invoice,
-      ).created_email
+      ).created_email.message
     }
 
     assert_equal "New invoice ##{invoice.id}", mail.subject
@@ -294,7 +294,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
       InvoiceMailer.with(
         template: template,
         invoice: invoice,
-      ).created_email
+      ).created_email.message
     end
   end
 
