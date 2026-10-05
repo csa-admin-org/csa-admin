@@ -263,6 +263,41 @@ class InvoiceMailerTest < ActionMailer::TestCase
     assert_equal "application/pdf", attachment.content_type
   end
 
+  test "created_email skips missing invoice PDF on demo tenant" do
+    travel_to "2024-01-01"
+    enable_invoice_pdf
+    template = mail_templates(:invoice_created)
+    invoice = create_other_invoice(amount: 10)
+    blob = invoice.pdf_file.blob
+    blob.service.delete(blob.key)
+
+    mail = with_demo_tenant {
+      InvoiceMailer.with(
+        template: template,
+        invoice: invoice,
+      ).created_email.message
+    }
+
+    assert_equal "New invoice ##{invoice.id}", mail.subject
+    assert_equal 0, mail.attachments.size
+  end
+
+  test "created_email raises when invoice PDF file is missing on a non-demo tenant" do
+    travel_to "2024-01-01"
+    enable_invoice_pdf
+    template = mail_templates(:invoice_created)
+    invoice = create_other_invoice(amount: 10)
+    blob = invoice.pdf_file.blob
+    blob.service.delete(blob.key)
+
+    assert_raises(ActiveStorage::FileNotFoundError) do
+      InvoiceMailer.with(
+        template: template,
+        invoice: invoice,
+      ).created_email.message
+    end
+  end
+
   test "sanitize html from subject" do
     travel_to "2024-01-01"
     template = mail_templates(:invoice_overdue_notice)
