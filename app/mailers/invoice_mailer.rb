@@ -42,6 +42,9 @@ class InvoiceMailer < ApplicationMailer
       mime_type: "application/pdf",
       content: @invoice.pdf_file.download
     }
+  rescue ActiveStorage::FileNotFoundError
+    # Demo seed data can have a PDF blob row whose file was never uploaded.
+    raise unless Tenant.demo?
   end
 
   def attach_attachments!
