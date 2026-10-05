@@ -102,11 +102,11 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     assert match, "Expected a content match for the getting started weekday step"
   end
 
-  test "content_search finds absence notice period midnight example" do
-    results = Handbook.content_search("sunday midnight", locale: :en)
+  test "content_search finds absence notice period evening example" do
+    results = Handbook.content_search("saturday evening", locale: :en)
 
     match = results.find { |r| r[:name] == "absence" }
-    assert match, "Expected a content match for the absence notice period clock"
+    assert match, "Expected a content match for the absence notice period example"
   end
 
   test "content_search finds canceling vs shift on the absence page" do
