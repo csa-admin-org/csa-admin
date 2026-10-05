@@ -45,10 +45,39 @@ class Scheduled::MembershipsStaleOpenRenewalsCancelerJobTest < ActiveJob::TestCa
     assert renewed.reload.renewed?
   end
 
+  test "cancels a past-FY open renewal whose dates span two fiscal years and still processes the others" do
+    invalid = mark_cross_fiscal_year_open_renewal!(memberships(:john_past))
+    leftover = mark_open_renewal!(memberships(:jane))
+
+    assert_raises(ActiveRecord::RecordInvalid) { invalid.cancel! }
+
+    travel_to "2025-04-11"
+    Current.reset
+
+    assert_no_difference -> { MembershipMailer.deliveries.size } do
+      perform_enqueued_jobs do
+        Scheduled::MembershipsStaleOpenRenewalsCancelerJob.perform_later
+      end
+    end
+
+    assert invalid.reload.canceled?
+    assert leftover.reload.canceled?
+  end
+
   private
 
   def mark_open_renewal!(membership)
     membership.update_columns(
+      renew: true,
+      renewed_at: nil,
+      renewal_opened_at: Time.current)
+    membership.reload
+  end
+
+  def mark_cross_fiscal_year_open_renewal!(membership)
+    membership.update_columns(
+      started_on: Date.new(2023, 1, 1),
+      ended_on: Date.new(2024, 6, 30),
       renew: true,
       renewed_at: nil,
       renewal_opened_at: Time.current)

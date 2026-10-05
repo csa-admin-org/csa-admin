@@ -292,6 +292,29 @@ class Membership::RenewalTest < ActiveSupport::TestCase
     assert renewed.reload.renewed?
   end
 
+  test "cancel_stale_open_renewals cancels a past membership whose dates span two fiscal years and still processes the others" do
+    invalid = mark_cross_fiscal_year_open_renewal!(memberships(:john_past))
+    leftover = mark_open_renewal!(memberships(:jane))
+
+    assert_not invalid.valid?
+    assert_includes invalid.errors[:started_on], "must be in the same fiscal year"
+    assert_includes invalid.errors[:ended_on], "must be in the same fiscal year"
+    assert_raises(ActiveRecord::RecordInvalid) { invalid.cancel! }
+
+    travel_to "2025-04-11"
+    Current.reset
+    assert Delivery.current_year_ongoing?
+
+    Membership.cancel_stale_open_renewals
+
+    invalid.reload
+    leftover.reload
+    assert invalid.canceled?
+    assert leftover.canceled?
+    assert_not invalid.renew
+    assert_nil invalid.renewal_opened_at
+  end
+
   test "cancel! itself sends no member or admin emails" do
     mail_templates(:membership_renewal).update!(active: true)
     mail_templates(:membership_renewal_reminder).update!(active: true)
@@ -312,6 +335,16 @@ class Membership::RenewalTest < ActiveSupport::TestCase
 
   def mark_open_renewal!(membership)
     membership.update_columns(
+      renew: true,
+      renewed_at: nil,
+      renewal_opened_at: Time.current)
+    membership.reload
+  end
+
+  def mark_cross_fiscal_year_open_renewal!(membership)
+    membership.update_columns(
+      started_on: Date.new(2023, 1, 1),
+      ended_on: Date.new(2024, 6, 30),
       renew: true,
       renewed_at: nil,
       renewal_opened_at: Time.current)
