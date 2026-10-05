@@ -108,6 +108,14 @@ module Membership::Renewal
     renew? && !renewed? && renewal_opened_at?
   end
 
+  def member_can_decide_renewal?
+    return false unless renewal_opened?
+    return true if current_year?
+    return false unless fiscal_year.past?
+
+    !Delivery.current_year_ongoing?
+  end
+
   def renew!(attrs = {})
     return if renewed?
     raise "`renew` must be true for renewing" unless renew?

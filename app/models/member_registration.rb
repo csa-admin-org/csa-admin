@@ -48,9 +48,17 @@ class MemberRegistration
     @member.waiting_started_at = nil
 
     if @member.save
+      cancel_last_membership_open_renewal!
       notify_admins!(existing: true)
       true
     end
+  end
+
+  def cancel_last_membership_open_renewal!
+    membership = @member.last_membership
+    return unless membership&.renewal_opened?
+
+    membership.cancel!
   end
 
   def notify_admins!(existing: false)

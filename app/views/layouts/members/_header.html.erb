@@ -87,17 +87,17 @@
 
         <% if membership || current_member.can_re_register? || current_member.pending? %>
           <li class="<%= nav_class("membership") %>">
-            <%= link_to members_memberships_path(anchor: membership&.renewal_opened? ? "renewal" : nil) do %>
+            <%= link_to members_memberships_path(anchor: membership&.member_can_decide_renewal? ? "renewal" : nil) do %>
               <h2><%= Membership.model_name.human %></h2>
 
               <% if current_member.can_re_register? && membership.nil? %>
                 <span><%= t(".membership_subscribe") %></span>
-              <% elsif current_member.can_re_register? && !membership.current_year? %>
+              <% elsif current_member.can_re_register? && !membership.current_year? && !membership.member_can_decide_renewal? %>
                 <span><%= t(".membership_subscribe_again") %></span>
               <% elsif membership %>
                 <% if missing_bidding_round_pledge? %>
                   <span class="warning"><%= t(".bidding_round_pledge") %></span>
-                <% elsif membership.renewal_opened? %>
+                <% elsif membership.member_can_decide_renewal? %>
                   <span class="alert"><%= t(".membership_renewal") %></span>
                 <% elsif membership.trial? %>
                   <span><%= t(".membership_trial") %></span>

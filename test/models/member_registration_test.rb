@@ -152,6 +152,48 @@ class MemberRegistrationTest < ActiveSupport::TestCase
     assert_equal "Mary and John", member.name
   end
 
+  test "re-registration cancels leftover open renewal without extra emails" do
+    admin = admins(:ultra)
+    admin.update!(notifications: %w[ new_registration ])
+    travel_to "2024-01-01"
+    membership = create_membership(
+      member: members(:mary),
+      started_on: "2023-01-01",
+      ended_on: "2023-12-31")
+    membership.update_columns(renew: true, renewal_opened_at: Time.current)
+    perform_enqueued_jobs
+    AdminMailer.deliveries.clear
+    MembershipMailer.deliveries.clear
+
+    member = members(:mary)
+    member.public_create = true
+
+    assert_no_difference -> { AdminMailer.deliveries.size } do
+      assert_no_difference -> { MembershipMailer.deliveries.size } do
+        assert_changes -> { member.reload.state }, from: "inactive", to: "pending" do
+          member = register(member, {
+            name: "Mary Doe",
+            phones: "+41 79 142 42 42",
+            waiting_basket_size_id: basket_sizes(:small).id,
+            waiting_depot_id: depots(:farm).id,
+            terms_of_service: "1"
+          })
+        end
+      end
+    end
+
+    membership.reload
+    assert membership.canceled?
+    assert_not membership.renew
+    assert_nil membership.renewal_opened_at
+    assert_not membership.renewed?
+
+    assert_difference -> { ActionMailer::Base.deliveries.size }, 1 do
+      perform_enqueued_jobs
+    end
+    assert_equal "New re-registration", ActionMailer::Base.deliveries.last.subject
+  end
+
   test "persisted inactive member re-registers without email match" do
     admin = admins(:ultra)
     admin.update!(notifications: %w[ new_registration ])

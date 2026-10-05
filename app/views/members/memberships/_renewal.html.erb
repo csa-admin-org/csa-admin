@@ -1,6 +1,6 @@
 <%# Skip if this is a trial-canceled membership (handled by _trial.html.erb) %>
 <% unless membership.trial? && membership.canceled? %>
-  <% if membership.renewal_opened? %>
+  <% if membership.member_can_decide_renewal? %>
     <div id="renewal" class="renewal">
       <h2 class="section-title">
         <%= t(".title") %>

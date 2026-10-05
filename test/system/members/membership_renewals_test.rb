@@ -93,6 +93,56 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
     assert_equal "2025-12-31", renewed_membership.ended_on.to_s
   end
 
+  test "does not renew a past membership once the new FY has past deliveries" do
+    membership = memberships(:jane)
+    membership.touch(:renewal_opened_at)
+
+    travel_to "2025-04-11"
+    login(members(:jane))
+
+    assert_not_includes menu_nav, "Renewal?"
+    click_on "Membership"
+    assert_no_text "Renew my membership"
+
+    visit "membership/renew"
+    assert_equal "/memberships", current_path
+    assert_no_text "Renew my membership"
+
+    assert_no_difference -> { Membership.count } do
+      membership.reload
+      assert membership.renewal_opened?
+      assert_not membership.renewed?
+      assert_nil membership.renewed_membership
+    end
+  end
+
+  test "re-registration closes leftover open renewal and shows request received" do
+    travel_to "2024-01-01"
+    membership = create_membership(
+      member: members(:mary),
+      started_on: "2023-01-01",
+      ended_on: "2023-12-31")
+    membership.update_columns(renew: true, renewal_opened_at: Time.current)
+    login(members(:mary).reload)
+
+    visit "/new"
+    fill_in "Name and surname", with: "Mary Doe"
+    fill_in "Phone(s)", with: "077 142 42 42"
+    check "I have read and agree to the rules."
+    click_on "Submit"
+
+    assert_equal "/memberships", current_path
+    assert_text "Your request has been received and will be reviewed shortly."
+    assert_no_text "Renew my membership"
+    assert_not_includes menu_nav, "Renewal?"
+
+    membership.reload
+    assert membership.canceled?
+    assert_not membership.renew
+    assert_nil membership.renewal_opened_at
+    assert_not membership.renewed?
+  end
+
   test "renew membership with salary basket" do
     member = members(:jane)
     member.update!(salary_basket: true)
