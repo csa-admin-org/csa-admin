@@ -115,4 +115,46 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
     json = JSON.parse(response.body)
     assert_includes json["errors"]["name"], "can't be blank"
   end
+
+  test "validation errors use the org language when locale is omitted" do
+    org(languages: %w[fr])
+
+    request(params: { name: "" })
+
+    assert_response :unprocessable_entity
+    json = JSON.parse(response.body)
+    assert_includes json["errors"]["name"], "doit être rempli(e)"
+  end
+
+  test "validation errors prefer a valid locale param over the org language" do
+    org(languages: %w[fr])
+
+    request(params: { name: "", locale: "de" })
+
+    assert_response :unprocessable_entity
+    json = JSON.parse(response.body)
+    assert_includes json["errors"]["name"], "muss ausgefüllt werden"
+  end
+
+  test "validation errors ignore an invalid locale param" do
+    org(languages: %w[fr])
+
+    request(params: { name: "", locale: "xx" })
+
+    assert_response :unprocessable_entity
+    json = JSON.parse(response.body)
+    assert_includes json["errors"]["name"], "doit être rempli(e)"
+  end
+
+  test "does not inherit a leftover locale from a previous request" do
+    org(languages: %w[fr])
+
+    request(params: { name: "", locale: "it" })
+    assert_response :unprocessable_entity
+    assert_includes JSON.parse(response.body)["errors"]["name"], "deve essere riempito/a"
+
+    request(params: { name: "" })
+    assert_response :unprocessable_entity
+    assert_includes JSON.parse(response.body)["errors"]["name"], "doit être rempli(e)"
+  end
 end
