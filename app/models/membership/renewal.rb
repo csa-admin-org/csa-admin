@@ -55,7 +55,7 @@ module Membership::Renewal
     def cancel_stale_open_renewals
       return unless Delivery.current_year_ongoing?
 
-      stale_open_renewals.find_each(&:cancel!)
+      stale_open_renewals.find_each(&:cancel_stale_open_renewal!)
     end
   end
 
@@ -155,6 +155,19 @@ module Membership::Renewal
     self[:renewed_at] = nil
     self[:renew] = false
     save!
+  end
+
+  # Daily leftover cleanup only writes renewal columns. A full save! would
+  # re-validate started_on/ended_on, and a past membership whose dates no
+  # longer sit in one fiscal year would abort the rest of the batch.
+  def cancel_stale_open_renewal!
+    return if canceled?
+    raise "cannot cancel an already renewed membership" if renewed?
+
+    update_columns(
+      renewal_opened_at: nil,
+      renewed_at: nil,
+      renew: false)
   end
 
   def canceled?
