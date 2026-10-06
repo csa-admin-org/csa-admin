@@ -97,26 +97,26 @@ class FiscalYearTest < ActiveSupport::TestCase
   test "current_quarter_range returns Q3 range" do
     travel_to "2020-08-12"
     fy = FiscalYear.for(2020)
-    assert_equal Time.new(2020, 7)..Time.new(2020, 9, 30).end_of_day, fy.current_quarter_range
+    assert_equal Time.zone.local(2020, 7)..Time.zone.local(2020, 9, 30).end_of_day, fy.current_quarter_range
   end
 
   test "current_quarter_range returns Q2 range" do
     travel_to "2020-08-31"
     fy = FiscalYear.for(2020, start_month: 4)
-    assert_equal Time.new(2020, 7)..Time.new(2020, 9, 30).end_of_day, fy.current_quarter_range
+    assert_equal Time.zone.local(2020, 7)..Time.zone.local(2020, 9, 30).end_of_day, fy.current_quarter_range
   end
 
   test "current_quarter_range returns Q4 range" do
     travel_to "2020-01-01"
     fy = FiscalYear.for(2020, start_month: 2)
     travel_to(fy.end_of_year)
-    assert_equal Time.new(2020, 11)..Time.new(2021, 1, 31).end_of_day, fy.current_quarter_range
+    assert_equal Time.zone.local(2020, 11)..Time.zone.local(2021, 1, 31).end_of_day, fy.current_quarter_range
   end
 
   test "current_quarter_range returns Q1 range" do
     travel_to "2020-01-01"
     fy = FiscalYear.for(2020, start_month: 3)
     travel_to("2020-03-01")
-    assert_equal Time.new(2020, 3)..Time.new(2020, 5, 31).end_of_day, fy.current_quarter_range
+    assert_equal Time.zone.local(2020, 3)..Time.zone.local(2020, 5, 31).end_of_day, fy.current_quarter_range
   end
 end
