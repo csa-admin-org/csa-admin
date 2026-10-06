@@ -159,15 +159,14 @@ module MembersHelper
     collection.where(id: member_ids_for_filter(relation)).order_by_name
   end
 
-  # DISTINCT member_id only. ActiveAdmin index collections often carry
-  # includes, left_joins(:member), and ORDER BY created_at / name — the
-  # MailDeliveries sidebar was plucking through those and joining emails.
+  # Index collections carry includes, sort, and pagination. Keep joins so
+  # association filters still apply, and reselect member_id as a subquery.
   private def member_ids_for_filter(relation)
     relation
-      .unscope(:order, :limit, :offset, :includes, :preload, :eager_load, :left_outer_joins, :select)
+      .except(:order, :limit, :offset, :includes, :preload, :eager_load)
       .unscope(where: :member_id)
+      .reselect(:member_id)
       .distinct
-      .pluck(:member_id)
   end
 
   private def featured_member_ids(featured, visible)
