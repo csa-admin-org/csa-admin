@@ -68,6 +68,35 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "index renewal confirms name the action, count, and custom demanded reset" do
+    travel_to "2024-05-01"
+    mail_templates(:membership_renewal).update!(active: true)
+    org(membership_renewed_attributes: %w[
+      baskets_annual_price_change
+      basket_complements_annual_price_change
+      absences_included_annually
+    ])
+    memberships(:john).update_columns(created_at: 1.hour.ago)
+    memberships(:jane).update_columns(activity_participations_demanded_annually: 5)
+    memberships(:bob).update_columns(activity_participations_demanded_annually: 2)
+    memberships(:anna).update_columns(activity_participations_demanded_annually: 3)
+    login admins(:super)
+
+    get memberships_path, params: { q: { during_year: 2024 } }
+
+    assert_response :success
+    open_confirm = I18n.t("active_admin.shared.sidebar_section.open_renewal_all_confirm", count: 3)
+    renew_confirm = [
+      I18n.t("active_admin.shared.sidebar_section.renew_all_confirm", count: 3),
+      I18n.t("active_admin.shared.sidebar_section.renew_all_confirm_reset", count: 1)
+    ].join(" ")
+    assert_select "form[action='#{open_renewal_all_memberships_path}'] button[data-confirm=?]",
+      open_confirm
+    assert_select "form[action='#{renew_all_memberships_path}'] button.btn-light[data-confirm=?]",
+      renew_confirm
+    assert_select "form[action='#{open_renewal_all_memberships_path}'] button.btn-light", false
+  end
+
   test "index filters memberships by member city" do
     travel_to "2024-05-01"
     members(:jane).update!(city: "Lausanne")

@@ -255,17 +255,23 @@ ActiveAdmin.register Membership do
                         icon: "send-horizontal",
                         params: { year: renewal.fy_year },
                         form: { class: "cluster is-center", data: { disable_with_value: t(".opening") } },
-                        data: { confirm: t("active_admin.batch_actions.default_confirmation") }
+                        data: { confirm: t(".open_renewal_all_confirm", count: renewal.openable_count) }
                     end
                   end
                 end
                 if authorized?(:renew_all, Membership)
+                  reset_count = renewal.custom_activity_participations_reset_count
+                  confirm = t(".renew_all_confirm", count: renewal.renewable_count)
+                  if reset_count.positive?
+                    confirm = [ confirm, t(".renew_all_confirm_reset", count: reset_count) ].join(" ")
+                  end
                   div do
                     panel_button t(".renew_all_action", count: renewal.renewable_count), renew_all_memberships_path,
                       icon: "refresh-cw",
+                      class: "btn btn-sm btn-light",
                       params: { year: renewal.fy_year },
                       form: { class: "cluster is-center", data: { disable_with_value: t(".renewing") } },
-                      data: { confirm: t(".renew_all_confirm") }
+                      data: { confirm: confirm }
                   end
                 end
               end

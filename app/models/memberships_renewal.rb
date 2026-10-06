@@ -65,6 +65,18 @@ class MembershipsRenewal
     @canceled_count ||= canceled.count
   end
 
+  def custom_activity_participations_reset_count
+    return 0 unless Current.org.feature?("activity")
+    return 0 if Current.org.membership_renewed_attributes.include?("activity_participations")
+
+    @custom_activity_participations_reset_count ||= renewable
+      .includes(:basket_size, memberships_basket_complements: :basket_complement)
+      .count { |membership|
+        membership.activity_participations_demanded_annually !=
+          membership.activity_participations_demanded_annually_by_default
+      }
+  end
+
   def renewing?
     latest_renewed_at = renewed.maximum(:created_at)
     latest_renewed_at && latest_renewed_at > 5.seconds.ago

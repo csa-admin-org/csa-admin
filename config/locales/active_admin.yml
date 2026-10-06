@@ -5445,6 +5445,19 @@ _:
             _de: Anfrage senden (%{count})
             _it: Inviare domande (%{count})
             _nl: Verzoeken verzenden (%{count})
+        open_renewal_all_confirm:
+          one:
+            _en: Send a renewal request to 1 member?
+            _fr: Envoyer une demande de renouvellement à 1 membre?
+            _de: Erneuerungsanfrage an 1 Mitglied senden?
+            _it: Inviate una domanda di rinnovo a 1 socio?
+            _nl: Een vernieuwingsverzoek naar 1 lid sturen?
+          other:
+            _en: Send renewal requests to %{count} members?
+            _fr: Envoyer des demandes de renouvellement à %{count} membres?
+            _de: Erneuerungsanfragen an %{count} Mitglieder senden?
+            _it: Inviate domande di rinnovo a %{count} soci?
+            _nl: Vernieuwingsverzoeken naar %{count} leden sturen?
         openable_renewals:
           _en: Requests to send
           _fr: Demandes à envoyer
@@ -5561,11 +5574,70 @@ _:
             _it: Rinnovare (%{count})
             _nl: Vernieuwen (%{count})
         renew_all_confirm:
-          _en: Are you sure? Make sure to review "Configurations carried over" in the Renewal settings beforehand.
-          _fr: Êtes-vous sûr? Veuillez vérifier au préalable les " Configurations reprises " dans les paramètres de renouvellement.
-          _de: Wirklich fortfahren? Bitte vorher die "Übernommene Konfigurationen" in den Erneuerungseinstellungen überprüfen.
-          _it: Siete sicuri? Verificate prima le " Configurazioni riprese " nelle impostazioni di Rinnovo.
-          _nl: Echt doorgaan? Vooraf de "Overgenomen configuraties" in de Vernieuwingsinstellingen controleren.
+          one:
+            _en: Renew 1 membership?
+            _fr: Renouveler 1 abonnement?
+            _de: 1 Mitgliedschaft erneuern?
+            _it: Rinnovate 1 abbonamento?
+            _nl: 1 lidmaatschap vernieuwen?
+          other:
+            _en: Renew %{count} memberships?
+            _fr: Renouveler %{count} abonnements?
+            _de: "%{count} Mitgliedschaften erneuern?"
+            _it: Rinnovate %{count} abbonamenti?
+            _nl: "%{count} lidmaatschappen vernieuwen?"
+        renew_all_confirm_reset/basket_preparation:
+          one:
+            _en: 1 membership will lose its custom demanded basket preparations. Change this in the Renewal settings if needed.
+            _fr: 1 abonnement perdra son nombre personnalisé de préparations de paniers demandées. Modifiez cela dans les paramètres de renouvellement si besoin.
+            _de: 1 Mitgliedschaft verliert die angepasste Anzahl geforderter Taschenbefüllungen. Bei Bedarf in den Erneuerungseinstellungen ändern.
+            _it: 1 abbonamento perderà il numero personalizzato di preparazioni cestini richieste. Modificatelo nelle impostazioni di Rinnovo se necessario.
+            _nl: 1 lidmaatschap verliest het aangepaste aantal geëiste pakketvoorbereidingen. Zo nodig in de Vernieuwingsinstellingen wijzigen.
+          other:
+            _en: "%{count} memberships will lose their custom demanded basket preparations. Change this in the Renewal settings if needed."
+            _fr: "%{count} abonnements perdront leur nombre personnalisé de préparations de paniers demandées. Modifiez cela dans les paramètres de renouvellement si besoin."
+            _de: "%{count} Mitgliedschaften verlieren die angepasste Anzahl geforderter Taschenbefüllungen. Bei Bedarf in den Erneuerungseinstellungen ändern."
+            _it: "%{count} abbonamenti perderanno il numero personalizzato di preparazioni cestini richieste. Modificatelo nelle impostazioni di Rinnovo se necessario."
+            _nl: "%{count} lidmaatschappen verliezen het aangepaste aantal geëiste pakketvoorbereidingen. Zo nodig in de Vernieuwingsinstellingen wijzigen."
+        renew_all_confirm_reset/day_work:
+          one:
+            _en: 1 membership will lose its custom demanded work days. Change this in the Renewal settings if needed.
+            _fr: 1 abonnement perdra son nombre personnalisé de jours de travail demandés. Modifiez cela dans les paramètres de renouvellement si besoin.
+            _de: 1 Mitgliedschaft verliert die angepasste Anzahl geforderter Arbeitstage. Bei Bedarf in den Erneuerungseinstellungen ändern.
+            _it: 1 abbonamento perderà il numero personalizzato di giorni di lavoro richiesti. Modificatelo nelle impostazioni di Rinnovo se necessario.
+            _nl: 1 lidmaatschap verliest het aangepaste aantal geëiste werkdagen. Zo nodig in de Vernieuwingsinstellingen wijzigen.
+          other:
+            _en: "%{count} memberships will lose their custom demanded work days. Change this in the Renewal settings if needed."
+            _fr: "%{count} abonnements perdront leur nombre personnalisé de jours de travail demandés. Modifiez cela dans les paramètres de renouvellement si besoin."
+            _de: "%{count} Mitgliedschaften verlieren die angepasste Anzahl geforderter Arbeitstage. Bei Bedarf in den Erneuerungseinstellungen ändern."
+            _it: "%{count} abbonamenti perderanno il numero personalizzato di giorni di lavoro richiesti. Modificatelo nelle impostazioni di Rinnovo se necessario."
+            _nl: "%{count} lidmaatschappen verliezen het aangepaste aantal geëiste werkdagen. Zo nodig in de Vernieuwingsinstellingen wijzigen."
+        renew_all_confirm_reset/halfday_work:
+          one:
+            _en: 1 membership will lose its custom demanded half-days. Change this in the Renewal settings if needed.
+            _fr: 1 abonnement perdra son nombre personnalisé de demi-journées demandées. Modifiez cela dans les paramètres de renouvellement si besoin.
+            _de: 1 Mitgliedschaft verliert die angepasste Anzahl geforderter ½ Tage. Bei Bedarf in den Erneuerungseinstellungen ändern.
+            _it: 1 abbonamento perderà il numero personalizzato di mezze giornate richieste. Modificatelo nelle impostazioni di Rinnovo se necessario.
+            _nl: 1 lidmaatschap verliest het aangepaste aantal geëiste halve dagen. Zo nodig in de Vernieuwingsinstellingen wijzigen.
+          other:
+            _en: "%{count} memberships will lose their custom demanded half-days. Change this in the Renewal settings if needed."
+            _fr: "%{count} abonnements perdront leur nombre personnalisé de demi-journées demandées. Modifiez cela dans les paramètres de renouvellement si besoin."
+            _de: "%{count} Mitgliedschaften verlieren die angepasste Anzahl geforderter ½ Tage. Bei Bedarf in den Erneuerungseinstellungen ändern."
+            _it: "%{count} abbonamenti perderanno il numero personalizzato di mezze giornate richieste. Modificatelo nelle impostazioni di Rinnovo se necessario."
+            _nl: "%{count} lidmaatschappen verliezen het aangepaste aantal geëiste halve dagen. Zo nodig in de Vernieuwingsinstellingen wijzigen."
+        renew_all_confirm_reset/hour_work:
+          one:
+            _en: 1 membership will lose its custom demanded work hours. Change this in the Renewal settings if needed.
+            _fr: 1 abonnement perdra son nombre personnalisé d'heures de travail demandées. Modifiez cela dans les paramètres de renouvellement si besoin.
+            _de: 1 Mitgliedschaft verliert die angepasste Anzahl geforderter Arbeitsstunden. Bei Bedarf in den Erneuerungseinstellungen ändern.
+            _it: 1 abbonamento perderà il numero personalizzato di ore di lavoro richieste. Modificatelo nelle impostazioni di Rinnovo se necessario.
+            _nl: 1 lidmaatschap verliest het aangepaste aantal geëiste werkuren. Zo nodig in de Vernieuwingsinstellingen wijzigen.
+          other:
+            _en: "%{count} memberships will lose their custom demanded work hours. Change this in the Renewal settings if needed."
+            _fr: "%{count} abonnements perdront leur nombre personnalisé d'heures de travail demandées. Modifiez cela dans les paramètres de renouvellement si besoin."
+            _de: "%{count} Mitgliedschaften verlieren die angepasste Anzahl geforderter Arbeitsstunden. Bei Bedarf in den Erneuerungseinstellungen ändern."
+            _it: "%{count} abbonamenti perderanno il numero personalizzato di ore di lavoro richieste. Modificatelo nelle impostazioni di Rinnovo se necessario."
+            _nl: "%{count} lidmaatschappen verliezen het aangepaste aantal geëiste werkuren. Zo nodig in de Vernieuwingsinstellingen wijzigen."
         renewal:
           _en: Renewals
           _fr: Renouvellements
