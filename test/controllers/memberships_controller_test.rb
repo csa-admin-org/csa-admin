@@ -112,6 +112,50 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_select "td a[href='#{membership_path(memberships(:john))}']", false
   end
 
+  test "index renders when filtered by basket complement with year and trial state" do
+    travel_to "2024-03-01"
+    MembershipsBasketComplement.create!(
+      membership: memberships(:bob),
+      basket_complement: basket_complements(:bread),
+      quantity: 1,
+      price: 4)
+    login admins(:super)
+    complement_id = basket_complements(:bread).id
+
+    get memberships_path, params: {
+      q: { with_memberships_basket_complement: complement_id },
+      scope: :all
+    }
+
+    assert_response :success
+    assert_select "td a[href='#{membership_path(memberships(:jane))}']"
+    assert_select "td a[href='#{membership_path(memberships(:bob))}']"
+    assert_select "td a[href='#{membership_path(memberships(:john))}']", false
+    assert_select "select[name='q[member_id_eq]'] option[value=?]", members(:jane).id
+    assert_select "select[name='q[member_id_eq]'] option[value=?]", members(:bob).id
+    assert_select "select[name='q[member_id_eq]'] option[value=?]", members(:john).id, count: 0
+
+    get memberships_path, params: {
+      q: { during_year: 2024, with_memberships_basket_complement: complement_id }
+    }
+
+    assert_response :success
+    assert_select "td a[href='#{membership_path(memberships(:jane))}']"
+    assert_select "select[name='q[member_id_eq]'] option[value=?]", members(:jane).id
+    assert_select "select[name='q[member_id_eq]'] option[value=?]", members(:bob).id, count: 0
+
+    get memberships_path, params: {
+      q: { during_year: 2024, with_memberships_basket_complement: complement_id },
+      scope: :trial
+    }
+
+    assert_response :success
+    assert_select "td a[href='#{membership_path(memberships(:bob))}']"
+    assert_select "td a[href='#{membership_path(memberships(:jane))}']", false
+    assert_select "select[name='q[member_id_eq]'] option[value=?]", members(:bob).id
+    assert_select "select[name='q[member_id_eq]'] option[value=?]", members(:jane).id, count: 0
+  end
+
   test "index CSV includes member city" do
     travel_to "2024-05-01"
     members(:jane).update!(city: "Lausanne")
