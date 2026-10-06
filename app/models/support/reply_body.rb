@@ -3,17 +3,21 @@
 module Support
   class ReplyBody
     MARKER = /CSA-ADMIN-REPLY-ABOVE/
+    EMAIL = /[\w.+\-]+@[\w.\-]+/
+    QUOTE_PREFIX = /[>\s"'«»“”‘’„]*/
     QUOTE_SPLIT = %r{
-      \nOn[^\n]+wrote:\s*\n? |
-      \nLe[^\n]+a\s+écrit\s*:?\s*\n? |
-      \nAm[^\n]+(?:schrieb\.?:?|hat[^\n]+geschrieben:?)\s*\n? |
-      \nIl\s+giorno[^\n]+ha\s+scritto:?\s*\n? |
-      \nOp[^\n]+schreef[^\n]*:\s*\n? |
+      \n#{QUOTE_PREFIX.source}On[^\n]+wrote:\s*\n? |
+      \n#{QUOTE_PREFIX.source}Le[^\n]+a\s+écrit\s*:?\s*\n? |
+      \n#{QUOTE_PREFIX.source}Am[^\n]+(?:schrieb\.?:?|hat[^\n]+geschrieben:?)\s*\n? |
+      \n#{QUOTE_PREFIX.source}Il\s+giorno[^\n]+ha\s+scritto:?\s*\n? |
+      \n#{QUOTE_PREFIX.source}Op[^\n]+schreef[^\n]*:\s*\n? |
       \n#{Support::ReplyQuote::SEPARATOR.source} |
       \n________________________________
     }ix
-
-    EMAIL = /[\w.+\-]+@[\w.\-]+/
+    FROM_HEADER = /
+      (?:^|\n)#{QUOTE_PREFIX.source}(?:De|From|Von)\s*:
+      [^\n]*#{EMAIL.source}
+    /ix
 
     def self.extract(text_body:, stripped:, keep_cited: false)
       source = Support::Utf8.repair(text_body.to_s)
@@ -43,7 +47,8 @@ module Support
     end
 
     def self.original_from(text_body)
-      header = Support::Utf8.repair(text_body.to_s)[QUOTE_SPLIT]
+      text = Support::Utf8.repair(text_body.to_s)
+      header = text[QUOTE_SPLIT] || text[FROM_HEADER]
       header && header[EMAIL]
     end
   end

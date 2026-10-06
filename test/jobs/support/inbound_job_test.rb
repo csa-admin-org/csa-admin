@@ -213,6 +213,22 @@ class Support::InboundJobTest < ActiveJob::TestCase
     assert_equal [ admins(:external).email ], ticket.wrap_emails_for(message)
   end
 
+  test "converts an apple mail curly-quoted original to the matching admin" do
+    with_env(
+      "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+      "SUPPORT_EMAIL" => "support@csa-admin.org") do
+      ingest(
+        "To" => "ticket-acme@support.csa-admin.org",
+        "From" => "support+high@csa-admin.org",
+        "Subject" => "Re: Informal help",
+        "TextBody" => "Here is the answer\n\n\u201cOn 4 Oct 2026, at 23:52, Jane Doe <#{admins(:external).email}> wrote:\nHello",
+        "Headers" => [ { "Name" => "Message-ID", "Value" => "<convert-curly@mail>" } ])
+    end
+
+    ticket = Support::Ticket.order(:id).last
+    assert_equal admins(:external), ticket.admin
+  end
+
   test "convert is idempotent on message id" do
     payload = {
       "To" => "ticket-acme@support.csa-admin.org",

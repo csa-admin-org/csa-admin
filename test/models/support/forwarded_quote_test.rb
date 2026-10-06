@@ -47,6 +47,16 @@ class Support::ForwardedQuoteTest < ActiveSupport::TestCase
     assert_includes wrapped, "> Hello"
   end
 
+  test "wraps an apple-mail curly-quoted cite" do
+    text = "Here is the answer\n\n\u201cOn 4 Oct 2026, at 23:52, Jane Doe <jane@org.ch> wrote:\nHello"
+
+    wrapped = Support::ForwardedQuote.wrap(text)
+
+    assert_includes wrapped, "Here is the answer"
+    assert_includes wrapped, "> \u201cOn 4 Oct 2026, at 23:52, Jane Doe <jane@org.ch> wrote:"
+    assert_includes wrapped, "> Hello"
+  end
+
   test "leaves a message without a forward alone" do
     text = "Salut Thibaud,\njuste une question sur les paniers."
 
