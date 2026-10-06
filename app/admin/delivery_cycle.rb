@@ -213,6 +213,8 @@ ActiveAdmin.register DeliveryCycle do
       end
     end
 
+    catalog_price_memberships_warning(self, f.object)
+
     f.inputs t(".billing"), icon: "banknotes",
       "data-controller" => "form-invoice-name",
       "data-form-invoice-name-prefixes-value" => invoice_name_prefixes(f.object).to_json do

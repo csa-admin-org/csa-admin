@@ -533,6 +533,11 @@
     }
   }
 
+  .admin-warning-pane-icon + span {
+    flex: 1;
+    min-width: 0;
+  }
+
   .admin-info-pane {
     margin-bottom: 1.5rem;
     display: flex;

@@ -56,6 +56,15 @@ class DeliveryCyclesControllerTest < ActionDispatch::IntegrationTest
     assert_select "input#delivery_cycle_form_detail_en[placeholder*='20']"
   end
 
+  test "edit shows when current or future memberships keep their price" do
+    login admins(:super)
+
+    get edit_delivery_cycle_path(delivery_cycles(:mondays))
+
+    assert_response :success
+    assert_select ".admin-info-pane", text: /keep their existing price/
+  end
+
   test "edit shows the default invoice name placeholder" do
     login admins(:super)
     cycle = delivery_cycles(:mondays)

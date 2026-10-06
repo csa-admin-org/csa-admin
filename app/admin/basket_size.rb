@@ -35,11 +35,11 @@ ActiveAdmin.register BasketSize do
   end
 
   form do |f|
-    catalog_price_memberships_warning(self, f.object)
-
     f.inputs t(".details"), icon: "notebook-text" do
       render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end
+
+    catalog_price_memberships_warning(self, f.object)
 
     f.inputs t(".billing"), icon: "banknotes" do
       price_hint = []

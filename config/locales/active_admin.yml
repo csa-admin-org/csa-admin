@@ -1493,11 +1493,11 @@ _:
           _it: Massimale
           _nl: Plafond
         catalog_price_memberships_warning_html:
-          _en: <strong>Warning:</strong> %{count} current or future membership(s) keep their existing price. This change applies only to new memberships and the next renewal. <a href="/handbook/membership_renewal#catalog-prices">Learn more</a>
-          _fr: <strong>Attention:</strong> %{count} abonnement(s) actuel(s) ou futur(s) gardent leur prix existant. Ce changement s'applique uniquement aux nouveaux abonnements et au prochain renouvellement. <a href="/handbook/membership_renewal#catalog-prices">En savoir plus</a>
-          _de: <strong>Achtung:</strong> %{count} laufende oder zukünftige Abonnement(e) behalten ihren bestehenden Preis. Diese Änderung gilt nur für neue Abonnements und die nächste Erneuerung. <a href="/handbook/membership_renewal#catalog-prices">Mehr erfahren</a>
-          _it: <strong>Attenzione:</strong> %{count} abbonamento/i corrente/i o futuro/i conservano il prezzo esistente. Questa modifica si applica solo ai nuovi abbonamenti e al prossimo rinnovo. <a href="/handbook/membership_renewal#catalog-prices">Per saperne di più</a>
-          _nl: <strong>Waarschuwing:</strong> %{count} huidig(e) of toekomstig(e) lidmaatschap(pen) behouden hun bestaande prijs. Deze wijziging geldt alleen voor nieuwe lidmaatschappen en de volgende vernieuwing. <a href="/handbook/membership_renewal#catalog-prices">Meer informatie</a>
+          _en: If you change the price, %{count} current or future membership(s) keep their existing price. The change applies only to new memberships and the next renewal. <a href="/handbook/membership_renewal#catalog-prices">Learn more</a>
+          _fr: En cas de changement de prix, %{count} abonnement(s) actuel(s) ou futur(s) gardent leur prix existant. Le changement s'applique uniquement aux nouveaux abonnements et au prochain renouvellement. <a href="/handbook/membership_renewal#catalog-prices">En savoir plus</a>
+          _de: Bei einer Preisänderung behalten %{count} laufende oder zukünftige Abonnement(e) ihren bestehenden Preis. Die Änderung gilt nur für neue Abonnements und die nächste Erneuerung. <a href="/handbook/membership_renewal#catalog-prices">Mehr erfahren</a>
+          _it: In caso di modifica del prezzo, %{count} abbonamento/i corrente/i o futuro/i conservano il prezzo esistente. La modifica si applica solo ai nuovi abbonamenti e al prossimo rinnovo. <a href="/handbook/membership_renewal#catalog-prices">Per saperne di più</a>
+          _nl: Bij een prijswijziging behouden %{count} huidig(e) of toekomstig(e) lidmaatschap(pen) hun bestaande prijs. De wijziging geldt alleen voor nieuwe lidmaatschappen en de volgende vernieuwing. <a href="/handbook/membership_renewal#catalog-prices">Meer informatie</a>
         config:
           _en: Configuration
           _fr: Configuration

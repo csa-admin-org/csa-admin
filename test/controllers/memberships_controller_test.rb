@@ -22,7 +22,7 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     get edit_basket_size_path(basket_sizes(:medium))
 
     assert_response :success
-    assert_select ".admin-warning-pane", text: /keep their existing price/
+    assert_select ".admin-info-pane", text: /keep their existing price/
   end
 
   test "new delivery warns when extra fiscal year deliveries already exist" do

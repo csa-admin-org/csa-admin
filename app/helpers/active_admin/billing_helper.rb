@@ -59,7 +59,7 @@ module ActiveAdmin::BillingHelper
     count = resource.memberships.merge(Membership.present_or_future).distinct.count
     return if count.zero?
 
-    arbre.warning_pane do
+    arbre.info_pane do
       t("active_admin.resource.form.catalog_price_memberships_warning_html", count: count).html_safe
     end
   end

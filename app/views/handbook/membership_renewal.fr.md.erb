@@ -10,7 +10,7 @@ Afin de pouvoir renouveler les abonnements, il est nécessaire de créer dans un
 
 ### Prix par défaut {#catalog-prices}
 
-Un changement de prix sur un <%= BasketSize.model_name.human.downcase %>, un <%= BasketComplement.model_name.human.downcase %> ou un dépôt s'applique aux **nouveaux** abonnements et au **prochain** renouvellement. Il ne réécrit pas les abonnements déjà créés, y compris ceux déjà renouvelés pour l'année suivante. Changez ces prix par défaut **avant** de renouveler. Ensuite, modifiez les abonnements (ou [demandez au support](/support) une mise à jour en masse).
+Un changement de prix sur un <%= BasketSize.model_name.human.downcase %>, un <%= BasketComplement.model_name.human.downcase %>, un dépôt ou un <%= DeliveryCycle.model_name.human.downcase %> s'applique aux **nouveaux** abonnements et au **prochain** renouvellement. Il ne réécrit pas les abonnements déjà créés, y compris ceux déjà renouvelés pour l'année suivante. Changez ces prix par défaut **avant** de renouveler. Ensuite, modifiez les abonnements (ou [demandez au support](/support) une mise à jour en masse).
 
 Une fois les livraisons créées, les administrateurs peuvent renouveler les abonnements manuellement, au moment de leur choix. Si un abonnement est renouvelé après la première livraison de la nouvelle année fiscale, cette livraison est tout de même incluse. Le renouvellement tacite peut encore tourner après la clôture de l'année précédente. Envoyer les demandes par e-mail, non: seulement tant que l'année de l'abonnement est l'année fiscale en cours.
 
