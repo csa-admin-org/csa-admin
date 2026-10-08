@@ -129,10 +129,10 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_response :success
-    assert_select ".admin-side-panel", text: I18n.t("active_admin.shared.sidebar_section.invoices_done")
-    assert_select ".admin-side-panel",
-      text: I18n.t("states.activity_participation.accepted").capitalize
-    assert_select ".admin-side-panel", text: I18n.t("active_admin.shared.sidebar_section.amount")
+    assert_select ".admin-side-panel-title", text: I18n.t("active_admin.shared.sidebar_section.billing")
+    assert_select ".admin-side-panel-title",
+      text: I18n.t("activities.#{Current.org.activity_i18n_scope}.other")
+    assert_select ".admin-side-panel-title", text: Current.org.basket_price_extra_title
   end
 
   test "index renders when filtered by basket complement with year and trial state" do
