@@ -61,6 +61,16 @@ module MembershipsHelper
     feature?("basket_price_extra") || Membership.basket_price_extra_used?
   end
 
+  # Index collections carry includes, sort, and pagination. Keep joins so
+  # association filters still apply, and reselect id as a distinct subquery.
+  def memberships_for_sidebar(collection)
+    Membership.where(
+      id: collection
+        .except(:order, :limit, :offset, :includes, :preload, :eager_load)
+        .reselect(:id)
+        .distinct)
+  end
+
   def basket_price_extra_for?(record)
     feature?("basket_price_extra") || basket_price_extra_present?(record)
   end
