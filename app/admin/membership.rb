@@ -117,7 +117,7 @@ ActiveAdmin.register Membership do
     ].any? { |a| params.dig(:q, a).present? }
   } do
     side_panel activities_human_name do
-      all = Membership.where(id: collection.offset(nil).limit(nil).unscope(:includes, :joins, :order).select(:id))
+      all = memberships_for_sidebar(collection)
       accepted, demanded = all.pick(
         Arel.sql("COALESCE(SUM(activity_participations_accepted), 0)"),
         Arel.sql("COALESCE(SUM(activity_participations_demanded), 0)"))
@@ -133,7 +133,7 @@ ActiveAdmin.register Membership do
 
   sidebar :billing, only: :index, if: -> { params.dig(:q, :during_year).present? } do
     side_panel t(".billing"), action: handbook_icon_link("billing", anchor: "memberships") do
-      all = Membership.where(id: collection.offset(nil).limit(nil).unscope(:includes, :joins, :order).select(:id))
+      all = memberships_for_sidebar(collection)
       total = all.sum(:price)
       invoiced = all.sum(:invoices_amount)
       missing = [ total - invoiced, 0 ].max
@@ -179,9 +179,7 @@ ActiveAdmin.register Membership do
   sidebar :basket_price_extra_title, only: :index, if: -> { basket_price_extra_feature_or_used? && params.dig(:q, :during_year).present? } do
     side_panel Current.org.basket_price_extra_title, action: handbook_icon_link("basket_price_extra") do
       coll =
-        collection
-          .unscope(:includes, :joins, :order)
-          .offset(nil).limit(nil)
+        memberships_for_sidebar(collection)
           .joins(:member)
           .merge(Member.no_salary_basket)
       baskets = Basket.billable.where(membership: coll)

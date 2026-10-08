@@ -112,6 +112,29 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_select "td a[href='#{membership_path(memberships(:john))}']", false
   end
 
+  test "index sidebars keep member city joins with year and trial filters" do
+    travel_to "2024-03-01"
+    members(:bob).update!(city: "Lausanne")
+    login admins(:super)
+
+    get memberships_path, params: {
+      q: {
+        member_city_eq: "Lausanne",
+        during_year: 2024,
+        basket_price_extra_lt: 0,
+        activity_participations_demanded_eq: 0,
+        with_memberships_basket_complement: basket_complements(:bread).id
+      },
+      scope: :trial
+    }
+
+    assert_response :success
+    assert_select ".admin-side-panel", text: I18n.t("active_admin.shared.sidebar_section.invoices_done")
+    assert_select ".admin-side-panel",
+      text: I18n.t("states.activity_participation.accepted").capitalize
+    assert_select ".admin-side-panel", text: I18n.t("active_admin.shared.sidebar_section.amount")
+  end
+
   test "index renders when filtered by basket complement with year and trial state" do
     travel_to "2024-03-01"
     MembershipsBasketComplement.create!(
