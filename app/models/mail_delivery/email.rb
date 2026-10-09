@@ -17,6 +17,54 @@ class MailDelivery
     before_create :check_email_suppressions
     after_create_commit :enqueue_process_job
 
+    # Same result as Member#active_emails, with outbound suppressions loaded once.
+    def self.recipients_by_member_id(members)
+      suppressed = EmailSuppression.outbound.active
+        .where(email: members.flat_map(&:emails_array))
+        .pluck(:email)
+        .to_set
+
+      members.to_h { |member|
+        next [ member.id, [] ] if member.discarded?
+
+        [ member.id, member.emails_array.reject { |email| suppressed.include?(email) } ]
+      }
+    end
+
+    def self.insert_all_for!(deliveries, recipients, newsletter:)
+      rows = rows_for(deliveries, recipients, newsletter: newsletter)
+      insert_all!(rows) if rows.any?
+    end
+
+    def self.enqueue_process_jobs
+      ActiveJob.perform_all_later(all.map { |email| ProcessJob.new(email) })
+    end
+
+    def self.rows_for(deliveries, recipients, newsletter:)
+      suppressions = suppressions_by_email(recipients.values.flatten, newsletter: newsletter)
+
+      deliveries.flat_map { |delivery|
+        Array(recipients[delivery["member_id"].to_i]).map { |email|
+          records = suppressions[email] || []
+          {
+            mail_delivery_id: delivery["id"],
+            email: email,
+            state: PROCESSING_STATE,
+            email_suppression_ids: records.map(&:id),
+            email_suppression_reasons: records.map(&:reason).uniq
+          }
+        }
+      }
+    end
+    private_class_method :rows_for
+
+    def self.suppressions_by_email(addresses, newsletter:)
+      scope = EmailSuppression.active.where(email: addresses)
+      scope = scope.outbound unless newsletter
+      scope.select(:id, :email, :reason).group_by(&:email)
+    end
+    private_class_method :suppressions_by_email
+
     def deliverable?
       email_suppression_ids.empty?
     end
