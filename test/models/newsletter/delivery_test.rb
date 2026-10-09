@@ -144,6 +144,76 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     assert_empty newsletter.mail_delivery_emails
   end
 
+  test "sending a newsletter creates deliveries and emails before jobs run" do
+    travel_to "2024-01-01"
+    newsletter = create_active_newsletter
+
+    assert_enqueued_jobs 2, only: MailDelivery::ProcessJob do
+      newsletter.send!
+    end
+
+    deliveries = newsletter.mail_deliveries.order(:member_id)
+    assert_equal 2, deliveries.size
+    assert deliveries.all?(&:processing?)
+    assert_equal %w[jane@doe.com john@doe.com],
+      newsletter.mail_delivery_emails.processing.pluck(:email).sort
+    assert_equal [ newsletter.id ], deliveries.first.mailable_ids
+  end
+
+  test "sending a newsletter keeps suppression and missing-email states" do
+    travel_to "2024-01-01"
+    members(:john).update!(emails: "john@doe.com, jojo@old.com")
+    members(:jane).update!(emails: "")
+    suppression = suppress_email("jojo@old.com", stream_id: "broadcast")
+    newsletter = create_active_newsletter
+
+    newsletter.send!
+
+    john_delivery = newsletter.mail_deliveries.find_by!(member: members(:john))
+    jane_delivery = newsletter.mail_deliveries.find_by!(member: members(:jane))
+    assert_equal "processing", john_delivery.state
+    assert_equal "not_delivered", jane_delivery.state
+    assert_empty jane_delivery.emails
+
+    emails = john_delivery.emails.order(:email)
+    assert_equal %w[john@doe.com jojo@old.com], emails.map(&:email)
+    assert emails.all?(&:processing?)
+    suppressed = emails.find { |email| email.email == "jojo@old.com" }
+    assert_equal [ suppression.id ], suppressed.email_suppression_ids
+    assert_equal %w[HardBounce], suppressed.email_suppression_reasons
+    assert_empty emails.find { |email| email.email == "john@doe.com" }.email_suppression_ids
+  end
+
+  test "sending a newsletter inserts recipient rows and enqueues process jobs in bulk" do
+    travel_to "2024-01-01"
+    3.times { |i| create_member(state: "active", emails: "bulk-#{i}@doe.com") }
+    newsletter = create_active_newsletter
+    expected_emails = newsletter.audience_segment.members.flat_map(&:active_emails)
+
+    inserts = Hash.new(0)
+    queries = []
+    sql_callback = ->(_name, _start, _finish, _id, payload) {
+      sql = payload[:sql].to_s
+      next if payload[:name] == "SCHEMA" || sql.match?(/\A(?:BEGIN|COMMIT|SAVEPOINT|RELEASE)/i)
+
+      queries << sql
+      inserts[:mail_deliveries] += 1 if sql.match?(/INSERT INTO ["']mail_deliveries["']/i)
+      inserts[:mail_delivery_emails] += 1 if sql.match?(/INSERT INTO ["']mail_delivery_emails["']/i)
+    }
+
+    assert_operator expected_emails.size, :>, 4
+    assert_enqueued_jobs expected_emails.size, only: MailDelivery::ProcessJob do
+      ActiveSupport::Notifications.subscribed(sql_callback, "sql.active_record") do
+        newsletter.send!
+      end
+    end
+
+    assert_equal 1, inserts[:mail_deliveries]
+    assert_equal 1, inserts[:mail_delivery_emails]
+    assert_operator queries.size, :<, 80
+    assert_equal expected_emails.sort, newsletter.mail_delivery_emails.pluck(:email).sort
+  end
+
   test "destroy newsletter cleans up mail deliveries and emails" do
     travel_to "2024-01-01"
     newsletter = build_newsletter(
@@ -224,5 +294,16 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     assert_includes mail.html_part.body.to_s, "Hello John Doe"
 
     assert_empty newsletter.reload.deliveries_with_missing_emails
+  end
+
+  private
+
+  def create_active_newsletter
+    create_newsletter(
+      audience: "member_state::active",
+      template: newsletter_templates(:simple),
+      blocks_attributes: {
+        "0" => { block_id: "main", content_en: "Hello {{ member.name }}" }
+      })
   end
 end

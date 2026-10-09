@@ -81,6 +81,67 @@ class MailDelivery < ApplicationRecord
     end
   end
 
+  # Bulk counterpart to deliver! for a whole audience. insert_all skips
+  # Email callbacks, so suppressions are applied here and ProcessJob is
+  # enqueued with perform_all_later.
+  def self.deliver_all!(members:, mailable:, action:, draft: false)
+    members = Array(members)
+    mailables = Array(mailable).compact
+    return if members.empty?
+
+    addresses = members.flat_map(&:emails_array).uniq
+    outbound_suppressed = EmailSuppression.outbound.active
+      .where(email: addresses).pluck(:email).to_set
+    suppression_scope = EmailSuppression.active.where(email: addresses)
+    suppression_scope = suppression_scope.outbound unless mailables.first.is_a?(Newsletter)
+    suppressions_by_email = suppression_scope.select(:id, :email, :reason).group_by(&:email)
+    recipients_by_member_id = members.to_h { |member|
+      next [ member.id, [] ] if member.discarded?
+
+      [ member.id, member.emails_array.reject { |email| outbound_suppressed.include?(email) } ]
+    }
+    now = Time.current
+
+    transaction do
+      insert_all!(members.map { |member|
+        recipients = recipients_by_member_id[member.id]
+        {
+          mailable_type: mailables.first.class.name,
+          mailable_ids: mailables.map(&:id),
+          action: action,
+          member_id: member.id,
+          state: draft ? "draft" : (recipients.any? ? "processing" : "not_delivered"),
+          created_at: now,
+          updated_at: now
+        }
+      })
+
+      next if draft
+
+      deliveries = for_mailable(mailable).where(member_id: members.map(&:id)).to_a
+      email_rows = deliveries.flat_map { |delivery|
+        recipients_by_member_id[delivery.member_id].map { |email|
+          suppressions = suppressions_by_email[email] || []
+          {
+            mail_delivery_id: delivery.id,
+            email: email,
+            state: "processing",
+            email_suppression_ids: suppressions.map(&:id),
+            email_suppression_reasons: suppressions.map(&:reason).uniq,
+            created_at: now,
+            updated_at: now
+          }
+        }
+      }
+      Email.insert_all!(email_rows) if email_rows.any?
+    end
+
+    return if draft
+
+    emails = Email.where(mail_delivery_id: for_mailable(mailable).select(:id))
+    ActiveJob.perform_all_later(emails.map { |email| ProcessJob.new(email) })
+  end
+
   def build_message(email:)
     source.build_mail_for(member, email: email, **mailable_params)
   end
