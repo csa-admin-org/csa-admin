@@ -104,6 +104,12 @@ class BiddingRound < ApplicationRecord
     total_final_value - total_expected_value
   end
 
+  def total_final_difference_percentage
+    return 0 if total_expected_value.zero?
+
+    ((total_final_difference / total_expected_value) * 100).round(2)
+  end
+
   def total_final_percentage
     return 0 if total_expected_value.zero?
 

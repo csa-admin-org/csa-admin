@@ -91,6 +91,9 @@ ActiveAdmin.register BiddingRound do
                 counter_tag(t(".total_final_value").capitalize, bidding_round.total_final_value, type: :currency)
               end
               li do
+                counter_tag(t(".total_final_difference").capitalize, bidding_round.total_final_difference_percentage, type: :percentage)
+              end
+              li do
                 counter_tag(t(".total_final_difference").capitalize, bidding_round.total_final_difference, type: :currency)
               end
             end

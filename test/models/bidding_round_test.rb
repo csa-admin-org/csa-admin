@@ -106,6 +106,7 @@ class BiddingRoundTest < ActiveSupport::TestCase
     bidding_round = bidding_rounds(:open_2024)
 
     assert_equal 0, bidding_round.total_final_difference
+    assert_equal 0, bidding_round.total_final_difference_percentage
 
     pledge = BiddingRound::Pledge.create!(
       bidding_round: bidding_round,
@@ -114,6 +115,17 @@ class BiddingRoundTest < ActiveSupport::TestCase
 
     assert_equal pledge.total_membership_price_difference, bidding_round.total_final_difference
     assert_equal bidding_round.total_final_value - bidding_round.total_expected_value, bidding_round.total_final_difference
+    assert_equal(
+      ((bidding_round.total_final_difference / bidding_round.total_expected_value) * 100).round(2),
+      bidding_round.total_final_difference_percentage)
+  end
+
+  test "total_final_difference_percentage is zero when expected value is zero" do
+    bidding_round = bidding_rounds(:open_2024)
+
+    bidding_round.stub(:total_expected_value, 0) do
+      assert_equal 0, bidding_round.total_final_difference_percentage
+    end
   end
 
   test "pledges_percentage" do
