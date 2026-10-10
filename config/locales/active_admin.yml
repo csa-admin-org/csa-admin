@@ -3102,11 +3102,11 @@ _:
           _it: Totale %{number}
           _nl: Totaal %{number}
         total_expected_value:
-          _en: Expected amount
-          _fr: Montant attendu
-          _de: Gesamtwert erwartet
-          _it: Importo previsto
-          _nl: Verwacht bedrag
+          _en: Current amount
+          _fr: Montant actuel
+          _de: Aktueller Betrag
+          _it: Importo attuale
+          _nl: Huidig bedrag
         total_final_difference:
           _en: Gain
           _fr: Gain
