@@ -102,6 +102,66 @@ class BiddingRoundTest < ActiveSupport::TestCase
     assert_equal 61.61, bidding_round.total_pledged_percentage
   end
 
+  test "total_final_difference is the gain versus current prices" do
+    bidding_round = bidding_rounds(:open_2024)
+
+    assert_equal 0, bidding_round.total_final_difference
+    assert_equal 0, bidding_round.total_final_difference_percentage
+
+    pledge = BiddingRound::Pledge.create!(
+      bidding_round: bidding_round,
+      membership: memberships(:jane),
+      basket_size_price: 31.0)
+    bidding_round = BiddingRound.find(bidding_round.id)
+
+    assert_equal pledge.total_membership_price_difference, bidding_round.total_final_difference
+    assert_equal bidding_round.total_final_value - bidding_round.total_expected_value, bidding_round.total_final_difference
+    assert_equal(
+      ((bidding_round.total_final_difference / bidding_round.total_expected_value) * 100).round(2),
+      bidding_round.total_final_difference_percentage)
+  end
+
+  test "total_final_difference_percentage is zero when expected value is zero" do
+    bidding_round = bidding_rounds(:open_2024)
+
+    bidding_round.stub(:total_expected_value, 0) do
+      assert_equal 0, bidding_round.total_final_difference_percentage
+    end
+  end
+
+  test "pledges_percentage" do
+    bidding_round = bidding_rounds(:open_2024)
+
+    assert_equal 0, bidding_round.pledges_percentage
+
+    BiddingRound::Pledge.create!(
+      bidding_round: bidding_round,
+      membership: memberships(:jane),
+      basket_size_price: 31.0)
+
+    assert_equal 25, bidding_round.pledges_percentage
+  end
+
+  test "pledges_percentage ignores a zero expected value" do
+    bidding_round = bidding_rounds(:open_2024)
+    BiddingRound::Pledge.create!(
+      bidding_round: bidding_round,
+      membership: memberships(:jane),
+      basket_size_price: 31.0)
+
+    bidding_round.stub(:total_expected_value, 0) do
+      assert_equal 25, bidding_round.pledges_percentage
+    end
+  end
+
+  test "pledges_percentage is zero without eligible memberships" do
+    bidding_round = bidding_rounds(:open_2024)
+
+    bidding_round.stub(:eligible_memberships_count, 0) do
+      assert_equal 0, bidding_round.pledges_percentage
+    end
+  end
+
   test "missing_pledges_count" do
     bidding_round = bidding_rounds(:open_2024)
 
@@ -236,6 +296,7 @@ class BiddingRoundTest < ActiveSupport::TestCase
     assert_equal expected_eligible_count, bidding_round.eligible_memberships_count
     assert_equal expected_total_expected, bidding_round.total_expected_value
     assert_equal expected_total_final, bidding_round.total_final_value
+    assert_equal expected_total_final - expected_total_expected, bidding_round.total_final_difference
   end
 
   test "fail! changes state to failed" do

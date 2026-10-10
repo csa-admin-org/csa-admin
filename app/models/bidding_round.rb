@@ -100,6 +100,16 @@ class BiddingRound < ApplicationRecord
     @total_final_value ||= total_expected_value + pledges.includes(:membership).sum(&:total_membership_price_difference)
   end
 
+  def total_final_difference
+    total_final_value - total_expected_value
+  end
+
+  def total_final_difference_percentage
+    return 0 if total_expected_value.zero?
+
+    ((total_final_difference / total_expected_value) * 100).round(2)
+  end
+
   def total_final_percentage
     return 0 if total_expected_value.zero?
 
@@ -125,7 +135,7 @@ class BiddingRound < ApplicationRecord
   end
 
   def pledges_percentage
-    return 0 if total_expected_value.zero?
+    return 0 if eligible_memberships_count.zero?
 
     ((pledges_count.to_f / eligible_memberships_count) * 100).round(2)
   end

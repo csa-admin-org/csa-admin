@@ -67,6 +67,10 @@ ActiveAdmin.register BiddingRound do
             li do
               counter_tag(t(".total_expected_value").capitalize, bidding_round.total_expected_value, type: :currency)
             end
+          end
+        end
+        panel nil do
+          ul class: "pair-grid" do
             li do
               counter_tag(t(".pledges_count").capitalize, bidding_round.pledges_count)
             end
@@ -80,10 +84,19 @@ ActiveAdmin.register BiddingRound do
               counter_tag(t(".total_pledged_percentage").capitalize, bidding_round.total_pledged_percentage, type: :percentage)
             end
           end
+          if bidding_round.open?
+            para t(".total_pledged_explanation"), class: "pair-grid-note text-center is-italic text-sm is-muted"
+          end
         end
         unless bidding_round.draft?
           panel nil do
             ul class: "pair-grid" do
+              li do
+                counter_tag(t(".total_final_difference").capitalize, bidding_round.total_final_difference_percentage, type: :percentage)
+              end
+              li do
+                counter_tag(t(".total_final_difference_amount").capitalize, bidding_round.total_final_difference, type: :currency)
+              end
               li do
                 counter_tag(t(".total_pledged_percentage").capitalize, bidding_round.total_final_percentage, type: :percentage)
               end
@@ -92,7 +105,7 @@ ActiveAdmin.register BiddingRound do
               end
             end
             if bidding_round.open?
-              para t(".total_final_value_explanation"), class: "pair-grid-note text-center is-italic text-sm is-muted"
+              para t(".total_final_explanation"), class: "pair-grid-note text-center is-italic text-sm is-muted"
             end
           end
         end
@@ -173,8 +186,8 @@ ActiveAdmin.register BiddingRound do
         membership: membership.id,
         basket_quantity: membership.basket_quantity,
         basket_size: membership.basket_size.name,
-        default_basket_size_price: cur(membership.basket_size_price, precision: 3),
-        default_membership_price: cur(membership.price),
+        current_basket_size_price: cur(membership.basket_size_price, precision: 3),
+        current_membership_price: cur(membership.price),
         pledged_basket_size_price: cur(pledge&.basket_size_price),
         pledged_membership_price: cur(pledge&.total_membership_price),
         pledged_at: pledge&.created_at
