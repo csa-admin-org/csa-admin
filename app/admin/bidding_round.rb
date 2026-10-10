@@ -90,6 +90,13 @@ ActiveAdmin.register BiddingRound do
               li do
                 counter_tag(t(".total_final_value").capitalize, bidding_round.total_final_value, type: :currency)
               end
+            end
+            if bidding_round.open?
+              para t(".total_final_value_explanation"), class: "pair-grid-note text-center is-italic text-sm is-muted"
+            end
+          end
+          panel nil do
+            ul class: "pair-grid" do
               li do
                 counter_tag(t(".total_final_difference").capitalize, bidding_round.total_final_difference_percentage, type: :percentage)
               end
@@ -98,7 +105,7 @@ ActiveAdmin.register BiddingRound do
               end
             end
             if bidding_round.open?
-              para t(".total_final_value_explanation"), class: "pair-grid-note text-center is-italic text-sm is-muted"
+              para t(".total_final_difference_explanation"), class: "pair-grid-note text-center is-italic text-sm is-muted"
             end
           end
         end

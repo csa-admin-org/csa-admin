@@ -3113,6 +3113,12 @@ _:
           _de: Gewinn
           _it: Guadagno
           _nl: Winst
+        total_final_difference_explanation:
+          _en: Gain versus current membership prices, assuming memberships without a pledge keep their current price.
+          _fr: Gain par rapport aux prix actuels des abonnements, en supposant que les abonnements sans engagement gardent leur prix actuel.
+          _de: Gewinn gegenüber den aktuellen Abonnementspreisen, unter der Annahme, dass Abonnements ohne Zusage ihren aktuellen Preis behalten.
+          _it: Guadagno rispetto ai prezzi attuali degli abbonamenti, assumendo che gli abbonamenti senza promessa mantengano il loro prezzo attuale.
+          _nl: Winst ten opzichte van de huidige lidmaatschapsprijzen, ervan uitgaande dat lidmaatschappen zonder toezegging hun huidige prijs behouden.
         total_final_value:
           _en: Total amount
           _fr: Montant total
