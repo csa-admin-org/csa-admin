@@ -67,6 +67,10 @@ ActiveAdmin.register BiddingRound do
             li do
               counter_tag(t(".total_expected_value").capitalize, bidding_round.total_expected_value, type: :currency)
             end
+          end
+        end
+        panel nil do
+          ul class: "pair-grid" do
             li do
               counter_tag(t(".pledges_count").capitalize, bidding_round.pledges_count)
             end
