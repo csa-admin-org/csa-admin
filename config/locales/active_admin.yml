@@ -3107,48 +3107,24 @@ _:
           _de: Gesamtwert erwartet
           _it: Importo previsto
           _nl: Verwacht bedrag
+        total_final_difference:
+          _en: Gain
+          _fr: Gain
+          _de: Gewinn
+          _it: Guadagno
+          _nl: Winst
         total_final_value:
           _en: Total amount
           _fr: Montant total
           _de: Gesamtbetrag
           _it: Importo totale
           _nl: Totaalbedrag
-        total_final_value_explanation/bag:
-          _en: Final amount, assuming the default bag size price is applied to all memberships that have not yet received a pledge.
-          _fr: Montant total, en supposant que le prix par défaut de la taille du sac est appliqué à tous les abonnements qui n'ont pas encore reçu un engagement.
-          _de: Gesamtbetrag, unter der Annahme, dass der Richtwert der Taschengrösse auf alle Abonnements angewendet wird, die noch keine Zusage erhalten haben.
-          _it: Importo finale, assumendo che il prezzo predefinito della dimensione della borsa venga applicato a tutti gli abbonamenti che non hanno ancora ricevuto una promessa.
-          _nl: Eindbedrag, ervan uitgaande dat de standaardprijs van de tasgrootte wordt toegepast op alle lidmaatschappen die nog geen toezegging hebben ontvangen.
-        total_final_value_explanation/basket:
-          _en: Final amount, assuming the default basket size price is applied to all memberships that have not yet received a pledge.
-          _fr: Montant total, en supposant que le prix par défaut de la taille du panier est appliqué à tous les abonnements qui n'ont pas encore reçu un engagement.
-          _de: Gesamtbetrag, unter der Annahme, dass der Richtwert der Korbgrösse auf alle Abonnements angewendet wird, die noch keine Zusage erhalten haben.
-          _it: Importo finale, assumendo che il prezzo predefinito della dimensione della cesta venga applicato a tutti gli abbonamenti che non hanno ancora ricevuto una promessa.
-          _nl: Eindbedrag, ervan uitgaande dat de standaardprijs van de mandgrootte wordt toegepast op alle lidmaatschappen die nog geen toezegging hebben ontvangen.
-        total_final_value_explanation/cone:
-          _en: Final amount, assuming the default cone size price is applied to all memberships that have not yet received a pledge.
-          _fr: Montant total, en supposant que le prix par défaut de la taille du cornet est appliqué à tous les abonnements qui n'ont pas encore reçu un engagement.
-          _de: Gesamtbetrag, unter der Annahme, dass der Richtwert der Tütengrösse auf alle Abonnements angewendet wird, die noch keine Zusage erhalten haben.
-          _it: Importo finale, assumendo che il prezzo predefinito della dimensione del cono venga applicato a tutti gli abbonamenti che non hanno ancora ricevuto una promessa.
-          _nl: Eindbedrag, ervan uitgaande dat de standaardprijs van de zakgrootte wordt toegepast op alle lidmaatschappen die nog geen toezegging hebben ontvangen.
-        total_final_value_explanation/crate:
-          _en: Final amount, assuming the default crate size price is applied to all memberships that have not yet received a pledge.
-          _fr: Montant total, en supposant que le prix par défaut de la taille de la cagette est appliqué à tous les abonnements qui n'ont pas encore reçu un engagement.
-          _de: Gesamtbetrag, unter der Annahme, dass der Richtwert der Kistengrösse auf alle Abonnements angewendet wird, die noch keine Zusage erhalten haben.
-          _it: Importo finale, assumendo che il prezzo predefinito della dimensione della cassetta venga applicato a tutti gli abbonamenti che non hanno ancora ricevuto una promessa.
-          _nl: Eindbedrag, ervan uitgaande dat de standaardprijs van de kratgrootte wordt toegepast op alle lidmaatschappen die nog geen toezegging hebben ontvangen.
-        total_final_value_explanation/package:
-          _en: Final amount, assuming the default package size price is applied to all memberships that have not yet received a pledge.
-          _fr: Montant total, en supposant que le prix par défaut de la taille du colis est appliqué à tous les abonnements qui n'ont pas encore reçu un engagement.
-          _de: Gesamtbetrag, unter der Annahme, dass der Richtwert der Paketgrösse auf alle Abonnements angewendet wird, die noch keine Zusage erhalten haben.
-          _it: Importo finale, assumendo che il prezzo predefinito della dimensione del pacco venga applicato a tutti gli abbonamenti che non hanno ancora ricevuto una promessa.
-          _nl: Eindbedrag, ervan uitgaande dat de standaardprijs van de pakketgrootte wordt toegepast op alle lidmaatschappen die nog geen toezegging hebben ontvangen.
-        total_final_value_explanation/share:
-          _en: Final amount, assuming the default share size price is applied to all memberships that have not yet received a pledge.
-          _fr: Montant total, en supposant que le prix par défaut de la taille de la part est appliqué à tous les abonnements qui n'ont pas encore reçu un engagement.
-          _de: Gesamtbetrag, unter der Annahme, dass der Richtwert der Anteilsgrösse auf alle Abonnements angewendet wird, die noch keine Zusage erhalten haben.
-          _it: Importo finale, assumendo che il prezzo predefinito della dimensione della parte venga applicato a tutti gli abbonamenti che non hanno ancora ricevuto una promessa.
-          _nl: Eindbedrag, ervan uitgaande dat de standaardprijs van de deelgrootte wordt toegepast op alle lidmaatschappen die nog geen toezegging hebben ontvangen.
+        total_final_value_explanation:
+          _en: Final amount, assuming memberships without a pledge keep their current price.
+          _fr: Montant total, en supposant que les abonnements sans engagement gardent leur prix actuel.
+          _de: Gesamtbetrag, unter der Annahme, dass Abonnements ohne Zusage ihren aktuellen Preis behalten.
+          _it: Importo finale, assumendo che gli abbonamenti senza promessa mantengano il loro prezzo attuale.
+          _nl: Eindbedrag, ervan uitgaande dat lidmaatschappen zonder toezegging hun huidige prijs behouden.
         total_pledged_percentage:
           _en: Covered amount
           _fr: Montant couvert

@@ -625,6 +625,48 @@ _:
           _it: Aggiunte
           _nl: Aanvulling
       bidding_round:
+        current_basket_size_price/bag:
+          _en: Bag size price (current)
+          _fr: Prix par taille de sac (actuel)
+          _de: Preis pro Taschengrösse (aktuell)
+          _it: Prezzo per borsa (attuale)
+          _nl: Tasgrootte prijs (huidig)
+        current_basket_size_price/basket:
+          _en: Basket size price (current)
+          _fr: Prix par taille de panier (actuel)
+          _de: Preis pro Korbgrösse (aktuell)
+          _it: Prezzo per cesta (attuale)
+          _nl: Mandgrootte prijs (huidig)
+        current_basket_size_price/cone:
+          _en: Cone size price (current)
+          _fr: Prix par taille de cornet (actuel)
+          _de: Preis pro Tütengrösse (aktuell)
+          _it: Prezzo per cono (attuale)
+          _nl: Zakgrootte prijs (huidig)
+        current_basket_size_price/crate:
+          _en: Crate size price (current)
+          _fr: Prix par taille de cagette (actuel)
+          _de: Preis pro Kistengrösse (aktuell)
+          _it: Prezzo per cassetta (attuale)
+          _nl: Kratgrootte prijs (huidig)
+        current_basket_size_price/package:
+          _en: Package size price (current)
+          _fr: Prix par taille de colis (actuel)
+          _de: Preis pro Paketgrösse (aktuell)
+          _it: Prezzo per pacco (attuale)
+          _nl: Pakketgrootte prijs (huidig)
+        current_basket_size_price/share:
+          _en: Share size price (current)
+          _fr: Prix par taille de part (actuel)
+          _de: Preis pro Anteilsgrösse (aktuell)
+          _it: Prezzo per parte (attuale)
+          _nl: Deelgrootte prijs (huidig)
+        current_membership_price:
+          _en: Membership price (current)
+          _fr: Prix de l'abonnement (actuel)
+          _de: Abonnementpreis (aktuell)
+          _it: Prezzo abbonamento (attuale)
+          _nl: Lidmaatschapsprijs (huidig)
         default_basket_size_price/bag:
           _en: Bag size price (default)
           _fr: Prix par taille de sac (défaut)
@@ -661,12 +703,6 @@ _:
           _de: Richtwert pro Anteilsgrösse (Standard)
           _it: Prezzo per parte (predefinito)
           _nl: Deelgrootte prijs (standaard)
-        default_membership_price:
-          _en: Membership price (default)
-          _fr: Prix de l'abonnement (défaut)
-          _de: Abonnementpreis (Standard)
-          _it: Prezzo abbonamento (predefinito)
-          _nl: Lidmaatschapsprijs (standaard)
         pledged_at:
           _en: Pledged at
           _fr: Engagé le
