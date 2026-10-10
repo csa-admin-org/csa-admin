@@ -85,6 +85,19 @@ ActiveAdmin.register BiddingRound do
           panel nil do
             ul class: "pair-grid" do
               li do
+                counter_tag(t(".total_final_difference").capitalize, bidding_round.total_final_difference_percentage, type: :percentage)
+              end
+              li do
+                counter_tag(t(".total_final_difference_amount").capitalize, bidding_round.total_final_difference, type: :currency)
+              end
+            end
+            if bidding_round.open?
+              para t(".total_final_difference_explanation"), class: "pair-grid-note text-center is-italic text-sm is-muted"
+            end
+          end
+          panel nil do
+            ul class: "pair-grid" do
+              li do
                 counter_tag(t(".total_pledged_percentage").capitalize, bidding_round.total_final_percentage, type: :percentage)
               end
               li do
@@ -93,19 +106,6 @@ ActiveAdmin.register BiddingRound do
             end
             if bidding_round.open?
               para t(".total_final_value_explanation"), class: "pair-grid-note text-center is-italic text-sm is-muted"
-            end
-          end
-          panel nil do
-            ul class: "pair-grid" do
-              li do
-                counter_tag(t(".total_final_difference").capitalize, bidding_round.total_final_difference_percentage, type: :percentage)
-              end
-              li do
-                counter_tag(t(".total_final_difference").capitalize, bidding_round.total_final_difference, type: :currency)
-              end
-            end
-            if bidding_round.open?
-              para t(".total_final_difference_explanation"), class: "pair-grid-note text-center is-italic text-sm is-muted"
             end
           end
         end
