@@ -98,13 +98,11 @@ class Newsletter
         existing_ids = mail_deliveries.pluck(:id)
         MailDelivery::Email.where(mail_delivery_id: existing_ids).delete_all
         MailDelivery.where(id: existing_ids).delete_all
-        audience_segment.members.each do |member|
-          MailDelivery.deliver!(
-            member: member,
-            mailable: self,
-            action: "newsletter",
-            draft: draft)
-        end
+        MailDelivery.deliver_all!(
+          members: audience_segment.members,
+          mailable: self,
+          action: "newsletter",
+          draft: draft)
       end
     end
   end

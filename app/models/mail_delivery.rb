@@ -81,6 +81,46 @@ class MailDelivery < ApplicationRecord
     end
   end
 
+  # Bulk counterpart to deliver!. Email rows and ProcessJob enqueue live on Email.
+  def self.deliver_all!(members:, mailable:, action:, draft: false)
+    members = Array(members)
+    return if members.empty?
+
+    mailables = Array(mailable).compact
+    recipients = Email.recipients_by_member_id(members)
+
+    inserted = transaction do
+      deliveries = insert_all!(members.map { |member|
+        {
+          mailable_type: mailables.first.class.name,
+          mailable_ids: mailables.map(&:id),
+          action: action,
+          member_id: member.id,
+          state: delivery_state(draft, recipients[member.id])
+        }
+      }, returning: %w[id member_id])
+      next if draft
+
+      Email.insert_all_for!(deliveries, recipients, newsletter: mailables.first.is_a?(Newsletter))
+      deliveries
+    end
+
+    return unless inserted
+
+    Email.where(mail_delivery_id: inserted.map { |row| row["id"] }).enqueue_process_jobs
+  end
+
+  def self.delivery_state(draft, recipients)
+    if draft
+      DRAFT_STATE
+    elsif recipients.any?
+      PROCESSING_STATE
+    else
+      NOT_DELIVERED_STATE
+    end
+  end
+  private_class_method :delivery_state
+
   def build_message(email:)
     source.build_mail_for(member, email: email, **mailable_params)
   end
