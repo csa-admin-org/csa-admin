@@ -112,6 +112,7 @@ class BiddingRoundTest < ActiveSupport::TestCase
       bidding_round: bidding_round,
       membership: memberships(:jane),
       basket_size_price: 31.0)
+    bidding_round = BiddingRound.find(bidding_round.id)
 
     assert_equal pledge.total_membership_price_difference, bidding_round.total_final_difference
     assert_equal bidding_round.total_final_value - bidding_round.total_expected_value, bidding_round.total_final_difference
