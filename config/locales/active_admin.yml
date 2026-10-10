@@ -3119,24 +3119,24 @@ _:
           _de: Gewinnbetrag
           _it: Importo guadagno
           _nl: Winstbedrag
-        total_final_difference_explanation:
-          _en: Gain versus current membership prices, assuming memberships without a pledge keep their current price.
-          _fr: Gain par rapport aux prix actuels des abonnements, en supposant que les abonnements sans engagement gardent leur prix actuel.
-          _de: Gewinn gegenüber den aktuellen Abonnementspreisen, unter der Annahme, dass Abonnements ohne Zusage ihren aktuellen Preis behalten.
-          _it: Guadagno rispetto ai prezzi attuali degli abbonamenti, assumendo che gli abbonamenti senza promessa mantengano il loro prezzo attuale.
-          _nl: Winst ten opzichte van de huidige lidmaatschapsprijzen, ervan uitgaande dat lidmaatschappen zonder toezegging hun huidige prijs behouden.
+        total_final_explanation:
+          _en: Gain and total amount, assuming memberships without a pledge keep their current price.
+          _fr: Gain et montant total, en supposant que les abonnements sans engagement gardent leur prix actuel.
+          _de: Gewinn und Gesamtbetrag, unter der Annahme, dass Abonnements ohne Zusage ihren aktuellen Preis behalten.
+          _it: Guadagno e importo totale, assumendo che gli abbonamenti senza promessa mantengano il loro prezzo attuale.
+          _nl: Winst en totaalbedrag, ervan uitgaande dat lidmaatschappen zonder toezegging hun huidige prijs behouden.
         total_final_value:
           _en: Total amount
           _fr: Montant total
           _de: Gesamtbetrag
           _it: Importo totale
           _nl: Totaalbedrag
-        total_final_value_explanation:
-          _en: Final amount, assuming memberships without a pledge keep their current price.
-          _fr: Montant total, en supposant que les abonnements sans engagement gardent leur prix actuel.
-          _de: Gesamtbetrag, unter der Annahme, dass Abonnements ohne Zusage ihren aktuellen Preis behalten.
-          _it: Importo finale, assumendo che gli abbonamenti senza promessa mantengano il loro prezzo attuale.
-          _nl: Eindbedrag, ervan uitgaande dat lidmaatschappen zonder toezegging hun huidige prijs behouden.
+        total_pledged_explanation:
+          _en: Pledged amount and covered amount, only for memberships with a pledge.
+          _fr: Montant engagé et montant couvert, uniquement pour les abonnements avec un engagement.
+          _de: Gesamtwert engagiert und gedeckter Betrag, nur für Abonnements mit Zusage.
+          _it: Importo promesso e importo coperto, solo per gli abbonamenti con una promessa.
+          _nl: Toegezegd en gedekt bedrag, alleen voor lidmaatschappen met een toezegging.
         total_pledged_percentage:
           _en: Covered amount
           _fr: Montant couvert
