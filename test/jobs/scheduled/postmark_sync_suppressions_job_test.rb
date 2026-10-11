@@ -5,7 +5,7 @@ require "test_helper"
 class Scheduled::PostmarkSyncSuppressionsJobTest < ActiveJob::TestCase
   test "retries Postmark internal server errors then discards" do
     attempts = 0
-    sync = -> {
+    sync = ->(*) {
       attempts += 1
       raise Postmark::InternalServerError
     }
