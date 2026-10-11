@@ -12,7 +12,8 @@ Appsignal.configure do |config|
     "ActionController::BadRequest",
     "ActionController::UnknownFormat",
     "ActionDispatch::Http::MimeNegotiation::InvalidType",
-    "ActionDispatch::Http::Parameters::ParseError"
+    "ActionDispatch::Http::Parameters::ParseError",
+    "ActionDispatch::RemoteIp::IpSpoofAttackError"
   ]
 
   config.active = Rails.env.production?

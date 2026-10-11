@@ -30,6 +30,17 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     assert_response :unsupported_media_type
   end
 
+  test "conflicting Client-IP and X-Forwarded-For headers return 400" do
+    host! "admin.acme.test"
+
+    get login_path, headers: {
+      "Client-IP" => "1.2.3.4",
+      "X-Forwarded-For" => "5.6.7.8"
+    }
+
+    assert_response :bad_request
+  end
+
   test "admin layout loads the admin stylesheet" do
     host! "admin.acme.test"
 
