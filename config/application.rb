@@ -44,5 +44,12 @@ module CSAAdmin
     # https://github.com/heartcombo/responders?tab=readme-ov-file#configuring-error-and-redirect-statuses
     config.responders.error_status = :unprocessable_entity
     config.responders.redirect_status = :see_other
+
+    # Conflicting Client-IP / X-Forwarded-For is a malformed client request.
+    # RemoteIp raises lazily from request.remote_ip (not in the middleware),
+    # so ShowExceptions can map it. Keep ip_spoofing_check on.
+    config.action_dispatch.rescue_responses.merge!(
+      "ActionDispatch::RemoteIp::IpSpoofAttackError" => :bad_request
+    )
   end
 end
