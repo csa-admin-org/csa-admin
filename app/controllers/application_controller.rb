@@ -25,6 +25,13 @@ class ApplicationController < ActionController::Base
     render plain: "Unsupported media type", status: :unsupported_media_type
   end
 
+  # Raised from request.remote_ip during view render (Propshaft SRI via
+  # request.local?). ActionView wraps it; handle it here so AppSignal does
+  # not record ActionView::Template::Error.
+  rescue_from ActionDispatch::RemoteIp::IpSpoofAttackError do
+    head :bad_request
+  end
+
   # rescue_from cannot catch InvalidType because it's raised during format
   # negotiation inside process_action, before rescue handlers are in scope.
   # Bots/scanners regularly send garbage Accept headers (incl. SQL injections).
