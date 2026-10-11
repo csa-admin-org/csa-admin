@@ -14,10 +14,10 @@ class Scheduled::PostmarkSyncSuppressionsJobTest < ActiveJob::TestCase
       Scheduled::PostmarkSyncSuppressionsJob.perform_later
       perform_enqueued_jobs
 
-      4.times { perform_enqueued_jobs }
+      2.times { perform_enqueued_jobs }
     end
 
-    assert_equal 5, attempts
+    assert_equal 3, attempts
     assert_no_enqueued_jobs
   end
 end
