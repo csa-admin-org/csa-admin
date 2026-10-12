@@ -123,4 +123,15 @@ class Support::MessageTest < ActiveSupport::TestCase
       end
     end
   end
+
+  test "skip_notify still enqueues the webhook" do
+    ticket = create_ticket
+    Support::Ticket.stub(:webhook_url, "https://webhook.example/support") do
+      assert_enqueued_jobs 1, only: Support::MessageNotifyJob do
+        message = ticket.messages.build(author: "admin", admin: admins(:external), body: "Opening from convert")
+        message.skip_notify = true
+        message.save!
+      end
+    end
+  end
 end

@@ -123,12 +123,13 @@ module Support
 
     def notify
       return if Tenant.demo?
+
+      Support::MessageNotifyJob.perform_later(self) if Support::Ticket.webhook_url
       return if skip_notify
 
       ensure_rfc_message_id!
       SupportMailer.with(message: self).wrap_email.deliver_later if wrap?
       SupportMailer.with(message: self).ping_email.deliver_later if ping?
-      Support::MessageNotifyJob.perform_later(self) if Support::Ticket.webhook_url
     end
   end
 end

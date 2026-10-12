@@ -275,4 +275,36 @@ class Support::InboundJobTest < ActiveJob::TestCase
       ingest(payload)
     end
   end
+
+  test "enqueues a webhook for an inbound reply" do
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
+
+    Support::Ticket.stub(:webhook_url, "https://webhook.example/support") do
+      assert_enqueued_jobs 1, only: Support::MessageNotifyJob do
+        ingest(
+          "To" => ticket.inbound_email,
+          "From" => admins(:external).email,
+          "TextBody" => "Follow-up from the organization",
+          "Headers" => [ { "Name" => "Message-ID", "Value" => "<inbound-webhook@mail>" } ])
+      end
+    end
+  end
+
+  test "enqueues a webhook for each convert message" do
+    Support::Ticket.stub(:webhook_url, "https://webhook.example/support") do
+      with_env(
+        "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+        "SUPPORT_EMAIL" => "support@csa-admin.org") do
+        assert_enqueued_jobs 2, only: Support::MessageNotifyJob do
+          ingest(
+            "To" => "ticket-acme@support.csa-admin.org",
+            "From" => "support+high@csa-admin.org",
+            "Subject" => "Re: Informal help",
+            "TextBody" => "Here is the answer\n\nOn Mon, Jane Doe <#{admins(:external).email}> wrote:\nHello",
+            "Headers" => [ { "Name" => "Message-ID", "Value" => "<convert-webhook@mail>" } ])
+        end
+      end
+    end
+  end
 end
