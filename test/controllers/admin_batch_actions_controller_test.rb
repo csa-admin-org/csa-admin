@@ -27,6 +27,30 @@ class AdminBatchActionsControllerTest < ActionDispatch::IntegrationTest
       text: I18n.t("active_admin.batch_actions.disabled_placeholder")
   end
 
+  test "future fiscal year filter shows batch actions on all scope" do
+    travel_to "2024-01-01"
+    login admins(:super)
+
+    get deliveries_path, params: { q: { during_year: 2025 }, scope: :all }
+
+    assert_response :success
+    assert_select "input[name='collection_selection[]']"
+    assert_select "[data-batch-action-item][data-action=destroy]"
+    assert_select "[data-batch-action-item][data-action=open_shop]"
+    assert_select "[data-batch-action-item][data-action=close_shop]"
+  end
+
+  test "current fiscal year all scope does not show delivery batch selection" do
+    travel_to "2024-01-01"
+    login admins(:super)
+
+    get deliveries_path, params: { q: { during_year: 2024 }, scope: :all }
+
+    assert_response :success
+    assert_select "input[name='collection_selection[]']", false
+    assert_select ".batch-actions-dropdown", false
+  end
+
   test "read-only admin cannot open shop on deliveries" do
     travel_to "2024-01-01"
     org(features: [ :shop ])

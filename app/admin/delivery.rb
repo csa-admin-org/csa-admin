@@ -28,7 +28,7 @@ ActiveAdmin.register Delivery do
   # Workaround for ActionController::UnknownFormat (xlsx download)
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
   index download_links: -> { params[:action] == "show" ? [ :xlsx, :pdf ] : [ :csv ] }, class: "table-auto" do
-    if feature?("shop") && (!params[:scope] || params[:scope] == "coming")
+    if future_fiscal_year_filter? || (feature?("shop") && coming_delivery_scope?)
       selectable_column(class: "w-px")
     end
     column "#", ->(delivery) { delivery.number }, class: "w-px"
@@ -270,10 +270,10 @@ ActiveAdmin.register Delivery do
     shop_open_for_depot_ids: [],
     basket_complement_ids: []
 
-  batch_action :destroy, if: proc { params.dig(:q, :during_year).to_i > Current.fy_year }
+  batch_action :destroy, if: proc { future_fiscal_year_filter? }
 
   batch_action :open_shop, if: proc {
-    authorized?(:batch_action, Delivery) && feature?("shop") && (!params[:scope] || params[:scope] == "coming")
+    authorized?(:batch_action, Delivery) && feature?("shop") && (coming_delivery_scope? || future_fiscal_year_filter?)
   } do |selection|
     authorize! :batch_action, Delivery
     Delivery.where(id: selection).update_all(shop_open: true)
@@ -281,7 +281,7 @@ ActiveAdmin.register Delivery do
   end
 
   batch_action :close_shop, if: proc {
-    authorized?(:batch_action, Delivery) && feature?("shop") && (!params[:scope] || params[:scope] == "coming")
+    authorized?(:batch_action, Delivery) && feature?("shop") && (coming_delivery_scope? || future_fiscal_year_filter?)
   } do |selection|
     authorize! :batch_action, Delivery
     Delivery.where(id: selection).update_all(shop_open: false)
@@ -304,6 +304,16 @@ ActiveAdmin.register Delivery do
   controller do
     include TranslatedCSVFilename
     include UncachedSendData
+
+    helper_method :coming_delivery_scope?, :future_fiscal_year_filter?
+
+    def coming_delivery_scope?
+      params[:scope].blank? || params[:scope] == "coming"
+    end
+
+    def future_fiscal_year_filter?
+      params.dig(:q, :during_year).to_i > Current.fy_year
+    end
 
     def apply_sorting(chain)
       if params[:scope] == "past" && !params[:order]
