@@ -56,6 +56,11 @@ class Support::ReplyBodyTest < ActiveSupport::TestCase
     assert_equal "jane@org.ch", Support::ReplyBody.original_from(text)
   end
 
+  test "original returns the cited body without the header" do
+    text = "Answer\n\n\u201cOn 4 Oct 2026, at 23:52, Jane Doe <jane@org.ch> wrote:\nHello"
+    assert_equal "Hello", Support::ReplyBody.original(text)
+  end
+
   test "original_from reads an outlook forwarded from header" do
     text = "Salut.\n\nDe : Jane Doe <jane@org.ch>\nEnvoyé : samedi\nObjet : Help\nHello"
     assert_equal "jane@org.ch", Support::ReplyBody.original_from(text)

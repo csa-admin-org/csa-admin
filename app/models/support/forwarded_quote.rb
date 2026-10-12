@@ -33,7 +33,14 @@ module Support
       return true if sample.match?(/\A[-_]{5,}/) && sample.match?(MARKER)
 
       sample.match?(/(?:De|From|Von)\s*:/) &&
-        sample.match?(/(?:Envoyé|Sent|Date|Objet|Subject|Betreff|À|To)\s*:/)
+        sample.match?(/(?:Envoyé|Sent|Date|Objet|Subject|Betreff|À|To)\s*:/i)
+    end
+
+    def self.body(quoted)
+      text = unwrap_quotes(unmash(quoted).strip)
+      lines = text.lines
+      lines.shift while lines.any? && droppable_line?(lines.first)
+      lines.join.strip
     end
 
     def self.normalize(text)
@@ -83,6 +90,25 @@ module Support
       }.join("\n")
     end
     private_class_method :as_markdown
+
+    def self.unwrap_quotes(text)
+      text.to_s.sub(/\A[\u201c\u201d"«]+/, "").sub(/[\u201c\u201d"»]+\z/, "").strip
+    end
+    private_class_method :unwrap_quotes
+
+    def self.droppable_line?(line)
+      core = line.to_s.strip
+      return true if core.blank?
+      return true if core.start_with?(">") && droppable_line?(core.delete_prefix(">").lstrip)
+      return true if core.match?(MARKER)
+      return true if core.match?(/\A[-_]{5,}/)
+      return true if core.match?(Support::ReplyQuote::ATTRIBUTION)
+      return true if "\n#{core}".match?(Support::ReplyBody::QUOTE_SPLIT)
+      return true if core.match?(/\A#{HEADER_LABEL.source}\s*:/i)
+
+      false
+    end
+    private_class_method :droppable_line?
 
     def self.unmash(quoted)
       text = quoted.to_s.sub(/\A\s+/, "")

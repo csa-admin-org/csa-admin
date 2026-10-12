@@ -51,5 +51,10 @@ module Support
       header = text[QUOTE_SPLIT] || text[FROM_HEADER]
       header && header[EMAIL]
     end
+
+    def self.original(text_body)
+      _own, quoted = Support::ForwardedQuote.split(Support::Utf8.repair(text_body.to_s))
+      Support::ForwardedQuote.body(quoted).presence
+    end
   end
 end

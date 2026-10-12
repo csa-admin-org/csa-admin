@@ -57,6 +57,12 @@ class Support::ForwardedQuoteTest < ActiveSupport::TestCase
     assert_includes wrapped, "> Hello"
   end
 
+  test "body strips the apple-mail cite header and wrapping quotes" do
+    quoted = "\u201cOn 4 Oct 2026, at 23:52, Jane Doe <jane@org.ch> wrote:\nHello\u201d"
+
+    assert_equal "Hello", Support::ForwardedQuote.body(quoted)
+  end
+
   test "leaves a message without a forward alone" do
     text = "Salut Thibaud,\njuste une question sur les paniers."
 

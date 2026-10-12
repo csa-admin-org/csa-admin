@@ -81,6 +81,26 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_includes extracted, "blockquote"
   end
 
+  test "split_cited returns the reply and original as two fragments" do
+    html = <<~HTML
+      <html><body>
+        <p>Here is the answer</p>
+        <blockquote type="cite">
+          <p>On Mon, Jane Doe wrote:</p>
+          <p>Hello from the member</p>
+        </blockquote>
+      </body></html>
+    HTML
+
+    reply, original = Support::ReplyHtml.split_cited(html)
+
+    assert_includes reply, "Here is the answer"
+    assert_not_includes reply, "Hello from the member"
+    assert_includes original, "Hello from the member"
+    assert_not_includes original, "On Mon"
+    assert_not_includes original, "Here is the answer"
+  end
+
   test "drops a proton mail quote block" do
     html = <<~HTML
       <div>Yes super ! Merci :)</div>

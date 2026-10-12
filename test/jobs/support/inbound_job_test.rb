@@ -191,7 +191,7 @@ class Support::InboundJobTest < ActiveJob::TestCase
     with_env(
       "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
       "SUPPORT_EMAIL" => "support@csa-admin.org") do
-      assert_difference "Support::Ticket.count", 1 do
+      assert_difference "Support::Ticket.count" => 1, "Support::Message.count" => 2 do
         ingest(
           "To" => "ticket-acme@support.csa-admin.org",
           "From" => "support+high@csa-admin.org",
@@ -202,15 +202,19 @@ class Support::InboundJobTest < ActiveJob::TestCase
     end
 
     ticket = Support::Ticket.order(:id).last
-    message = ticket.messages.first
+    original, reply = ticket.messages.order(:id).to_a
     assert_equal "Informal help", ticket.subject
     assert_equal admins(:external), ticket.admin
-    assert_equal "support", message.author
-    assert_includes message.body, "Here is the answer"
-    assert_includes message.body, "> On Mon, Jane Doe <#{admins(:external).email}> wrote:"
-    assert_includes message.body, "> Hello"
-    assert message.wrap?
-    assert_equal [ admins(:external).email ], ticket.wrap_emails_for(message)
+    assert_equal "admin", original.author
+    assert_equal admins(:external), original.admin
+    assert_equal "Hello", original.body.strip
+    assert_not_includes original.body, "On Mon"
+    assert_equal "support", reply.author
+    assert_equal "Here is the answer", reply.body.strip
+    assert_not_includes reply.body, "Hello"
+    assert reply.wrap?
+    assert_not original.wrap?
+    assert_equal [ admins(:external).email ], ticket.wrap_emails_for(reply)
   end
 
   test "converts an apple mail curly-quoted original to the matching admin" do
@@ -226,7 +230,36 @@ class Support::InboundJobTest < ActiveJob::TestCase
     end
 
     ticket = Support::Ticket.order(:id).last
+    original, reply = ticket.messages.order(:id).to_a
     assert_equal admins(:external), ticket.admin
+    assert_equal "admin", original.author
+    assert_equal "Hello", original.body.strip
+    assert_not_includes original.body, "On 4 Oct"
+    assert_equal "Here is the answer", reply.body.strip
+    assert reply.wrap?
+  end
+
+  test "converts a cited html original into a separate opening message" do
+    with_env(
+      "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+      "SUPPORT_EMAIL" => "support@csa-admin.org") do
+      ingest(
+        "To" => "ticket-acme@support.csa-admin.org",
+        "From" => "support+high@csa-admin.org",
+        "Subject" => "Re: Informal help",
+        "TextBody" => "Here is the answer\n\nOn Mon, Jane Doe <#{admins(:external).email}> wrote:\nHello from the member",
+        "HtmlBody" => "<html><body><p>Here is the answer</p><blockquote type='cite'><p>On Mon, Jane Doe wrote:</p><p>Hello from the member</p></blockquote></body></html>",
+        "Headers" => [ { "Name" => "Message-ID", "Value" => "<convert-html@mail>" } ])
+    end
+
+    ticket = Support::Ticket.order(:id).last
+    original, reply = ticket.messages.order(:id).to_a
+    assert_equal "admin", original.author
+    assert_includes original.html.to_s, "Hello from the member"
+    assert_not_includes original.html.to_s, "On Mon"
+    assert_not_includes original.html.to_s, "Here is the answer"
+    assert_includes reply.html.to_s, "Here is the answer"
+    assert_not_includes reply.html.to_s, "Hello from the member"
   end
 
   test "convert is idempotent on message id" do

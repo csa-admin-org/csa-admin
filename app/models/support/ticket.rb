@@ -189,27 +189,40 @@ module Support
       rfc_id = Support::InboundAddress.message_id_from(payload)
       return if rfc_id.present? && Support::Message.exists?(rfc_message_id: rfc_id)
 
-      html = Support::ReplyHtml.extract(payload["HtmlBody"], keep_cited: true)
-      body = inbound_plain_body(payload, keep_cited: true)
-      return if body.blank? && html.blank?
+      reply_html, original_html = Support::ReplyHtml.split_cited(payload["HtmlBody"])
+      reply_html = Support::ReplyHtml.extract(payload["HtmlBody"]) if original_html.blank?
+      reply_body = inbound_plain_body(payload)
+      original_body = Support::ReplyBody.original(payload["TextBody"])
+      return if reply_body.blank? && reply_html.blank? && original_body.blank? && original_html.blank?
 
       original_email = Support::ReplyBody.original_from(payload["TextBody"])
       matched_admin = Admin.with_email(original_email).first if original_email
 
       ticket = new(
         subject: inbound_subject(payload["Subject"]),
-        content: body.presence || ActionText::Content.new(html).to_plain_text,
+        content: convert_content(reply_body, original_body, reply_html, original_html),
         priority: :normal,
         admin: matched_admin,
         skip_opening_message: true)
       transaction do
         ticket.save!
-        ticket.persist_inbound_message(
-          author: "support",
-          body: body,
-          html: html,
-          rfc_message_id: rfc_id,
-          attachments: payload["Attachments"])
+        if original_body.present? || original_html.present?
+          ticket.persist_inbound_message(
+            author: "admin",
+            admin: matched_admin,
+            body: original_body,
+            html: original_html,
+            rfc_message_id: nil,
+            skip_notify: true)
+        end
+        if reply_body.present? || reply_html.present?
+          ticket.persist_inbound_message(
+            author: "support",
+            body: reply_body,
+            html: reply_html,
+            rfc_message_id: rfc_id,
+            attachments: payload["Attachments"])
+        end
       end
       ticket
     end
@@ -235,7 +248,7 @@ module Support
         attachments: payload["Attachments"])
     end
 
-    def persist_inbound_message(author:, body:, rfc_message_id:, attachments: nil, admin: nil, html: nil)
+    def persist_inbound_message(author:, body:, rfc_message_id:, attachments: nil, admin: nil, html: nil, skip_notify: false)
       body = Support::Utf8.repair(body.to_s)
       html = Support::Utf8.repair(html.to_s).presence
       message = messages.build(
@@ -244,6 +257,7 @@ module Support
         body: body.presence || ActionText::Content.new(html.to_s).to_plain_text.presence || " ",
         via: :inbound,
         rfc_message_id: rfc_message_id)
+      message.skip_notify = true if skip_notify
       rewritten = message.attach_inbound(attachments, html: html)
       message.html = rewritten.presence || html if html.present? || rewritten.present?
       message.save!
@@ -292,6 +306,11 @@ module Support
           text_body: payload["TextBody"],
           stripped: payload["StrippedTextReply"],
           keep_cited: keep_cited)
+      end
+
+      def convert_content(reply_body, original_body, reply_html, original_html)
+        reply_body.presence || original_body.presence ||
+          ActionText::Content.new(reply_html.presence || original_html).to_plain_text
       end
     end
 
