@@ -40,14 +40,18 @@ module Support
       root = document_root(html)
       cut_at_marker!(root)
       original = extract_cited!(root)
+      drop_header_only_cites!(root)
       Support::Signature.strip_fragment!(root)
       strip_styles!(root)
       return [ root.inner_html.to_s.strip.presence, nil ] if original.blank?
 
       unwrap_cite!(original)
       drop_cite_headers!(original)
+      unwrap_cite!(original)
       strip_styles!(original)
-      [ root.inner_html.to_s.strip.presence, original.inner_html.to_s.strip.presence ]
+      original_html = original.inner_html.to_s.strip.presence
+      original_html = nil if original_html && blank_cited?(original)
+      [ root.inner_html.to_s.strip.presence, original_html ]
     end
 
     def self.present(html)
@@ -124,7 +128,7 @@ module Support
     private_class_method :cut_at_marker!
 
     def self.extract_cited!(root)
-      cited = root.at_css(QUOTE_CSS) || split_children(root).find { |node| cite_header?(node) }
+      cited = cited_node(root)
       return unless cited
 
       fragment = Nokogiri::HTML::DocumentFragment.parse("")
@@ -137,6 +141,50 @@ module Support
       fragment
     end
     private_class_method :extract_cited!
+
+    def self.cited_node(root)
+      cited = root.at_css(QUOTE_CSS) || split_children(root).find { |node| cite_header?(node) }
+      return unless cited
+
+      start = cited
+      while start.parent && start.parent != root && !later_meaningful?(start)
+        start = start.parent
+      end
+      start
+    end
+    private_class_method :cited_node
+
+    def self.later_meaningful?(node)
+      sib = node.next_sibling
+      while sib
+        return true unless blank_node?(sib)
+
+        sib = sib.next_sibling
+      end
+      false
+    end
+    private_class_method :later_meaningful?
+
+    def self.drop_header_only_cites!(root)
+      root.css(QUOTE_CSS).each do |node|
+        node.remove if header_only_node?(node)
+      end
+    end
+    private_class_method :drop_header_only_cites!
+
+    def self.header_only_node?(node)
+      sample = Nokogiri::HTML::DocumentFragment.parse(node.to_html)
+      unwrap_cite!(sample)
+      drop_cite_headers!(sample)
+      blank_cited?(sample)
+    end
+    private_class_method :header_only_node?
+
+    def self.blank_cited?(node)
+      node.text.to_s.gsub(/[[:space:]]+/, "").blank? &&
+        node.css("img, action-text-attachment, figure").empty?
+    end
+    private_class_method :blank_cited?
 
     def self.unwrap_cite!(root)
       loop do

@@ -251,10 +251,14 @@ module Support
     def persist_inbound_message(author:, body:, rfc_message_id:, attachments: nil, admin: nil, html: nil, skip_notify: false)
       body = Support::Utf8.repair(body.to_s)
       html = Support::Utf8.repair(html.to_s).presence
+      plain = body.presence || ActionText::Content.new(html.to_s).to_plain_text.presence
+      plain ||= "—" if html.to_s.match?(/<img|action-text-attachment|figure/i)
+      return if plain.blank?
+
       message = messages.build(
         author: author,
         admin: admin,
-        body: body.presence || ActionText::Content.new(html.to_s).to_plain_text.presence || " ",
+        body: plain,
         via: :inbound,
         rfc_message_id: rfc_message_id)
       message.skip_notify = true if skip_notify
