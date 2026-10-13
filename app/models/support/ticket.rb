@@ -196,6 +196,8 @@ module Support
       return if reply_body.blank? && reply_html.blank? && original_body.blank? && original_html.blank?
 
       original_email = Support::ReplyBody.original_from(payload["TextBody"])
+      original_email ||= Support::ReplyBody.original_from(
+        ActionText::Content.new(payload["HtmlBody"].to_s).to_plain_text)
       matched_admin = Admin.with_email(original_email).first if original_email
 
       ticket = new(
