@@ -173,81 +173,78 @@ module Support
     end
 
     def self.ingest_inbound(payload, address)
+      inbound = Support::Inbound.parse(payload)
       if address.convert?
-        convert_inbound(payload)
+        convert_inbound(inbound)
       else
         ticket = find_by(token: address.token)
         return unless ticket
 
-        ticket.append_inbound(payload)
+        ticket.append_inbound(inbound)
       end
     end
 
-    def self.convert_inbound(payload)
-      return unless Support::InboundAddress.operator_email?(Support::InboundAddress.from_email(payload))
+    def self.convert_inbound(inbound)
+      unless Support::InboundAddress.operator_email?(inbound.from)
+        report_convert_failure("Support inbound convert rejected sender",
+          from: inbound.from)
+        return
+      end
 
-      rfc_id = Support::InboundAddress.message_id_from(payload)
+      rfc_id = inbound.rfc_message_id
       return if rfc_id.present? && Support::Message.exists?(rfc_message_id: rfc_id)
+      return if inbound.blank? && inbound.attachments.blank?
 
-      reply_html, original_html = Support::ReplyHtml.split_cited(payload["HtmlBody"])
-      reply_html = Support::ReplyHtml.extract(payload["HtmlBody"]) if original_html.blank?
-      reply_body = inbound_plain_body(payload)
-      original_body = Support::ReplyBody.original(payload["TextBody"])
-      return if reply_body.blank? && reply_html.blank? && original_body.blank? && original_html.blank?
-
-      original_email = Support::ReplyBody.original_from(payload["TextBody"])
-      original_email ||= Support::ReplyBody.original_from(
-        ActionText::Content.new(payload["HtmlBody"].to_s).to_plain_text)
-      matched_admin = Admin.with_email(original_email).first if original_email
+      matched_admin = Admin.with_email(inbound.original_from).first if inbound.original_from
+      if matched_admin.blank? && (inbound.original.present? || inbound.original_from.present?)
+        report_convert_failure("Support inbound convert unmatched admin",
+          original_from: inbound.original_from)
+      end
 
       ticket = new(
-        subject: inbound_subject(payload["Subject"]),
-        content: convert_content(reply_body, original_body, reply_html, original_html),
+        subject: inbound.subject,
+        content: inbound.content,
         priority: :normal,
         admin: matched_admin,
         skip_opening_message: true)
       transaction do
         ticket.save!
-        if original_body.present? || original_html.present?
+        if inbound.original.present?
           ticket.persist_inbound_message(
             author: "admin",
             admin: matched_admin,
-            body: original_body,
-            html: original_html,
+            body: inbound.original.body,
+            html: inbound.original.html,
             rfc_message_id: nil,
             skip_notify: true)
         end
-        if reply_body.present? || reply_html.present?
+        if inbound.reply.present? || (inbound.attachments.present? && inbound.original.blank?)
           ticket.persist_inbound_message(
             author: "support",
-            body: reply_body,
-            html: reply_html,
+            body: inbound.reply.body,
+            html: inbound.reply.html,
             rfc_message_id: rfc_id,
-            attachments: payload["Attachments"])
+            attachments: inbound.attachments)
         end
       end
       ticket
     end
 
-    def append_inbound(payload)
-      rfc_id = Support::InboundAddress.message_id_from(payload)
+    def append_inbound(inbound)
+      rfc_id = inbound.rfc_message_id
       return if rfc_id.present? && Support::Message.exists?(rfc_message_id: rfc_id)
+      return if inbound.reply.blank? && inbound.attachments.blank?
 
-      html = Support::ReplyHtml.extract(payload["HtmlBody"])
-      body = self.class.inbound_plain_body(payload)
-      return if body.blank? && html.blank?
-
-      from = Support::InboundAddress.from_email(payload)
-      author, admin = inbound_author(from)
+      author, admin = inbound_author(inbound.from)
       return unless author
 
       persist_inbound_message(
         author: author,
         admin: admin,
-        body: body,
-        html: html,
+        body: inbound.reply.body,
+        html: inbound.reply.html,
         rfc_message_id: rfc_id,
-        attachments: payload["Attachments"])
+        attachments: inbound.attachments)
     end
 
     def persist_inbound_message(author:, body:, rfc_message_id:, attachments: nil, admin: nil, html: nil, skip_notify: false)
@@ -255,6 +252,7 @@ module Support
       html = Support::Utf8.repair(html.to_s).presence
       plain = body.presence || ActionText::Content.new(html.to_s).to_plain_text.presence
       plain ||= "—" if html.to_s.match?(/<img|action-text-attachment|figure/i)
+      plain ||= "—" if attachments.present?
       return if plain.blank?
 
       message = messages.build(
@@ -307,16 +305,8 @@ module Support
         cleaned.presence || "Support"
       end
 
-      def inbound_plain_body(payload, keep_cited: false)
-        Support::ReplyBody.extract(
-          text_body: payload["TextBody"],
-          stripped: payload["StrippedTextReply"],
-          keep_cited: keep_cited)
-      end
-
-      def convert_content(reply_body, original_body, reply_html, original_html)
-        reply_body.presence || original_body.presence ||
-          ActionText::Content.new(reply_html.presence || original_html).to_plain_text
+      def report_convert_failure(message, **context)
+        Rails.error.report(StandardError.new(message), context: context)
       end
     end
 

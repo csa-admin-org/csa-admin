@@ -61,6 +61,16 @@ class Support::ReplyBodyTest < ActiveSupport::TestCase
     assert_equal "Hello", Support::ReplyBody.original(text)
   end
 
+  test "original_from reads an address after a german schrieb header" do
+    text = "Antwort\n\nAm Montag schrieb Jane Doe <jane@org.ch>:\nHello"
+    assert_equal "jane@org.ch", Support::ReplyBody.original_from(text)
+  end
+
+  test "original_from skips a cite without an address and reads the next hop" do
+    text = "My reply\n\nOn Monday, Support wrote:\nPrevious hop\n\nOn Sunday, Jane Doe <jane@org.ch> wrote:\nHello"
+    assert_equal "jane@org.ch", Support::ReplyBody.original_from(text)
+  end
+
   test "original_from reads an outlook forwarded from header" do
     text = "Salut.\n\nDe : Jane Doe <jane@org.ch>\nEnvoyé : samedi\nObjet : Help\nHello"
     assert_equal "jane@org.ch", Support::ReplyBody.original_from(text)

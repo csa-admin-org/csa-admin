@@ -48,8 +48,10 @@ module Support
 
     def self.original_from(text_body)
       text = Support::Utf8.repair(text_body.to_s)
-      header = text[QUOTE_SPLIT] || text[FROM_HEADER]
-      header && header[EMAIL]
+      start = text.index(QUOTE_SPLIT) || text.index(FROM_HEADER)
+      return unless start
+
+      text[start, 400][EMAIL]
     end
 
     def self.original(text_body)
