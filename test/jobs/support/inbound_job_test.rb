@@ -262,6 +262,25 @@ class Support::InboundJobTest < ActiveJob::TestCase
     assert_not_includes reply.html.to_s, "Hello from the member"
   end
 
+  test "converts an html-only apple mail cite to the matching admin" do
+    with_env(
+      "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+      "SUPPORT_EMAIL" => "support@csa-admin.org") do
+      ingest(
+        "To" => "ticket-acme@support.csa-admin.org",
+        "From" => "support+high@csa-admin.org",
+        "Subject" => "Re: Informal help",
+        "TextBody" => "",
+        "HtmlBody" => "<html><body><p>Here is the answer</p><blockquote type=\"cite\">On 1 Jan 2000, at 12:00, Jane Doe &lt;#{admins(:external).email}&gt; wrote:<br>Hello</blockquote></body></html>",
+        "Headers" => [ { "Name" => "Message-ID", "Value" => "<convert-html-only-admin@mail>" } ])
+    end
+
+    ticket = Support::Ticket.order(:id).last
+    original = ticket.messages.order(:id).first
+    assert_equal admins(:external), ticket.admin
+    assert_equal admins(:external), original.admin
+  end
+
   test "converts an apple mail html-only cite with a header blockquote and inline image" do
     png = Base64.strict_encode64("fake-png")
     html = <<~HTML
