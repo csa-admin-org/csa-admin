@@ -7,9 +7,7 @@ class Support::InboundTest < ActiveSupport::TestCase
     Rails.root.join("test/fixtures/files/support/inbound.yml").read).freeze
 
   def ingest(payload)
-    perform_enqueued_jobs only: Support::InboundJob do
-      Support::InboundJob.perform_later(payload)
-    end
+    Support::InboundJob.new.perform(payload)
   end
 
   def operator_env
@@ -80,20 +78,17 @@ class Support::InboundTest < ActiveSupport::TestCase
     test "converts #{name}" do
       spec = load_case(name)
       expected = spec.fetch("expect")
-      error = ErrorRecorder.new
 
       with_env(operator_env) do
-        with_rails_error(error) do
-          ingest(payload_for(spec,
-            "To" => "ticket-acme@support.csa-admin.org",
-            "From" => "support+high@csa-admin.org",
-            "Subject" => "Re: Help",
-            "MessageID" => "convert-#{name}",
-            "Headers" => [ {
-              "Name" => "Message-ID",
-              "Value" => "<convert-#{name}@mail>"
-            } ]))
-        end
+        ingest(payload_for(spec,
+          "To" => "ticket-acme@support.csa-admin.org",
+          "From" => "support+high@csa-admin.org",
+          "Subject" => "Re: Help",
+          "MessageID" => "convert-#{name}",
+          "Headers" => [ {
+            "Name" => "Message-ID",
+            "Value" => "<convert-#{name}@mail>"
+          } ]))
       end
 
       if spec["attachments"].present? && expected["reply"].blank? && expected["original"].blank?
@@ -161,51 +156,61 @@ class Support::InboundTest < ActiveSupport::TestCase
     end
   end
 
-  test "drops a convert from a sender that is not allowlisted" do
-    error = ErrorRecorder.new
+  test "raises when a convert sender is not allowlisted and imports after it is added" do
+    payload = {
+      "To" => "ticket-acme@support.csa-admin.org",
+      "From" => "stranger@example.com",
+      "TextBody" => "Please help\n\nOn Monday, Jane Doe <#{admins(:external).email}> wrote:\nHello",
+      "MessageID" => "convert-denied"
+    }
 
     with_env(operator_env) do
-      with_rails_error(error) do
-        assert_no_difference "Support::Ticket.count" do
-          ingest(
-            "To" => "ticket-acme@support.csa-admin.org",
-            "From" => "stranger@example.com",
-            "TextBody" => "Please help\n\nOn Monday, Jane Doe <#{admins(:external).email}> wrote:\nHello",
-            "MessageID" => "convert-denied")
-        end
+      assert_no_difference [ "Support::Ticket.count", "Support::Message.count" ] do
+        error = assert_raises(Support::Inbound::RejectedSender) { ingest(payload) }
+        assert_includes error.message, "example.com"
+        assert_not_includes error.message, "stranger@"
       end
     end
 
-    reported, context, = error.reports.first
-    assert_equal "Support inbound convert rejected sender", reported.message
-    assert_equal "stranger@example.com", context[:from]
+    with_env(operator_env.merge("SUPPORT_EMAIL" => "stranger@example.com")) do
+      assert_difference "Support::Ticket.count" => 1 do
+        ingest(payload)
+      end
+    end
   end
 
-  test "reports when a convert original is not an admin" do
-    error = ErrorRecorder.new
+  test "raises when a convert original is not an admin and imports after the admin is added" do
+    payload = {
+      "To" => "ticket-acme@support.csa-admin.org",
+      "From" => "support+high@csa-admin.org",
+      "TextBody" => "Here is the answer\n\nOn Monday, Pat Lee <pat@example.com> wrote:\nHello",
+      "Headers" => [ {
+        "Name" => "Message-ID",
+        "Value" => "<convert-unmatched@mail>"
+      } ]
+    }
 
     with_env(operator_env) do
-      with_rails_error(error) do
-        assert_difference "Support::Ticket.count" => 1 do
-          ingest(
-            "To" => "ticket-acme@support.csa-admin.org",
-            "From" => "support+high@csa-admin.org",
-            "TextBody" => "Here is the answer\n\nOn Monday, Pat Lee <pat@example.com> wrote:\nHello",
-            "Headers" => [ {
-              "Name" => "Message-ID",
-              "Value" => "<convert-unmatched@mail>"
-            } ])
-        end
+      assert_no_difference [ "Support::Ticket.count", "Support::Message.count" ] do
+        error = assert_raises(Support::Inbound::UnmatchedAdmin) { ingest(payload) }
+        assert_includes error.message, "example.com"
+        assert_not_includes error.message, "pat@"
+      end
+
+      Admin.create!(
+        name: "Pat Lee",
+        email: "pat@example.com",
+        permission: Permission.superadmin)
+
+      assert_difference "Support::Ticket.count" => 1, "Support::Message.count" => 2 do
+        ingest(payload)
       end
     end
 
     ticket = Support::Ticket.order(:id).last
     original = ticket.messages.order(:id).first
-    assert_nil ticket.admin
-    assert_nil original.admin
-    reported, context, = error.reports.first
-    assert_equal "Support inbound convert unmatched admin", reported.message
-    assert_equal "pat@example.com", context[:original_from]
+    assert_equal "pat@example.com", ticket.admin.email
+    assert_equal ticket.admin, original.admin
   end
 
   test "sets admin on the ticket and opening message when the original matches" do
@@ -267,16 +272,63 @@ class Support::InboundTest < ActiveSupport::TestCase
     assert_includes reply.body, "Here is the answer"
   end
 
-  test "drops a reply from a sender that is not allowlisted" do
+  test "raises when a ticket sender is unknown and imports after the admin is added" do
     ticket = Support::Ticket.create!(
       priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
+    payload = {
+      "To" => ticket.inbound_email,
+      "From" => "stranger@example.com",
+      "TextBody" => "Hello",
+      "MessageID" => "reply-denied"
+    }
 
-    assert_no_difference "Support::Message.count" do
-      ingest(
-        "To" => ticket.inbound_email,
-        "From" => "stranger@example.com",
-        "TextBody" => "Hello",
-        "MessageID" => "reply-denied")
+    assert_no_difference [ "Support::Ticket.count", "Support::Message.count" ] do
+      error = assert_raises(Support::Inbound::UnknownSender) { ingest(payload) }
+      assert_includes error.message, "example.com"
+      assert_not_includes error.message, "stranger@"
     end
+
+    Admin.create!(
+      name: "Stranger",
+      email: "stranger@example.com",
+      permission: Permission.superadmin)
+
+    assert_difference "Support::Message.count", 1 do
+      ingest(payload)
+    end
+
+    message = ticket.messages.order(:id).last
+    assert_equal "admin", message.author
+    assert_equal "stranger@example.com", message.admin.email
+  end
+
+  test "raises for an unrecognized recipient and imports after it is recognized" do
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
+    payload = {
+      "To" => ticket.inbound_email,
+      "From" => admins(:external).email,
+      "TextBody" => "Hello",
+      "MessageID" => "reply-unrecognized"
+    }
+
+    Support::InboundAddress.stub(:parse, nil) do
+      assert_no_difference [ "Support::Ticket.count", "Support::Message.count" ] do
+        error = assert_raises(Support::Inbound::UnrecognizedAddress) { ingest(payload) }
+        assert_includes error.message, "support.csa-admin.org"
+        assert_not_includes error.message, Tenant.current
+      end
+    end
+
+    assert_difference "Support::Message.count", 1 do
+      ingest(payload)
+    end
+  end
+
+  test "address hint uses the domain only" do
+    assert_equal "example.com", Support::Inbound.address_hint("pat@example.com")
+    assert_equal "example.com", Support::Inbound.address_hint([ nil, "pat@example.com" ])
+    assert_equal "missing", Support::Inbound.address_hint(nil)
+    assert_equal "unparseable", Support::Inbound.address_hint("not-an-address")
   end
 end
