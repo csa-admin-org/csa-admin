@@ -4,9 +4,7 @@ require "test_helper"
 
 class Support::InboundJobTest < ActiveJob::TestCase
   def ingest(payload)
-    perform_enqueued_jobs only: Support::InboundJob do
-      Support::InboundJob.perform_later(payload)
-    end
+    Support::InboundJob.new.perform(payload)
   end
 
   test "appends an allowlisted admin reply" do
@@ -67,16 +65,18 @@ class Support::InboundJobTest < ActiveJob::TestCase
     assert_not_includes message.html.to_s, "Ã"
   end
 
-  test "drops unknown from addresses" do
+  test "raises for unknown from addresses" do
     ticket = Support::Ticket.create!(
       priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
 
     assert_no_difference "Support::Message.count" do
-      ingest(
-        "To" => ticket.inbound_email,
-        "From" => "stranger@gmail.com",
-        "TextBody" => "Hello",
-        "MessageID" => "inbound-2")
+      assert_raises Support::Inbound::UnknownSender do
+        ingest(
+          "To" => ticket.inbound_email,
+          "From" => "stranger@gmail.com",
+          "TextBody" => "Hello",
+          "MessageID" => "inbound-2")
+      end
     end
   end
 
@@ -153,13 +153,28 @@ class Support::InboundJobTest < ActiveJob::TestCase
     end
   end
 
-  test "drops convert from a non-operator address" do
+  test "raises for an unrecognized recipient" do
+    assert_no_difference [ "Support::Ticket.count", "Support::Message.count" ] do
+      error = assert_raises Support::Inbound::UnrecognizedAddress do
+        ingest(
+          "To" => "noreply@example.com",
+          "From" => admins(:external).email,
+          "TextBody" => "Hello",
+          "MessageID" => "inbound-unrecognized")
+      end
+      assert_includes error.message, "example.com"
+    end
+  end
+
+  test "raises for convert from a non-operator address" do
     assert_no_difference "Support::Ticket.count" do
-      ingest(
-        "To" => "ticket-acme@support.csa-admin.org",
-        "From" => "attacker@gmail.com",
-        "TextBody" => "Please help\n\nOn Mon, Jane Doe <#{admins(:external).email}> wrote:\nHello",
-        "MessageID" => "convert-attack")
+      assert_raises Support::Inbound::RejectedSender do
+        ingest(
+          "To" => "ticket-acme@support.csa-admin.org",
+          "From" => "attacker@gmail.com",
+          "TextBody" => "Please help\n\nOn Mon, Jane Doe <#{admins(:external).email}> wrote:\nHello",
+          "MessageID" => "convert-attack")
+      end
     end
   end
 
@@ -339,6 +354,15 @@ class Support::InboundJobTest < ActiveJob::TestCase
     assert_includes reply.body, "Here is the answer"
     assert_not_includes reply.body, "Hello from the member"
     assert_not_includes reply.html.to_s, "On 13 Oct"
+  end
+
+  test "does not discard inbound policy errors" do
+    discarded = Support::InboundJob.rescue_handlers.filter_map { |klass, _|
+      name = klass.to_s
+      name if name.start_with?("Support::Inbound")
+    }
+
+    assert_empty discarded
   end
 
   test "convert is idempotent on message id" do

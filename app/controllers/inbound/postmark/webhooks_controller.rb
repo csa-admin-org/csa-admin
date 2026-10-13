@@ -9,11 +9,7 @@ module Inbound
 
       def create
         address = Support::InboundAddress.parse(*recipient_addresses)
-        if address&.recognized? && !address.demo?
-          Tenant.switch(address.tenant) {
-            Support::InboundJob.perform_later(sliced_payload)
-          }
-        end
+        Support::InboundJob.perform_later(sliced_payload) unless address&.demo?
         head :ok
       end
 

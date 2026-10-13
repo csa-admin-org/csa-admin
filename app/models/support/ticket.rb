@@ -186,9 +186,7 @@ module Support
 
     def self.convert_inbound(inbound)
       unless Support::InboundAddress.operator_email?(inbound.from)
-        report_convert_failure("Support inbound convert rejected sender",
-          from: inbound.from)
-        return
+        raise Support::Inbound::RejectedSender, inbound.from
       end
 
       rfc_id = inbound.rfc_message_id
@@ -197,8 +195,7 @@ module Support
 
       matched_admin = Admin.with_email(inbound.original_from).first if inbound.original_from
       if matched_admin.blank? && (inbound.original.present? || inbound.original_from.present?)
-        report_convert_failure("Support inbound convert unmatched admin",
-          original_from: inbound.original_from)
+        raise Support::Inbound::UnmatchedAdmin, inbound.original_from
       end
 
       ticket = new(
@@ -233,10 +230,10 @@ module Support
     def append_inbound(inbound)
       rfc_id = inbound.rfc_message_id
       return if rfc_id.present? && Support::Message.exists?(rfc_message_id: rfc_id)
-      return if inbound.reply.blank? && inbound.attachments.blank?
 
       author, admin = inbound_author(inbound.from)
-      return unless author
+      raise Support::Inbound::UnknownSender, inbound.from unless author
+      return if inbound.reply.blank? && inbound.attachments.blank?
 
       persist_inbound_message(
         author: author,
@@ -303,10 +300,6 @@ module Support
       def inbound_subject(subject)
         cleaned = subject.to_s.sub(/\A(re|fwd|fw|tr|aw):\s*/i, "").strip
         cleaned.presence || "Support"
-      end
-
-      def report_convert_failure(message, **context)
-        Rails.error.report(StandardError.new(message), context: context)
       end
     end
 

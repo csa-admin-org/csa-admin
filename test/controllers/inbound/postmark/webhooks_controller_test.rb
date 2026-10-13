@@ -40,8 +40,8 @@ class Inbound::Postmark::WebhooksControllerTest < ActionDispatch::IntegrationTes
     assert_response :success
   end
 
-  test "returns 200 and drops unknown tenant" do
-    assert_no_enqueued_jobs only: Support::InboundJob do
+  test "returns 200 and enqueues an unrecognized recipient" do
+    assert_enqueued_jobs 1, only: Support::InboundJob do
       request(params: {
         "To" => "ticket-deadbeef-unknown@support.csa-admin.org",
         "From" => "info@csa-admin.org",

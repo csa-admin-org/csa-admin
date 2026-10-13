@@ -2,6 +2,33 @@
 
 module Support
   class Inbound
+    class Error < StandardError
+    end
+
+    class UnrecognizedAddress < Error
+      def initialize(recipients = nil)
+        super("Support inbound unrecognized recipient (#{Inbound.address_hint(recipients)})")
+      end
+    end
+
+    class RejectedSender < Error
+      def initialize(email = nil)
+        super("Support inbound convert rejected sender (#{Inbound.address_hint(email)})")
+      end
+    end
+
+    class UnmatchedAdmin < Error
+      def initialize(email = nil)
+        super("Support inbound convert unmatched admin (#{Inbound.address_hint(email)})")
+      end
+    end
+
+    class UnknownSender < Error
+      def initialize(email = nil)
+        super("Support inbound unknown sender (#{Inbound.address_hint(email)})")
+      end
+    end
+
     Hop = Data.define(:body, :html) do
       def present?
         body.present? || html.present?
@@ -17,6 +44,16 @@ module Support
 
     def self.parse(payload)
       new(payload)
+    end
+
+    def self.address_hint(value)
+      emails = InboundAddress.emails_from(*Array(value))
+      emails = Array(value).map(&:to_s) if emails.empty? && value.present?
+      domains = emails.filter_map { |email|
+        domain = email.to_s.downcase.split("@", 2).last.presence
+        domain if domain && domain.include?(".")
+      }.uniq
+      domains.first || (value.present? ? "unparseable" : "missing")
     end
 
     def initialize(payload)
