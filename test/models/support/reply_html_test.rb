@@ -101,6 +101,26 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_not_includes original, "Here is the answer"
   end
 
+  test "split_cited treats a thunderbird cite prefix as the original header" do
+    html = <<~HTML
+      <html><body>
+        <p>Here is the answer</p>
+        <div class="moz-cite-prefix">On Monday, Jane Doe wrote:<br></div>
+        <blockquote type="cite">
+          <p>Hello from the member</p>
+        </blockquote>
+      </body></html>
+    HTML
+
+    reply, original = Support::ReplyHtml.split_cited(html)
+
+    assert_includes reply, "Here is the answer"
+    assert_not_includes reply, "Hello from the member"
+    assert_not_includes reply, "On Monday"
+    assert_includes original, "Hello from the member"
+    assert_not_includes original, "On Monday"
+  end
+
   test "split_cited skips a header-only cite and keeps the following original" do
     html = <<~HTML
       <html><body>

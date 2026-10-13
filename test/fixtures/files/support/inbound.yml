@@ -1,0 +1,294 @@
+apple_mail:
+  text: |
+    Here is the answer
+
+    On Monday, Jane Doe <ADMIN_EMAIL> wrote:
+    Hello from the member
+  html: |
+    <html><body>
+      <div>Here is the answer</div>
+      <blockquote type="cite">
+        <div>On Monday, Jane Doe wrote:</div>
+        <div>Hello from the member</div>
+      </blockquote>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Here is the answer
+    original: Hello from the member
+
+gmail:
+  text: |
+    Here is the answer
+
+    On Monday, Jane Doe <ADMIN_EMAIL> wrote:
+    Hello from the member
+  html: |
+    <html><body>
+      <div dir="ltr">Here is the answer</div>
+      <div class="gmail_quote">
+        <div class="gmail_attr">On Monday, Jane Doe &lt;ADMIN_EMAIL&gt; wrote:<br></div>
+        <blockquote class="gmail_quote">
+          <div>Hello from the member</div>
+        </blockquote>
+      </div>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Here is the answer
+    original: Hello from the member
+
+outlook_de:
+  text: |
+    Here is the answer
+
+    De : Jane Doe <ADMIN_EMAIL>
+    Envoyé : lundi
+    Objet : Help
+    Hello from the member
+  html: |
+    <html><body>
+      <div>Here is the answer</div>
+      <div id="divRplyFwdMsg">
+        <hr>
+        <font>De : Jane Doe &lt;ADMIN_EMAIL&gt;<br>
+        Envoyé : lundi<br>
+        Objet : Help</font>
+      </div>
+      <div>Hello from the member</div>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Here is the answer
+    original: Hello from the member
+
+outlook_from:
+  text: |
+    Here is the answer
+
+    From: Jane Doe <ADMIN_EMAIL>
+    Sent: Monday
+    Subject: Help
+    Hello from the member
+  html: |
+    <html><body>
+      <div>Here is the answer</div>
+      <div id="divRplyFwdMsg">
+        <hr>
+        <font>From: Jane Doe &lt;ADMIN_EMAIL&gt;<br>
+        Sent: Monday<br>
+        Subject: Help</font>
+      </div>
+      <div>Hello from the member</div>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Here is the answer
+    original: Hello from the member
+
+outlook_von:
+  text: |
+    Here is the answer
+
+    Von: Jane Doe <ADMIN_EMAIL>
+    Gesendet: Montag
+    Betreff: Help
+    Hello from the member
+  html: |
+    <html><body>
+      <div>Here is the answer</div>
+      <div id="divRplyFwdMsg">
+        <hr>
+        <font>Von: Jane Doe &lt;ADMIN_EMAIL&gt;<br>
+        Gesendet: Montag<br>
+        Betreff: Help</font>
+      </div>
+      <div>Hello from the member</div>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Here is the answer
+    original: Hello from the member
+
+thunderbird:
+  text: |
+    Here is the answer
+
+    On Monday, Jane Doe <ADMIN_EMAIL> wrote:
+    Hello from the member
+  html: |
+    <html><body>
+      <p>Here is the answer</p>
+      <div class="moz-cite-prefix">On Monday, Jane Doe wrote:<br></div>
+      <blockquote type="cite">
+        <p>Hello from the member</p>
+      </blockquote>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Here is the answer
+    original: Hello from the member
+
+cite_fr:
+  text: |
+    Voici la réponse
+
+    Le lundi, Jane Doe <ADMIN_EMAIL> a écrit :
+    Hello from the member
+  html: |
+    <html><body>
+      <p>Voici la réponse</p>
+      <blockquote type="cite">
+        <p>Le lundi, Jane Doe a écrit :</p>
+        <p>Hello from the member</p>
+      </blockquote>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Voici la réponse
+    original: Hello from the member
+
+cite_de:
+  text: |
+    Hier ist die Antwort
+
+    Am Montag schrieb Jane Doe <ADMIN_EMAIL>:
+    Hello from the member
+  html: |
+    <html><body>
+      <p>Hier ist die Antwort</p>
+      <blockquote type="cite">
+        <p>Am Montag schrieb Jane Doe:</p>
+        <p>Hello from the member</p>
+      </blockquote>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Hier ist die Antwort
+    original: Hello from the member
+
+cite_en:
+  text: |
+    Here is the answer
+
+    On Monday, Jane Doe <ADMIN_EMAIL> wrote:
+    Hello from the member
+  html: |
+    <html><body>
+      <p>Here is the answer</p>
+      <blockquote type="cite">
+        <p>On Monday, Jane Doe wrote:</p>
+        <p>Hello from the member</p>
+      </blockquote>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Here is the answer
+    original: Hello from the member
+
+cite_it:
+  text: |
+    Ecco la risposta
+
+    Il giorno lunedì Jane Doe <ADMIN_EMAIL> ha scritto:
+    Hello from the member
+  html: |
+    <html><body>
+      <p>Ecco la risposta</p>
+      <blockquote type="cite">
+        <p>Il giorno lunedì Jane Doe ha scritto:</p>
+        <p>Hello from the member</p>
+      </blockquote>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Ecco la risposta
+    original: Hello from the member
+
+html_only:
+  text: ""
+  html: |
+    <html><body>
+      <p>Here is the answer</p>
+      <blockquote type="cite">On Monday, Jane Doe &lt;ADMIN_EMAIL&gt; wrote:<br>Hello from the member</blockquote>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Here is the answer
+    original: Hello from the member
+
+text_only:
+  text: |
+    Here is the answer
+
+    On Monday, Jane Doe <ADMIN_EMAIL> wrote:
+    Hello from the member
+  html: ""
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Here is the answer
+    original: Hello from the member
+
+forwarded:
+  text: |
+    Please see below.
+
+    ---------- Forwarded message ----------
+    From: Jane Doe <ADMIN_EMAIL>
+    Date: Monday
+    Subject: Help
+
+    Hello from the member
+  html: |
+    <html><body>
+      <p>Please see below.</p>
+      <blockquote>
+        <p>---------- Forwarded message ----------</p>
+        <p>From: Jane Doe &lt;ADMIN_EMAIL&gt;</p>
+        <p>Hello from the member</p>
+      </blockquote>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: Please see below.
+    original: Hello from the member
+
+multi_hop:
+  text: |
+    My reply
+
+    On Monday, Support wrote:
+    Previous hop
+
+    On Sunday, Jane Doe <ADMIN_EMAIL> wrote:
+    Hello from the member
+  html: |
+    <html><body>
+      <div>My reply</div>
+      <blockquote type="cite">
+        <div>On Monday, Support wrote:</div>
+        <div>Previous hop</div>
+        <blockquote type="cite">
+          <div>On Sunday, Jane Doe &lt;ADMIN_EMAIL&gt; wrote:</div>
+          <div>Hello from the member</div>
+        </blockquote>
+      </blockquote>
+    </body></html>
+  expect:
+    original_from: ADMIN_EMAIL
+    reply: My reply
+    original: Hello from the member
+
+attachment_only:
+  text: ""
+  html: ""
+  attachments:
+    - Name: note.txt
+      ContentType: text/plain
+      ContentLength: 4
+      Content: bm90ZQ==
+  expect:
+    original_from:
+    reply:
+    original:
+    attachments: 1
