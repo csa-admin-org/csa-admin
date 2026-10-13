@@ -101,6 +101,33 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_not_includes original, "Here is the answer"
   end
 
+  test "split_cited skips a header-only cite and keeps the following original" do
+    html = <<~HTML
+      <html><body>
+        <div>Here is the answer</div>
+        <div>
+          <blockquote type="cite">On 13 Oct 2026, at 06:19, Jane Doe wrote:<br><br></blockquote>
+        </div>
+        <blockquote type="cite">
+          <div>Hello from the member</div>
+          <div><img alt="image.png" src="cid:shot@mail"></div>
+          <div>---</div>
+          <div>Jane Doe</div>
+        </blockquote>
+      </body></html>
+    HTML
+
+    reply, original = Support::ReplyHtml.split_cited(html)
+
+    assert_includes reply, "Here is the answer"
+    assert_not_includes reply, "Hello from the member"
+    assert_not_includes reply, "On 13 Oct"
+    assert_includes original, "Hello from the member"
+    assert_includes original, "image.png"
+    assert_not_includes original, "On 13 Oct"
+    assert_not_includes original, "Here is the answer"
+  end
+
   test "drops a proton mail quote block" do
     html = <<~HTML
       <div>Yes super ! Merci :)</div>

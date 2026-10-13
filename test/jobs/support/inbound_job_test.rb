@@ -262,6 +262,66 @@ class Support::InboundJobTest < ActiveJob::TestCase
     assert_not_includes reply.html.to_s, "Hello from the member"
   end
 
+  test "converts an apple mail html-only cite with a header blockquote and inline image" do
+    png = Base64.strict_encode64("fake-png")
+    html = <<~HTML
+      <html><body>
+        <div dir="ltr">
+          <div>Here is the answer</div>
+          <div>++</div>
+          <div>Thibaud</div>
+        </div>
+        <div dir="ltr">
+          <blockquote type="cite">On 13 Oct 2026, at 06:19, Jane Doe &lt;#{admins(:external).email}&gt; wrote:<br><br></blockquote>
+        </div>
+        <blockquote type="cite">
+          <div dir="ltr">
+            <div>Hello from the member</div>
+            <div><img alt="image.png" src="cid:shot@mail"></div>
+            <div>---</div>
+            <div>Jane Doe</div>
+            <div>Org desk</div>
+          </div>
+        </blockquote>
+      </body></html>
+    HTML
+
+    with_env(
+      "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+      "SUPPORT_EMAIL" => "support@csa-admin.org") do
+      assert_difference "Support::Ticket.count" => 1, "Support::Message.count" => 2 do
+        ingest(
+          "To" => "ticket-acme@support.csa-admin.org",
+          "From" => "support+high@csa-admin.org",
+          "Subject" => "Re: Informal help",
+          "TextBody" => "",
+          "StrippedTextReply" => "",
+          "HtmlBody" => html,
+          "MessageID" => "convert-html-only",
+          "Headers" => [ { "Name" => "Message-ID", "Value" => "<convert-html-only@mail>" } ],
+          "Attachments" => [ {
+            "Name" => "image.png",
+            "ContentType" => "image/png",
+            "ContentID" => "shot@mail",
+            "ContentLength" => 8,
+            "Content" => png
+          } ])
+      end
+    end
+
+    ticket = Support::Ticket.order(:id).last
+    original, reply = ticket.messages.order(:id).to_a
+    assert original.body.present?
+    assert reply.body.present?
+    assert_includes original.body, "Hello from the member"
+    assert_not_includes original.body, "Here is the answer"
+    assert_not_includes original.body, "On 13 Oct"
+    assert_includes original.html.to_s, "Hello from the member"
+    assert_includes reply.body, "Here is the answer"
+    assert_not_includes reply.body, "Hello from the member"
+    assert_not_includes reply.html.to_s, "On 13 Oct"
+  end
+
   test "convert is idempotent on message id" do
     payload = {
       "To" => "ticket-acme@support.csa-admin.org",
