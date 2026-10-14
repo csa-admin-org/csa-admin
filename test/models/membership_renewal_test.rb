@@ -184,6 +184,26 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     assert_equal 0, renewed_membership.basket_complements_annual_price_change
   end
 
+  test "does not copy forced annual numbers" do
+    org(membership_renewed_attributes: %w[absences_included_annually activity_participations])
+    membership = memberships(:jane)
+    membership.update!(
+      absences_included_annually: 5,
+      force_absences_included_annually: true,
+      activity_participations_demanded_annually: 4,
+      force_activity_participations_demanded_annually: true)
+
+    assert_difference "Membership.count", 1 do
+      MembershipRenewal.new(membership).renew!
+    end
+
+    renewed = membership.reload.renewed_membership
+    assert_equal 5, renewed.absences_included_annually
+    assert_not renewed.force_absences_included_annually?
+    assert_equal 4, renewed.activity_participations_demanded_annually
+    assert_not renewed.force_activity_participations_demanded_annually?
+  end
+
   test "carries over absences_included_annually when enabled" do
     org(membership_renewed_attributes: %w[absences_included_annually])
     membership = memberships(:jane)

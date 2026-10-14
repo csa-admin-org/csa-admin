@@ -49,22 +49,31 @@ class AbsencesIncluded
   end
 
   def count
-    return 0 unless fy_deliveries_count.positive? && @membership.absences_included_annually.positive?
+    return 0 unless fy_deliveries_count.positive?
+    return forced_count if @membership.force_absences_included_annually?
+    return 0 unless @membership.absences_included_annually.positive?
 
-    [ @liquid_template.render(
-      "membership" => MembershipDrop.new(@membership)).to_i, 0 ].max
+    rendered_count(MembershipDrop.new(@membership))
   end
 
   def preview_count
     return unless @membership.delivery_cycle && @membership.started_on && @membership.ended_on
+    return 0 unless fy_deliveries_count.positive?
+    return forced_count if @membership.force_absences_included_annually?
+    return 0 unless @membership.absences_included_annually.to_i.positive?
 
-    return 0 unless fy_deliveries_count.positive? && @membership.absences_included_annually.to_i.positive?
-
-    [ @liquid_template.render(
-      "membership" => PreviewMembershipDrop.new(@membership)).to_i, 0 ].max
+    rendered_count(PreviewMembershipDrop.new(@membership))
   end
 
   private
+
+  def forced_count
+    [ @membership.absences_included_annually.to_i, 0 ].max
+  end
+
+  def rendered_count(drop)
+    [ @liquid_template.render("membership" => drop).to_i, 0 ].max
+  end
 
   def fy_deliveries_count
     @membership.delivery_cycle.deliveries_in(@membership.fiscal_year.range).size

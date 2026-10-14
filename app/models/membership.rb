@@ -233,7 +233,13 @@ class Membership < ApplicationRecord
   def refresh_after_baskets_update!
     save!(validate: false)
     # save! is a no-op when no membership attributes changed (baskets were
-    # added/removed under no_touching). Always refresh the price cache.
+    # added/removed under no_touching). Always refresh the formula outputs
+    # and the price cache.
+    update_absences_included!
+    set_activity_participations
+    update_columns(
+      activity_participations_demanded: activity_participations_demanded,
+      activity_participations_annual_price_change: activity_participations_annual_price_change)
     update_price_and_invoices_amount!
   end
 

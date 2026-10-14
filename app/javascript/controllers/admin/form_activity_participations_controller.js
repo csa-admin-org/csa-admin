@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { debounce } from "throttle-debounce"
 
 const PREVIEW_PARAM =
-  /\[(member_id|basket_size_id|waiting_basket_size_id|basket_quantity|depot_id|waiting_depot_id|delivery_cycle_id|waiting_delivery_cycle_id|started_on|ended_on|waiting_membership_started_on|activity_participations_demanded_annually|waiting_activity_participations_demanded_annually|salary_basket)\]$|\[(memberships_basket_complements_attributes|members_basket_complements_attributes)\]/
+  /\[(member_id|basket_size_id|waiting_basket_size_id|basket_quantity|depot_id|waiting_depot_id|delivery_cycle_id|waiting_delivery_cycle_id|started_on|ended_on|waiting_membership_started_on|activity_participations_demanded_annually|force_activity_participations_demanded_annually|waiting_activity_participations_demanded_annually|salary_basket)\]$|\[(memberships_basket_complements_attributes|members_basket_complements_attributes)\]/
 
 export default class extends Controller {
   static get targets() {

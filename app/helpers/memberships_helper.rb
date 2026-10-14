@@ -178,6 +178,14 @@ module MembershipsHelper
     end
   end
 
+  def force_annual_formula_input(form, attribute)
+    form.input attribute,
+      as: :boolean,
+      label: Membership.human_attribute_name(:force_annual_formula),
+      hint: t("formtastic.hints.membership.force_annual_formula"),
+      wrapper_html: { class: "admin-formula-force" }
+  end
+
   def absences_included_formula_hint
     t("formtastic.hints.membership.absences_included_annually_formula_html",
       settings_url: absences_included_logic_settings_url,
@@ -377,6 +385,7 @@ module MembershipsHelper
     return if demanded.nil?
 
     copy = membership.dup
+    copy.force_activity_participations_demanded_annually = false
     copy.activity_participations_demanded_annually = membership.activity_participations_demanded_annually_by_default
     default_demanded = ActivityParticipationDemanded.new(copy).count
     -(demanded - default_demanded) * Current.org.activity_price
@@ -416,6 +425,8 @@ module MembershipsHelper
     membership.assign_attributes(attrs.slice(
       :basket_size_id, :depot_id, :delivery_cycle_id, :started_on, :ended_on))
     absences_included_assign_annually(membership, attrs[:absences_included_annually])
+    membership.force_absences_included_annually =
+      ActiveRecord::Type::Boolean.new.cast(attrs[:force_absences_included_annually])
     membership
   end
 
@@ -437,6 +448,8 @@ module MembershipsHelper
       membership, attrs[:memberships_basket_complements_attributes])
     activity_participations_assign_annually(
       membership, attrs[:activity_participations_demanded_annually])
+    membership.force_activity_participations_demanded_annually =
+      ActiveRecord::Type::Boolean.new.cast(attrs[:force_activity_participations_demanded_annually])
     membership
   end
 

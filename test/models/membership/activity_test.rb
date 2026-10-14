@@ -3,6 +3,14 @@
 require "test_helper"
 
 class Membership::ActivityTest < ActiveSupport::TestCase
+  test "rejects a negative demanded annually" do
+    membership = memberships(:jane)
+
+    assert_not membership.update(activity_participations_demanded_annually: -1)
+    assert membership.errors[:activity_participations_demanded_annually].any?
+    assert_equal 2, membership.reload.activity_participations_demanded_annually
+  end
+
   test "set activity_participations_demanded_annually by default" do
     travel_to "2024-01-01"
     basket_sizes(:medium).update!(activity_participations_demanded_annually: 5)
@@ -152,6 +160,21 @@ class Membership::ActivityTest < ActiveSupport::TestCase
     membership.update!(basket_quantity: 2)
 
     assert_equal 0, membership.activity_participations_annual_price_change
+  end
+
+  test "forced annual number prices against the unforced default" do
+    travel_to "2024-01-01"
+    org(activity_participations_demanded_logic: "0")
+    membership = memberships(:jane)
+    membership.update!(
+      ended_on: deliveries(:thursday_5).date,
+      activity_participations_demanded_annually: 4,
+      activity_participations_annual_price_change: nil,
+      force_activity_participations_demanded_annually: true)
+
+    assert_equal 4, membership.activity_participations_demanded
+    assert_equal 4, membership.activity_participations_demanded_diff_from_default
+    assert_equal(-(4 * 50), membership.activity_participations_annual_price_change)
   end
 
   test "set_activity_participations when activity feature is disabled" do

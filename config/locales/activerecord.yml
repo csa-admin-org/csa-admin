@@ -2970,6 +2970,12 @@ _:
           _de: Ende
           _it: Fine
           _nl: Einde
+        force_annual_formula:
+          _en: Force the annual number
+          _fr: Forcer le nombre annuel
+          _de: Jahreszahl erzwingen
+          _it: Forzare il numero annuale
+          _nl: Jaaraantal afdwingen
         forced_deliveries:
           _en: Forced deliveries
           _fr: Livraisons forcées

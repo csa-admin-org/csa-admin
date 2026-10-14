@@ -64,6 +64,42 @@ class ActivityParticipationDemandedTest < ActiveSupport::TestCase
     end
   end
 
+  test "forced annual number skips a template that would return zero" do
+    travel_to "2024-01-01"
+    org(activity_participations_demanded_logic: "0")
+    membership = memberships(:jane)
+    membership.update!(
+      ended_on: deliveries(:thursday_5).date,
+      activity_participations_demanded_annually: 4,
+      force_activity_participations_demanded_annually: true)
+
+    assert_equal 4, demanded_for(membership.reload)
+    assert_equal 4, membership.activity_participations_demanded
+
+    membership.update!(force_activity_participations_demanded_annually: false)
+
+    assert_equal 0, demanded_for(membership.reload)
+  end
+
+  test "forced annual number survives a basket resync that changes the basket count" do
+    travel_to "2024-01-01"
+    org(activity_participations_demanded_logic: <<-LIQUID)
+      {{ membership.baskets }}
+    LIQUID
+    membership = memberships(:jane)
+    membership.update!(
+      activity_participations_demanded_annually: 4,
+      force_activity_participations_demanded_annually: true)
+    assert_equal 4, membership.activity_participations_demanded
+
+    Delivery.create!(date: "2024-01-11")
+    perform_enqueued_jobs
+
+    assert membership.reload.baskets.exists?(delivery: Delivery.find_by!(date: "2024-01-11"))
+    assert_equal 4, membership.activity_participations_demanded
+    assert membership.force_activity_participations_demanded_annually?
+  end
+
   def apply_custom_logic
     org(activity_participations_demanded_logic: <<-LIQUID)
       {% if member.salary_basket %}

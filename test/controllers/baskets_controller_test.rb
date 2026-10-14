@@ -149,6 +149,16 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
       text: I18n.t("active_admin.resource.show.absences_prorated_from", count: 5)
   end
 
+  test "membership show omits the prorated note when the annual number is forced" do
+    @membership.update!(absences_included_annually: 5, force_absences_included_annually: true)
+
+    get membership_path(@membership)
+
+    assert_response :success
+    assert_select "a[href=?]", handbook_page_path("absence", anchor: "absence-included-logic"), count: 0
+    assert_no_match(/prorat/i, response.body)
+  end
+
   test "edit form offers a shift for a billed present basket" do
     present = @membership.baskets.normal.billable.first
     target = @membership.baskets.normal.where.not(id: present.id).last

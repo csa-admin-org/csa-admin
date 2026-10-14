@@ -80,6 +80,37 @@
     grid-row: 3;
   }
 
+  .formtastic .inputs li.admin-formula-force {
+    display: contents;
+  }
+
+  .formtastic .inputs li.boolean.admin-formula-force > label {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    margin-top: 0.85rem;
+    width: max-content;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    color: var(--color-ink-secondary);
+  }
+
+  .formtastic .inputs li.admin-formula-force > label input[type="checkbox"] {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .formtastic .inputs li.admin-formula-force > label input[type="checkbox"]:checked {
+    background-size: 0.5rem 0.5rem;
+  }
+
+  .formtastic .inputs li.admin-formula-force > .inline-hints {
+    grid-column: 1 / -1;
+    grid-row: 5;
+    margin-top: 0.15rem;
+  }
+
   .activity-participations-formula-text .activity-participations-formula-arrow {
     width: 1.25rem;
     height: 1.25rem;

@@ -1356,6 +1356,12 @@ _:
           _de: Leer lassen für den Standardpreis.
           _it: Lasciare vuoto il campo per il numero predefinito.
           _nl: Laat leeg voor de standaardprijs.
+        force_annual_formula:
+          _en: Do not apply the logic defined in the settings. The annual number is used as is.
+          _fr: Ne pas appliquer la logique définie dans les paramètres. Le nombre annuel est utilisé tel quel.
+          _de: Die in den Einstellungen festgelegte Logik nicht anwenden. Die Jahreszahl wird unverändert verwendet.
+          _it: Non applicare la logica definita nelle impostazioni. Il numero annuale viene usato così com'è.
+          _nl: De logica uit de instellingen niet toepassen. Het jaaraantal wordt ongewijzigd gebruikt.
         price:
           _en: Leave blank for the default price.
           _fr: Laisser vide pour le prix par défaut.

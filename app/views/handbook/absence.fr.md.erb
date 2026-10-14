@@ -98,6 +98,8 @@ Exemple: aucune absence incluse après le 13 du quatrième mois fiscal (avril si
 
 Modifier la logique ne réécrit pas les abonnements existants tant que chacun n'est pas modifié, ou qu'une mise à jour de livraison ou de cycle ne les resynchronise. Cela peut modifier les <%= Basket.model_name.human(count: 2).downcase %> facturé(e)s. La date du rappel d'absences incluses n'est pas réinitialisée.
 
+Sur un abonnement, "Forcer le nombre annuel" ignore cette logique. Le nombre annuel est utilisé tel quel, y compris pour un abonnement qui commence ou se termine en cours d'année. Ce choix n'est pas repris au renouvellement.
+
 ### Mode de fin d'année {#absence-included-mode}
 
 Lorsque les membres n'utilisent pas toutes leurs absences incluses à la fin de leur abonnement, les absences restantes restent provisoirement marquées sur les dernières livraisons. Pour gérer cette situation, vous pouvez configurer un **mode de fin d'année** dans [les paramètres](/settings#absence):

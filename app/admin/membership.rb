@@ -814,6 +814,7 @@ ActiveAdmin.register Membership do
             f.input :absences_included_annually,
               required: false,
               step: 1,
+              min: 0,
               hint: absences_included_formula_hint,
               wrapper_html: { class: "admin-formula-annually" },
               input_html: {
@@ -830,6 +831,7 @@ ActiveAdmin.register Membership do
               }
             text_node icon("move-right", class: "admin-formula-arrow")
             text_node absences_included_preview(absences_preview[:included])
+            text_node force_annual_formula_input(f, :force_absences_included_annually)
           end
           turbo_frame(
             id: "membership-absences-included",
@@ -959,6 +961,8 @@ ActiveAdmin.register Membership do
           f.input :activity_participations_demanded_annually,
             label: t(".activity_participations_demanded_annually"),
             hint: activity_participations_demanded_formula_hint,
+            step: 1,
+            min: 0,
             wrapper_html: { class: "activity-participations-annually" },
             input_html: {
               value: activity_participations_annually_form_value(
@@ -973,6 +977,7 @@ ActiveAdmin.register Membership do
             }
           text_node icon("move-right", class: "activity-participations-formula-arrow")
           text_node activity_participations_demanded_preview(preview[:demanded])
+          text_node force_annual_formula_input(f, :force_activity_participations_demanded_annually)
         end
         f.input :activity_participations_annual_price_change,
           input_html: {
@@ -1078,6 +1083,8 @@ ActiveAdmin.register Membership do
     :activity_participations_annual_price_change, :activity_participations_demanded_annually,
     :basket_complements_annual_price_change,
     :absences_included_annually,
+    :force_absences_included_annually,
+    :force_activity_participations_demanded_annually,
     :new_config_from,
     :price_reduction_choice_id,
     membership_price_reduction_attributes: [

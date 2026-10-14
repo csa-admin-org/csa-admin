@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_02_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_14_120000) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -833,6 +833,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_02_120000) do
     t.bigint "alternate_depot_id"
     t.decimal "alternate_depot_price", precision: 8, scale: 3
     t.bigint "alternate_delivery_cycle_id"
+    t.boolean "force_absences_included_annually", default: false, null: false
+    t.boolean "force_activity_participations_demanded_annually", default: false, null: false
     t.index ["alternate_delivery_cycle_id"], name: "index_memberships_on_alternate_delivery_cycle_id"
     t.index ["alternate_depot_id"], name: "index_memberships_on_alternate_depot_id"
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"

@@ -18,7 +18,8 @@ module Membership::Activity
   extend ActiveSupport::Concern
 
   included do
-    validates :activity_participations_demanded_annually, numericality: true
+    validates :activity_participations_demanded_annually,
+      numericality: { greater_than_or_equal_to: 0, only_integer: true }
     validates :activity_participations_annual_price_change, numericality: true, allow_nil: true
 
     scope :activity_participations_missing_eq, ->(count) {
@@ -54,9 +55,7 @@ module Membership::Activity
   end
 
   def activity_participations_demanded_diff_from_default
-    copy = dup
-    copy.activity_participations_demanded_annually = activity_participations_demanded_annually_by_default
-    activity_participations_demanded - ActivityParticipationDemanded.new(copy).count
+    activity_participations_demanded - activity_participations_default_demanded
   end
 
   def activity_participations_missing
@@ -85,14 +84,6 @@ module Membership::Activity
     fiscal_year.past? && activity_participations_demanded > activity_participations_accepted
   end
 
-  private
-
-  def set_activity_participations_demanded_annually_default
-    return unless activity_participations_demanded_annually.nil?
-
-    self.activity_participations_demanded_annually = activity_participations_demanded_annually_by_default
-  end
-
   def set_activity_participations
     if Current.org.feature?("activity")
       self.activity_participations_demanded = ActivityParticipationDemanded.new(self).count
@@ -104,5 +95,20 @@ module Membership::Activity
       self.activity_participations_demanded = 0
       self.activity_participations_annual_price_change = 0
     end
+  end
+
+  private
+
+  def activity_participations_default_demanded
+    copy = dup
+    copy.force_activity_participations_demanded_annually = false
+    copy.activity_participations_demanded_annually = activity_participations_demanded_annually_by_default
+    ActivityParticipationDemanded.new(copy).count
+  end
+
+  def set_activity_participations_demanded_annually_default
+    return unless activity_participations_demanded_annually.nil?
+
+    self.activity_participations_demanded_annually = activity_participations_demanded_annually_by_default
   end
 end

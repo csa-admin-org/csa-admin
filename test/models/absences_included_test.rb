@@ -35,6 +35,13 @@ class AbsencesIncludedTest < ActiveSupport::TestCase
     assert_equal 0, included_for(membership.reload)
   end
 
+  test "rejects a negative annually" do
+    membership = memberships(:jane)
+
+    assert_not membership.update(absences_included_annually: -1)
+    assert membership.errors[:absences_included_annually].any?
+  end
+
   test "zero annually is zero" do
     travel_to "2024-01-01"
     membership = memberships(:jane)
@@ -149,6 +156,42 @@ class AbsencesIncludedTest < ActiveSupport::TestCase
 
     assert_equal 0, included_for(membership)
     assert_equal 4, AbsencesIncluded.new(membership).preview_count
+  end
+
+  test "forced annual number skips a template that would return zero" do
+    travel_to "2024-01-01"
+    org(absences_included_logic: "0")
+    membership = memberships(:jane)
+    membership.update!(
+      ended_on: deliveries(:thursday_5).date,
+      absences_included_annually: 5,
+      force_absences_included_annually: true)
+
+    assert_equal 5, included_for(membership.reload)
+    assert_equal 5, membership.absences_included
+    assert_equal 5, AbsencesIncluded.new(membership).preview_count
+
+    membership.update!(force_absences_included_annually: false)
+
+    assert_equal 0, included_for(membership.reload)
+    assert_equal 0, membership.absences_included
+  end
+
+  test "forced annual number survives a basket resync that changes the basket count" do
+    travel_to "2024-01-01"
+    org(absences_included_logic: <<-LIQUID)
+      {{ membership.baskets }}
+    LIQUID
+    membership = memberships(:jane)
+    membership.update!(absences_included_annually: 5, force_absences_included_annually: true)
+    assert_equal 5, membership.absences_included
+
+    Delivery.create!(date: "2024-01-11")
+    perform_enqueued_jobs
+
+    assert membership.reload.baskets.exists?(delivery: Delivery.find_by!(date: "2024-01-11"))
+    assert_equal 5, membership.absences_included
+    assert membership.force_absences_included_annually?
   end
 
   test "skips the write when the absence feature is off" do

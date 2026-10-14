@@ -76,6 +76,8 @@ module Membership::Auditing
       :baskets_annual_price_change, :basket_complements_annual_price_change,
       :activity_participations_demanded_annually, :activity_participations_annual_price_change,
       :absences_included_annually,
+      :force_absences_included_annually,
+      :force_activity_participations_demanded_annually,
       :billing_year_division,
       :renew, :renewal_annual_fee, :renewed_at, :renewal_opened_at, :renewal_note
   end

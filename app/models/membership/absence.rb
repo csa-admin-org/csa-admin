@@ -18,7 +18,8 @@ module Membership::Absence
   extend ActiveSupport::Concern
 
   included do
-    validates :absences_included_annually, numericality: true
+    validates :absences_included_annually,
+      numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
     before_validation :set_absences_included_annually_default
     after_commit :update_absences_included!, on: %i[create update]

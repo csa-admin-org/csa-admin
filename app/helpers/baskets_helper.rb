@@ -10,6 +10,8 @@ module BasketsHelper
         count: used,
         limit: membership.absences_included)
     end
+    return absences if membership.force_absences_included_annually?
+
     prorated = link_to handbook_page_path("absence", anchor: "absence-included-logic") do
       t("active_admin.resource.show.absences_prorated_from",
         count: membership.absences_included_annually)

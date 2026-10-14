@@ -98,6 +98,8 @@ Example: no included absences after the 13th of the fourth fiscal month (April w
 
 Changing the logic does not rewrite existing memberships until each one is updated, or until a delivery or cycle update resyncs them. That can change billed <%= Basket.model_name.human(count: 2).downcase %>. The included-absences reminder timestamp is not reset.
 
+On a membership, "Force the annual number" skips this logic. The annual number is used as is, including for a membership that starts or ends mid-year. The choice is not copied when the membership is renewed.
+
 ### End-of-Year Mode {#absence-included-mode}
 
 When members don't use all their included absences by the end of their membership, the remaining absences stay provisionally marked on the last deliveries. To handle this situation, you can configure an **end-of-year mode** in [the settings](/settings#absence):

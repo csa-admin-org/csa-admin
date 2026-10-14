@@ -55,6 +55,8 @@ class ActivityParticipationDemanded
   end
 
   def count
+    return @membership.activity_participations_demanded_annually.to_i if @membership.force_activity_participations_demanded_annually?
+
     @liquid_template.render(
       "member" => MemberDrop.new(@membership.member),
       "membership" => MembershipDrop.new(@membership),

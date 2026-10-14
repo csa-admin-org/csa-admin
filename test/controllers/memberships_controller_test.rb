@@ -601,6 +601,22 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#membership-activity-participations [data-default-annually='3'][data-demanded='3'][data-default-price-change='0']"
   end
 
+  test "activity participations preview uses the annual number when forced" do
+    travel_to "2024-05-01"
+    org(activity_participations_demanded_logic: "0")
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get activity_participations_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        activity_participations_demanded_annually: "4",
+        force_activity_participations_demanded_annually: "1")
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-activity-participations [data-demanded='4']"
+  end
+
   test "activity participations preview treats annually 0 as an override" do
     travel_to "2024-05-01"
     membership = memberships(:jane)
@@ -875,6 +891,63 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "turbo-frame#membership-absences-included [data-default-annually='2'][data-included='2']"
+  end
+
+  test "update persists both force annual checkboxes" do
+    travel_to "2024-05-01"
+    org(absences_included_logic: "0", activity_participations_demanded_logic: "0")
+    membership = memberships(:jane)
+    membership.update!(absences_included_annually: 5, activity_participations_demanded_annually: 4)
+    login admins(:super)
+
+    patch membership_path(membership), params: {
+      membership: {
+        force_absences_included_annually: "1",
+        force_activity_participations_demanded_annually: "1"
+      }
+    }
+
+    assert_redirected_to membership_path(membership)
+    membership.reload
+    assert membership.force_absences_included_annually?
+    assert membership.force_activity_participations_demanded_annually?
+    assert_equal 5, membership.absences_included
+    assert_equal 4, membership.activity_participations_demanded
+  end
+
+  test "edit shows the force annual checkboxes under each formula hint" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    membership.update!(force_absences_included_annually: true)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert_response :success
+    assert_select "#membership_force_absences_included_annually_input label",
+      text: Membership.human_attribute_name(:force_annual_formula)
+    assert_select "#membership_force_absences_included_annually[checked]"
+    assert_select "#membership_force_activity_participations_demanded_annually_input label",
+      text: Membership.human_attribute_name(:force_annual_formula)
+    assert_select "#membership_force_activity_participations_demanded_annually[checked]", count: 0
+  end
+
+  test "absences included preview uses the annual number when forced" do
+    travel_to "2024-05-01"
+    membership = memberships(:jane)
+    delivery_cycles(:thursdays).update!(absences_included_annually: 4)
+    login admins(:super)
+
+    get absences_included_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        started_on: "2024-01-01",
+        ended_on: deliveries(:thursday_5).date.to_s,
+        absences_included_annually: "5",
+        force_absences_included_annually: "1")
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-absences-included [data-included='5']"
   end
 
   test "absences included preview uses deliveries in the form period" do
