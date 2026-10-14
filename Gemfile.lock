@@ -190,7 +190,7 @@ GEM
     cruise (0.3.0-arm64-darwin)
     cruise (0.3.0-x86_64-linux-gnu)
     cruise (0.3.0-x86_64-linux-musl)
-    css_parser (3.2.0)
+    css_parser (3.3.0)
       addressable
       base64
       ssrf_filter (~> 1.5)
@@ -436,7 +436,7 @@ GEM
       rexml (>= 3.4.2, < 4)
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
-    premailer (1.31.0)
+    premailer (1.32.0)
       addressable
       css_parser (>= 1.19.0)
       htmlentities (>= 4.0.0)
@@ -824,7 +824,7 @@ CHECKSUMS
   cruise (0.3.0-arm64-darwin) sha256=6bb8bbef2ab7b4103849e1809435aa1922d07ec5e2c766a525626c41682ab5ff
   cruise (0.3.0-x86_64-linux-gnu) sha256=a7bdd7c72307a450a9d37f3c7a90c118230ea6122663b32b8c8e52cad32adfa8
   cruise (0.3.0-x86_64-linux-musl) sha256=54ed6809f1d476bf99a3043bc256cca0efed8bbc9df93a55f4e49eac2bbcb7f4
-  css_parser (3.2.0) sha256=e2d9d76164246d4d5d0b96e22fcbf581e1c65368ec3e52e056d4154e42eaac65
+  css_parser (3.3.0) sha256=79ba7fc428b18d2a085bcb6f310193f957afc30a7df9be2701419abc1a83d7ca
   csv (3.3.6) sha256=aba61e7e507a66f03d45cb1f3c4b6359861c3504038b422962875dce099e4456
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
@@ -933,7 +933,7 @@ CHECKSUMS
   prawn (2.4.0) sha256=82062744f7126c2d77501da253a154271790254dfa8c309b8e52e79bc5de2abd
   prawn-svg (0.40.4) sha256=0aba03b390b7f0066033975ebc2787967aedbaa295c412e68b6d1bc1af0ae2a6
   prawn-table (0.2.2) sha256=336d46e39e003f77bf973337a958af6a68300b941c85cb22288872dc2b36addb
-  premailer (1.31.0) sha256=79653fb7920081a5d8e55f25b82838e88f5a385dadee643e2b50a87d88fee273
+  premailer (1.32.0) sha256=68214d01f0c0513e71c11cc12213ed8adcdab95d47a772fac0412ca54ca6327f
   premailer-rails (1.12.0) sha256=c13815d161b9bc7f7d3d81396b0bb0a61a90fa9bd89931548bf4e537c7710400
   pretty_please (0.2.0) sha256=1f00296f946ae8ffd53db25803ed3998d615b9cc07526517dc75fcca6af3a0d3
   prettyprint (0.2.0) sha256=2bc9e15581a94742064a3cc8b0fb9d45aae3d03a1baa6ef80922627a0766f193
