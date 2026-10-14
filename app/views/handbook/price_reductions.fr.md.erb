@@ -12,6 +12,8 @@ Chaque réduction a un nom et une description optionnelle. La description est la
 
 La réduction est soit un pourcentage, soit un montant fixe, pas les deux.
 
+Un logo de label ou de certification peut s'ajouter aux factures d'abonnement qui utilisent cette réduction, après les logos de l'organisation, en bas à droite au-dessus du pied de page. Les autres types de factures ne sont pas affectés.
+
 Comme pour les <%= BasketSize.model_name.human(count: 2).downcase %> ou les <%= BasketComplement.model_name.human(count: 2).downcase %>, une réduction peut être cachée. Les réductions cachées restent disponibles dans l'administration et ne sont pas proposées sur le formulaire d'inscription ou de renouvellement.
 
 > Une réduction peut être limitée à certains dépôts. Laissez la liste vide pour autoriser tous les dépôts. La liste n'est contrôlée qu'au moment d'appliquer la réduction. Changer de dépôt ensuite ne retire pas une réduction déjà accordée. Retirez-la vous-même, en modifiant l'abonnement, si elle ne doit pas rester.

@@ -4,11 +4,22 @@ require "test_helper"
 
 class PDF::InvoiceTest < ActiveSupport::TestCase
   def save_pdf_and_return_strings(invoice)
+    PDF::Inspector::Text.analyze(render_invoice_pdf(invoice)).strings
+  end
+
+  def render_invoice_pdf(invoice)
     I18n.with_locale(invoice.member.language) do
-      pdf = PDF::Invoice.new(invoice)
-      # pdf.render_file(Rails.root.join("tmp/invoice.pdf"))
-      PDF::Inspector::Text.analyze(pdf.render).strings
+      PDF::Invoice.new(invoice).render
     end
+  end
+
+  def invoice_image_draws(invoice)
+    draws = []
+    stub = Class.new(PDF::Invoice) do
+      define_method(:image) { |io, **| draws << (io.respond_to?(:string) ? io.string : io) }
+    end
+    I18n.with_locale(invoice.member.language) { stub.new(invoice) }
+    draws
   end
 
   test "membership invoice includes the reduction name and a negative amount" do
@@ -25,6 +36,34 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
 
     assert_includes strings, "Caritas"
     assert_includes strings, "-4.00"
+  end
+
+  test "membership invoice adds the reduction logo after the organization logos" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    Current.org.invoice_logos.attach(
+      io: file_fixture("logo.png").open,
+      filename: "org.png",
+      content_type: "image/png")
+    invoice = invoices(:bob_membership)
+    reduction = PriceReduction.create!(names: { "en" => "Caritas" }, percentage: 10)
+    reduction.invoice_logo.attach(
+      io: file_fixture("logo-not-square.png").open,
+      filename: "bio.png",
+      content_type: "image/png")
+    MembershipPriceReduction.create!(
+      membership: invoice.entity,
+      price_reduction: reduction,
+      percentage: 10,
+      amount: 4)
+
+    draws = invoice_image_draws(invoice).map { |draw| Digest::MD5.base64digest(draw.to_s) }
+    other_draws = invoice_image_draws(invoices(:annual_fee)).map { |draw| Digest::MD5.base64digest(draw.to_s) }
+    reduction_logo = Digest::MD5.base64digest(
+      reduction.invoice_logo.variant(resize_to_limit: [ 135, 135 ]).processed.download)
+
+    assert_equal other_draws.size + 1, draws.size
+    assert_includes draws, reduction_logo
+    assert_not_includes other_draws, reduction_logo
   end
 
   test "simple invoice full layout" do

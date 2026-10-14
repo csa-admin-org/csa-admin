@@ -137,6 +137,20 @@ ActiveAdmin.register PriceReduction do
             }
           end
         end
+
+        panel t("active_admin.resources.price_reduction.form.invoice"), icon: "receipt-text" do
+          attributes_table do
+            row(:invoice_logo) {
+              if reduction.invoice_logo.attached?
+                content_tag(:span, class: "settings-logos") do
+                  image_tag reduction.invoice_logo.variant(resize_to_limit: [ 92, 92 ]), class: "settings-invoice-logo"
+                end
+              else
+                span t("active_admin.empty"), class: "attributes-table-empty-value"
+              end
+            }
+          end
+        end
       end
     end
   end
@@ -194,6 +208,26 @@ ActiveAdmin.register PriceReduction do
         hint: t("formtastic.hints.price_reduction.depot_ids")
     end
 
+    f.inputs t("active_admin.resources.price_reduction.form.invoice"), icon: "receipt-text" do
+      f.input :invoice_logo,
+        as: :file,
+        hint: t("formtastic.hints.price_reduction.invoice_logo"),
+        input_html: { accept: "image/jpeg, image/png", class: "file-field" }
+      f.hidden_field :remove_invoice_logo, value: "0"
+      if f.object.invoice_logo.attached? && f.object.invoice_logo.blob.persisted?
+        ul class: "settings-invoice-row cluster is-nowrap" do
+          li class: "settings-logo-item" do
+            span class: "logo-remove", onclick: "this.closest('fieldset').querySelector('[name*=remove_invoice_logo]').value = '1'; this.parentNode.remove()" do
+              icon("circle-x", class: "icon-6")
+            end
+            span do
+              image_tag f.object.invoice_logo.variant(resize_to_limit: [ 256, 256 ]), class: "logo-preview"
+            end
+          end
+        end
+      end
+    end
+
     f.inputs t("active_admin.resource.show.member_new_form"), icon: "form",
       action: (if Handbook.new("price_reductions", nil).filepath.exist?
         handbook_icon_link("price_reductions", anchor: "programs")
@@ -223,6 +257,7 @@ ActiveAdmin.register PriceReduction do
 
   permit_params :percentage, :fixed_amount, :cap_amount, :cap_mode,
     :renew, :visible, :member_order_priority, :price_reduction_card_id,
+    :invoice_logo, :remove_invoice_logo,
     *I18n.available_locales.map { |locale| "public_name_#{locale}" },
     *I18n.available_locales.map { |locale| "admin_name_#{locale}" },
     *I18n.available_locales.map { |locale| "form_detail_#{locale}" },

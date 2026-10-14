@@ -2906,6 +2906,12 @@ _:
           _de: Steht unter dem Namen im Anmeldeformular. Leer lassen, um das erzeugte Standarddetail zu verwenden.
           _it: Mostrato sotto il nome nel modulo di iscrizione. Lasciare vuoto per usare il dettaglio generato predefinito.
           _nl: Staat onder de naam op het inschrijfformulier. Leeg laten om het standaard gegenereerde detail te gebruiken.
+        invoice_logo:
+          _en: Optional logo displayed at the bottom right of membership invoices that benefit from this reduction, above the footer, alongside the organization logos.
+          _fr: Logo optionnel affiché en bas à droite des factures d'abonnement qui bénéficient de cette réduction, au-dessus du pied de page, avec les logos de l'organisation.
+          _de: Optionales Logo unten rechts auf Abonnementrechnungen, die von dieser Reduktion profitieren, über der Fusszeile, zusammen mit den Logos der Organisation.
+          _it: Logo facoltativo visualizzato in basso a destra delle fatture di abbonamento che beneficiano di questa riduzione, sopra il piè di pagina, insieme ai loghi dell'organizzazione.
+          _nl: Optioneel logo rechtsonder op lidmaatschapsfacturen die van deze reductie profiteren, boven de voettekst, samen met de logo's van de organisatie.
         renew_html:
           _en: When it still fits, copy this reduction when the membership is renewed.%{handbook}
           _fr: Si possible, copiez cette réduction lors du renouvellement de l'abonnement.%{handbook}

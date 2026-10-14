@@ -4468,6 +4468,13 @@ _:
           _it: Nuovo %{model}
           _nl: Nieuwe %{model}
       price_reduction:
+        form:
+          invoice:
+            _en: Invoice
+            _fr: Facture
+            _de: Rechnung
+            _it: Fattura
+            _nl: Factuur
         new_model:
           _en: New %{model}
           _fr: Nouvelle %{model}

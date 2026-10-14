@@ -12,6 +12,10 @@ class PriceReduction < ApplicationRecord
 
   translated_attributes :form_detail
 
+  has_one_attached :invoice_logo
+
+  attr_accessor :remove_invoice_logo
+
   belongs_to :price_reduction_card, optional: true
   has_many :membership_price_reductions, dependent: :restrict_with_exception
   has_many :memberships, through: :membership_price_reductions
@@ -23,9 +27,12 @@ class PriceReduction < ApplicationRecord
   attribute :depot_ids, default: -> { [] }
   attribute :cap_mode, default: "once"
 
+  before_save :purge_invoice_logo, if: :remove_invoice_logo?
+
   validates :cap_mode, inclusion: { in: CAP_MODES }
   validates :cap_amount, numericality: { greater_than: 0 }, allow_nil: true
   validates :member_order_priority, numericality: { only_integer: true }, presence: true
+  validate :invoice_logo_content_type
   validate :cap_covers_granted
   validate :depot_ids_exist
 
@@ -207,5 +214,23 @@ class PriceReduction < ApplicationRecord
     return if Depot.where(id: depot_ids).count == depot_ids.size
 
     errors.add(:depot_ids, :invalid)
+  end
+
+  def invoice_logo_content_type
+    return unless attachment_changes["invoice_logo"]
+    return if invoice_logo.blob&.content_type.in?(Organization::Logo::CONTENT_TYPES)
+
+    errors.add(:invoice_logo, :logo_content_type_invalid)
+  end
+
+  def remove_invoice_logo?
+    ActiveModel::Type::Boolean.new.cast(remove_invoice_logo)
+  end
+
+  def purge_invoice_logo
+    return if attachment_changes["invoice_logo"]
+    return unless invoice_logo.attached?
+
+    invoice_logo.purge
   end
 end

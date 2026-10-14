@@ -482,7 +482,7 @@ module PDF
       y = last_page ? payment_section_y : 40
 
       x_position = 15
-      Current.org.invoice_logos.each do |invoice_logo|
+      invoice_footer_logos.each do |invoice_logo|
         begin
           logo = invoice_logo.variant(resize_to_limit: [ 135, 135 ]).processed.download
           image_info = Vips::Image.new_from_buffer(logo, "")
@@ -504,6 +504,16 @@ module PDF
       bounding_box [ 0, y + (lines - 1) * 10 ], width: bounds.width, height: height do
         text Current.org.invoice_footer, inline_format: true, align: :center, leading: 3
       end
+    end
+
+    def invoice_footer_logos
+      logos = Current.org.invoice_logos.to_a
+      return logos unless invoice.membership_type?
+
+      reduction = entity&.price_reduction
+      return logos unless reduction&.invoice_logo&.attached?
+
+      logos + [ reduction.invoice_logo ]
     end
 
     def payment_section

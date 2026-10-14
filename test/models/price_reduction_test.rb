@@ -5,6 +5,44 @@ require "test_helper"
 class PriceReductionTest < ActiveSupport::TestCase
   setup { travel_to "2024-06-01" }
 
+  test "invoice logo accepts a png and rejects a pdf" do
+    reduction = price_reduction(percentage: 10)
+    reduction.invoice_logo.attach(
+      io: file_fixture("logo.png").open,
+      filename: "bio.png",
+      content_type: "image/png")
+
+    assert reduction.valid?
+
+    reduction.invoice_logo.attach(
+      io: file_fixture("invoice.pdf").open,
+      filename: "logo.pdf",
+      content_type: "application/pdf")
+
+    assert_not reduction.valid?
+    assert reduction.errors.added?(:invoice_logo, :logo_content_type_invalid)
+  end
+
+  test "remove invoice logo purges it unless a replacement is attached" do
+    reduction = price_reduction(percentage: 10)
+    reduction.invoice_logo.attach(
+      io: file_fixture("logo.png").open,
+      filename: "bio.png",
+      content_type: "image/png")
+
+    reduction.update!(remove_invoice_logo: "1")
+
+    assert_not reduction.reload.invoice_logo.attached?
+
+    reduction.remove_invoice_logo = "1"
+    reduction.invoice_logo.attach(
+      io: file_fixture("logo-not-square.png").open,
+      filename: "next.png",
+      content_type: "image/png")
+
+    assert_equal "next.png", reduction.reload.invoice_logo.filename.to_s
+  end
+
   test "percentage cut is of the gross and rounds to five cents" do
     reduction = price_reduction(percentage: 30)
 

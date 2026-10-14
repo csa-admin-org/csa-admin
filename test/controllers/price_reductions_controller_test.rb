@@ -51,6 +51,12 @@ class PriceReductionsControllerTest < ActionDispatch::IntegrationTest
     assert_select "fieldset", text: /Availability/ do
       assert_select "select#price_reduction_price_reduction_card_id", count: 0
     end
+    assert_select "fieldset", text: /Invoice/ do
+      assert_select "label", text: "Labels/Certifications"
+      assert_select "input#price_reduction_invoice_logo[type=file]"
+      assert_select ".inline-hints", text: /membership invoices that benefit from this reduction/
+      assert_select ".settings-invoice-row", count: 0
+    end
   end
 
   test "form details preview follows the percentage and the card" do
@@ -84,6 +90,69 @@ class PriceReductionsControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#price-reduction-form-details [data-placeholder-en=?]", "20%, specific depots only"
   end
 
+  test "edit form shows the uploaded invoice logo with a remove control" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    login admins(:super)
+    reduction = PriceReduction.create!(names: { "en" => "Caritas" }, percentage: 10)
+    reduction.invoice_logo.attach(
+      io: file_fixture("logo.png").open,
+      filename: "bio.png",
+      content_type: "image/png")
+
+    get edit_price_reduction_path(reduction)
+
+    assert_response :success
+    assert_select "fieldset", text: /Invoice/ do
+      assert_select "input[type=hidden][name='price_reduction[remove_invoice_logo]'][value=0]"
+      assert_select "input[name='price_reduction[invoice_logo]'][type=hidden]", count: 0
+      assert_select "ul.settings-invoice-row li.settings-logo-item" do
+        assert_select ".logo-remove[onclick*='remove_invoice_logo']"
+        assert_select "img.logo-preview"
+      end
+    end
+  end
+
+  test "update removes the invoice logo and a new file replaces it" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    login admins(:super)
+    reduction = PriceReduction.create!(names: { "en" => "Caritas" }, percentage: 10)
+    reduction.invoice_logo.attach(
+      io: file_fixture("logo.png").open,
+      filename: "bio.png",
+      content_type: "image/png")
+
+    patch price_reduction_path(reduction), params: {
+      price_reduction: { remove_invoice_logo: "1" }
+    }
+
+    assert_redirected_to price_reduction_path(reduction)
+    assert_not reduction.reload.invoice_logo.attached?
+
+    patch price_reduction_path(reduction), params: {
+      price_reduction: {
+        invoice_logo: Rack::Test::UploadedFile.new(file_fixture("logo.png"), "image/png"),
+        remove_invoice_logo: "0"
+      }
+    }
+
+    assert reduction.reload.invoice_logo.attached?
+  end
+
+  test "show aligns the invoice logo to the right" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    login admins(:super)
+    reduction = PriceReduction.create!(names: { "en" => "Caritas" }, percentage: 10)
+    reduction.invoice_logo.attach(
+      io: file_fixture("logo.png").open,
+      filename: "bio.png",
+      content_type: "image/png")
+
+    get price_reduction_path(reduction)
+
+    assert_response :success
+    assert_select ".admin-column:last-child tr[data-row=invoice_logo] .settings-logos img.settings-invoice-logo"
+  end
+
   test "show puts the year stats on the left and the catalog on the right" do
     org(features: Current.org.features | [ "price_reductions" ])
     login admins(:super)
@@ -101,6 +170,11 @@ class PriceReductionsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".admin-column:last-child th", text: "Rule", count: 0
     assert_select ".admin-column:last-child", text: /Cap/
     assert_select ".admin-column:last-child", text: /Availability/
+    assert_select ".admin-column:last-child", text: /Invoice/ do
+      assert_select "th", text: "Labels/Certifications"
+      assert_select ".attributes-table-empty-value", text: "Empty"
+      assert_select "img.settings-invoice-logo", count: 0
+    end
     assert_select ".year-tabs"
   end
 

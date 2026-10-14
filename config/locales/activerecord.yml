@@ -4245,6 +4245,12 @@ _:
           _de: Gewährt
           _it: Concesso
           _nl: Toegekend
+        invoice_logo:
+          _en: Labels/Certifications
+          _fr: Labels/Certifications
+          _de: Labels/Zertifikate
+          _it: Etichette/Certificazioni
+          _nl: Labels/Certificeringen
         member_order_priority:
           _en: Order
           _fr: Ordre
