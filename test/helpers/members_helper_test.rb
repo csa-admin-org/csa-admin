@@ -35,6 +35,41 @@ class MembersHelperTest < ActionView::TestCase
     assert_equal "24-26 (-2)", deliveries_count_range_with_absences([ 24, 26 ], [ 0, 2 ])
   end
 
+  test "visible_delivery_cycles_collection omits cycles with no deliveries in the membership renewal year" do
+    travel_to "2025-01-05"
+    Current.reset
+    empty_cycle = create_delivery_cycle(
+      names: { en: "Early Season" },
+      wdays: [ 4 ],
+      last_cweek: 14,
+      depots: Depot.kept.to_a)
+    membership = memberships(:jane)
+    membership.update!(delivery_cycle: empty_cycle)
+
+    collection = visible_delivery_cycles_collection(
+      membership: membership,
+      only_with_future_deliveries: true)
+    ids = collection.map { |_, id,| id }
+    checked = collection.find { |_, _, html| html[:checked] }
+
+    assert_equal 0, empty_cycle.deliveries_count_for(membership.fy_year + 1)
+    assert_not_includes ids, empty_cycle.id
+    assert checked
+    assert DeliveryCycle.find(checked[1]).deliveries_count_for(membership.fy_year + 1).positive?
+  end
+
+  test "visible_delivery_cycles_collection keeps the current cycle when it has renewal-year deliveries" do
+    membership = memberships(:jane)
+
+    collection = visible_delivery_cycles_collection(
+      membership: membership,
+      only_with_future_deliveries: true)
+    checked = collection.find { |_, _, html| html[:checked] }
+
+    assert_includes collection.map { |_, id,| id }, membership.delivery_cycle_id
+    assert_equal membership.delivery_cycle_id, checked[1]
+  end
+
   test "depot_details does not show delivery count when depot has same cycles in different order" do
     farm = depots(:farm)
     dc_mondays = delivery_cycles(:mondays)

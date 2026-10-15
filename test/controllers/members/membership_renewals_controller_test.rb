@@ -98,6 +98,52 @@ class Members::MembershipRenewalsControllerTest < ActionDispatch::IntegrationTes
     assert_not membership.renewed?
   end
 
+  test "renewal form omits a current cycle with no deliveries in the renewal year and preselects a valid one" do
+    empty_cycle = create_delivery_cycle_without_renewal_year_deliveries
+    membership = memberships(:jane)
+    membership.update!(delivery_cycle: empty_cycle)
+    membership.touch(:renewal_opened_at)
+    login(members(:jane))
+
+    get members_renew_membership_path
+
+    assert_response :success
+    assert_select "input[type=radio][name='membership[delivery_cycle_id]'][value=?]",
+      empty_cycle.id, count: 0
+    selected = css_select("input[type=radio][name='membership[delivery_cycle_id]'][checked=checked]").first
+    assert selected
+    selected_id = selected["value"].to_i
+    assert_not_equal empty_cycle.id, selected_id
+    assert DeliveryCycle.find(selected_id).deliveries_count_for(membership.fy_year + 1).positive?
+  end
+
+  test "renewal succeeds when the form preselects a cycle with deliveries in the renewal year" do
+    empty_cycle = create_delivery_cycle_without_renewal_year_deliveries
+    membership = memberships(:jane)
+    membership.update!(delivery_cycle: empty_cycle)
+    membership.touch(:renewal_opened_at)
+    login(members(:jane))
+
+    get members_renew_membership_path
+    selected = css_select("input[type=radio][name='membership[delivery_cycle_id]'][checked=checked]").first
+    selected_id = selected["value"]
+
+    assert_difference -> { Membership.count }, 1 do
+      post members_membership_renewal_path, params: {
+        membership: {
+          renewal_decision: "renew",
+          delivery_cycle_id: selected_id
+        }
+      }
+    end
+
+    assert_redirected_to members_memberships_path
+    membership.reload
+    assert membership.renewed?
+    assert_equal selected_id.to_i, membership.renewed_membership.delivery_cycle_id
+    assert membership.renewed_membership.baskets.any?
+  end
+
   test "GET past-year opened renewal redirects inactive members to re-register after deliveries started" do
     travel_to "2024-01-01"
     membership = create_membership(
@@ -112,5 +158,18 @@ class Members::MembershipRenewalsControllerTest < ActionDispatch::IntegrationTes
     get members_renew_membership_path
 
     assert_redirected_to new_members_member_path
+  end
+
+  private
+
+  def create_delivery_cycle_without_renewal_year_deliveries
+    create_delivery_cycle(
+      names: { en: "Early Season" },
+      wdays: [ 4 ],
+      last_cweek: 14,
+      depots: Depot.kept.to_a).tap do |cycle|
+      assert_operator cycle.deliveries_count_for(Current.fy_year), :positive?
+      assert_equal 0, cycle.deliveries_count_for(Current.fy_year + 1)
+    end
   end
 end
