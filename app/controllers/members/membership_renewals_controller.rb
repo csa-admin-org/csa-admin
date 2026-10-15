@@ -12,6 +12,7 @@ class Members::MembershipRenewalsController < Members::BaseController
     if reduction&.renew? && reduction.visible? && !reduction.discarded?
       @membership.selected_price_reduction_id = reduction.id
     end
+    set_renewal_delivery_cycle
     set_basket_complements
   end
 
@@ -55,6 +56,18 @@ class Members::MembershipRenewalsController < Members::BaseController
     else
       members_memberships_path
     end
+  end
+
+  def set_renewal_delivery_cycle
+    year = @membership.fy_year + 1
+    return if @membership.delivery_cycle&.deliveries_count_for(year)&.positive?
+
+    checked = helpers.visible_delivery_cycles_collection(
+      membership: @membership,
+      only_with_future_deliveries: true
+    ).find { |_, _, html| html[:checked] }
+
+    @membership.delivery_cycle_id = checked[1] if checked
   end
 
   def set_basket_complements

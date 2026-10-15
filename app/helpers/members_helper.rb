@@ -538,12 +538,9 @@ module MembersHelper
       .to_a
 
     if only_with_future_deliveries
-      future_cycles = cycles.select { |d| d.future_deliveries_count.positive? }
-      cycles = future_cycles if future_cycles.any?
-      checked_id =
-        cycles.find { |dc| dc.id == membership&.delivery_cycle_id }&.id
-        || cycles.find { |dc| dc.depots.include?(membership&.depot) }&.id
-        || cycles.first&.id
+      year = membership ? membership.fy_year + 1 : Current.fy_year + 1
+      cycles.select! { |dc| dc.deliveries_count_for(year).positive? }
+      checked_id = selected_renewal_delivery_cycle_id(cycles, membership)
     end
 
     cycles.map { |dc|
@@ -555,6 +552,13 @@ module MembersHelper
         checked: dc.id == checked_id
       ]
     }
+  end
+
+  def selected_renewal_delivery_cycle_id(cycles, membership)
+    cycles.find { |dc| dc.id == membership&.delivery_cycle_id }&.id ||
+      cycles.find { |dc| dc.depots.include?(membership&.depot) }&.id ||
+      cycles.find(&:primary?)&.id ||
+      cycles.first&.id
   end
 
   def terms_of_service_label
