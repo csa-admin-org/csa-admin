@@ -22,7 +22,8 @@ module Support
       cut_quoted_thread!(root)
       drop_trailing!(root) if trailing_quotes
       Support::Signature.strip_fragment!(root)
-      drop_trailing!(root) if trailing_quotes
+      # A cite that only became last because the signature was stripped stays.
+      drop_trailing!(root, quotes: :thread) if trailing_quotes
     end
 
     def self.strip_text(text)
@@ -56,16 +57,16 @@ module Support
       end
     end
 
-    def self.drop_trailing!(root)
+    def self.drop_trailing!(root, quotes: :all)
       loop do
         last = last_meaningful(root)
         break unless last
 
-        if trailing_html_node?(last)
+        if trailing_html_node?(last, quotes:)
           last.remove
         elsif wrapper?(last)
           before = last.inner_html
-          drop_trailing!(last)
+          drop_trailing!(last, quotes:)
           last.remove if blank_node?(last)
           break if last.parent && last.inner_html == before
         else
@@ -115,14 +116,19 @@ module Support
     end
     private_class_method :trailing_text_line?
 
-    def self.trailing_html_node?(node)
+    def self.trailing_html_node?(node, quotes: :all)
       return false unless node.element?
-      return true if %w[blockquote hr].include?(node.name)
-      return true if blank_node?(node)
+      return true if node.name == "hr" || blank_node?(node)
+      return true if node.name == "blockquote" && (quotes == :all || thread_quote?(node))
 
       attribution?(node) || client_trailer?(node)
     end
     private_class_method :trailing_html_node?
+
+    def self.thread_quote?(node)
+      attribution?(node) || node.matches?("blockquote.gmail_quote, blockquote.protonmail_quote")
+    end
+    private_class_method :thread_quote?
 
     def self.attribution?(node)
       normalize(node.text).match?(ATTRIBUTION)

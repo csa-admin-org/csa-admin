@@ -29,8 +29,11 @@ module Support
       if keep_cited
         Support::Signature.strip_fragment!(root)
       else
-        root.css(QUOTE_CSS).each(&:remove)
+        # Inline cites stay. Only the trailing quoted thread is a previous message.
+        drop_trailing_quotes!(root)
         Support::ReplyQuote.clean_fragment!(root)
+        drop_trailing_quotes!(root, quotes: :thread)
+        collapse_breaks!(root)
       end
       strip_styles!(root)
       cleaned = root.inner_html.to_s.strip
@@ -45,6 +48,11 @@ module Support
       original = extract_cited!(root)
       drop_header_only_cites!(root)
       Support::Signature.strip_fragment!(root)
+      # A signature can sit between the reply and the quoted thread.
+      if (after_signature = extract_cited!(root, quotes: :thread))
+        original = join_fragments(original, after_signature)
+      end
+      collapse_breaks!(root)
       strip_styles!(root)
       return [ root.inner_html.to_s.strip.presence, nil ] if original.blank?
 
@@ -130,12 +138,22 @@ module Support
     end
     private_class_method :cut_at_marker!
 
-    def self.extract_cited!(root)
-      cited = cited_node(root)
-      return unless cited
+    def self.extract_cited!(root, quotes: :all)
+      take_from!(trailing_quote_node(root, quotes:))
+    end
+    private_class_method :extract_cited!
+
+    def self.drop_trailing_quotes!(root, quotes: :all)
+      while (node = trailing_quote_node(root, quotes:))
+        take_from!(node)
+      end
+    end
+    private_class_method :drop_trailing_quotes!
+
+    def self.take_from!(node)
+      return unless node
 
       fragment = Nokogiri::HTML::DocumentFragment.parse("")
-      node = cited
       while node
         nxt = node.next_sibling
         fragment.add_child(node)
@@ -143,30 +161,101 @@ module Support
       end
       fragment
     end
-    private_class_method :extract_cited!
+    private_class_method :take_from!
 
-    def self.cited_node(root)
-      cited = root.at_css(QUOTE_CSS) || split_children(root).find { |node| cite_header?(node) }
-      return unless cited
+    def self.join_fragments(first, second)
+      return second if first.blank?
 
-      start = cited
-      while start.parent && start.parent != root && !later_meaningful?(start)
-        start = start.parent
-      end
-      start
+      first.add_child(second.children)
+      first
     end
-    private_class_method :cited_node
+    private_class_method :join_fragments
 
-    def self.later_meaningful?(node)
-      sib = node.next_sibling
-      while sib
-        return true unless blank_node?(sib)
+    def self.trailing_quote_node(root, quotes: :all)
+      children = split_children(root)
+      index = quote_run_index(children, quotes:)
+      return children[index] if index
 
-        sib = sib.next_sibling
-      end
-      false
+      # Outlook puts the quoted body after #divRplyFwdMsg, not inside it.
+      header = children.rindex { |node| outlook_header?(node) }
+      return children[header] if header&.positive?
+
+      last = children.reverse.find { |node| !blank_node?(node) }
+      trailing_quote_node(last, quotes:) if last && wrapper?(last)
     end
-    private_class_method :later_meaningful?
+    private_class_method :trailing_quote_node
+
+    def self.outlook_header?(node)
+      node.element? && node["id"].to_s.casecmp?("divRplyFwdMsg")
+    end
+    private_class_method :outlook_header?
+
+    def self.quote_run_index(children, quotes: :all)
+      split = children.rindex { |node| !quote_region?(node, quotes:) }
+      start = split ? split + 1 : 0
+      start if start < children.size && children[start..].any? { |node| quoteish?(node, quotes:) }
+    end
+    private_class_method :quote_run_index
+
+    def self.quote_region?(node, quotes: :all)
+      blank_node?(node) || quoteish?(node, quotes:)
+    end
+    private_class_method :quote_region?
+
+    def self.quoteish?(node, quotes: :all)
+      return false unless node.element?
+      return false if quotes == :thread && !thread_quote?(node) && node.name == "blockquote"
+      return true if node.name == "blockquote" || node.matches?(QUOTE_CSS) || cite_header?(node)
+      return false unless wrapper?(node)
+
+      children = split_children(node)
+      children.any? && children.all? { |child| quote_region?(child, quotes:) } &&
+        children.any? { |child| quoteish?(child, quotes:) }
+    end
+    private_class_method :quoteish?
+
+    def self.thread_quote?(node)
+      Support::ReplyQuote::ATTRIBUTION.match?(node.text.to_s.gsub(/[[:space:]]+/, " ").strip) ||
+        node.matches?("blockquote.gmail_quote, blockquote.protonmail_quote")
+    end
+    private_class_method :thread_quote?
+
+    def self.collapse_breaks!(root)
+      return if root.element? && %w[pre code].include?(root.name)
+      return if spacer?(root)
+
+      root.element_children.each { |child| collapse_breaks!(child) }
+      children = split_children(root)
+      children.each_with_index do |node, index|
+        next unless spacer?(node)
+
+        earlier = children[0...index].reverse.find { |child| !spacer?(child) }
+        later = children[(index + 1)..].find { |child| !spacer?(child) }
+        extra = index.positive? && spacer?(children[index - 1])
+        node.remove if extra || earlier.nil? || later.nil? || quote_block?(earlier) || quote_block?(later)
+      end
+    end
+    private_class_method :collapse_breaks!
+
+    def self.spacer?(node)
+      return false unless node.element?
+      return true if node.name == "br"
+      return false unless wrapper?(node)
+
+      children = split_children(node)
+      children.any? && children.all? { |child| child.name == "br" || spacer?(child) }
+    end
+    private_class_method :spacer?
+
+    def self.quote_block?(node)
+      return false unless node&.element?
+      return true if node.name == "blockquote"
+      return false unless wrapper?(node)
+
+      inner = split_children(node).reject { |child| spacer?(child) }
+      inner.size == 1 && quote_block?(inner.first)
+    end
+    private_class_method :quote_block?
 
     def self.drop_header_only_cites!(root)
       root.css(QUOTE_CSS).each do |node|

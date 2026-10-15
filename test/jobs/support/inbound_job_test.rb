@@ -30,6 +30,36 @@ class Support::InboundJobTest < ActiveJob::TestCase
     assert_equal "<inbound-1@mail>", message.rfc_message_id
   end
 
+  test "keeps inline apple mail quotes and drops the trailing thread" do
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
+    html = <<~HTML
+      <html><body>
+        <div>Salut,</div>
+        <div><blockquote type="cite"><div>Question about the invoice?</div></blockquote></div>
+        <div>The invoice was rebuilt.</div>
+        <blockquote type="cite"><div>Could we force the annual number?</div></blockquote>
+        <div>A checkbox would do that.</div>
+        <div><blockquote type="cite"><div>On 9 Oct 2026, at 08:17, CSA Admin wrote:</div><div>Old thread</div></blockquote></div>
+      </body></html>
+    HTML
+
+    ingest(
+      "To" => ticket.inbound_email,
+      "From" => admins(:external).email,
+      "TextBody" => "Salut\n\n> Question about the invoice?\n\nThe invoice was rebuilt.",
+      "HtmlBody" => html,
+      "MessageID" => "inbound-inline-quote",
+      "Headers" => [ { "Name" => "Message-ID", "Value" => "<inbound-inline-quote@mail>" } ])
+
+    message = ticket.messages.order(:id).last
+    assert_includes message.html.to_s, "Question about the invoice"
+    assert_includes message.html.to_s, "Could we force"
+    assert_includes message.body, "Question about the invoice"
+    assert_not_includes message.html.to_s, "Old thread"
+    assert_not_includes message.body, "Old thread"
+  end
+
   test "stores apple mail html and drops cited quote" do
     ticket = Support::Ticket.create!(
       priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))

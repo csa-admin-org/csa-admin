@@ -3,6 +3,88 @@
 require "test_helper"
 
 class Support::ReplyHtmlTest < ActiveSupport::TestCase
+  test "keeps apple mail quotes that are part of the reply" do
+    html = <<~HTML
+      <html><body>
+        <div>Salut David,</div>
+        <div><blockquote type="cite"><div>Question about the invoice?</div></blockquote></div>
+        <div>The invoice was rebuilt.</div>
+        <blockquote type="cite"><div>Could we force the annual number?</div></blockquote>
+        <div>A checkbox would do that.</div>
+        <div>++</div>
+        <div>Thibaud</div>
+        <div><br><blockquote type="cite"><div>On 9 Oct 2026, at 08:17, CSA Admin wrote:</div><div>Old thread</div></blockquote></div>
+      </body></html>
+    HTML
+
+    with_env("ULTRA_ADMIN_NAME" => "Thibaud") do
+      extracted = Support::ReplyHtml.extract(html)
+      reply, original = Support::ReplyHtml.split_cited(html)
+
+      assert_includes extracted, "Question about the invoice"
+      assert_includes extracted, "Could we force"
+      assert_includes extracted, "checkbox"
+      assert_not_includes extracted, "Old thread"
+      assert_not_includes extracted, "Thibaud"
+      assert_includes reply, "Question about the invoice"
+      assert_includes reply, "Could we force"
+      assert_not_includes reply, "Old thread"
+      assert_includes original, "Old thread"
+      assert_not_includes original, "Question about the invoice"
+    end
+  end
+
+  test "collapses doubled breaks and drops spacers against a quote" do
+    html = <<~HTML
+      <html><body>
+        <div>Salut,</div>
+        <div><br></div>
+        <div><br></div>
+        <div><blockquote type="cite"><div>Question one?</div></blockquote></div>
+        <div><br></div>
+        <div>Answer one.</div>
+        <div><br></div>
+        <div>Answer two.</div>
+        <div><br></div>
+        <div><br></div>
+        <blockquote type="cite"><div>Question two?</div></blockquote>
+        <div><br></div>
+        <div>Closing.</div>
+      </body></html>
+    HTML
+
+    extracted = Support::ReplyHtml.extract(html)
+    root = Nokogiri::HTML::DocumentFragment.parse(extracted)
+    spacers = root.css("div").select { |node| node.inner_html == "<br>" }
+
+    assert_includes extracted, "Question one"
+    assert_includes extracted, "Question two"
+    assert_equal 1, spacers.size
+    assert_equal "Answer one.", spacers.first.previous_element.text
+    assert_equal "Answer two.", spacers.first.next_element.text
+  end
+
+  test "keeps an intent cite that sits just before the signature" do
+    html = <<~HTML
+      <html><body>
+        <div>Answer.</div>
+        <blockquote type="cite"><div>Last question?</div></blockquote>
+        <div>++</div>
+        <div>Thibaud</div>
+      </body></html>
+    HTML
+
+    with_env("ULTRA_ADMIN_NAME" => "Thibaud") do
+      extracted = Support::ReplyHtml.extract(html)
+      reply, original = Support::ReplyHtml.split_cited(html)
+
+      assert_includes extracted, "Last question"
+      assert_not_includes extracted, "Thibaud"
+      assert_includes reply, "Last question"
+      assert_nil original
+    end
+  end
+
   test "keeps apple mail new content and drops cite blockquote" do
     html = <<~HTML
       <html><body>
