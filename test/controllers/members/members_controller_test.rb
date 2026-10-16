@@ -104,4 +104,60 @@ class Members::MembersControllerTest < ActionDispatch::IntegrationTest
     assert_select "input[type=radio][name='member[waiting_price_reduction_id]'][value=?][checked]", reduction.id.to_s
     assert_select "input[name='member[member_cards_attributes][][name]'][value=Ada]"
   end
+
+  test "new omits a delivery cycle with no deliveries in the membership start year" do
+    travel_to "2024-07-01"
+    Current.reset
+    empty_cycle = create_delivery_cycle(
+      names: { en: "Early Season" },
+      wdays: [ 4 ],
+      last_cweek: 14,
+      depots: Depot.kept.to_a)
+
+    get new_members_member_path
+
+    assert_response :success
+    assert_equal 0, empty_cycle.deliveries_count_for(Delivery.next.fy_year)
+    assert_select "input[type=radio][name='member[waiting_delivery_cycle_id]'][value=?]",
+      empty_cycle.id, count: 0
+    assert_select "input[type=radio][name='member[waiting_delivery_cycle_id]']"
+  end
+
+  test "new renders no delivery cycle choices when none have start-year deliveries" do
+    travel_to "2024-07-01"
+    Current.reset
+    DeliveryCycle.kept.find_each do |cycle|
+      cycle.update_column(:deliveries_counts, {
+        Delivery.next.fy_year.to_s => 0,
+        Current.fy_year.to_s => 12
+      })
+    end
+
+    get new_members_member_path
+
+    assert_response :success
+    assert_select "input[name='member[waiting_delivery_cycle_id]']", count: 0
+  end
+
+  test "new omits a depot whose cycles have no deliveries in the membership start year" do
+    travel_to "2024-07-01"
+    Current.reset
+    empty_cycle = create_delivery_cycle(
+      names: { en: "Early Season" },
+      wdays: [ 4 ],
+      last_cweek: 14)
+    depot = Depot.create!(
+      name: "Seasonal only",
+      city: "City",
+      zip: "1000",
+      price: 0,
+      delivery_cycles: [ empty_cycle ])
+
+    get new_members_member_path
+
+    assert_response :success
+    assert_select "input[type=radio][name='member[waiting_depot_id]'][value=?]",
+      depot.id, count: 0
+    assert_select "input[type=radio][name='member[waiting_depot_id]']"
+  end
 end
