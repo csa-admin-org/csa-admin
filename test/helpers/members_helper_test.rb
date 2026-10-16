@@ -103,6 +103,26 @@ class MembersHelperTest < ActionView::TestCase
     assert_empty collection
   end
 
+  test "visible_delivery_cycles_collection keeps a cycle with signup-year deliveries and none next year" do
+    travel_to "2024-03-01"
+    Current.reset
+    cycle = delivery_cycles(:mondays)
+    start_year = form_deliveries_fy_year
+    next_year = Current.fy_year + 1
+    cycle.update_column(:deliveries_counts, {
+      start_year.to_s => 4,
+      next_year.to_s => 0
+    })
+
+    collection = visible_delivery_cycles_collection(only_with_future_deliveries: true)
+    text = collection.find { |_, id,| id == cycle.id }&.first
+
+    assert_equal start_year, Delivery.next.fy_year
+    assert_not_equal start_year, next_year
+    assert text
+    assert_includes text, I18n.t("helpers.deliveries_count", count: 4)
+  end
+
   test "visible_delivery_cycles_collection uses the membership start year count on signup" do
     travel_to "2024-01-01"
     Current.reset

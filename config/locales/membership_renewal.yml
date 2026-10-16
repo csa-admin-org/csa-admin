@@ -6,3 +6,9 @@ _:
       _de: Das Depot "%{depot}" hat keine Lieferungen in %{year}.
       _it: Il punto di ritiro "%{depot}" non ha consegne nel %{year}.
       _nl: Het depot "%{depot}" heeft geen leveringen in %{year}.
+    missing_form_deliveries:
+      _en: No depot has deliveries in %{year}.
+      _fr: Aucun dépôt n'a de livraisons en %{year}.
+      _de: Kein Depot hat Lieferungen in %{year}.
+      _it: Nessun punto di ritiro ha consegne nel %{year}.
+      _nl: Geen depot heeft leveringen in %{year}.

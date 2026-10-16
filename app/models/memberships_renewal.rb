@@ -105,8 +105,8 @@ class MembershipsRenewal
         I18n.t("active_admin.flash.renew_missing_deliveries_alert", next_year: next_fy)
     end
 
-    openable.includes(depot: :delivery_cycles).find_each do |membership|
-      next unless membership.delivery_cycle_for_renewal
+    openable.find_each do |membership|
+      next unless membership.renewal_form_has_deliveries?
 
       MembershipOpenRenewalJob.perform_later(membership)
     end

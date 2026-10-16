@@ -27,6 +27,25 @@ module DeliveryCycle::Visibility
         || kept.max_by { |dc| [ dc.billable_deliveries_count, dc.depot_ids.size ] }
     end
 
+    def member_form_deliveries_year(membership = nil)
+      if membership
+        membership.fy_year + 1
+      else
+        (Delivery.next&.fiscal_year || Current.fiscal_year).year
+      end
+    end
+
+    def for_member_form(membership = nil, only_with_future_deliveries: false)
+      ids = Depot.for_member_form(membership).includes(:delivery_cycles).flat_map(&:delivery_cycle_ids)
+      ids << membership.delivery_cycle_id if membership
+      cycles = where(id: ids.uniq).kept.includes(:depots).member_ordered.to_a
+      if only_with_future_deliveries
+        year = member_form_deliveries_year(membership)
+        cycles.select! { |dc| dc.deliveries_count_for(year).positive? }
+      end
+      cycles
+    end
+
     def member_ordered
       kept.to_a.sort_by { |dc|
         clauses = [ dc.member_order_priority ]

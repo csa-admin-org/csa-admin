@@ -763,16 +763,17 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_equal I18n.t("active_admin.flash.membership_stop_notice"), flash[:notice]
   end
 
-  test "open renewal shows a depot missing deliveries alert" do
+  test "open renewal shows a missing deliveries alert when no visible depot has deliveries" do
     travel_to "2024-01-01"
     mail_templates(:membership_renewal).update!(active: true)
     membership = assign_depot_without_renewal_year_deliveries!(memberships(:jane))
+    hide_other_depots!(membership.depot)
     login admins(:super)
 
     post open_renewal_membership_path(membership)
 
     assert_redirected_to membership_path(membership)
-    assert_equal missing_depot_deliveries_message(membership), flash[:alert]
+    assert_equal missing_form_deliveries_message(membership), flash[:alert]
     assert_nil membership.reload.renewal_opened_at
   end
 

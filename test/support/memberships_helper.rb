@@ -34,4 +34,13 @@ module MembershipsHelper
       year: Current.org.fiscal_year_for(membership.fy_year + 1),
       depot: membership.depot.public_name)
   end
+
+  def missing_form_deliveries_message(membership)
+    I18n.t("membership_renewal.missing_form_deliveries",
+      year: Current.org.fiscal_year_for(membership.fy_year + 1))
+  end
+
+  def hide_other_depots!(depot)
+    Depot.where.not(id: depot.id).update_all(visible: false)
+  end
 end
