@@ -231,24 +231,33 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     assert_equal 2, renewed_membership.absences_included_annually
   end
 
-  test "switches to primary delivery cycle when selected cycle has no deliveries in next year" do
-    empty_cycle = DeliveryCycle.create!(
-      names: { en: "Empty Cycle" },
-      wdays: [ 1 ],
-      depots: [ depots(:home) ],
-      periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ]
-    )
-    empty_cycle.update_column(:deliveries_counts, { "2025" => 0 })
+  test "raises when the depot has no delivery cycle with deliveries in the renewal year" do
+    membership = assign_depot_without_renewal_year_deliveries!(memberships(:jane))
 
-    membership = memberships(:jane)
-    membership.update!(delivery_cycle: empty_cycle)
+    error = assert_raises(MembershipRenewal::MissingDeliveriesError) do
+      MembershipRenewal.new(membership).renew!
+    end
+
+    assert_equal missing_depot_deliveries_message(membership), error.message
+  end
+
+  test "falls back to a depot cycle with deliveries in the renewal year, not a cycle off the depot" do
+    good = create_delivery_cycle(name: "Has Deliveries", wdays: [ 1 ])
+    good.update_column(:deliveries_counts, { "2024" => 10, "2025" => 10 })
+    membership = assign_depot_without_renewal_year_deliveries!(
+      memberships(:jane),
+      extra_cycles: [ good ])
+
+    assert_not_equal DeliveryCycle.primary, good
+    assert_includes membership.depot.delivery_cycles, good
+    assert_not_includes membership.depot.delivery_cycles, DeliveryCycle.primary
 
     assert_difference "Membership.count", 1 do
       MembershipRenewal.new(membership).renew!
     end
 
     renewed_membership = membership.reload.renewed_membership
-    assert_equal delivery_cycles(:all), renewed_membership.delivery_cycle
+    assert_equal good, renewed_membership.delivery_cycle
   end
 
   test "keeps delivery cycle with non-standard fiscal year when it has deliveries" do

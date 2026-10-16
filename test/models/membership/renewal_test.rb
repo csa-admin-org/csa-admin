@@ -66,6 +66,46 @@ class Membership::RenewalTest < ActiveSupport::TestCase
     end
   end
 
+  test "open_renewal! raises when no visible depot has deliveries in the renewal year" do
+    travel_to "2024-01-01"
+    mail_templates(:membership_renewal).update!(active: true)
+    membership = assign_depot_without_renewal_year_deliveries!(memberships(:jane))
+    hide_other_depots!(membership.depot)
+
+    error = assert_raises(MembershipRenewal::MissingDeliveriesError) do
+      membership.open_renewal!
+    end
+
+    assert_equal missing_form_deliveries_message(membership), error.message
+    assert_nil membership.reload.renewal_opened_at
+  end
+
+  test "open_renewal! opens when the current depot is empty but another visible depot has deliveries" do
+    travel_to "2024-01-01"
+    mail_templates(:membership_renewal).update!(active: true)
+    membership = assign_depot_without_renewal_year_deliveries!(memberships(:jane))
+
+    assert_nil membership.delivery_cycle_for_renewal
+    assert membership.renewal_form_has_deliveries?
+
+    membership.open_renewal!
+    perform_enqueued_jobs
+
+    assert membership.reload.renewal_opened_at
+  end
+
+  test "renew! raises when the depot has no deliveries in the renewal year" do
+    travel_to "2024-01-01"
+    membership = assign_depot_without_renewal_year_deliveries!(memberships(:jane))
+
+    error = assert_raises(MembershipRenewal::MissingDeliveriesError) do
+      membership.renew!
+    end
+
+    assert_equal missing_depot_deliveries_message(membership), error.message
+    assert_not membership.reload.renewed?
+  end
+
   test "member_can_decide_renewal? allows late renewal until the new FY has past deliveries" do
     travel_to "2024-11-01"
     membership = memberships(:jane)

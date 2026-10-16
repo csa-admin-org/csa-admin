@@ -39,6 +39,11 @@ class Depot < ApplicationRecord
   belongs_to :group, class_name: "DepotGroup", optional: true
 
   default_scope { order(:position) }
+  scope :for_member_form, ->(object = nil) {
+    ids = visible.ids
+    ids << object.depot_id if object
+    where(id: ids.uniq)
+  }
   scope :member_ordered, -> {
     order_clauses = [ "member_order_priority" ]
     order_clauses <<

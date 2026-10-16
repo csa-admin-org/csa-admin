@@ -539,32 +539,13 @@ module MembersHelper
   end
 
   def form_deliveries_fy_year(membership = nil)
-    if membership
-      membership.fy_year + 1
-    else
-      (Delivery.next&.fiscal_year || Current.fiscal_year).year
-    end
+    DeliveryCycle.member_form_deliveries_year(membership)
   end
 
   def visible_delivery_cycles_collection(membership: nil, only_with_future_deliveries: false, data: {})
-    ids = visible_depots(
-      object: membership,
-      only_with_future_deliveries: only_with_future_deliveries
-    ).flat_map(&:delivery_cycle_ids)
-    ids << membership.delivery_cycle_id if membership
-    cycles = DeliveryCycle
-      .where(id: ids.uniq)
-      .kept
-      .includes(:depots)
-      .member_ordered
-      .to_a
-
-    year = nil
-    if only_with_future_deliveries
-      year = form_deliveries_fy_year(membership)
-      cycles = cycles.select { |dc| dc.deliveries_count_for(year).positive? }
-      checked_id = selected_renewal_delivery_cycle_id(cycles, membership) if membership
-    end
+    cycles = DeliveryCycle.for_member_form(membership, only_with_future_deliveries: only_with_future_deliveries)
+    year = form_deliveries_fy_year(membership) if only_with_future_deliveries
+    checked_id = selected_renewal_delivery_cycle_id(cycles, membership) if only_with_future_deliveries && membership
 
     cycles.map { |dc|
       text = collection_text(dc.public_name, details: delivery_cycle_details(dc, fy_year: year))
@@ -759,10 +740,8 @@ module MembersHelper
   end
 
   def visible_depots(object: nil, delivery_cycle: nil, only_with_future_deliveries: false)
-    ids = Depot.visible.pluck(:id)
-    ids << object.depot_id if object
     depots = Depot
-      .where(id: ids.uniq)
+      .for_member_form(object)
       .includes(:group, :delivery_cycles)
       .member_ordered
       .to_a

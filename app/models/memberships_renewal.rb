@@ -89,9 +89,11 @@ class MembershipsRenewal
 
   def renew_all!
     unless future_deliveries?
-      raise MembershipRenewal::MissingDeliveriesError, "Deliveries for next fiscal year are missing."
+      raise MembershipRenewal::MissingDeliveriesError,
+        I18n.t("active_admin.flash.renew_missing_deliveries_alert", next_year: next_fy)
     end
 
+    renewable.includes(depot: :delivery_cycles).find_each(&:ensure_delivery_cycle_for_renewal!)
     renewable.find_each do |membership|
       MembershipRenewalJob.perform_later(membership)
     end
@@ -99,10 +101,13 @@ class MembershipsRenewal
 
   def open_all!
     unless future_deliveries?
-      raise MembershipRenewal::MissingDeliveriesError, "Deliveries for next fiscal year are missing."
+      raise MembershipRenewal::MissingDeliveriesError,
+        I18n.t("active_admin.flash.renew_missing_deliveries_alert", next_year: next_fy)
     end
 
     openable.find_each do |membership|
+      next unless membership.renewal_form_has_deliveries?
+
       MembershipOpenRenewalJob.perform_later(membership)
     end
   end

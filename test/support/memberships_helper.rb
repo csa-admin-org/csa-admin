@@ -15,4 +15,32 @@ module MembershipsHelper
   def create_membership(attributes = {})
     build_membership(attributes).tap(&:save!)
   end
+
+  def assign_depot_without_renewal_year_deliveries!(membership, extra_cycles: [])
+    year = membership.fy_year
+    empty = create_delivery_cycle(name: "Empty Cycle", wdays: [ 1 ])
+    empty.update_column(:deliveries_counts, { year.to_s => 10, (year + 1).to_s => 0 })
+    depot = Depot.create!(
+      name: "Empty Depot",
+      language: "en",
+      price: 0,
+      delivery_cycles: [ empty, *extra_cycles ])
+    membership.update!(depot: depot, delivery_cycle: empty)
+    membership
+  end
+
+  def missing_depot_deliveries_message(membership)
+    I18n.t("membership_renewal.missing_depot_deliveries",
+      year: Current.org.fiscal_year_for(membership.fy_year + 1),
+      depot: membership.depot.public_name)
+  end
+
+  def missing_form_deliveries_message(membership)
+    I18n.t("membership_renewal.missing_form_deliveries",
+      year: Current.org.fiscal_year_for(membership.fy_year + 1))
+  end
+
+  def hide_other_depots!(depot)
+    Depot.where.not(id: depot.id).update_all(visible: false)
+  end
 end

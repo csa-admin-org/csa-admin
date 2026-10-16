@@ -285,9 +285,8 @@ ActiveAdmin.register Membership do
     year = params.require(:year).to_i
     MembershipsRenewal.new(year).renew_all!
     redirect_to collection_path, notice: t("active_admin.flash.renew_notice")
-  rescue MembershipsRenewal::MissingDeliveriesError
-    redirect_to collection_path,
-      alert: t("active_admin.flash.renew_missing_deliveries_alert", next_year: MembershipsRenewal.new.next_fy)
+  rescue MembershipRenewal::MissingDeliveriesError => e
+    redirect_to collection_path, alert: e.message
   end
 
   collection_action :open_renewal_all, method: :post do
@@ -295,9 +294,8 @@ ActiveAdmin.register Membership do
     year = params.require(:year).to_i
     MembershipsRenewal.new(year).open_all!
     redirect_to collection_path, notice: t("active_admin.flash.open_renewals_notice")
-  rescue MembershipsRenewal::MissingDeliveriesError
-    redirect_to collection_path,
-      alert: t("active_admin.flash.renew_missing_deliveries_alert", next_year: MembershipsRenewal.new.next_fy)
+  rescue MembershipRenewal::MissingDeliveriesError => e
+    redirect_to collection_path, alert: e.message
   end
 
   csv do
@@ -1107,6 +1105,8 @@ ActiveAdmin.register Membership do
   member_action :open_renewal, method: :post do
     resource.open_renewal!
     redirect_to resource
+  rescue MembershipRenewal::MissingDeliveriesError => e
+    redirect_to resource, alert: e.message
   end
 
   member_action :clear_activity_participations_demanded, method: :post do
@@ -1201,6 +1201,8 @@ ActiveAdmin.register Membership do
   member_action :renew, method: :post do
     resource.renew!
     redirect_to resource
+  rescue MembershipRenewal::MissingDeliveriesError => e
+    redirect_to resource, alert: e.message
   end
 
   member_action :cancel, method: :post do
