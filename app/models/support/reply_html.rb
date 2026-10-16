@@ -71,7 +71,7 @@ module Support
       root = Nokogiri::HTML::DocumentFragment.parse(html.to_s)
       root.css("blockquote.protonmail_quote, div.protonmail_quote").each(&:remove)
       Support::ReplyQuote.drop_separators!(root)
-      drop_trailing_break!(root)
+      collapse_breaks!(root)
       strip_styles!(root)
       root.inner_html.to_s.strip.presence
     end
@@ -80,6 +80,7 @@ module Support
       return html if html.blank?
 
       root = Nokogiri::HTML::DocumentFragment.parse(html.to_s)
+      collapse_breaks!(root)
       strip_styles!(root)
       root.to_html.html_safe
     end
@@ -103,12 +104,6 @@ module Support
         node.ancestors.any? { |ancestor| SKIP_STYLE.include?(ancestor.name) }
     end
     private_class_method :skip_style?
-
-    def self.drop_trailing_break!(root)
-      node = root.children.reverse.find { |child| child.element? || !child.text.strip.empty? }
-      node.remove if node&.name == "br"
-    end
-    private_class_method :drop_trailing_break!
 
     def self.document_root(html)
       if html.to_s.match?(/<html[\s>]/i)
@@ -243,7 +238,7 @@ module Support
       return false unless wrapper?(node)
 
       children = split_children(node)
-      children.any? && children.all? { |child| child.name == "br" || spacer?(child) }
+      children.all? { |child| child.name == "br" || spacer?(child) }
     end
     private_class_method :spacer?
 

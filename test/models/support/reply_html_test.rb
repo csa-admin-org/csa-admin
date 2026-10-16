@@ -317,6 +317,33 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_not_includes presented, "style="
   end
 
+  test "display collapses doubled breaks and spacers around a kept quote" do
+    html = <<~HTML
+      <div>Answer.</div>
+      <div><br></div>
+      <div></div>
+      <div><br></div>
+      <blockquote type="cite"><div>Quoted question?</div></blockquote>
+      <br>
+      <div>Next.</div>
+      <div><br></div>
+      <div><br></div>
+      <div>After.</div>
+    HTML
+
+    [ Support::ReplyHtml.strip_styles(html), Support::ReplyHtml.present(html) ].each do |shown|
+      root = Nokogiri::HTML::DocumentFragment.parse(shown)
+      spacers = root.element_children.select { |node|
+        node.name == "br" || node.inner_html == "<br>" || node.inner_html.blank?
+      }
+
+      assert_includes shown, "Quoted question"
+      assert_equal 1, spacers.size
+      assert_equal "Next.", spacers.first.previous_element.text
+      assert_equal "After.", spacers.first.next_element.text
+    end
+  end
+
   test "keeps styles inside a liquid code fence" do
     html = %(<pre style="white-space: pre"><code>{% if member.salary_basket %}</code></pre>)
 

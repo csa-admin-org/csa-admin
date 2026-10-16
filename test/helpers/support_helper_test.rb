@@ -89,4 +89,24 @@ class SupportHelperTest < ActionView::TestCase
 
     assert_includes html, "Hello from the member"
   end
+
+  test "collapses stored mail breaks on a support message" do
+    message = Support::Message.new(
+      author: "support",
+      body: "Answer",
+      html: <<~HTML)
+        <div>Answer.</div>
+        <div><br></div>
+        <div><br></div>
+        <blockquote type="cite"><div>Quoted question?</div></blockquote>
+        <div><br></div>
+        <div>Next.</div>
+      HTML
+
+    html = view.support_message_html(message)
+    spacers = Nokogiri::HTML.fragment(html).css("div").select { |node| node.inner_html == "<br>" }
+
+    assert_includes html, "Quoted question"
+    assert_empty spacers
+  end
 end

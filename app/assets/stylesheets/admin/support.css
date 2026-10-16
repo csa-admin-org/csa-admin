@@ -309,7 +309,8 @@
   }
 
   .support-message-body blockquote {
-    margin-block: 1rem !important;
+    margin-top: 2.5rem !important;
+    margin-bottom: 1rem !important;
     margin-inline: 0 !important;
     border: 0;
     border-inline-start: 3px solid var(--color-gray-300);
