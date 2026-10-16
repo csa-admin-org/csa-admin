@@ -23,10 +23,11 @@ class MembershipRenewal
       raise MissingDeliveriesError, "Deliveries for the renewed fiscal year are missing."
     end
 
+    fallback_cycle = membership.ensure_delivery_cycle_for_renewal!
     new_membership = Membership.new(renewed_attrs(attrs))
 
     if new_membership.delivery_cycle.deliveries_count_for(@fiscal_year.year) == 0
-      new_membership.delivery_cycle = DeliveryCycle.primary
+      new_membership.delivery_cycle = fallback_cycle
     end
 
     if membership.basket_size_id != new_membership.basket_size_id

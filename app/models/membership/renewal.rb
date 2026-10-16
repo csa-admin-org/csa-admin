@@ -89,6 +89,7 @@ module Membership::Renewal
     unless Delivery.any_in_year?(fy_year + 1)
       raise MembershipRenewal::MissingDeliveriesError, "Deliveries for next fiscal year are missing."
     end
+    ensure_delivery_cycle_for_renewal!
     return unless can_send_email?
 
     MailTemplate.deliver(:membership_renewal,
@@ -136,7 +137,21 @@ module Membership::Renewal
   end
 
   def can_renew?
-    delivery_cycle&.future_deliveries&.any?
+    delivery_cycle_for_renewal.present?
+  end
+
+  def delivery_cycle_for_renewal
+    year = fy_year + 1
+    cycles = depot.delivery_cycles.select { |dc| dc.deliveries_count_for(year).positive? }
+    cycles.find { |dc| dc.id == delivery_cycle_id } || cycles.first
+  end
+
+  def ensure_delivery_cycle_for_renewal!
+    delivery_cycle_for_renewal || raise(
+      MembershipRenewal::MissingDeliveriesError,
+      I18n.t("membership_renewal.missing_depot_deliveries",
+        year: Current.org.fiscal_year_for(fy_year + 1),
+        depot: depot.public_name))
   end
 
   def renewed_membership

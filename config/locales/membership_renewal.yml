@@ -1,0 +1,8 @@
+_:
+  membership_renewal:
+    missing_depot_deliveries:
+      _en: The depot "%{depot}" has no deliveries in %{year}.
+      _fr: Le dépôt "%{depot}" n'a aucune livraison en %{year}.
+      _de: Das Depot "%{depot}" hat keine Lieferungen in %{year}.
+      _it: Il punto di ritiro "%{depot}" non ha consegne nel %{year}.
+      _nl: Het depot "%{depot}" heeft geen leveringen in %{year}.
