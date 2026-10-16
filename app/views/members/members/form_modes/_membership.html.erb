@@ -1,5 +1,5 @@
 <% support_checked = member.waiting_basket_size_id&.zero? %>
-<% all_visible_depots = visible_depots %>
+<% all_visible_depots = visible_depots(only_with_future_deliveries: true) %>
 <% show_depot_filter = all_visible_depots.size >= MembersHelper::DEPOT_FILTER_MIN %>
 <% depot_map_markers = member_form_depot_map_markers(all_visible_depots) %>
 <% show_depot_map = Current.org.member_form_depot_map_enabled? && depot_map_markers.any? %>
@@ -188,7 +188,7 @@
                   </div>
                 <% end %>
 
-                <%= f.input :waiting_depot_id, hidden_fields: !has_groups, as: :radio_buttons, collection: depots_collection(depots: depots, data: { form_disabler_target: "input", depot_map_target: "primaryInput", action: "form-choice-excluder#excludeChoice form-choices-limiter#limitChoices form-pricing#refresh" }), label: false, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, include_hidden: !has_groups %>
+                <%= f.input :waiting_depot_id, hidden_fields: !has_groups, as: :radio_buttons, collection: depots_collection(depots: depots, only_with_future_deliveries: true, data: { form_disabler_target: "input", depot_map_target: "primaryInput", action: "form-choice-excluder#excludeChoice form-choices-limiter#limitChoices form-pricing#refresh" }), label: false, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, include_hidden: !has_groups %>
               </div>
             <% end %>
 
@@ -204,8 +204,11 @@
         <% end %>
 
         <% if DeliveryCycle.visible? %>
+          <% delivery_cycle_options = visible_delivery_cycles_collection(only_with_future_deliveries: true, data: { form_disabler_target: "input", form_choices_limiter_target: "input", action: "form-pricing#refresh" }) %>
+        <% end %>
+
+        <% if delivery_cycle_options&.any? %>
           <div class="form-cycles <%= " is-offset" if all_visible_depots.any? %>">
-            <% delivery_cycle_options = visible_delivery_cycles_collection(data: { form_disabler_target: "input", form_choices_limiter_target: "input", action: "form-pricing#refresh" }) %>
             <% use_select_for_cycles = delivery_cycle_options.size > MembersHelper::RADIO_BUTTONS_MAX %>
 
             <% if use_select_for_cycles %>
@@ -255,7 +258,8 @@
               <% end %>
 
               <div data-form-depot-filter-target="group">
-                <%= f.input :waiting_alternative_depot_ids, label: false, as: :check_boxes, collection: depots_collection(data: { form_disabler_target: "input", form_choice_excluder_target: "input", depot_map_target: "alternativeInput" }), disabled: [ f.object.waiting_depot_id ].compact, required: false, hint: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: (depots_collection.map(&:last) if support_checked) }, wrapper_class: "alt-depot-choices" %>
+                <% alt_depots_collection = depots_collection(depots: all_visible_depots, only_with_future_deliveries: true, data: { form_disabler_target: "input", form_choice_excluder_target: "input", depot_map_target: "alternativeInput" }) %>
+                <%= f.input :waiting_alternative_depot_ids, label: false, as: :check_boxes, collection: alt_depots_collection, disabled: [ f.object.waiting_depot_id ].compact, required: false, hint: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: (alt_depots_collection.map(&:last) if support_checked) }, wrapper_class: "alt-depot-choices" %>
               </div>
 
               <% if show_depot_filter %>

@@ -105,7 +105,7 @@
                             </div>
                           <% end %>
 
-                          <%= f.input :depot_id, hidden_fields: false, as: :radio_buttons, collection: depots_collection(depots: depots, data: { action: " form-choices-limiter#limitChoices form-pricing#refresh" }), label: false, wrapper_html: { data: { form_disabler_target: "label" } }, include_hidden: false %>
+                          <%= f.input :depot_id, hidden_fields: false, as: :radio_buttons, collection: depots_collection(depots: depots, membership: @membership, only_with_future_deliveries: true, data: { action: " form-choices-limiter#limitChoices form-pricing#refresh" }), label: false, wrapper_html: { data: { form_disabler_target: "label" } }, include_hidden: false %>
                         </div>
                       <% end %>
                     </div>
@@ -115,7 +115,11 @@
                 <% end %>
 
                 <% if DeliveryCycle.visible? %>
-                  <%= f.input :delivery_cycle_id, as: :radio_buttons, collection: visible_delivery_cycles_collection(membership: @membership, only_with_future_deliveries: true, data: { form_choices_limiter_target: "input", action: "form-pricing#refresh" }), disabled: (DeliveryCycle.pluck(:id) - @membership.depot.delivery_cycle_ids - [ @membership.delivery_cycle_id ]), label: Delivery.model_name.human(count: 2), required: true, label_html: { class: "form-label" } %>
+                  <% delivery_cycle_options = visible_delivery_cycles_collection(membership: @membership, only_with_future_deliveries: true, data: { form_choices_limiter_target: "input", action: "form-pricing#refresh" }) %>
+                <% end %>
+
+                <% if delivery_cycle_options&.any? %>
+                  <%= f.input :delivery_cycle_id, as: :radio_buttons, collection: delivery_cycle_options, disabled: (DeliveryCycle.pluck(:id) - @membership.depot.delivery_cycle_ids - [ @membership.delivery_cycle_id ]), label: Delivery.model_name.human(count: 2), required: true, label_html: { class: "form-label" } %>
                 <% end %>
 
                 <%= render "members/shared/price_reductions",

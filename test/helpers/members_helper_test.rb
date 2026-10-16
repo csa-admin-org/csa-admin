@@ -70,6 +70,103 @@ class MembersHelperTest < ActionView::TestCase
     assert_equal membership.delivery_cycle_id, checked[1]
   end
 
+  test "visible_delivery_cycles_collection omits cycles with no deliveries in the signup year" do
+    travel_to "2024-07-01"
+    Current.reset
+    empty_cycle = create_delivery_cycle_without_start_year_deliveries
+    year = form_deliveries_fy_year
+
+    collection = visible_delivery_cycles_collection(only_with_future_deliveries: true)
+    ids = collection.map { |_, id,| id }
+
+    assert_equal 0, empty_cycle.deliveries_count_for(year)
+    assert_not_includes ids, empty_cycle.id
+    assert ids.any?
+    collection.each do |text, id,|
+      count = DeliveryCycle.find(id).deliveries_count_for(year)
+      assert_includes text, I18n.t("helpers.deliveries_count", count: count)
+    end
+  end
+
+  test "visible_delivery_cycles_collection stays empty when no cycle has signup-year deliveries" do
+    travel_to "2024-07-01"
+    Current.reset
+    DeliveryCycle.kept.find_each do |cycle|
+      cycle.update_column(:deliveries_counts, {
+        form_deliveries_fy_year.to_s => 0,
+        Current.fy_year.to_s => 12
+      })
+    end
+
+    collection = visible_delivery_cycles_collection(only_with_future_deliveries: true)
+
+    assert_empty collection
+  end
+
+  test "visible_delivery_cycles_collection uses the membership start year count on signup" do
+    travel_to "2024-01-01"
+    Current.reset
+    cycle = delivery_cycles(:mondays)
+    start_year = form_deliveries_fy_year
+    other_year = start_year + 1
+    cycle.update_column(:deliveries_counts, {
+      start_year.to_s => 3,
+      other_year.to_s => 9
+    })
+
+    collection = visible_delivery_cycles_collection(only_with_future_deliveries: true)
+    text = collection.find { |_, id,| id == cycle.id }.first
+
+    assert_equal start_year, Delivery.next.fy_year
+    assert_includes text, I18n.t("helpers.deliveries_count", count: 3)
+    assert_not_includes text, I18n.t("helpers.deliveries_count", count: 9)
+  end
+
+  test "visible_depots omits a depot whose cycles have no deliveries in the signup year" do
+    travel_to "2024-07-01"
+    Current.reset
+    empty_cycle = create_delivery_cycle_without_start_year_deliveries(depots: [])
+    depot = Depot.create!(
+      name: "Seasonal only",
+      city: "City",
+      zip: "1000",
+      price: 0,
+      delivery_cycles: [ empty_cycle ])
+
+    depots = visible_depots(only_with_future_deliveries: true)
+
+    assert_not_includes depots.map(&:id), depot.id
+    assert depots.any?
+  end
+
+  test "visible_depots stays empty when no depot has signup-year deliveries" do
+    travel_to "2024-07-01"
+    Current.reset
+    DeliveryCycle.kept.find_each do |cycle|
+      cycle.update_column(:deliveries_counts, {
+        form_deliveries_fy_year.to_s => 0,
+        Current.fy_year.to_s => 12
+      })
+    end
+
+    assert_empty visible_depots(only_with_future_deliveries: true)
+  end
+
+  test "depots_collection limiter values omit cycles with no deliveries in the signup year" do
+    travel_to "2024-07-01"
+    Current.reset
+    empty_cycle = create_delivery_cycle_without_start_year_deliveries
+    farm = depots(:farm)
+
+    collection = depots_collection(only_with_future_deliveries: true)
+    farm_option = collection.find { |_, id,| id == farm.id }
+    limiter_ids = farm_option.last[:data][:form_choices_limiter_values_param].split(",").map(&:to_i)
+
+    assert_includes farm.delivery_cycle_ids, empty_cycle.id
+    assert_not_includes limiter_ids, empty_cycle.id
+    assert limiter_ids.any?
+  end
+
   test "depot_details does not show delivery count when depot has same cycles in different order" do
     farm = depots(:farm)
     dc_mondays = delivery_cycles(:mondays)
@@ -292,8 +389,23 @@ class MembersHelperTest < ActionView::TestCase
 
   private
 
+  def icon(*)
+    ""
+  end
+
   def member_address(city, zip)
     Struct.new(:city, :zip).new(city, zip)
+  end
+
+  def create_delivery_cycle_without_start_year_deliveries(depots: Depot.kept.to_a)
+    create_delivery_cycle(
+      names: { en: "Early Season" },
+      wdays: [ 4 ],
+      last_cweek: 14,
+      depots: depots).tap do |cycle|
+      assert_operator cycle.deliveries_count_for(Current.fy_year), :positive?
+      assert_equal 0, cycle.deliveries_count_for(form_deliveries_fy_year)
+    end
   end
 
   def insert_shop_order(member, created_at)

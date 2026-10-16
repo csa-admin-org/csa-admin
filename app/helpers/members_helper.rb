@@ -330,18 +330,24 @@ module MembersHelper
   end
 
   def depots_collection(depots: nil, membership: nil, basket: nil, delivery_cycle: nil, only_with_future_deliveries: false, show_price: true, only_price_per_delivery: false, data: {})
+    year = form_deliveries_fy_year(membership) if only_with_future_deliveries
     (depots || visible_depots(
       object: membership || basket,
       delivery_cycle: delivery_cycle,
       only_with_future_deliveries: only_with_future_deliveries
     )).map { |d|
+      cycle_ids = if year
+        d.delivery_cycles.filter_map { |dc| dc.id if dc.deliveries_count_for(year).positive? }
+      else
+        d.delivery_cycle_ids
+      end
       [
         collection_text(d.public_name,
           details: depot_details(d, show_price: show_price, only_price_per_delivery: only_price_per_delivery),
           icon: map_icon(d)&.html_safe),
         d.id,
         data: {
-          form_choices_limiter_values_param: d.delivery_cycle_ids.join(","),
+          form_choices_limiter_values_param: cycle_ids.join(","),
           depot_name: d.public_name,
           depot_city: d.city,
           depot_zip: d.zip,
@@ -378,15 +384,20 @@ module MembersHelper
     details.compact.join(", ").html_safe
   end
 
-  def delivery_cycle_details(dc, force_default: false)
+  def delivery_cycle_details(dc, force_default: false, fy_year: nil)
     return dc.form_detail if !force_default && dc.form_detail?
 
     details = []
+    count = if fy_year
+      dc.deliveries_count_for(fy_year) - dc.absences_included_annually
+    else
+      dc.billable_deliveries_count
+    end
     if dc.price.positive?
-      counts = [ dc.billable_deliveries_count ]
+      counts = [ count ]
       details << "#{deliveries_based_price_info(dc.price, counts)} (#{short_price(dc.price)} x #{deliveries_count(counts)})"
     else
-      details << deliveries_count(dc.billable_deliveries_count)
+      details << deliveries_count(count)
     end
     absences_included_text = t("helpers.absences_included", count: dc.absences_included_annually)
     if dc.absences_included_annually.positive? && dc.public_name.to_s.exclude?(absences_included_text)
@@ -527,8 +538,19 @@ module MembersHelper
     cycle.instance_variable_set(:@future_deliveries, nil)
   end
 
+  def form_deliveries_fy_year(membership = nil)
+    if membership
+      membership.fy_year + 1
+    else
+      (Delivery.next&.fiscal_year || Current.fiscal_year).year
+    end
+  end
+
   def visible_delivery_cycles_collection(membership: nil, only_with_future_deliveries: false, data: {})
-    ids = visible_depots(object: membership).flat_map(&:delivery_cycle_ids)
+    ids = visible_depots(
+      object: membership,
+      only_with_future_deliveries: only_with_future_deliveries
+    ).flat_map(&:delivery_cycle_ids)
     ids << membership.delivery_cycle_id if membership
     cycles = DeliveryCycle
       .where(id: ids.uniq)
@@ -537,14 +559,15 @@ module MembersHelper
       .member_ordered
       .to_a
 
+    year = nil
     if only_with_future_deliveries
-      year = membership ? membership.fy_year + 1 : Current.fy_year + 1
-      cycles.select! { |dc| dc.deliveries_count_for(year).positive? }
-      checked_id = selected_renewal_delivery_cycle_id(cycles, membership)
+      year = form_deliveries_fy_year(membership)
+      cycles = cycles.select { |dc| dc.deliveries_count_for(year).positive? }
+      checked_id = selected_renewal_delivery_cycle_id(cycles, membership) if membership
     end
 
     cycles.map { |dc|
-      text = collection_text(dc.public_name, details: delivery_cycle_details(dc))
+      text = collection_text(dc.public_name, details: delivery_cycle_details(dc, fy_year: year))
       [
         text,
         dc.id,
@@ -754,10 +777,10 @@ module MembersHelper
     end
 
     if only_with_future_deliveries
-      futures_depots = depots.select { |d| d.future_deliveries_counts.any?(&:positive?) }
-      if futures_depots.any?
-        depots = futures_depots
-      end
+      year = form_deliveries_fy_year(object.is_a?(Membership) ? object : nil)
+      depots = depots.select { |d|
+        d.delivery_cycles.any? { |dc| dc.deliveries_count_for(year).positive? }
+      }
     end
 
     depots
