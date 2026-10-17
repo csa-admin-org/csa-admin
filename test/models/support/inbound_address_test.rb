@@ -63,6 +63,19 @@ class Support::InboundAddressTest < ActiveSupport::TestCase
       assert Support::InboundAddress.operator_email?("support@csa-admin.org")
       assert Support::InboundAddress.operator_email?("support+high@csa-admin.org")
       assert_not Support::InboundAddress.operator_email?("stranger@gmail.com")
+      assert_not Support::InboundAddress.operator_email?("thibaud@thibaud.gg")
+    end
+  end
+
+  test "operator_email? matches extra addresses after strip and downcase" do
+    with_env(
+      "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+      "SUPPORT_EMAIL" => "support@csa-admin.org",
+      "SUPPORT_EXTRA_EMAILS" => " Thibaud@thibaud.gg , , ") do
+      assert Support::InboundAddress.operator_email?("thibaud@thibaud.gg")
+      assert Support::InboundAddress.operator_email?("thibaud+note@thibaud.gg")
+      assert Support::InboundAddress.operator_email?("info@csa-admin.org")
+      assert_not Support::InboundAddress.operator_email?("stranger@gmail.com")
     end
   end
 end

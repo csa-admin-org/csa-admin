@@ -39,10 +39,12 @@ module Support
     end
 
     def self.operator_addresses
+      extras = ENV["SUPPORT_EXTRA_EMAILS"].to_s.split(",").map(&:strip)
       [
         ENV["ULTRA_ADMIN_EMAIL"],
-        ENV["SUPPORT_EMAIL"]
-      ].compact.map { |address| canonical_local(address) }.uniq
+        ENV["SUPPORT_EMAIL"],
+        *extras
+      ].compact_blank.map { |address| canonical_local(address) }.uniq
     end
 
     def self.canonical_local(email)
