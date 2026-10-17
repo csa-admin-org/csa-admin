@@ -9,7 +9,6 @@ class Demo::Registration
   attribute :message, :string
 
   attr_accessor :request
-  attr_reader :session
 
   BLOCKED_EMAIL_DOMAINS = %w[csa-admin.org acp-admin.ch].freeze
 
@@ -19,9 +18,7 @@ class Demo::Registration
   def save
     return false unless valid?
 
-    admin = create_admin!
-    @session = create_session!(admin)
-    send_invitation_email!(admin)
+    send_invitation_email!(create_admin!)
     true
   end
 
@@ -62,12 +59,8 @@ class Demo::Registration
       demo_message: message.presence)
   end
 
-  def create_session!(admin)
-    Session.create!(admin_email: admin.email, request: request)
-  end
-
   def send_invitation_email!(admin)
-    invite_session = create_session!(admin)
+    invite_session = Session.create!(admin_email: admin.email, request: request)
     action_url = Rails.application.routes.url_helpers.session_url(
       invite_session.generate_token_for(:demo_invite),
       host: Tenant.admin_host)

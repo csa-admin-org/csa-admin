@@ -163,36 +163,31 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
     end
   end
 
-  test "creates a browser session and a week-long invite session" do
+  test "creates one unused week-long invite session" do
     in_demo_tenant do
       registration = Demo::Registration.new(
         name: "Frank Test",
         email: "frank@example.com")
 
-      assert_difference "Session.count", 2 do
+      assert_difference "Session.count", 1 do
         assert_enqueued_emails 1 do
           assert registration.save
         end
       end
 
-      admin = Admin.find_by!(email: "frank@example.com")
-      sessions = admin.sessions.order(:id)
-      assert_equal 2, sessions.size
-      assert_equal registration.session, sessions.first
-      sessions.each do |session|
-        assert_equal "127.0.0.1", session.remote_addr
-        assert_equal "-", session.user_agent
-        assert_nil session.last_used_at
-      end
-
-      invite_session = sessions.last
-      token = invite_session.generate_token_for(:demo_invite)
-      assert_equal invite_session, Session.redeem_token(token, owner_type: :admin)
-      assert_nil Session.find_by_token_for(:redeem, token)
+      invite_session = Admin.find_by!(email: "frank@example.com").sessions.sole
+      assert_equal "127.0.0.1", invite_session.remote_addr
+      assert_equal "-", invite_session.user_agent
+      assert_nil invite_session.last_used_at
 
       job = enqueued_jobs.find { |j| j["job_class"] == "ActionMailer::MailDeliveryJob" }
       assert_equal "critical", job["queue_name"]
       assert_equal "invitation_email", job["arguments"][1]
+
+      token = delivered_invite_token
+      assert_equal invite_session, Session.find_by_token_for(:demo_invite, token)
+      assert_nil Session.find_by_token_for(:redeem, token)
+      assert_equal invite_session, Session.redeem_token(token, owner_type: :admin)
     end
   end
 
@@ -232,6 +227,13 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
   end
 
   private
+
+  def delivered_invite_token
+    perform_enqueued_jobs
+    body = ActionMailer::Base.deliveries.last.body.encoded
+    url = body[/https?:\/\/\S+/]
+    url[%r{/sessions/([^"\s>]+)}, 1]
+  end
 
   def in_demo_tenant(language: "en", host: "admin.csa-admin.org")
     Tenant.stub(:demo?, true) do

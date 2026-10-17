@@ -11,13 +11,18 @@ module Demo::Seeder::Cleanup
 
     Admin.find_each do |admin|
       next if admin.email == ultra_email
-
-      last_activity = admin.sessions.used.maximum(:last_used_at)
-      next unless last_activity && last_activity < Demo::Seeder::ADMIN_INACTIVE_THRESHOLD.ago
+      next unless stale_demo_admin?(admin)
 
       log "Removing inactive admin: #{admin.email}"
       admin.destroy
     end
+  end
+
+  def stale_demo_admin?(admin)
+    last_activity = admin.sessions.used.maximum(:last_used_at)
+    return last_activity < Demo::Seeder::ADMIN_INACTIVE_THRESHOLD.ago if last_activity
+
+    admin.created_at < Demo::Seeder::UNUSED_ADMIN_THRESHOLD.ago
   end
 
   def cleanup_custom_permissions!

@@ -3,11 +3,11 @@ _:
     registrations:
       flash:
         created:
-          _en: You're in. A login link, valid for one week, has been sent to your email.
-          _fr: Vous y êtes. Un lien de connexion, valable une semaine, vous a été envoyé par e-mail.
-          _de: Anmeldung erfolgt. Ein Anmeldelink, eine Woche gültig, wurde per E-Mail gesendet.
-          _it: Siete dentro. Un link di accesso, valido una settimana, è stato inviato alla vostra e-mail.
-          _nl: Aangemeld. Een inloglink, een week geldig, is per e-mail verzonden.
+          _en: A login link, valid for one week, has been sent to your email.
+          _fr: Un lien de connexion, valable une semaine, a été envoyé à votre adresse e-mail.
+          _de: Ein Anmeldelink, eine Woche gültig, wurde per E-Mail gesendet.
+          _it: Un link di accesso, valido una settimana, è stato inviato all'indirizzo e-mail indicato.
+          _nl: Een inloglink, een week geldig, is per e-mail verzonden.
       new:
         already_have_account_html:
           _en: Already have an account? <a href="%{login_path}">Log in</a>

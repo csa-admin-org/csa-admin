@@ -32,6 +32,7 @@ class Demo::Seeder
   include Demo::Seeder::Shop
 
   ADMIN_INACTIVE_THRESHOLD = 6.months
+  UNUSED_ADMIN_THRESHOLD = 2.weeks
   EMAIL_DOMAINS = %w[
     mailinator.com yopmail.com guerrillamail.com
     tempmail.net dispostable.com fakeinbox.com

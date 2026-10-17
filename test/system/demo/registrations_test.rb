@@ -24,7 +24,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
     end
   end
 
-  test "successful registration opens the demo and keeps the emailed invite" do
+  test "successful registration emails a week-long invite and stays logged out" do
     with_demo_tenant do
       visit new_demo_registration_path
 
@@ -35,8 +35,9 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
       click_button "Send"
       perform_enqueued_jobs
 
-      assert_equal "/", current_path
-      assert_text "You're in. A login link, valid for one week, has been sent to your email."
+      assert_equal "/login", current_path
+      assert_text "A login link, valid for one week, has been sent to your email."
+      assert_no_text "Dashboard"
 
       Capybara.reset_sessions!
       open_email("alice@example.com")
