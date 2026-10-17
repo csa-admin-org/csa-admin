@@ -16,6 +16,6 @@ module AbsencesHelper
   def next_shiftable_basket
     return unless Current.org.basket_shift_enabled?
 
-    current_member.baskets.coming.includes(:membership).detect(&:can_be_member_shifted?)
+    current_member.baskets.coming.includes(:membership, :delivery, :depot).detect(&:can_be_member_shifted?)
   end
 end

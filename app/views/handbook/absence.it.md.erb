@@ -29,12 +29,19 @@ Se un socio è assente ma vuole comunque pagare, non registrare un'assenza, o ti
 
 Dal lato amministrativo, modifica la <%= Basket.model_name.human.downcase %> dalla pagina dell'abbonamento e scegli un'altra consegna. Se non è già assente, questo crea l'assenza e poi sposta il contenuto. Il contenuto della <%= Basket.model_name.human.downcase %> (complementi inclusi) viene spostato verso la <%= Basket.model_name.human.downcase %> scelta.
 
-Dal lato del socio, lo spostamento di <%= Basket.model_name.human(count: 2).downcase %> non è possibile per impostazione predefinita. Per attivare questa funzionalità, hai la possibilità di [modificare le seguenti impostazioni](/settings#absence):
+Dal lato del socio, lo spostamento di <%= Basket.model_name.human(count: 2).downcase %> non è possibile per impostazione predefinita. Per attivarlo, indica un **numero di spostamenti consentiti** diverso da 0 nelle [impostazioni delle assenze](/settings#absence). Le assenze devono restare fatturate. Non c'è un'altra impostazione.
 
-- **Numero di spostamenti consentiti**: per limitare, se lo desideri, il numero di spostamenti possibili da parte dei soci.
-- **Scadenza per gli spostamenti**: per limitare, se lo desideri, gli spostamenti possibili nel tempo.
+- **Numero di spostamenti consentiti**: limita gli spostamenti per socio. Lascia vuoto per non limitare l'anno. 0 disattiva gli spostamenti per i soci.
+- **Scadenza per gli spostamenti**: limita gli spostamenti nel tempo. Stessa scadenza per una consegna già in calendario e per una data che il ciclo salta. Senza scadenza, qualsiasi data dell'abbonamento.
 
-Se l'assenza viene annullata, il contenuto della <%= Basket.model_name.human.downcase %> sarà automaticamente restituito alla sua consegna originale.
+Le prossime due consegne, fuori dal preavviso, si spostano dalla pagina delle consegne, senza assenza. Le successive richiedono un'assenza, poi lo stesso modulo. Scegliere una data crea un'assenza di un giorno se non ce n'è già una.
+
+Due date possibili:
+
+- una consegna che il socio ha già
+- una data che il ciclo salta. Caso tipico: la settimana intermedia di un ciclo una settimana su due, o il venerdì per un abbonamento del lunedì. Il deposito deve essere servito quel giorno, perché è collegato, o perché un altro abbonamento è già consegnato lì. I complementi seguono se quella consegna li comprende. Altrimenti restano alla data originale, e non sono consegnati durante l'assenza del socio.
+
+Conta come uno spostamento, stesso limite annuale. Annullare l'assenza rimette la <%= Basket.model_name.human.downcase %> alla sua data e rimuove la data vuota. Un'assenza più lunga, già presente, resta.
 
 > Anche un'assenza inclusa può essere spostata. Il contenuto della <%= Basket.model_name.human.downcase %> sarà quindi fatturato sulla consegna di destinazione e l'assenza non viene conteggiata tra quelle incluse nell'abbonamento. L'assenza inclusa non utilizzata rimane disponibile e, quando possibile, viene assegnata provvisoriamente a un'altra consegna.
 

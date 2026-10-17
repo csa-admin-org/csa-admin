@@ -24,6 +24,8 @@ class Basket < ApplicationRecord
 
   accepts_nested_attributes_for :baskets_basket_complements, allow_destroy: true
 
+  attr_accessor :skip_add_complements
+
   before_validation :set_prices
   before_save :set_quantity_to_zero_when_basket_size_not_delivered
   before_create :add_complements
@@ -203,6 +205,8 @@ class Basket < ApplicationRecord
   end
 
   def add_complements
+    return if skip_add_complements
+
     complement_ids =
       delivery.basket_complement_ids & membership.subscribed_basket_complement_ids
     membership

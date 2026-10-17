@@ -23,6 +23,7 @@ class BasketShift < ApplicationRecord
     increment_quantities!(source_basket) if source_basket
     decrement_quantities!(target_basket) if target_basket
   }
+  after_destroy :cleanup_shift!
   after_commit -> { membership.touch if membership.persisted? }
   after_commit -> { MailTemplate.deliver(:absence_baskets_shifted, absence: absence) }, on: :create
 
@@ -90,6 +91,35 @@ class BasketShift < ApplicationRecord
 
   private
 
+  def cleanup_shift!
+    remove_shift_receptacle!
+    remove_generated_absence!
+  end
+
+  def remove_shift_receptacle!
+    basket = target_basket
+    return unless basket
+    return if BasketShift.where(membership_id: membership_id, target_delivery_id: target_delivery_id).where.not(id: id).exists?
+    return if membership.delivery_cycle.include_delivery?(basket.delivery)
+
+    basket.reload
+    return unless basket.quantity.to_i.zero?
+    return if basket.baskets_basket_complements.sum(:quantity).positive?
+
+    basket.destroy!
+  end
+
+  # A one-day absence created with this shift has nothing left to cover.
+  # A longer absence, or one the member declared earlier, stays.
+  def remove_generated_absence!
+    record = absence
+    return unless record&.started_on == record.ended_on
+    return if record.basket_shifts.exists?
+    return if (record.created_at - created_at).abs > 1.minute
+
+    record.destroy!
+  end
+
   def set_quantities
     basket = source_basket
     return unless basket
@@ -125,9 +155,24 @@ class BasketShift < ApplicationRecord
     increment_quantity! basket, factor * basket_qty
     bb_complements = basket.baskets_basket_complements.to_a
     quantities[:basket_complements].each do |id, quantity|
-      bbc = bb_complements.find { |bbc| bbc.basket_complement_id == id }
+      bbc = bb_complements.find { |row| row.basket_complement_id == id }
+      bbc ||= build_shift_complement!(basket, id) if factor.positive?
       increment_quantity! bbc, factor * quantity
     end
+  end
+
+  # A new date has no complement rows. Build one only when that delivery includes it.
+  def build_shift_complement!(basket, complement_id)
+    complement = BasketComplement.find(complement_id)
+    return unless basket.delivery_id.in?(complement.current_and_future_delivery_ids)
+
+    source = source_basket&.baskets_basket_complements&.detect { |row|
+      row.basket_complement_id == complement_id
+    }
+    basket.baskets_basket_complements.create!(
+      basket_complement_id: complement_id,
+      quantity: 0,
+      price: source&.price || complement.price)
   end
 
   def decrement_quantities!(basket)

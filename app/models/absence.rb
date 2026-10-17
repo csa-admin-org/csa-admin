@@ -3,7 +3,7 @@
 class Absence < ApplicationRecord
   include HasDateRange, HasNote, HasComment
 
-  attr_accessor :admin
+  attr_accessor :admin, :skip_notice_period
 
   belongs_to :member
   belongs_to :session, optional: true
@@ -12,7 +12,9 @@ class Absence < ApplicationRecord
   has_many :basket_shifts, dependent: :destroy
 
   validates :started_on, :ended_on, date: {
-    after_or_equal_to: proc { Absence.min_started_on },
+    after_or_equal_to: proc { Absence.min_started_on }
+  }, unless: -> { admin || skip_notice_period }
+  validates :started_on, :ended_on, date: {
     before: proc { Absence.max_ended_on }
   }, unless: :admin
   validate :within_current_fiscal_year

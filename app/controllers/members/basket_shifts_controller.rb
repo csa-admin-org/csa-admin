@@ -8,7 +8,13 @@ class Members::BasketShiftsController < Members::BaseController
   end
 
   def create
-    @basket.update!(basket_params)
+    Basket.transaction do
+      target_id = resolve_shift_target_id
+      if target_id.present? && target_id != "declined" && !@basket.absence_id?
+        @basket.ensure_definite_absence!
+      end
+      @basket.update!(shift_target_basket_id: target_id) if target_id
+    end
 
     redirect_to members_deliveries_path, notice: t(".flash.notice")
   end
@@ -27,14 +33,19 @@ class Members::BasketShiftsController < Members::BaseController
     redirect_to members_deliveries_path, alert: t(".flash.alert")
   end
 
-  def basket_params
-    permitted = params.require(:basket).permit(:shift_target_basket_id)
-    if permitted[:shift_target_basket_id] != "declined"
-      allowed_ids = @basket.member_shiftable_basket_targets.map(&:id).map(&:to_s)
-      unless permitted[:shift_target_basket_id].in?(allowed_ids)
-        permitted.delete(:shift_target_basket_id)
-      end
+  def resolve_shift_target_id
+    raw = params.require(:basket).permit(:shift_target_basket_id)[:shift_target_basket_id]
+    return if raw.blank?
+    return "declined" if raw == "declined"
+
+    if raw.start_with?("delivery:")
+      delivery_id = raw.delete_prefix("delivery:")
+      delivery = @basket.member_off_cycle_shift_deliveries.find { |d| d.id.to_s == delivery_id }
+      return unless delivery
+
+      @basket.membership.create_shift_receptacle!(delivery).id
+    else
+      raw if @basket.member_shiftable_basket_targets.map(&:id).map(&:to_s).include?(raw)
     end
-    permitted
   end
 end

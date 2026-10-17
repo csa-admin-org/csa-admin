@@ -230,6 +230,22 @@ class Membership < ApplicationRecord
       depot_price: dprice)
   end
 
+  # Empty target for a shift onto a date this cycle does not already include.
+  # Quantity 0 and no complements: the shift adds the source quantities once.
+  def create_shift_receptacle!(delivery)
+    did, dprice = depot_for(delivery)
+    baskets.create!(
+      delivery_id: delivery.id,
+      delivery_cycle_price: delivery_cycle_price,
+      basket_size_id: basket_size_id,
+      basket_size_price: basket_price_for(delivery),
+      price_extra: basket_price_extra,
+      quantity: 0,
+      depot_id: did,
+      depot_price: dprice,
+      skip_add_complements: true)
+  end
+
   def refresh_after_baskets_update!
     save!(validate: false)
     # save! is a no-op when no membership attributes changed (baskets were
@@ -309,6 +325,7 @@ class Membership < ApplicationRecord
     return unless attributes_config_changed? || memberships_basket_complements_config_changed?
 
     range = new_config_from..ended_on
+    @skip_off_cycle_shift_receptacles = saved_change_to_delivery_cycle_id?
     with_basket_shifts_reapplied!(range) do
       destroy_baskets!(range)
       create_baskets!(range)

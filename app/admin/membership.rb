@@ -381,7 +381,10 @@ ActiveAdmin.register Membership do
         next_basket = m.next_basket
         m.member.absences.load if feature?("absence")
         overrides_by_delivery = BasketOverride.by_delivery_id(m.basket_overrides.includes(session: [ :member, :admin ]))
-        panel Basket.model_name.human(count: 2), icon: "shopping-bag", count: m.baskets_count do
+        panel Basket.model_name.human(count: 2),
+          icon: "shopping-bag",
+          count: basket_panel_count(m),
+          count_label: Delivery.model_name.human(count: 2) do
           table_for(m.baskets.preload(
             :membership,
             :delivery,

@@ -29,10 +29,19 @@ Il est possible de déplacer la livraison d'un <%= Basket.model_name.human.downc
 
 Côté admin, modifiez le <%= Basket.model_name.human.downcase %> depuis la page de l'abonnement et choisissez une autre livraison. Si elle n'est pas déjà absente, cela crée l'absence, puis déplace le contenu. Le contenu du <%= Basket.model_name.human.downcase %> (compléments inclus) est déplacé vers le <%= Basket.model_name.human.downcase %> choisi.
 
-Côté membre, le déplacement de <%= Basket.model_name.human(count: 2).downcase %> n'est pas possible par défaut. Pour activer cette fonctionnalité, vous avez la possibilité de [modifier les paramètres](/settings#absence) suivants:
+Côté membre, le déplacement de <%= Basket.model_name.human(count: 2).downcase %> n'est pas possible par défaut. Pour l'activer, indiquez un **nombre de déplacements permis** autre que 0 dans [les paramètres d'absence](/settings#absence). Les absences doivent rester facturées. Il n'y a pas d'autre réglage.
 
-- **Nombre de déplacements permis**: afin de limiter, si vous le souhaitez, le nombre de déplacements possibles par les membres.
-- **Délai pour les déplacements**: afin de limiter, si vous le souhaitez, les déplacements possibles dans le temps.
+- **Nombre de déplacements permis**: afin de limiter, si vous le souhaitez, le nombre de déplacements possibles par les membres. Laissez vide pour ne pas limiter l'année. 0 désactive les déplacements côté membre.
+- **Délai pour les déplacements**: afin de limiter, si vous le souhaitez, les déplacements dans le temps. Même délai pour une livraison déjà au calendrier et pour une date que le cycle saute. Sans délai, toute date de l'abonnement.
+
+Les deux prochaines livraisons, hors délai de préavis, se déplacent depuis la page de livraisons, sans absence. Les suivantes demandent une absence, puis le même formulaire. Choisir une date crée une absence d'un jour s'il n'y en a pas.
+
+Deux dates possibles:
+
+- une livraison qu'ils ont déjà
+- une date que le cycle saute. Cas typique: la semaine intermédiaire d'un cycle une semaine sur deux, ou le vendredi pour un abonnement du lundi. Le dépôt doit être desservi ce jour-là, soit parce qu'il y est lié, soit parce qu'un autre abonnement y est déjà livré. Les compléments suivent si cette livraison les comprend. Sinon ils restent à la date d'origine, et ne sont donc pas livrés durant l'absence du membre.
+
+Cela compte comme un déplacement, même limite annuelle. Annuler l'absence remet le <%= Basket.model_name.human.downcase %> à sa date et retire la date vide. Une absence plus longue, déjà en place, reste.
 
 Si l'absence est annulée, le contenu du <%= Basket.model_name.human.downcase %> sera automatiquement restitué à sa livraison d'origine.
 

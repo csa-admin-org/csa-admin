@@ -97,6 +97,7 @@ class Members::AbsencesTest < ApplicationSystemTestCase
 
     visit "/absences"
     assert_text "Once an absence is created, you can shift the delivery to another date."
+    assert_no_text "basket shifts remaining"
   end
 
   test "does not show basket shift notice when feature is disabled" do

@@ -29,8 +29,6 @@ ActiveAdmin.register Basket do
   includes :delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement, membership: :member
 
   form do |f|
-    deliveries_collection = basket_deliveries_collection(f.object)
-
     if f.object.shifted?
       panel t(".basket_shift_title"), class: "basket-shift is-shift", action: handbook_icon_link("absence", anchor: "basket-shift") do
         div class: "panel-shift-body" do
@@ -107,11 +105,6 @@ ActiveAdmin.register Basket do
               hint: true,
               required: false,
               input_html: catalog_price_input_html(f.object.depot_price, f.object.depot&.price)
-          end
-          if deliveries_collection.many?
-            f.input :delivery,
-              collection: deliveries_collection,
-              prompt: true
           end
           if DeliveryCycle.prices? || f.object.delivery_cycle_price&.positive?
             f.input :delivery_cycle_price, required: false, min: 0
@@ -217,7 +210,6 @@ ActiveAdmin.register Basket do
   permit_params \
     :shift_target_basket_id,
     :basket_size_id, :basket_size_price, :price_extra, :quantity,
-    :delivery_id,
     :depot_id, :depot_price, :delivery_cycle_price,
     baskets_basket_complements_attributes: %i[
       id basket_complement_id
@@ -259,13 +251,22 @@ ActiveAdmin.register Basket do
     def ensure_shift_absence!
       target_id = params.dig(:basket, :shift_target_basket_id)
       return if target_id.blank? || target_id == "declined"
-      return if resource.absence_id?
       return unless resource.can_be_admin_shifted?
 
-      target = resource.membership.baskets.find_by(id: target_id)
-      return unless target && resource.admin_shift_target?(target)
+      if target_id.to_s.start_with?("delivery:")
+        delivery = resource.admin_off_cycle_shift_deliveries.find { |d|
+          d.id.to_s == target_id.delete_prefix("delivery:")
+        }
+        return unless delivery
 
-      resource.ensure_definite_absence!(admin: current_admin)
+        params[:basket][:shift_target_basket_id] =
+          resource.membership.create_shift_receptacle!(delivery).id.to_s
+      else
+        target = resource.membership.baskets.find_by(id: target_id)
+        return unless target && resource.admin_shift_target?(target)
+      end
+
+      resource.ensure_definite_absence!(admin: current_admin) unless resource.absence_id?
     end
 
     def build_csv_exporter

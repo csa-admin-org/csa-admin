@@ -14,7 +14,9 @@ class Members::BasketShiftsTest < ApplicationSystemTestCase
 
     visit "/deliveries"
 
-    click_on "Shift the delivery"
+    within "##{dom_id(@basket)}" do
+      click_on "Shift the delivery"
+    end
 
     select "Thursday 9 may"
 
@@ -35,8 +37,10 @@ class Members::BasketShiftsTest < ApplicationSystemTestCase
 
     visit "/deliveries"
 
-    assert_text "Shift the delivery"
-    click_on "Shift the delivery"
+    within "##{dom_id(@basket)}" do
+      assert_text "Shift the delivery"
+      click_on "Shift the delivery"
+    end
     assert_text "This delivery uses an included absence. If you shift it, the target delivery will be billed and the included absence will remain available."
 
     select "Thursday 9 may"
@@ -58,7 +62,9 @@ class Members::BasketShiftsTest < ApplicationSystemTestCase
 
     visit "/deliveries"
 
-    click_on "Shift the delivery"
+    within "##{dom_id(@basket)}" do
+      click_on "Shift the delivery"
+    end
 
     select "I don't want to shift my basket"
 

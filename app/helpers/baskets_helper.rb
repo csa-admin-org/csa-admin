@@ -50,17 +50,6 @@ module BasketsHelper
     end
   end
 
-  def basket_deliveries_collection(basket)
-    membership = basket.membership
-    unused_deliveries =
-      Delivery
-        .between(membership.period)
-        .where.not(id: (membership.deliveries.pluck(:id) - [ basket.delivery_id ]))
-    unused_deliveries.map do |delivery|
-      [ delivery.display_name(format: :long), delivery.id ]
-    end
-  end
-
   def basket_complements_collection(basket)
     admin_basket_complements.map do |complement|
       [ complement.name, complement.id,
@@ -72,12 +61,20 @@ module BasketsHelper
     end
   end
 
+  def basket_panel_count(membership)
+    delivered = membership.baskets.billable.where("baskets.quantity > 0")
+    baskets = delivered.sum(:quantity)
+    deliveries = delivered.distinct.count(:delivery_id)
+    return baskets if baskets == deliveries
+
+    [ baskets, deliveries ]
+  end
+
   def basket_shift_form_collection(basket)
-    if basket.absence_id?
-      basket_shift_targets_collection(basket)
-    else
-      basket_admin_shift_targets_collection(basket)
-    end
+    col = basket.absence_id? ? basket_shift_targets_collection(basket) : basket_admin_shift_targets_collection(basket)
+    other_dates = basket_admin_off_cycle_shift_targets(basket)
+    col << [ t("members.basket_shifts.new.other_dates"), other_dates ] if other_dates.any? && col.none? { |label, _| label == t("members.basket_shifts.new.other_dates") }
+    col
   end
 
   def basket_shift_panel_text(basket)
@@ -90,8 +87,15 @@ module BasketsHelper
     previous = basket_admin_shift_targets_for(source, ...source.delivery.date)
     [
       [ t("active_admin.resource.form.following_deliveries"), following ],
-      [ t("active_admin.resource.form.previous_deliveries"), previous ]
-    ]
+      [ t("active_admin.resource.form.previous_deliveries"), previous ],
+      [ t("members.basket_shifts.new.other_dates"), basket_admin_off_cycle_shift_targets(source) ]
+    ].select { |_, options| options.any? }
+  end
+
+  def basket_admin_off_cycle_shift_targets(source)
+    source.admin_off_cycle_shift_deliveries.map { |delivery|
+      [ delivery.display_name, "delivery:#{delivery.id}" ]
+    }
   end
 
   def basket_admin_shift_targets_for(source, range)
@@ -133,7 +137,18 @@ module BasketsHelper
       col << [ t(".after_absence"), after_targets ]
     end
 
+    other_dates = basket_shift_off_cycle_member_collection(source)
+    if other_dates.any?
+      col << [ t(".other_dates"), other_dates ]
+    end
+
     col.to_h
+  end
+
+  def basket_shift_off_cycle_member_collection(source)
+    source.member_off_cycle_shift_deliveries.map { |delivery|
+      [ l(delivery.date, format: :long_no_year).capitalize, "delivery:#{delivery.id}" ]
+    }
   end
 
   def basket_shifts_targets_member_collection_for(source, range)

@@ -41,8 +41,32 @@ module Membership::BasketShifts
   def with_basket_shifts_reapplied!(range)
     unapply_basket_shifts!(range)
     yield
+    ensure_off_cycle_shift_receptacles!(range)
     reapply_basket_shifts!(range)
     cleanup_orphaned_basket_shifts!(range)
+  end
+
+  # Cycle recreate only builds on-cycle baskets. An off-cycle shift target
+  # has to exist again before reapply, or cleanup deletes the shift.
+  def ensure_off_cycle_shift_receptacles!(range)
+    return if @skip_off_cycle_shift_receptacles
+
+    delivery_ids_in_range = Delivery.between(range).pluck(:id)
+    return if delivery_ids_in_range.empty?
+
+    cycle = delivery_cycle
+    basket_shifts
+      .where(target_delivery_id: delivery_ids_in_range)
+      .includes(:target_delivery)
+      .each do |shift|
+        delivery = shift.target_delivery
+        next unless delivery
+        next if baskets.exists?(delivery_id: delivery.id)
+        next if cycle.include_delivery?(delivery)
+        next unless delivery.date.in?(period)
+
+        create_shift_receptacle!(delivery)
+      end
   end
 
   def unapply_basket_shifts!(range)

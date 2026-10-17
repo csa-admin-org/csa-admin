@@ -826,6 +826,48 @@ _:
             _de: Du kannst noch <strong>%{count} Verschiebungen</strong> in diesem Jahr durchführen.
             _it: Puoi ancora effettuare <strong>%{count} trasferimenti</strong> questo anno.
             _nl: Je kunt dit jaar nog <strong>%{count} verplaatsingen</strong> maken.
+        one_step/bag:
+          _en: An absence will be created for this delivery if one does not already exist, then this bag's content will be shifted to the chosen delivery. Cancel the absence to remove the shift.
+          _fr: Une absence sera créée pour cette livraison si elle n'existe pas déjà, puis le contenu de ce sac sera déplacé vers la livraison choisie. Annuler l'absence pour supprimer le déplacement.
+          _de: Eine Abwesenheit wird für diese Lieferung angelegt, wenn sie noch nicht existiert, und der Inhalt dieser Tasche wird dann auf die gewählte Lieferung verschoben. Die Abwesenheit abbrechen, um die Verschiebung zu entfernen.
+          _it: Verrà creata un'assenza per questa consegna se non esiste già, poi il contenuto di questa borsa sarà spostato verso la consegna scelta. Annullare l'assenza per rimuovere lo spostamento.
+          _nl: Er wordt een afwezigheid voor deze levering aangemaakt als die nog niet bestaat, en de inhoud van deze tas wordt daarna naar de gekozen levering verschoven. Annuleer de afwezigheid om de verplaatsing te verwijderen.
+        one_step/basket:
+          _en: An absence will be created for this delivery if one does not already exist, then this basket's content will be shifted to the chosen delivery. Cancel the absence to remove the shift.
+          _fr: Une absence sera créée pour cette livraison si elle n'existe pas déjà, puis le contenu de ce panier sera déplacé vers la livraison choisie. Annuler l'absence pour supprimer le déplacement.
+          _de: Eine Abwesenheit wird für diese Lieferung angelegt, wenn sie noch nicht existiert, und der Inhalt dieses Korbs wird dann auf die gewählte Lieferung verschoben. Die Abwesenheit abbrechen, um die Verschiebung zu entfernen.
+          _it: Verrà creata un'assenza per questa consegna se non esiste già, poi il contenuto di questa cesta sarà spostato verso la consegna scelta. Annullare l'assenza per rimuovere lo spostamento.
+          _nl: Er wordt een afwezigheid voor deze levering aangemaakt als die nog niet bestaat, en de inhoud van deze mand wordt daarna naar de gekozen levering verschoven. Annuleer de afwezigheid om de verplaatsing te verwijderen.
+        one_step/cone:
+          _en: An absence will be created for this delivery if one does not already exist, then this cone's content will be shifted to the chosen delivery. Cancel the absence to remove the shift.
+          _fr: Une absence sera créée pour cette livraison si elle n'existe pas déjà, puis le contenu de ce cornet sera déplacé vers la livraison choisie. Annuler l'absence pour supprimer le déplacement.
+          _de: Eine Abwesenheit wird für diese Lieferung angelegt, wenn sie noch nicht existiert, und der Inhalt dieser Tüte wird dann auf die gewählte Lieferung verschoben. Die Abwesenheit abbrechen, um die Verschiebung zu entfernen.
+          _it: Verrà creata un'assenza per questa consegna se non esiste già, poi il contenuto di questo cono sarà spostato verso la consegna scelta. Annullare l'assenza per rimuovere lo spostamento.
+          _nl: Er wordt een afwezigheid voor deze levering aangemaakt als die nog niet bestaat, en de inhoud van deze zak wordt daarna naar de gekozen levering verschoven. Annuleer de afwezigheid om de verplaatsing te verwijderen.
+        one_step/crate:
+          _en: An absence will be created for this delivery if one does not already exist, then this crate's content will be shifted to the chosen delivery. Cancel the absence to remove the shift.
+          _fr: Une absence sera créée pour cette livraison si elle n'existe pas déjà, puis le contenu de cette cagette sera déplacé vers la livraison choisie. Annuler l'absence pour supprimer le déplacement.
+          _de: Eine Abwesenheit wird für diese Lieferung angelegt, wenn sie noch nicht existiert, und der Inhalt dieser Kiste wird dann auf die gewählte Lieferung verschoben. Die Abwesenheit abbrechen, um die Verschiebung zu entfernen.
+          _it: Verrà creata un'assenza per questa consegna se non esiste già, poi il contenuto di questa cassetta sarà spostato verso la consegna scelta. Annullare l'assenza per rimuovere lo spostamento.
+          _nl: Er wordt een afwezigheid voor deze levering aangemaakt als die nog niet bestaat, en de inhoud van deze krat wordt daarna naar de gekozen levering verschoven. Annuleer de afwezigheid om de verplaatsing te verwijderen.
+        one_step/package:
+          _en: An absence will be created for this delivery if one does not already exist, then this package's content will be shifted to the chosen delivery. Cancel the absence to remove the shift.
+          _fr: Une absence sera créée pour cette livraison si elle n'existe pas déjà, puis le contenu de ce colis sera déplacé vers la livraison choisie. Annuler l'absence pour supprimer le déplacement.
+          _de: Eine Abwesenheit wird für diese Lieferung angelegt, wenn sie noch nicht existiert, und der Inhalt dieses Pakets wird dann auf die gewählte Lieferung verschoben. Die Abwesenheit abbrechen, um die Verschiebung zu entfernen.
+          _it: Verrà creata un'assenza per questa consegna se non esiste già, poi il contenuto di questo pacco sarà spostato verso la consegna scelta. Annullare l'assenza per rimuovere lo spostamento.
+          _nl: Er wordt een afwezigheid voor deze levering aangemaakt als die nog niet bestaat, en de inhoud van dit pakket wordt daarna naar de gekozen levering verschoven. Annuleer de afwezigheid om de verplaatsing te verwijderen.
+        one_step/share:
+          _en: An absence will be created for this delivery if one does not already exist, then this share's content will be shifted to the chosen delivery. Cancel the absence to remove the shift.
+          _fr: Une absence sera créée pour cette livraison si elle n'existe pas déjà, puis le contenu de cette part sera déplacé vers la livraison choisie. Annuler l'absence pour supprimer le déplacement.
+          _de: Eine Abwesenheit wird für diese Lieferung angelegt, wenn sie noch nicht existiert, und der Inhalt dieses Anteils wird dann auf die gewählte Lieferung verschoben. Die Abwesenheit abbrechen, um die Verschiebung zu entfernen.
+          _it: Verrà creata un'assenza per questa consegna se non esiste già, poi il contenuto di questa parte sarà spostato verso la consegna scelta. Annullare l'assenza per rimuovere lo spostamento.
+          _nl: Er wordt een afwezigheid voor deze levering aangemaakt als die nog niet bestaat, en de inhoud van dit deel wordt daarna naar de gekozen levering verschoven. Annuleer de afwezigheid om de verplaatsing te verwijderen.
+        other_dates:
+          _en: Receive on another date
+          _fr: Recevoir à une autre date
+          _de: An einem anderen Datum erhalten
+          _it: Ricevere in un'altra data
+          _nl: Ontvangen op een andere datum
         submit:
           _en: Submit
           _fr: Soumettre

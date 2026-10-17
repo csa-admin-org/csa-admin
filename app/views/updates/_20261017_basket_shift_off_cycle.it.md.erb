@@ -1,0 +1,7 @@
+# Spostamento di una <%= Basket.model_name.human.downcase %> fuori dal ciclo di consegne
+
+I soci che possono già spostare una <%= Basket.model_name.human.downcase %> possono ora spostarla su una data che il loro ciclo di consegne non comprende, dalla pagina delle consegne, senza annunciare prima un'assenza. Caso tipico: la settimana intermedia di un ciclo una settimana su due, o un altro giorno, per esempio il venerdì per un abbonamento del lunedì.
+
+La scadenza di spostamento già impostata si applica, e il deposito deve essere servito quel giorno. Conta come uno spostamento, verso lo stesso limite annuale. Non c'è un'impostazione aggiuntiva: appare appena gli spostamenti per i soci sono attivati.
+
+I dettagli sono nel [manuale delle assenze](/handbook/absence#basket-shift).

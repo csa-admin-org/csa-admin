@@ -1,9 +1,13 @@
-<% absences_included = current_member.current_or_future_membership&.absences_included %>
+<% membership = current_member.current_or_future_membership %>
+<% absences_included = membership&.absences_included %>
+<% basket = next_shiftable_basket %>
 
-<% if basket = next_shiftable_basket %>
-  <%= link_to deliveries_path(anchor: dom_id(basket)), data: { turbo: false } do %>
+<% if Current.org.basket_shift_enabled? && membership&.basket_shift_allowed? %>
+  <% remaining = membership.basket_shifts_allowance_remaining %>
+  <% notice_text = remaining == Float::INFINITY ? t(".allowance_notice_unlimited") : t(".allowance_notice_html", count: remaining) %>
+  <% pane = capture do %>
     <%= notice_pane("redo") do %>
-      <%= t(".notice", count: current_member.current_or_future_membership.basket_shifts_allowance_remaining) %>
+      <%= notice_text %>
 
       <% if absences_included&.positive? %>
         <p class="notice-note">
@@ -12,16 +16,11 @@
       <% end %>
     <% end %>
   <% end %>
-<% elsif Current.org.basket_shift_enabled? && current_member.current_or_future_membership&.basket_shift_allowed? %>
-  <% remaining = current_member.current_or_future_membership.basket_shifts_allowance_remaining %>
-  <% notice_text = remaining == Float::INFINITY ? t(".allowance_notice_unlimited") : t(".allowance_notice_html", count: remaining) %>
-  <%= notice_pane("redo") do %>
-    <%= notice_text %>
-
-    <% if absences_included&.positive? %>
-      <p class="notice-note">
-        <%= t(".absences_included_footnote_html") %>
-      </p>
+  <% if basket %>
+    <%= link_to deliveries_path(anchor: dom_id(basket)), data: { turbo: false } do %>
+      <%= pane %>
     <% end %>
+  <% else %>
+    <%= pane %>
   <% end %>
 <% end %>

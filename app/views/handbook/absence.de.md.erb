@@ -29,12 +29,19 @@ Es ist möglich, die Lieferung einer <%= Basket.model_name.human %> während ein
 
 Bearbeite die <%= Basket.model_name.human %> auf der Abonnementseite und wähle eine andere Lieferung. Wenn sie nicht bereits abwesend ist, wird die Abwesenheit angelegt und der Inhalt verschoben. Der Inhalt der <%= Basket.model_name.human %> (einschliesslich Ergänzungen) wird auf die gewählte <%= Basket.model_name.human %> verschoben.
 
-Auf der Mitgliederseite ist die Verschiebung von <%= Basket.model_name.human(count: 2) %> standardmässig nicht möglich. Um diese Funktion zu aktivieren, hast Du die Möglichkeit, [die folgenden Einstellungen zu ändern](/settings#absence):
+Auf der Mitgliederseite ist die Verschiebung von <%= Basket.model_name.human(count: 2) %> standardmässig nicht möglich. Zum Aktivieren eine **Anzahl zulässiger Verschiebungen** ungleich 0 in [den Abwesenheitseinstellungen](/settings#absence) angeben. Abwesenheiten müssen in Rechnung gestellt bleiben. Es gibt keine weitere Einstellung.
 
-- **Anzahl der zulässigen Verschiebungen**: um, falls gewünscht, die Anzahl der von den Mitgliedern möglichen Verschiebungen zu begrenzen.
-- **Frist für Verschiebungen**: um, falls gewünscht, die zeitlich möglichen Verschiebungen zu begrenzen.
+- **Anzahl zulässiger Verschiebungen**: begrenzt die Verschiebungen pro Mitglied und Jahr. Leer lassen für kein Jahreslimit. 0 schaltet die Verschiebung für Mitglieder aus.
+- **Frist für Verschiebungen**: begrenzt die Verschiebung in der Zeit. Gleiche Frist für eine Lieferung, die schon im Kalender steht, und für ein Datum, das der Zyklus überspringt. Ohne Frist jedes Datum des Abonnements.
 
-Wenn die Abwesenheit storniert wird, wird der Inhalt der <%= Basket.model_name.human %> automatisch zu seiner ursprünglichen Lieferung zurückgebracht.
+Die nächsten zwei Lieferungen, ausserhalb der Ankündigungsfrist, lassen sich auf der Lieferungsseite verschieben, ohne Abwesenheit. Spätere Daten brauchen eine Abwesenheit, dann dasselbe Formular. Die Wahl eines Datums legt eine eintägige Abwesenheit an, falls noch keine besteht.
+
+Zwei Daten sind möglich:
+
+- eine Lieferung, die das Mitglied schon hat
+- ein Datum, das der Zyklus überspringt. Typischer Fall: die Zwischenwoche eines Zweiwochenzyklus, oder der Freitag bei einem Montagsabonnement. Das Depot muss an diesem Tag beliefert werden, entweder weil es verknüpft ist, oder weil ein anderes Abonnement dort schon beliefert wird. Ergänzungen folgen, wenn diese Lieferung sie umfasst. Sonst bleiben sie am Ursprungsdatum und werden während der Abwesenheit des Mitglieds nicht geliefert.
+
+Das zählt als eine Verschiebung, gleiches Jahreslimit. Die Abwesenheit stornieren bringt die <%= Basket.model_name.human %> auf ihr Datum zurück und entfernt das leere Datum. Eine längere Abwesenheit, die schon bestand, bleibt.
 
 > Auch eine inbegriffene Abwesenheit kann verschoben werden. Der Inhalt der <%= Basket.model_name.human %> wird dann bei der Ziellieferung in Rechnung gestellt und die Abwesenheit wird nicht auf die im Abonnement inbegriffenen Abwesenheiten angerechnet. Die ungenutzte inbegriffene Abwesenheit bleibt verfügbar und wird, wenn möglich, einer anderen Lieferung vorläufig zugewiesen.
 

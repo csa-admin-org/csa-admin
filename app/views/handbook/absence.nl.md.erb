@@ -29,12 +29,19 @@ Je kunt de levering van een <%= Basket.model_name.human.downcase %> tijdens een 
 
 Als beheerder bewerk je de <%= Basket.model_name.human.downcase %> op de lidmaatschapspagina en kies je een andere levering. Als die nog niet afwezig is, wordt de afwezigheid aangemaakt en de inhoud verschoven. De inhoud van de <%= Basket.model_name.human.downcase %>, inclusief aanvullingen, wordt naar de gekozen <%= Basket.model_name.human.downcase %> verschoven.
 
-Voor leden is het verschuiven van <%= Basket.model_name.human(count: 2).downcase %> standaard niet mogelijk. Om deze functie te activeren, kun je [de volgende instellingen wijzigen](/settings#absence):
+Voor leden is het verschuiven van <%= Basket.model_name.human(count: 2).downcase %> standaard niet mogelijk. Om het te activeren, geef je een **aantal toegestane verschuivingen** op dat niet 0 is in [de afwezigheidsinstellingen](/settings#absence). Afwezigheden moeten gefactureerd blijven. Er is geen extra instelling.
 
-- **Aantal toegestane verschuivingen**: om, indien gewenst, het aantal verschuivingen dat mogelijk is door leden te beperken.
-- **Deadline voor verschuivingen**: om, indien gewenst, de verschuivingen in tijd te beperken.
+- **Aantal toegestane verschuivingen**: beperkt de verschuivingen per lid. Leeg laten voor geen jaarlimiet. 0 zet verschuiven voor leden uit.
+- **Deadline voor verschuivingen**: beperkt verschuiven in de tijd. Dezelfde deadline voor een levering die al in de kalender staat en voor een datum die de cyclus overslaat. Zonder deadline elke datum van het lidmaatschap.
 
-Als de afwezigheid wordt geannuleerd, wordt de inhoud van de <%= Basket.model_name.human.downcase %> automatisch hersteld naar zijn oorspronkelijke levering.
+De volgende twee leveringen, buiten de opzegtermijn, verschuif je vanaf de leveringspagina, zonder afwezigheid. Latere data vragen een afwezigheid, daarna hetzelfde formulier. Een datum kiezen maakt een afwezigheid van één dag als die er nog niet is.
+
+Twee data zijn mogelijk:
+
+- een levering die het lid al heeft
+- een datum die de cyclus overslaat. Typisch geval: de tussenweek van een cyclus om de week, of vrijdag voor een lidmaatschap op maandag. Het depot moet die dag bediend worden, omdat het gekoppeld is, of omdat een ander lidmaatschap daar al geleverd wordt. Aanvullingen volgen als die levering ze omvat. Anders blijven ze op de oorspronkelijke datum, en worden ze niet geleverd tijdens de afwezigheid van het lid.
+
+Dat telt als één verschuiving, dezelfde jaarlimiet. De afwezigheid annuleren zet de <%= Basket.model_name.human.downcase %> terug op zijn datum en verwijdert de lege datum. Een langere afwezigheid die er al was, blijft.
 
 > Ook een inbegrepen afwezigheid kan worden verschoven. De inhoud van de <%= Basket.model_name.human.downcase %> wordt dan gefactureerd op de doellevering en de afwezigheid geldt niet als gebruikte inbegrepen afwezigheid. De ongebruikte inbegrepen afwezigheid blijft beschikbaar en wordt, indien mogelijk, voorlopig aan een andere levering toegewezen.
 

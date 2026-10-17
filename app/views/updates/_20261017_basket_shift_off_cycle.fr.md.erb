@@ -1,0 +1,7 @@
+# Déplacement d'un <%= Basket.model_name.human.downcase %> en dehors du cycle de livraisons
+
+Il est désormais possible, pour les membres qui peuvent déjà déplacer un <%= Basket.model_name.human.downcase %>, de le déplacer vers une date que leur cycle de livraisons ne comprend pas, depuis leur page de livraisons, sans annoncer une absence d'abord. Cas typique: la semaine intermédiaire d'un cycle une semaine sur deux, ou un autre jour, par exemple le vendredi pour un abonnement du lundi.
+
+Le délai de déplacement déjà réglé s'applique, et le dépôt doit être desservi ce jour-là. Cela compte comme un déplacement, vers la même limite annuelle. Il n'y a pas de réglage supplémentaire: cela apparaît dès que les déplacements côté membre sont activés.
+
+Plus de détails dans [le manuel des absences](/handbook/absence#basket-shift).

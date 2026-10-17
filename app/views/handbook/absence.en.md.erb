@@ -29,10 +29,19 @@ It is possible to shift the delivery of a <%= Basket.model_name.human.downcase %
 
 On the admin side, edit the <%= Basket.model_name.human.downcase %> from the membership page and choose another delivery. If it is not already absent, that creates the absence, then shifts the content. The <%= Basket.model_name.human.downcase %> content (including complements) is shifted to the chosen <%= Basket.model_name.human.downcase %>.
 
-On the member side, <%= Basket.model_name.human.downcase %> shifting is not possible by default. To activate this feature, you have the option to [modify the following settings](/settings#absence):
+On the member side, <%= Basket.model_name.human.downcase %> shifting is not possible by default. To activate this feature, set a **number of allowed shifts** other than 0 in [the absence settings](/settings#absence). Absences must stay billed. There is no separate switch.
 
-- **Number of allowed shifts**: to limit, if you wish, the number of shifts possible by members.
-- **Deadline for shifts**: to limit, if you wish, the shifts possible in time.
+- **Number of allowed shifts**: to limit, if you wish, the number of shifts possible by members. Leave it empty for no annual limit. 0 turns member shifts off.
+- **Deadline for shifts**: to limit shifts in time, if you wish. Same deadline for a delivery already on the calendar and for a date the cycle skips. No deadline means any date in the membership.
+
+The next two deliveries, outside the notice period, can be shifted from the deliveries page, without an absence. Later dates need an absence, then the same form. Choosing a date creates a one-day absence if there is none.
+
+Two dates are possible:
+
+- a delivery they already have
+- a date the cycle skips. Typical case: the in-between week of an every-other-week cycle, or Friday for a Monday membership. The depot must be served that day, either because it is linked, or because another membership is already delivered there. Complements move if that delivery includes them. Otherwise they stay on the original date, and are not delivered during the member's absence.
+
+It counts as one shift, same annual limit. Canceling the absence puts the <%= Basket.model_name.human.downcase %> back and removes the empty date. A longer absence that was already there stays.
 
 If the absence is canceled, the <%= Basket.model_name.human.downcase %> content is automatically restored to its original delivery.
 

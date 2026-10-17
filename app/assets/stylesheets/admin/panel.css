@@ -120,6 +120,18 @@
     }
   }
 
+  .panel-title-count-separator {
+    margin-inline: 0.35rem;
+    color: var(--color-gray-400);
+  }
+
+  .panel-title-count-label {
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
+    color: inherit;
+  }
+
   /* Panel Actions */
   .panel-actions {
     display: flex;
