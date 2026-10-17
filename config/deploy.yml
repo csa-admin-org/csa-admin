@@ -55,6 +55,7 @@ env:
     ASSET_HOST: https://cdn.csa-admin.org
     ULTRA_ADMIN_EMAIL: info@csa-admin.org
     SUPPORT_EMAIL: support@csa-admin.org
+    SUPPORT_EXTRA_EMAILS: thibaud@thibaud.gg
     ULTRA_ADMIN_NAME: Thibaud
     ULTRA_ADMIN_LANGUAGE: fr
     MAINTENANCE_MODE: OFF

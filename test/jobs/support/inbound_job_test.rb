@@ -110,6 +110,50 @@ class Support::InboundJobTest < ActiveJob::TestCase
     end
   end
 
+  test "appends a reply from an extra operator address" do
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
+
+    with_env(
+      "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+      "SUPPORT_EMAIL" => "support@csa-admin.org",
+      "SUPPORT_EXTRA_EMAILS" => "thibaud@thibaud.gg") do
+      assert_difference "Support::Message.count", 1 do
+        ingest(
+          "To" => ticket.inbound_email,
+          "From" => "thibaud@thibaud.gg",
+          "TextBody" => "Operator follows up",
+          "MessageID" => "inbound-extra",
+          "Headers" => [ { "Name" => "Message-ID", "Value" => "<inbound-extra@mail>" } ])
+      end
+    end
+
+    message = ticket.messages.order(:id).last
+    assert_equal "support", message.author
+    assert_nil message.admin
+    assert_equal "Operator follows up", message.body
+  end
+
+  test "raises for unknown from addresses when extra operators are configured" do
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
+
+    with_env(
+      "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+      "SUPPORT_EMAIL" => "support@csa-admin.org",
+      "SUPPORT_EXTRA_EMAILS" => "thibaud@thibaud.gg") do
+      assert_no_difference "Support::Message.count" do
+        assert_raises Support::Inbound::UnknownSender do
+          ingest(
+            "To" => ticket.inbound_email,
+            "From" => "stranger@gmail.com",
+            "TextBody" => "Hello",
+            "MessageID" => "inbound-extra-unknown")
+        end
+      end
+    end
+  end
+
   test "is idempotent on message id" do
     ticket = Support::Ticket.create!(
       priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
@@ -204,6 +248,48 @@ class Support::InboundJobTest < ActiveJob::TestCase
           "From" => "attacker@gmail.com",
           "TextBody" => "Please help\n\nOn Mon, Jane Doe <#{admins(:external).email}> wrote:\nHello",
           "MessageID" => "convert-attack")
+      end
+    end
+  end
+
+  test "converts informal mail from an extra operator address" do
+    with_env(
+      "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+      "SUPPORT_EMAIL" => "support@csa-admin.org",
+      "SUPPORT_EXTRA_EMAILS" => "thibaud@thibaud.gg") do
+      assert_difference "Support::Ticket.count" => 1, "Support::Message.count" => 2 do
+        ingest(
+          "To" => "ticket-acme@support.csa-admin.org",
+          "From" => "thibaud@thibaud.gg",
+          "Subject" => "Re: Informal help",
+          "TextBody" => "Here is the answer\n\nOn Mon, Jane Doe <#{admins(:external).email}> wrote:\nHello",
+          "Headers" => [ { "Name" => "Message-ID", "Value" => "<convert-extra@mail>" } ])
+      end
+    end
+
+    ticket = Support::Ticket.order(:id).last
+    original, reply = ticket.messages.order(:id).to_a
+    assert_equal "Informal help", ticket.subject
+    assert_equal admins(:external), ticket.admin
+    assert_equal "admin", original.author
+    assert_equal "Hello", original.body.strip
+    assert_equal "support", reply.author
+    assert_equal "Here is the answer", reply.body.strip
+  end
+
+  test "raises for convert from a non-operator address when extra operators are configured" do
+    with_env(
+      "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+      "SUPPORT_EMAIL" => "support@csa-admin.org",
+      "SUPPORT_EXTRA_EMAILS" => "thibaud@thibaud.gg") do
+      assert_no_difference "Support::Ticket.count" do
+        assert_raises Support::Inbound::RejectedSender do
+          ingest(
+            "To" => "ticket-acme@support.csa-admin.org",
+            "From" => "attacker@gmail.com",
+            "TextBody" => "Please help\n\nOn Mon, Jane Doe <#{admins(:external).email}> wrote:\nHello",
+            "MessageID" => "convert-extra-attack")
+        end
       end
     end
   end
