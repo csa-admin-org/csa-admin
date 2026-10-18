@@ -29,4 +29,18 @@ module ActivitiesHelper
     })
     Activity.where(date: dates).order(:date)
   end
+
+  def insert_activity_participations!(activities, member: members(:john))
+    now = Time.current
+    ActivityParticipation.insert_all(activities.map { |activity|
+      {
+        activity_id: activity.id,
+        member_id: member.id,
+        participants_count: 1,
+        state: "pending",
+        created_at: now,
+        updated_at: now
+      }
+    })
+  end
 end
