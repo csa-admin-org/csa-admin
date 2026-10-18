@@ -312,7 +312,22 @@ module AdminHelper
   end
 
   def activity_participation_form_activities_collection(participation = nil)
-    collection = Activity.admin_form_collection(selected: participation&.activity)
+    activity_collection_optgroups(
+      Activity.admin_form_collection(selected: participation&.activity))
+  end
+
+  def activity_participation_filter_activities_collection
+    scope = Activity.where(id: ActivityParticipation.select(:activity_id))
+    if fy_year = params.dig(:q, :during_year)
+      scope = scope.during_year(fy_year)
+    end
+    selected_id = params.dig(:q, :activity_id_eq)
+    selected = Activity.admin_form_select.find_by(id: selected_id) if selected_id.present?
+    activity_collection_optgroups(
+      Activity.admin_form_collection(selected: selected, scope: scope))
+  end
+
+  def activity_collection_optgroups(collection)
     [
       [ t("active_admin.scopes.coming"), option_for_select(collection[:coming]) ],
       [ t("active_admin.scopes.past"), option_for_select(collection[:past]) ]

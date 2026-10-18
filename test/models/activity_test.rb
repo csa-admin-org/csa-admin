@@ -73,6 +73,21 @@ class ActivityTest < ActiveSupport::TestCase
     assert_not_includes collection[:coming].map(&:id), farthest_coming.id
   end
 
+  test "admin_form_collection can restrict to a relation and still keep the selected one" do
+    travel_to "2024-09-11"
+    extras = insert_admin_form_activities!(
+      [ Date.new(2019, 1, 1), Date.new(2019, 1, 2), Date.current + 1.week, Date.current + 2.weeks ])
+    oldest, dropped_past, nearest_coming, farthest_coming = extras.sort_by(&:date)
+    collection = Activity.admin_form_collection(
+      selected: oldest,
+      scope: Activity.where(id: [ oldest.id, nearest_coming.id ]))
+
+    assert_equal [ nearest_coming.id ], collection[:coming].map(&:id)
+    assert_equal [ oldest.id ], collection[:past].map(&:id)
+    assert_not_includes collection[:past].map(&:id), dropped_past.id
+    assert_not_includes collection[:coming].map(&:id), farthest_coming.id
+  end
+
   test "admin_form_collection queries are column-narrowed and limited" do
     travel_to "2024-09-11"
     insert_admin_form_activities!((0..5).map { |i| Date.current - (i + 1).weeks })

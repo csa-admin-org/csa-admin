@@ -31,8 +31,8 @@ class Activity < ApplicationRecord
   scope :ordered, ->(order) { order(date: order, start_time: :asc) }
   scope :admin_form_select, -> { select(*ADMIN_FORM_COLLECTION_COLUMNS) }
 
-  def self.admin_form_collection(selected: nil)
-    scope = admin_form_select
+  def self.admin_form_collection(selected: nil, scope: nil)
+    scope = (scope || all).admin_form_select
     coming = scope.coming.order(:date).limit(ADMIN_FORM_COLLECTION_LIMIT).to_a
     past = scope.past.reorder(date: :desc).limit(ADMIN_FORM_COLLECTION_LIMIT).to_a
 

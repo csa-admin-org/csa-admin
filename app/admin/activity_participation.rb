@@ -42,10 +42,7 @@ ActiveAdmin.register ActivityParticipation do
   filter :with_note, as: :boolean
   filter :activity,
     as: :select,
-    collection: -> {
-      activity_ids = ActivityParticipation.distinct.pluck(:activity_id)
-      grouped_by_date(Activity.where(id: activity_ids))
-    }
+    collection: -> { activity_participation_filter_activities_collection }
   filter :activity_wday,
     label: -> { Activity.human_attribute_name(:wday) },
     as: :select,

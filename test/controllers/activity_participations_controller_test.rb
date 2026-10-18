@@ -60,6 +60,59 @@ class ActivityParticipationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "select#activity_participation_activity_id option[value=?]", dropped.id, count: 0
   end
 
+  test "index activity filter uses coming and past optgroups for participated activities" do
+    coming = create_activity(date: Date.current + 1.week)
+    insert_activity_participations!([ coming ])
+
+    get activity_participations_path(scope: :all)
+
+    assert_response :success
+    assert_select "select[name='q[activity_id_eq]']" do
+      assert_select "optgroup[label=?]", I18n.t("active_admin.scopes.coming") do
+        assert_select "option[value=?]", coming.id
+      end
+      assert_select "optgroup[label=?]", I18n.t("active_admin.scopes.past") do
+        assert_select "option[value=?]", activities(:harvest).id
+      end
+    end
+    assert_select "select[name='q[activity_id_eq]'] option[value=?]",
+      activities(:harvest_afternoon).id, count: 0
+  end
+
+  test "index activity filter keeps a selected activity that is older than the collection limit" do
+    extras = insert_admin_form_activities!(
+      (0...(Activity::ADMIN_FORM_COLLECTION_LIMIT + 5)).map { |i| Date.new(2019, 1, 1) + i.days })
+    insert_activity_participations!(extras)
+    oldest = extras.min_by(&:date)
+    dropped = extras.sort_by(&:date)[1]
+
+    get activity_participations_path(scope: :all, q: { activity_id_eq: oldest.id })
+
+    assert_response :success
+    assert_select "select[name='q[activity_id_eq]'] option[value=?][selected]", oldest.id
+    assert_select "select[name='q[activity_id_eq]'] option[value=?]", dropped.id, count: 0
+  end
+
+  test "index activity filter queries stay bounded as activity count grows" do
+    extras = insert_admin_form_activities!(
+      (0...Activity::ADMIN_FORM_COLLECTION_LIMIT).map { |i| Date.new(2020, 1, 1) + i.days })
+    insert_activity_participations!(extras)
+
+    few = collect_sql_queries { get activity_participations_path(scope: :all) }
+    assert_response :success
+    assert_bounded_activity_form_queries(few)
+
+    more = insert_admin_form_activities!(
+      (0...Activity::ADMIN_FORM_COLLECTION_LIMIT).map { |i| Date.new(2018, 1, 1) + i.days })
+    insert_activity_participations!(more)
+
+    many = collect_sql_queries { get activity_participations_path(scope: :all) }
+    assert_response :success
+    assert_bounded_activity_form_queries(many)
+
+    assert_equal activity_form_load_signatures(few), activity_form_load_signatures(many)
+  end
+
   test "new and edit form activity queries stay bounded as activity count grows" do
     participation = activity_participations(:john_harvest)
     insert_admin_form_activities!(
@@ -103,7 +156,7 @@ class ActivityParticipationsControllerTest < ActionDispatch::IntegrationTest
   def activity_collection_loads(queries)
     queries.select { |sql|
       sql.match?(/SELECT .+FROM ["`]activities["`]/i) &&
-        sql.match?(/["`]activities["`]\.["`]date["`]/) &&
+        sql.match?(/ORDER BY ["`](?:activities["`]\.["`])?date["`]/i) &&
         !sql.match?(/SELECT 1 AS one/i) &&
         !sql.match?(/COUNT\(/i)
     }
