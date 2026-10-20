@@ -116,7 +116,7 @@ GEM
       async-http (~> 0.42)
       protocol-url (~> 0.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1293.0)
+    aws-partitions (1.1294.0)
     aws-sdk-core (3.257.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -148,7 +148,7 @@ GEM
     bundler-audit (0.9.3)
       bundler (>= 1.2.0)
       thor (~> 1.0)
-    cancancan (3.6.1)
+    cancancan (3.6.2)
     capybara (3.40.0)
       addressable
       matrix
@@ -256,10 +256,10 @@ GEM
       activesupport (>= 7.0)
     hashdiff (1.2.1)
     hashery (2.1.2)
-    herb (0.11.0-aarch64-linux-gnu)
-    herb (0.11.0-arm64-darwin)
-    herb (0.11.0-x86_64-linux-gnu)
-    herb (0.11.0-x86_64-linux-musl)
+    herb (0.11.1-aarch64-linux-gnu)
+    herb (0.11.1-arm64-darwin)
+    herb (0.11.1-x86_64-linux-gnu)
+    herb (0.11.1-x86_64-linux-musl)
     hexapdf (1.11.1)
       cmdparse (~> 3.0, >= 3.0.3)
       geom2d (~> 0.4, >= 0.4.1)
@@ -272,11 +272,10 @@ GEM
       activesupport (>= 6.0.0)
       i18n (>= 1.10.0)
     iban-tools (1.2.1)
-    icalendar (2.12.5)
+    icalendar (2.13.0)
       base64
       ice_cube (~> 0.16)
       logger
-      ostruct
     ice_cube (0.17.0)
     image_processing (2.2.0)
     importmap-rails (2.2.3)
@@ -303,7 +302,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (3.0.2)
+    json (3.1.0)
     kamal (2.12.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -379,7 +378,7 @@ GEM
     net-http (0.10.0)
       net-protocol (>= 0.3.0)
       uri (>= 0.11.1)
-    net-imap (0.6.7)
+    net-imap (0.6.8)
       date
       net-protocol
     net-pop (0.1.2)
@@ -660,7 +659,7 @@ GEM
       actionview (>= 8.0.0)
       bindex (>= 0.4.0)
       railties (>= 8.0.0)
-    webmock (3.29.0)
+    webmock (3.30.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -791,7 +790,7 @@ CHECKSUMS
   async-pool (0.12.0) sha256=5580493dc024bd704dab2ed0bf1307100722e49cbb825c7965f8501194f58506
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1293.0) sha256=d53c028087a7c75b435afb35b310a315a64268e6fb5ecd5d44d8e4f210ce725c
+  aws-partitions (1.1294.0) sha256=e6045b27a414fd3ea5cbbf8b051f69b56b7d474fcade52d3f4969c3b45782ce6
   aws-sdk-core (3.257.0) sha256=a92ad19c7ff668cec6688ee3200ee562da80647a3bbeed9fda02e8b0ca6492c6
   aws-sdk-kms (1.132.0) sha256=094b0097bb3be9d5c1ac87e971ca7f5aebb746801dfb5f0f576480bf98dca69c
   aws-sdk-s3 (1.233.2) sha256=b138737a0de8b02f163ae47a9fc184ac98fc9b90926237c7d7af716a14ea1221
@@ -806,7 +805,7 @@ CHECKSUMS
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
   bundler (4.0.20) sha256=7978a8ac648767f5e635bc522445b79e80a52b907a39a36c2d8085ed6bc762ae
   bundler-audit (0.9.3) sha256=81c8766c71e47d0d28a0f98c7eed028539f21a6ea3cd8f685eb6f42333c9b4e9
-  cancancan (3.6.1) sha256=975c1d5cbf58d5df48a9452a7f61ae3d254608cd87570402f5925a8864c56b62
+  cancancan (3.6.2) sha256=3b18a8f7336f078a20f94175b65467c34846dd78150956fc61a6b9c60442a427
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
   capybara-email (3.0.2) sha256=ab65dd9b15c096b1ebe24308d18d790eb08814f916883ebccbc1cf46f760696f
   childprocess (5.1.0) sha256=9a8d484be2fd4096a0e90a0cd3e449a05bc3aa33f8ac9e4d6dcef6ac1455b6ec
@@ -861,16 +860,16 @@ CHECKSUMS
   has_scope (0.9.0) sha256=783a93006cf898525bb4899696f1d088c0f6ff897d6df2bf03fdbbe0d0b5124c
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
-  herb (0.11.0-aarch64-linux-gnu) sha256=7d8244655bb99a50b2d52ea13408c2a76b3fbd70bcca8ccee4229d3e1902bb0b
-  herb (0.11.0-arm64-darwin) sha256=8972ac3e5a7ee7296a89d78fceb40d8fb85c3ea8d40c9781a9c8db3e58194501
-  herb (0.11.0-x86_64-linux-gnu) sha256=aba19094bc1618e1bc0fb59db52ba251c93a24598f5228815616b282f10bb8a0
-  herb (0.11.0-x86_64-linux-musl) sha256=e27a08fe72304c8043e851b568ed30eaa45f06b5333d151939a7834e936c01aa
+  herb (0.11.1-aarch64-linux-gnu) sha256=5484e0fc0bd5d040380cbbf503e86dccf3fc1d33428b7ad02715ee7dcaa018f9
+  herb (0.11.1-arm64-darwin) sha256=c5d3c1d5f88a504bcfa6a4bb52f56650dc40345e23cdf051b02f3390cf184d9e
+  herb (0.11.1-x86_64-linux-gnu) sha256=e3104c5dab07300a2ea6fc3898014cf57db978fbf09f5554a2a6ef6c46f973f8
+  herb (0.11.1-x86_64-linux-musl) sha256=0c687b667b612e7cc2403e9991ee7c8e8d10cfef026cf41165f9d99284630b09
   hexapdf (1.11.1) sha256=914578c3b2024f76b533144344379c7123d3eaa3ea586f4d98add59534b783a9
   htmlentities (4.4.2) sha256=bbafbdf69f2eca9262be4efef7e43e6a1de54c95eb600f26984f71d2fe96c5c3
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
   i18n-backend-side_by_side (1.3.0) sha256=9a48d06549d4d5e4e6640ab66c560ffa4a73883f29a881818810bd30e49f95d8
   iban-tools (1.2.1) sha256=099962fc60fc8eff0674e1ce3d387a29cfa89d578cf5f08554ec7c6020ac631c
-  icalendar (2.12.5) sha256=bda963d46bb08d9de1366eff05308c1e60a178532422fcc11d60360f84f58156
+  icalendar (2.13.0) sha256=dbfad06c1db3e85f20fa66271fb6b500e5a8915b20f3fb84e5389659e23cf1da
   ice_cube (0.17.0) sha256=32deb45dda4b4acc53505c2f581f6d32b5afc04d29b9004769944a0df5a5fcbe
   image_processing (2.2.0) sha256=e0cb9892a4395ac2b7bb2fac5c6f5bc63361f2f18ed08773e21fce5b111c6974
   importmap-rails (2.2.3) sha256=7101be2a4dc97cf1558fb8f573a718404c5f6bcfe94f304bf1f39e444feeb16a
@@ -882,7 +881,7 @@ CHECKSUMS
   io-stream (0.14.0) sha256=07d9b13ea2066ccbbc761fff8d69ad5a31e47561d31e02cc271f3ed9c1a8f1cd
   irb (1.18.0) sha256=de9454a0703a54704b9811a5ef31a60c86949fbf4013fcf244fabc7c775248e3
   jmespath (1.6.2) sha256=238d774a58723d6c090494c8879b5e9918c19485f7e840f2c1c7532cf84ebcb1
-  json (3.0.2) sha256=8e6d7e7b11384c21230430cef90b71f14849a34a1f4452796670f7c981bd19df
+  json (3.1.0) sha256=3ce7ccf8fde58960177a3a756c31f292a4c1e1dedee884547096a5b0604e3bd8
   kamal (2.12.0) sha256=c51d1ab085e515470f98d0c0f043637122b5ebf76e8b610cb1fbbed0b7f9b8fa
   kaminari (1.2.2) sha256=c4076ff9adccc6109408333f87b5c4abbda5e39dc464bd4c66d06d9f73442a3e
   kaminari-actionview (1.2.2) sha256=1330f6fc8b59a4a4ef6a549ff8a224797289ebf7a3a503e8c1652535287cc909
@@ -907,7 +906,7 @@ CHECKSUMS
   mission_control-jobs (1.3.1) sha256=3230be224069b39fee2893eecd27c1c334fb5467290bf575e88b5c9121287b26
   msgpack (1.8.5) sha256=97419eaa7b35dfe3e462c0e6c1a3dfdcbfc8756605c09e46e4c6daef127517ba
   net-http (0.10.0) sha256=1a2ff6e37a05724973c43f2bf7bf105f59c36a4cd0a7e9b1c021a0a566987c27
-  net-imap (0.6.7) sha256=b5c9573be975d856de252ee851871724da66aa2d449b2482d5690bd12bc23660
+  net-imap (0.6.8) sha256=eb30bb62227b64a3af6b518b04b2375113d69f68f15de59b0193b07d98acf6d9
   net-pop (0.1.2) sha256=848b4e982013c15b2f0382792268763b748cce91c9e91e36b0f27ed26420dff3
   net-protocol (0.4.0) sha256=f9f90c8c6f64794a45160bf422177a336db12809de3beeeaa26b88fcd2e8c853
   net-scp (4.1.0) sha256=a99b0b92a1e5d360b0de4ffbf2dc0c91531502d3d4f56c28b0139a7c093d1a5d
@@ -1024,7 +1023,7 @@ CHECKSUMS
   user_agent_parser (2.21.0) sha256=d945d914af9955a499a62038fe97d3ac3416b69e5243b3298c8755b48f3f57c7
   useragent (0.16.11) sha256=700e6413ad4bb954bb63547fa098dddf7b0ebe75b40cc6f93b8d54255b173844
   web-console (4.3.0) sha256=e13b71301cdfc2093f155b5aa3a622db80b4672d1f2f713119cc7ec7ac6a6da4
-  webmock (3.29.0) sha256=a854b243019d503d3446ab7807c9192f41826d5b673b5dfe0d287ced9606ecbc
+  webmock (3.30.0) sha256=9d3bb917f82bb02effb95bcee36da3783232efacee7783bac4e357c6e650c136
   websocket (1.2.11) sha256=b7e7a74e2410b5e85c25858b26b3322f29161e300935f70a0e0d3c35e0462737
   websocket-driver (0.8.2) sha256=97c556b019bf3410b4961002ac501621e9322d3f8a7bc02161a09301cc4c4146
   websocket-extensions (0.1.5) sha256=1c6ba63092cda343eb53fc657110c71c754c56484aad42578495227d717a8241
