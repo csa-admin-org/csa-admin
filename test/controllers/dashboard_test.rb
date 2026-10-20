@@ -92,7 +92,7 @@ class DashboardTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select ".calendar", count: 0
-    assert_select "turbo-frame#dashboard_calendar", count: 1
+    assert_select "turbo-frame#dashboard_calendar.is-hidden", count: 1
     assert_select "turbo-frame#dashboard_calendar .panel", count: 0
   end
 

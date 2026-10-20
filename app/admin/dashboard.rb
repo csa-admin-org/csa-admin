@@ -76,8 +76,10 @@ ActiveAdmin.register_page "Dashboard" do
         column do
           week = requested_calendar_monday
           calendar = Calendar.new(week || Date.current)
-          turbo_frame id: "dashboard_calendar", target: "_top" do
-            if week || calendar.present?
+          show_calendar = week || calendar.present?
+          # Keep the frame for week navigation. Hide it when empty so the column gap does not offset the panels below.
+          turbo_frame id: "dashboard_calendar", target: "_top", class: ("is-hidden" unless show_calendar) do
+            if show_calendar
               panel t(".calendar"), icon: "calendar-days", action: calendar_panel_action(calendar) do
                 render partial: "active_admin/page/calendar", locals: { calendar: calendar }
               end
