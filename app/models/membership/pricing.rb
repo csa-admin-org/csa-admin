@@ -58,6 +58,8 @@ module Membership::Pricing
   end
 
   def baskets_price_extra
+    return @csv_baskets_price_extra if defined?(@csv_baskets_price_extra)
+
     if association(:baskets).loaded?
       rounded_price(
         baskets
@@ -72,6 +74,8 @@ module Membership::Pricing
   end
 
   def basket_complements_price
+    return @csv_basket_complements_price if defined?(@csv_basket_complements_price)
+
     if baskets_with_complements_loaded?
       baskets
         .select(&:billable)

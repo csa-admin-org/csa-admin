@@ -34,6 +34,8 @@ module Membership::AbsencesIncludedRemindable
   end
 
   def absences_included_used
+    return @csv_absences_included_used if defined?(@csv_absences_included_used)
+
     baskets_counting_as_absences_included.definitely_absent.count
   end
 

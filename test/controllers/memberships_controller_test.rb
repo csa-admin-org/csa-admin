@@ -198,6 +198,113 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Lausanne", jane_row[city_header]
   end
 
+  test "index CSV columns match membership values" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features | [ "price_reductions" ])
+    members(:jane).update!(city: "Lausanne", phones: "+41 79 987 65 43", note: "Allergic")
+    memberships(:jane).update!(
+      basket_price_extra: 2,
+      absences_included_annually: 3,
+      absences_included: 3)
+    memberships(:jane).baskets.update_all(price_extra: 2, calculated_price_extra: 2)
+    reduction = PriceReduction.create!(names: { "en" => "Caritas" }, percentage: 30)
+    MembershipPriceReduction.create!(
+      membership: memberships(:jane),
+      price_reduction: reduction,
+      percentage: 30,
+      amount: 12)
+    login admins(:super)
+
+    get memberships_path(format: :csv), params: { scope: :all }
+
+    assert_response :success
+    csv = CSV.parse(response.body.delete_prefix("\uFEFF"), headers: true)
+    membership = Membership.find(memberships(:jane).id)
+    row = csv.find { |csv_row| csv_row[Member.human_attribute_name(:name)] == membership.member.name }
+    helpers = ApplicationController.helpers
+
+    assert_equal membership.id.to_s, row[Membership.human_attribute_name(:id)]
+    assert_equal membership.member.display_id.to_s, row[Membership.human_attribute_name(:member_id)]
+    assert_equal membership.member.name, row[Member.human_attribute_name(:name)]
+    assert_equal membership.member.emails_array.join(", "), row[Member.human_attribute_name(:emails)]
+    assert_equal membership.member.phones_array.map { |phone| helpers.display_phone(phone) }.join(", "),
+      row[Member.human_attribute_name(:phones)]
+    assert_equal "Lausanne", row[Member.human_attribute_name(:city)]
+    assert_equal "Allergic", row[Member.human_attribute_name(:note)]
+    assert_equal membership.started_on.to_s, row[Membership.human_attribute_name(:started_on)]
+    assert_equal membership.ended_on.to_s, row[Membership.human_attribute_name(:ended_on)]
+    assert_equal membership.baskets_count.to_s, row[Membership.human_attribute_name(:baskets_count)]
+    assert_equal membership.trial_baskets_count.to_s, row[Membership.human_attribute_name(:baskets_trial_count)]
+    assert_equal membership.absences_included.to_s, row[Membership.human_attribute_name(:absences_included)]
+    assert_equal membership.absences_included_used.to_s, row[Membership.human_attribute_name(:absences_included_used)]
+    assert_equal membership.absences_included_remaining.to_s,
+      row[Membership.human_attribute_name(:absences_included_remaining)]
+    assert_equal helpers.basket_size_description(membership, text_only: true, public_name: false),
+      row[Membership.human_attribute_name(:basket_size)]
+    assert_equal helpers.cur(membership.basket_size_price, precision: 3),
+      row[Membership.human_attribute_name(:basket_size_price)]
+    extra_title = Current.org.basket_price_extra_title
+    extra_header = csv.headers.find { |header| header == extra_title }
+    extra_total_header = csv.headers.find { |header|
+      header != extra_header && header.to_s.include?(extra_title)
+    }
+    assert extra_header
+    assert extra_total_header
+    assert_equal helpers.cur(membership.basket_price_extra), row[extra_header]
+    assert_equal helpers.cur(membership.baskets_price_extra), row[extra_total_header]
+    assert_equal membership.basket_quantity.to_s, row[Membership.human_attribute_name(:basket_quantity)]
+    assert_equal helpers.basket_complements_description(
+      membership.memberships_basket_complements,
+      text_only: true,
+      public_name: false),
+      row[Membership.human_attribute_name(:basket_complements)]
+    assert_equal membership.basket_complements_price.to_s,
+      row[Membership.human_attribute_name(:basket_complements_price)]
+    assert_equal membership.depot.name, row[Depot.model_name.human]
+    assert_equal helpers.cur(membership.depot_price, precision: 3),
+      row[Membership.human_attribute_name(:depot_price)]
+    assert_equal membership.delivery_cycle.name, row[DeliveryCycle.model_name.human]
+    assert_equal membership.activity_participations_demanded.to_s,
+      row[Membership.human_attribute_name(:activity_participations_demanded)]
+    assert_equal membership.activity_participations_accepted.to_s,
+      row[Membership.human_attribute_name(:activity_participations_accepted)]
+    assert_equal membership.activity_participations_missing.to_s,
+      row[Membership.human_attribute_name(:activity_participations_missing)]
+    assert_equal I18n.t("active_admin.status_tag.#{membership.renewal_state}"),
+      row[Membership.human_attribute_name(:renewal_state)]
+    assert_equal I18n.t("billing.year_division.x#{membership.billing_year_division}"),
+      row[Membership.human_attribute_name(:billing_year_division)]
+    assert_equal helpers.cur(membership.price), row[Membership.human_attribute_name(:price)]
+    assert_equal "Caritas", row[Membership.human_attribute_name(:price_reduction_name)]
+    assert_equal helpers.cur(membership.membership_price_reduction.amount).delete("^0-9.-"),
+      row[Membership.human_attribute_name(:price_reduction_amount)].delete("^0-9.-")
+    assert_equal helpers.cur(membership.invoices_amount),
+      row[Membership.human_attribute_name(:invoices_amount)]
+    assert_equal helpers.cur(membership.missing_invoices_amount),
+      row[Membership.human_attribute_name(:missing_invoices_amount)]
+  end
+
+  test "index CSV queries stay bounded as memberships grow" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features | [ "price_reductions" ])
+    login admins(:super)
+
+    few = collect_sql_queries {
+      get memberships_path(format: :csv), params: { scope: :all }
+    }
+    assert_response :success
+    assert_csv_export_queries_bounded(few)
+
+    insert_csv_export_memberships!(20)
+
+    many = collect_sql_queries {
+      get memberships_path(format: :csv), params: { scope: :all }
+    }
+    assert_response :success
+    assert_csv_export_queries_bounded(many)
+    assert_operator many.size, :<=, few.size + 5
+  end
+
   test "index filters and exports memberships by price reduction" do
     travel_to "2024-05-01"
     org(features: Current.org.features | [ "price_reductions" ])
@@ -1177,6 +1284,126 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
   end
 
   private
+
+  def collect_sql_queries
+    queries = []
+    callback = ->(_name, _start, _finish, _id, payload) {
+      sql = payload[:sql]
+      queries << sql unless payload[:name] == "SCHEMA" || sql.match?(/\A(?:BEGIN|COMMIT|SAVEPOINT|RELEASE)/i)
+    }
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") { yield }
+    queries
+  end
+
+  def assert_csv_export_queries_bounded(queries)
+    basket_star_loads = queries.select { |sql|
+      sql.match?(/SELECT ["`]baskets["`]\.\*/i)
+    }
+    complement_star_loads = queries.select { |sql|
+      sql.match?(/SELECT ["`]baskets_basket_complements["`]\.\*/i)
+    }
+    basket_counts = queries.select { |sql|
+      sql.match?(/SELECT COUNT\(\*\)/i) && sql.match?(/FROM ["`]baskets["`]/i)
+    }
+    price_reduction_loads = queries.select { |sql|
+      sql.match?(/FROM ["`]membership_price_reductions["`]/i)
+    }
+
+    assert_empty basket_star_loads, "expected no SELECT * on baskets, got:\n#{basket_star_loads.join("\n")}"
+    assert_empty complement_star_loads,
+      "expected no SELECT * on baskets_basket_complements, got:\n#{complement_star_loads.join("\n")}"
+    assert_operator basket_counts.size, :<=, 1
+    assert_operator price_reduction_loads.size, :<=, 1
+  end
+
+  def insert_csv_export_memberships!(count)
+    now = Time.current
+    deliveries = 10.times.map { |i| deliveries(:"monday_#{i + 1}") }
+    size = basket_sizes(:medium)
+    depot = depots(:farm)
+    cycle = delivery_cycles(:mondays)
+    bread = basket_complements(:bread)
+
+    Member.insert_all((1..count).map { |i|
+      {
+        name: "CSV Export #{i}",
+        emails: "csv-export-#{i}@example.test",
+        language: "en",
+        country_code: "CH",
+        state: "active",
+        trial_baskets_count: 0,
+        created_at: now,
+        updated_at: now
+      }
+    })
+    members = Member.where("name LIKE 'CSV Export %'").order(:id).to_a
+    Membership.insert_all(members.map { |member|
+      {
+        member_id: member.id,
+        basket_size_id: size.id,
+        depot_id: depot.id,
+        delivery_cycle_id: cycle.id,
+        basket_size_price: size.price,
+        depot_price: depot.price,
+        delivery_cycle_price: 0,
+        basket_quantity: 1,
+        started_on: Date.new(2024, 1, 1),
+        ended_on: Date.new(2024, 12, 31),
+        absences_included_annually: 2,
+        absences_included: 2,
+        baskets_count: deliveries.size,
+        activity_participations_demanded_annually: 2,
+        activity_participations_demanded: 2,
+        billing_year_division: 1,
+        price: 200,
+        invoices_amount: 50,
+        created_at: now,
+        updated_at: now
+      }
+    })
+    extra_memberships = Membership.where(member_id: members.map(&:id)).to_a
+    Basket.insert_all(extra_memberships.flat_map { |membership|
+      deliveries.map { |delivery|
+        {
+          membership_id: membership.id,
+          delivery_id: delivery.id,
+          basket_size_id: size.id,
+          depot_id: depot.id,
+          basket_size_price: size.price,
+          depot_price: depot.price,
+          delivery_cycle_price: 0,
+          quantity: 1,
+          price_extra: 1,
+          calculated_price_extra: 1,
+          state: "normal",
+          billable: true,
+          created_at: now,
+          updated_at: now
+        }
+      }
+    })
+    baskets = Basket.where(membership_id: extra_memberships.map(&:id)).to_a
+    BasketsBasketComplement.insert_all(baskets.map { |basket|
+      {
+        basket_id: basket.id,
+        basket_complement_id: bread.id,
+        price: bread.price,
+        quantity: 1,
+        created_at: now,
+        updated_at: now
+      }
+    })
+    MembershipsBasketComplement.insert_all(extra_memberships.map { |membership|
+      {
+        membership_id: membership.id,
+        basket_complement_id: bread.id,
+        price: bread.price,
+        quantity: 1,
+        created_at: now,
+        updated_at: now
+      }
+    })
+  end
 
   def preview_membership_params(membership)
     {
