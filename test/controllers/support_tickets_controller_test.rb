@@ -193,6 +193,23 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
     assert_select "li#support_ticket_priority_input.error p.inline-errors"
   end
 
+  test "show keeps an email table instead of flattening the cells" do
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Need help", content: "Opening", admin: admins(:external))
+    ticket.messages.create!(
+      author: :support,
+      html: "<p>Combinations:</p><table><tbody><tr><th></th><th>Wednesday</th></tr><tr><td>Winter only</td><td>Wintershare Wednesday</td></tr></tbody></table>")
+    login admins(:super)
+
+    get support_ticket_path(ticket)
+
+    assert_response :success
+    assert_select ".support-message-body table" do
+      assert_select "th", text: "Wednesday"
+      assert_select "td", text: "Wintershare Wednesday"
+    end
+  end
+
   test "show includes the thread and reply box" do
     ticket = Support::Ticket.create!(
       priority: :normal, subject: "Need help", content: "Opening", admin: admins(:external))

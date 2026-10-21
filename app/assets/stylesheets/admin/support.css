@@ -285,6 +285,39 @@
     padding-inline-start: 1.25rem !important;
   }
 
+  .support-message-body table {
+    margin: 0.75rem 0 !important;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .support-message-body th,
+  .support-message-body td {
+    border: 1px solid var(--color-gray-300);
+    padding: 0.25rem 0.5rem !important;
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .support-message-body th {
+    background-color: var(--color-gray-50);
+    font-weight: 600;
+  }
+
+  html.dark .support-message-body th,
+  html.dark .support-message-body td,
+  .dark .support-message-body th,
+  .dark .support-message-body td {
+    border-color: var(--color-gray-600);
+  }
+
+  html.dark .support-message-body th,
+  .dark .support-message-body th {
+    background-color: var(--color-gray-800);
+  }
+
   .support-message-body pre {
     margin: 0.75rem 0 !important;
     overflow-x: auto;

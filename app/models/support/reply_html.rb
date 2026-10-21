@@ -224,13 +224,37 @@ module Support
       children.each_with_index do |node, index|
         next unless spacer?(node)
 
-        earlier = children[0...index].reverse.find { |child| !spacer?(child) }
-        later = children[(index + 1)..].find { |child| !spacer?(child) }
-        extra = index.positive? && spacer?(children[index - 1])
-        node.remove if extra || earlier.nil? || later.nil? || quote_block?(earlier) || quote_block?(later)
+        node.remove if drop_spacer?(node, children, index)
       end
     end
     private_class_method :collapse_breaks!
+
+    # A bare br is a line break. Two in a row are one blank line, which is
+    # how Trix stores a paragraph. Only a third, a wrapper spacer, or a run
+    # beside a quote is extra.
+    def self.drop_spacer?(node, children, index)
+      earlier = children[0...index].reverse.find { |child| !spacer?(child) }
+      later = children[(index + 1)..].find { |child| !spacer?(child) }
+      return true if earlier.nil? || later.nil?
+      return true if quote_block?(earlier) || quote_block?(later)
+
+      extra_break?(node, children, index) || wrapper_spacer?(children, index)
+    end
+    private_class_method :drop_spacer?
+
+    def self.extra_break?(node, children, index)
+      return false unless node.name == "br"
+
+      before = children[0...index].reverse.take_while { |child| child.name == "br" }
+      before.size >= 2
+    end
+    private_class_method :extra_break?
+
+    def self.wrapper_spacer?(children, index)
+      before = children[0...index].reverse.take_while { |child| spacer?(child) }
+      before.any? { |child| child.name != "br" }
+    end
+    private_class_method :wrapper_spacer?
 
     def self.spacer?(node)
       return false unless node.element?

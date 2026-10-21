@@ -99,7 +99,22 @@ module Support
     def sync_body_from_html
       return if html.blank?
 
-      self.body = html.to_plain_text.presence || body
+      self.body = plain_text_from_html.presence || body
+    end
+
+    # to_plain_text joins table cells with nothing. Keep a tab between cells
+    # and a line between rows so the text part of a reply stays readable.
+    def plain_text_from_html
+      fragment = Nokogiri::HTML::DocumentFragment.parse(html.to_s)
+      fragment.css("tr").each do |row|
+        row.after("\n")
+        cells = row.css("th, td")
+        cells.each_with_index do |cell, index|
+          cell.add_next_sibling(index < cells.size - 1 ? "\t" : "")
+        end
+      end
+      fragment.css("table").each { |table| table.after("\n") }
+      ActionText::Content.new(fragment.to_html).to_plain_text
     end
 
     def assign_admin_name

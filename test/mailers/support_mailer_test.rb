@@ -83,6 +83,19 @@ class SupportMailerTest < ActionMailer::TestCase
     end
   end
 
+  test "wrap_email keeps a table in the html part" do
+    reply = @ticket.messages.create!(
+      author: "support",
+      html: "<p>Combinations:</p><table><tbody><tr><th>Wednesday</th></tr><tr><td>Wintershare Wednesday</td></tr></tbody></table>")
+
+    html = SupportMailer.with(message: reply.reload).wrap_email.html_part.body.to_s
+
+    assert_includes html, "<table>"
+    assert_includes html, "<th>Wednesday</th>"
+    assert_includes html, "<td>Wintershare Wednesday</td>"
+    assert_not_includes html, "WednesdayWintershare"
+  end
+
   test "wrap_email signs stored html" do
     with_env("ULTRA_ADMIN_NAME" => "Thibaud") do
       reply = @ticket.messages.create!(

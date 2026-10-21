@@ -19,6 +19,26 @@
   text-align: center;
 }
 
+.trix-content table {
+  margin: 0.75em 0;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.trix-content th,
+.trix-content td {
+  border: 1px solid #cccccc;
+  padding: 4px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.trix-content th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+}
+
 .quoted_header {
   margin: 1.2em 0 0.4em 0;
 }

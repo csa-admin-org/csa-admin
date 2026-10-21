@@ -8,6 +8,18 @@ class Support::MessageTest < ActiveSupport::TestCase
       priority: :normal, subject: "Test", content: "Opening", admin: admins(:external))
   end
 
+  test "plain body keeps table rows on their own lines" do
+    ticket = create_ticket
+    message = ticket.messages.create!(
+      author: "support",
+      html: "<p>Combinations:</p><table><tbody><tr><th></th><th>Wednesday</th><th>Saturday</th></tr><tr><td>Winter only</td><td>Wintershare Wednesday</td><td>Wintershare Saturday</td></tr></tbody></table><p>On the regular cycles</p>")
+
+    assert_includes message.body, "Wednesday\tSaturday"
+    assert_includes message.body, "Winter only\tWintershare Wednesday\tWintershare Saturday"
+    assert_not_includes message.body, "WednesdaySaturday"
+    assert_includes message.body, "On the regular cycles"
+  end
+
   test "requires a body" do
     ticket = create_ticket
     message = ticket.messages.build(author: "admin", admin: admins(:external), body: "")

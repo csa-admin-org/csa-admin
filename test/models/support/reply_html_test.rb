@@ -344,6 +344,27 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     end
   end
 
+  test "keeps a trix paragraph break and folds a longer run" do
+    html = <<~HTML
+      <div>Hello.<br><br>Thanks.<br>Sam</div>
+      <div><br></div>
+      <br><br>
+      <div>Next.</div>
+      <div>Run.<br><br><br><br>After.</div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+    root = Nokogiri::HTML::DocumentFragment.parse(shown)
+    hello = root.at("div")
+
+    assert_equal %w[br br br], hello.element_children.map(&:name)
+    assert_equal "Thanks.", hello.element_children[1].next.text.strip
+    assert_equal "Sam", hello.element_children[2].next.text.strip
+    assert_equal "<br>", root.element_children[1].inner_html
+    assert_equal "Next.", root.element_children[2].text
+    assert_equal 2, root.element_children.last.css("br").size
+  end
+
   test "keeps styles inside a liquid code fence" do
     html = %(<pre style="white-space: pre"><code>{% if member.salary_basket %}</code></pre>)
 
