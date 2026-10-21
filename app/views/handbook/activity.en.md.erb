@@ -20,13 +20,38 @@ The designation chosen in [the settings](/settings#activity) determines the term
 
 ### Registration Form and Renewal
 
-The default number of participations requested will depend on the number configured for the <%= BasketSize.model_name.human.downcase %> and the membership complements.
+The number the member is asked for is the one on the [<%= BasketSize.model_name.human.downcase %>](/basket_sizes), plus the complements, for a full year. The form minimum and maximum do not change it. They only limit what the member can choose at registration or [renewal](/handbook/membership_renewal).
 
-However, it is possible to let members choose the number of participations they want during their registration or [renewal](/handbook/membership_renewal). To do this, simply configure a minimum number (allowing the member to reduce the number requested) and/or a maximum number (allowing the member to increase the number requested) of participations.
+With a participation price, the gap from that number changes the membership price:
 
-> If a participation price is defined, the difference between the default number and the chosen number will be automatically added to or subtracted from the total membership amount (fields "Membership price adjustment").
+- Less than the default: the gap is added.
+- The same: the price does not change.
+- More: the gap is taken off.
 
-That adjustment is added to the membership invoice right away, based on the demanded count. Validating a participation does not invoice. Missing work is billed later from [the participations list](/activity_participations).
+It is what the member pays to do less, not to show up. The gap is added to the membership price, then split across the invoices. Validating a participation does not create an invoice. Work still missing at the end of the year is billed from [the participations list](/activity_participations). That billing is separate.
+
+<% if Current.org.activity_price.positive? %>
+<table>
+  <caption>Example: 2 required, the member can drop to 0 and cannot go above 2</caption>
+  <tbody>
+    <tr><td><a href="/basket_sizes"><%= BasketSize.model_name.human %></a></td><td>2 per year</td></tr>
+    <tr><td>Minimum / maximum</td><td>0 / 2</td></tr>
+    <tr><td>2 chosen</td><td>membership price unchanged</td></tr>
+    <tr><td>1 chosen</td><td>+<%= cur(Current.org.activity_price) %></td></tr>
+    <tr><td>0 chosen</td><td>+<%= cur(Current.org.activity_price * 2) %></td></tr>
+  </tbody>
+</table>
+
+Same size, but minimum blank and maximum 4. The member cannot go down: 1 and 0 are not offered. 3 takes off <%= cur(Current.org.activity_price) %>, 4 takes off <%= cur(Current.org.activity_price * 2) %>.
+<% else %>
+Price at 0. Choosing another number does not change the membership price.
+<% end %>
+
+Set that number on each [<%= BasketSize.model_name.human.downcase %>](/basket_sizes), and on the complement if it asks for one. Minimum and maximum are in [the settings](/settings#activity). Blank minimum: the member cannot reduce. Blank maximum: they cannot increase.
+
+That number is for a full year. The actual count, and the adjustment, go through the [calculation logic](#activity-participations-logic). A membership that starts mid-year is reduced, unless the logic says otherwise.
+
+> Changing that number, the price, or the logic does not touch memberships already created. Edit the ones concerned, or [contact me](/support) to do it.
 
 ### Logic for Calculating Requested Participations {#activity-participations-logic}
 

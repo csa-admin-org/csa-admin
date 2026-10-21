@@ -20,13 +20,38 @@ L'appellation choisie dans [les paramètres](/settings#activity) détermine la t
 
 ### Formulaire d'inscription et renouvellement
 
-Le nombre de participations demandées par défaut dépendra du nombre configuré pour la <%= BasketSize.model_name.human.downcase %> ainsi que des compléments de l'abonnement.
+Le nombre demandé au membre est celui de la [<%= BasketSize.model_name.human.downcase %>](/basket_sizes), plus les compléments, pour une année complète. Le minimum et le maximum du formulaire ne le changent pas. Ils limitent ce que le membre peut choisir, à l'inscription ou au [renouvellement](/handbook/membership_renewal).
 
-Il est cependant possible de laisser le choix aux membres de choisir le nombre de participations qu'ils souhaitent lors de leur inscription ou [renouvellement](/handbook/membership_renewal). Pour cela, il suffit de configurer un nombre minimal (permettant au membre de réduire le nombre demandé) et/ou un nombre maximal (permettant au membre d'augmenter le nombre demandé) de participations.
+S'il y a un prix de la participation, l'écart avec ce nombre change le prix de l'abonnement:
 
-> Si un prix de la participation est défini, la différence entre le nombre par défaut et le nombre choisi sera alors ajoutée ou soustraite du montant total de l'abonnement automatiquement (champs "Ajustement du prix de l'abonnement").
+- Moins que le nombre par défaut: l'écart est ajouté.
+- Autant: le prix ne change pas.
+- Plus: l'écart est retiré.
 
-Cet ajustement est ajouté tout de suite à la facture d'abonnement, selon le nombre demandé. Valider une participation ne facture pas. Le travail manquant se facture plus tard depuis [la liste des participations](/activity_participations).
+C'est le prix pour en faire moins, pas pour se présenter. L'écart est ajouté au prix de l'abonnement, puis réparti sur les factures. Valider une participation ne crée pas de facture. Le travail encore dû en fin d'année se facture depuis [la liste des participations](/activity_participations). Cette facturation est à part.
+
+<% if Current.org.activity_price.positive? %>
+<table>
+  <caption>Exemple: 2 exigées, le membre peut descendre à 0 et ne peut pas dépasser 2</caption>
+  <tbody>
+    <tr><td><a href="/basket_sizes"><%= BasketSize.model_name.human %></a></td><td>2 par année</td></tr>
+    <tr><td>Minimum / maximum</td><td>0 / 2</td></tr>
+    <tr><td>2 choisies</td><td>prix de l'abonnement inchangé</td></tr>
+    <tr><td>1 choisie</td><td>+<%= cur(Current.org.activity_price) %></td></tr>
+    <tr><td>0 choisies</td><td>+<%= cur(Current.org.activity_price * 2) %></td></tr>
+  </tbody>
+</table>
+
+Même taille, mais minimum vide et maximum 4. Le membre ne peut pas descendre: 1 et 0 ne sont pas proposés. 3 retirent <%= cur(Current.org.activity_price) %>, 4 retirent <%= cur(Current.org.activity_price * 2) %>.
+<% else %>
+Prix à 0. Choisir un autre nombre ne change pas le prix de l'abonnement.
+<% end %>
+
+Indiquez ce nombre sur chaque [<%= BasketSize.model_name.human.downcase %>](/basket_sizes), et sur le complément s'il en demande un. Le minimum et le maximum se règlent dans [les paramètres](/settings#activity). Minimum vide: le membre ne peut pas réduire. Maximum vide: il ne peut pas augmenter.
+
+Ce nombre est celui d'une année complète. Le nombre réel, et l'ajustement, passent par la [logique de calcul](#activity-participations-logic). Un abonnement commencé en cours d'année est réduit, sauf si la logique dit le contraire.
+
+> Changer ce nombre, le prix ou la logique ne touche pas les abonnements déjà créés. Modifiez ceux qui sont concernés, ou [contactez-moi](/support) pour que je le fasse.
 
 ### Logique de calcul des participations demandées {#activity-participations-logic}
 

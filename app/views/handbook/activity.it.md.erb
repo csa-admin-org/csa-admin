@@ -20,13 +20,38 @@ La denominazione scelta nelle [impostazioni](/settings#activity) determina la te
 
 ### Modulo di iscrizione e rinnovo
 
-Il numero di partecipazioni richieste per impostazione predefinita dipenderà dal numero configurato per la <%= BasketSize.model_name.human.downcase %> e dai complementi dell'abbonamento.
+Il numero chiesto al socio è quello della [<%= BasketSize.model_name.human.downcase %>](/basket_sizes), più i complementi, per un anno intero. Il minimo e il massimo del modulo non lo cambiano. Limitano solo ciò che il socio può scegliere, all'iscrizione o al [rinnovo](/handbook/membership_renewal).
 
-Tuttavia, è possibile lasciare ai soci la scelta del numero di partecipazioni che desiderano al momento dell'iscrizione o del [rinnovo](/handbook/membership_renewal). Per farlo, è sufficiente configurare un numero minimo (che permette al socio di ridurre il numero richiesto) e/o un numero massimo (che permette al socio di aumentare il numero richiesto) di partecipazioni.
+Con un prezzo della partecipazione, lo scarto da quel numero cambia il prezzo dell'abbonamento:
 
-> Se viene definito un prezzo per la partecipazione, la differenza tra il numero predefinito e il numero scelto verrà automaticamente aggiunta o sottratta dall'importo totale dell'abbonamento (campi "Adeguamento del prezzo dell'abbonamento").
+- Meno del numero predefinito: lo scarto è aggiunto.
+- Uguale: il prezzo non cambia.
+- Di più: lo scarto è tolto.
 
-Questo adeguamento va subito sulla fattura di abbonamento, in base al numero richiesto. Convalidare una partecipazione non fattura. Il lavoro mancante si fattura dopo dalla [lista delle partecipazioni](/activity_participations).
+È ciò che il socio paga per farne di meno, non per presentarsi. Lo scarto va sul prezzo dell'abbonamento, poi si ripartisce sulle fatture. Convalidare una partecipazione non crea una fattura. Il lavoro ancora dovuto a fine anno si fattura dalla [lista delle partecipazioni](/activity_participations). Quella fatturazione è a parte.
+
+<% if Current.org.activity_price.positive? %>
+<table>
+  <caption>Esempio: 2 richieste, il socio può scendere a 0 e non può superare 2</caption>
+  <tbody>
+    <tr><td><a href="/basket_sizes"><%= BasketSize.model_name.human %></a></td><td>2 all'anno</td></tr>
+    <tr><td>Minimo / massimo</td><td>0 / 2</td></tr>
+    <tr><td>2 scelte</td><td>prezzo dell'abbonamento invariato</td></tr>
+    <tr><td>1 scelta</td><td>+<%= cur(Current.org.activity_price) %></td></tr>
+    <tr><td>0 scelte</td><td>+<%= cur(Current.org.activity_price * 2) %></td></tr>
+  </tbody>
+</table>
+
+Stessa dimensione, ma minimo vuoto e massimo 4. Il socio non può scendere: 1 e 0 non sono proposti. 3 tolgono <%= cur(Current.org.activity_price) %>, 4 tolgono <%= cur(Current.org.activity_price * 2) %>.
+<% else %>
+Prezzo a 0. Scegliere un altro numero non cambia il prezzo dell'abbonamento.
+<% end %>
+
+Indica quel numero su ogni [<%= BasketSize.model_name.human.downcase %>](/basket_sizes), e sul complemento se ne chiede uno. Minimo e massimo si impostano nelle [impostazioni](/settings#activity). Minimo vuoto: il socio non può ridurre. Massimo vuoto: non può aumentare.
+
+Quel numero è per un anno intero. Il numero reale, e l'adeguamento, passano dalla [logica di calcolo](#activity-participations-logic). Un abbonamento che inizia a metà anno viene ridotto, salvo che la logica dica il contrario.
+
+> Cambiare quel numero, il prezzo o la logica non tocca gli abbonamenti già creati. Modifica quelli interessati, o [contattami](/support) perché lo faccia io.
 
 ### Logica di calcolo delle partecipazioni richieste {#activity-participations-logic}
 

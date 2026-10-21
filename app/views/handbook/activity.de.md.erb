@@ -20,13 +20,38 @@ Die in [den Einstellungen](/settings#activity) gewählte Bezeichnung bestimmt di
 
 ### Anmeldeformular und Erneuerung
 
-Die standardmässig angeforderte Anzahl von Teilnahmen hängt von der für die <%= BasketSize.model_name.human %> konfigurierten Anzahl sowie den Ergänzungen der Mitgliedschaft ab.
+Die Anzahl, die vom Mitglied verlangt wird, ist die der [<%= BasketSize.model_name.human %>](/basket_sizes), plus die Ergänzungen, für ein volles Jahr. Minimum und Maximum im Formular ändern sie nicht. Sie begrenzen nur, was das Mitglied bei der Anmeldung oder der [Erneuerung](/handbook/membership_renewal) wählen darf.
 
-Es ist jedoch möglich, den Mitgliedern die Wahl zu lassen, wie viele Teilnahmen sie bei ihrer Anmeldung oder [Erneuerung](/handbook/membership_renewal) wünschen. Dazu musst Du einfach eine Mindestanzahl (die es dem Mitglied ermöglicht, die angeforderte Anzahl zu reduzieren) und/oder eine Höchstanzahl (die es dem Mitglied ermöglicht, die angeforderte Anzahl zu erhöhen) von Teilnahmen konfigurieren.
+Mit einem Preis der Beteiligung ändert der Abstand zu dieser Anzahl den Mitgliedschaftspreis:
 
-> Wenn ein Preis für die Teilnahme festgelegt ist, wird die Differenz zwischen der Standardanzahl und der gewählten Anzahl automatisch zum Gesamtbetrag der Mitgliedschaft hinzugefügt oder davon abgezogen (Felder "Anpassung des Mitgliedschaftspreises").
+- Weniger als die Standardanzahl: der Abstand wird addiert.
+- Gleich viel: der Preis bleibt gleich.
+- Mehr: der Abstand wird abgezogen.
 
-Diese Anpassung wird sofort auf die Abonnementsrechnung übernommen, nach der angeforderten Anzahl. Eine Teilnahme zu bestätigen rechnet nicht ab. Fehlende Arbeit wird später von [der Teilnahmeliste](/activity_participations) abgerechnet.
+Das ist, was das Mitglied zahlt, um weniger zu tun, nicht um zu erscheinen. Der Abstand kommt auf den Mitgliedschaftspreis und wird auf die Rechnungen verteilt. Eine Teilnahme zu bestätigen erstellt keine Rechnung. Arbeit, die am Jahresende noch fehlt, wird von [der Teilnahmeliste](/activity_participations) abgerechnet. Diese Abrechnung ist getrennt.
+
+<% if Current.org.activity_price.positive? %>
+<table>
+  <caption>Beispiel: 2 verlangt, das Mitglied darf auf 0 gehen und nicht über 2 hinausgehen</caption>
+  <tbody>
+    <tr><td><a href="/basket_sizes"><%= BasketSize.model_name.human %></a></td><td>2 pro Jahr</td></tr>
+    <tr><td>Minimum / Maximum</td><td>0 / 2</td></tr>
+    <tr><td>2 gewählt</td><td>Mitgliedschaftspreis unverändert</td></tr>
+    <tr><td>1 gewählt</td><td>+<%= cur(Current.org.activity_price) %></td></tr>
+    <tr><td>0 gewählt</td><td>+<%= cur(Current.org.activity_price * 2) %></td></tr>
+  </tbody>
+</table>
+
+Dieselbe Grösse, aber Minimum leer und Maximum 4. Das Mitglied kann nicht senken: 1 und 0 werden nicht angeboten. 3 ziehen <%= cur(Current.org.activity_price) %> ab, 4 ziehen <%= cur(Current.org.activity_price * 2) %> ab.
+<% else %>
+Preis auf 0. Eine andere Anzahl ändert den Mitgliedschaftspreis nicht.
+<% end %>
+
+Setze diese Anzahl auf jeder [<%= BasketSize.model_name.human %>](/basket_sizes), und auf der Ergänzung, wenn sie eine eigene verlangt. Minimum und Maximum stehen in [den Einstellungen](/settings#activity). Minimum leer: das Mitglied kann nicht senken. Maximum leer: es kann die Anzahl nicht erhöhen.
+
+Diese Anzahl gilt für ein volles Jahr. Die tatsächliche Anzahl und die Anpassung laufen über die [Berechnungslogik](#activity-participations-logic). Eine Mitgliedschaft, die im Jahresverlauf beginnt, wird reduziert, ausser die Logik sagt das Gegenteil.
+
+> Diese Anzahl, den Preis oder die Logik zu ändern lässt bestehende Mitgliedschaften unberührt. Ändere die betroffenen, oder [frag mich](/support), damit ich es mache.
 
 ### Logik zur Berechnung der angeforderten Teilnahmen {#activity-participations-logic}
 

@@ -43,6 +43,38 @@ class HandbookControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "activity handbook form section uses the tenant participation price" do
+    admin = admins(:super)
+    login admin
+    org(activity_price: 75, currency_code: "CHF")
+
+    I18n.available_locales.each do |locale|
+      admin.update!(language: locale.to_s)
+
+      get handbook_page_path(:activity)
+
+      assert_response :success
+      assert_select "a[href='/basket_sizes']"
+      assert_select "a[href='/settings#activity']"
+      assert_select "a[href='/activity_participations']"
+      assert_select "a[href='#activity-participations-logic']"
+      assert_select "a[href='/support']"
+      assert_includes response.body, "CHF\u00A075"
+      assert_includes response.body, "CHF\u00A0150"
+      assert_not_includes response.body, "&lt;%"
+    end
+
+    org(activity_price: 0)
+    admin.update!(language: "en")
+
+    get handbook_page_path(:activity)
+
+    assert_response :success
+    assert_not_includes response.body, "CHF"
+    assert_includes response.body, "does not change the membership price"
+    assert_select "a[href='/basket_sizes']"
+  end
+
   test "price reductions handbook renders in every locale" do
     admin = admins(:super)
     login admin

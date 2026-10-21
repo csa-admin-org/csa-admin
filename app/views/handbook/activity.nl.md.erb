@@ -20,13 +20,38 @@ De gekozen benaming in [de instellingen](/settings#activity) bepaalt de gebruikt
 
 ### Registratieformulier en vernieuwing
 
-Het standaard aantal gevraagde deelnames hangt af van het aantal dat is geconfigureerd voor de <%= BasketSize.model_name.human.downcase %> en de aanvullingen van het lidmaatschap.
+Het aantal dat van het lid wordt gevraagd is dat van de [<%= BasketSize.model_name.human.downcase %>](/basket_sizes), plus de aanvullingen, voor een heel jaar. Het minimum en maximum van het formulier veranderen dat niet. Ze begrenzen alleen wat het lid mag kiezen bij de registratie of de [vernieuwing](/handbook/membership_renewal).
 
-Het is echter mogelijk om leden de keuze te laten maken van het aantal deelnames dat zij willen tijdens hun registratie of [vernieuwing](/handbook/membership_renewal). Hiervoor hoef je alleen maar een minimaal aantal (zodat het lid het gevraagde aantal kan verminderen) en/of een maximaal aantal (zodat het lid het gevraagde aantal kan verhogen) deelnames te configureren.
+Met een deelnameprijs verandert het verschil met dat aantal de lidmaatschapsprijs:
 
-> Als een deelnameprijs is gedefinieerd, wordt het verschil tussen het standaardaantal en het gekozen aantal automatisch toegevoegd aan of afgetrokken van het totale lidmaatschapsbedrag (velden "Prijsaanpassing lidmaatschap").
+- Minder dan het standaardaantal: het verschil wordt opgeteld.
+- Evenveel: de prijs blijft gelijk.
+- Meer: het verschil wordt afgetrokken.
 
-Die aanpassing komt meteen op de lidmaatschapsfactuur, op basis van het gevraagde aantal. Een deelname valideren factureert niet. Ontbrekend werk wordt later gefactureerd vanaf [de deelnameslijst](/activity_participations).
+Dat is wat het lid betaalt om minder te doen, niet om op te dagen. Het verschil komt op de lidmaatschapsprijs en wordt over de facturen verdeeld. Een deelname valideren maakt geen factuur. Werk dat aan het eind van het jaar nog openstaat, wordt gefactureerd vanaf [de deelnameslijst](/activity_participations). Die facturering staat apart.
+
+<% if Current.org.activity_price.positive? %>
+<table>
+  <caption>Voorbeeld: 2 verplicht, het lid mag naar 0 en niet boven 2 uitkomen</caption>
+  <tbody>
+    <tr><td><a href="/basket_sizes"><%= BasketSize.model_name.human %></a></td><td>2 per jaar</td></tr>
+    <tr><td>Minimum / maximum</td><td>0 / 2</td></tr>
+    <tr><td>2 gekozen</td><td>lidmaatschapsprijs ongewijzigd</td></tr>
+    <tr><td>1 gekozen</td><td>+<%= cur(Current.org.activity_price) %></td></tr>
+    <tr><td>0 gekozen</td><td>+<%= cur(Current.org.activity_price * 2) %></td></tr>
+  </tbody>
+</table>
+
+Dezelfde grootte, maar minimum leeg en maximum 4. Het lid kan niet omlaag: 1 en 0 worden niet aangeboden. 3 trekken <%= cur(Current.org.activity_price) %> af, 4 trekken <%= cur(Current.org.activity_price * 2) %> af.
+<% else %>
+Prijs op 0. Een ander aantal kiezen verandert de lidmaatschapsprijs niet.
+<% end %>
+
+Zet dat aantal op elke [<%= BasketSize.model_name.human.downcase %>](/basket_sizes), en op de aanvulling als die er zelf een vraagt. Minimum en maximum staan in [de instellingen](/settings#activity). Minimum leeg: het lid kan niet verlagen. Maximum leeg: het kan niet verhogen.
+
+Dat aantal geldt voor een heel jaar. Het werkelijke aantal, en de aanpassing, lopen via de [berekeningslogica](#activity-participations-logic). Een lidmaatschap dat halverwege het jaar begint, wordt verminderd, tenzij de logica het tegendeel zegt.
+
+> Dat aantal, de prijs of de logica wijzigen raakt bestaande lidmaatschappen niet. Wijzig de betrokken lidmaatschappen, of [vraag het mij](/support) zodat ik het doe.
 
 ### Logica voor het berekenen van gevraagde deelnames {#activity-participations-logic}
 

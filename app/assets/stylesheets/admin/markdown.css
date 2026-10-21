@@ -149,11 +149,25 @@
       line-height: 1.5rem;
     }
 
+    p + table {
+      margin-top: 0;
+    }
+
     table {
       margin-block: 1rem;
       width: 100%;
       font-size: 0.875rem;
       line-height: 1.25rem;
+
+      caption {
+        margin-bottom: 0.25rem;
+        caption-side: top;
+        text-align: start;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        font-weight: 600;
+        color: var(--color-ink-secondary);
+      }
 
       th {
         border-bottom: 1px solid var(--color-gray-300);
