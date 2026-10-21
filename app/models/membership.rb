@@ -122,6 +122,56 @@ class Membership < ApplicationRecord
       Basket.unscoped.where.not(price_extra: 0).exists?
   end
 
+  def self.preload_csv_export(memberships)
+    records = memberships.to_a
+    ids = records.map(&:id)
+    return records if ids.empty?
+
+    used_by_id = Basket.definitely_absent
+      .unscope(:joins, :order)
+      .where(membership_id: ids)
+      .where.not(
+        BasketShift
+          .where("basket_shifts.membership_id = baskets.membership_id")
+          .where("basket_shifts.source_delivery_id = baskets.delivery_id")
+          .arel.exists)
+      .group(:membership_id)
+      .count
+
+    extras_by_id = Basket.billable
+      .unscope(:joins, :order)
+      .where(membership_id: ids)
+      .group(:membership_id)
+      .sum("quantity * calculated_price_extra")
+
+    complement_totals = Basket.billable
+      .unscope(:joins, :order)
+      .where(membership_id: ids)
+      .joins(:baskets_basket_complements)
+      .group("baskets.membership_id", "baskets_basket_complements.basket_complement_id")
+      .sum("baskets_basket_complements.quantity * baskets_basket_complements.price")
+
+    complement_groups = complement_totals.each_with_object(Hash.new { |h, k| h[k] = [] }) { |(key, total), hash|
+      hash[key.first] << total
+    }
+
+    records.each do |membership|
+      membership.preload_csv_aggregates!(
+        absences_included_used: used_by_id[membership.id] || 0,
+        baskets_price_extra_total: extras_by_id[membership.id] || 0,
+        basket_complements_price_groups: complement_groups[membership.id] || [])
+    end
+    records
+  end
+
+  def preload_csv_aggregates!(absences_included_used:, baskets_price_extra_total:, basket_complements_price_groups:)
+    @csv_absences_included_used = absences_included_used
+    @csv_baskets_price_extra = rounded_price(baskets_price_extra_total)
+    @csv_basket_complements_price = basket_complements_price_groups.sum { |total|
+      rounded_price(total)
+    }
+  end
+
   def basket_description(public_name: false)
     describe(basket_size, basket_quantity, public_name: public_name)
   end

@@ -1275,8 +1275,15 @@ ActiveAdmin.register Membership do
         :delivery_cycle,
         :alternate_depot,
         :alternate_delivery_cycle,
-        memberships_basket_complements: :basket_complement,
-        baskets: :baskets_basket_complements)
+        membership_price_reduction: :price_reduction,
+        memberships_basket_complements: :basket_complement)
+    end
+
+    def in_paginated_batches(&block)
+      collection.reorder(:id).find_in_batches(batch_size: 1000) do |batch|
+        Membership.preload_csv_export(batch)
+        batch.each { |resource| yield apply_decorator(resource) }
+      end
     end
 
     def apply_filtering(chain)
