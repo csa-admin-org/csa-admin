@@ -26,16 +26,20 @@ module Support
         return Support::ForwardedQuote.wrap(body).presence || body.presence
       end
 
-      body = cut_quoted(Support::Utf8.repair(stripped.to_s)).strip
-      body = Support::ReplyQuote.strip_text(body) if body.present?
+      body = cleaned_text(Support::Utf8.repair(stripped.to_s))
       return body if body.present?
 
-      Support::ReplyQuote.strip_text(cut_quoted(source))
+      cleaned_text(source)
     end
 
     def self.without_quote(text)
-      cut_quoted(text).strip.presence
+      cleaned_text(text).presence
     end
+
+    def self.cleaned_text(text)
+      Support::MailSignature.strip_text(Support::ReplyQuote.strip_text(cut_quoted(text)).to_s).strip
+    end
+    private_class_method :cleaned_text
 
     def self.cut_quoted(text)
       before_marker(text.to_s).split(QUOTE_SPLIT, 2).first.to_s

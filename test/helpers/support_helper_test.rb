@@ -16,6 +16,25 @@ class SupportHelperTest < ActionView::TestCase
     end
   end
 
+  test "hides a stored gmail signature on an admin reply" do
+    message = Support::Message.new(
+      author: "admin",
+      body: "Nothing urgent",
+      html: <<~HTML)
+        <div>Nothing urgent.</div>
+        <div>Sam</div>
+        <span class="gmail_signature_prefix">-- </span>
+        <div class="gmail_signature"><b>Green Farm</b></div>
+      HTML
+
+    html = view.support_message_html(message)
+
+    assert_includes html, "Nothing urgent"
+    assert_includes html, "Sam"
+    assert_not_includes html, "Green Farm"
+    assert_not_includes html, "gmail_signature"
+  end
+
   test "hides a proton quote stored on an admin reply" do
     message = Support::Message.new(
       author: "admin",

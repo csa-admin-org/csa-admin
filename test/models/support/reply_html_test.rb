@@ -374,6 +374,57 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_includes extracted, "salary_basket"
   end
 
+  test "drops a gmail signature and the dash delimiter" do
+    html = <<~HTML
+      <div dir="ltr">Nothing urgent.</div>
+      <div>warm regards,&nbsp;</div>
+      <div>Sam</div>
+      <br><div><br clear="all"></div>
+      <span class="gmail_signature_prefix">-- </span><br>
+      <div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">
+        <div><b>Green Farm</b></div>
+        <div><a href="https://example.test">Website</a> | Newsletter</div>
+      </div>
+    HTML
+
+    presented = Support::ReplyHtml.present(html)
+    extracted = Support::ReplyHtml.extract(html)
+
+    assert_includes presented, "warm regards"
+    assert_includes presented, "Sam"
+    assert_not_includes presented, "Green Farm"
+    assert_not_includes presented, "Website"
+    assert_not_includes presented, "--"
+    assert_not_includes extracted, "Green Farm"
+    assert_includes extracted, "Nothing urgent"
+  end
+
+  test "drops a gmail signature that has no dash delimiter" do
+    html = <<~HTML
+      <div dir="auto">have a good evening!</div>
+      <div dir="auto">Sam</div>
+      <div><br clear="all"><div>
+        <div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature">
+          <div><b>Green Farm</b></div>
+          <div>Nico Street 20</div>
+        </div>
+      </div></div>
+    HTML
+
+    quote = '<div class="gmail_quote">On Wed, Sam wrote:<blockquote>Earlier</blockquote></div>'
+    presented = Support::ReplyHtml.present(html)
+    reply, original = Support::ReplyHtml.split_cited(html + quote)
+
+    assert_includes presented, "good evening"
+    assert_includes presented, "Sam"
+    assert_not_includes presented, "Green Farm"
+    assert_not_includes presented, "Nico Street"
+    assert_includes reply, "good evening"
+    assert_not_includes reply, "Green Farm"
+    assert_not_includes reply, "Earlier"
+    assert_includes original, "Earlier"
+  end
+
   test "strips a trailing operator signature" do
     html = <<~HTML
       <html><body>

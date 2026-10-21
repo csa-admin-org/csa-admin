@@ -76,6 +76,14 @@ class Support::ReplyBodyTest < ActiveSupport::TestCase
     assert_equal "jane@org.ch", Support::ReplyBody.original_from(text)
   end
 
+  test "cuts a trailing client signature at the dash delimiter" do
+    body = Support::ReplyBody.extract(
+      text_body: "Nothing urgent.\n\nSam\n\n-- \nGreen Farm\nWebsite",
+      stripped: "")
+
+    assert_equal "Nothing urgent.\n\nSam", body
+  end
+
   test "cuts at the wrap marker" do
     body = Support::ReplyBody.extract(
       text_body: "My answer\nCSA-ADMIN-REPLY-ABOVE\nquoted stuff",

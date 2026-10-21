@@ -33,8 +33,9 @@ module Support
         drop_trailing_quotes!(root)
         Support::ReplyQuote.clean_fragment!(root)
         drop_trailing_quotes!(root, quotes: :thread)
-        collapse_breaks!(root)
       end
+      Support::MailSignature.strip_fragment!(root)
+      collapse_breaks!(root) unless keep_cited
       strip_styles!(root)
       cleaned = root.inner_html.to_s.strip
       cleaned.presence
@@ -48,6 +49,7 @@ module Support
       original = extract_cited!(root)
       drop_header_only_cites!(root)
       Support::Signature.strip_fragment!(root)
+      Support::MailSignature.strip_fragment!(root)
       # A signature can sit between the reply and the quoted thread.
       if (after_signature = extract_cited!(root, quotes: :thread))
         original = join_fragments(original, after_signature)
@@ -71,6 +73,7 @@ module Support
       root = Nokogiri::HTML::DocumentFragment.parse(html.to_s)
       root.css("blockquote.protonmail_quote, div.protonmail_quote").each(&:remove)
       Support::ReplyQuote.drop_separators!(root)
+      Support::MailSignature.strip_fragment!(root)
       collapse_breaks!(root)
       strip_styles!(root)
       root.inner_html.to_s.strip.presence
@@ -80,6 +83,7 @@ module Support
       return html if html.blank?
 
       root = Nokogiri::HTML::DocumentFragment.parse(html.to_s)
+      Support::MailSignature.strip_fragment!(root)
       collapse_breaks!(root)
       strip_styles!(root)
       root.to_html.html_safe
