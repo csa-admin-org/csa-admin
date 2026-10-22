@@ -31,7 +31,15 @@
     <%= form_with model: @basket, url: members_basket_basket_shifts_path(@basket), method: :post, class: "form-root" do |f| %>
       <div class="input">
         <%= f.label :shift_target_basket_id %>
-        <%= f.select :shift_target_basket_id, basket_shift_targets_member_collection(@basket), { include_blank: false } %>
+
+        <%= f.select :shift_target_basket_id,
+          options_for_select([ [ t(".basket_shift_declined"), :declined ] ]) +
+            grouped_options_for_select(basket_shift_targets_member_collection(@basket)),
+          { include_blank: false } %>
+
+        <% if @basket.member_off_cycle_shift_deliveries.any? %>
+          <p class="form-hint"><%= t(".off_cycle_date") %></p>
+        <% end %>
       </div>
 
       <div class="actions">

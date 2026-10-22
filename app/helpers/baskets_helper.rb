@@ -71,10 +71,8 @@ module BasketsHelper
   end
 
   def basket_shift_form_collection(basket)
-    col = basket.absence_id? ? basket_shift_targets_collection(basket) : basket_admin_shift_targets_collection(basket)
-    other_dates = basket_admin_off_cycle_shift_targets(basket)
-    col << [ t("members.basket_shifts.new.other_dates"), other_dates ] if other_dates.any? && col.none? { |label, _| label == t("members.basket_shifts.new.other_dates") }
-    col
+    col = basket.absence_id? ? [ [ t("active_admin.resource.form.basket_shift_declined"), :declined ] ] : []
+    col + basket_admin_shift_targets_collection(basket)
   end
 
   def basket_shift_panel_text(basket)
@@ -82,81 +80,60 @@ module BasketsHelper
     t("active_admin.resource.form.#{key}")
   end
 
+  def basket_shift_target_hint(basket)
+    hint = t("formtastic.hints.basket.shift_target_basket_id")
+    return hint unless basket.admin_off_cycle_shift_deliveries.any?
+
+    "#{hint} #{t("active_admin.resource.form.off_cycle_date")}"
+  end
+
   def basket_admin_shift_targets_collection(source)
-    following = basket_admin_shift_targets_for(source, (source.delivery.date + 1.day)..)
-    previous = basket_admin_shift_targets_for(source, ...source.delivery.date)
-    [
-      [ t("active_admin.resource.form.following_deliveries"), following ],
-      [ t("active_admin.resource.form.previous_deliveries"), previous ],
-      [ t("members.basket_shifts.new.other_dates"), basket_admin_off_cycle_shift_targets(source) ]
-    ].select { |_, options| options.any? }
-  end
-
-  def basket_admin_off_cycle_shift_targets(source)
-    source.admin_off_cycle_shift_deliveries.map { |delivery|
-      [ delivery.display_name, "delivery:#{delivery.id}" ]
-    }
-  end
-
-  def basket_admin_shift_targets_for(source, range)
-    source.membership.baskets.includes(:delivery, :baskets_basket_complements).filter_map { |target|
-      next unless target.delivery.date.in?(range)
+    options = source.membership.baskets.includes(:delivery, :baskets_basket_complements).filter_map { |target|
+      next if target.delivery_id == source.delivery_id
 
       [
-        target.delivery.display_name,
-        target.id,
-        disabled: !source.admin_shift_target?(target)
+        target.delivery.date,
+        [
+          target.delivery.display_name,
+          target.id,
+          disabled: !source.admin_shift_target?(target)
+        ]
+      ]
+    } + source.admin_off_cycle_shift_deliveries.map { |delivery|
+      [
+        delivery.date,
+        [ safe_join([ delivery.display_name, " *" ]), "delivery:#{delivery.id}" ]
       ]
     }
-  end
 
-  def basket_shift_targets_collection(source)
-    [
-      [ t(".basket_shift_none"), [ [ t(".basket_shift_declined"), :declined ] ] ],
-      [ t(".following_deliveries"), basket_shifts_targets_collection_for(source, (source.delivery.date + 1.day)..) ],
-      [ t(".previous_deliveries"), basket_shifts_targets_collection_for(source, ...source.delivery.date) ]
-    ]
-  end
-
-  def basket_shifts_targets_collection_for(source, range)
-    source.membership.baskets.between(range).includes(:delivery).map { |target|
-      [ target.delivery.display_name, target.id, disabled: !BasketShift.shiftable?(source, target) ]
-    }
+    basket_shift_target_groups(
+      source,
+      options,
+      after: "active_admin.resource.form.following_deliveries",
+      before: "active_admin.resource.form.previous_deliveries")
   end
 
   def basket_shift_targets_member_collection(source)
-    col = [ [ t(".basket_shift_none"), [ [ t(".basket_shift_declined"), :declined ] ] ] ]
-
-    before_targets = basket_shifts_targets_member_collection_for(source, ...source.delivery.date)
-    if before_targets.any?
-      col << [ t(".before_absence"), before_targets ]
-    end
-
-    after_targets = basket_shifts_targets_member_collection_for(source, (source.delivery.date + 1.day)..)
-    if after_targets.any?
-      col << [ t(".after_absence"), after_targets ]
-    end
-
-    other_dates = basket_shift_off_cycle_member_collection(source)
-    if other_dates.any?
-      col << [ t(".other_dates"), other_dates ]
-    end
-
-    col.to_h
-  end
-
-  def basket_shift_off_cycle_member_collection(source)
-    source.member_off_cycle_shift_deliveries.map { |delivery|
-      [ l(delivery.date, format: :long_no_year).capitalize, "delivery:#{delivery.id}" ]
+    options = source.member_shiftable_basket_targets.map { |target|
+      [ target.delivery.date, [ l(target.delivery.date, format: :long_no_year).capitalize, target.id ] ]
+    } + source.member_off_cycle_shift_deliveries.map { |delivery|
+      label = "#{l(delivery.date, format: :long_no_year).capitalize} *"
+      [ delivery.date, [ label, "delivery:#{delivery.id}" ] ]
     }
+
+    basket_shift_target_groups(
+      source,
+      options,
+      after: ".after_absence",
+      before: ".before_absence")
   end
 
-  def basket_shifts_targets_member_collection_for(source, range)
-    source
-      .member_shiftable_basket_targets
-      .select { |target| target.delivery.date.in?(range) }
-      .map { |target|
-        [ l(target.delivery.date, format: :long_no_year).capitalize, target.id ]
-      }
+  def basket_shift_target_groups(source, options, after:, before:)
+    date = source.delivery.date
+    grouped = options.sort_by(&:first).group_by { |option_date,| option_date < date ? :before : :after }
+    [
+      [ t(before), grouped[:before]&.map(&:last) || [] ],
+      [ t(after), grouped[:after]&.map(&:last) || [] ]
+    ].select { |_, group_options| group_options.any? }
   end
 end

@@ -188,4 +188,107 @@ class BasketsHelperTest < ActionView::TestCase
       end
     end
   end
+
+  test "basket_admin_shift_targets_collection groups dates and marks off-cycle deliveries" do
+    travel_to "2024-04-01"
+    org(features: [ :absence ], absences_billed: true)
+
+    source = baskets(:jane_3)
+    collection = basket_admin_shift_targets_collection(source)
+    labels = collection.map(&:first)
+    before, after = collection.map(&:last)
+    before_dates = before.map { |_, value,| shift_target_option_date(value) }
+    after_dates = after.map { |_, value,| shift_target_option_date(value) }
+    values = (after + before).map { |_, value,| value }
+
+    assert_equal [
+      I18n.t("active_admin.resource.form.previous_deliveries"),
+      I18n.t("active_admin.resource.form.following_deliveries")
+    ], labels
+    assert_equal after_dates, after_dates.sort
+    assert_equal before_dates, before_dates.sort
+    assert after_dates.all? { |date| date > source.delivery.date }
+    assert before_dates.all? { |date| date < source.delivery.date }
+    assert_includes values, baskets(:jane_1).id
+    assert_includes values, baskets(:jane_5).id
+    assert_includes values, "delivery:#{deliveries(:monday_1).id}"
+    assert_includes values, "delivery:#{deliveries(:monday_2).id}"
+    assert_not_includes values, source.id
+
+    absent = (after + before).find { |_, value,| value == baskets(:jane_5).id }
+    off_cycle = (after + before).find { |_, value,| value == "delivery:#{deliveries(:monday_1).id}" }
+    assert absent.last[:disabled]
+    assert_match(/ \*\z/, off_cycle.first)
+    assert before_dates.index(deliveries(:monday_1).date) < before_dates.index(baskets(:jane_1).delivery.date)
+    assert before_dates.index(baskets(:jane_1).delivery.date) < before_dates.index(deliveries(:monday_2).date)
+  end
+
+  test "basket_shift_form_collection keeps declined first for an absent basket" do
+    travel_to "2024-04-01"
+    org(features: [ :absence ], absences_billed: true)
+
+    collection = basket_shift_form_collection(baskets(:jane_5))
+
+    assert_equal :declined, collection.first.second
+    assert_equal basket_admin_shift_targets_collection(baskets(:jane_5)), collection.drop(1)
+  end
+
+  test "basket_shift_form_collection omits declined without an absence" do
+    travel_to "2024-04-01"
+    org(features: [ :absence ], absences_billed: true)
+
+    collection = basket_shift_form_collection(baskets(:jane_3))
+
+    assert collection.none? { |_, value,| value == :declined }
+    assert_equal basket_admin_shift_targets_collection(baskets(:jane_3)), collection
+  end
+
+  test "basket_shift_target_hint appends the off-cycle note when one is listed" do
+    travel_to "2024-04-01"
+    org(features: [ :absence ], absences_billed: true)
+    @virtual_path = "active_admin/resource/edit"
+
+    hint = basket_shift_target_hint(baskets(:jane_3))
+
+    assert_includes hint, I18n.t("formtastic.hints.basket.shift_target_basket_id")
+    assert_includes hint, I18n.t("active_admin.resource.form.off_cycle_date")
+  end
+
+  test "basket_shift_targets_member_collection groups dates and marks off-cycle deliveries" do
+    travel_to "2024-04-01"
+    org(
+      features: [ :absence ],
+      absences_billed: true,
+      basket_shifts_annually: 2,
+      basket_shift_deadline_in_weeks: nil)
+    @virtual_path = "members/basket_shifts/new"
+
+    source = baskets(:jane_6)
+    create_absence(member: source.member, started_on: source.delivery.date, ended_on: source.delivery.date)
+    travel_to source.delivery.date - 1.week
+    collection = basket_shift_targets_member_collection(source.reload)
+    later = baskets(:jane_7)
+    earlier = Delivery.find_by!(date: later.delivery.date - 3.days)
+    after = collection.find { |label,| label == I18n.t("members.basket_shifts.new.after_absence") }.last
+    dates = after.map { |_, value| shift_target_option_date(value) }
+
+    assert_equal dates, dates.sort
+    assert dates.all? { |date| date > source.delivery.date }
+    assert_includes after.map(&:second), "delivery:#{earlier.id}"
+    assert_includes after.map(&:second), later.id
+    assert shift_target_option_date(after.first.second) < later.delivery.date
+    assert_equal "#{I18n.l(earlier.date, format: :long_no_year).capitalize} *",
+      after.find { |_, value| value == "delivery:#{earlier.id}" }.first
+    assert_not_includes after.find { |_, value| value == later.id }.first, "*"
+  end
+
+  private
+
+  def shift_target_option_date(value)
+    if value.to_s.start_with?("delivery:")
+      Delivery.find(value.to_s.delete_prefix("delivery:")).date
+    else
+      Basket.find(value).delivery.date
+    end
+  end
 end

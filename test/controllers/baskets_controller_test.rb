@@ -130,6 +130,9 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".panel-shift-body ol li.select select#basket_shift_target_basket_id"
     assert_select "p.description.is-tight",
       text: I18n.t("active_admin.resource.form.basket_shift_absences_included_warning")
+    options = css_select("select#basket_shift_target_basket_id > option").map { |option| option["value"] }.reject(&:blank?)
+    assert_equal "declined", options.first
+    assert_select "select#basket_shift_target_basket_id optgroup option[value=declined]", count: 0
     assert_select "select#basket_delivery_id", count: 0
     assert_select "select#basket_depot_id", count: 0
     assert_select "select#basket_basket_size_id", count: 0
@@ -169,6 +172,38 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
     assert_select "select#basket_shift_target_basket_id option[value='#{target.id}']"
     assert_select "p.description",
       text: I18n.t("active_admin.resource.form.basket_shift_one_step")
+  end
+
+  test "edit shift target dropdown groups dates before and after, with off-cycle marked" do
+    source = baskets(:jane_3)
+
+    get edit_basket_path(source)
+
+    assert_response :success
+    assert_select "select#basket_shift_target_basket_id optgroup",
+      count: 2
+    assert_select "select#basket_shift_target_basket_id optgroup:first-of-type",
+      label: I18n.t("active_admin.resource.form.previous_deliveries")
+    assert_select "select#basket_shift_target_basket_id optgroup:last-of-type",
+      label: I18n.t("active_admin.resource.form.following_deliveries")
+    assert_select "select#basket_shift_target_basket_id option[value=?]",
+      "delivery:#{deliveries(:monday_1).id}",
+      text: / \*\z/
+    assert_select "select#basket_shift_target_basket_id option[value=?][disabled]",
+      baskets(:jane_5).id
+    assert_select "#basket_shift_target_basket_id_input .inline-hints",
+      text: /#{Regexp.escape(I18n.t("active_admin.resource.form.off_cycle_date"))}/
+
+    groups = css_select("select#basket_shift_target_basket_id optgroup").map { |group|
+      css_select(group, "option").map { |option|
+        shift_target_option_date(option["value"])
+      }
+    }
+
+    assert groups.all? { |dates| dates == dates.sort }
+    assert groups.first.all? { |date| date < source.delivery.date }
+    assert groups.last.all? { |date| date > source.delivery.date }
+    assert groups.flatten.index(deliveries(:monday_1).date) < groups.flatten.index(baskets(:jane_1).delivery.date)
   end
 
   test "one-step shift creates the absence and moves a billed present basket" do
@@ -287,6 +322,14 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
   end
 
   private
+
+  def shift_target_option_date(value)
+    if value.start_with?("delivery:")
+      Delivery.find(value.delete_prefix("delivery:")).date
+    else
+      Basket.find(value).delivery.date
+    end
+  end
 
   def login(admin)
     session = Session.create!(
