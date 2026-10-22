@@ -57,6 +57,7 @@ ActiveAdmin.register Basket do
               f.input :shift_target_basket_id,
                 as: :select,
                 collection: basket_shift_form_collection(f.object),
+                hint: basket_shift_target_hint(f.object),
                 include_blank: true
             end
           end

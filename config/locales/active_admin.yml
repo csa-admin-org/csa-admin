@@ -1811,6 +1811,12 @@ _:
           _de: Keine Funktionen für die Organisation ausgewählt.
           _it: Nessuna funzionalità selezionata per l'organizzazione.
           _nl: Geen functies geselecteerd voor de organisatie.
+        off_cycle_date:
+          _en: "* Delivery date outside the membership delivery cycle."
+          _fr: "* Date de livraison hors du cycle de livraison de l'abonnement."
+          _de: "* Lieferdatum ausserhalb des Lieferzyklus des Abonnements."
+          _it: "* Data di consegna fuori dal ciclo di consegna dell'abbonamento."
+          _nl: "* Leveringsdatum buiten de leveringscyclus van het lidmaatschap."
         opening:
           _en: Opening
           _fr: Ouverture

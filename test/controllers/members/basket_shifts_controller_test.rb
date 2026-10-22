@@ -50,6 +50,67 @@ class Members::BasketShiftsControllerTest < ActionDispatch::IntegrationTest
     assert_select "select#basket_shift_target_basket_id option[value='declined']"
   end
 
+  test "new lists an existing absence's targets in date order with earlier off-cycle first" do
+    basket = baskets(:jane_6)
+    later = baskets(:jane_7)
+    create_absence(member: basket.member, started_on: basket.delivery.date, ended_on: basket.delivery.date)
+    travel_to basket.delivery.date - 1.week
+    earlier = Delivery.find_by!(date: later.delivery.date - 3.days)
+
+    get new_members_basket_basket_shifts_path(basket)
+
+    assert_response :success
+    assert_select "select#basket_shift_target_basket_id > option[value=declined]"
+    assert_select "select#basket_shift_target_basket_id optgroup",
+      label: I18n.t("members.basket_shifts.new.after_absence")
+    assert_select "select#basket_shift_target_basket_id option[value=?]", "delivery:#{earlier.id}"
+    assert_select "select#basket_shift_target_basket_id option[value=?]", later.id
+
+    values = css_select("select#basket_shift_target_basket_id option").map { |option| option["value"] }
+    after_group = css_select("select#basket_shift_target_basket_id optgroup").find { |group|
+      group["label"] == I18n.t("members.basket_shifts.new.after_absence")
+    }
+    after = css_select(after_group, "option")
+    dates = after.map { |option| shift_target_option_date(option["value"]) }
+
+    assert_equal "declined", values.first
+    assert shift_target_option_date(after.first["value"]) < later.delivery.date
+    assert dates.index(earlier.date) < dates.index(later.delivery.date)
+    assert_equal dates, dates.sort
+    assert_select "select#basket_shift_target_basket_id option[value=?]",
+      "delivery:#{earlier.id}",
+      text: / \*\z/
+    assert_select "p.form-hint", text: I18n.t("members.basket_shifts.new.off_cycle_date")
+  end
+
+  test "new uses the organization basket name in the off-cycle note" do
+    basket = baskets(:jane_6)
+    create_absence(member: basket.member, started_on: basket.delivery.date, ended_on: basket.delivery.date)
+    travel_to basket.delivery.date - 1.week
+    Current.org.update!(basket_i18n_scopes: Current.org.languages.index_with { "bag" })
+
+    get new_members_basket_basket_shifts_path(basket)
+
+    assert_response :success
+    assert_select "p.form-hint", text: I18n.t("members.basket_shifts.new.off_cycle_date")
+    assert_select "p.form-hint", text: /bag/
+  end
+
+  test "new omits the off-cycle note when the depot serves only the cycle" do
+    basket = baskets(:jane_6)
+    create_absence(member: basket.member, started_on: basket.delivery.date, ended_on: basket.delivery.date)
+    travel_to basket.delivery.date - 1.week
+    basket.depot.delivery_cycles.clear
+    basket.depot.delivery_cycles << basket.membership.delivery_cycle
+
+    get new_members_basket_basket_shifts_path(basket)
+
+    assert_response :success
+    assert_select "select#basket_shift_target_basket_id option[value=?]", baskets(:jane_7).id
+    assert_select "select#basket_shift_target_basket_id option", text: / \*\z/, count: 0
+    assert_select "p.form-hint", count: 0
+  end
+
   test "create shifts to an allowed target" do
     basket = baskets(:jane_6)
     target = baskets(:jane_7)
@@ -151,5 +212,13 @@ class Members::BasketShiftsControllerTest < ActionDispatch::IntegrationTest
       remote_addr: "127.0.0.1",
       user_agent: "Test Browser")
     get "/sessions/#{session.generate_token_for(:redeem)}"
+  end
+
+  def shift_target_option_date(value)
+    if value.start_with?("delivery:")
+      Delivery.find(value.delete_prefix("delivery:")).date
+    else
+      Basket.find(value).delivery.date
+    end
   end
 end
