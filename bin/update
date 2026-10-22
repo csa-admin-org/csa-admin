@@ -7,8 +7,8 @@ require "json"
 APP_ROOT = File.expand_path("..", __dir__)
 HERB_NPM_PACKAGES = %w[@herb-tools/linter @herb-tools/formatter].freeze
 
-def system!(*args)
-  system(*args, exception: true)
+def system!(*args, **kwargs)
+  system(*args, **kwargs, exception: true)
 end
 
 def mise_ruby_version
@@ -83,6 +83,31 @@ def upgrade_herb_yml!
   system! "bin/herb", "lint", "--upgrade"
 end
 
+def restore_chartjs_umd!
+  # importmap update rewrites chart.js from jspm. That ESM entry imports an unpinned
+  # helpers chunk and never assigns globalThis.Chart, which analytics expects.
+  version = File.read("config/importmap.rb")[/^pin "chart\.js".*# @(\d+\.\d+\.\d+)/, 1] or
+    abort "Could not read chart.js version from config/importmap.rb"
+  url = "https://unpkg.com/chart.js@#{version}/dist/chart.umd.min.js"
+  path = "vendor/javascript/chart.js.js"
+  download = "#{path}.download"
+  system! "curl", "-fsSL", "-o", download, url
+  body = File.read(download)
+  File.delete(download)
+  # The UMD build inlines @kurkle/color and only mentions it in a copyright banner.
+  # Match import syntax, not the "Please import and register" warning string.
+  esm = body.match?(/\bimport[{(]/) || body.include?('from"../_/') || body.include?('from"@kurkle/color"')
+  unless body.include?("window.Chart=") && !esm
+    abort "Chart.js download from #{url} is not the self-contained UMD build"
+  end
+
+  File.write(path, "// chart.js@#{version} downloaded from #{url}\n\n#{body}")
+  Dir.glob("vendor/javascript/@kurkle*") { |entry| FileUtils.rm_rf(entry) }
+  importmap = File.read("config/importmap.rb")
+  cleaned = importmap.gsub(/^pin "@kurkle\/color".*(?:\n|\z)/, "")
+  File.write("config/importmap.rb", cleaned) if cleaned != importmap
+end
+
 FileUtils.chdir APP_ROOT do
   # Update local toolchains and dependency lockfiles.
   # Review the diff afterward — this is intentionally non-conservative.
@@ -110,4 +135,7 @@ FileUtils.chdir APP_ROOT do
 
   puts "\n== Updating importmap pins =="
   system! "bin/importmap", "update"
+
+  puts "\n== Restoring Chart.js UMD pin =="
+  restore_chartjs_umd!
 end

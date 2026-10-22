@@ -1,3 +1,5 @@
+// chart.js@4.5.1 downloaded from https://unpkg.com/chart.js@4.5.1/dist/chart.umd.min.js
+
 /*!
  * Chart.js v4.5.1
  * https://www.chartjs.org
