@@ -171,6 +171,34 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
       text: I18n.t("active_admin.resource.form.basket_shift_one_step")
   end
 
+  test "edit shift target dropdown is a flat list ordered by delivery date" do
+    source = baskets(:jane_3)
+
+    get edit_basket_path(source)
+
+    assert_response :success
+    assert_select "select#basket_shift_target_basket_id optgroup", count: 0
+    assert_select "select#basket_shift_target_basket_id option[value=?]",
+      "delivery:#{deliveries(:monday_1).id}"
+    assert_select "select#basket_shift_target_basket_id option[value=?][disabled]",
+      baskets(:jane_5).id
+
+    values = css_select("select#basket_shift_target_basket_id option")
+      .map { |option| option["value"] }
+      .reject(&:blank?)
+    dates = values.map { |value|
+      if value.start_with?("delivery:")
+        Delivery.find(value.delete_prefix("delivery:")).date
+      else
+        Basket.find(value).delivery.date
+      end
+    }
+
+    assert_equal dates, dates.sort
+    assert dates.index(deliveries(:monday_1).date) < dates.index(baskets(:jane_1).delivery.date)
+    assert dates.index(baskets(:jane_1).delivery.date) < dates.index(deliveries(:monday_2).date)
+  end
+
   test "one-step shift creates the absence and moves a billed present basket" do
     source = @membership.baskets.normal.billable.first
     target = @membership.baskets.normal.where.not(id: source.id).last

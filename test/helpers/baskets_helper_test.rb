@@ -188,4 +188,61 @@ class BasketsHelperTest < ActionView::TestCase
       end
     end
   end
+
+  test "basket_admin_shift_targets_collection is a flat list ordered by delivery date" do
+    travel_to "2024-04-01"
+    org(features: [ :absence ], absences_billed: true)
+
+    source = baskets(:jane_3)
+    collection = basket_admin_shift_targets_collection(source)
+    values = collection.map { |_, value,| value }
+    dates = values.map { |value| shift_target_option_date(value) }
+
+    assert collection.none? { |_, value,| value.is_a?(Array) }
+    assert_equal dates, dates.sort
+    assert_includes values, baskets(:jane_1).id
+    assert_includes values, baskets(:jane_5).id
+    assert_includes values, "delivery:#{deliveries(:monday_1).id}"
+    assert_includes values, "delivery:#{deliveries(:monday_2).id}"
+    assert_not_includes values, source.id
+
+    absent = collection.find { |_, value,| value == baskets(:jane_5).id }
+    assert absent.last[:disabled]
+    assert dates.index(deliveries(:monday_1).date) < dates.index(baskets(:jane_1).delivery.date)
+    assert dates.index(baskets(:jane_1).delivery.date) < dates.index(deliveries(:monday_2).date)
+    assert dates.index(deliveries(:monday_2).date) < dates.index(baskets(:jane_2).delivery.date)
+    assert dates.index(baskets(:jane_4).delivery.date) < dates.index(baskets(:jane_5).delivery.date)
+  end
+
+  test "basket_shift_form_collection keeps declined first for an absent basket" do
+    travel_to "2024-04-01"
+    org(features: [ :absence ], absences_billed: true)
+
+    collection = basket_shift_form_collection(baskets(:jane_5))
+    dates = collection.drop(1).map { |_, value,| shift_target_option_date(value) }
+
+    assert_equal :declined, collection.first.second
+    assert_equal dates, dates.sort
+    assert_includes dates, deliveries(:monday_1).date
+  end
+
+  test "basket_shift_form_collection omits declined without an absence" do
+    travel_to "2024-04-01"
+    org(features: [ :absence ], absences_billed: true)
+
+    collection = basket_shift_form_collection(baskets(:jane_3))
+
+    assert collection.none? { |_, value,| value == :declined }
+    assert_equal basket_admin_shift_targets_collection(baskets(:jane_3)), collection
+  end
+
+  private
+
+  def shift_target_option_date(value)
+    if value.to_s.start_with?("delivery:")
+      Delivery.find(value.to_s.delete_prefix("delivery:")).date
+    else
+      Basket.find(value).delivery.date
+    end
+  end
 end
