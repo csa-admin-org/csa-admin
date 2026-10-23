@@ -75,6 +75,15 @@ module Tenant
     all.grep(DEMO_TENANT_PATTERN)
   end
 
+  # Reads config, not all, so ENV["TENANT"] does not hide the other demos.
+  def demo_admin_hosts
+    {
+      "en" => config.dig("demo-en", "admin_host"),
+      "fr" => config.dig("demo-fr", "admin_host"),
+      "de" => config.dig("demo-de", "admin_host")
+    }.compact
+  end
+
   def demo_language
     if Thread.current[:_demo_mode]
       Current.org.languages.first

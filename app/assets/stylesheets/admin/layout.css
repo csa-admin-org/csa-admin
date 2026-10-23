@@ -1157,6 +1157,11 @@
     padding-inline: 0.5rem;
     color: var(--color-gray-400);
 
+    &[aria-current] {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+
     &:where(.dark, .dark *) {
       color: var(--color-gray-500);
     }

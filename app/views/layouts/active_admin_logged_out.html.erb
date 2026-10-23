@@ -18,7 +18,9 @@
     </div>
 
     <footer class="admin-guest-footer">
-      <% if Current.org.languages.many? %>
+      <% if Tenant.demo? %>
+        <%= render "layouts/demo_locales" %>
+      <% elsif Current.org.languages.many? %>
         <div class="admin-locales">
           <ul class="admin-locales-list">
             <% Current.org.languages.each do |locale| %>

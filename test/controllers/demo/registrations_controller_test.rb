@@ -14,6 +14,13 @@ class Demo::RegistrationsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_path
   end
 
+  test "GET /login on a non-demo tenant does not show the demo language switch" do
+    get login_path
+
+    assert_response :success
+    assert_select ".admin-locales", count: 0
+  end
+
   test "GET /demo renders form on demo tenant" do
     in_demo_tenant do
       get new_demo_registration_path
@@ -23,6 +30,22 @@ class Demo::RegistrationsControllerTest < ActionDispatch::IntegrationTest
       assert_select "input[name='demo_registration[name]']"
       assert_select "input[name='demo_registration[email]']"
       assert_select "textarea[name='demo_registration[message]']"
+    end
+  end
+
+  test "GET /demo links the other demo hosts and marks the current language" do
+    in_demo_tenant do
+      get new_demo_registration_path
+
+      assert_demo_language_switch(path: new_demo_registration_path)
+    end
+  end
+
+  test "GET /login on a demo tenant links the other demo logins" do
+    in_demo_tenant do
+      get login_path
+
+      assert_demo_language_switch(path: login_path)
     end
   end
 
@@ -90,6 +113,7 @@ class Demo::RegistrationsControllerTest < ActionDispatch::IntegrationTest
       end
 
       assert_response :unprocessable_entity
+      assert_demo_language_switch(path: "/demo")
     end
   end
 
@@ -99,9 +123,27 @@ class Demo::RegistrationsControllerTest < ActionDispatch::IntegrationTest
     Tenant.stub(:demo?, true) do
       Tenant.stub(:demo_language, "en") do
         Tenant.stub(:admin_host, "admin.csa-admin.org") do
-          yield
+          Tenant.stub(:demo_admin_hosts, demo_admin_hosts) do
+            yield
+          end
         end
       end
     end
+  end
+
+  def demo_admin_hosts
+    {
+      "en" => "admin.csa-admin.org",
+      "fr" => "admin.acp-admin.ch",
+      "de" => "admin.solawi-admin.org"
+    }
+  end
+
+  def assert_demo_language_switch(path:)
+    assert_select ".admin-locale-link[aria-current=page]", text: "en", count: 1
+    assert_select "a.admin-locale-link", text: "en", count: 0
+    assert_select "a.admin-locale-link[href=?]", "https://admin.acp-admin.ch#{path}", text: "fr"
+    assert_select "a.admin-locale-link[href=?]", "https://admin.solawi-admin.org#{path}", text: "de"
+    assert_select "a[href*='?locale']", count: 0
   end
 end

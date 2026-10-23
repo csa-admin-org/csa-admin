@@ -62,6 +62,40 @@ class TenantTest < ActiveSupport::TestCase
     end
   end
 
+  test "demo_admin_hosts maps seeded languages and ignores TENANT" do
+    config = {
+      "demo-de" => { "admin_host" => "admin.solawi-admin.org" },
+      "demo-fr" => { "admin_host" => "admin.acp-admin.ch" },
+      "demo-en" => { "admin_host" => "admin.csa-admin.org" },
+      "demo-it" => { "admin_host" => "admin.example.test" },
+      "acme" => { "admin_host" => "admin.acme.test" }
+    }
+
+    with_env("TENANT" => "acme") do
+      Tenant.stub(:config, config) do
+        assert_equal(
+          {
+            "en" => "admin.csa-admin.org",
+            "fr" => "admin.acp-admin.ch",
+            "de" => "admin.solawi-admin.org"
+          },
+          Tenant.demo_admin_hosts)
+      end
+    end
+  end
+
+  test "demo_admin_hosts drops a language with no host" do
+    config = {
+      "demo-en" => { "admin_host" => "admin.csa-admin.org" },
+      "demo-fr" => {},
+      "demo-de" => { "admin_host" => nil }
+    }
+
+    Tenant.stub(:config, config) do
+      assert_equal({ "en" => "admin.csa-admin.org" }, Tenant.demo_admin_hosts)
+    end
+  end
+
   test "connect to unknown tenant" do
     assert_equal "acme", Tenant.current
     assert_raises RuntimeError, match: /Unknown tenant 'unknown'/ do

@@ -1,0 +1,19 @@
+<div class="admin-locales">
+  <ul class="admin-locales-list">
+    <% Tenant.demo_admin_hosts.each do |language, host| %>
+      <li class="admin-locale">
+        <% if language == Tenant.demo_language %>
+          <span
+            class="admin-locale-link"
+            aria-current="page"
+            title="<%= t("languages.#{language}") %>"
+          >
+            <%= language %>
+          </span>
+        <% else %>
+          <%= link_to language, "#{Tenant.local_url(host)}#{request.path}", title: t("languages.#{language}"), class: "admin-locale-link" %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
