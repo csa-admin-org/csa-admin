@@ -63,18 +63,18 @@ _:
         _it: Lista di consegna del %{date}
         _nl: Leveringslijst van %{date}
     demo_follow_up_email:
-      exploration_paragraph:
-        _en: How is your exploration of the CSA Admin demo going? I hope the program seems to meet your needs. I'd love to hear your first impressions.
-        _fr: Comment se passe votre découverte de la démo de CSA Admin? J'espère que le programme semble répondre à vos besoins. J'aimerais beaucoup connaître vos premières impressions.
-        _de: Wie läuft die Erkundung der CSA Admin Demo? Ich hoffe, das Programm scheint den Anforderungen zu entsprechen. Ich würde mich über erste Eindrücke freuen.
-        _it: Come procede l'esplorazione della demo di CSA Admin? Spero che il programma sembri rispondere alle vostre esigenze. Mi piacerebbe molto conoscere le vostre prime impressioni.
-        _nl: Hoe gaat het verkennen van de CSA Admin-demo? Hopelijk lijkt het programma aan de behoeften te voldoen. Ik hoor graag de eerste indrukken.
       greeting:
         _en: Hello {{ admin.name }},
         _fr: Salut {{ admin.name }},
         _de: Hallo {{ admin.name }},
         _it: Ciao {{ admin.name }},
         _nl: Hallo {{ admin.name }},
+      hope_paragraph:
+        _en: I hope the demo was useful, and that it gave you a clear overview of CSA Admin's features.
+        _fr: J'espère que la démo vous a été utile, et qu'elle vous a donné un aperçu clair des fonctionnalités de CSA Admin.
+        _de: Ich hoffe, die Demo war nützlich und hat einen klaren Überblick über die Funktionen von CSA Admin gegeben.
+        _it: Spero che la demo sia stata utile e che vi abbia dato una visione chiara delle funzionalità di CSA Admin.
+        _nl: Ik hoop dat de demo nuttig was en een duidelijk overzicht van de functies van CSA Admin heeft gegeven.
       questions_paragraph:
         _en: If you have any questions, would like a guided tour, or want to discuss how CSA Admin could work for your CSA, just reply to this email. I'm happy to help.
         _fr: Si vous avez des questions, souhaitez une visite guidée ou voulez discuter de la façon dont CSA Admin pourrait fonctionner pour votre ACP, répondez simplement à cet e-mail. Je suis là pour vous aider.
@@ -88,11 +88,11 @@ _:
         _it: Configurazione
         _nl: Configuratie
       setup_paragraph:
-        _en: 'If you''re ready to get started, the <a href="{{ setup_handbook_url }}">Setup</a> handbook page explains the few steps needed:'
-        _fr: 'Si vous êtes prêt·e à vous lancer, la page <a href="{{ setup_handbook_url }}">Mise en place</a> du manuel explique les quelques étapes nécessaires:'
-        _de: 'Wer gleich loslegen möchte, findet auf der Handbuchseite <a href="{{ setup_handbook_url }}">Einrichtung</a> die wenigen nötigen Schritte:'
-        _it: 'Se siete pronti a iniziare, la pagina <a href="{{ setup_handbook_url }}">Configurazione</a> del manuale spiega i pochi passaggi necessari:'
-        _nl: 'Om meteen te beginnen, staan op de handleidingpagina <a href="{{ setup_handbook_url }}">Configuratie</a> de paar benodigde stappen:'
+        _en: If you're ready to get started, the Setup page in the handbook explains the few steps needed.
+        _fr: Si vous êtes prêt·e à vous lancer, la page Mise en place du manuel explique les quelques étapes nécessaires.
+        _de: Wer gleich loslegen möchte, findet auf der Handbuchseite Einrichtung die wenigen nötigen Schritte.
+        _it: Se siete pronti a iniziare, la pagina Configurazione del manuale spiega i pochi passaggi necessari.
+        _nl: Om meteen te beginnen, staan op de handleidingpagina Configuratie de paar benodigde stappen.
       subject:
         _en: How's it going with the demo?
         _fr: Comment ça se passe avec la démo?

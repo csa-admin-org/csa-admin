@@ -580,12 +580,35 @@ class AdminMailerTest < ActionMailer::TestCase
 
       body = mail.body.to_s
       assert_includes body, "Hello Alice,"
-      assert_includes body, "exploration of the CSA Admin demo going"
-      assert_includes body, "program seems to meet your needs"
+      assert_includes body, "I hope the demo was useful, and that it gave you a clear overview of CSA Admin's features."
+      assert_includes body, "just reply to this email"
       assert_includes body, "https://admin.csa-admin.org/handbook/setup"
-      assert_includes body, "<a href=\"https://admin.csa-admin.org/handbook/setup\">Setup</a> handbook page"
+      assert_not_includes body, ">Setup</a>"
+      assert_not_includes body, "resets weekly"
       assert_match %r{<p class="closing">Best regards,\n<br />Thibaud</p>}, body
     end
+  end
+
+  test "demo mailer previews" do
+    I18n.locale = :en
+    preview = AdminMailerPreview.new
+
+    invitation = preview.demo_invitation_email
+    assert_equal "Invitation to the CSA Admin demo", invitation.subject
+    assert_includes invitation.body.to_s, "Welcome to the demo!"
+
+    follow_up = preview.demo_follow_up_email
+    assert_equal "How's it going with the demo?", follow_up.subject
+    assert_includes follow_up.body.to_s, "a clear overview of CSA Admin's features"
+    assert_includes follow_up.body.to_s, "just reply to this email"
+    assert_includes follow_up.body.to_s, "https://admin.example.com/handbook/setup"
+
+    registration = preview.demo_registration_notification_email
+    assert_includes registration.subject, "[Demo] New registration:"
+    assert_includes registration.body.to_s, "Green Valley CSA, about 80 members."
+
+    notification = preview.demo_follow_up_notification_email
+    assert_includes notification.subject, "[Demo] Follow-up sent:"
   end
 
   test "demo_follow_up_notification_email" do

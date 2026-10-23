@@ -28,6 +28,43 @@ class AdminMailerPreview < ActionMailer::Preview
     ).invitation_email
   end
 
+  def demo_invitation_email
+    with_demo_preview do
+      AdminMailer.with(
+        admin: preview_admin,
+        action_url: "https://admin.example.com"
+      ).invitation_email
+    end
+  end
+
+  def demo_follow_up_email
+    with_demo_preview do
+      AdminMailer.with(
+        admin: preview_admin,
+        setup_handbook_url: "https://admin.example.com/handbook/setup"
+      ).demo_follow_up_email
+    end
+  end
+
+  def demo_registration_notification_email
+    with_demo_preview do
+      AdminMailer.with(
+        admin: preview_admin,
+        message: "Green Valley CSA, about 80 members.",
+        tenant: Tenant.current
+      ).demo_registration_notification_email
+    end
+  end
+
+  def demo_follow_up_notification_email
+    with_demo_preview do
+      AdminMailer.with(
+        admin: preview_admin,
+        tenant: Tenant.current
+      ).demo_follow_up_notification_email
+    end
+  end
+
   def bas_login_error_email
     AdminMailer.with(
       admin: ebics_admin,
@@ -276,6 +313,24 @@ class AdminMailerPreview < ActionMailer::Preview
   end
 
   private
+
+  def preview_admin
+    Admin.new(
+      name: "John",
+      language: I18n.locale,
+      email: "admin@csa-admin.org")
+  end
+
+  # MessageDelivery renders on first use, after this method returns.
+  # Build the message before clearing the flag.
+  def with_demo_preview
+    Thread.current[:_demo_mode] = true
+    mail = yield
+    mail.message
+    mail
+  ensure
+    Thread.current[:_demo_mode] = false
+  end
 
   def ebics_admin
     Admin.new(
