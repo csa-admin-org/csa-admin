@@ -7,8 +7,10 @@ class InvoiceOverdueNotice
     new(*args).deliver
   end
 
-  def self.deliver_later(invoice)
-    Billing::InvoiceOverdueNoticeJob.perform_later(invoice)
+  def self.deliver_later(invoice, wait: nil)
+    job = Billing::InvoiceOverdueNoticeJob
+    job = job.set(wait: wait) if wait
+    job.perform_later(invoice)
   end
 
   def initialize(invoice)
@@ -27,6 +29,8 @@ class InvoiceOverdueNotice
     if invoice.overdue_notices_count == 3
       Admin.notify!(:invoice_third_overdue_notice, invoice: invoice)
     end
+  rescue ActiveRecord::StatementTimeout, ActiveRecord::Deadlocked
+    raise
   rescue => e
     Rails.error.report(e, context: {
       invoice_id: invoice.id,

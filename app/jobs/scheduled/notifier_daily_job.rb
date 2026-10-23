@@ -22,7 +22,9 @@ module Scheduled
     ].freeze
 
     def perform
-      NOTIFICATIONS.each(&:notify_later)
+      NOTIFICATIONS.each_with_index do |notification, index|
+        notification.notify_later(wait: index.seconds)
+      end
     end
   end
 end

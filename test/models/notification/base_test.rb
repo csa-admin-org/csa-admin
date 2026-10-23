@@ -37,6 +37,14 @@ class Notification::BaseTest < ActiveSupport::TestCase
     end
   end
 
+  test "notify_later can stagger the enqueue" do
+    freeze_time do
+      assert_enqueued_with(job: NotificationJob, at: 3.seconds.from_now) do
+        TestNotification.notify_later(wait: 3.seconds)
+      end
+    end
+  end
+
   test "NotificationJob executes the notification" do
     perform_enqueued_jobs do
       TestNotification.notify_later
