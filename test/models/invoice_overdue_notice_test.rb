@@ -167,6 +167,56 @@ class InvoiceOverdueNoticeTest < ActiveSupport::TestCase
     assert_equal 2, invoice.reload.overdue_notices_count
   end
 
+  test "lets StatementTimeout propagate so the job can retry" do
+    invoice = invoices(:annual_fee)
+    invoice.update!(sent_at: 40.days.ago)
+    recorder = ErrorRecorder.new
+
+    with_rails_error(recorder) do
+      invoice.stub(:save!, -> { raise ActiveRecord::StatementTimeout }) do
+        assert_raises(ActiveRecord::StatementTimeout) do
+          InvoiceOverdueNotice.new(invoice).deliver
+        end
+      end
+    end
+
+    assert_empty recorder.reports
+    assert_equal 0, invoice.reload.overdue_notices_count
+    assert_nil invoice.overdue_notice_sent_at
+  end
+
+  test "lets Deadlocked propagate so the job can retry" do
+    invoice = invoices(:annual_fee)
+    invoice.update!(sent_at: 40.days.ago)
+    recorder = ErrorRecorder.new
+
+    with_rails_error(recorder) do
+      invoice.stub(:save!, -> { raise ActiveRecord::Deadlocked }) do
+        assert_raises(ActiveRecord::Deadlocked) do
+          InvoiceOverdueNotice.new(invoice).deliver
+        end
+      end
+    end
+
+    assert_empty recorder.reports
+  end
+
+  test "reports unexpected errors without raising" do
+    invoice = invoices(:annual_fee)
+    invoice.update!(sent_at: 40.days.ago)
+    error = StandardError.new("boom")
+    recorder = ErrorRecorder.new
+
+    with_rails_error(recorder) do
+      invoice.stub(:save!, -> { raise error }) do
+        InvoiceOverdueNotice.new(invoice).deliver
+      end
+    end
+
+    assert_equal error, recorder.reports.first.first
+    assert_equal 0, invoice.reload.overdue_notices_count
+  end
+
   test "sends invoice_third_overdue_notice admin notification on third notice" do
     admin = admins(:ultra)
     admin.update!(notifications: [ "invoice_third_overdue_notice" ])

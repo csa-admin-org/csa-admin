@@ -6,8 +6,10 @@ class Notification::Base
       new.notify
     end
 
-    def notify_later
-      NotificationJob.perform_later(name)
+    def notify_later(wait: nil)
+      job = NotificationJob
+      job = job.set(wait: wait) if wait
+      job.perform_later(name)
     end
 
     def mail_template(title)

@@ -5,8 +5,8 @@ module Billing
     queue_as :default
 
     def perform
-      Invoice.open.find_each do |invoice|
-        InvoiceOverdueNoticeJob.perform_later(invoice)
+      Invoice.open.find_each.with_index do |invoice, index|
+        InvoiceOverdueNotice.deliver_later(invoice, wait: index.seconds)
       end
     end
   end
