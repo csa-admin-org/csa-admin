@@ -13,7 +13,8 @@ class Cap::Client
       name: name,
       instrumentation: instrumentation,
       blockAutomatedBrowsers: block_automated_browsers,
-      corsOrigins: cors_origins)
+      corsOrigins: cors_origins,
+      protocol: "sha256-pow")
   end
 
   def update_key_config(site_key:, instrumentation:, block_automated_browsers:, cors_origins:)

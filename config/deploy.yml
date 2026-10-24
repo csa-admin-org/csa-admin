@@ -74,15 +74,15 @@ accessories:
     cmd: "valkey-server --save 60 1 --loglevel warning --maxmemory-policy noeviction"
 
   cap:
-    image: tiago2/cap:3.1.9
+    image: tiago2/cap:3.1.17
     host: isle.thibaud.gg
     env:
       clear:
         REDIS_URL: redis://csa-admin-cap-valkey:6379
         RATELIMIT_IP_HEADER: cf-connecting-ip
         ENABLE_ASSETS_SERVER: "true"
-        WIDGET_VERSION: "0.1.56"
-        WASM_VERSION: "0.0.7"
+        WIDGET_VERSION: "0.1.58"
+        WASM_VERSION: "0.0.8"
       secret:
         - ADMIN_KEY
     directories:
@@ -93,7 +93,7 @@ accessories:
       app_port: 3000
       forward_headers: true
       healthcheck:
-        path: /
+        path: /health
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.

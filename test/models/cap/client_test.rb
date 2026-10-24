@@ -14,7 +14,8 @@ class Cap::ClientTest < ActiveSupport::TestCase
           name: "Acme (acme)",
           instrumentation: true,
           blockAutomatedBrowsers: true,
-          corsOrigins: [ "https://admin.acme.test", "https://members.acme.test" ]
+          corsOrigins: [ "https://admin.acme.test", "https://members.acme.test" ],
+          protocol: "sha256-pow"
         }.to_json)
       .to_return(status: 200, body: { siteKey: "site-key", secretKey: "secret-key" }.to_json)
 
@@ -42,7 +43,8 @@ class Cap::ClientTest < ActiveSupport::TestCase
             name: "Acme (acme)",
             instrumentation: true,
             blockAutomatedBrowsers: true,
-            corsOrigins: []
+            corsOrigins: [],
+            protocol: "sha256-pow"
           }.to_json)
         .to_return(status: 200, body: { siteKey: "site-key", secretKey: "secret-key" }.to_json)
 
