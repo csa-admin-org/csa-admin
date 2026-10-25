@@ -29,4 +29,12 @@ class ActivityParticipationsCalendarControllerTest < ActionDispatch::Integration
     assert_includes response.body, "Jane Doe"
     assert_includes response.body, "TZID:Europe/Zurich"
   end
+
+  test "renders during the autumn DST fallback hour" do
+    travel_to Time.zone.at(Time.utc(2024, 10, 27, 0, 1, 15))
+    ActivityParticipation.update_all(updated_at: Time.current)
+    request
+    assert_response :success
+    assert_includes response.body, "BEGIN:VTIMEZONE"
+  end
 end

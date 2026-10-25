@@ -16,7 +16,7 @@ cal.refresh_interval = "P1D"
 last_modified = @activity_participations.maximum(:updated_at) || Time.current
 tzid = Time.zone.tzinfo.name
 tz = TZInfo::Timezone.get(tzid)
-timezone = tz.ical_timezone(last_modified)
+timezone = tz.ical_timezone(last_modified.noon)
 cal.add_timezone timezone
 cal.last_modified = last_modified
 
