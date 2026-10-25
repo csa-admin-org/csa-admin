@@ -29,8 +29,6 @@ proxy:
     - query.csa-admin.org
     - inbound.csa-admin.org
     - connect.csa-admin.org
-    - app.csa-admin.org
-    - app.acp-admin.ch
 
     # Tenant hosts
     <%
