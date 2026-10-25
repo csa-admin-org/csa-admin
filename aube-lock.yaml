@@ -25,7 +25,7 @@ importers:
         version: 17.16.0(supports-color@10.2.2)
       stylelint-config-recommended:
         specifier: ^18.0.0
-        version: 18.0.0(stylelint@17.16.0)
+        version: 18.0.0(stylelint@17.16.0(supports-color@10.2.2))
 
 packages:
 
@@ -1572,7 +1572,7 @@ snapshots:
     dependencies:
       ansi-regex: 6.2.2
 
-  stylelint-config-recommended@18.0.0(stylelint@17.16.0):
+  stylelint-config-recommended@18.0.0(stylelint@17.16.0(supports-color@10.2.2)):
     dependencies:
       stylelint: 17.16.0(supports-color@10.2.2)
 
@@ -1614,6 +1614,7 @@ snapshots:
       table: 6.9.0
       write-file-atomic: 7.0.1
     transitivePeerDependencies:
+      - supports-color
       - typescript
 
   supports-color@10.2.2: {}
