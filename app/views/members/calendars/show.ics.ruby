@@ -14,7 +14,7 @@ cal.refresh_interval = "P1W"
 
 tzid = Time.zone.tzinfo.name
 tz = TZInfo::Timezone.get(tzid)
-timezone = tz.ical_timezone(@calendar_last_modified)
+timezone = tz.ical_timezone(@calendar_last_modified.noon)
 cal.add_timezone timezone
 cal.last_modified = @calendar_last_modified
 

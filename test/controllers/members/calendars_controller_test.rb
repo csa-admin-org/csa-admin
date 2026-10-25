@@ -143,4 +143,22 @@ class Members::CalendarsControllerTest < ActionDispatch::IntegrationTest
     assert_includes lines, "CLASS:PRIVATE"
     assert_includes lines, "DESCRIPTION:Participants: 2\\n\\nPicking vegetables\\n\\nCarpooling:\\n- +41 79 "
   end
+
+  test "renders during the autumn DST fallback hour" do
+    travel_to Time.zone.at(Time.utc(2024, 10, 27, 0, 1, 15))
+
+    request token: members(:martha).generate_token_for(:calendar)
+
+    assert_response :success
+    assert_includes response.body, "BEGIN:VTIMEZONE"
+  end
+
+  test "renders during the spring DST skipped hour" do
+    travel_to Time.zone.at(Time.utc(2024, 3, 31, 1, 1, 15))
+
+    request token: members(:martha).generate_token_for(:calendar)
+
+    assert_response :success
+    assert_includes response.body, "BEGIN:VTIMEZONE"
+  end
 end
