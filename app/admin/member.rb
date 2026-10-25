@@ -529,7 +529,7 @@ ActiveAdmin.register Member do
                   overlays.each do |overlay|
                     attrs = {}
                     attrs[:class] = "is-italic is-faint" unless overlay.next_delivery_date
-                    div **attrs do
+                    div(**attrs) do
                       if authorized?(:update, overlay)
                         a href: edit_home_delivery_address_path(overlay) do
                           display_home_delivery_address(overlay)

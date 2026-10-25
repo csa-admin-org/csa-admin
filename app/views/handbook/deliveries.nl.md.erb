@@ -10,7 +10,7 @@ De volgende levering evenals het aantal <%= Basket.model_name.human(count: 2).do
 
 Leveringen horen bij het **boekjaar** van je organisatie, niet bij het kalenderjaar. De startmaand staat in [de instellingen](/settings). Begint die in april, dan hoort een winterlevering in januari nog bij dat boekjaar, niet bij het volgende kalenderjaar.
 
-Als het lopende boekjaar al is begonnen, voegt een leveringsdatum in dat jaar 1 <%= Basket.model_name.human.downcase %> toe aan lidmaatschappen waarvan de cyclus die weekdag bevat, en herberekent ze. Maak de datums van het **volgende** boekjaar aan wanneer je de [vernieuwing](/handbook/membership_renewal#fiscal-year) voorbereidt. Maak niet ook het jaar daarna aan: het vernieuwingsformulier en de stilzwijgende vernieuwing bieden dan dat extra jaar aan.
+Als het lopende boekjaar al is begonnen, voegt een leveringsdatum in dat jaar 1 <%= Basket.model_name.human.downcase %> toe aan lidmaatschappen waarvan de cyclus die weekdag bevat, en herberekent ze. Maak de datums van het volgende boekjaar aan wanneer je de [vernieuwing](/handbook/membership_renewal#fiscal-year) voorbereidt. Het formulier accepteert een datum in het lopende boekjaar, en in het volgende zodra dat binnen 8 maanden begint. Niet verder. Vernieuwing volgt niet het laatst aangemaakte jaar: elk lidmaatschap wordt een jaar verlengd.
 <% if feature?("shop") %>
 
 Voor een eenmalig product gebruik je een [<%= Shop::SpecialDelivery.model_name.human.downcase %>](/shop_special_deliveries), geen nieuwe leveringsdatum.
@@ -143,7 +143,13 @@ Voor elke levering genereert CSA Admin PDF-bladen die je kunt afdrukken en gebru
 Elk depot kan een van twee bladmodi gebruiken (configureerbaar in de depotinstellingen):
 
 - **Handtekeningenblad** (standaard): Een checklist waar leden bij afhaling naast hun naam tekenen. Leden staan alfabetisch vermeld, met een kolom "Handtekening" rechts.
-- **Thuisleveringsblad**: Ontworpen voor bezorgers. Bevat het volledige adres van elk lid en hun leveringsnotitie (indien aanwezig) in de laatste kolom. De volgorde van leden kan handmatig worden aangepast via slepen en neerzetten in de depotinstellingen. Als een levering op bepaalde data bij iemand anders moet plaatsvinden, voeg je op de lidpagina een tijdelijk adres toe, niet door het adres van het lid te wijzigen. Leden van dat depot kunnen het ook zelf aankondigen op hun leveringspagina. De persoon aan de deur verschijnt vet met een donkerdere achtergrond op het PDF-blad en in het Excel-bestand. De naam op de lijst blijft die van het lid. De depot-e-mail markeert het met "tijdelijk adres" zodat de bezorger de bijlage opent. Bel en toegangscode blijven in de leveringsnotitie van het lid, tenzij het tijdelijke adres een eigen notitie heeft.
+- **Thuisleveringsblad**: Ontworpen voor bezorgers. Bevat het volledige adres van elk lid en hun leveringsnotitie (indien aanwezig) in de laatste kolom. Zie [Thuislevering](#home-delivery) voor een levering bij iemand anders.
+
+### Thuislevering {#home-delivery}
+
+De volgorde van leden op een thuisleveringsblad pas je aan door te slepen in de depotinstellingen.
+
+Als een levering op bepaalde data bij iemand anders moet plaatsvinden, voeg je op de lidpagina een tijdelijk adres toe. Wijzig niet het adres van het lid. Leden van dat depot kunnen het ook zelf aankondigen op hun leveringspagina. De persoon aan de deur verschijnt vet met een donkerdere achtergrond op het PDF-blad en in het Excel-bestand. De naam op de lijst blijft die van het lid. De depot-e-mail markeert het met "tijdelijk adres" zodat de bezorger de bijlage opent. Bel en toegangscode blijven in de leveringsnotitie van het lid, tenzij het tijdelijke adres een eigen notitie heeft.
 
 ### Ledeninformatie op bladen {#member-info}
 

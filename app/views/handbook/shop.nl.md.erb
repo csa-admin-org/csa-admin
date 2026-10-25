@@ -56,7 +56,7 @@ Het is ook mogelijk om **automatische facturering** van bestellingen te configur
 
 ### Gegroepeerde facturering {#group-invoicing}
 
-Stel een periode in bij [de winkelinstellingen](/settings#shop) om alle leden samen te factureren. Laat die leeg om elke bestelling apart te factureren, tenzij dat lid een eigen periode heeft. Zolang er een periode voor de organisatie is ingesteld, wordt de automatische facturering per bestelling niet gebruikt.
+Stel een periode in bij [de winkelinstellingen](/settings#shop) om alle leden samen te factureren. Laat die leeg om elke bestelling apart te factureren, tenzij dat lid een eigen periode heeft. Zolang er een periode voor de organisatie is ingesteld, wordt de automatische facturering per bestelling niet gebruikt. Maand en kwartaal volgen de kalender. Jaar betekent het kalenderjaar, niet het boekjaar: die bestellingen worden op 1 januari gefactureerd, ook als het boekjaar later begint.
 
 Op het lid, in de sectie Winkel, volgt een lege periode de organisatie. Als de organisatie een periode heeft, kan het lid alleen naar een andere periode wisselen.
 
@@ -110,10 +110,10 @@ Speciale leveringen stellen je in staat om aanvullende producten aan je leden aa
 
 Beschikbare producten kunnen afzonderlijk worden gedefinieerd voor elke speciale levering, de individuele instelling van de beschikbaarheid van elk product wordt genegeerd. De beschikbaarheid van varianten evenals de staat van hun voorraad worden echter altijd gerespecteerd.
 
-> Omdat speciale leveringen worden geleverd buiten leveringen van <%= Basket.model_name.human(count: 2).downcase %> om, staan ze open voor al je leden, actief of niet.
+> Een speciale levering valt buiten de gewone <%= Basket.model_name.human.downcase %>-datums. Een lid ziet haar alleen als ze open is voor de ophaalplek: het depot van het lidmaatschap, of het winkeldepot voor een lid zonder lidmaatschap. Een inactief lid zonder depot ziet haar niet. De depotlijst van de speciale levering geldt nog steeds.
 
 ## Winkel openen {#opening}
 
 Voordat leden bestellingen kunnen plaatsen, moet de winkel **geopend worden voor de gewenste leveringen** vanaf [de leveringenpagina](/deliveries). Dit kan in bulk met de groepsactie " Winkel openen ", of individueel door een levering te bewerken (waar je ook specifieke depots kunt selecteren). De winkel kan op dezelfde manier weer worden gesloten indien nodig.
 
-Leden met alleen een winkeldepot zijn [actief](/handbook/members#statuses) vanwege dat depot. Ze ontvangen [Lid geactiveerd](/mail_templates/member_activated) tenzij je [Winkeltoegang geactiveerd](/mail_templates/member_shop_depot_activated) gebruikt.
+Leden met alleen een winkeldepot zijn [actief](/handbook/members#statuses) vanwege dat depot. Een lid met een lopend of toekomstig lidmaatschap ontvangt [Lid geactiveerd](/mail_templates/member_activated). Een lid zonder lidmaatschap ontvangt in plaats daarvan [Winkeltoegang geactiveerd](/mail_templates/member_shop_depot_activated), en alleen als dat sjabloon aanstaat. Het staat uit tot je het aanzet. Laat het uit en deze leden krijgen geen welkomstmail.

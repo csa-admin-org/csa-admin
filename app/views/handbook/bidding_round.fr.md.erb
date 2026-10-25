@@ -6,7 +6,7 @@ Les montants proposés sont encadrés par des bornes (min/max) configurables.
 
 ## Prérequis {#requirements}
 
-- Les abonnements pour la nouvelle saison doivent être créés et la première livraison doit être dans le futur.
+- Le tour porte sur l'année fiscale en cours tant que la première livraison de cette année n'a pas eu lieu. Ensuite, il porte sur l'année fiscale suivante, qui doit déjà avoir des abonnements. Une première livraison passée ne bloque pas le tour à elle seule.
 - Un seul tour d'engagement peut être ouvert à la fois.
 
 > Les membres marqués comme "<%= Member.human_attribute_name(:salary_basket) %>" sont automatiquement exclus des tours d'engagement, puisque le prix de leur abonnement est mis à zéro.
@@ -42,10 +42,10 @@ Un rappel peut partir automatiquement tant que le tour d'engagement est ouvert, 
 
 Lorsque le tour d'engagement est terminé (succès), le prix par <%= Basket.model_name.human.downcase %> est mis à jour pour tous les abonnements ayant reçu une proposition. Les abonnements sans proposition ne sont pas modifiés.
 
-Un email automatique (optionnel) peut être envoyé à tous les membres éligibles, proposition ou non.
+Si [l'email de fin](/mail_templates/bidding_round_completed) est actif, il part vers chaque membre éligible, proposition ou non. Il est actif par défaut. Laissez-le inactif s'ils ne doivent pas le recevoir. Terminer le tour ne vous demande pas s'il faut l'envoyer.
 
 ## Clôturer (échec) {#close}
 
 Lorsque le tour d'engagement est clôturé (échec), aucune modification n'est apportée aux abonnements. Il est alors possible d'ouvrir un nouveau tour d'engagement afin de tenter de converger vers un prix acceptable pour l'ensemble des membres.
 
-Un email automatique (optionnel) peut être envoyé à tous les membres éligibles, proposition ou non.
+Si [l'email d'échec](/mail_templates/bidding_round_failed) est actif, il part vers chaque membre éligible, proposition ou non. Il est actif par défaut. Laissez-le inactif s'ils ne doivent pas le recevoir.

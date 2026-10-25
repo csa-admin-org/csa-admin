@@ -6,7 +6,7 @@ Voorgestelde bedragen worden beperkt door configureerbare min/max grenzen.
 
 ## Vereisten {#requirements}
 
-- Lidmaatschappen voor het nieuwe seizoen moeten zijn aangemaakt en de eerste levering moet in de toekomst liggen.
+- De ronde geldt voor het lopende boekjaar tot de eerste levering van dat jaar heeft plaatsgevonden. Daarna geldt ze voor het volgende boekjaar, dat eerst lidmaatschappen nodig heeft. Een verstreken eerste levering blokkeert de ronde niet op zich.
 - Er kan maar één biedronde tegelijk open zijn.
 
 > Leden gemarkeerd als "<%= Member.human_attribute_name(:salary_basket) %>" worden automatisch uitgesloten van biedrondes, aangezien hun lidmaatschapsprijs op nul is gezet.
@@ -42,10 +42,10 @@ Een herinnering kan automatisch vertrekken terwijl de biedronde open is, als [de
 
 Wanneer de biedronde wordt voltooid (succes), wordt de prijs per <%= Basket.model_name.human.downcase %> bijgewerkt voor alle lidmaatschappen die een bod hebben ontvangen. Lidmaatschappen zonder bod worden niet gewijzigd.
 
-Een automatische e-mail (optioneel) kan worden verzonden naar elk gerechtigd lid, met of zonder bod.
+Als [de afrondingsmail](/mail_templates/bidding_round_completed) actief is, gaat die naar elk gerechtigd lid, met of zonder bod. Hij staat standaard aan. Zet hem uit als ze de mail niet moeten krijgen. Afronden vraagt niet of de mail verstuurd wordt.
 
 ## Sluiten (falen) {#close}
 
 Wanneer de biedronde wordt gesloten (falen), wordt geen lidmaatschap gewijzigd. Je kunt dan een nieuwe biedronde openen om te proberen te convergeren naar een prijs die acceptabel is voor alle leden.
 
-Een automatische e-mail (optioneel) kan worden verzonden naar elk gerechtigd lid, met of zonder bod.
+Als [de faalmail](/mail_templates/bidding_round_failed) actief is, gaat die naar elk gerechtigd lid, met of zonder bod. Hij staat standaard aan. Zet hem uit als ze de mail niet moeten krijgen.

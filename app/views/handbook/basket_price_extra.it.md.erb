@@ -19,6 +19,8 @@ Una volta scelto il titolo dell'extra e un testo esplicativo (opzionale), puoi q
 0.0, 1.0, 1.5, 3.0, 5.0
 ~~~
 
+Lascia [Prezzo dinamico](/settings#basket_price_extra) vuoto, a meno che l'extra fatturato debba cambiare con la <%= BasketSize.model_name.human.downcase %> o i complementi. Quando il campo è compilato, le fatture usano il suo risultato. L'importo scelto dal socio è solo il punto di partenza.
+
 Successivamente, devi definire con quale etichetta saranno visualizzati i tuoi extra, per esempio utilizzando [la sintassi Liquid](https://shopify.github.io/liquid) seguente:
 
 ~~~ liquid
@@ -49,7 +51,7 @@ Questo darà questa presentazione più dettagliata (con 40 consegne):
 
 ## Rapporto {#report}
 
-L'importo totale di tutti gli extra è visualizzato in basso a destra della [lista degli abbonamenti](/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&order=started_on_desc), sotto i filtri. Non dimenticare di filtrare gli abbonamenti per anno fiscale per avere l'importo corretto.
+L'importo totale di tutti gli extra è visualizzato in basso a destra della [lista degli abbonamenti](/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&order=started_on_desc), sotto i filtri. Non dimenticare di filtrare gli abbonamenti per anno fiscale per avere l'importo corretto. Quel totale è ciò che i soci hanno scelto. Se Prezzo dinamico è compilato, le fatture possono mostrare un altro importo.
 
 Puoi facilmente filtrare [la lista degli abbonamenti](/memberships?q%5Bbasket_price_extra_gt%5D=0&order=started_on_desc) con un extra utilizzando il filtro a destra previsto a questo scopo. Questa informazione si trova anche nell'[esportazione CSV degli abbonamenti](/memberships.csv).
 

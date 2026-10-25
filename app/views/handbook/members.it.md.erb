@@ -30,7 +30,7 @@ Per rendere attivo un socio in lista d'attesa, clicca su "Attivare" in alto a de
 
 Un socio è considerato attivo se possiede un abbonamento per l'anno fiscale in corso o futuro.<% if Current.org.feature?("shop") %> Un socio che possiede un deposito definito per gli ordini della bottega è anch'esso considerato attivo.<% end %>
 
-Terminare o eliminare l'abbonamento in corso non rende sempre il socio inattivo. Resta attivo con un abbonamento futuro<% if Current.org.feature?("shop") %> o un deposito bottega<% end %>. Altrimenti passa a supporto se è impostata la quota annuale di rinnovo dell'ultimo abbonamento<% if Current.org.feature?("shares") %>, o se possiede ancora quote sociali<% end %>.
+Terminare o eliminare l'abbonamento in corso non rende sempre il socio inattivo. Resta attivo con un abbonamento futuro<% if Current.org.feature?("shop") %> o un deposito bottega<% end %>. Altrimenti passa a supporto se la quota annuale di rinnovo dell'ultimo abbonamento è superiore a zero<% if Current.org.feature?("shares") %>, o se possiede ancora quote sociali<% end %>. Una quota a 0 non basta.
 
 ### Support
 

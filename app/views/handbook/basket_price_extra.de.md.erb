@@ -19,6 +19,8 @@ Nachdem Du den Titel des Extras und einen (optionalen) Erklärungstext gewählt 
 0.0, 1.0, 1.5, 3.0, 5.0
 ~~~
 
+Lass [Dynamischer Preis](/settings#basket_price_extra) leer, ausser das abgerechnete Extra soll sich mit der <%= BasketSize.model_name.human %> oder den Ergänzungen ändern. Ist das Feld gefüllt, nutzen die Rechnungen sein Ergebnis. Der vom Mitglied gewählte Betrag ist nur der Ausgangswert.
+
 Anschliessend musst Du definieren, mit welchem Label Deine Extras angezeigt werden, zum Beispiel mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid):
 
 ~~~ liquid
@@ -49,7 +51,7 @@ Dies ergibt diese detailliertere Darstellung (bei 40 Lieferungen):
 
 ## Bericht {#report}
 
-Der Gesamtbetrag aller Extras wird unten rechts in [der Abonnementsliste](/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&order=started_on_desc), unterhalb der Filter angezeigt. Vergiss nicht, die Abonnements nach Geschäftsjahr zu filtern, um den richtigen Betrag zu erhalten.
+Der Gesamtbetrag aller Extras wird unten rechts in [der Abonnementsliste](/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&order=started_on_desc), unterhalb der Filter angezeigt. Vergiss nicht, die Abonnements nach Geschäftsjahr zu filtern, um den richtigen Betrag zu erhalten. Diese Summe ist, was die Mitglieder gewählt haben. Ist Dynamischer Preis gesetzt, können die Rechnungen einen anderen Betrag zeigen.
 
 Du kannst [die Abonnementsliste](/memberships?q%5Bbasket_price_extra_gt%5D=0&order=started_on_desc) mit einem Extra leicht mit dem dafür vorgesehenen Filter auf der rechten Seite filtern. Diese Information findet sich auch im [CSV-Export der Abonnements](/memberships.csv).
 

@@ -10,7 +10,7 @@ The next delivery as well as its number of <%= Basket.model_name.human(count: 2)
 
 Deliveries belong to your organization's **fiscal year**, not the calendar year. The start month is set in [the settings](/settings). If it starts in April, a January winter delivery still belongs to that fiscal year, not to the next calendar year.
 
-When the current fiscal year has already started, adding a delivery date in that year adds one <%= Basket.model_name.human.downcase %> to memberships whose cycle includes that weekday, and re-bills them. Create dates for the **next** fiscal year when you prepare [renewal](/handbook/membership_renewal#fiscal-year). Do not also create the year after that: the renewal form and tacit renew then offer that extra year.
+When the current fiscal year has already started, adding a delivery date in that year adds one <%= Basket.model_name.human.downcase %> to memberships whose cycle includes that weekday, and re-bills them. Create dates for the next fiscal year when you prepare [renewal](/handbook/membership_renewal#fiscal-year). The form accepts a date in the current fiscal year, and in the next one once that year starts within 8 months. It will not take the year after that, and creating it would not change which year renewal uses.
 <% if feature?("shop") %>
 
 For a one-off product, use a [<%= Shop::SpecialDelivery.model_name.human.downcase %>](/shop_special_deliveries) instead of a new delivery date.
@@ -141,7 +141,13 @@ For each delivery, CSA Admin generates PDF sheets that you can print and use at 
 Each depot can use one of two sheet modes (configurable in the depot settings):
 
 - **Signature sheet** (default): A checklist where members sign next to their name upon pickup. Members are listed alphabetically, with a "Signature" column on the right.
-- **Home delivery sheet**: Designed for delivery drivers. Includes each member's full address and their delivery note (if any) in the last column. Members can be manually reordered via drag & drop in the depot settings. When a drop is at someone else's for specific deliveries, add a temporary address from the member page, not by editing the member's address. Members on that depot can also announce it from their deliveries page. The host appears in bold with a darker fill on the PDF sheet and in the Excel file. The name on the list stays the member's. The depot email flags it with "temporary address" so the driver opens the attachment. Doorbell or access codes stay on the member's delivery note unless the temporary address has its own note.
+- **Home delivery sheet**: Designed for delivery drivers. Includes each member's full address and their delivery note (if any) in the last column. See [Home delivery](#home-delivery) for a drop at someone else's.
+
+### Home delivery {#home-delivery}
+
+Members on a home delivery sheet can be reordered by drag and drop in the depot settings.
+
+When a drop is at someone else's for specific deliveries, add a temporary address from the member page. Do not edit the member's own address. Members on that depot can also announce it from their deliveries page. The host appears in bold with a darker fill on the PDF sheet and in the Excel file. The name on the list stays the member's. The depot email flags it with "temporary address" so the driver opens the attachment. Doorbell or access codes stay on the member's delivery note unless the temporary address has its own note.
 
 ### Member info on sheets {#member-info}
 

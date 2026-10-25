@@ -56,7 +56,7 @@ Es ist auch möglich, die **automatische Abrechnung** der Bestellungen in [den H
 
 ### Gruppierte Abrechnung {#group-invoicing}
 
-Einen Zeitraum stellst Du in [den Hofladeneinstellungen](/settings#shop) ein, um alle Mitglieder gemeinsam abzurechnen. Lass ihn leer, um jede Bestellung einzeln abzurechnen, ausser dieses Mitglied hat einen eigenen Zeitraum. Solange ein Zeitraum für die Organisation gesetzt ist, wird die automatische Abrechnung pro Bestellung nicht verwendet.
+Einen Zeitraum stellst Du in [den Hofladeneinstellungen](/settings#shop) ein, um alle Mitglieder gemeinsam abzurechnen. Lass ihn leer, um jede Bestellung einzeln abzurechnen, ausser dieses Mitglied hat einen eigenen Zeitraum. Solange ein Zeitraum für die Organisation gesetzt ist, wird die automatische Abrechnung pro Bestellung nicht verwendet. Monat und Quartal folgen dem Kalender. Jahr meint das Kalenderjahr, nicht das Geschäftsjahr: diese Bestellungen werden am 1. Januar abgerechnet, auch wenn das Geschäftsjahr später beginnt.
 
 Am Mitglied, im Abschnitt Hofladen, folgt ein leerer Zeitraum der Organisation. Hat die Organisation einen Zeitraum, kann das Mitglied nur einen anderen Zeitraum wählen.
 
@@ -110,10 +110,10 @@ Sonderlieferungen ermöglichen es Dir, Deinen Mitgliedern zusätzliche Produkte 
 
 Verfügbare Produkte können separat für jede Sonderlieferung definiert werden, die individuelle Einstellung der Verfügbarkeit jedes Produkts wird ignoriert. Die Verfügbarkeit der Varianten sowie der Zustand ihres Bestands werden jedoch immer respektiert.
 
-> Da Sonderlieferungen ausserhalb der Lieferungen von <%= Basket.model_name.human(count: 2) %> geliefert werden, sind sie für alle Deine Mitglieder, aktiv oder nicht, zugänglich.
+> Eine Sonderlieferung liegt ausserhalb der üblichen <%= Basket.model_name.human %>-Termine. Ein Mitglied sieht sie nur, wenn sie für seinen Abholort geöffnet ist: das Depot des Abonnements, oder das Hofladen-Depot für ein Mitglied ohne Abonnement. Ein inaktives Mitglied ohne Depot sieht sie nicht. Die Depotliste der Sonderlieferung gilt weiterhin.
 
 ## Hofladen öffnen {#opening}
 
 Bevor Mitglieder Bestellungen aufgeben können, muss der Hofladen für die gewünschten Lieferungen **geöffnet** werden über [die Lieferungsseite](/deliveries). Dies kann über die Gruppenaktion " Hofladen öffnen " im Stapel oder einzeln durch Bearbeiten einer Lieferung (wo auch bestimmte Depots ausgewählt werden können) erfolgen. Der Hofladen kann bei Bedarf auf die gleiche Weise wieder geschlossen werden.
 
-Mitglieder mit nur einem Hofladen-Depot sind [aktiv](/handbook/members#statuses) wegen dieses Depots. Sie erhalten [Mitglied aktiviert](/mail_templates/member_activated), ausser Du nutzt [Hofladen-Zugang aktiviert](/mail_templates/member_shop_depot_activated).
+Mitglieder mit nur einem Hofladen-Depot sind [aktiv](/handbook/members#statuses) wegen dieses Depots. Ein Mitglied mit laufendem oder künftigem Abonnement erhält [Mitglied aktiviert](/mail_templates/member_activated). Ein Mitglied ohne Abonnement erhält stattdessen [Hofladen-Zugang aktiviert](/mail_templates/member_shop_depot_activated), und nur wenn diese Vorlage aktiv ist. Sie ist aus, bis Du sie einschaltest. Bleibt sie aus, bekommen diese Mitglieder keine Begrüssungsmail.

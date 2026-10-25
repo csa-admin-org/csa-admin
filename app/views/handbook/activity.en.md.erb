@@ -1,4 +1,4 @@
-# Member Participation
+# <%= activities_human_name %>
 
 This feature allows you to manage activities and member participation in them. These participations can be optional or mandatory and can be billed or not.
 
@@ -132,7 +132,7 @@ Exempt one depot, keep the default formula otherwise:
 
 Members can sign up for activities from their member account, even if they don't have an active membership. This allows inactive members to participate in activities on a voluntary basis without commitment. They can also see the activities they are signed up for, as well as the participations they have completed and their validations.
 
-When signing up, the member can specify the number of participants, add a note, and choose to share their phone number and departure city for carpooling. This allows a member to register multiple people at once (e.g., family members or friends coming to help). Each participant counts as one participation towards the member's required total.
+When signing up, the member can specify the number of participants, add a note, and choose to share their phone number and departure city for carpooling. This allows a member to register multiple people at once (e.g., family members or friends coming to help). Each person counts as one participation as soon as they sign up, and fills that many places on the activity. A signup of 3 counts as 3 right away. Validating the participation does not add it. Rejecting it removes those counts and frees the places.
 
 <% activity_reminder_days = MailTemplate.delay_in_days_for("activity_participation_reminder") %>
 If the member opts to share carpooling information, it is included in [the reminder email](/mail_templates/activity_participation_reminder), sent <%= activity_reminder_days %> days before the activity, alongside the contact details of the other participants who also opted in. The delay is set on that email.
@@ -159,8 +159,8 @@ Activity sign-ups made by members are visible from [the participations list](/ac
 
 Participations in activities (of the same day or past) can be validated or rejected by admins. Members will then receive an email [of confirmation](/mail_templates/activity_participation_validated) or [of rejection](/mail_templates/activity_participation_rejected) of their participation.
 
-- **Validate**: The member showed up and completed the activity. The participation counts towards their required total.
-- **Reject**: The member did not show up or left early. The participation does not count, and the activity slot becomes available again for other members to sign up.
+- **Validate**: The member showed up and completed the activity. The count was already taken at signup. Validation does not add to it.
+- **Reject**: The member did not show up or left early. Those counts come off the required total, and the places become available again for other members to sign up.
 
 To validate or reject participations, you can either use the batch actions from [the participations list](/activity_participations?scope=pending) (select one or more participations, then choose the action), or use the action buttons directly from a pending participation's detail page.
 

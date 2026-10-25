@@ -53,7 +53,7 @@ Le [<%= BasketSize.model_name.human(count: 2).downcase %>](/basket_sizes) sono i
 - **Nome**: Ciò che i soci vedono (es. "Piccola", "Famiglia"). Un nome auto-esplicativo aiuta: "Piccola (1–2 persone)" è più chiaro di semplicemente "Piccola".
 - **Descrizione**: Sostituisce il testo generato automaticamente (prezzo × consegne). Utile quando il testo predefinito non corrisponde esattamente a ciò di cui hai bisogno.
 - **Visibilità**: Rendi una <%= BasketSize.model_name.human.downcase %> invisibile se è riservata agli admin (es. una tariffa speciale). Le dimensioni invisibili non appariranno nel modulo.
-- **Ordine di visualizzazione**: Controllato dall'[impostazione della modalità di ordinamento](/settings#registration), per nome, per prezzo o per priorità personalizzata.
+- **Ordine di visualizzazione**: Impostato nella [modalità di ordinamento](/settings#registration): alfabetico, o per prezzo (crescente o decrescente), poi alfabetico. "Priorità d'ordine" sulla misura è un campo a parte. Vedi [Impostazioni dell'ordine di visualizzazione](#order-settings).
 
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
@@ -94,7 +94,7 @@ Se la tua organizzazione ha molti depositi (8 o più), i [gruppi di depositi](/d
 
 - **Esempi di gruppi**: "Ritiro in fattoria", "Punti di distribuzione in città", "Consegna a domicilio"
 - **Testo informativo**: Testo opzionale visualizzato sopra i depositi del gruppo. Un buon posto per informazioni condivise come orari di ritiro o istruzioni generali. Una frase è generalmente sufficiente.
-- **Priorità d'ordine**: Controlla quale gruppo appare per primo.
+- **Priorità d'ordine**: Prima posizione, Nessuna, o Ultima posizione. Stesso campo che su un deposito. Vedi [Impostazioni dell'ordine di visualizzazione](#order-settings).
 
 Senza gruppi, un elenco piatto di 15+ depositi può sembrare scoraggiante. I gruppi aiutano i soci a orientarsi rapidamente e poi scegliere un luogo specifico.
 
@@ -150,14 +150,14 @@ Per ciascuno, fornisci un URL che punta al documento sul tuo sito web. Quando un
 
 Diversi elementi del modulo possono essere riordinati:
 
-| Elemento | Impostazione | Opzioni |
-|----------|-------------|---------|
-| <%= BasketSize.model_name.human(count: 2) %> | [Modalità di ordinamento](/settings#registration) | Nome, prezzo (asc/desc), priorità |
-| <%= BasketComplement.model_name.human(count: 2) %> | [Modalità di ordinamento](/settings#registration) | Nome, prezzo (asc/desc), priorità |
-| Depositi | [Modalità di ordinamento](/settings#registration) | Nome, prezzo (asc/desc), priorità |
-| Cicli di consegne | [Modalità di ordinamento](/settings#registration) | Nome, priorità |
+| Elemento | [Modalità di ordinamento](/settings#registration) |
+|----------|---------|
+| <%= BasketSize.model_name.human(count: 2) %> | Alfabetico, o per prezzo (crescente o decrescente), poi alfabetico |
+| <%= BasketComplement.model_name.human(count: 2) %> | Alfabetico, per prezzo, o per numero di consegne. Prezzo e consegne possono essere crescenti o decrescenti. A parità torna l'ordine alfabetico. |
+| Depositi | Alfabetico, o per prezzo (crescente o decrescente), poi alfabetico |
+| Cicli di consegne | Alfabetico, per numero di consegne (crescente o decrescente), o per giorni della settimana, poi per numero di consegne (decrescente), poi alfabetico |
 
-In modalità "priorità", imposta il campo "Priorità d'ordine" su ogni elemento. I valori più bassi appaiono per primi.
+"Priorità d'ordine" non è una modalità. Su una misura, un complemento, un deposito, un ciclo o un gruppo di depositi è un campo a parte: Prima posizione, Nessuna, o Ultima posizione. Prima posizione viene prima della modalità. Ultima posizione viene dopo. Nessuna segue solo la modalità. Il valore predefinito è Nessuna.
 
 ## Alcuni consigli {#tips}
 

@@ -74,11 +74,11 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     assert match, "Expected a heading match for H3 'Manual import'"
   end
 
-  test "content_search finds extra year deliveries trap on the renewal page" do
-    results = Handbook.content_search("year after that", locale: :en)
+  test "content_search finds renewal continues one year forward" do
+    results = Handbook.content_search("check the year filter first", locale: :en)
 
     match = results.find { |r| r[:name] == "membership_renewal" }
-    assert match, "Expected a content match for the extra-year deliveries trap"
+    assert match, "Expected a content match for the renewal year filter"
   end
 
   test "content_search finds delivery fiscal year explanation" do

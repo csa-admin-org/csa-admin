@@ -56,7 +56,7 @@ Il est également possible de configurer la **facturation automatique** des comm
 
 ### Facturation groupée {#group-invoicing}
 
-Définissez une période dans [les paramètres de l'épicerie](/settings#shop) pour facturer tous les membres ensemble. Laissez-la vide pour facturer chaque commande, sauf si ce membre a sa propre période. Tant qu'une période est définie pour l'organisation, le délai de facturation automatique par commande n'est pas utilisé.
+Définissez une période dans [les paramètres de l'épicerie](/settings#shop) pour facturer tous les membres ensemble. Laissez-la vide pour facturer chaque commande, sauf si ce membre a sa propre période. Tant qu'une période est définie pour l'organisation, le délai de facturation automatique par commande n'est pas utilisé. Le mois et le trimestre suivent le calendrier. Année veut dire l'année civile, pas l'année fiscale: ces commandes sont facturées le 1er janvier, même si l'année fiscale commence plus tard.
 
 Sur le membre, dans la section épicerie, une période vide suit l'organisation. Quand l'organisation a une période, le membre ne peut choisir qu'une autre période.
 
@@ -110,10 +110,10 @@ Les livraisons spéciales vous permettent de proposer des produits supplémentai
 
 Les produits disponibles peuvent être définis séparément pour chaque livraison spéciale, le réglage individuel de la disponibilité de chaque produit est ignoré. Par contre, la disponibilité des variantes ainsi que l'état de leur stock sont toujours respectés.
 
-> Comme les livraisons spéciales sont livrées en dehors des livraisons de <%= Basket.model_name.human(count: 2).downcase %>, elles sont ouvertes à tous vos membres actifs ou non.
+> Une livraison spéciale est en dehors des dates de <%= Basket.model_name.human.downcase %> habituelles. Un membre la voit seulement si elle est ouverte pour son lieu de retrait: le dépôt de l'abonnement, ou le dépôt d'épicerie pour un membre sans abonnement. Un membre inactif sans dépôt ne la voit pas. La liste des dépôts de la livraison spéciale s'applique toujours.
 
 ## Ouverture de l'épicerie {#opening}
 
 Avant que les membres puissent passer des commandes, l'épicerie doit être **ouverte pour les livraisons souhaitées** depuis [la page des livraisons](/deliveries). Cela peut être fait par lot avec l'action groupée "Ouvrir l'épicerie", ou individuellement en éditant une livraison (où vous pouvez également sélectionner des dépôts spécifiques). L'épicerie peut être refermée de la même manière au besoin.
 
-Les membres avec seulement un dépôt épicerie sont [actifs](/handbook/members#statuses) à cause de ce dépôt. Ils reçoivent [Membre activé](/mail_templates/member_activated) sauf si vous utilisez [Accès épicerie activé](/mail_templates/member_shop_depot_activated).
+Les membres avec seulement un dépôt épicerie sont [actifs](/handbook/members#statuses) à cause de ce dépôt. Un membre avec un abonnement en cours ou à venir reçoit [Membre activé](/mail_templates/member_activated). Un membre sans abonnement reçoit [Accès épicerie activé](/mail_templates/member_shop_depot_activated) à la place, et seulement si ce modèle est actif. Il est inactif tant que vous ne l'activez pas. Laissez-le inactif et ces membres ne reçoivent pas d'email de bienvenue.

@@ -3712,11 +3712,11 @@ _:
           _it: Questa consegna e tutte le borse degli abbonamenti il cui ciclo di consegne la include saranno eliminate definitivamente. Questi abbonamenti saranno aggiornati e la loro fatturazione potrebbe cambiare. Anche i contenuti delle borse e gli ordini della bottega collegati saranno eliminati. Continuare?
           _nl: Deze levering en alle tassen van lidmaatschappen waarvan de leveringscyclus deze bevat, worden permanent verwijderd. Deze lidmaatschappen worden bijgewerkt en de facturatie kan veranderen. Tasinhoud en gekoppelde winkelbestellingen worden ook verwijderd. Doorgaan?
         extra_fiscal_year_warning_html:
-          _en: <strong>Warning:</strong> Creating deliveries in fiscal year %{year} makes renewal target that year. Create only the next fiscal year. <a href="/handbook/membership_renewal#fiscal-year">Learn more</a>
-          _fr: <strong>Attention:</strong> Créer des livraisons en année fiscale %{year} fait viser le renouvellement cette année-là. Créez uniquement l'année fiscale suivante. <a href="/handbook/membership_renewal#fiscal-year">En savoir plus</a>
-          _de: <strong>Achtung:</strong> Lieferungen im Geschäftsjahr %{year} zu erstellen, lässt die Erneuerung auf dieses Jahr zielen. Nur das nächste Geschäftsjahr erstellen. <a href="/handbook/membership_renewal#fiscal-year">Mehr erfahren</a>
-          _it: <strong>Attenzione:</strong> Creare consegne nell'anno fiscale %{year} fa puntare il rinnovo a quell'anno. Creare solo il prossimo anno fiscale. <a href="/handbook/membership_renewal#fiscal-year">Per saperne di più</a>
-          _nl: <strong>Waarschuwing:</strong> Leveringen in boekjaar %{year} aanmaken laat vernieuwing op dat jaar richten. Maak alleen het volgende boekjaar aan. <a href="/handbook/membership_renewal#fiscal-year">Meer informatie</a>
+          _en: Deliveries already exist in fiscal year %{year}. Renewal does not use them. It continues each membership one year forward. <a href="/handbook/membership_renewal#fiscal-year">Learn more</a>
+          _fr: Des livraisons existent déjà pour l'année fiscale %{year}. Le renouvellement ne les utilise pas. Il prolonge chaque abonnement d'un an. <a href="/handbook/membership_renewal#fiscal-year">En savoir plus</a>
+          _de: Lieferungen existieren bereits im Geschäftsjahr %{year}. Die Erneuerung nutzt sie nicht. Sie verlängert jedes Abonnement um ein Jahr. <a href="/handbook/membership_renewal#fiscal-year">Mehr erfahren</a>
+          _it: Esistono già consegne per l'anno fiscale %{year}. Il rinnovo non le usa. Prolunga ogni abbonamento di un anno. <a href="/handbook/membership_renewal#fiscal-year">Per saperne di più</a>
+          _nl: Er bestaan al leveringen voor boekjaar %{year}. Vernieuwing gebruikt ze niet. Elk lidmaatschap wordt een jaar verlengd. <a href="/handbook/membership_renewal#fiscal-year">Meer informatie</a>
         fiscal_year_guidance_html:
           _en: The date of a delivery sets its fiscal year, which is not always the calendar year. <a href="/handbook/deliveries#fiscal-year">Learn more</a>
           _fr: La date d'une livraison fixe son année fiscale, qui n'est pas toujours l'année civile. <a href="/handbook/deliveries#fiscal-year">En savoir plus</a>

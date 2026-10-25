@@ -30,7 +30,7 @@ Om een lid op de wachtlijst actief te maken, klik je rechtsboven op de pagina va
 
 Een actief lid is iemand die een lidmaatschap heeft voor het huidige of toekomstige boekjaar.<% if Current.org.feature?("shop") %> Een lid dat een gedefinieerd depot heeft voor bestellingen bij de winkel wordt ook als actief beschouwd.<% end %>
 
-Het beëindigen of verwijderen van het huidige lidmaatschap maakt het lid niet altijd inactief. Ze blijven actief met een toekomstig lidmaatschap<% if Current.org.feature?("shop") %> of een winkeldepot<% end %>. Anders worden ze ondersteunend lid als de jaarlijkse bijdrage van de vernieuwing van het laatste lidmaatschap is ingesteld<% if Current.org.feature?("shares") %>, of als ze nog aandelen hebben<% end %>.
+Het beëindigen of verwijderen van het huidige lidmaatschap maakt het lid niet altijd inactief. Ze blijven actief met een toekomstig lidmaatschap<% if Current.org.feature?("shop") %> of een winkeldepot<% end %>. Anders worden ze ondersteunend lid als de jaarlijkse bijdrage van de vernieuwing van het laatste lidmaatschap boven nul ligt<% if Current.org.feature?("shares") %>, of als ze nog aandelen hebben<% end %>. Een bijdrage van 0 is niet genoeg.
 
 ### Ondersteuning
 

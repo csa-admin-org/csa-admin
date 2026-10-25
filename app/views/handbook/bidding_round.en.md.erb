@@ -6,7 +6,7 @@ Pledged amounts are constrained by configurable min/max bounds.
 
 ## Requirements {#requirements}
 
-- Memberships for the new season must be created and the first delivery must be in the future.
+- The round is for the current fiscal year until that year's first delivery has happened. After that, it is for the next fiscal year, which needs memberships first. A past first delivery does not by itself block a round.
 - Only one bidding round can be open at a time.
 
 > Members flagged as "<%= Member.human_attribute_name(:salary_basket) %>" are automatically excluded from bidding rounds, since their membership price is zeroed out.
@@ -42,10 +42,10 @@ A reminder can be sent automatically while the bidding round is open, if [the re
 
 When the bidding round is finished (success), the price per <%= Basket.model_name.human.downcase %> is updated for all memberships that received a pledge. Memberships without a pledge are not modified.
 
-An automatic email (optional) can be sent to every eligible member, pledge or not.
+If [the completion email](/mail_templates/bidding_round_completed) is active, it goes to every eligible member, pledge or not. It is on by default. Leave it inactive if they should not get it. There is no separate send choice when you finish the round.
 
 ## Close (failure) {#close}
 
 When the bidding round is closed (failure), no membership is modified. You can then open a new bidding round to try to converge on a price acceptable to all members.
 
-An automatic email (optional) can be sent to every eligible member, pledge or not.
+If [the failure email](/mail_templates/bidding_round_failed) is active, it goes to every eligible member, pledge or not. It is on by default. Leave it inactive if they should not get it.

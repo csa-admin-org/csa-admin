@@ -56,7 +56,7 @@ It's also possible to configure **automatic billing** of orders, from [the shop 
 
 ### Grouped invoicing {#group-invoicing}
 
-Set a period in the [shop settings](/settings#shop) to invoice every member together. Leave it blank to invoice each order, unless that member has a period of their own. While an organization period is set, the per-order automatic delay is not used.
+Set a period in the [shop settings](/settings#shop) to invoice every member together. Leave it blank to invoice each order, unless that member has a period of their own. While an organization period is set, the per-order automatic delay is not used. Month and quarter follow the calendar. Year means the calendar year, not the fiscal year: those orders are invoiced on 1 January, even if the fiscal year starts later.
 
 On the member, in the shop section, a blank period follows the organization. When the organization has a period, the member can only switch to another period.
 
@@ -110,10 +110,10 @@ Special deliveries allow you to offer additional products to your members outsid
 
 Available products can be defined separately for each special delivery, the individual setting of the availability of each product is ignored. However, the availability of variants as well as the state of their stock are always respected.
 
-> As special deliveries are delivered outside of <%= Basket.model_name.human.downcase %> deliveries, they are open to all your members, active or not.
+> A special delivery sits outside the regular <%= Basket.model_name.human.downcase %> dates. A member sees it only when it is open for their pickup depot: the membership depot, or the shop depot for a member without a membership. An inactive member with no depot does not see it. The depot list on the special delivery still applies.
 
 ## Opening the shop {#opening}
 
 Before members can place orders, the shop must be **opened on the desired deliveries** from [the deliveries page](/deliveries). This can be done in batches using the "Open shop" group action, or individually by editing a delivery (where you can also select specific depots). The shop can be closed again the same way if needed.
 
-Members with only a shop depot are [active](/handbook/members#statuses) because of that depot. They receive [Member activated](/mail_templates/member_activated) unless you use [Shop access activated](/mail_templates/member_shop_depot_activated).
+Members with only a shop depot are [active](/handbook/members#statuses) because of that depot. A member with a current or future membership receives [Member activated](/mail_templates/member_activated). A shop-only member receives [Shop access activated](/mail_templates/member_shop_depot_activated) instead, and only if that template is on. It is off until you turn it on. Leave it off and those members get no welcome mail.

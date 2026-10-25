@@ -10,7 +10,7 @@ Die nächste Lieferung sowie die Anzahl ihrer <%= Basket.model_name.human(count:
 
 Lieferungen gehören zum **Geschäftsjahr** Deiner Organisation, nicht zum Kalenderjahr. Der Startmonat wird in [den Einstellungen](/settings) festgelegt. Beginnt er im April, gehört eine Winterlieferung im Januar noch zu diesem Geschäftsjahr, nicht zum nächsten Kalenderjahr.
 
-Wenn das laufende Geschäftsjahr bereits begonnen hat, fügt ein Lieferdatum in diesem Jahr den Abonnements, deren Zyklus diesen Wochentag enthält, 1 <%= Basket.model_name.human %> hinzu und rechnet sie neu ab. Lege die Daten des **nächsten** Geschäftsjahres an, wenn Du die [Erneuerung](/handbook/membership_renewal#fiscal-year) vorbereitest. Nicht auch das Jahr danach: das Erneuerungsformular und die stillschweigende Erneuerung bieten dann dieses Extra-Jahr an.
+Wenn das laufende Geschäftsjahr bereits begonnen hat, fügt ein Lieferdatum in diesem Jahr den Abonnements, deren Zyklus diesen Wochentag enthält, 1 <%= Basket.model_name.human %> hinzu und rechnet sie neu ab. Lege die Daten des nächsten Geschäftsjahres an, wenn Du die [Erneuerung](/handbook/membership_renewal#fiscal-year) vorbereitest. Das Formular nimmt ein Datum im laufenden Geschäftsjahr an, und im nächsten, sobald dieses innerhalb von 8 Monaten beginnt. Nicht darüber hinaus. Die Erneuerung folgt nicht dem letzten angelegten Jahr: sie verlängert jedes Abonnement um ein Jahr.
 <% if feature?("shop") %>
 
 Für ein Einzelprodukt verwendest Du eine [<%= Shop::SpecialDelivery.model_name.human %>](/shop_special_deliveries), kein neues Lieferdatum.
@@ -141,7 +141,13 @@ Für jede Lieferung generiert CSA Admin PDF-Lieferscheine, die Du ausdrucken und
 Jedes Depot kann einen von zwei Blattmodi verwenden (konfigurierbar in den Depot-Einstellungen):
 
 - **Unterschriftenblatt** (Standard): Eine Checkliste, bei der Mitglieder bei der Abholung neben ihrem Namen unterschreiben. Mitglieder sind alphabetisch aufgelistet, mit einer Spalte "Unterschrift" rechts.
-- **Hauslieferungsblatt**: Für Lieferfahrer konzipiert. Enthält die vollständige Adresse jedes Mitglieds und seine Liefernotiz (falls vorhanden) in der letzten Spalte. Die Reihenfolge der Mitglieder kann in den Depot-Einstellungen manuell per Drag & Drop geändert werden. Wenn eine Lieferung an bestimmten Daten bei jemand anderem erfolgen soll, füge auf der Mitgliedsseite eine temporäre Adresse hinzu, nicht indem Du die Adresse des Mitglieds änderst. Mitglieder dieses Depots können das auch selbst auf ihrer Lieferungsseite ankündigen. Die Person an der Tür erscheint fett mit dunklerem Hintergrund auf dem PDF-Blatt und in der Excel-Datei. Der Name auf der Liste bleibt der des Mitglieds. Die Depot-E-Mail kennzeichnet das mit "temporäre Adresse", damit der Fahrer den Anhang öffnet. Klingel und Zugangscode bleiben in der Liefernotiz des Mitglieds, ausser die temporäre Adresse hat eine eigene Notiz.
+- **Hauslieferungsblatt**: Für Lieferfahrer konzipiert. Enthält die vollständige Adresse jedes Mitglieds und seine Liefernotiz (falls vorhanden) in der letzten Spalte. Siehe [Hauslieferung](#home-delivery) für eine Lieferung bei jemand anderem.
+
+### Hauslieferung {#home-delivery}
+
+Die Reihenfolge der Mitglieder auf einem Hauslieferungsblatt änderst Du per Drag & Drop in den Depot-Einstellungen.
+
+Wenn eine Lieferung an bestimmten Daten bei jemand anderem erfolgen soll, füge auf der Mitgliedsseite eine temporäre Adresse hinzu. Ändere nicht die Adresse des Mitglieds. Mitglieder dieses Depots können das auch selbst auf ihrer Lieferungsseite ankündigen. Die Person an der Tür erscheint fett mit dunklerem Hintergrund auf dem PDF-Blatt und in der Excel-Datei. Der Name auf der Liste bleibt der des Mitglieds. Die Depot-E-Mail kennzeichnet das mit "temporäre Adresse", damit der Fahrer den Anhang öffnet. Klingel und Zugangscode bleiben in der Liefernotiz des Mitglieds, ausser die temporäre Adresse hat eine eigene Notiz.
 
 ### Mitgliederinformationen auf den Blättern {#member-info}
 

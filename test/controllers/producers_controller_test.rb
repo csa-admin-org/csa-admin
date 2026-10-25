@@ -16,6 +16,21 @@ class ProducersControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href='/handbook/shop#producers']"
   end
 
+  test "index handbook link follows the enabled feature" do
+    org(features: [ :basket_content ])
+
+    get producers_path
+
+    assert_select "a[href='/handbook/basket_content#producers']"
+    assert_select "a[href='/handbook/shop#producers']", count: 0
+
+    org(features: [ :shop, :basket_content ])
+
+    get producers_path
+
+    assert_select "a[href='/handbook/shop#producers']"
+  end
+
   test "index shows only the enabled feature columns" do
     org(features: [ :shop ])
 

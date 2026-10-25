@@ -10,7 +10,7 @@ La prossima consegna e il suo numero di <%= Basket.model_name.human(count: 2).do
 
 Le consegne appartengono all'**anno fiscale** della tua organizzazione, non all'anno civile. Il mese di inizio si imposta nelle [impostazioni](/settings). Se inizia ad aprile, una consegna invernale a gennaio appartiene ancora a quell'anno fiscale, non all'anno civile successivo.
 
-Quando l'anno fiscale in corso è già iniziato, aggiungere una data di consegna in quell'anno aggiunge 1 <%= Basket.model_name.human.downcase %> agli abbonamenti il cui ciclo include quel giorno, e li rifattura. Crea le date del **prossimo** anno fiscale quando prepari il [rinnovo](/handbook/membership_renewal#fiscal-year). Non creare anche l'anno successivo: il modulo di rinnovo e il rinnovo tacito offrono allora quell'anno in più.
+Quando l'anno fiscale in corso è già iniziato, aggiungere una data di consegna in quell'anno aggiunge 1 <%= Basket.model_name.human.downcase %> agli abbonamenti il cui ciclo include quel giorno, e li rifattura. Crea le date del prossimo anno fiscale quando prepari il [rinnovo](/handbook/membership_renewal#fiscal-year). Il modulo accetta una data nell'anno fiscale in corso, e nel successivo non appena questo inizia entro 8 mesi. Non oltre. Il rinnovo non segue l'ultimo anno creato: prolunga ogni abbonamento di un anno.
 <% if feature?("shop") %>
 
 Per un prodotto una tantum, usa una [<%= Shop::SpecialDelivery.model_name.human.downcase %>](/shop_special_deliveries) invece di una nuova data di consegna.
@@ -141,7 +141,13 @@ Per ogni consegna, CSA Admin genera schede PDF che puoi stampare e utilizzare ne
 Ogni deposito può utilizzare una delle due modalità di schede (configurabile nelle impostazioni del deposito):
 
 - **Scheda firma** (predefinita): Una lista dove i soci firmano accanto al loro nome al momento del ritiro. I soci sono elencati in ordine alfabetico, con una colonna "Firma" a destra.
-- **Scheda consegna a domicilio**: Progettata per i corrieri. Include l'indirizzo completo di ogni socio e la sua nota di consegna (se presente) nell'ultima colonna. L'ordine dei soci può essere modificato manualmente tramite trascinamento nelle impostazioni del deposito. Quando una consegna deve passare da qualcun altro in date precise, aggiungi un indirizzo temporaneo dalla scheda del socio, non modificando il suo indirizzo. I soci di quel deposito possono anche annunciarlo dalla loro pagina Consegne. L'ospite appare in grassetto con uno sfondo più scuro sul foglio PDF e nel file Excel. Il nome sulla lista resta quello del socio. L'e-mail del deposito lo segnala con "indirizzo temporaneo" perché il corriere apra l'allegato. Campanello e codice di accesso restano nella nota di consegna del socio, salvo se l'indirizzo temporaneo ha una propria nota.
+- **Scheda consegna a domicilio**: Progettata per i corrieri. Include l'indirizzo completo di ogni socio e la sua nota di consegna (se presente) nell'ultima colonna. Vedi [Consegna a domicilio](#home-delivery) per un passaggio da qualcun altro.
+
+### Consegna a domicilio {#home-delivery}
+
+L'ordine dei soci su una scheda di consegna a domicilio si modifica trascinando nelle impostazioni del deposito.
+
+Quando una consegna deve passare da qualcun altro in date precise, aggiungi un indirizzo temporaneo dalla scheda del socio. Non modificare il suo indirizzo. I soci di quel deposito possono anche annunciarlo dalla loro pagina Consegne. L'ospite appare in grassetto con uno sfondo più scuro sul foglio PDF e nel file Excel. Il nome sulla lista resta quello del socio. L'e-mail del deposito lo segnala con "indirizzo temporaneo" perché il corriere apra l'allegato. Campanello e codice di accesso restano nella nota di consegna del socio, salvo se l'indirizzo temporaneo ha una propria nota.
 
 ### Informazioni del socio sulle schede {#member-info}
 

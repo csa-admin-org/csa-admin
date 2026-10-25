@@ -37,7 +37,8 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     get new_delivery_path
 
     assert_response :success
-    assert_select ".admin-warning-pane", text: /makes renewal target that year/
+    assert_select ".admin-warning-pane", text: /does not use them/
+    assert_no_match(/makes renewal target that year/, response.body)
   end
 
   test "basket size edit does not warn when no current or future memberships remain" do

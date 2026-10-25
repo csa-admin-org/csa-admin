@@ -19,6 +19,8 @@ After choosing the title of the extra and an explanation text (optional), you ca
 0.0, 1.0, 1.5, 3.0, 5.0
 ~~~
 
+Leave [Dynamic price](/settings#basket_price_extra) empty unless the billed extra should change with <%= BasketSize.model_name.human.downcase %> or complements. When that field is filled, invoices use its result. The amount the member picked is only the input.
+
 Next, you need to define how your extras will be displayed, for example using [Liquid syntax](https://shopify.github.io/liquid) as follows:
 
 ~~~ liquid
@@ -49,7 +51,7 @@ This will give this more detailed presentation (with 40 deliveries):
 
 ## Report {#report}
 
-The total amount of all extras is displayed at the bottom right of [the memberships list](/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&order=started_on_desc), below the filters. Don't forget to filter the memberships by fiscal year to get the correct amount.
+The total amount of all extras is displayed at the bottom right of [the memberships list](/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&order=started_on_desc), below the filters. Don't forget to filter the memberships by fiscal year to get the correct amount. That total is what members chose. If Dynamic price is set, invoices can show a different amount.
 
 You can easily filter [the memberships list](/memberships?q%5Bbasket_price_extra_gt%5D=0&order=started_on_desc) with an extra using the filter on the right provided for this purpose. This information is also found in [the CSV export of memberships](/memberships.csv).
 

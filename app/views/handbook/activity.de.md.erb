@@ -1,4 +1,4 @@
-# Beteiligung der Mitglieder
+# <%= activities_human_name %>
 
 Diese Funktion ermöglicht es Dir, Aktivitäten sowie deren Teilnahme durch die Mitglieder zu verwalten. Diese Teilnahmen können optional oder obligatorisch sein und können in Rechnung gestellt werden oder nicht.
 
@@ -65,7 +65,7 @@ Auf einer Mitgliedschaft überspringt "Jahreszahl erzwingen" diese Logik. Die Ja
 
 Mitglieder können sich über ihr Mitgliedskonto für Aktivitäten anmelden, auch wenn sie keine aktive Mitgliedschaft haben. Dies ermöglicht inaktiven Mitgliedern, auf freiwilliger Basis und ohne Verpflichtung an Aktivitäten teilzunehmen. Sie können auch die Aktivitäten sehen, für die sie angemeldet sind, sowie die Teilnahmen, die sie absolviert haben, und deren Bestätigungen.
 
-Bei der Anmeldung kann das Mitglied die Anzahl der Teilnehmer angeben, eine Bemerkung hinterlassen und wählen, ob es seine Telefonnummer sowie seinen Abfahrtsort für Fahrgemeinschaften teilen möchte. Dies ermöglicht es einem Mitglied, mehrere Personen auf einmal anzumelden (z.B. Familienmitglieder oder Freunde, die zum Helfen kommen). Jeder Teilnehmer zählt als eine Teilnahme für die erforderliche Gesamtzahl des Mitglieds.
+Bei der Anmeldung kann das Mitglied die Anzahl der Teilnehmer angeben, eine Bemerkung hinterlassen und wählen, ob es seine Telefonnummer sowie seinen Abfahrtsort für Fahrgemeinschaften teilen möchte. Dies ermöglicht es einem Mitglied, mehrere Personen auf einmal anzumelden (z.B. Familienmitglieder oder Freunde, die zum Helfen kommen). Jede Person zählt als eine Teilnahme, sobald sie sich anmeldet, und belegt so viele Plätze. Eine Anmeldung von 3 zählt sofort als 3. Die Teilnahme zu bestätigen fügt nichts hinzu. Eine Ablehnung nimmt diese Teilnahmen zurück und gibt die Plätze frei.
 
 <% activity_reminder_days = MailTemplate.delay_in_days_for("activity_participation_reminder") %>
 Wenn das Mitglied Fahrgemeinschaftsinformationen teilt, stehen diese in [der Erinnerungs-E-Mail](/mail_templates/activity_participation_reminder), die <%= activity_reminder_days %> Tage vor der Aktivität rausgeht, zusammen mit den Kontaktdaten der anderen Teilnehmer, die ebenfalls zugestimmt haben. Die Frist steht auf dieser E-Mail.
@@ -92,8 +92,8 @@ Die von den Mitgliedern vorgenommenen Anmeldungen zu Aktivitäten sind in [der T
 
 Teilnahmen an Aktivitäten (am selben Tag oder vergangene) können von Administratoren bestätigt oder abgelehnt werden. Die Mitglieder erhalten dann eine E-Mail [zur Bestätigung](/mail_templates/activity_participation_validated) oder [zur Ablehnung](/mail_templates/activity_participation_rejected) ihrer Teilnahme.
 
-- **Bestätigung**: Das Mitglied ist erschienen und hat die Aktivität abgeschlossen. Die Teilnahme wird auf die erforderliche Gesamtzahl angerechnet.
-- **Ablehnung**: Das Mitglied ist nicht erschienen oder hat die Aktivität nicht abgeschlossen. Die Teilnahme wird nicht gezählt und der Platz wird wieder für andere Mitglieder verfügbar (sofern die Aktivität noch nicht vorbei ist).
+- **Bestätigung**: Das Mitglied ist erschienen und hat die Aktivität abgeschlossen. Die Zählung erfolgte schon bei der Anmeldung. Die Bestätigung fügt nichts hinzu.
+- **Ablehnung**: Das Mitglied ist nicht erschienen oder früh gegangen. Diese Teilnahmen fallen aus der erforderlichen Gesamtzahl, und die Plätze werden wieder frei.
 
 Um Teilnahmen zu bestätigen oder abzulehnen, kannst Du entweder die Stapelaktionen aus [der Teilnahmeliste](/activity_participations?scope=pending) verwenden (eine oder mehrere Teilnahmen auswählen und dann die Aktion wählen) oder die Aktionsschaltflächen direkt auf der Detailseite einer zu bestätigenden Teilnahme nutzen.
 

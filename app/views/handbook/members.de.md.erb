@@ -30,7 +30,7 @@ Um ein Mitglied auf der Warteliste zu aktivieren, klicke oben rechts auf der Mit
 
 Ein aktives Mitglied ist ein Mitglied mit einem Abonnement für das laufende oder kommende Geschäftsjahr.<% if Current.org.feature?("shop") %> Ein Mitglied, das einen definierten Abholort für Hofladen-Bestellungen hat, gilt ebenfalls als aktiv.<% end %>
 
-Das Beenden oder Löschen des aktuellen Abonnements macht sie nicht immer inaktiv. Das Mitglied bleibt aktiv mit einem zukünftigen Abonnement<% if Current.org.feature?("shop") %> oder einem Hofladen-Depot<% end %>. Sonst wird es zu Support, wenn der Jahresbeitrag der Erneuerung des letzten Abonnements gesetzt ist<% if Current.org.feature?("shares") %>, oder wenn es noch Anteile besitzt<% end %>.
+Das Beenden oder Löschen des aktuellen Abonnements macht sie nicht immer inaktiv. Das Mitglied bleibt aktiv mit einem zukünftigen Abonnement<% if Current.org.feature?("shop") %> oder einem Hofladen-Depot<% end %>. Sonst wird es zu Support, wenn der Jahresbeitrag der Erneuerung des letzten Abonnements über null liegt<% if Current.org.feature?("shares") %>, oder wenn es noch Anteile besitzt<% end %>. Ein Beitrag von 0 reicht nicht.
 
 ### Support
 

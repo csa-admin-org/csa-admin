@@ -1,4 +1,4 @@
-# Partecipazione dei soci
+# <%= activities_human_name %>
 
 Questa funzione permette di gestire le attività e la loro partecipazione da parte dei soci. Queste partecipazioni possono essere opzionali o obbligatorie e possono essere fatturate o meno.
 
@@ -65,7 +65,7 @@ Su un abbonamento, "Forzare il numero annuale" ignora questa logica. Il numero a
 
 I soci possono iscriversi alle attività dal loro account, anche se non hanno un abbonamento attivo. Ciò consente ai soci inattivi di partecipare alle attività su base volontaria e senza impegno. Possono anche vedere le attività a cui sono iscritti, le partecipazioni che hanno effettuato e le loro convalide.
 
-Al momento dell'iscrizione, il socio può specificare il numero di partecipanti, lasciare un commento e scegliere di condividere il proprio numero di telefono e la propria città di partenza per il car sharing. Ciò consente a un socio di iscrivere più persone contemporaneamente (ad esempio, familiari o amici che vengono ad aiutare). Ogni partecipante conta come una partecipazione nel totale richiesto del socio.
+Al momento dell'iscrizione, il socio può specificare il numero di partecipanti, lasciare un commento e scegliere di condividere il proprio numero di telefono e la propria città di partenza per il car sharing. Ciò consente a un socio di iscrivere più persone contemporaneamente (ad esempio, familiari o amici che vengono ad aiutare). Ogni persona conta come una partecipazione appena si iscrive, e occupa altrettanti posti. Un'iscrizione di 3 conta subito per 3. Convalidare la partecipazione non la aggiunge. Rifiutarla toglie queste partecipazioni e libera i posti.
 
 <% activity_reminder_days = MailTemplate.delay_in_days_for("activity_participation_reminder") %>
 Se il socio condivide le informazioni per il car sharing, queste sono incluse nell'[email di promemoria](/mail_templates/activity_participation_reminder), inviata <%= activity_reminder_days %> giorni prima dell'attività, insieme ai dati di contatto degli altri partecipanti che hanno scelto di condividerli. Il ritardo si imposta su questa email.
@@ -92,8 +92,8 @@ Le iscrizioni alle attività fatte dai soci sono visibili dalla [lista delle par
 
 Le partecipazioni alle attività (dello stesso giorno o passate) possono essere convalidate o rifiutate dagli amministratori. I soci riceveranno quindi un'email di [conferma](/mail_templates/activity_participation_validated) o di [rifiuto](/mail_templates/activity_participation_rejected) della loro partecipazione.
 
-- **Convalida**: Conferma che il socio ha effettivamente svolto l'attività. La partecipazione viene conteggiata.
-- **Rifiuto**: Da utilizzare se il socio non si è presentato o non ha completato l'attività. La partecipazione non viene conteggiata e il posto torna disponibile per altri soci (se l'attività non è ancora passata).
+- **Convalida**: Il socio si è presentato e ha svolto l'attività. Il conteggio è già stato preso all'iscrizione. La convalida non lo aumenta.
+- **Rifiuto**: Il socio non si è presentato o è andato via presto. Queste partecipazioni escono dal totale richiesto, e i posti tornano disponibili.
 
 Per convalidare o rifiutare le partecipazioni, puoi utilizzare le azioni collettive dalla [lista delle partecipazioni](/activity_participations?scope=pending) (seleziona una o più partecipazioni e scegli l'azione), oppure usare i pulsanti d'azione direttamente dalla pagina di dettaglio di una partecipazione da confermare.
 

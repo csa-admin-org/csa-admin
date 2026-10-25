@@ -19,6 +19,8 @@ Une fois le titre de l'extra et un texte d'explication (optionnel) choisis, vous
 0.0, 1.0, 1.5, 3.0, 5.0
 ~~~
 
+Laissez [Prix dynamique](/settings#basket_price_extra) vide, sauf si l'extra facturé doit changer avec la <%= BasketSize.model_name.human.downcase %> ou les compléments. Quand ce champ est rempli, les factures utilisent son résultat. Le montant choisi par le membre n'est que le point de départ.
+
 Ensuite, vous devez définir avec quel label vos extras seront affichés, par exemple à l'aide de [la syntaxe Liquid](https://shopify.github.io/liquid) suivante:
 
 ~~~ liquid
@@ -49,7 +51,7 @@ Ce qui donnera cette présentation plus détaillée (avec 40 livraisons):
 
 ## Rapport {#report}
 
-Le montant total de tous les extras est affiché en bas à droite de [la liste des abonnements](/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&order=started_on_desc), en dessous des filtres. N'oubliez pas de filtrer les abonnements par année fiscale pour avoir le bon montant.
+Le montant total de tous les extras est affiché en bas à droite de [la liste des abonnements](/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&order=started_on_desc), en dessous des filtres. N'oubliez pas de filtrer les abonnements par année fiscale pour avoir le bon montant. Ce total est ce que les membres ont choisi. Si Prix dynamique est rempli, les factures peuvent afficher un autre montant.
 
 Vous pouvez facilement filtrer [la liste des abonnements](/memberships?q%5Bbasket_price_extra_gt%5D=0&order=started_on_desc) avec un extra en utilisant le filtre à droite prévu à cet effet. Cette information se retrouve également dans [l'export CSV des abonnements](/memberships.csv).
 

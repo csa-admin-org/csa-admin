@@ -199,13 +199,20 @@ module Handbook::Search
     CLASS_NAME_PATTERN = "[A-Z]\\w*(?:::[A-Z]\\w*)*"
     MODEL_NAME_ERB_REGEX = /<%=\s*(#{CLASS_NAME_PATTERN})\.model_name\.human(?:\(([^)]*)\))?((?:\.\w+)*)\s*%>/
     HUMAN_ATTRIBUTE_ERB_REGEX = /<%=\s*(#{CLASS_NAME_PATTERN})\.human_attribute_name\(\s*:?["']?([\w\/]+)["']?\s*(?:,\s*([^)]*))?\)((?:\.\w+)*)\s*%>/
+    ACTIVITY_NAME_ERB_REGEX = /<%=\s*(activities_human_name|activity_human_name)\s*%>/
 
     def resolve_erb_human_names(text, locale)
       I18n.with_locale(locale) do
         text
           .gsub(MODEL_NAME_ERB_REGEX) { resolve_erb_model_name(Regexp.last_match) }
           .gsub(HUMAN_ATTRIBUTE_ERB_REGEX) { resolve_erb_human_attribute_name(Regexp.last_match) }
+          .gsub(ACTIVITY_NAME_ERB_REGEX) { resolve_activity_human_name(Regexp.last_match[1]) }
       end
+    end
+
+    def resolve_activity_human_name(method)
+      count = method == "activities_human_name" ? :other : :one
+      I18n.t("activities.#{Current.org.activity_i18n_scope}.#{count}")
     end
 
     def resolve_erb_model_name(match)

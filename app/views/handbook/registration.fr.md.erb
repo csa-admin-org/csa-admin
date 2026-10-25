@@ -53,7 +53,7 @@ Les [<%= BasketSize.model_name.human(count: 2).downcase %>](/basket_sizes) sont 
 - **Nom**: Ce que les membres voient (ex. " Petit ", " Familial "). Un nom explicite aide: " Petit (1–2 personnes) " est plus clair que simplement " Petit ".
 - **Description**: Remplace le texte auto-généré (prix × livraisons). Utile quand le texte par défaut ne correspond pas tout à fait à vos besoins.
 - **Visibilité**: Rendez une <%= BasketSize.model_name.human.downcase %> invisible si elle est réservée aux admins (ex. tarif spécial). Les tailles invisibles n'apparaîtront pas dans le formulaire.
-- **Ordre d'affichage**: Contrôlé par le [réglage du mode d'ordre](/settings#registration), par nom, par prix ou par priorité personnalisée.
+- **Ordre d'affichage**: Réglé dans [le mode d'ordre](/settings#registration): alphabétique, ou par prix (croissant ou décroissant), puis alphabétique. "Priorité d'ordre" sur la taille est un champ à part. Voir [Réglages d'ordre d'affichage](#order-settings).
 
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
@@ -94,7 +94,7 @@ Si votre organisation a beaucoup de dépôts (8 ou plus), les [groupes de dépô
 
 - **Exemples de groupes**: " Retrait à la ferme ", " Points relais en ville ", " Livraison à domicile "
 - **Texte d'information**: Texte optionnel affiché au-dessus des dépôts du groupe. Un bon endroit pour des infos partagées comme les horaires de retrait ou des instructions générales. Une phrase suffit généralement.
-- **Priorité d'ordre**: Contrôle quel groupe apparaît en premier.
+- **Priorité d'ordre**: Première(s) position(s), Aucune, ou Dernière(s) position(s). Même champ que sur un dépôt. Voir [Réglages d'ordre d'affichage](#order-settings).
 
 Sans groupes, une liste plate de 15+ dépôts peut sembler décourageante. Les groupes aident les membres à se repérer rapidement puis à choisir un lieu précis.
 
@@ -150,14 +150,14 @@ Pour chacun, fournissez une URL pointant vers le document sur votre site web. Qu
 
 Plusieurs éléments du formulaire peuvent être réordonnés:
 
-| Élément | Réglage | Options |
-|---------|---------|---------|
-| <%= BasketSize.model_name.human(count: 2) %> | [Mode d'ordre](/settings#registration) | Nom, prix (asc/desc), priorité |
-| <%= BasketComplement.model_name.human(count: 2) %> | [Mode d'ordre](/settings#registration) | Nom, prix (asc/desc), priorité |
-| Dépôts | [Mode d'ordre](/settings#registration) | Nom, prix (asc/desc), priorité |
-| Cycles de livraisons | [Mode d'ordre](/settings#registration) | Nom, priorité |
+| Élément | [Mode d'ordre](/settings#registration) |
+|---------|---------|
+| <%= BasketSize.model_name.human(count: 2) %> | Alphabétique, ou par prix (croissant ou décroissant), puis alphabétique |
+| <%= BasketComplement.model_name.human(count: 2) %> | Alphabétique, par prix, ou par nombre de livraisons. Le prix et les livraisons peuvent être croissants ou décroissants. À égalité, l'ordre redevient alphabétique. |
+| Dépôts | Alphabétique, ou par prix (croissant ou décroissant), puis alphabétique |
+| Cycles de livraisons | Alphabétique, par nombre de livraisons (croissant ou décroissant), ou par jours de la semaine, puis par nombre de livraisons (décroissant), puis alphabétique |
 
-En mode " priorité ", définissez le champ " Priorité d'ordre " sur chaque élément. Les valeurs les plus basses apparaissent en premier.
+"Priorité d'ordre" n'est pas un mode. Sur une taille, un complément, un dépôt, un cycle ou un groupe de dépôts, c'est un champ à part: Première(s) position(s), Aucune, ou Dernière(s) position(s). Première(s) position(s) place l'élément avant le mode d'ordre. Dernière(s) position(s) le place après. Aucune suit seulement le mode d'ordre. Le défaut est Aucune.
 
 ## Quelques conseils {#tips}
 

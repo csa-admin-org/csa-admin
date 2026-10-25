@@ -53,7 +53,7 @@ Im Einstellungseditor erscheint ein Wortzähler, wenn der Text lang wird. Das is
 - **Name**: Was die Mitglieder sehen (z.B. "Klein", "Familie"). Ein selbsterklärender Name hilft: "Klein (1–2 Personen)" ist klarer als nur "Klein".
 - **Beschreibung**: Ersetzt den automatisch generierten Text (Preis × Lieferungen). Nützlich, wenn der Standardtext nicht ganz passt.
 - **Sichtbarkeit**: Setze eine <%= BasketSize.model_name.human %> auf unsichtbar, wenn sie nur für Admins gedacht ist (z.B. ein Spezialtarif). Unsichtbare Grössen erscheinen nicht im Formular.
-- **Anzeigereihenfolge**: Gesteuert durch die [Einstellung des Sortiermodus](/settings#registration), entweder nach Name, nach Preis oder nach benutzerdefinierter Priorität.
+- **Anzeigereihenfolge**: Steht im [Sortiermodus](/settings#registration): alphabetisch, oder nach Preis (auf- oder absteigend), dann alphabetisch. "Anzeigepriorität" auf der Grösse ist ein eigenes Feld. Siehe [Einstellungen der Anzeigereihenfolge](#order-settings).
 
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
@@ -94,7 +94,7 @@ Wenn Deine Organisation viele Depots hat (8 oder mehr), machen [Depot-Gruppen](/
 
 - **Beispielgruppen**: "Abholung am Hof", "Stadtrelais", "Hauslieferung"
 - **Informationstext**: Optionaler Text, der über den Depots der Gruppe angezeigt wird. Ein guter Ort für gemeinsame Infos wie Abholzeiten oder allgemeine Anweisungen. Ein Satz reicht normalerweise aus.
-- **Anzeigepriorität**: Steuert, welche Gruppe zuerst erscheint.
+- **Anzeigepriorität**: Erste Position(en), Keine, oder Letzte Position(en). Dasselbe Feld wie beim Depot. Siehe [Einstellungen der Anzeigereihenfolge](#order-settings).
 
 Ohne Gruppen kann eine flache Liste von 15+ Depots überwältigend wirken. Gruppen helfen den Mitgliedern, sich schnell zurechtzufinden und dann einen bestimmten Standort auszuwählen.
 
@@ -150,14 +150,14 @@ Gib für jedes Dokument eine URL an, die auf das Dokument auf Deiner Website ver
 
 Mehrere Elemente im Formular können umsortiert werden:
 
-| Element | Einstellung | Optionen |
-|---------|-------------|----------|
-| <%= BasketSize.model_name.human(count: 2) %> | [Sortiermodus](/settings#registration) | Name, Preis (auf/absteigend), Priorität |
-| <%= BasketComplement.model_name.human(count: 2) %> | [Sortiermodus](/settings#registration) | Name, Preis (auf/absteigend), Priorität |
-| Depots | [Sortiermodus](/settings#registration) | Name, Preis (auf-/absteigend), Priorität |
-| Lieferzyklen | [Sortiermodus](/settings#registration) | Name, Priorität |
+| Element | [Sortiermodus](/settings#registration) |
+|---------|---------|
+| <%= BasketSize.model_name.human(count: 2) %> | Alphabetisch, oder nach Preis (auf- oder absteigend), dann alphabetisch |
+| <%= BasketComplement.model_name.human(count: 2) %> | Alphabetisch, nach Preis, oder nach Anzahl der Lieferungen. Preis und Lieferungen können auf- oder absteigend sein. Bei Gleichstand gilt wieder die alphabetische Reihenfolge. |
+| Depots | Alphabetisch, oder nach Preis (auf- oder absteigend), dann alphabetisch |
+| Lieferzyklen | Alphabetisch, nach Anzahl der Lieferungen (auf- oder absteigend), oder nach Wochentagen, dann nach Anzahl der Lieferungen (absteigend), dann alphabetisch |
 
-Im Modus "Priorität" setzt Du das Feld "Anzeigepriorität" bei jedem Element. Niedrigere Werte erscheinen zuerst.
+"Anzeigepriorität" ist kein Modus. Bei einer Grösse, einer Ergänzung, einem Depot, einem Zyklus oder einer Depotgruppe ist es ein eigenes Feld: Erste Position(en), Keine, oder Letzte Position(en). Erste Position(en) stehen vor dem Sortiermodus. Letzte Position(en) stehen danach. Keine folgt nur dem Sortiermodus. Standard ist Keine.
 
 ## Einige Tipps {#tips}
 

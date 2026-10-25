@@ -35,7 +35,13 @@ ActiveAdmin.register Producer do
   end
 
   sidebar :info, only: :index do
-    side_panel t(".info"), action: handbook_icon_link("shop", anchor: "producers") do
+    handbook_page, handbook_anchor =
+      if Current.org.feature?("shop") || !Current.org.feature?("basket_content")
+        [ "shop", "producers" ]
+      else
+        [ "basket_content", "producers" ]
+      end
+    side_panel t(".info"), action: handbook_icon_link(handbook_page, anchor: handbook_anchor) do
       para t(".producer_info")
     end
   end

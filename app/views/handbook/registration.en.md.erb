@@ -53,7 +53,7 @@ You'll notice a word count indicator in the settings editor when text gets long.
 - **Name**: What members see (e.g., "Small", "Family"). A self-explanatory name helps: "Small (1–2 people)" is clearer than just "Small".
 - **Description**: Overrides the auto-generated text (price × deliveries). Useful when the default doesn't quite capture what you need.
 - **Visibility**: Set a <%= BasketSize.model_name.human.downcase %> to invisible if it's only for admins (e.g., a special rate). Invisible sizes won't appear in the form.
-- **Display order**: Controlled by the [order mode setting](/settings#registration), either by name, by price, or by custom priority.
+- **Display order**: Set in [the order mode](/settings#registration): alphabetical, or by price (low to high, or high to low), then alphabetical. "Order priority" on the size is separate. See [Display order settings](#order-settings).
 
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
@@ -94,7 +94,7 @@ If your organization has many depots (8 or more), [depot groups](/depot_groups) 
 
 - **Example groups**: "Pickup at farm", "City relay points", "Home delivery"
 - **Information text**: Optional text shown above each group's depots. A good place for shared info like pickup hours or general instructions. One sentence is usually enough.
-- **Order priority**: Controls which group appears first.
+- **Order priority**: First position, None, or Last position. Same field as on a depot. See [Display order settings](#order-settings).
 
 Without groups, a flat list of 15+ depots can feel overwhelming. Groups help members zero in on their area and then pick a specific location.
 
@@ -150,14 +150,14 @@ For each, provide a URL pointing to the document on your website. When a URL is 
 
 Several elements in the form can be reordered:
 
-| Element | Setting | Options |
-|---------|---------|---------|
-| <%= BasketSize.model_name.human(count: 2) %> | [Order mode](/settings#registration) | Name, price (asc/desc), priority |
-| <%= BasketComplement.model_name.human(count: 2) %> | [Order mode](/settings#registration) | Name, price (asc/desc), priority |
-| Depots | [Order mode](/settings#registration) | Name, price (asc/desc), priority |
-| Delivery cycles | [Order mode](/settings#registration) | Name, priority |
+| Element | [Order mode](/settings#registration) |
+|---------|---------|
+| <%= BasketSize.model_name.human(count: 2) %> | Alphabetical, or by price (low to high, or high to low), then alphabetical |
+| <%= BasketComplement.model_name.human(count: 2) %> | Alphabetical, by price, or by number of deliveries. Price and deliveries can go low to high or high to low. Ties fall back to alphabetical. |
+| Depots | Alphabetical, or by price (low to high, or high to low), then alphabetical |
+| Delivery cycles | Alphabetical, by number of deliveries (low to high or high to low), or by weekdays, then by number of deliveries (high to low), then alphabetical |
 
-When using "priority" mode, set the "Order priority" field on each item. Lower values appear first.
+"Order priority" is not a mode. On a size, complement, depot, cycle, or depot group, it is a separate field: First position, None, or Last position. First position comes before the order mode. Last position comes after it. None follows the order mode only. The default is None.
 
 ## A Few Tips {#tips}
 

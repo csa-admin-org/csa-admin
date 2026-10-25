@@ -6,7 +6,7 @@ Zugesagte Beträge werden durch konfigurierbare Min/Max-Grenzen begrenzt.
 
 ## Voraussetzungen {#requirements}
 
-- Abonnements für die neue Saison müssen erstellt sein und die erste Lieferung muss in der Zukunft liegen.
+- Die Runde gilt für das laufende Geschäftsjahr, bis die erste Lieferung dieses Jahres stattgefunden hat. Danach gilt sie für das nächste Geschäftsjahr, das zuerst Abonnements braucht. Eine vergangene erste Lieferung blockiert die Runde nicht von allein.
 - Es kann jeweils nur eine Beitragsrunde gleichzeitig geöffnet sein.
 
 > Als "<%= Member.human_attribute_name(:salary_basket) %>" markierte Mitglieder sind automatisch von Beitragsrunden ausgeschlossen, da ihr Abonnementpreis auf Null gesetzt ist.
@@ -42,10 +42,10 @@ Solange die Beitragsrunde geöffnet ist, kann automatisch eine Erinnerung versen
 
 Wenn die Beitragsrunde abgeschlossen ist (Erfolg), wird der Beitrag pro <%= Basket.model_name.human %> für alle Abonnements aktualisiert, die eine Zusage erhalten haben. Abonnements ohne Zusage werden nicht geändert.
 
-Optional kann eine automatische E-Mail an jedes berechtigte Mitglied gesendet werden, mit oder ohne Zusage.
+Ist [die Abschluss-E-Mail](/mail_templates/bidding_round_completed) aktiv, geht sie an jedes berechtigte Mitglied, mit oder ohne Zusage. Sie ist standardmässig aktiv. Lass sie inaktiv, wenn sie die Mail nicht bekommen sollen. Abschliessen fragt Dich nicht, ob die Mail rausgeht.
 
 ## Schliessen (Fehlschlag) {#close}
 
 Wenn die Beitragsrunde geschlossen ist (Fehlschlag), wird kein Abonnement geändert. Anschliessend kann eine neue Beitragsrunde geöffnet werden, um zu einem für alle Mitglieder akzeptablen Beitrag zu gelangen.
 
-Optional kann eine automatische E-Mail an jedes berechtigte Mitglied gesendet werden, mit oder ohne Zusage.
+Ist [die Fehlschlag-E-Mail](/mail_templates/bidding_round_failed) aktiv, geht sie an jedes berechtigte Mitglied, mit oder ohne Zusage. Sie ist standardmässig aktiv. Lass sie inaktiv, wenn sie die Mail nicht bekommen sollen.

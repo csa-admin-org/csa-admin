@@ -1,4 +1,4 @@
-# Deelname van leden
+# <%= activities_human_name %>
 
 Deze functie stelt je in staat om activiteiten en de deelname van leden daaraan te beheren. Deze deelnames kunnen optioneel of verplicht zijn en kunnen wel of niet gefactureerd worden.
 
@@ -65,7 +65,7 @@ Op een lidmaatschap slaat "Jaaraantal afdwingen" deze logica over. Het jaaraanta
 
 Leden kunnen zich inschrijven voor activiteiten vanuit hun ledenaccount, zelfs als ze geen actief lidmaatschap hebben. Dit stelt inactieve leden in staat om op vrijwillige basis en zonder verplichting deel te nemen aan activiteiten. Zij kunnen ook de activiteiten zien waarvoor zij zijn ingeschreven, evenals de deelnames die zij hebben voltooid en hun validaties.
 
-Bij inschrijving kan het lid het aantal deelnemers specificeren, een opmerking toevoegen en ervoor kiezen om het telefoonnummer en de vertrekplaats te delen voor carpooling. Dit stelt een lid in staat om meerdere personen tegelijk in te schrijven (bijvoorbeeld familieleden of vrienden die komen helpen). Elke deelnemer telt als één deelname voor het vereiste totaal van het lid.
+Bij inschrijving kan het lid het aantal deelnemers specificeren, een opmerking toevoegen en ervoor kiezen om het telefoonnummer en de vertrekplaats te delen voor carpooling. Dit stelt een lid in staat om meerdere personen tegelijk in te schrijven (bijvoorbeeld familieleden of vrienden die komen helpen). Elke persoon telt als één deelname zodra die zich inschrijft, en vult evenveel plaatsen. Een inschrijving van 3 telt meteen als 3. De deelname valideren voegt niets toe. Afwijzen haalt die deelnames van het totaal en maakt de plaatsen weer vrij.
 
 <% activity_reminder_days = MailTemplate.delay_in_days_for("activity_participation_reminder") %>
 Als het lid carpoolinginformatie deelt, staat die in [de herinneringsmail](/mail_templates/activity_participation_reminder), verstuurd <%= activity_reminder_days %> dagen voor de activiteit, samen met de contactgegevens van de andere deelnemers die ook delen. De termijn staat op die e-mail.
@@ -92,8 +92,8 @@ Activiteitsinschrijvingen door leden zijn zichtbaar vanaf [de deelnamelijst](/ac
 
 Deelnames aan activiteiten (van dezelfde dag of verleden) kunnen door admins worden gevalideerd of afgewezen. Leden ontvangen dan een e-mail [ter bevestiging](/mail_templates/activity_participation_validated) of [van afwijzing](/mail_templates/activity_participation_rejected) van hun deelname.
 
-- **Valideren**: Het lid is verschenen en heeft de activiteit voltooid. De deelname telt mee voor hun vereiste totaal.
-- **Afwijzen**: Het lid is niet verschenen of is vroegtijdig vertrokken. De deelname telt niet mee en de activiteitsplek wordt weer beschikbaar voor andere leden om zich in te schrijven.
+- **Valideren**: Het lid is verschenen en heeft de activiteit voltooid. De telling stond er al bij de inschrijving. Valideren telt niet extra.
+- **Afwijzen**: Het lid is niet verschenen of is vroeg vertrokken. Die deelnames gaan van het vereiste totaal af, en de plaatsen komen weer vrij.
 
 Om deelnames te valideren of af te wijzen, kun je de groepsacties gebruiken vanuit [de deelnamelijst](/activity_participations?scope=pending) (selecteer een of meer deelnames en kies vervolgens de actie), of de actieknoppen rechtstreeks gebruiken op de detailpagina van een deelname in behandeling.
 

@@ -53,7 +53,7 @@ Je zult een woordteller opmerken in de instellingeneditor wanneer de tekst lang 
 - **Naam**: Wat leden zien (bijv. "Klein", "Familie"). Een zelfverklarende naam helpt: "Klein (1–2 personen)" is duidelijker dan alleen "Klein".
 - **Beschrijving**: Vervangt de automatisch gegenereerde tekst (prijs × leveringen). Handig wanneer de standaardtekst niet helemaal past bij wat je nodig hebt.
 - **Zichtbaarheid**: Stel een <%= BasketSize.model_name.human.downcase %> in als onzichtbaar als deze alleen voor admins is (bijv. een speciaal tarief). Onzichtbare groottes verschijnen niet in het formulier.
-- **Weergavevolgorde**: Gestuurd door de [instelling van de sorteermodus](/settings#registration), op naam, op prijs of op aangepaste prioriteit.
+- **Weergavevolgorde**: Staat in de [sorteermodus](/settings#registration): alfabetisch, of op prijs (oplopend of aflopend), daarna alfabetisch. "Weergaveprioriteit" op de maat is een apart veld. Zie [Instellingen weergavevolgorde](#order-settings).
 
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
@@ -94,7 +94,7 @@ Als je organisatie veel depots heeft (8 of meer), maken [depotgroepen](/depot_gr
 
 - **Voorbeeldgroepen**: "Ophalen bij de boerderij", "Stadrelaispunten", "Thuisbezorging"
 - **Informatietekst**: Optionele tekst die boven de depots van de groep wordt weergegeven. Een goede plek voor gedeelde info zoals ophaaltijden of algemene instructies. Eén zin is meestal voldoende.
-- **Weergaveprioriteit**: Bepaalt welke groep als eerste verschijnt.
+- **Weergaveprioriteit**: Eerste positie(s), Geen, of Laatste positie(s). Hetzelfde veld als op een depot. Zie [Instellingen weergavevolgorde](#order-settings).
 
 Zonder groepen kan een platte lijst van 15+ depots overweldigend aanvoelen. Groepen helpen leden om snel hun gebied te vinden en dan een specifieke locatie te kiezen.
 
@@ -150,14 +150,14 @@ Geef voor elk document een URL op die naar het document op je website verwijst. 
 
 Verschillende elementen in het formulier kunnen worden herschikt:
 
-| Element | Instelling | Opties |
-|---------|-----------|--------|
-| <%= BasketSize.model_name.human(count: 2) %> | [Sorteermodus](/settings#registration) | Naam, prijs (oplopend/aflopend), prioriteit |
-| <%= BasketComplement.model_name.human(count: 2) %> | [Sorteermodus](/settings#registration) | Naam, prijs (oplopend/aflopend), prioriteit |
-| Depots | [Sorteermodus](/settings#registration) | Naam, prijs (oplopend/aflopend), prioriteit |
-| Leveringscycli | [Sorteermodus](/settings#registration) | Naam, prioriteit |
+| Element | [Sorteermodus](/settings#registration) |
+|---------|---------|
+| <%= BasketSize.model_name.human(count: 2) %> | Alfabetisch, of op prijs (oplopend of aflopend), daarna alfabetisch |
+| <%= BasketComplement.model_name.human(count: 2) %> | Alfabetisch, op prijs, of op aantal leveringen. Prijs en leveringen kunnen oplopend of aflopend. Bij gelijkspel volgt weer de alfabetische volgorde. |
+| Depots | Alfabetisch, of op prijs (oplopend of aflopend), daarna alfabetisch |
+| Leveringscycli | Alfabetisch, op aantal leveringen (oplopend of aflopend), of op weekdagen, daarna op aantal leveringen (aflopend), daarna alfabetisch |
 
-In de modus "prioriteit" stel je het veld "Weergaveprioriteit" in bij elk element. Lagere waarden verschijnen eerst.
+"Weergaveprioriteit" is geen modus. Op een maat, een aanvulling, een depot, een cyclus of een depotgroep is het een apart veld: Eerste positie(s), Geen, of Laatste positie(s). Eerste positie(s) komt vóór de sorteermodus. Laatste positie(s) komt erna. Geen volgt alleen de sorteermodus. De standaard is Geen.
 
 ## Enkele tips {#tips}
 

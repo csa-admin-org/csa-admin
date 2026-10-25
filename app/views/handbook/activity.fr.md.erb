@@ -1,4 +1,4 @@
-# Participation des membres
+# <%= activities_human_name %>
 
 Cette fonctionnalité permet de gérer des activités ainsi que leurs participations par les membres. Ces participations peuvent être optionnelles ou obligatoires et peuvent être facturées ou non.
 
@@ -133,7 +133,7 @@ Exempter un dépôt, garder la formule par défaut sinon:
 
 Les membres peuvent s'inscrire à des activités depuis leur compte membre, même s'ils n'ont pas d'abonnement actif. Cela permet aux membres inactifs de participer à des activités sur une base volontaire et sans engagement. Ils peuvent également voir les activités auxquelles ils/elles sont inscrit(e)s, ainsi que les participations qu'ils/elles ont effectuées et leurs validations.
 
-Lors de l'inscription, le membre peut spécifier le nombre de participants, ajouter une remarque et choisir de partager son numéro de téléphone et sa ville de départ pour le covoiturage. Cela permet à un membre d'inscrire plusieurs personnes à la fois (par exemple, des membres de sa famille ou des amis venant aider). Chaque participant compte comme une participation dans le total requis du membre.
+Lors de l'inscription, le membre peut spécifier le nombre de participants, ajouter une remarque et choisir de partager son numéro de téléphone et sa ville de départ pour le covoiturage. Cela permet à un membre d'inscrire plusieurs personnes à la fois (par exemple, des membres de sa famille ou des amis venant aider). Chaque personne compte comme une participation dès l'inscription, et occupe autant de places sur l'activité. Une inscription de 3 compte tout de suite pour 3. Valider la participation ne l'ajoute pas. La refuser retire ces participations et libère les places.
 
 <% activity_reminder_days = MailTemplate.delay_in_days_for("activity_participation_reminder") %>
 Si le membre choisit de partager ses informations de covoiturage, elles sont incluses dans [l'e-mail de rappel](/mail_templates/activity_participation_reminder), envoyé <%= activity_reminder_days %> jours avant l'activité, avec les coordonnées des autres participants qui ont aussi choisi de les partager. Le délai se règle sur cet e-mail.
@@ -160,8 +160,8 @@ Les inscriptions aux activités faites par les membres sont visibles depuis [la 
 
 Les participations aux activités (du même jour ou passées) peuvent être validées ou refusées par les admins. Les membres recevront alors un email [de confirmation](/mail_templates/activity_participation_validated) ou [de refus](/mail_templates/activity_participation_rejected) de leur participation.
 
-- **Validation**: Confirme que le membre a bien effectué l'activité. La participation est comptabilisée.
-- **Refus**: À utiliser si le membre ne s'est pas présenté ou n'a pas effectué l'activité. La participation n'est pas comptabilisée et la place redevient disponible pour d'autres membres (si l'activité n'est pas encore passée).
+- **Validation**: Le membre s'est présenté et a effectué l'activité. Le décompte a déjà été pris à l'inscription. La validation ne l'augmente pas.
+- **Refus**: Le membre ne s'est pas présenté ou est parti tôt. Ces participations sortent du total requis, et les places redeviennent disponibles pour d'autres membres.
 
 Pour valider ou refuser des participations, vous pouvez soit utiliser les actions groupées depuis [la liste des participations](/activity_participations?scope=pending) (sélectionnez une ou plusieurs participations, puis choisissez l'action), soit utiliser les boutons d'action directement depuis la page de détail d'une participation à valider.
 
