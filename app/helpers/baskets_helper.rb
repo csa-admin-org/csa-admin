@@ -70,9 +70,15 @@ module BasketsHelper
     [ baskets, deliveries ]
   end
 
+  # Prebuilt option HTML, not a collection. Rails only treats a select as
+  # grouped when its first choice is a group, so a flat declined option ahead
+  # of the groups would render each group as a single empty option.
   def basket_shift_form_collection(basket)
-    col = basket.absence_id? ? [ [ t("active_admin.resource.form.basket_shift_declined"), :declined ] ] : []
-    col + basket_admin_shift_targets_collection(basket)
+    selected = basket.shift_target_basket_id
+    declined = if basket.absence_id?
+      options_for_select([ [ t("active_admin.resource.form.basket_shift_declined"), :declined ] ], selected)
+    end
+    safe_join([ declined, grouped_options_for_select(basket_admin_shift_targets_collection(basket), selected) ])
   end
 
   def basket_shift_panel_text(basket)
@@ -94,7 +100,7 @@ module BasketsHelper
       [
         target.delivery.date,
         [
-          target.delivery.display_name,
+          admin_shift_delivery_label(target.delivery),
           target.id,
           disabled: !source.admin_shift_target?(target)
         ]
@@ -102,7 +108,7 @@ module BasketsHelper
     } + source.admin_off_cycle_shift_deliveries.map { |delivery|
       [
         delivery.date,
-        [ safe_join([ delivery.display_name, " *" ]), "delivery:#{delivery.id}" ]
+        [ "#{admin_shift_delivery_label(delivery)} *", "delivery:#{delivery.id}" ]
       ]
     }
 
@@ -111,6 +117,12 @@ module BasketsHelper
       options,
       after: "active_admin.resource.form.following_deliveries",
       before: "active_admin.resource.form.previous_deliveries")
+  end
+
+  # Plain text: a <select> option cannot hold markup, and Safari's menu drops
+  # the label entirely when the option contains nested elements.
+  def admin_shift_delivery_label(delivery)
+    "#{l(delivery.date, format: :medium)} #{delivery.display_number}"
   end
 
   def basket_shift_targets_member_collection(source)

@@ -218,7 +218,9 @@ class BasketsHelperTest < ActionView::TestCase
     absent = (after + before).find { |_, value,| value == baskets(:jane_5).id }
     off_cycle = (after + before).find { |_, value,| value == "delivery:#{deliveries(:monday_1).id}" }
     assert absent.last[:disabled]
-    assert_match(/ \*\z/, off_cycle.first)
+    assert_equal admin_shift_delivery_label(baskets(:jane_5).delivery), absent.first
+    assert_equal "#{admin_shift_delivery_label(deliveries(:monday_1))} *", off_cycle.first
+    assert_no_match(/[<>]/, off_cycle.first)
     assert before_dates.index(deliveries(:monday_1).date) < before_dates.index(baskets(:jane_1).delivery.date)
     assert before_dates.index(baskets(:jane_1).delivery.date) < before_dates.index(deliveries(:monday_2).date)
   end
@@ -227,20 +229,24 @@ class BasketsHelperTest < ActionView::TestCase
     travel_to "2024-04-01"
     org(features: [ :absence ], absences_billed: true)
 
-    collection = basket_shift_form_collection(baskets(:jane_5))
+    basket = baskets(:jane_5)
+    collection = basket_shift_form_collection(basket)
+    grouped = grouped_options_for_select(basket_admin_shift_targets_collection(basket))
 
-    assert_equal :declined, collection.first.second
-    assert_equal basket_admin_shift_targets_collection(baskets(:jane_5)), collection.drop(1)
+    assert_match(/\A<option value="declined">/, collection)
+    assert collection.end_with?(grouped)
+    assert_no_match(/optgroup.*declined/m, collection)
   end
 
   test "basket_shift_form_collection omits declined without an absence" do
     travel_to "2024-04-01"
     org(features: [ :absence ], absences_billed: true)
 
-    collection = basket_shift_form_collection(baskets(:jane_3))
+    basket = baskets(:jane_3)
+    collection = basket_shift_form_collection(basket)
 
-    assert collection.none? { |_, value,| value == :declined }
-    assert_equal basket_admin_shift_targets_collection(baskets(:jane_3)), collection
+    assert_no_match(/declined/, collection)
+    assert_equal grouped_options_for_select(basket_admin_shift_targets_collection(basket)), collection
   end
 
   test "basket_shift_target_hint appends the off-cycle note when one is listed" do

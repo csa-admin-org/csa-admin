@@ -131,12 +131,24 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
     assert_select "p.description.is-tight",
       text: I18n.t("active_admin.resource.form.basket_shift_absences_included_warning")
     options = css_select("select#basket_shift_target_basket_id > option").map { |option| option["value"] }.reject(&:blank?)
-    assert_equal "declined", options.first
+    assert_equal [ "declined" ], options
+    assert_select "select#basket_shift_target_basket_id optgroup",
+      label: I18n.t("active_admin.resource.form.following_deliveries")
+    assert_select "select#basket_shift_target_basket_id optgroup option", minimum: 1
     assert_select "select#basket_shift_target_basket_id optgroup option[value=declined]", count: 0
     assert_select "select#basket_delivery_id", count: 0
     assert_select "select#basket_depot_id", count: 0
     assert_select "select#basket_basket_size_id", count: 0
     assert_select "input#basket_quantity", count: 0
+  end
+
+  test "edit form keeps the declined shift selected" do
+    @basket.update!(shift_declined_at: Time.current)
+
+    get edit_basket_path(@basket)
+
+    assert_response :success
+    assert_select "select#basket_shift_target_basket_id > option[value=declined][selected]"
   end
 
   test "membership show links prorated included absences and keeps shift off the row" do
@@ -186,9 +198,14 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
       label: I18n.t("active_admin.resource.form.previous_deliveries")
     assert_select "select#basket_shift_target_basket_id optgroup:last-of-type",
       label: I18n.t("active_admin.resource.form.following_deliveries")
+    monday = deliveries(:monday_1)
     assert_select "select#basket_shift_target_basket_id option[value=?]",
-      "delivery:#{deliveries(:monday_1).id}",
-      text: / \*\z/
+      "delivery:#{monday.id}",
+      text: "#{shift_delivery_label(monday)} *"
+    assert_select "select#basket_shift_target_basket_id option[value=?]",
+      baskets(:jane_1).id,
+      text: shift_delivery_label(baskets(:jane_1).delivery)
+    assert_select "select#basket_shift_target_basket_id option span", count: 0
     assert_select "select#basket_shift_target_basket_id option[value=?][disabled]",
       baskets(:jane_5).id
     assert_select "#basket_shift_target_basket_id_input .inline-hints",
@@ -329,6 +346,10 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
     else
       Basket.find(value).delivery.date
     end
+  end
+
+  def shift_delivery_label(delivery)
+    "#{I18n.l(delivery.date, format: :medium)} #{delivery.display_number}"
   end
 
   def login(admin)
