@@ -35,6 +35,27 @@ class SupportHelperTest < ActionView::TestCase
     assert_not_includes html, "gmail_signature"
   end
 
+  test "hides a stored infomaniak signature on an admin reply" do
+    message = Support::Message.new(
+      author: "admin",
+      body: "Thanks",
+      html: <<~HTML)
+        <div>Thanks for the help.</div>
+        <div>Sam</div>
+        <div data-ik-opengraph-ignore="">
+          <p><b>Green Farm</b></p>
+          <div><img src="https://workspace.storage.infomaniak.com/signature/logo" alt="sign"></div>
+        </div>
+      HTML
+
+    html = view.support_message_html(message)
+
+    assert_includes html, "Thanks for the help"
+    assert_includes html, "Sam"
+    assert_not_includes html, "Green Farm"
+    assert_not_includes html, "infomaniak"
+  end
+
   test "hides a proton quote stored on an admin reply" do
     message = Support::Message.new(
       author: "admin",

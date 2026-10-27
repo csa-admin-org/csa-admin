@@ -425,6 +425,41 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_includes original, "Earlier"
   end
 
+  test "drops an infomaniak image signature and its address block" do
+    html = <<~HTML
+      <div>Thanks for the help.</div>
+      <div>Sam</div>
+      <div data-ik-opengraph-ignore="">
+        <p><b>Green Farm</b> nearby produce</p>
+        <div><b>1 Farm Road<br>000.000.00.00<br><a href="https://example.test">example.test</a></b></div>
+        <div><img src="https://workspace.storage.infomaniak.com/signature/logo" alt="sign">&nbsp;</div>
+      </div>
+    HTML
+    rendered = html.gsub(/ data-ik-opengraph-ignore=""/, "")
+
+    [ html, rendered ].each do |source|
+      shown = Support::ReplyHtml.present(source)
+
+      assert_includes shown, "Thanks for the help"
+      assert_includes shown, "Sam"
+      assert_not_includes shown, "Green Farm"
+      assert_not_includes shown, "Farm Road"
+      assert_not_includes shown, "infomaniak"
+    end
+  end
+
+  test "keeps a reply image that is not a signature" do
+    html = <<~HTML
+      <div>See the invoice.</div>
+      <div><img src="https://admin.example.test/rails/active_storage/blobs/shot.png" alt="shot"></div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+
+    assert_includes shown, "shot.png"
+    assert_includes shown, "invoice"
+  end
+
   test "strips a trailing operator signature" do
     html = <<~HTML
       <html><body>
