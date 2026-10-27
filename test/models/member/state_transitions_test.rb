@@ -309,6 +309,57 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
     assert_raises(InvalidTransitionError) { member.validate!(admin) }
   end
 
+  test "extending a past membership to today activates a waiting member and clears the request" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    membership = past_ended_membership!(member)
+
+    membership.update!(ended_on: Date.new(2024, 6, 3))
+
+    member.reload
+    assert member.active?
+    assert_nil member.waiting_basket_size_id
+    assert_nil member.waiting_depot_id
+    assert_nil member.waiting_delivery_cycle_id
+    assert_nil member.waiting_membership_started_on
+    assert_nil member.waiting_started_at
+  end
+
+  test "editing a still-ended membership leaves the waiting member and request" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    membership = past_ended_membership!(member)
+
+    membership.update!(basket_price_extra: 1)
+
+    member.reload
+    assert member.waiting?
+    assert_equal basket_sizes(:medium).id, member.waiting_basket_size_id
+    assert_equal depots(:farm).id, member.waiting_depot_id
+  end
+
+  test "extending a membership but leaving it in the past does not activate" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    membership = past_ended_membership!(member)
+
+    membership.update!(ended_on: Date.new(2024, 4, 28))
+
+    assert member.reload.waiting?
+  end
+
+  test "shop depot activation leaves the waiting request" do
+    member = members(:aria)
+    member.update_columns(shop_depot_id: depots(:farm).id)
+
+    member.activate!
+
+    member.reload
+    assert member.active?
+    assert_equal basket_sizes(:medium).id, member.waiting_basket_size_id
+    assert_equal depots(:farm).id, member.waiting_depot_id
+  end
+
   test "review_active_state! activates new active member" do
     member = members(:john)
     member.update_column(:state, "inactive")
@@ -608,5 +659,26 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
   test "can_deactivate? returns false for inactive member" do
     member = members(:mary)
     assert_not member.can_deactivate?
+  end
+
+  private
+
+  def past_ended_membership!(member)
+    membership = create_membership(
+      member: member,
+      basket_size: basket_sizes(:medium),
+      depot: depots(:farm),
+      delivery_cycle: delivery_cycles(:mondays),
+      started_on: Date.new(2024, 4, 1),
+      ended_on: Date.new(2024, 4, 21))
+    member.update_columns(
+      state: "waiting",
+      waiting_started_at: Time.current,
+      waiting_basket_size_id: basket_sizes(:medium).id,
+      waiting_depot_id: depots(:farm).id,
+      waiting_delivery_cycle_id: delivery_cycles(:mondays).id,
+      waiting_billing_year_division: 1)
+    member.reload
+    membership
   end
 end

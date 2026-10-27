@@ -54,10 +54,26 @@ module ActiveAdmin::MembershipHelper
   end
 
   def waiting_membership_action_notice_class(member)
-    if member.validation_waiting_membership_no_delivery? || member.activation_waiting_membership_no_delivery?
+    if member.validation_waiting_membership_blocked? || member.activation_waiting_membership_blocked?
       "waiting-notice is-alert"
     else
       "waiting-notice"
+    end
+  end
+
+  def activation_waiting_membership_tooltip(member)
+    if member.activation_waiting_membership_year_taken?
+      t("active_admin.resource.show.membership_activation_year_taken_tooltip")
+    elsif member.activation_waiting_membership_no_delivery?
+      t("active_admin.resource.show.membership_activation_no_delivery")
+    end
+  end
+
+  def validation_waiting_membership_tooltip(member)
+    if member.validation_waiting_membership_year_taken?
+      t("active_admin.resource.show.membership_activation_year_taken_tooltip")
+    elsif member.validation_waiting_membership_no_delivery?
+      t("active_admin.resource.show.membership_validation_no_delivery")
     end
   end
 
@@ -72,7 +88,9 @@ module ActiveAdmin::MembershipHelper
   end
 
   def waiting_membership_validation_notice(member)
-    if Current.org.waiting_list? && !member.direct_membership_start_requested?
+    if member.validation_waiting_membership_year_taken?
+      waiting_membership_year_taken_notice(member)
+    elsif Current.org.waiting_list? && !member.direct_membership_start_requested?
       t("active_admin.resource.show.membership_validation_waiting_list")
     elsif member.waiting_membership_deliveries?
       t("active_admin.resource.show.membership_validation_start_on", date: l(member.waiting_membership_start_on))
@@ -82,10 +100,18 @@ module ActiveAdmin::MembershipHelper
   end
 
   def waiting_membership_activation_notice(member)
-    if member.waiting_membership_deliveries?
+    if member.activation_waiting_membership_year_taken?
+      waiting_membership_year_taken_notice(member)
+    elsif member.waiting_membership_deliveries?
       t("active_admin.resource.show.membership_activation_start_on", date: l(member.waiting_membership_start_on))
     else
       t("active_admin.resource.show.membership_activation_no_delivery")
     end
+  end
+
+  def waiting_membership_year_taken_notice(member)
+    membership = member.waiting_membership_blocking
+    t("active_admin.resource.show.membership_activation_year_taken_html",
+      membership_url: membership_path(membership))
   end
 end

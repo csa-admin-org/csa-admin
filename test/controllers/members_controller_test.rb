@@ -589,6 +589,77 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_select "button:not([disabled])", text: /Activate/
   end
 
+  test "show disables activation but not deactivation when the fiscal year already has a membership" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    membership = past_same_year_membership!(member)
+    login admins(:super)
+
+    get member_path(member)
+
+    assert_response :success
+    assert_select "p.waiting-notice.is-alert a[href='#{membership_path(membership)}']"
+    assert_select "button[disabled]", text: /Activate/
+    assert_select "button:not([disabled])", text: /Activate/, count: 0
+    assert_select "button:not([disabled]).destructive", text: /Deactivate/
+  end
+
+  test "show keeps activation when the existing membership is another fiscal year" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    past_same_year_membership!(member, started_on: Date.new(2023, 4, 3), ended_on: Date.new(2023, 6, 5))
+    login admins(:super)
+
+    get member_path(member)
+
+    assert_response :success
+    assert_select "button:not([disabled])", text: /Activate/
+    assert_select "button:not([disabled])", text: /Deactivate/
+  end
+
+  test "deactivate drops a waiting member whose fiscal year already has a membership" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    past_same_year_membership!(member)
+    login admins(:super)
+
+    post deactivate_member_path(member)
+
+    assert_redirected_to member_path(member)
+    member.reload
+    assert member.inactive?
+    assert_nil member.waiting_basket_size_id
+    assert_equal 1, member.memberships.count
+  end
+
+  test "show disables validation when a direct start would collide with the fiscal year" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    membership = past_same_year_membership!(member)
+    member.update!(state: "pending", validated_at: nil, waiting_membership_started_on: Date.new(2024, 5, 6))
+    login admins(:super)
+
+    get member_path(member)
+
+    assert_response :success
+    assert_select "p.waiting-notice.is-alert a[href='#{membership_path(membership)}']"
+    assert_select "button[disabled]", text: /Validate/
+  end
+
+  test "show keeps waiting-list validation when no direct start date is set" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    past_same_year_membership!(member)
+    member.update!(state: "pending", validated_at: nil)
+    login admins(:super)
+
+    get member_path(member)
+
+    assert_response :success
+    assert_select "p", text: "Validation will place this member on the waiting list."
+    assert_select "button:not([disabled])", text: /Validate/
+  end
+
   test "show disables activation when waiting member has no upcoming delivery" do
     travel_to "2026-01-01"
     member = members(:aria)
@@ -835,5 +906,26 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to member_path(member)
     assert member.active?
     assert member.validated_at?
+  end
+
+  private
+
+  def past_same_year_membership!(member, started_on: Date.new(2024, 4, 1), ended_on: Date.new(2024, 4, 28))
+    membership = create_membership(
+      member: member,
+      basket_size: basket_sizes(:medium),
+      depot: depots(:farm),
+      delivery_cycle: delivery_cycles(:mondays),
+      started_on: started_on,
+      ended_on: ended_on)
+    member.update_columns(
+      state: member.state,
+      waiting_started_at: Time.current,
+      waiting_basket_size_id: basket_sizes(:medium).id,
+      waiting_depot_id: depots(:farm).id,
+      waiting_delivery_cycle_id: delivery_cycles(:mondays).id,
+      waiting_billing_year_division: 1)
+    member.reload
+    membership
   end
 end

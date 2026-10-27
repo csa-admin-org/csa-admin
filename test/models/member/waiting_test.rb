@@ -320,6 +320,36 @@ class Member::WaitingTest < ActiveSupport::TestCase
     assert_equal Date.new(2024, 5, 6), member.waiting_membership_start_on
   end
 
+  test "same-year membership blocks activation and direct validation" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    membership = past_same_year_membership!(member)
+
+    assert member.waiting_membership_year_taken?
+    assert_equal membership, member.waiting_membership_blocking
+    assert_not member.can_create_membership?
+    assert member.activation_waiting_membership_year_taken?
+    assert_not member.activation_waiting_membership_no_delivery?
+
+    member.update!(state: "pending", validated_at: nil, waiting_membership_started_on: Date.new(2024, 5, 6))
+
+    assert_not member.validation_creates_membership?
+    assert member.validation_waiting_membership_year_taken?
+
+    error = assert_raises(ActiveRecord::RecordInvalid) { member.validate!(admins(:super)) }
+    assert_includes error.record.errors.full_messages.to_sentence, "already has a membership"
+    assert member.reload.pending?
+  end
+
+  test "membership in another fiscal year does not block activation" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    past_same_year_membership!(member, started_on: Date.new(2023, 4, 3), ended_on: Date.new(2023, 6, 5))
+
+    assert_not member.waiting_membership_year_taken?
+    assert member.can_create_membership?
+  end
+
   test "direct start date requires matching deliveries in the membership period" do
     travel_to "2024-05-01"
     member = members(:aria)
@@ -389,5 +419,26 @@ class Member::WaitingTest < ActiveSupport::TestCase
     assert_equal 0, membership.basket_price_extra
     assert_equal membership.activity_participations_demanded_annually_by_default,
       membership.activity_participations_demanded_annually
+  end
+
+  private
+
+  def past_same_year_membership!(member, started_on: Date.new(2024, 4, 1), ended_on: Date.new(2024, 4, 28))
+    membership = create_membership(
+      member: member,
+      basket_size: basket_sizes(:medium),
+      depot: depots(:farm),
+      delivery_cycle: delivery_cycles(:mondays),
+      started_on: started_on,
+      ended_on: ended_on)
+    member.update_columns(
+      state: "waiting",
+      waiting_started_at: Time.current,
+      waiting_basket_size_id: basket_sizes(:medium).id,
+      waiting_depot_id: depots(:farm).id,
+      waiting_delivery_cycle_id: delivery_cycles(:mondays).id,
+      waiting_billing_year_division: 1)
+    member.reload
+    membership
   end
 end

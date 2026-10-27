@@ -34,9 +34,13 @@ module Member::StateTransitions
   end
 
   def activate!
-    invalid_transition(:activate!) unless current_or_future_membership || shop_depot
+    membership = current_or_future_membership
+    invalid_transition(:activate!) unless membership || shop_depot
     return if active?
 
+    # A shop depot can activate a member who is still waiting for a membership.
+    # Leave that request; only a real membership consumes it.
+    clear_waiting_membership_attributes if membership
     self.state = Member::ACTIVE_STATE
     unless Current.org.annual_fee_support_member_only?
       self.annual_fee ||= Current.org.annual_fee
@@ -133,8 +137,14 @@ module Member::StateTransitions
   def validate_membership_request!
     ensure_complete_membership_request!
     return validate_into_waiting_list! if waiting_list_validation?
+    return refuse_taken_membership_year! if waiting_membership_year_taken?
 
     validate_with_direct_membership!
+  end
+
+  def refuse_taken_membership_year!
+    errors.add(:base, :waiting_membership_year_taken)
+    raise ActiveRecord::RecordInvalid, self
   end
 
   def validate_into_waiting_list!

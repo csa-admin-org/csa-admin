@@ -195,14 +195,18 @@ module Member::Waiting
   end
 
   def can_create_membership?
-    waiting? && complete_membership_request? && waiting_membership_deliveries?
+    waiting? &&
+      complete_membership_request? &&
+      waiting_membership_deliveries? &&
+      !waiting_membership_year_taken?
   end
 
   def validation_creates_membership?
     pending? &&
       complete_membership_request? &&
       !(Current.org.waiting_list? && !direct_membership_start_requested?) &&
-      waiting_membership_deliveries?
+      waiting_membership_deliveries? &&
+      !waiting_membership_year_taken?
   end
 
   def validation_waiting_membership_no_delivery?
@@ -212,8 +216,36 @@ module Member::Waiting
       !waiting_membership_deliveries?
   end
 
+  def validation_waiting_membership_year_taken?
+    pending? &&
+      direct_membership_would_create? &&
+      waiting_membership_year_taken?
+  end
+
   def activation_waiting_membership_no_delivery?
     waiting? && complete_membership_request? && !waiting_membership_deliveries?
+  end
+
+  def activation_waiting_membership_blocked?
+    activation_waiting_membership_no_delivery? || activation_waiting_membership_year_taken?
+  end
+
+  def validation_waiting_membership_blocked?
+    validation_waiting_membership_no_delivery? || validation_waiting_membership_year_taken?
+  end
+
+  def activation_waiting_membership_year_taken?
+    waiting? && complete_membership_request? && waiting_membership_year_taken?
+  end
+
+  def waiting_membership_year_taken?
+    waiting_membership_blocking.present?
+  end
+
+  def waiting_membership_blocking
+    return unless (started_on = waiting_membership_start_on)
+
+    memberships.during_year(Current.org.fiscal_year_for(started_on).year).order(:started_on).first
   end
 
   def clear_waiting_membership_attributes
@@ -301,6 +333,11 @@ module Member::Waiting
     return if self[:waiting_membership_started_on].present?
 
     errors.add(:waiting_membership_started_on, :blank)
+  end
+
+  def direct_membership_would_create?
+    complete_membership_request? &&
+      !(Current.org.waiting_list? && !direct_membership_start_requested?)
   end
 
   def ensure_complete_membership_request!

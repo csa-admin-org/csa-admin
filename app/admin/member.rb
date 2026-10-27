@@ -1114,21 +1114,21 @@ ActiveAdmin.register Member do
 
   action_item :activate, only: :show, if: -> {
     authorized?(:create_membership, resource) ||
-      (resource.activation_waiting_membership_no_delivery? && authorized?(:create, Membership))
+      (resource.activation_waiting_membership_blocked? && authorized?(:create, Membership))
   } do
     action_button t("active_admin.shared.action_items.activate"),
       create_membership_member_path(resource),
       icon: "check",
-      disabled: resource.activation_waiting_membership_no_delivery?,
-      disabled_tooltip: t("active_admin.resource.show.membership_activation_no_delivery"),
+      disabled: resource.activation_waiting_membership_blocked?,
+      disabled_tooltip: activation_waiting_membership_tooltip(resource),
       data: { confirm: t("active_admin.shared.action_items.activate_confirm") }
   end
 
   action_item :validate, only: :show, if: -> { authorized?(:validate, resource) } do
     action_button t(".validate"), validate_member_path(resource),
       icon: "check",
-      disabled: resource.validation_waiting_membership_no_delivery?,
-      disabled_tooltip: t("active_admin.resource.show.membership_validation_no_delivery"),
+      disabled: resource.validation_waiting_membership_blocked?,
+      disabled_tooltip: validation_waiting_membership_tooltip(resource),
       data: (resource.validation_creates_membership? ? { confirm: t("active_admin.shared.action_items.activate_confirm") } : {})
   end
 

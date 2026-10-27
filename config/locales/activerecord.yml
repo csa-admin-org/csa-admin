@@ -4707,6 +4707,15 @@ _:
             _de: Die Summe der Mitgliedschaftsabrechnungen ist zu hoch
             _it: Il totale della fatturazione delle quote associative è troppo alto
             _nl: Het totaal van de lidmaatschapsfacturatie is te hoog
+        member:
+          attributes:
+            base:
+              waiting_membership_year_taken:
+                _en: This member already has a membership for this fiscal year, so they cannot be activated directly. Edit that membership instead.
+                _fr: Ce membre a déjà un abonnement pour cette année fiscale. Il ne peut donc pas être activé directement, modifiez cet abonnement à la place.
+                _de: Für dieses Mitglied besteht bereits ein Abonnement für dieses Geschäftsjahr. Eine direkte Aktivierung ist daher nicht möglich, dieses Abonnement bearbeiten.
+                _it: Questo socio ha già un abbonamento per questo anno fiscale. Non può quindi essere attivato direttamente, modificate quell'abbonamento.
+                _nl: Dit lid heeft al een lidmaatschap voor dit boekjaar. Direct activeren is daarom niet mogelijk, dat lidmaatschap bewerken.
         membership:
           attributes:
             alternate_delivery_cycle:

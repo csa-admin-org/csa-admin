@@ -2559,6 +2559,18 @@ _:
           _de: Die Aktivierung erstellt ein Abonnement ab dem %{date}.
           _it: L'attivazione creerà un abbonamento a partire dal %{date}.
           _nl: De activering maakt een lidmaatschap aan vanaf %{date}.
+        membership_activation_year_taken_html:
+          _en: This member already has a <a href="%{membership_url}">membership</a> for this fiscal year, so they cannot be activated directly. Edit that membership instead.
+          _fr: Ce membre a déjà un <a href="%{membership_url}">abonnement</a> pour cette année fiscale. Il ne peut donc pas être activé directement, modifiez cet abonnement à la place.
+          _de: Für dieses Mitglied besteht bereits ein <a href="%{membership_url}">Abonnement</a> für dieses Geschäftsjahr. Eine direkte Aktivierung ist daher nicht möglich, dieses Abonnement bearbeiten.
+          _it: Questo socio ha già un <a href="%{membership_url}">abbonamento</a> per questo anno fiscale. Non può quindi essere attivato direttamente, modificate quell'abbonamento.
+          _nl: Dit lid heeft al een <a href="%{membership_url}">lidmaatschap</a> voor dit boekjaar. Direct activeren is daarom niet mogelijk, dat lidmaatschap bewerken.
+        membership_activation_year_taken_tooltip:
+          _en: This member already has a membership for this fiscal year, so they cannot be activated directly. Edit that membership instead.
+          _fr: Ce membre a déjà un abonnement pour cette année fiscale. Il ne peut donc pas être activé directement, modifiez cet abonnement à la place.
+          _de: Für dieses Mitglied besteht bereits ein Abonnement für dieses Geschäftsjahr. Eine direkte Aktivierung ist daher nicht möglich, dieses Abonnement bearbeiten.
+          _it: Questo socio ha già un abbonamento per questo anno fiscale. Non può quindi essere attivato direttamente, modificate quell'abbonamento.
+          _nl: Dit lid heeft al een lidmaatschap voor dit boekjaar. Direct activeren is daarom niet mogelijk, dat lidmaatschap bewerken.
         membership_invoice_callout_html:
           _en: To change the amount, <a href="%{membership_url}">edit the membership</a>. Recurring billing will then cancel it and issue a new invoice on the next billing day.
           _fr: Pour changer le montant, <a href="%{membership_url}">modifier l'abonnement</a>. La facturation récurrente annulera et réémettra alors une nouvelle facture au prochain jour de facturation.
