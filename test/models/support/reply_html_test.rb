@@ -183,6 +183,51 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_not_includes original, "Here is the answer"
   end
 
+  test "split_cited unwraps an apple mail cite nested under the signature" do
+    html = <<~HTML
+      <div>Salut Sam,</div>
+      <div>The import is ready.</div>
+      <div>++<br>Thibaud<br id="lineBreakAtBeginningOfMessage"><div>
+        <br><blockquote type="cite">
+          <div>On 29 Oct 2026, at 17:21, Sam &lt;sam@example.test&gt; wrote:</div>
+          <br class="Apple-interchange-newline">
+          <div><span>Salut</span><div>Could you import this file?</div><div>Sam</div></div>
+        </blockquote>
+      </div><br></div>
+    HTML
+
+    with_env("ULTRA_ADMIN_NAME" => "Thibaud") do
+      reply, original = Support::ReplyHtml.split_cited(html)
+      shown = Support::ReplyHtml.present(original)
+
+      assert_includes reply, "import is ready"
+      assert_not_includes reply, "this file"
+      assert_not_includes reply, "wrote"
+      assert_includes original, "this file"
+      assert_not_includes original, "blockquote"
+      assert_not_includes original, "wrote"
+      assert_not_includes shown, "blockquote"
+      assert_includes shown, "this file"
+    end
+  end
+
+  test "present unwraps a stored cite that is the whole message" do
+    html = <<~HTML
+      <br id="lineBreakAtBeginningOfMessage"><div>
+        <br><blockquote type="cite">
+          <div>On 29 Oct 2026, at 17:21, Sam wrote:</div>
+          <div>Could you import this file?</div>
+        </blockquote>
+      </div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+
+    assert_includes shown, "this file"
+    assert_not_includes shown, "blockquote"
+    assert_not_includes shown, "wrote"
+  end
+
   test "split_cited treats a thunderbird cite prefix as the original header" do
     html = <<~HTML
       <html><body>

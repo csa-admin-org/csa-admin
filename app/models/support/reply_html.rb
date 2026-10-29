@@ -58,9 +58,8 @@ module Support
       strip_styles!(root)
       return [ root.inner_html.to_s.strip.presence, nil ] if original.blank?
 
-      unwrap_cite!(original)
-      drop_cite_headers!(original)
-      unwrap_cite!(original)
+      unwrap_quoted!(original)
+      collapse_breaks!(original)
       strip_styles!(original)
       original_html = original.inner_html.to_s.strip.presence
       original_html = nil if original_html && blank_cited?(original)
@@ -74,6 +73,7 @@ module Support
       root.css("blockquote.protonmail_quote, div.protonmail_quote").each(&:remove)
       Support::ReplyQuote.drop_separators!(root)
       Support::MailSignature.strip_fragment!(root)
+      unwrap_quoted!(root)
       collapse_breaks!(root)
       strip_styles!(root)
       root.inner_html.to_s.strip.presence
@@ -84,6 +84,7 @@ module Support
 
       root = Nokogiri::HTML::DocumentFragment.parse(html.to_s)
       Support::MailSignature.strip_fragment!(root)
+      unwrap_quoted!(root)
       collapse_breaks!(root)
       strip_styles!(root)
       root.to_html.html_safe
@@ -301,20 +302,46 @@ module Support
     end
     private_class_method :blank_cited?
 
+    def self.unwrap_quoted!(root)
+      unwrap_cite!(root)
+      drop_cite_headers!(root)
+      unwrap_cite!(root)
+    end
+    private_class_method :unwrap_quoted!
+
     def self.unwrap_cite!(root)
       loop do
-        children = split_children(root)
-        break unless children.size == 1 && cite_wrapper?(children.first)
+        child = filled_children(root).first
+        break unless child && cite_shell?(child) && filled_children(root).one?
 
-        children.first.replace(children.first.children)
+        child.replace(child.children)
       end
     end
     private_class_method :unwrap_cite!
+
+    def self.cite_shell?(node)
+      return true if cite_wrapper?(node)
+      return false unless wrapper?(node)
+
+      inner = filled_children(node)
+      inner.one? && cite_shell?(inner.first)
+    end
+    private_class_method :cite_shell?
+
+    def self.filled_children(root)
+      split_children(root).reject { |node| blank_node?(node) }
+    end
+    private_class_method :filled_children
 
     def self.drop_cite_headers!(root)
       loop do
         children = split_children(root)
         break if children.empty?
+
+        if blank_node?(children.first)
+          children.first.remove
+          next
+        end
 
         first = children.first
         if wrapper?(first) && split_children(first).size <= 1
