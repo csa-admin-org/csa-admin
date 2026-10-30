@@ -56,7 +56,9 @@ ActiveAdmin.register Delivery do
     column(:date)
     column(:number)
     column(:baskets) { |d| (counts[d.id] ||= d.basket_counts).all.sum(&:count) }
-    BasketSize.for(Basket.active.where(delivery_id: collection.except(:limit, :offset).select(:id))).each do |basket_size|
+    BasketSize.for(
+      Basket.deliverable.where(delivery_id: collection.except(:limit, :offset).select(:id))
+    ).each do |basket_size|
       column(basket_size.name) { |d| (counts[d.id] ||= d.basket_counts).sum_basket_size(basket_size.id) }
     end
     column(:absent_baskets) { |d| d.basket_counts(scope: :absent).all.sum(&:count) }
