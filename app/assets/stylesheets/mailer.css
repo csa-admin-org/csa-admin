@@ -91,7 +91,9 @@ h2 {
 }
 
 h2,
-.trix-content h1 {
+.trix-content h1,
+.trix-content h2,
+.trix-content h3 {
   color: #444444;
   font-size: 20px;
   font-weight: 400;
@@ -482,7 +484,9 @@ p {
 }
 
 .content-block h2,
-.trix-content h1 {
+.trix-content h1,
+.trix-content h2,
+.trix-content h3 {
   margin-bottom: 10px;
 }
 
@@ -638,7 +642,10 @@ p {
   blockquote,
   h1,
   h2,
-  h3 {
+  h3,
+  .trix-content div,
+  .trix-content pre,
+  .trix-content figure {
     color: #eee !important;
   }
 
@@ -677,7 +684,10 @@ body.dark ol,
 body.dark blockquote,
 body.dark h1,
 body.dark h2,
-body.dark h3 {
+body.dark h3,
+body.dark .trix-content div,
+body.dark .trix-content pre,
+body.dark .trix-content figure {
   color: #eee !important;
 }
 
