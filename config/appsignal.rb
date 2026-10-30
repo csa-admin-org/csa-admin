@@ -9,6 +9,7 @@ Appsignal.configure do |config|
   config.ignore_errors = [
     "ActiveRecord::RecordNotFound",
     "ActionController::InvalidAuthenticityToken",
+    "ActionController::InvalidCrossOriginRequest",
     "ActionController::BadRequest",
     "ActionController::UnknownFormat",
     "ActionDispatch::Http::MimeNegotiation::InvalidType",
