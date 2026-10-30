@@ -24,8 +24,8 @@ class Support::SignatureTest < ActiveSupport::TestCase
     end
   end
 
-  test "is a no-op without ULTRA_ADMIN_NAME" do
-    with_env("ULTRA_ADMIN_NAME" => nil) do
+  test "is a no-op when ULTRA_ADMIN_NAME is blank" do
+    with_env("ULTRA_ADMIN_NAME" => "") do
       text = "Voici\n\n++\nThibaud"
       assert_equal text, Support::Signature.strip_text(text)
     end

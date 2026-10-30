@@ -80,7 +80,7 @@ namespace :masker do
             emails_mapping[suppression.email.downcase] || fallback)
         end
         Admin.find_each do |admin|
-          unless admin.email.in?([ ENV["AUTO_SIGN_IN_ADMIN_EMAIL"], ENV["ULTRA_ADMIN_EMAIL"] ])
+          unless admin.email.in?([ Rails.app.creds.option(:auto_sign_in_admin_email), Admin.ultra_email ])
             name = Faker::Name.unique.first_name
             admin.update_columns(
               name: name,

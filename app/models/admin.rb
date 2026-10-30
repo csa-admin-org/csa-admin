@@ -38,17 +38,29 @@ class Admin < ApplicationRecord
 
   after_create -> { Update.mark_as_read!(self) }
 
+  # Public operator identity. Kamal and the gitignored .env override these.
+  # The defaults are what .env.test used to commit, so tests do not need that file.
+  def self.ultra_email
+    Rails.app.creds.option(:ultra_admin_email, default: "info@csa-admin.org")
+  end
+
+  def self.ultra_name
+    Rails.app.creds.option(:ultra_admin_name, default: "Thibaud")
+  end
+
+  def self.ultra_language
+    Rails.app.creds.option(:ultra_admin_language, default: "en")
+  end
+
   def self.ultra
-    find_by(email: ENV["ULTRA_ADMIN_EMAIL"])
+    find_by(email: ultra_email)
   end
 
   def self.create_ultra!
-    return unless ENV["ULTRA_ADMIN_EMAIL"]
-
     create!(
-      email: ENV["ULTRA_ADMIN_EMAIL"],
-      name: ENV["ULTRA_ADMIN_NAME"],
-      language: ENV["ULTRA_ADMIN_LANGUAGE"],
+      email: ultra_email,
+      name: ultra_name,
+      language: ultra_language,
       permission: Permission.superadmin)
   end
 
@@ -99,7 +111,7 @@ class Admin < ApplicationRecord
   end
 
   def ultra?
-    email == ENV["ULTRA_ADMIN_EMAIL"]
+    email == self.class.ultra_email
   end
 
   def can_resend_invitation?

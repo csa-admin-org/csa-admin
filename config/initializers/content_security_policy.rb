@@ -6,7 +6,7 @@
 # See the Securing Rails Applications Guide for more information:
 # https://guides.rubyonrails.org/security.html#content-security-policy-header
 
-cap_api_url = ENV.fetch("CAP_API_URL", "https://cap.csa-admin.org").delete_suffix("/")
+cap_api_url = Rails.app.creds.option(:cap_api_url, default: "https://cap.csa-admin.org").delete_suffix("/")
 
 Rails.application.configure do
   config.content_security_policy do |policy|

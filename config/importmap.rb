@@ -17,7 +17,7 @@ pin "@rails/actiontext", to: "actiontext.esm.js"
 pin_all_from "app/javascript/components", under: "components"
 pin "throttle-debounce" # @5.0.2
 
-cap_api_url = ENV.fetch("CAP_API_URL", "https://cap.csa-admin.org").delete_suffix("/")
+cap_api_url = Rails.app.creds.option(:cap_api_url, default: "https://cap.csa-admin.org").delete_suffix("/")
 pin "cap-widget", to: "#{cap_api_url}/assets/widget.js", preload: false
 
 # AppSignal

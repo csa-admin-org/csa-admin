@@ -57,7 +57,7 @@ namespace :litestream do
     task local: :environment do
       raise "Only run this task in dev!" unless Rails.env.development?
 
-      backup_path = ENV.fetch("BACKUP_PATH")
+      backup_path = Rails.app.creds.require(:backup_path)
       config = LitestreamConfig.local(backup_path: backup_path, db_names: Tenant.all)
       File.write("#{backup_path}/litestream.yml", config.to_yaml)
     end
@@ -84,7 +84,7 @@ namespace :litestream do
       FileUtils.rm_f(Dir.glob(Rails.root.join("storage", "development_#{tenant}.sqlite3*")))
     end
 
-    backup_path = ENV.fetch("BACKUP_PATH")
+    backup_path = Rails.app.creds.require(:backup_path)
     backup_config = "#{backup_path}/litestream.yml"
 
     # Materialize litestream-restore/ (file layout) from litestream/ (S3 mirror).

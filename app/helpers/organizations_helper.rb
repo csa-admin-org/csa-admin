@@ -29,7 +29,7 @@ module OrganizationsHelper
 
   def org_logo_url
     if Current.org.logo.attached?
-      Rails.application.routes.url_helpers.logo_url(Tenant.current, host: ENV["ASSET_HOST"])
+      Rails.application.routes.url_helpers.logo_url(Tenant.current, host: Rails.app.creds.option(:asset_host))
     else
       image_url("logo.png", host: Current.org.admin_url)
     end

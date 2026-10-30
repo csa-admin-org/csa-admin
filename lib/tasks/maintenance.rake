@@ -7,9 +7,9 @@ require "json"
 namespace :maintenance do
   desc "Enable Cloudflare Worker-based maintenance page for all tenant hostnames"
   task on: :environment do
-    zone_id     = ENV["CLOUDFLARE_ZONE_ID"] || abort("Missing CF_ZONE_ID")
-    email       = ENV["CLOUDFLARE_EMAIL"] || abort("Missing CLOUDFLARE_EMAIL")
-    api_key     = ENV["CLOUDFLARE_API_KEY"] || abort("Missing CLOUDFLARE_API_KEY")
+    zone_id     = Rails.app.creds.require(:cloudflare_zone_id)
+    email       = Rails.app.creds.require(:cloudflare_email)
+    api_key     = Rails.app.creds.require(:cloudflare_api_key)
     worker_name = "maintenance"
     client = CloudflareClient.new(email, api_key, zone_id)
     routes = client.worker_routes
@@ -25,9 +25,9 @@ namespace :maintenance do
 
   desc "Disable Cloudflare Worker-based maintenance page for all tenant hostnames"
   task off: :environment do
-    zone_id = ENV["CLOUDFLARE_ZONE_ID"] || abort("Missing CF_ZONE_ID")
-    email   = ENV["CLOUDFLARE_EMAIL"] || abort("Missing CLOUDFLARE_EMAIL")
-    api_key = ENV["CLOUDFLARE_API_KEY"] || abort("Missing CLOUDFLARE_API_KEY")
+    zone_id = Rails.app.creds.require(:cloudflare_zone_id)
+    email   = Rails.app.creds.require(:cloudflare_email)
+    api_key = Rails.app.creds.require(:cloudflare_api_key)
     client = CloudflareClient.new(email, api_key, zone_id)
     routes = client.worker_routes
 

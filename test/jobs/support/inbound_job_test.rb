@@ -220,7 +220,7 @@ class Support::InboundJobTest < ActiveJob::TestCase
     assert_no_difference "Support::Ticket.count" do
       ingest(
         "To" => "ticket-acme@support.csa-admin.org",
-        "From" => ENV["ULTRA_ADMIN_EMAIL"],
+        "From" => Admin.ultra_email,
         "TextBody" => "",
         "StrippedTextReply" => "",
         "MessageID" => "empty")
@@ -484,7 +484,7 @@ class Support::InboundJobTest < ActiveJob::TestCase
   test "convert is idempotent on message id" do
     payload = {
       "To" => "ticket-acme@support.csa-admin.org",
-      "From" => ENV["ULTRA_ADMIN_EMAIL"],
+      "From" => Admin.ultra_email,
       "TextBody" => "Once",
       "Headers" => [ { "Name" => "Message-ID", "Value" => "<convert-same@mail>" } ]
     }

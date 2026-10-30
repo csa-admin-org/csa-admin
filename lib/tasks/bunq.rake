@@ -13,9 +13,7 @@ namespace :bunq do
       abort "ERROR: TENANT environment variable is required"
     end
 
-    api_key = ENV.fetch("BUNQ_API_KEY") do
-      abort "ERROR: BUNQ_API_KEY environment variable is required"
-    end
+    api_key = Rails.app.creds.require(:bunq_api_key)
 
     puts "Setting up bunq connection for tenant '#{tenant}'..."
     puts ""

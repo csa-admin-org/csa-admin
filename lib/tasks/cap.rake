@@ -41,9 +41,9 @@ namespace :cap do
       raise "Only run this task in development" unless Rails.env.development?
 
       client = Cap::Client.new
-      if ENV["CAP_DEVELOPMENT_SITE_KEY"].present?
+      if Rails.app.creds.option(:cap_development_site_key).present?
         client.update_key_config(
-          site_key: ENV.fetch("CAP_DEVELOPMENT_SITE_KEY"),
+          site_key: Rails.app.creds.require(:cap_development_site_key),
           instrumentation: true,
           block_automated_browsers: true,
           cors_origins: [])
@@ -56,7 +56,7 @@ namespace :cap do
           block_automated_browsers: true,
           cors_origins: [])
 
-        puts "Add these lines to .env.development.local:"
+        puts "Add these lines to .env:"
         puts "CAP_DEVELOPMENT_SITE_KEY=#{result.fetch('siteKey')}"
         puts "CAP_DEVELOPMENT_SECRET_KEY=#{result.fetch('secretKey')}"
       end

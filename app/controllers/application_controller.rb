@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
 
   def smart_login_path
     if params[:mc_login]
-      mc_login_url(Tenant.current, domain: ENV["APP_DOMAIN"])
+      mc_login_url(Tenant.current, domain: Rails.app.creds.option(:app_domain))
     else
       login_path
     end
@@ -76,9 +76,9 @@ class ApplicationController < ActionController::Base
   def auto_sign_in_admin_in_dev
     return unless Rails.env.development?
     return unless request.subdomain == "admin"
-    return unless ENV["AUTO_SIGN_IN_ADMIN_EMAIL"]
+    return unless Rails.app.creds.option(:auto_sign_in_admin_email)
 
-    admin = Admin.find_by!(email: ENV["AUTO_SIGN_IN_ADMIN_EMAIL"])
+    admin = Admin.find_by!(email: Rails.app.creds.option(:auto_sign_in_admin_email))
     if unexpired_current_session&.admin == admin
       return admin
     end

@@ -3,9 +3,17 @@
 module EnvHelper
   def with_env(env)
     old_values = env.keys.index_with { |key| ENV[key] }
-    env.each { |key, value| ENV[key] = value }
+    assign_env(env)
+    Rails.app.creds.reload
     yield
   ensure
-    old_values.each { |key, value| ENV[key] = value }
+    assign_env(old_values)
+    Rails.app.creds.reload
+  end
+
+  def assign_env(env)
+    env.each do |key, value|
+      value.nil? ? ENV.delete(key) : ENV[key] = value
+    end
   end
 end

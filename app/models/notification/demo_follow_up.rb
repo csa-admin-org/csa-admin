@@ -13,7 +13,7 @@ class Notification::DemoFollowUp < Notification::Base
 
   def eligible_admins
     Admin
-      .where.not(email: ENV["ULTRA_ADMIN_EMAIL"])
+      .where.not(email: Admin.ultra_email)
       .where(demo_follow_up_sent_at: nil)
       .where.missing(:tickets)
       .select { |admin| eligible?(admin) }

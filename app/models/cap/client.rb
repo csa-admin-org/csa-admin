@@ -27,7 +27,7 @@ class Cap::Client
   private
 
   def default_api_key
-    ENV["CAP_API_KEY"].presence || Rails.application.credentials.cap_api_key
+    Rails.app.creds.option(:cap_api_key)
   end
 
   def request(method, path, body)

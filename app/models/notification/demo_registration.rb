@@ -13,7 +13,7 @@ class Notification::DemoRegistration < Notification::Base
 
   def eligible_admins
     Admin
-      .where.not(email: ENV["ULTRA_ADMIN_EMAIL"])
+      .where.not(email: Admin.ultra_email)
       .where(demo_registration_notification_sent_at: nil)
       .where(created_at: ..1.hour.ago)
       .select { |admin| admin.meaningfully_explored_demo? }

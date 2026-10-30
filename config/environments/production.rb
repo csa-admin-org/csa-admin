@@ -37,7 +37,7 @@ Rails.application.configure do
   }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.asset_host = ENV["ASSET_HOST"]
+  config.asset_host = Rails.app.creds.option(:asset_host)
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :tenant_object_store

@@ -139,9 +139,7 @@ ActiveAdmin.register Admin do
       collection = end_of_association_chain
 
       # Hide ultra admin from non-ultra admins
-      if (ultra_email = ENV["ULTRA_ADMIN_EMAIL"])
-        collection = collection.where.not(email: ultra_email)
-      end
+      collection = collection.where.not(email: Admin.ultra_email)
 
       # In demo mode, non-ultra admins only see themselves
       if Tenant.demo? && !current_admin.ultra?

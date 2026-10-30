@@ -30,7 +30,7 @@ module Tenant
     end
 
     def app_domain?(host)
-      PublicSuffix.parse(host).domain == ENV["APP_DOMAIN"]
+      PublicSuffix.parse(host).domain == Rails.app.creds.option(:app_domain)
     rescue PublicSuffix::Error
       false
     end

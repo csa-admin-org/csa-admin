@@ -727,7 +727,6 @@ DEPENDENCIES
   date_validator
   debug
   discard
-  dotenv
   faker
   faraday
   geocoder

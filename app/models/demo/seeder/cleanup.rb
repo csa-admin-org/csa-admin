@@ -7,7 +7,7 @@ module Demo::Seeder::Cleanup
 
   def cleanup_inactive_admins!
     log "Cleaning up inactive admins..."
-    ultra_email = ENV["ULTRA_ADMIN_EMAIL"]
+    ultra_email = Admin.ultra_email
 
     Admin.find_each do |admin|
       next if admin.email == ultra_email

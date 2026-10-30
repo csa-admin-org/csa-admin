@@ -242,7 +242,7 @@ class AdminMailer < ApplicationMailer
       lines << "<p><strong>Time:</strong> #{I18n.l(Time.current)}</p>"
       lines.concat(demo_page_visit_summary_lines(admin))
       content_mail(lines.join("\n"),
-        to: ENV["ULTRA_ADMIN_EMAIL"],
+        to: Admin.ultra_email,
         subject: "[Demo] New registration: #{admin.name} (#{admin.email})",
         tag: "admin-demo-registration-notification")
     end
@@ -273,7 +273,7 @@ class AdminMailer < ApplicationMailer
       lines << "<p><strong>Tenant:</strong> #{ERB::Util.html_escape(tenant)}</p>"
       lines << "<p><strong>Time:</strong> #{I18n.l(Time.current)}</p>"
       content_mail(lines.join("\n"),
-        to: ENV["ULTRA_ADMIN_EMAIL"],
+        to: Admin.ultra_email,
         subject: "[Demo] Follow-up sent: #{admin.name} (#{admin.email})",
         tag: "admin-demo-follow-up-notification")
     end

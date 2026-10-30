@@ -59,7 +59,7 @@ ActiveAdmin.register Invoice do
 
   includes :payments, pdf_file_attachment: :blob, member: :last_membership
   index download_links: -> {
-    if !collection.respond_to?(:total_count) || collection.total_count <= ENV.fetch("INVOICE_PDFS_MAX_LIMIT", 500)
+    if !collection.respond_to?(:total_count) || collection.total_count <= Rails.app.creds.option(:invoice_pdfs_max_limit, default: 500).to_i
       [ :csv, :zip ]
     else
       [ :csv ]

@@ -45,7 +45,7 @@ class EBICSOnboardingMailer < ApplicationMailer
   end
 
   def ultra_admin_email
-    Admin.ultra&.email || ENV.fetch("ULTRA_ADMIN_EMAIL")
+    Admin.ultra&.email || Admin.ultra_email
   end
 
   def initiated_by_admin_email

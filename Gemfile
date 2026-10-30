@@ -95,9 +95,6 @@ gem "faker", require: false
 group :development, :test do
   # Debugging
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-
-  # Environment Variables
-  gem "dotenv"
 end
 
 group :development do

@@ -39,10 +39,10 @@ module Support
     end
 
     def self.operator_addresses
-      extras = ENV["SUPPORT_EXTRA_EMAILS"].to_s.split(",").map(&:strip)
+      extras = Rails.app.creds.option(:support_extra_emails).to_s.split(",").map(&:strip)
       [
-        ENV["ULTRA_ADMIN_EMAIL"],
-        ENV["SUPPORT_EMAIL"],
+        Admin.ultra_email,
+        Rails.app.creds.option(:support_email),
         *extras
       ].compact_blank.map { |address| canonical_local(address) }.uniq
     end

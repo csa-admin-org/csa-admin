@@ -235,7 +235,7 @@ class Support::InboundTest < ActiveSupport::TestCase
     assert_no_difference "Support::Ticket.count" do
       ingest(
         "To" => "ticket-acme@support.csa-admin.org",
-        "From" => ENV["ULTRA_ADMIN_EMAIL"],
+        "From" => Admin.ultra_email,
         "TextBody" => "",
         "HtmlBody" => "",
         "MessageID" => "blank-convert")

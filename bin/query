@@ -7,13 +7,14 @@ root = File.expand_path("..", __dir__)
 $LOAD_PATH.unshift(File.expand_path("lib", root))
 require "bundler/setup"
 
-begin
-  require "dotenv"
-  Dotenv.load(
-    File.join(root, ".env.development.local"),
-    File.join(root, ".env.local"),
-    File.join(root, ".env"))
-rescue LoadError
+# No Rails boot, so creds is not available. Fill ENV from the gitignored .env
+# without overriding a value already set on the process.
+require "active_support/dot_env_configuration"
+
+envs = ActiveSupport::DotEnvConfiguration.new(File.join(root, ".env"))
+envs.keys.each do |key|
+  name = key.to_s.upcase
+  ENV[name] ||= envs.option(key)
 end
 
 require "query/cli"

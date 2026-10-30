@@ -139,7 +139,7 @@ module Support
     end
 
     def ping_address
-      ENV["SUPPORT_EMAIL"].presence
+      Rails.app.creds.option(:support_email).presence
     end
 
     def ping_from

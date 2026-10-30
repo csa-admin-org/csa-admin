@@ -5,7 +5,7 @@ require "nokogiri"
 module Support
   class Signature
     def self.name
-      ENV["ULTRA_ADMIN_NAME"].to_s.strip.presence
+      Admin.ultra_name.to_s.strip.presence
     end
 
     def self.strip_text(text)

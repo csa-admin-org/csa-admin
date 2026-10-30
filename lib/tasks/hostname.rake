@@ -10,8 +10,8 @@ namespace :hostname do
       # Suppress Ruby 4.0's experimental IO::Buffer warning from resolv.rb
       Warning[:experimental] = false
 
-      email = ENV["CLOUDFLARE_EMAIL"]
-      key = ENV["CLOUDFLARE_API_KEY"]
+      email = Rails.app.creds.require(:cloudflare_email)
+      key = Rails.app.creds.require(:cloudflare_api_key)
 
       Cloudflare.connect(email: email, key: key) do |cf|
         zone = cf.zones.find_by_name("csa-admin.org")
@@ -44,8 +44,8 @@ namespace :hostname do
       raise "TENANT environment variable is required" if tenant_name.blank?
       raise "Tenant '#{tenant_name}' does not exist" unless Tenant.exists?(tenant_name)
 
-      email = ENV["CLOUDFLARE_EMAIL"]
-      key = ENV["CLOUDFLARE_API_KEY"]
+      email = Rails.app.creds.require(:cloudflare_email)
+      key = Rails.app.creds.require(:cloudflare_api_key)
 
       Tenant.switch(tenant_name) do
         hostnames = Current.org.hostnames
@@ -86,8 +86,8 @@ namespace :hostname do
 
       Warning[:experimental] = false
 
-      email = ENV["CLOUDFLARE_EMAIL"]
-      key = ENV["CLOUDFLARE_API_KEY"]
+      email = Rails.app.creds.require(:cloudflare_email)
+      key = Rails.app.creds.require(:cloudflare_api_key)
 
       Cloudflare.connect(email: email, key: key) do |cf|
         zone = cf.zones.find_by_name("csa-admin.org")
@@ -114,8 +114,8 @@ namespace :hostname do
       # Suppress Ruby 4.0's experimental IO::Buffer warning from resolv.rb
       Warning[:experimental] = false
 
-      email = ENV["CLOUDFLARE_EMAIL"]
-      key = ENV["CLOUDFLARE_API_KEY"]
+      email = Rails.app.creds.require(:cloudflare_email)
+      key = Rails.app.creds.require(:cloudflare_api_key)
 
       Cloudflare.connect(email: email, key: key) do |cf|
         zone = cf.zones.find_by_name("csa-admin.org")
@@ -148,8 +148,8 @@ namespace :hostname do
     task tls: :environment do
       Warning[:experimental] = false
 
-      email = ENV["CLOUDFLARE_EMAIL"]
-      key = ENV["CLOUDFLARE_API_KEY"]
+      email = Rails.app.creds.require(:cloudflare_email)
+      key = Rails.app.creds.require(:cloudflare_api_key)
 
       Cloudflare.connect(email: email, key: key) do |cf|
         zone = cf.zones.find_by_name("csa-admin.org")

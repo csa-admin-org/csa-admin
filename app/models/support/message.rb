@@ -36,13 +36,13 @@ module Support
       if author_admin?
         admin&.email
       else
-        ENV["SUPPORT_EMAIL"].presence || ENV["ULTRA_ADMIN_EMAIL"]
+        Rails.app.creds.option(:support_email).presence || Admin.ultra_email
       end
     end
 
     def display_name
       if author_support?
-        ENV.fetch("ULTRA_ADMIN_NAME", "CSA Admin")
+        Admin.ultra_name
       else
         admin_name.presence || I18n.t("active_admin.unknown")
       end

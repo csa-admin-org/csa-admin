@@ -165,7 +165,7 @@ ActiveAdmin.register Support::Ticket do
             if ticket.marked_as_replied?
               para class: "support-replied-note" do
                 t("active_admin.resources.support/ticket.marked_as_replied",
-                  name: ENV.fetch("ULTRA_ADMIN_NAME", "CSA Admin"),
+                  name: Admin.ultra_name,
                   at: l(ticket.replied_at, format: :short))
               end
             elsif authorized?(:mark_as_replied, ticket) && ticket.waiting?

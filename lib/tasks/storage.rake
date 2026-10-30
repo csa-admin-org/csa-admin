@@ -16,7 +16,7 @@ namespace :storage do
       puts "Restoring storage for all tenants..."
     end
 
-    backup_folder = ENV.fetch("BACKUP_PATH") + "/storage"
+    backup_folder = Rails.app.creds.require(:backup_path) + "/storage"
     storage_folder = Rails.root.join("storage")
 
     # Only walk tenant folders in scope (full restore = all config tenants;

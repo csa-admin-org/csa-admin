@@ -75,7 +75,7 @@ class SupportMailer < ApplicationMailer
   end
 
   def ping_locale
-    ENV.fetch("ULTRA_ADMIN_LANGUAGE", I18n.default_locale)
+    Admin.ultra_language
   end
 
   def ping_header
