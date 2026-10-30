@@ -19,6 +19,11 @@ module CSAAdmin
     # after `bin/rails herb:check` is clean and the runtime herb gem is intentional.
     config.action_view.erb_implementation = :erubi
 
+    # 8.2's :json refuses Marshal. Action Text stores attachment SGIDs in the
+    # HTML body, signed with whatever serializer was current when the text was
+    # saved. Those still include Marshal. New messages stay JSON.
+    config.active_support.message_serializer = :json_allow_marshal
+
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
