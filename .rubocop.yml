@@ -7,6 +7,8 @@ plugins:
 
 AllCops:
   NewCops: enable
+  # Keep in sync with config/bootsnap.rb
+  StringLiteralsFrozenByDefault: true
   Exclude:
     - "**/*.tmp"
     - "agents/*"

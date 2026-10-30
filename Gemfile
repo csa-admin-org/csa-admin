@@ -2,7 +2,9 @@
 
 source "https://rubygems.org", cooldown: 7
 
-gem "rails", "~> 8.1"
+# 8.2 is unreleased. Pin the revision so `bundle update` does not float main.
+# Bump this ref to upgrade.
+gem "rails", github: "rails/rails", ref: "f39c8aa"
 
 # Core Framework
 gem "bootsnap", require: false
@@ -16,7 +18,9 @@ gem "sqlite3"
 gem "sqlean"
 gem "aws-sdk-s3"
 gem "cloudflare", require: false
-gem "cloudflare-rails", require: false
+# Published 7.0.0 still caps Rails at < 8.2. Main allows < 8.3.
+# require: false — the Railtie is not loaded in the web process (hostname.rake only).
+gem "cloudflare-rails", github: "modosc/cloudflare-rails", require: false
 
 # Monitoring and Security
 gem "appsignal"

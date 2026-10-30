@@ -382,7 +382,8 @@ module Billing
             clear_finalization_claim: finalization_claim_token.present?)
           :recorded
         end
-        result = locked ? record_check.call : connection.with_lock(&record_check)
+        # with_lock yields the transaction. A lambda is strict about arity.
+        result = locked ? record_check.call : connection.with_lock { record_check.call }
         return finalization_claim_lost_result if result == :claim_lost
 
         refreshed.status.merge(

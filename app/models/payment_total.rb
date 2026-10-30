@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 require "ostruct"
+require "action_view/helpers/navigation_helper"
+
 class PaymentTotal
   include NumbersHelper
   include ActivitiesHelper
-  include ActionView::Helpers::UrlHelper
+  include ActionView::Helpers::NavigationHelper
 
   def self.all(fiscal_year)
     scopes = %i[paid missing]

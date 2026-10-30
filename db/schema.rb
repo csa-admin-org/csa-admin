@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_14_120000) do
+ActiveRecord::Schema[8.2].define(version: 2026_10_29_145228) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"

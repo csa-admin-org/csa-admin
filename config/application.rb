@@ -11,7 +11,13 @@ Bundler.require(*Rails.groups)
 module CSAAdmin
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 8.1
+    # Tracking rails/rails main (8.2.0.alpha) until 8.2 ships. The CI group/step
+    # polyfill in lib/rails_edge stays: upstream has groups, not --group/--step.
+    config.load_defaults 8.2
+
+    # HTML+ERB still compiles through Erubi. 8.2 defaults to Herb; switch only
+    # after `bin/rails herb:check` is clean and the runtime herb gem is intentional.
+    config.action_view.erb_implementation = :erubi
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -39,7 +45,7 @@ module CSAAdmin
     # https://github.com/JackC/tod#activemodel-serializable-attribute-support
     config.active_record.time_zone_aware_types = [ :datetime ]
 
-    config.action_mailer.preview_paths = [ "#{Rails.root}/app/mailer_previews" ]
+    config.action_mailer.preview_paths << "#{Rails.root}/app/mailer_previews"
 
     # https://github.com/heartcombo/responders?tab=readme-ov-file#configuring-error-and-redirect-statuses
     config.responders.error_status = :unprocessable_entity

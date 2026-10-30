@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require "ostruct"
+require "action_view/helpers/navigation_helper"
 
 class InvoiceTotal
   include ActivitiesHelper
-  include ActionView::Helpers::UrlHelper
+  include ActionView::Helpers::NavigationHelper
 
   def self.all(fiscal_year)
     scopes = %w[Membership]

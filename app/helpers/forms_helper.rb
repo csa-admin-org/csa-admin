@@ -122,8 +122,8 @@ module FormsHelper
       end
 
       value = form.object.send(attr)[locale]
-      if value.respond_to?(:to_trix_html)
-        value = value.to_trix_html
+      if value.respond_to?(:to_editor_html)
+        value = value.to_editor_html
       end
       form.input "#{attr.to_s.singularize}_#{locale}".to_sym, {
         label: label,
