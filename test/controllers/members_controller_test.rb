@@ -516,17 +516,18 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "", delete_buttons.first.text.squish
   end
 
-  test "show renders become member action as a blank-target post form" do
+  test "show renders become member as a same-page post the script opens" do
     member = members(:john)
 
     login admins(:super)
     get member_path(member)
 
     assert_response :success
-    assert_select "form[action='#{become_member_path(member)}'][method='post'][target='_blank'][rel='noopener'][data-turbo='false']" do |forms|
-      assert_nil forms.first["data-controller"]
-      assert_select "button.action-item-link-button.is-compact", text: "Open admin session"
+    assert_select "form[action='#{become_member_path(member)}'][method='post'][data-turbo='false']" do
+      assert_select "button[data-controller='become-member'][data-action='become-member#open'].action-item-link-button.is-compact",
+        text: "Open admin session"
     end
+    assert_select "form[action='#{become_member_path(member)}'][target]", count: 0
   end
 
   test "become member creates an admin-originated member session" do
@@ -543,6 +544,34 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_equal admin, session.admin
     assert_equal member, session.member
     assert_redirected_to %r{\Ahttp://members\.acme\.test/sessions/}
+  end
+
+  test "become member accepts a same-origin fetch site on https" do
+    admin = admins(:super)
+    member = members(:john)
+
+    login admin
+    https!
+
+    assert_difference "Session.count" do
+      post become_member_path(member), headers: { "Sec-Fetch-Site" => "same-origin" }
+    end
+
+    assert_redirected_to %r{\Ahttps://members\.acme\.test/sessions/}
+  end
+
+  test "become member returns the members url as json" do
+    admin = admins(:super)
+    member = members(:john)
+
+    login admin
+
+    assert_difference "Session.count" do
+      post become_member_path(member), headers: { "Accept" => "application/json" }
+    end
+
+    assert_response :success
+    assert_match %r{\Ahttp://members\.acme\.test/sessions/}, response.parsed_body["url"]
   end
 
   test "become member succeeds when the admin email is outbound suppressed" do

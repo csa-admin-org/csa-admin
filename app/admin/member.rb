@@ -478,8 +478,10 @@ ActiveAdmin.register Member do
 
           div class: "panel-action-row" do
             button_to become_member_path(member),
+              type: "button",
               class: "action-item-button action-item-link-button is-compact",
-              form: { target: "_blank", rel: "noopener", data: { turbo: false } } do
+              form: { data: { turbo: false } },
+              data: { controller: "become-member", action: "become-member#open" } do
               icon("log-in", class: "icon-4") + t(".open_admin_session")
             end
           end
@@ -1257,14 +1259,23 @@ ActiveAdmin.register Member do
       admin_email: current_admin.email,
       member: resource,
       request: request)
-    redirect_to members_session_url(
+    url = members_session_url(
       session.generate_token_for(:redeem),
       subdomain: Current.org.members_subdomain,
-      locale: I18n.locale),
-      allow_other_host: true
+      locale: I18n.locale)
+    if request.format.json?
+      render json: { url: url }
+    else
+      redirect_to url, allow_other_host: true
+    end
   rescue ActiveRecord::RecordInvalid => e
-    flash[:alert] = e.record.errors.full_messages.to_sentence.presence || e.message
-    redirect_to member_path(resource)
+    message = e.record.errors.full_messages.to_sentence.presence || e.message
+    if request.format.json?
+      render json: { error: message }, status: :unprocessable_entity
+    else
+      flash[:alert] = message
+      redirect_to member_path(resource)
+    end
   end
 
   member_action :recurring_billing, method: :post do
