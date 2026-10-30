@@ -16,6 +16,13 @@ def mise_ruby_version
     abort "Could not read ruby version from mise.toml"
 end
 
+def gemfile_cooldown
+  # `--cooldown` and `bundle config cooldown` outrank the Gemfile source keyword.
+  # Pass the Gemfile value so a user-level cooldown cannot change this update.
+  File.read("Gemfile")[/^source\s+".*",\s*cooldown:\s*(\d+)\s*$/, 1] or
+    abort "Could not read source cooldown from Gemfile"
+end
+
 def sync_dockerfile_ruby!
   ruby = mise_ruby_version
   path = "Dockerfile"
@@ -121,8 +128,9 @@ FileUtils.chdir APP_ROOT do
   puts "\n== Syncing Dockerfile Ruby version =="
   sync_dockerfile_ruby!
 
-  puts "\n== Updating gems =="
-  system! "bundle", "update", "--all"
+  cooldown = gemfile_cooldown
+  puts "\n== Updating gems (cooldown: #{cooldown} days) =="
+  system! "bundle", "update", "--all", "--cooldown", cooldown
 
   puts "\n== Updating JS packages =="
   system! "bin/aube", "update"

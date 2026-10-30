@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org", cooldown: 7
+source "https://rubygems.org", cooldown: 3
 
 # 8.2 is unreleased. Pin the revision so `bundle update` does not float main.
 # Bump this ref to upgrade.
