@@ -4,6 +4,11 @@
 # Use npm packages from a JavaScript CDN by running ./bin/importmap
 
 pin "@hotwired/stimulus", to: "@hotwired--stimulus.js" # @3.2.2
+
+# Gem pin is `preload: true`. Nothing imports it yet, so the preload is unused.
+# Re-pin after the gem map so a later pin wins. Import it from an entry point
+# when a template starts using herb:state.
+pin "reactionview", to: "reactionview.esm.js", preload: false
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin "trix"

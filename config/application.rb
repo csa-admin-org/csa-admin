@@ -15,9 +15,10 @@ module CSAAdmin
     # polyfill in lib/rails_edge stays: upstream has groups, not --group/--step.
     config.load_defaults 8.2
 
-    # HTML+ERB still compiles through Erubi. 8.2 defaults to Herb; switch only
-    # after `bin/rails herb:check` is clean and the runtime herb gem is intentional.
-    config.action_view.erb_implementation = :erubi
+    # 8.2 default. HTML compiles through Herb; every other format stays Erubi.
+    # `bin/rails herb:check` is the compile gate. The ActiveAdmin navigation
+    # override is what makes that check pass.
+    config.action_view.erb_implementation = :herb
 
     # 8.2's :json refuses Marshal. Action Text stores attachment SGIDs in the
     # HTML body, signed with whatever serializer was current when the text was

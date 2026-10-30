@@ -1,3 +1,4 @@
+<%# locals: (name:, value:, options:, label_text:, id: nil, required: false, wrapper_class: nil) %>
 <%#
   Custom select-like dropdown that shows icon + label for each option.
   Mirrors the native <select> appearance (border, rounded, chevron) while
@@ -17,17 +18,17 @@
 <div
   data-controller="icon-select"
   data-action="click@document->icon-select#closeOnClickOutside keydown.esc@document->icon-select#close"
-  <% if local_assigns[:id] %>
+  <% if id %>
     id="<%= id %>"
   <% end %>
-  <% if local_assigns[:wrapper_class] %>
+  <% if wrapper_class %>
     class="<%= wrapper_class %>"
   <% end %>
 >
   <label>
     <%= label_text %>
 
-    <% if local_assigns[:required] && required %>
+    <% if required %>
       <abbr title="required">*</abbr>
     <% end %>
   </label>

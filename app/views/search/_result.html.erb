@@ -1,3 +1,4 @@
+<%# locals: (icon_name:, url:, title:, subtitle_parts:, query:, state: nil, state_label: nil) %>
 <%#
   Unified search result row.
   Locals:
@@ -27,7 +28,7 @@
     <% end %>
   </div>
 
-  <% if local_assigns[:state] %>
+  <% if state %>
     <span class="status-tag" data-status="<%= state %>">
       <%= state_label %>
     </span>

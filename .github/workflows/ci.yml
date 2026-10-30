@@ -128,6 +128,12 @@ jobs:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: bin/rails db:prepare
 
+      - name: Herb check
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: bin/rails herb:check
+
       - name: Rails
         env:
           RAILS_ENV: test

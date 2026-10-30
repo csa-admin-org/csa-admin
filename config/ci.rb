@@ -34,6 +34,7 @@ CI.run do
   end
 
   group "Tests" do
+    step "Tests: Herb", "env", "RAILS_ENV=test", "bin/rails", "herb:check"
     step "Tests: Rails", "bin/rails", "test:all"
     step "Tests: Seeds", "env", "RAILS_ENV=test", "bin/rails", "db:seed:replant"
   end

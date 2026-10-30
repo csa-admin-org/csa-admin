@@ -1,3 +1,4 @@
+<%# locals: (disabled: false) %>
 <div class="print-hidden depot-filter">
   <input
     type="text"
@@ -7,7 +8,7 @@
     placeholder="<%= t("members.members.form_modes.membership.depot_filter_placeholder") %>"
     class="depot-filter-input"
     autocomplete="off"
-    <% if local_assigns[:disabled] %>
+    <% if disabled %>
       disabled
     <% end %>
   >
@@ -17,7 +18,7 @@
     data-action="form-depot-filter#clear"
     data-form-depot-filter-target="clearButton"
     data-form-disabler-target="input"
-    <% if local_assigns[:disabled] %>
+    <% if disabled %>
       disabled
     <% end %>
     class="depot-filter-clear is-hidden"
