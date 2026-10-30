@@ -155,4 +155,48 @@ class DeliveriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "tbody[data-controller='sortable'] .cluster.is-nowrap > .sortable-handle"
   end
+
+  test "index CSV includes a count column per basket size next to baskets" do
+    travel_to "2024-04-01"
+
+    get deliveries_path(format: :csv, scope: :all, q: { during_year: 2024 })
+
+    assert_response :success
+    csv = CSV.parse(response.body.delete_prefix("\uFEFF"), headers: true)
+    baskets_header = Delivery.human_attribute_name(:baskets)
+    small, medium, large = basket_sizes(:small, :medium, :large)
+    id_header = Delivery.human_attribute_name(:id)
+    baskets_index = csv.headers.index(baskets_header)
+
+    assert_equal [ small.name, medium.name, large.name ], csv.headers[baskets_index + 1, 3]
+
+    monday = csv.find { |row| row[id_header] == deliveries(:monday_1).id.to_s }
+    assert_equal "3", monday[baskets_header]
+    assert_equal "1", monday[small.name]
+    assert_equal "1", monday[medium.name]
+    assert_equal "1", monday[large.name]
+
+    thursday = csv.find { |row| row[id_header] == deliveries(:thursday_1).id.to_s }
+    assert_equal "1", thursday[baskets_header]
+    assert_equal "0", thursday[small.name]
+    assert_equal "0", thursday[medium.name]
+    assert_equal "1", thursday[large.name]
+  end
+
+  test "index CSV basket size columns come from the exported deliveries" do
+    travel_to "2024-04-01"
+
+    get deliveries_path(format: :csv, scope: :all, q: {
+      during_year: 2024,
+      date_eq: deliveries(:thursday_1).date
+    })
+
+    assert_response :success
+    csv = CSV.parse(response.body.delete_prefix("\uFEFF"), headers: true)
+    small, medium, large = basket_sizes(:small, :medium, :large)
+
+    assert_includes csv.headers, large.name
+    assert_not_includes csv.headers, small.name
+    assert_not_includes csv.headers, medium.name
+  end
 end
