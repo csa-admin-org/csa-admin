@@ -50,11 +50,15 @@ ActiveAdmin.register Delivery do
   end
 
   csv do
+    counts = {}
     column(:id)
     column(:fiscal_year)
     column(:date)
     column(:number)
-    column(:baskets) { |d| d.basket_counts.all.sum(&:count) }
+    column(:baskets) { |d| (counts[d.id] ||= d.basket_counts).all.sum(&:count) }
+    BasketSize.for(Basket.active.where(delivery_id: collection.except(:limit, :offset).select(:id))).each do |basket_size|
+      column(basket_size.name) { |d| (counts[d.id] ||= d.basket_counts).sum_basket_size(basket_size.id) }
+    end
     column(:absent_baskets) { |d| d.basket_counts(scope: :absent).all.sum(&:count) }
     if BasketComplement.kept.any?
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
