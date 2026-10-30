@@ -5,8 +5,8 @@
 # Full-project checks only (no path filter, no autofix). Individual tools still
 # support their own fix flags when needed.
 #
-# Groups and --group/--step filtering use a temporary Rails edge polyfill in
-# lib/rails_edge/ until upstream Rails provides both. Examples:
+# Groups are upstream. --group/--step is config/ci_filter.rb until
+# rails/rails#58333. Examples:
 #
 #   bin/ci -g style
 #   bin/ci -s "Style: RuboCop"

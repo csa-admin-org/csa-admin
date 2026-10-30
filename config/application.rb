@@ -11,8 +11,8 @@ Bundler.require(*Rails.groups)
 module CSAAdmin
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    # Tracking rails/rails main (8.2.0.alpha) until 8.2 ships. The CI group/step
-    # polyfill in lib/rails_edge stays: upstream has groups, not --group/--step.
+    # Tracking rails/rails main (8.2.0.alpha) until 8.2 ships. Groups are
+    # upstream. config/ci_filter.rb adds --group/--step until rails#58333.
     config.load_defaults 8.2
 
     # 8.2 default. HTML compiles through Herb; every other format stays Erubi.
@@ -28,10 +28,9 @@ module CSAAdmin
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    # rails_edge: temporary ActiveSupport::ContinuousIntegration polyfill
     # query: Net::HTTP CLI under lib/query/{client,cli}.rb. Query already
     # lives in app/models/query/; autoloading both would clash.
-    config.autoload_lib(ignore: %w[assets tasks rails_edge query])
+    config.autoload_lib(ignore: %w[assets tasks query])
 
     # Configuration for the application, engines, and railties goes here.
     #

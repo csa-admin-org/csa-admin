@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require_relative "../../../lib/rails_edge/continuous_integration"
+require_relative "../../config/ci_filter"
 
-class RailsEdgeContinuousIntegrationTest < ActiveSupport::TestCase
+class ContinuousIntegrationTest < ActiveSupport::TestCase
   setup { @CI = ActiveSupport::ContinuousIntegration.new }
 
   test "successful step" do
