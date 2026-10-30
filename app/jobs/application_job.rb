@@ -9,5 +9,7 @@ class ApplicationJob < ActiveJob::Base
   retry_on ActiveRecord::StatementTimeout, wait: 5.seconds, attempts: 3
   retry_on ActiveStorage::FileNotFoundError
 
-  discard_on ActiveJob::DeserializationError
+  # Missing GlobalID only. A transient DB error while deserializing must fail
+  # the job, not disappear. Scheduled jobs still retry via retry_on Exception.
+  discard_on ActiveJob::DeserializationError::RecordNotFound
 end
