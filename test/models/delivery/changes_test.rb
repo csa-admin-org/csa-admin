@@ -927,6 +927,35 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
     assert bob_entry.html_description.html_safe?
   end
 
+  test "query count does not grow with extra included cycles" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:monday_5)
+    previous_deliveries = [
+      deliveries(:monday_1), deliveries(:monday_2), deliveries(:monday_3), deliveries(:monday_4)
+    ]
+    previous_deliveries.each do |previous|
+      add_home_delivery_member(delivery, previous)
+    end
+
+    before = capture_sql_names { Delivery::Changes.new(delivery) }
+
+    2.times do |i|
+      cycle = create_delivery_cycle(name: "Extra #{i}", wdays: [ 1 ])
+      add_home_delivery_member(delivery, previous_deliveries[i], delivery_cycle: cycle)
+    end
+    delivery.reload
+
+    changes = nil
+    after = capture_sql_names { changes = Delivery::Changes.new(delivery) }
+
+    assert_empty changes.entries
+    before_counts = before.tally
+    after_counts = after.tally
+    assert_equal before_counts.fetch("Delivery Load", 0) + 2, after_counts.fetch("Delivery Load", 0), after_counts.inspect
+    assert_operator after_counts.fetch("Delivery Load"), :<, Membership.during_year(delivery.fy_year).count
+    assert_equal before_counts.except("Delivery Load"), after_counts.except("Delivery Load"), after_counts.inspect
+  end
+
   test "html_description escapes HTML in change details" do
     travel_to "2024-01-01"
     delivery = deliveries(:monday_2)
@@ -974,6 +1003,37 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
 
   def move_baskets_to_home_delivery(*baskets)
     baskets.each { |basket| basket.update_columns(depot_id: depots(:home).id) }
+  end
+
+  def add_home_delivery_member(delivery, previous, delivery_cycle: delivery_cycles(:mondays))
+    member = create_member
+    membership = create_membership(
+      member: member,
+      started_on: previous.date,
+      ended_on: "2024-12-31",
+      depot: depots(:home),
+      delivery_cycle: delivery_cycle)
+    membership.baskets.where.not(delivery_id: [ previous.id, delivery.id ]).delete_all
+    membership.baskets.update_all(depot_id: depots(:home).id)
+    HomeDeliveryAddress.create!(
+      member: member,
+      name: member.name,
+      street: "Street 1",
+      zip: "1000",
+      city: "Lausanne",
+      deliveries: [ previous, delivery ])
+  end
+
+  def capture_sql_names
+    names = []
+    callback = ->(*, payload) {
+      sql = payload[:sql].to_s
+      next if payload[:name] == "SCHEMA" || sql.match?(/\A(?:BEGIN|COMMIT|SAVEPOINT|RELEASE)/i)
+
+      names << payload[:name]
+    }
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") { yield }
+    names
   end
 
   def entries_with_change_type(changes, type)
