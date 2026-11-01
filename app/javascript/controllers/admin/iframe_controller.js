@@ -10,8 +10,6 @@ export default class extends Controller {
   }
 
   connect() {
-    this._onMessage = this._onMessage.bind(this)
-    this._onIframeLoad = this._onIframeLoad.bind(this)
     window.addEventListener("message", this._onMessage)
   }
 
@@ -31,7 +29,9 @@ export default class extends Controller {
     element.removeEventListener("load", this._onIframeLoad)
   }
 
-  _onIframeLoad(event) {
+  // Bound at construction. Stimulus connects targets before connect(),
+  // and a loaded srcdoc iframe fires load in that window.
+  _onIframeLoad = (event) => {
     this._requestHeight(event.currentTarget)
   }
 
@@ -39,7 +39,7 @@ export default class extends Controller {
     iframe.contentWindow?.postMessage({ type: MEASURE_MESSAGE }, "*")
   }
 
-  _onMessage(event) {
+  _onMessage = (event) => {
     const data = event.data
     if (!data || data.type !== HEIGHT_MESSAGE) return
 
