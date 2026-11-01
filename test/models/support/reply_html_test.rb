@@ -311,14 +311,14 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
 
   test "present drops a proton sent-from line and an indented sign-off" do
     signoff = Support::ReplyHtml.present(<<~HTML)
-      <div class="trix-content">
+      <div class="rich-text">
         <p>Oui bien sûr !</p>
         <pre><code>    Arthur Pasquier
 </code></pre>
       </div>
     HTML
     sent = Support::ReplyHtml.present(<<~HTML)
-      <div class="trix-content">
+      <div class="rich-text">
         <p>Pour lui c’est une habitude.</p>
         <p>Arthur</p>
         <p>Sent from <a href="https://proton.me/mail/home">Proton Mail</a> for Android.</p>
@@ -389,7 +389,7 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     end
   end
 
-  test "keeps a trix paragraph break and folds a longer run" do
+  test "keeps a stored paragraph break and folds a longer run" do
     html = <<~HTML
       <div>Hello.<br><br>Thanks.<br>Sam</div>
       <div><br></div>

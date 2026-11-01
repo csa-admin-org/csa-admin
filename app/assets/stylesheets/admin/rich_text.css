@@ -76,7 +76,7 @@
   }
 
   /* Rendered output in admin. The editor uses .lexxy-content, not this class. */
-  .trix-content {
+  .rich-text {
     line-height: 1.4;
 
     a {
@@ -137,7 +137,7 @@
       font-weight: 500;
     }
 
-    /* Filename captions were hidden under Trix. Keep that. */
+    /* Filename captions stay hidden. */
     figcaption,
     .attachment__caption {
       display: none;
@@ -163,7 +163,7 @@
     }
   }
 
-  .trix-word-count-warning {
+  .word-count-warning {
     margin-top: 0.5rem;
     border-radius: 0.375rem;
     border: 1px solid var(--color-orange-300);

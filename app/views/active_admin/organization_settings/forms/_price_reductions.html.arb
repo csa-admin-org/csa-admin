@@ -3,7 +3,7 @@
 context.instance_eval do
   f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal",
     action: (handbook_icon_link(section[:handbook]) if section[:handbook]) do
-    trix_word_count_wrapper(self, threshold: 120) do
+    word_count_wrapper(self, threshold: 120) do
       translated_input(f, :member_form_price_reductions_texts,
         hint: t("formtastic.hints.organization.member_form_price_reductions_text"),
         as: :action_text,

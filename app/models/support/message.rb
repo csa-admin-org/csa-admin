@@ -105,7 +105,7 @@ module Support
     # to_plain_text joins table cells with nothing. Keep a tab between cells
     # and a line between rows so the text part of a reply stays readable.
     def plain_text_from_html
-      # html.to_s is the trix-content layout, so its indent leaks into the text.
+      # html.to_s is the rich-text layout, so its indent leaks into the text.
       fragment = Nokogiri::HTML::DocumentFragment.parse(html.body.to_html)
       fragment.css("tr").each do |row|
         row.after("\n")

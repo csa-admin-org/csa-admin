@@ -25,7 +25,7 @@ context.instance_eval do
     f.input :activity_participations_form_min
     f.input :activity_participations_form_max
     f.input :activity_participations_form_step, input_html: { min: 1 }
-    trix_word_count_wrapper(self, threshold: 40) do
+    word_count_wrapper(self, threshold: 40) do
       translated_input(f, :member_form_activity_participations_texts,
         hint: t("formtastic.hints.organization.member_form_activity_participations_text"),
         required: false,

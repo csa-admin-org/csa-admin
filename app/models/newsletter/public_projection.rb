@@ -7,7 +7,7 @@ class Newsletter
   class PublicProjection
     class Error < StandardError; end
 
-    # Rails safe list + Action Text/Trix extras used in newsletter blocks.
+    # Rails safe list + Action Text extras used in newsletter blocks.
     ALLOWED_TAGS = (
       Rails::HTML4::Sanitizer.safe_list_sanitizer.allowed_tags.to_a +
       %w[figure figcaption table thead tbody tr th td s]

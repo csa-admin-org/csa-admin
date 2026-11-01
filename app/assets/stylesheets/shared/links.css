@@ -1,4 +1,4 @@
-/* Shared content-link custom properties for trix, member pages, and
+/* Shared content-link custom properties for rich text, member pages, and
    anywhere user-authored HTML with links appears.
    Admin links keep the base.css style (underline-only, hover green text). */
 :root {

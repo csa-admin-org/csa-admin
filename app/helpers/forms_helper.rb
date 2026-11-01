@@ -210,7 +210,7 @@ module FormsHelper
     }
   end
 
-  def trix_word_count_wrapper(arbre, threshold:, handbook_page: :registration, handbook_anchor: "text-styling", &block)
+  def word_count_wrapper(arbre, threshold:, handbook_page: :registration, handbook_anchor: "text-styling", &block)
     path = handbook_page_path(handbook_page, anchor: handbook_anchor)
     warning_html = I18n.t(
       "active_admin.resource.form.word_count_warning_html",
@@ -219,7 +219,7 @@ module FormsHelper
     )
     warning_div = content_tag(:div,
       warning_html.html_safe,
-      class: "trix-word-count-warning is-hidden")
+      class: "word-count-warning is-hidden")
 
     arbre.div data: {
       controller: "word-count",

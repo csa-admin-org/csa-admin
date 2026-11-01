@@ -44,7 +44,7 @@ class ActiveStorage::RepresentationsControllerTest < ActionDispatch::Integration
   private
 
   # Same JPEG variant as app/views/active_storage/blobs/_blob.html.erb
-  # (newsletter / Trix attachments).
+  # (newsletter attachments).
   def newsletter_representation_path(blob)
     rails_representation_path(
       blob.representation(

@@ -247,7 +247,7 @@
 }
 
 @layer utilities {
-  /* Beat unlayered Trix gem CSS (`* { margin: 0 }` + image max-width). */
+  /* Beat unlayered content CSS (`* { margin: 0 }` + image max-width). */
   .panel-body:has(.support-conversation) {
     overflow: visible;
   }
@@ -363,8 +363,8 @@
 
   .support-message-body img,
   .support-message-body .attachment,
-  .support-message-body.trix-content img,
-  .support-message-body.trix-content .attachment,
+  .support-message-body.rich-text img,
+  .support-message-body.rich-text .attachment,
   .support-message-image {
     display: block !important;
     margin-block: 1rem !important;
@@ -378,7 +378,7 @@
   }
 
   .support-message-body .attachment,
-  .support-message-body.trix-content .attachment {
+  .support-message-body.rich-text .attachment {
     width: fit-content;
   }
 

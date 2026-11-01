@@ -19,22 +19,22 @@
   text-align: center;
 }
 
-.trix-content table {
+.rich-text table {
   margin: 0.75em 0;
   border-collapse: collapse;
   font-size: 14px;
   line-height: 1.4;
 }
 
-.trix-content th,
-.trix-content td {
+.rich-text th,
+.rich-text td {
   border: 1px solid #cccccc;
   padding: 4px 8px;
   text-align: left;
   vertical-align: top;
 }
 
-.trix-content th {
+.rich-text th {
   background-color: #f2f2f2;
   font-weight: 600;
 }

@@ -48,7 +48,7 @@
 
     p a,
     label a,
-    .trix-content a {
+    .rich-text a {
       text-decoration-line: underline;
       text-decoration-color: var(--link-decoration);
       text-underline-offset: 2px;
@@ -95,7 +95,7 @@
       color: var(--color-ink-heading);
     }
 
-    .trix-content {
+    .rich-text {
       line-height: 1.4;
 
       h1 {
@@ -107,7 +107,7 @@
         color: var(--color-ink-secondary);
       }
 
-      /* h1 stays at body size. Old Trix bodies used it as the only heading. */
+      /* h1 stays at body size. Stored bodies used it as the only heading. */
       h2 {
         margin-top: 0;
         margin-bottom: 1rem;

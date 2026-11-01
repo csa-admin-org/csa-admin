@@ -94,7 +94,7 @@ class LexxyEditorTest < ActiveSupport::TestCase
     assert_includes html, "<s>old</s>"
     assert_includes html, "<table>"
     assert_includes html, "<td>cell</td>"
-    assert_includes html, "trix-content"
+    assert_includes html, "rich-text"
   end
 
   test "lexxy paragraph keeps a heading and drops a script" do
@@ -116,7 +116,7 @@ class LexxyEditorTest < ActiveSupport::TestCase
 
     assert_includes rendered, "<p>Saved note</p>"
     assert_includes rendered, "<h2>Heading</h2>"
-    assert_includes rendered, "trix-content"
+    assert_includes rendered, "rich-text"
     assert_not_includes rendered, "<script"
     assert_includes rendered, "plot.png"
     assert_includes rendered, "<img"

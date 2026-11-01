@@ -3,7 +3,7 @@
 context.instance_eval do
   f.inputs t("active_admin.resource.form.registration"), icon: section[:icon],
     action: handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor]) do
-    trix_word_count_wrapper(self, threshold: 40) do
+    word_count_wrapper(self, threshold: 40) do
       translated_input(f, :member_form_subtitles,
         hint: t("formtastic.hints.organization.member_form_subtitle"),
         placeholder: ->(locale) {
@@ -18,7 +18,7 @@ context.instance_eval do
   end
 
   f.inputs t("active_admin.resource.form.content"), icon: "message-square-text" do
-    trix_word_count_wrapper(self, threshold: 120) do
+    word_count_wrapper(self, threshold: 120) do
       translated_input(f, :member_form_extra_texts,
         hint: t("formtastic.hints.organization.member_form_extra_text"),
         required: false,
@@ -26,7 +26,7 @@ context.instance_eval do
         input_html: { rows: 5 })
     end
     f.input :member_form_extra_text_only, as: :boolean
-    trix_word_count_wrapper(self, threshold: 120) do
+    word_count_wrapper(self, threshold: 120) do
       translated_input(f, :member_form_complements_texts,
         required: false,
         as: :action_text,

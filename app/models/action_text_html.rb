@@ -2,7 +2,7 @@
 
 # Shared Action Text HTML helpers for email and public feed rendering.
 # Unwraps attachment wrapper tags while keeping the nested preview HTML
-# (same approach as Rails mailer sanitization for Trix gallery markup).
+# (same approach as Rails mailer sanitization for gallery markup).
 module ActionTextHtml
   module_function
 

@@ -20,7 +20,7 @@ class Support::MessageTest < ActiveSupport::TestCase
     assert_includes message.body, "On the regular cycles"
   end
 
-  test "plain body does not pick up the trix wrapper indent" do
+  test "plain body does not pick up the layout wrapper indent" do
     message = create_ticket.messages.create!(
       author: "support",
       html: "<div>Checkout fails</div>")

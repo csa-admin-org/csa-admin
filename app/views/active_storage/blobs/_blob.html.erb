@@ -2,7 +2,7 @@
 <div class="attachment <%= blob.representable? ? "attachment--preview" : "attachment--file" %>">
   <% limit = in_gallery ? [ 800, 600 ] : [ 1024, 768 ]
     # Convert to JPEG and apply quality compression for smaller file sizes.
-    # This is appropriate for newsletters/Trix content where transparency isn't needed.
+    # This is appropriate for newsletter images where transparency isn't needed.
     # White background ensures transparent PNGs don't get black backgrounds.
     options = { resize_to_limit: limit, format: :jpeg, saver: { quality: 80, background: [ 255, 255, 255 ] } } %>
 

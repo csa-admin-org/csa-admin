@@ -75,7 +75,7 @@ class Support::MessageHtmlTest < ActiveSupport::TestCase
 
   test "merges liquid left as a text node after action text strips tables" do
     html = <<~HTML
-      <div class="trix-content">
+      <div class="rich-text">
         <pre><code>{% if membership.started_fy_month &gt; 4 %}</code></pre>
         <p>&nbsp; 0</p>
         <pre><code>{% else %}</code></pre>

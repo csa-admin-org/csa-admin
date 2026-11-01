@@ -76,7 +76,7 @@
         <div class="print-break-auto" data-form-disabler-target="label">
           <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs", label_html: { class: "form-label-tight" }, disabled: support_checked do %>
             <% if Current.org.member_form_complements_text? %>
-              <div class="trix-content form-richtext">
+              <div class="rich-text form-richtext">
                 <%= Current.org.member_form_complements_text %>
               </div>
             <% end %>
@@ -98,7 +98,7 @@
         <div data-form-disabler-target="label">
           <%= f.input :waiting_activity_participations_demanded_annually, as: :numeric, label: activities_human_name, required: true, disabled: support_checked, label_html: { class: "form-label" } do %>
             <% if Current.org.member_form_activity_participations_text? %>
-              <div class="trix-content form-richtext-sm">
+              <div class="rich-text form-richtext-sm">
                 <%= Current.org.member_form_activity_participations_text %>
               </div>
             <% end %>
@@ -127,7 +127,7 @@
           </legend>
 
           <% if Current.org.basket_price_extra_text? %>
-            <div class="trix-content form-richtext-md">
+            <div class="rich-text form-richtext-md">
               <%= Current.org.basket_price_extra_text %>
             </div>
           <% end %>

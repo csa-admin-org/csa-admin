@@ -46,7 +46,7 @@ class Members::BiddingRound::PledgesTest < ApplicationSystemTestCase
     login(members(:jane))
     visit "/bidding_round/pledge"
 
-    assert_selector ".pledge-intro.trix-content ol"
+    assert_selector ".pledge-intro.rich-text ol"
     assert_selector ".pledge-intro li", count: 2
     assert_no_selector "p.pledge-intro"
     assert_no_selector "p .pledge-intro, p ol"

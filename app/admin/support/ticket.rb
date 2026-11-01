@@ -133,7 +133,7 @@ ActiveAdmin.register Support::Ticket do
                   l(message.created_at, format: :short)
                 end
               end
-              div class: "support-message-body trix-content" do
+              div class: "support-message-body rich-text" do
                 support_message_html(message)
               end
               if images.any?

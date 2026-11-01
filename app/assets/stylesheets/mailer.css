@@ -91,10 +91,10 @@ h2 {
 }
 
 h2,
-.trix-content h1,
-.trix-content h2,
-.trix-content h3,
-.trix-content h4 {
+.rich-text h1,
+.rich-text h2,
+.rich-text h3,
+.rich-text h4 {
   color: #444444;
   font-size: 20px;
   font-weight: 400;
@@ -488,105 +488,105 @@ p {
   margin-bottom: 10px;
 }
 
-.trix-content {
+.rich-text {
   line-height: 1.4;
   margin: 0;
 }
-.trix-content h1,
-.trix-content h2,
-.trix-content h3,
-.trix-content h4 {
+.rich-text h1,
+.rich-text h2,
+.rich-text h3,
+.rich-text h4 {
   margin: 0 0 1em;
 }
-.trix-content a {
+.rich-text a {
   color: #22c55e;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-.trix-content a.button {
+.rich-text a.button {
   color: #fff;
   text-decoration: none;
 }
-.trix-content figure {
+.rich-text figure {
   margin: 0 0 1em;
 }
-.trix-content * {
+.rich-text * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-.trix-content blockquote {
+.rich-text blockquote {
   border: 0 solid #ccc;
   border-left-width: 0.25em;
   font-style: italic;
   margin: 1em 0;
   padding: 0.6em 1em;
 }
-.trix-content [dir="rtl"] blockquote,
-.trix-content blockquote[dir="rtl"] {
+.rich-text [dir="rtl"] blockquote,
+.rich-text blockquote[dir="rtl"] {
   border-width: 0;
   border-right-width: 0.25em;
   margin: 1em 0;
   padding: 0.6em 1em;
 }
-.trix-content ul,
-.trix-content ol {
+.rich-text ul,
+.rich-text ol {
   margin: 0 0 1em 1.5em;
   padding: 0;
 }
-.trix-content li {
+.rich-text li {
   margin: 0;
   padding: 0;
 }
-.trix-content [dir="rtl"] li {
+.rich-text [dir="rtl"] li {
   margin: 0;
 }
-.trix-content p {
+.rich-text p {
   margin: 0 0 1em;
   line-height: 1.4;
 }
-.trix-content p:last-child {
+.rich-text p:last-child {
   margin-bottom: 0;
 }
-.trix-content s,
-.trix-content del {
+.rich-text s,
+.rich-text del {
   text-decoration: line-through;
 }
 
-.trix-content code {
+.rich-text code {
   font-family: monospace;
   font-size: 0.9em;
   background-color: #eee;
   padding: 0 0.3em;
 }
-.trix-content hr {
+.rich-text hr {
   border: 0;
   border-top: 1px solid #ccc;
   width: 100%;
   margin: 1.5em 0;
 }
-.trix-content table {
+.rich-text table {
   border-collapse: collapse;
   width: 100%;
   margin: 0 0 1em;
 }
-.trix-content th,
-.trix-content td {
+.rich-text th,
+.rich-text td {
   border: 1px solid #ddd;
   padding: 0.5em;
   text-align: left;
   vertical-align: top;
 }
-.trix-content th,
-.trix-content .lexxy-content__table-cell--header {
+.rich-text th,
+.rich-text .lexxy-content__table-cell--header {
   background-color: #f3f4f6;
   font-weight: bold;
 }
-.trix-content figcaption,
-.trix-content .attachment__caption {
+.rich-text figcaption,
+.rich-text .attachment__caption {
   display: none;
 }
-.trix-content pre {
+.rich-text pre {
   display: inline-block;
   width: 100%;
   vertical-align: top;
@@ -597,36 +597,36 @@ p {
   background-color: #eee;
   overflow-x: auto;
 }
-.trix-content action-text-attachment {
+.rich-text action-text-attachment {
   display: block;
   max-width: 100% !important;
   overflow: hidden;
 }
-.trix-content img {
+.rich-text img {
   max-width: 100%;
   height: auto;
 }
-.trix-content .attachment {
+.rich-text .attachment {
   display: block;
   margin: 0 auto 1em;
   padding: 0.4em;
   position: relative;
   max-width: 100%;
 }
-.trix-content .attachment a {
+.rich-text .attachment a {
   color: inherit;
   text-decoration: none;
 }
-.trix-content .attachment a:hover,
-.trix-content .attachment a:visited:hover {
+.rich-text .attachment a:hover,
+.rich-text .attachment a:visited:hover {
   color: inherit;
 }
-.trix-content .attachment--preview {
+.rich-text .attachment--preview {
   width: 100%;
   text-align: center;
 }
 
-.trix-content .attachment--file {
+.rich-text .attachment--file {
   color: #333;
   line-height: 1;
   margin: 0 2px 2px 2px;
@@ -634,21 +634,21 @@ p {
   border: 1px solid #bbb;
   border-radius: 5px;
 }
-.trix-content .attachment-gallery {
+.rich-text .attachment-gallery {
   margin: 0 0 1em;
   position: relative;
   font-size: 0;
   text-align: center;
 }
-.trix-content .attachment-gallery .attachment {
+.rich-text .attachment-gallery .attachment {
   display: inline-block;
   margin: 0;
   padding: 0 0.4em;
   max-width: 33%;
   font-size: 16px;
 }
-.trix-content .attachment-gallery.attachment-gallery--2 .attachment,
-.trix-content .attachment-gallery.attachment-gallery--4 .attachment {
+.rich-text .attachment-gallery.attachment-gallery--2 .attachment,
+.rich-text .attachment-gallery.attachment-gallery--4 .attachment {
   margin: auto;
   max-width: 50%;
 }
@@ -693,24 +693,24 @@ p {
   h1,
   h2,
   h3,
-  .trix-content div,
-  .trix-content pre,
-  .trix-content figure,
-  .trix-content table,
-  .trix-content th,
-  .trix-content td,
-  .trix-content hr,
-  .trix-content code {
+  .rich-text div,
+  .rich-text pre,
+  .rich-text figure,
+  .rich-text table,
+  .rich-text th,
+  .rich-text td,
+  .rich-text hr,
+  .rich-text code {
     color: #eee !important;
   }
 
-  .trix-content th,
-  .trix-content .lexxy-content__table-cell--header {
+  .rich-text th,
+  .rich-text .lexxy-content__table-cell--header {
     background-color: #444 !important;
   }
 
-  .trix-content code,
-  .trix-content pre {
+  .rich-text code,
+  .rich-text pre {
     background-color: #222 !important;
   }
 
@@ -750,24 +750,24 @@ body.dark blockquote,
 body.dark h1,
 body.dark h2,
 body.dark h3,
-body.dark .trix-content div,
-body.dark .trix-content pre,
-body.dark .trix-content figure,
-body.dark .trix-content table,
-body.dark .trix-content th,
-body.dark .trix-content td,
-body.dark .trix-content hr,
-body.dark .trix-content code {
+body.dark .rich-text div,
+body.dark .rich-text pre,
+body.dark .rich-text figure,
+body.dark .rich-text table,
+body.dark .rich-text th,
+body.dark .rich-text td,
+body.dark .rich-text hr,
+body.dark .rich-text code {
   color: #eee !important;
 }
 
-body.dark .trix-content th,
-body.dark .trix-content .lexxy-content__table-cell--header {
+body.dark .rich-text th,
+body.dark .rich-text .lexxy-content__table-cell--header {
   background-color: #444 !important;
 }
 
-body.dark .trix-content code,
-body.dark .trix-content pre {
+body.dark .rich-text code,
+body.dark .rich-text pre {
   background-color: #222 !important;
 }
 

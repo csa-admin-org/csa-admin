@@ -52,7 +52,7 @@
             <% if show_activity_participations? %>
               <%= f.input :activity_participations_demanded_annually, as: :numeric, label: activities_human_name, required: true, label_html: { class: "form-label" } do %>
                 <% if Current.org.member_form_activity_participations_text? %>
-                  <div class="trix-content form-richtext">
+                  <div class="rich-text form-richtext">
                     <%= Current.org.member_form_activity_participations_text %>
                   </div>
                 <% end %>
@@ -71,7 +71,7 @@
                   <%= Current.org.basket_price_extra_public_title %>
                 </legend>
 
-                <div class="trix-content form-richtext-inset">
+                <div class="rich-text form-richtext-inset">
                   <%= Current.org.basket_price_extra_text %>
                 </div>
 

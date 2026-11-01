@@ -255,7 +255,7 @@ module Support
     private_class_method :collapse_breaks!
 
     # A bare br is a line break. Two in a row are one blank line, which is
-    # how Trix stores a paragraph. Only a third, a wrapper spacer, or a run
+    # how a stored paragraph looks. Only a third, a wrapper spacer, or a run
     # beside a quote is extra.
     def self.drop_spacer?(node, children, index)
       earlier = children[0...index].reverse.find { |child| !spacer?(child) }
