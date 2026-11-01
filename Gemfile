@@ -51,7 +51,7 @@ gem "reactionview"
 gem "importmap-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
-gem "action_text-trix"
+gem "lexxy", "~> 1.0"
 gem "inline_svg"
 
 # Background Processing

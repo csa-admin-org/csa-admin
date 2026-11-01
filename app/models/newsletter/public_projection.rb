@@ -10,12 +10,13 @@ class Newsletter
     # Rails safe list + Action Text/Trix extras used in newsletter blocks.
     ALLOWED_TAGS = (
       Rails::HTML4::Sanitizer.safe_list_sanitizer.allowed_tags.to_a +
-      %w[figure figcaption table thead tbody tr th td u s]
+      %w[figure figcaption table thead tbody tr th td s]
     ).uniq.freeze
 
+    # style: highlight colors already resolved to rgb(). Loofah still scrubs the rest.
     ALLOWED_ATTRIBUTES = (
       Rails::HTML4::Sanitizer.safe_list_sanitizer.allowed_attributes.to_a +
-      %w[id loading]
+      %w[id loading style]
     ).uniq.freeze
 
     SUMMARY_LENGTH = 280

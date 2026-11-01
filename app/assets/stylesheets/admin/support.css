@@ -132,10 +132,9 @@
     box-shadow: none;
   }
 
-  .support-reply-form trix-editor {
+  .support-reply-form lexxy-editor {
+    --lexxy-text-size: 0.875rem;
     min-height: 6rem;
-    font-size: 0.875rem !important;
-    line-height: 1.25rem !important;
   }
 
   .support-reply-toolbar {
@@ -188,7 +187,7 @@
     display: none;
   }
 
-  .support-ticket-form fieldset.inputs:has(trix-editor) {
+  .support-ticket-form fieldset.inputs:has(lexxy-editor) {
     margin-bottom: 2rem;
   }
 
@@ -222,8 +221,9 @@
     padding-block: 0.25rem;
   }
 
-  .support-ticket-form trix-editor {
-    min-height: 16rem !important;
+  .support-ticket-form lexxy-editor {
+    --lexxy-editor-rows: 16rem;
+    min-height: 16rem;
   }
 
   .support-ticket-form fieldset.has-many-fields {

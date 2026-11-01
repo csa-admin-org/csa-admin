@@ -302,6 +302,11 @@
       display: block;
     }
 
+    /* A custom element doesn't take the textarea gap, so the toolbar sits on the label. */
+    li.action_text > lexxy-editor {
+      margin-top: 0.375rem;
+    }
+
     label abbr {
       margin-left: 0.125rem;
       color: var(--color-gray-500);
@@ -831,12 +836,12 @@
     }
 
     /* Formtastic marks hidden inputs with li.hidden. Without this they
-       still take the ol sibling gap and blow up Trix fieldsets. */
+       still take the ol sibling gap and blow up rich-text fieldsets. */
     li.hidden {
       display: none;
     }
 
-    fieldset.inputs:has(trix-editor) {
+    fieldset.inputs:has(lexxy-editor) {
       margin-bottom: 4rem;
     }
 

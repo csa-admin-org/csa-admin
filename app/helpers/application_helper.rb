@@ -24,6 +24,63 @@ module ApplicationHelper
     </script>
   HTML
 
+  # Lexxy hardcodes English chrome. Map those strings to the current locale.
+  LEXXY_LABELS = {
+    "Add images and video" => "lexxy.ui.add_image",
+    "Bold" => "lexxy.ui.bold",
+    "Italic" => "lexxy.ui.italic",
+    "Strikethrough" => "lexxy.ui.strikethrough",
+    "Text formatting" => "lexxy.ui.text_formatting",
+    "Paragraph" => "lexxy.ui.paragraph",
+    "Normal" => "lexxy.ui.normal",
+    "Clear formatting" => "lexxy.ui.clear_formatting",
+    "Color highlight" => "lexxy.ui.color_highlight",
+    "Remove all coloring" => "lexxy.ui.remove_coloring",
+    "Link" => "lexxy.ui.link",
+    "Unlink" => "lexxy.ui.unlink",
+    "Enter a URL…" => "lexxy.ui.enter_url",
+    "Quote" => "lexxy.ui.quote",
+    "Code" => "lexxy.ui.code",
+    "Bullet list" => "lexxy.ui.bullet_list",
+    "Numbered list" => "lexxy.ui.numbered_list",
+    "Insert a table" => "lexxy.ui.insert_table",
+    "Insert a divider" => "lexxy.ui.insert_divider",
+    "Undo" => "lexxy.ui.undo",
+    "Redo" => "lexxy.ui.redo",
+    "More options" => "lexxy.ui.more_options",
+    "Large Heading" => "lexxy.ui.large_heading",
+    "Medium Heading" => "lexxy.ui.medium_heading",
+    "Small Heading" => "lexxy.ui.small_heading",
+    "Describe the image for people who can't see it:" => "lexxy.ui.alt_dialog_title",
+    "Keep it short, but enough to convey the context…" => "lexxy.ui.alt_placeholder",
+    "Description" => "lexxy.ui.description",
+    "Alternative text" => "lexxy.ui.alternative_text",
+    "Cancel" => "lexxy.ui.cancel",
+    "Save" => "lexxy.ui.save",
+    "Remove" => "lexxy.ui.remove",
+    "Add caption..." => "lexxy.ui.add_caption",
+    "Image caption" => "lexxy.ui.image_caption",
+    "Delete this table?" => "lexxy.ui.delete_table",
+    "row options" => "lexxy.ui.row_options",
+    "column options" => "lexxy.ui.column_options",
+    "Add row before" => "lexxy.ui.add_row_before",
+    "Add row after" => "lexxy.ui.add_row_after",
+    "Toggle row style" => "lexxy.ui.toggle_row_style",
+    "Remove row" => "lexxy.ui.remove_row",
+    "Add column before" => "lexxy.ui.add_column_before",
+    "Add column after" => "lexxy.ui.add_column_after",
+    "Toggle column style" => "lexxy.ui.toggle_column_style",
+    "Remove column" => "lexxy.ui.remove_column",
+    "__row_one" => "lexxy.ui.row_one",
+    "__row_other" => "lexxy.ui.row_other",
+    "__column_one" => "lexxy.ui.column_one",
+    "__column_other" => "lexxy.ui.column_other"
+  }.freeze
+
+  def lexxy_labels_json
+    LEXXY_LABELS.transform_values { |key| t(key) }.to_json
+  end
+
   def mail_preview_iframe_sandbox
     "allow-scripts allow-popups allow-popups-to-escape-sandbox"
   end

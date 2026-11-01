@@ -1,60 +1,84 @@
 @layer utilities {
-  trix-editor {
-    width: 100% !important;
-    border-radius: 0.375rem !important;
-    border-width: 1px !important;
-    border-style: solid !important;
-    border-color: var(--color-gray-300) !important;
-    background-color: var(--color-gray-50) !important;
-    padding: 0.5rem 0.75rem !important;
-    font-size: 1rem !important;
-    line-height: 1.5rem !important;
-    color: var(--color-gray-900) !important;
+  /* Lexxy owns the editor chrome. Theme it with the existing gray tokens. */
+  lexxy-editor {
+    --lexxy-color-ink: var(--color-gray-900);
+    --lexxy-color-ink-medium: var(--color-gray-600);
+    --lexxy-color-ink-light: var(--color-gray-500);
+    --lexxy-color-ink-lighter: var(--color-gray-300);
+    --lexxy-color-ink-lightest: var(--color-gray-100);
+    --lexxy-color-ink-inverted: var(--color-white);
+    --lexxy-color-canvas: var(--color-gray-50);
+    --lexxy-color-text: var(--color-gray-900);
+    --lexxy-color-link: var(--color-green-500);
+    --lexxy-color-accent-dark: var(--color-green-500);
+    --lexxy-color-accent-medium: var(--color-green-600);
+    --lexxy-focus-ring-color: var(--color-green-500);
+    --lexxy-text-size: 1rem;
+    width: 100%;
 
-    &:focus {
-      border-color: var(--color-green-500) !important;
-      box-shadow: 0 0 0 1px var(--color-green-500) !important;
+    button[name="file"],
+    button[name="underline"] {
+      display: none !important;
+    }
+
+    /* Those buttons carried the group line. Keep it on the button now last in the group. */
+    button[name="image"],
+    button[name="strikethrough"] {
+      position: relative;
+      margin-inline-end: calc(var(--lexxy-toolbar-spacing) + 1px);
+
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        inset-inline-end: calc(-1 * var(--lexxy-toolbar-spacing));
+        inset-block: 0;
+        margin: auto;
+        inline-size: 1px;
+        block-size: var(--lexxy-toolbar-icon-size);
+        background-color: var(--lexxy-color-ink-lighter);
+        pointer-events: none;
+      }
     }
 
     &:where(.dark, .dark *) {
-      border-color: var(--color-gray-600) !important;
-      background-color: var(--color-gray-800) !important;
-      color: var(--color-white) !important;
-
-      &::placeholder {
-        color: var(--color-gray-400) !important;
-      }
-
-      &:focus {
-        border-color: var(--color-green-600) !important;
-        box-shadow: 0 0 0 1px var(--color-green-600) !important;
-      }
+      --lexxy-color-ink: var(--color-gray-100);
+      --lexxy-color-ink-medium: var(--color-gray-300);
+      --lexxy-color-ink-light: var(--color-gray-400);
+      --lexxy-color-ink-lighter: var(--color-gray-600);
+      --lexxy-color-ink-lightest: var(--color-gray-700);
+      --lexxy-color-ink-inverted: var(--color-gray-900);
+      --lexxy-color-canvas: var(--color-gray-800);
+      --lexxy-color-text: var(--color-white);
+      --lexxy-color-link: var(--color-green-400);
+      --lexxy-color-accent-dark: var(--color-green-500);
+      --lexxy-color-accent-medium: var(--color-green-400);
+      --lexxy-focus-ring-color: var(--color-green-600);
+      --lexxy-color-selected: var(--color-gray-700);
+      --lexxy-color-selected-hover: var(--color-gray-600);
+      --lexxy-color-selected-dark: var(--color-green-500);
+      --lexxy-color-table-header-bg: var(--color-gray-700);
+      --lexxy-color-table-cell-border: var(--color-gray-600);
+      --lexxy-color-table-cell-selected-bg: var(--color-gray-700);
+      --lexxy-color-table-cell-selected-border: var(--color-green-500);
+      --lexxy-color-table-cell-toggle: var(--color-gray-700);
+      --lexxy-color-code-bg: var(--color-gray-900);
+      --lexxy-color-code-token-punctuation: var(--color-gray-300);
+      --lexxy-color-code-token-comment: var(--color-gray-400);
     }
   }
 
-  trix-editor figcaption {
-    display: none !important;
+  .field_with_errors {
+    & lexxy-editor {
+      --lexxy-focus-ring-color: var(--color-red-500);
+      box-shadow: 0 0 0 2px var(--color-red-500);
+    }
   }
 
-  trix-editor img,
-  .trix-content .attachment {
-    display: inline-block;
-  }
-
-  .trix-content img {
-    margin-inline: auto;
-    max-width: 50% !important;
-  }
-
-  trix-editor figure {
-    margin-block: 1rem !important;
-  }
-
-  .trix-content figure {
-    margin-block: 0.5rem !important;
-  }
-
+  /* Rendered output in admin. The editor uses .lexxy-content, not this class. */
   .trix-content {
+    line-height: 1.4;
+
     a {
       text-decoration-line: underline;
       text-decoration-color: var(--link-decoration);
@@ -66,13 +90,68 @@
       }
     }
 
+    img {
+      display: inline-block;
+      margin-inline: auto;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .attachment {
+      display: inline-block;
+    }
+
+    p,
+    figure,
+    .attachment,
+    .attachment-gallery {
+      margin-bottom: 1rem;
+    }
+
+    blockquote {
+      border: 0 solid var(--color-gray-300);
+      border-inline-start-width: 0.25em;
+      font-style: italic;
+      margin-block: 1rem;
+      padding-block: 0.6em;
+      padding-inline-start: 1em;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-block: 1rem;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--color-gray-300);
+      padding: 0.5rem;
+      text-align: start;
+      vertical-align: top;
+    }
+
+    th,
+    .lexxy-content__table-cell--header {
+      background-color: var(--color-gray-100);
+      font-weight: 500;
+    }
+
+    /* Filename captions were hidden under Trix. Keep that. */
+    figcaption,
+    .attachment__caption {
+      display: none;
+    }
+
     ol,
     ul {
-      margin-block: 0.5rem !important;
+      margin-block: 1rem !important;
+      margin-inline-start: 1.5rem !important;
+      padding: 0 !important;
     }
 
     li {
-      margin-left: 1.5rem !important;
+      margin: 0 !important;
     }
 
     ol {
@@ -82,68 +161,6 @@
     ul {
       list-style-type: disc;
     }
-  }
-
-  trix-toolbar {
-    margin-top: 0.5rem;
-  }
-
-  .field_with_errors {
-    & trix-editor {
-      border-width: 2px !important;
-      border-color: var(--color-red-500) !important;
-    }
-  }
-
-  trix-toolbar .trix-button {
-    &:where(.dark, .dark *) {
-      filter: invert();
-    }
-  }
-
-  trix-editor {
-    &:where(.dark, .dark *) {
-      color: white;
-    }
-  }
-
-  trix-toolbar .trix-button:disabled {
-    &:where(.dark, .dark *) {
-      filter: invert() grayscale(1) brightness(2);
-    }
-  }
-
-  trix-toolbar .trix-button--icon::before {
-    &:where(.dark, .dark *) {
-      opacity: 1;
-    }
-  }
-
-  trix-toolbar .trix-button--icon:disabled::before {
-    &:where(.dark, .dark *) {
-      opacity: 0.5;
-    }
-  }
-
-  .trix-dialog .trix-button-group {
-    &:where(.dark, .dark *) {
-      filter: invert();
-    }
-  }
-
-  .trix-input--dialog,
-  .trix-button--dialog {
-    &:where(.dark, .dark *) {
-      color: black;
-    }
-  }
-
-  .trix-button--icon-quote {
-    display: none !important;
-  }
-
-  .trix-button--icon-code {
-    display: none !important;
   }
 
   .trix-word-count-warning {
@@ -162,4 +179,239 @@
       color: var(--color-orange-400);
     }
   }
+}
+
+/* Unlayered so these beat Lexxy's own chrome. Form styles otherwise stretch
+   the link bar and the alt dialog to full form-control size. */
+lexxy-editor input,
+lexxy-editor textarea,
+lexxy-editor button {
+  margin-top: 0;
+}
+
+lexxy-editor figcaption,
+lexxy-editor .attachment__caption {
+  display: none;
+}
+
+/* Formtastic spaces every ol child. That also matches a numbered list Lexxy writes. */
+lexxy-editor ol > li {
+  margin-bottom: 0;
+}
+
+lexxy-editor .horizontal-divider {
+  padding-block: 0.65em;
+}
+
+lexxy-editor .horizontal-divider hr {
+  border-block-end-color: var(--color-gray-300);
+  inline-size: 100%;
+}
+
+lexxy-editor .horizontal-divider.node--selected {
+  border-radius: 0.375rem;
+}
+
+/* The panel is not attached, so the flat bottom edge only looks cut off. */
+lexxy-editor
+  .lexxy-editor__toolbar-dropdown--link
+  > .lexxy-editor__toolbar-button[aria-expanded="true"] {
+  border-radius: var(--lexxy-radius);
+}
+
+/* The default control is a dark square sitting on the line. */
+lexxy-editor lexxy-attachment-toolbar[data-node-type="horizontal_divider"] {
+  transform: translate(calc(-100% - 0.25rem), calc(-100% - 0.35rem));
+}
+
+lexxy-editor
+  lexxy-attachment-toolbar[data-node-type="horizontal_divider"]
+  .lexxy-floating-controls__group {
+  background-color: var(--color-gray-900);
+  color: var(--color-white);
+}
+
+:where(.dark, .dark *) lexxy-editor .lexxy-floating-controls__group {
+  overflow: hidden;
+  background-color: var(--color-gray-950);
+  color: var(--color-gray-100);
+  padding: 2px;
+}
+
+:where(.dark, .dark *) lexxy-editor .lexxy-floating-controls__group:has(> :only-child) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+lexxy-editor
+  .lexxy-floating-controls
+  button:not(.lexxy-table-control__more-menu-trigger, .lexxy-attachment-toolbar__alternative-text) {
+  padding: 0;
+  border-width: 0;
+}
+
+:where(.dark, .dark *) lexxy-editor .lexxy-floating-controls button {
+  color: var(--color-gray-100);
+}
+
+:where(.dark, .dark *)
+  lexxy-editor
+  .lexxy-floating-controls
+  button:hover:not(.lexxy-attachment-toolbar__remove, .lexxy-table-control__button--delete-table) {
+  background-color: var(--color-gray-700);
+  color: var(--color-white);
+}
+
+:where(.dark, .dark *) lexxy-editor .lexxy-attachment-toolbar__remove:hover,
+:where(.dark, .dark *) lexxy-editor .lexxy-attachment-toolbar__remove:focus-visible {
+  background-color: var(--color-red-600);
+  color: var(--color-white);
+}
+
+:where(.dark, .dark *) lexxy-editor .lexxy-attachment-toolbar__remove:hover svg,
+:where(.dark, .dark *) lexxy-editor .lexxy-attachment-toolbar__remove:focus-visible svg,
+html.dark
+  lexxy-editor
+  .lexxy-floating-controls
+  .lexxy-table-control__button--delete-table:hover
+  svg,
+.dark lexxy-editor .lexxy-floating-controls .lexxy-table-control__button--delete-table:hover svg {
+  color: var(--color-white);
+  fill: currentColor;
+}
+
+html.dark lexxy-editor .lexxy-floating-controls .lexxy-table-control__button--delete-table,
+.dark lexxy-editor .lexxy-floating-controls .lexxy-table-control__button--delete-table {
+  align-self: stretch;
+  block-size: auto;
+  min-block-size: 0;
+}
+
+html.dark lexxy-editor .lexxy-floating-controls .lexxy-table-control__button--delete-table:hover,
+.dark lexxy-editor .lexxy-floating-controls .lexxy-table-control__button--delete-table:hover {
+  background-color: var(--color-red-600);
+  color: var(--color-white);
+}
+
+html.dark lexxy-editor .lexxy-floating-controls .lexxy-table-control__button--delete-table span,
+.dark lexxy-editor .lexxy-floating-controls .lexxy-table-control__button--delete-table span {
+  background-color: var(--color-gray-950);
+  color: var(--color-gray-100);
+}
+
+:where(.dark, .dark *) lexxy-editor .lexxy-table-control__more-menu-trigger {
+  box-shadow: inset 0 0 0 1px var(--color-gray-700);
+}
+
+lexxy-editor
+  lexxy-attachment-toolbar[data-node-type="horizontal_divider"]
+  .lexxy-attachment-toolbar__remove
+  svg {
+  fill: currentColor;
+  opacity: 1;
+}
+
+lexxy-editor
+  lexxy-attachment-toolbar[data-node-type="horizontal_divider"]
+  .lexxy-attachment-toolbar__remove:hover,
+lexxy-editor
+  lexxy-attachment-toolbar[data-node-type="horizontal_divider"]
+  .lexxy-attachment-toolbar__remove:focus-visible {
+  background-color: var(--color-red-600);
+  color: var(--color-white);
+}
+
+/* Form styles stretch every select. The language picker is a small overlay. */
+lexxy-editor lexxy-code-language-picker {
+  background: none;
+  border: 0;
+  box-shadow: none;
+}
+
+lexxy-editor lexxy-code-language-picker select {
+  inline-size: auto;
+  width: auto;
+  margin: 0.25rem 0.25rem 0 0;
+  padding: 0 1.75rem 0 0.75rem;
+  block-size: 1.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+:where(.dark, .dark *) lexxy-editor lexxy-code-language-picker select {
+  background-color: var(--color-gray-800);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m12 19.5c-.7 0-1.3-.3-1.7-.8l-9.8-11.1c-.7-.8-.6-1.9.2-2.6.8-.6 1.9-.6 2.5.2l8.6 9.8c0 .1.2.1.4 0l8.6-9.8c.7-.8 1.8-.9 2.6-.2s.9 1.8.2 2.6l-9.8 11.1c-.4.5-1.1.8-1.7.8z' fill='%23fff'/%3E%3C/svg%3E");
+  background-position: center right 0.6rem;
+  background-repeat: no-repeat;
+  background-size: 0.7rem;
+  border-color: var(--color-gray-600);
+  color: var(--color-gray-100);
+}
+
+lexxy-editor .lexxy-alternative-text-dialog {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  inline-size: min(28rem, calc(100% - 1rem));
+}
+
+lexxy-editor .lexxy-alternative-text-dialog textarea {
+  min-block-size: 2.5rem;
+  font-size: 0.875rem;
+}
+
+lexxy-editor .lexxy-alternative-text-dialog button {
+  block-size: 2rem;
+  padding-block: 0;
+  font-weight: 500;
+}
+
+lexxy-editor .lexxy-alternative-text-dialog__save,
+lexxy-editor .lexxy-editor__toolbar-dropdown--link button[value="link"] {
+  border: 1px solid var(--color-green-500);
+  background-color: var(--color-green-500);
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+lexxy-editor .lexxy-alternative-text-dialog__save:hover,
+lexxy-editor .lexxy-editor__toolbar-dropdown--link button[value="link"]:hover {
+  border-color: var(--color-green-600);
+  background-color: var(--color-green-600);
+  color: var(--color-white);
+}
+
+lexxy-editor .lexxy-editor__toolbar-dropdown--link [data-dropdown-panel] {
+  align-items: center;
+  flex-wrap: wrap;
+  inset-inline: 0;
+  margin-inline: auto;
+  inline-size: min(24rem, calc(100% - 1rem));
+  max-inline-size: calc(100% - 1rem);
+}
+
+lexxy-editor .lexxy-editor__toolbar-dropdown--link [data-dropdown-panel] input[type="url"] {
+  box-sizing: border-box;
+  block-size: 2rem;
+  margin-top: 0;
+  padding: 0 0.75rem;
+  border-width: 1px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  inline-size: auto;
+  min-inline-size: 8rem;
+  flex: 1 1 8rem;
+}
+
+lexxy-editor .lexxy-editor__toolbar-dropdown--link [data-dropdown-panel] button {
+  box-sizing: border-box;
+  block-size: 2rem;
+  margin-top: 0;
+  flex: 0 0 auto;
+  inline-size: auto;
+  padding: 0 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  white-space: nowrap;
 }

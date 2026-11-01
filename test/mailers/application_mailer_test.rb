@@ -65,6 +65,31 @@ class ApplicationMailerTest < ActionMailer::TestCase
     assert_equal content, result
   end
 
+  test "resolves Lexxy highlight colors to concrete values" do
+    content = '<span style="color: var(--highlight-3); background-color: var(--highlight-bg-1)">Hi</span>'
+
+    result = ActionTextHtml.resolve_highlights(content)
+
+    assert_includes result, "color: rgb(207, 0, 0)"
+    assert_includes result, "background-color: rgba(229, 223, 6, 0.3)"
+    assert_not_includes result, "var(--highlight"
+  end
+
+  test "leaves an unknown color variable alone" do
+    content = '<span style="color: var(--brand)">Hi</span>'
+
+    assert_equal content, ActionTextHtml.resolve_highlights(content)
+  end
+
+  test "rendered action text keeps a resolved highlight color" do
+    html = '<span style="color: var(--highlight-3); background-color: var(--highlight-bg-1)">Hi</span>'
+    rendered = ActionText::Content.new(html).to_s
+
+    assert_includes rendered, "color:rgb(207, 0, 0)"
+    assert_includes rendered, "background-color:rgba(229, 223, 6, 0.3)"
+    assert_not_includes rendered, "var(--highlight"
+  end
+
   test "default_url_options use the tenant members host" do
     assert_equal({ protocol: "https", host: "members.acme.test" },
       ApplicationMailer.new.send(:default_url_options))

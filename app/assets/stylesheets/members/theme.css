@@ -96,9 +96,11 @@
     }
 
     .trix-content {
+      line-height: 1.4;
+
       h1 {
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
+        margin-top: 0;
+        margin-bottom: 1rem;
         font-size: 1rem;
         line-height: 1.5rem;
         font-weight: 500;
@@ -107,29 +109,99 @@
 
       /* h1 stays at body size. Old Trix bodies used it as the only heading. */
       h2 {
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
+        margin-top: 0;
+        margin-bottom: 1rem;
         font-size: 1.125rem;
         line-height: 1.5rem;
         font-weight: 500;
         color: var(--color-ink-heading);
       }
 
-      h3 {
-        margin-top: 0.75rem;
-        margin-bottom: 0.25rem;
+      h3,
+      h4 {
+        margin-top: 0;
+        margin-bottom: 1rem;
         font-size: 1rem;
         line-height: 1.5rem;
         font-weight: 500;
         color: var(--color-ink-heading);
       }
 
-      /* Preflight clears markers; Trix only indents li, so numbers disappear. */
+      p {
+        margin-bottom: 1rem;
+      }
+
+      p:last-child {
+        margin-bottom: 0;
+      }
+
+      s,
+      del {
+        text-decoration: line-through;
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, monospace;
+        font-size: 0.9em;
+        background-color: var(--color-gray-100);
+      }
+
+      pre {
+        display: block;
+        overflow-x: auto;
+        padding: 0.5rem;
+        white-space: pre;
+      }
+
+      hr {
+        border: 0;
+        border-top: 1px solid var(--color-gray-300);
+        width: 100%;
+        margin: 1.5rem 0;
+      }
+
+      blockquote {
+        border: 0 solid var(--color-gray-300);
+        border-inline-start-width: 0.25em;
+        font-style: italic;
+        margin-block: 1rem;
+        padding-block: 0.6em;
+        padding-inline-start: 1em;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-block: 1rem;
+      }
+
+      th,
+      td {
+        border: 1px solid var(--color-gray-300);
+        padding: 0.5rem;
+        text-align: start;
+        vertical-align: top;
+      }
+
+      th,
+      .lexxy-content__table-cell--header {
+        background-color: var(--color-gray-100);
+        font-weight: 500;
+      }
+
+      figcaption,
+      .attachment__caption {
+        display: none;
+      }
+
+      /* Preflight clears markers. Indent the list, not each item. */
       ol,
       ul {
         list-style-position: outside;
-        margin-block: 0.75rem !important;
-        padding-inline-start: 1.5rem !important;
+        margin-block: 1rem !important;
+        margin-inline-start: 1.5rem !important;
+        padding: 0 !important;
       }
 
       ol {
@@ -141,11 +213,55 @@
       }
 
       li {
-        margin-inline-start: 0 !important;
+        margin: 0 !important;
       }
 
-      li + li {
-        margin-top: 0.75rem !important;
+      figure,
+      .attachment,
+      .attachment-gallery {
+        margin-block: 1rem;
+      }
+
+      .attachment-gallery .attachment {
+        margin: 0;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .attachment {
+        display: inline-block;
+        position: relative;
+        max-width: 100%;
+      }
+
+      .attachment a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .attachment--preview {
+        width: 100%;
+        text-align: center;
+      }
+
+      .attachment-gallery {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .attachment-gallery .attachment {
+        flex: 1 0 33%;
+        max-width: 33%;
+        padding: 0 0.5em;
+      }
+
+      .attachment-gallery.attachment-gallery--2 .attachment,
+      .attachment-gallery.attachment-gallery--4 .attachment {
+        flex-basis: 50%;
+        max-width: 50%;
       }
     }
 

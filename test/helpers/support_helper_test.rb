@@ -99,6 +99,22 @@ class SupportHelperTest < ActionView::TestCase
     assert_not_includes html, "style="
   end
 
+  test "keeps a resolved highlight and drops a tracking image style" do
+    message = Support::Message.new(author: "admin", body: "painted")
+    message.html = <<~HTML
+      <p><span style="color: rgb(207, 0, 0); font-size: 14px;">painted</span></p>
+      <img style="background-image: url(https://evil.example/pixel)" src="https://example.com/a.png" alt="shot">
+    HTML
+
+    html = view.support_message_html(message)
+
+    assert_includes html, "color: rgb(207, 0, 0)"
+    assert_includes html, "painted"
+    assert_not_includes html, "font-size"
+    assert_not_includes html, "evil.example"
+    assert_not_includes html, "background-image"
+  end
+
   test "renders stored action text images" do
     blob = ActiveStorage::Blob.create_and_upload!(
       io: file_fixture("logo.png").open,

@@ -24,6 +24,33 @@ class Members::NewsletterFeedsControllerTest < ActionDispatch::IntegrationTest
     newsletter.reload
   end
 
+  test "keeps a saved heading and strips a script" do
+    create_published!(
+      subject: "Saved shape",
+      body: "<p>Saved note</p><h2>Heading</h2><script>alert(1)</script><img src=\"https://cdn.example/plot.png\" alt=\"plot\">")
+
+    get members_newsletter_feed_path(template_id: @template.id)
+
+    assert_response :success
+    assert_includes response.body, "Saved note"
+    assert_includes response.body, "Heading"
+    assert_includes response.body, "plot.png"
+    assert_not_includes response.body, "<script"
+    assert_not_includes response.body, "&lt;script"
+  end
+
+  test "keeps a resolved highlight color" do
+    create_published!(
+      subject: "Highlighted",
+      body: '<p>See <mark style="background-color: var(--highlight-bg-2)">this</mark></p>')
+
+    get members_newsletter_feed_path(template_id: @template.id)
+
+    assert_response :success
+    assert_includes response.body, "rgba(255, 185, 87, 0.3)"
+    assert_not_includes response.body, "var(--highlight"
+  end
+
   test "returns atom feed for feed-enabled template" do
     create_published!(subject: "First public issue", body: "<p>Hello farm</p>")
 

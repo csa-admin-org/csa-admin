@@ -1,0 +1,309 @@
+_:
+  lexxy:
+    file_too_large:
+      _en: Only images smaller than 5 MB are allowed.
+      _fr: Seules les images de moins de 5 Mo sont autorisées.
+      _de: Nur Bilder unter 5 MB sind erlaubt.
+      _it: Sono consentite solo immagini inferiori a 5 MB.
+      _nl: Alleen afbeeldingen kleiner dan 5 MB zijn toegestaan.
+    invalid_file:
+      _en: Only images in the editor. PDFs go in Attachments below.
+      _fr: Seules les images dans l’éditeur. Les PDF vont dans Pièces jointes ci-dessous.
+      _de: Nur Bilder im Editor. PDFs gehören in die Anhänge darunter.
+      _it: Solo immagini nell’editor. I PDF vanno in Allegati sotto.
+      _nl: Alleen afbeeldingen in de editor. PDF's horen in Bijlagen hieronder.
+    ui:
+      add_caption:
+        _en: Add caption...
+        _fr: Ajouter une légende...
+        _de: Beschriftung hinzufügen...
+        _it: Aggiungere una didascalia...
+        _nl: Bijschrift toevoegen...
+      add_column_after:
+        _en: Add column after
+        _fr: Ajouter une colonne après
+        _de: Spalte danach einfügen
+        _it: Aggiungere una colonna dopo
+        _nl: Kolom erna invoegen
+      add_column_before:
+        _en: Add column before
+        _fr: Ajouter une colonne avant
+        _de: Spalte davor einfügen
+        _it: Aggiungere una colonna prima
+        _nl: Kolom ervoor invoegen
+      add_image:
+        _en: Add an image
+        _fr: Ajouter une image
+        _de: Bild hinzufügen
+        _it: Aggiungere un’immagine
+        _nl: Afbeelding toevoegen
+      add_row_after:
+        _en: Add row after
+        _fr: Ajouter une ligne après
+        _de: Zeile danach einfügen
+        _it: Aggiungere una riga dopo
+        _nl: Rij erna invoegen
+      add_row_before:
+        _en: Add row before
+        _fr: Ajouter une ligne avant
+        _de: Zeile davor einfügen
+        _it: Aggiungere una riga prima
+        _nl: Rij ervoor invoegen
+      alt_dialog_title:
+        _en: 'Describe the image for people who can''t see it:'
+        _fr: 'Décrire l’image pour les personnes qui ne peuvent pas la voir:'
+        _de: 'Bild für Personen beschreiben, die es nicht sehen können:'
+        _it: 'Descrivere l’immagine per chi non può vederla:'
+        _nl: 'Afbeelding beschrijven voor wie hem niet kan zien:'
+      alt_placeholder:
+        _en: Keep it short, but enough to convey the context…
+        _fr: Court, mais assez pour donner le contexte…
+        _de: Kurz, aber genug für den Kontext…
+        _it: Breve, ma sufficiente a dare il contesto…
+        _nl: Kort, maar genoeg om de context te geven…
+      alternative_text:
+        _en: Alternative text
+        _fr: Texte alternatif
+        _de: Alternativtext
+        _it: Testo alternativo
+        _nl: Alternatieve tekst
+      bold:
+        _en: Bold
+        _fr: Gras
+        _de: Fett
+        _it: Grassetto
+        _nl: Vet
+      bullet_list:
+        _en: Bullet list
+        _fr: Liste à puces
+        _de: Aufzählung
+        _it: Elenco puntato
+        _nl: Lijst met opsommingstekens
+      cancel:
+        _en: Cancel
+        _fr: Annuler
+        _de: Abbrechen
+        _it: Annullare
+        _nl: Annuleren
+      clear_formatting:
+        _en: Clear formatting
+        _fr: Effacer la mise en forme
+        _de: Formatierung entfernen
+        _it: Rimuovere la formattazione
+        _nl: Opmaak wissen
+      code:
+        _en: Code
+        _fr: Code
+        _de: Code
+        _it: Codice
+        _nl: Code
+      color_highlight:
+        _en: Color highlight
+        _fr: Couleur
+        _de: Farbe
+        _it: Colore
+        _nl: Kleur
+      column_one:
+        _en: column
+        _fr: colonne
+        _de: Spalte
+        _it: colonna
+        _nl: kolom
+      column_options:
+        _en: column options
+        _fr: options de colonne
+        _de: Spaltenoptionen
+        _it: opzioni colonna
+        _nl: kolomopties
+      column_other:
+        _en: columns
+        _fr: colonnes
+        _de: Spalten
+        _it: colonne
+        _nl: kolommen
+      delete_table:
+        _en: Delete this table?
+        _fr: Supprimer ce tableau?
+        _de: Diese Tabelle löschen?
+        _it: Eliminare questa tabella?
+        _nl: Deze tabel verwijderen?
+      description:
+        _en: Description
+        _fr: Description
+        _de: Beschreibung
+        _it: Descrizione
+        _nl: Beschrijving
+      enter_url:
+        _en: Enter a URL…
+        _fr: Saisir une URL…
+        _de: URL eingeben…
+        _it: Inserire un URL…
+        _nl: URL invoeren…
+      image_caption:
+        _en: Image caption
+        _fr: Légende de l’image
+        _de: Bildbeschriftung
+        _it: Didascalia dell’immagine
+        _nl: Bijschrift van de afbeelding
+      insert_divider:
+        _en: Insert a divider
+        _fr: Insérer un séparateur
+        _de: Trennlinie einfügen
+        _it: Inserire un separatore
+        _nl: Scheidingslijn invoegen
+      insert_table:
+        _en: Insert a table
+        _fr: Insérer un tableau
+        _de: Tabelle einfügen
+        _it: Inserire una tabella
+        _nl: Tabel invoegen
+      italic:
+        _en: Italic
+        _fr: Italique
+        _de: Kursiv
+        _it: Corsivo
+        _nl: Cursief
+      large_heading:
+        _en: Large Heading
+        _fr: Grand titre
+        _de: Grosse Überschrift
+        _it: Titolo grande
+        _nl: Grote kop
+      link:
+        _en: Link
+        _fr: Lien
+        _de: Link
+        _it: Collegamento
+        _nl: Link
+      medium_heading:
+        _en: Medium Heading
+        _fr: Titre moyen
+        _de: Mittlere Überschrift
+        _it: Titolo medio
+        _nl: Middelgrote kop
+      more_options:
+        _en: More options
+        _fr: Plus d’options
+        _de: Weitere Optionen
+        _it: Altre opzioni
+        _nl: Meer opties
+      normal:
+        _en: Normal
+        _fr: Normal
+        _de: Normal
+        _it: Normale
+        _nl: Normaal
+      numbered_list:
+        _en: Numbered list
+        _fr: Liste numérotée
+        _de: Nummerierte Liste
+        _it: Elenco numerato
+        _nl: Genummerde lijst
+      paragraph:
+        _en: Paragraph
+        _fr: Paragraphe
+        _de: Absatz
+        _it: Paragrafo
+        _nl: Alinea
+      quote:
+        _en: Quote
+        _fr: Citation
+        _de: Zitat
+        _it: Citazione
+        _nl: Citaat
+      redo:
+        _en: Redo
+        _fr: Rétablir
+        _de: Wiederholen
+        _it: Ripristinare
+        _nl: Opnieuw
+      remove:
+        _en: Remove
+        _fr: Retirer
+        _de: Entfernen
+        _it: Rimuovere
+        _nl: Verwijderen
+      remove_coloring:
+        _en: Remove all coloring
+        _fr: Retirer les couleurs
+        _de: Alle Farben entfernen
+        _it: Rimuovere i colori
+        _nl: Alle kleuren verwijderen
+      remove_column:
+        _en: Remove column
+        _fr: Retirer la colonne
+        _de: Spalte entfernen
+        _it: Rimuovere la colonna
+        _nl: Kolom verwijderen
+      remove_row:
+        _en: Remove row
+        _fr: Retirer la ligne
+        _de: Zeile entfernen
+        _it: Rimuovere la riga
+        _nl: Rij verwijderen
+      row_one:
+        _en: row
+        _fr: ligne
+        _de: Zeile
+        _it: riga
+        _nl: rij
+      row_options:
+        _en: row options
+        _fr: options de ligne
+        _de: Zeilenoptionen
+        _it: opzioni riga
+        _nl: rijopties
+      row_other:
+        _en: rows
+        _fr: lignes
+        _de: Zeilen
+        _it: righe
+        _nl: rijen
+      save:
+        _en: Save
+        _fr: Enregistrer
+        _de: Speichern
+        _it: Salvare
+        _nl: Opslaan
+      small_heading:
+        _en: Small Heading
+        _fr: Petit titre
+        _de: Kleine Überschrift
+        _it: Titolo piccolo
+        _nl: Kleine kop
+      strikethrough:
+        _en: Strikethrough
+        _fr: Barré
+        _de: Durchgestrichen
+        _it: Barrato
+        _nl: Doorhalen
+      text_formatting:
+        _en: Text formatting
+        _fr: Mise en forme
+        _de: Textformatierung
+        _it: Formattazione
+        _nl: Tekstopmaak
+      toggle_column_style:
+        _en: Toggle column style
+        _fr: Basculer le style de colonne
+        _de: Spaltenstil umschalten
+        _it: Cambiare lo stile della colonna
+        _nl: Kolomstijl wisselen
+      toggle_row_style:
+        _en: Toggle row style
+        _fr: Basculer le style de ligne
+        _de: Zeilenstil umschalten
+        _it: Cambiare lo stile della riga
+        _nl: Rijstijl wisselen
+      undo:
+        _en: Undo
+        _fr: Annuler
+        _de: Rückgängig
+        _it: Annullare
+        _nl: Ongedaan maken
+      unlink:
+        _en: Unlink
+        _fr: Délier
+        _de: Link entfernen
+        _it: Scollegare
+        _nl: Ontkoppelen

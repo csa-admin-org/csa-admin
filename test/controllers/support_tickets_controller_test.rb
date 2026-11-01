@@ -225,7 +225,7 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
     assert_select ".support-reply-form"
     assert_select ".support-reply-form > fieldset.inputs", count: 0
     assert_select ".support-reply-actions button[type=submit].btn"
-    assert_select "trix-editor, input[name='support_message[html]'], textarea[name='support_message[html]']"
+    assert_select "lexxy-editor[name='support_message[html]']"
     assert_select "a[href=?]", edit_support_ticket_path(ticket), count: 0
     assert_select ".admin-page-status .status-tag[data-status=waiting]"
     assert_select ".has-many-add svg"

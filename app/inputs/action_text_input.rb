@@ -11,10 +11,11 @@ class ActionTextInput < Formtastic::Inputs::StringInput
 
   def action_text_editor_tag
     options = input_html_options.dup
-    options[:class] = [ options[:class], "trix-content" ].compact.join(" ")
     value = options.delete(:value) { @object.public_send(@method) }
     options[:id] ||= @builder.field_id(@method)
-    options[:input] ||= ActionView::RecordIdentifier.dom_id(@object, [ options[:id], :trix_input ].compact.join("_")) if @object
+
+    value = value.to_editor_html if value.respond_to?(:to_editor_html)
+    value = ActionTextHtml.strip_underline(value)
 
     @template.rich_textarea_tag(@builder.field_name(@method), value, options)
   end

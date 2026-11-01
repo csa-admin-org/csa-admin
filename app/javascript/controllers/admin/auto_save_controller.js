@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = ["form", "warningMessage"]
 
   connect() {
-    this.localStorageKey = window.location
+    this.localStorageKey = `lexxy:${window.location}`
     this.setFormData()
   }
 
@@ -18,16 +18,16 @@ export default class extends Controller {
   getFormData() {
     const form = new FormData(this.formTarget)
     let data = []
+    const editors = new Set()
+
+    this.formTarget.querySelectorAll("lexxy-editor[name]").forEach((editor) => {
+      editors.add(editor.getAttribute("name"))
+      if (!editor.isEmpty) data.push([editor.getAttribute("name"), editor.value])
+    })
 
     for (var pair of form.entries()) {
-      if (pair[0] != "authenticity_token") {
-        let editor = this.formTarget.querySelector(`[name='${pair[0]}'] ~ trix-editor`)
-        if (editor && !editor.editor.getDocument().isEmpty()) {
-          data.push([pair[0], JSON.stringify(editor.editor)])
-        } else if (pair[1]) {
-          data.push([pair[0], pair[1]])
-        }
-      }
+      if (pair[0] == "authenticity_token" || editors.has(pair[0])) continue
+      if (pair[1]) data.push([pair[0], pair[1]])
     }
 
     return Object.fromEntries(data)
@@ -46,23 +46,25 @@ export default class extends Controller {
       Object.entries(data).forEach((entry) => {
         let name = entry[0]
         let value = entry[1]
-        let input = form.querySelector(`[name='${name}']`)
+        let editor = this.#editor(name)
+        if (editor) {
+          editor.value = value
+          return
+        }
+
+        let input = form.querySelector(`[name='${CSS.escape(name)}']`)
         if (input) {
-          let editor = form.querySelector(`[name='${name}'] ~ trix-editor`)
-          if (editor) {
-            try {
-              const parsedValue = JSON.parse(value)
-              editor.editor.loadJSON(parsedValue)
-            } catch {}
-          } else {
-            input.value = value
-            // Wait for other Stimulus controllers loading before triggering a change event.
-            setTimeout(() => {
-              this.dispatch("change", { target: input, prefix: false })
-            }, 100)
-          }
+          input.value = value
+          // Wait for other Stimulus controllers loading before triggering a change event.
+          setTimeout(() => {
+            this.dispatch("change", { target: input, prefix: false })
+          }, 100)
         }
       })
     }
+  }
+
+  #editor(name) {
+    return this.formTarget.querySelector(`lexxy-editor[name='${CSS.escape(name)}']`)
   }
 }

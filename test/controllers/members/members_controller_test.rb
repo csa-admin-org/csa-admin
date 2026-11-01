@@ -7,6 +7,18 @@ class Members::MembersControllerTest < ActionDispatch::IntegrationTest
     host! "members.acme.test"
   end
 
+  test "new renders a saved paragraph" do
+    Current.org.member_form_subtitle = "<p>Saved note</p><h2>Heading</h2><script>alert(1)</script>"
+    Current.org.save!
+
+    get new_members_member_path
+
+    assert_response :success
+    assert_select "p", text: "Saved note"
+    assert_select "h2", text: "Heading"
+    assert_select "script", text: "alert(1)", count: 0
+  end
+
   test "new succeeds when nested member params are empty" do
     get new_members_member_path, params: { member: {} }
 

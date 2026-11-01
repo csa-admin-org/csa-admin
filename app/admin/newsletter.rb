@@ -175,7 +175,7 @@ ActiveAdmin.register Newsletter do
     code_editor_target: "form",
     code_editor_preview_path_value: "/newsletters/preview",
     auto_save_target: "form",
-    action: "change->auto-save#saveToLocalStorage trix-change->auto-save#saveToLocalStorage submit->auto-save#clearLocalStorage"
+    action: "change->auto-save#saveToLocalStorage lexxy:change->auto-save#saveToLocalStorage submit->auto-save#clearLocalStorage"
   } do |f|
     newsletter = f.object
     div class: "admin-auto-save-warning", data: { "auto-save-target" => "warningMessage" } do
@@ -235,7 +235,7 @@ ActiveAdmin.register Newsletter do
             style: ("display: none" unless b.object.template_id == f.object.template.id)
           },
           input_html: {
-            data: { action: "trix-change->code-editor#updatePreview" }
+            data: { action: "lexxy:change->code-editor#updatePreview" }
           })
       end
       f.semantic_errors :blocks

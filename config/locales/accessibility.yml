@@ -100,16 +100,3 @@ _:
         _de: Menü anzeigen
         _it: Mostra menu
         _nl: Menu tonen
-    trix:
-      file_too_large:
-        _en: Only images smaller than 5 MB are allowed.
-        _fr: Seules les images de moins de 5 Mo sont autorisées.
-        _de: Nur Bilder unter 5 MB sind erlaubt.
-        _it: Sono consentite solo immagini inferiori a 5 MB.
-        _nl: Alleen afbeeldingen kleiner dan 5 MB zijn toegestaan.
-      invalid_file:
-        _en: Only images in the editor. PDFs go in Attachments below.
-        _fr: Seules les images dans l’éditeur. Les PDF vont dans Pièces jointes ci-dessous.
-        _de: Nur Bilder im Editor. PDFs gehören in die Anhänge darunter.
-        _it: Solo immagini nell’editor. I PDF vanno in Allegati sotto.
-        _nl: Alleen afbeeldingen in de editor. PDF's horen in Bijlagen hieronder.

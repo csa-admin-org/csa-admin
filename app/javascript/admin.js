@@ -1,6 +1,6 @@
 import "components/appsignal"
 import "@hotwired/turbo-rails"
-import "admin/trix"
+import "admin/lexxy"
 import "controllers/admin"
 
 import Rails from "@rails/ujs"

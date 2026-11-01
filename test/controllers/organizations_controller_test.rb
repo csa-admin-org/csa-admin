@@ -1187,6 +1187,20 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_includes contact_fieldset.to_html, "organization_social_network_urls"
   end
 
+  test "registration edit emits a lexxy editor with the stored text" do
+    login admins(:super)
+    Current.org.member_form_subtitle = "<div>Hello farm</div>"
+    Current.org.save!
+
+    get edit_organization_path(:registration)
+
+    assert_response :success
+    assert_select "lexxy-editor[name=?]", "organization[member_form_subtitle_en]" do |editors|
+      assert_includes editors.first["value"], "Hello farm"
+    end
+    assert_select "trix-editor", count: 0
+  end
+
   test "registration edit page groups member-facing settings separately" do
     locale = admins(:super).language
     login admins(:super)

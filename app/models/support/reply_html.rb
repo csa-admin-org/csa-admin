@@ -99,10 +99,30 @@ module Support
       styled.each do |node|
         next if skip_style?(node)
 
-        node.remove_attribute("style")
+        kept = kept_highlight(node["style"])
+        if kept
+          node["style"] = kept
+        else
+          node.remove_attribute("style")
+        end
       end
     end
     private_class_method :strip_styles!
+
+    # Mail clients stuff font and tracking styles onto replies. Keep only a
+    # resolved highlight color. Drop url(), var(), and everything else.
+    def self.kept_highlight(style)
+      kept = style.to_s.split(";").filter_map { |declaration|
+        name, value = declaration.split(":", 2)
+        next unless name && value
+        next unless name.strip.downcase.in?(%w[color background-color])
+        next unless value.strip.match?(/\A(?:rgba?\(\s*\d{1,3}(?:\s*,\s*\d{1,3}){2}(?:\s*,\s*(?:0|1|0?\.\d+))?\s*\)|#[0-9a-f]{3,8})\z/i)
+
+        "#{name.strip.downcase}: #{value.strip}"
+      }
+      kept.join("; ").presence
+    end
+    private_class_method :kept_highlight
 
     def self.skip_style?(node)
       SKIP_STYLE.include?(node.name) ||

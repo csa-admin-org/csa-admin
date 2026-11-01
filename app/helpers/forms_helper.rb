@@ -122,14 +122,13 @@ module FormsHelper
       end
 
       value = form.object.send(attr)[locale]
-      if value.respond_to?(:to_editor_html)
-        value = value.to_editor_html
-      end
+      value = value.to_editor_html if value.respond_to?(:to_editor_html)
+      input_class = "#{klass}_#{attr.to_s.singularize}" unless options[:as] == :action_text
       form.input "#{attr.to_s.singularize}_#{locale}".to_sym, {
         label: label,
         placeholder: placeholder,
         input_html: {
-          class: "#{klass}_#{attr.to_s.singularize} #{"trix-content" if options[:as] == :action_text}",
+          class: input_class,
           value: value
         }.merge(input_html)
       }.deep_merge(options)
@@ -215,19 +214,18 @@ module FormsHelper
     path = handbook_page_path(handbook_page, anchor: handbook_anchor)
     warning_html = I18n.t(
       "active_admin.resource.form.word_count_warning_html",
-      count: '<b data-trix-word-count-target="count">0</b>',
+      count: '<b data-word-count-target="count">0</b>',
       handbook_path: path
     )
     warning_div = content_tag(:div,
       warning_html.html_safe,
-      class: "trix-word-count-warning is-hidden",
-      data: { trix_word_count_target: "warning" })
+      class: "trix-word-count-warning is-hidden")
 
     arbre.div data: {
-      controller: "trix-word-count",
-      trix_word_count_threshold_value: threshold
+      controller: "word-count",
+      word_count_threshold_value: threshold
     } do
-      arbre.text_node "<template data-trix-word-count-target=\"template\">#{warning_div}</template>".html_safe
+      arbre.text_node "<template data-word-count-target=\"template\">#{warning_div}</template>".html_safe
       block.call
     end
   end

@@ -93,7 +93,8 @@ h2 {
 h2,
 .trix-content h1,
 .trix-content h2,
-.trix-content h3 {
+.trix-content h3,
+.trix-content h4 {
   color: #444444;
   font-size: 20px;
   font-weight: 400;
@@ -483,16 +484,19 @@ p {
   margin: 20px auto;
 }
 
-.content-block h2,
-.trix-content h1,
-.trix-content h2,
-.trix-content h3 {
+.content-block h2 {
   margin-bottom: 10px;
 }
 
 .trix-content {
-  line-height: 1.5;
-  margin: 0.4em 0 1.1875em;
+  line-height: 1.4;
+  margin: 0;
+}
+.trix-content h1,
+.trix-content h2,
+.trix-content h3,
+.trix-content h4 {
+  margin: 0 0 1em;
 }
 .trix-content a {
   color: #22c55e;
@@ -504,7 +508,7 @@ p {
   text-decoration: none;
 }
 .trix-content figure {
-  margin: 0.5em 0;
+  margin: 0 0 1em;
 }
 .trix-content * {
   box-sizing: border-box;
@@ -513,26 +517,74 @@ p {
 }
 .trix-content blockquote {
   border: 0 solid #ccc;
-  border-left-width: 0.3em;
-  margin-left: 0.3em;
-  padding-left: 0.6em;
+  border-left-width: 0.25em;
+  font-style: italic;
+  margin: 1em 0;
+  padding: 0.6em 1em;
 }
 .trix-content [dir="rtl"] blockquote,
 .trix-content blockquote[dir="rtl"] {
   border-width: 0;
-  border-right-width: 0.3em;
-  margin-right: 0.3em;
-  padding-right: 0.6em;
+  border-right-width: 0.25em;
+  margin: 1em 0;
+  padding: 0.6em 1em;
 }
 .trix-content ul,
 .trix-content ol {
-  margin: 0.4em 0;
+  margin: 0 0 1em 1.5em;
+  padding: 0;
 }
 .trix-content li {
-  margin-left: 1.6em;
+  margin: 0;
+  padding: 0;
 }
 .trix-content [dir="rtl"] li {
-  margin-right: 1.6em;
+  margin: 0;
+}
+.trix-content p {
+  margin: 0 0 1em;
+  line-height: 1.4;
+}
+.trix-content p:last-child {
+  margin-bottom: 0;
+}
+.trix-content s,
+.trix-content del {
+  text-decoration: line-through;
+}
+
+.trix-content code {
+  font-family: monospace;
+  font-size: 0.9em;
+  background-color: #eee;
+  padding: 0 0.3em;
+}
+.trix-content hr {
+  border: 0;
+  border-top: 1px solid #ccc;
+  width: 100%;
+  margin: 1.5em 0;
+}
+.trix-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 1em;
+}
+.trix-content th,
+.trix-content td {
+  border: 1px solid #ddd;
+  padding: 0.5em;
+  text-align: left;
+  vertical-align: top;
+}
+.trix-content th,
+.trix-content .lexxy-content__table-cell--header {
+  background-color: #f3f4f6;
+  font-weight: bold;
+}
+.trix-content figcaption,
+.trix-content .attachment__caption {
+  display: none;
 }
 .trix-content pre {
   display: inline-block;
@@ -555,8 +607,9 @@ p {
   height: auto;
 }
 .trix-content .attachment {
-  margin: 16px 0;
-  display: inline-block;
+  display: block;
+  margin: 0 auto 1em;
+  padding: 0.4em;
   position: relative;
   max-width: 100%;
 }
@@ -572,11 +625,7 @@ p {
   width: 100%;
   text-align: center;
 }
-.trix-content .attachment--preview .attachment__caption {
-  color: #666;
-  font-size: 0.9em;
-  line-height: 1.2;
-}
+
 .trix-content .attachment--file {
   color: #333;
   line-height: 1;
@@ -586,14 +635,15 @@ p {
   border-radius: 5px;
 }
 .trix-content .attachment-gallery {
-  margin: 16px 0;
+  margin: 0 0 1em;
   position: relative;
   font-size: 0;
   text-align: center;
 }
 .trix-content .attachment-gallery .attachment {
-  margin: auto;
-  padding: 0 0.5em;
+  display: inline-block;
+  margin: 0;
+  padding: 0 0.4em;
   max-width: 33%;
   font-size: 16px;
 }
@@ -645,8 +695,23 @@ p {
   h3,
   .trix-content div,
   .trix-content pre,
-  .trix-content figure {
+  .trix-content figure,
+  .trix-content table,
+  .trix-content th,
+  .trix-content td,
+  .trix-content hr,
+  .trix-content code {
     color: #eee !important;
+  }
+
+  .trix-content th,
+  .trix-content .lexxy-content__table-cell--header {
+    background-color: #444 !important;
+  }
+
+  .trix-content code,
+  .trix-content pre {
+    background-color: #222 !important;
   }
 
   .email-masthead img {
@@ -687,8 +752,23 @@ body.dark h2,
 body.dark h3,
 body.dark .trix-content div,
 body.dark .trix-content pre,
-body.dark .trix-content figure {
+body.dark .trix-content figure,
+body.dark .trix-content table,
+body.dark .trix-content th,
+body.dark .trix-content td,
+body.dark .trix-content hr,
+body.dark .trix-content code {
   color: #eee !important;
+}
+
+body.dark .trix-content th,
+body.dark .trix-content .lexxy-content__table-cell--header {
+  background-color: #444 !important;
+}
+
+body.dark .trix-content code,
+body.dark .trix-content pre {
+  background-color: #222 !important;
 }
 
 body.dark .email-masthead img {

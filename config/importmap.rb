@@ -11,8 +11,6 @@ pin "@hotwired/stimulus", to: "@hotwired--stimulus.js" # @3.2.2
 pin "reactionview", to: "reactionview.esm.js", preload: false
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
-pin "trix"
-pin "@rails/actiontext", to: "actiontext.esm.js"
 
 pin_all_from "app/javascript/components", under: "components"
 pin "throttle-debounce" # @5.0.2
@@ -36,8 +34,8 @@ pin "vanilla-calendar-pro", preload: false # @3.4.0
 pin "admin", preload: false
 pin_all_from "app/javascript/admin", under: "admin", preload: false
 pin_all_from "app/javascript/controllers/admin", under: "controllers/admin", preload: false
-pin "trix", to: "trix.js", preload: false
-pin "@rails/actiontext", to: "actiontext.js", preload: false
+pin "lexxy", to: "lexxy.js", preload: false
+pin "@rails/activestorage", to: "activestorage.esm.js", preload: false
 # Sortable
 pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js" # @5.0.3
 pin "@rails/request.js", to: "@rails--request.js.js" # @0.0.13
