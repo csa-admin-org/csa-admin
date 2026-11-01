@@ -130,7 +130,7 @@ GEM
     acts_as_list (1.2.6)
       activerecord (>= 6.1)
       activesupport (>= 6.1)
-    addressable (2.9.0)
+    addressable (2.9.2)
       public_suffix (>= 2.0.2, < 8.0)
     afm (1.0.1)
     appsignal (5.0.7)
@@ -372,7 +372,7 @@ GEM
       logger (~> 1.6)
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
-    lexxy (1.0.2)
+    lexxy (1.0.3)
       railties (>= 8.0.2)
     lint_roller (1.1.0)
     liquid (5.14.0)
@@ -426,7 +426,7 @@ GEM
       timeout
     net-scp (4.2.0)
       net-ssh (>= 2.6.5, < 9.0.0)
-    net-sftp (4.1.0)
+    net-sftp (4.1.1)
       net-ssh (>= 5.0.0, < 9.0.0)
     net-smtp (0.5.2)
       net-protocol
@@ -579,10 +579,10 @@ GEM
     rubocop-ast (1.50.0)
       parser (>= 3.3.7.2)
       prism (~> 1.7)
-    rubocop-erb (0.7.2)
-      herb (~> 0.7)
+    rubocop-erb (0.8.0)
+      herb (~> 0.9, >= 0.9.3)
       lint_roller (~> 1.1)
-      rubocop (~> 1.72, >= 1.72.1)
+      rubocop (~> 1.84)
     rubocop-minitest (0.41.0)
       lint_roller (~> 1.1)
       rubocop (>= 1.89.0, < 2.0)
@@ -801,7 +801,7 @@ CHECKSUMS
   activestorage (8.2.0.alpha)
   activesupport (8.2.0.alpha)
   acts_as_list (1.2.6) sha256=8345380900b7bee620c07ad00991ccee59af3d8c9e8574f426e321da2865fdc8
-  addressable (2.9.0) sha256=7fdf6ac3660f7f4e867a0838be3f6cf722ace541dd97767fa42bc6cfa980c7af
+  addressable (2.9.2) sha256=9117c7e7d6ee07230e75ce41fb9401ae55354dc654fcd0e862ba41d539e9a610
   afm (1.0.1) sha256=4fc98c6ea9cad60c25ae12bad517513b0d6fdbedc099e25be88bf47977b7d879
   appsignal (5.0.7) sha256=7316aa63071f2cba80be44e3571f7a8fe1e3e18781d4a6029016456df8b1a8e0
   arbre (2.2.1) sha256=3048ba04c063e603fa9a47cd8ea8fe5ce79a0dbd7306840816ab37bb496c79d6
@@ -912,7 +912,7 @@ CHECKSUMS
   language_server-protocol (3.17.0.6) sha256=5ef2c0c138f8267e1bc631d3328347d354f96724b0af22f2c79516120443b7f0
   launchy (3.1.1) sha256=72b847b5cc961589dde2c395af0108c86ff0119f42d4648d25b5440ebb10059e
   letter_opener (1.10.0) sha256=2ff33f2e3b5c3c26d1959be54b395c086ca6d44826e8bf41a14ff96fdf1bdbb2
-  lexxy (1.0.2) sha256=5d0329955071b8b834fe1cf75e5f9cf6a2ad79a5e77c14a58e43d40e33a35030
+  lexxy (1.0.3) sha256=2af129e678f999f07320939c7ecda1a377699df8b48e987b814f684182221928
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   liquid (5.14.0) sha256=e1020c2b2ee58c7a4d3bfdc7a331537bd27a783353748bff0bf27c6ac0c17065
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
@@ -932,7 +932,7 @@ CHECKSUMS
   net-pop (0.1.2) sha256=848b4e982013c15b2f0382792268763b748cce91c9e91e36b0f27ed26420dff3
   net-protocol (0.4.0) sha256=f9f90c8c6f64794a45160bf422177a336db12809de3beeeaa26b88fcd2e8c853
   net-scp (4.2.0) sha256=7c85a88bcf975def58f35ffa1ea83345f018e368c97aa3b78a4fd116f4a9cd49
-  net-sftp (4.1.0) sha256=60eb8b9de9d8f19d13b43443f12f47ee603276a8859778a0e87d9d5e0630f007
+  net-sftp (4.1.1) sha256=dc2019e59e3e3552943b576f14cb0201ec55823935b967e10dcda169b04e4573
   net-smtp (0.5.2) sha256=35103cc04d6b2d94632f9928ede07483c24b70b9c0db1f231fea43909b678f3c
   net-ssh (7.3.8) sha256=16bb1fccc4d9a580decdeea8ddb98e8544df29b7e6ac8cb94d4b379cfe4bee9f
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
@@ -999,7 +999,7 @@ CHECKSUMS
   rqrcode_core (2.1.0) sha256=f303b85df89c1b8fc5ee8dc19808c9dc4330e6329b660d99d4a8cbb36ca13051
   rubocop (1.92.2) sha256=14fb31eed143a0dc6f78186c550c1715e81cd38f59d05d1165050e445c1f5382
   rubocop-ast (1.50.0) sha256=b9ca88300da0803ee222ad20cdb30494c0a784eed06fdc35d254b06d662788db
-  rubocop-erb (0.7.2) sha256=a7388fea8115e79dd17cc7b86ee5880502e60745f69b7dba11cce0910d430a75
+  rubocop-erb (0.8.0) sha256=5db7f052483d52f13f495cbbee427a19094393e5d69cea334051e47c05f70774
   rubocop-minitest (0.41.0) sha256=c15bfe00134a30c8a00ce670b07ecc80440455ba277b8682cf0d515c98ee7426
   rubocop-performance (1.27.0) sha256=eeeb1374d062a368ee1c787b70eb0b0cc4b184cb1f8565f424760946146d61ce
   rubocop-rails (2.38.0) sha256=6e2b7c532efa95e3050371bec20b8f5b025662acead8bc70ee31f0e3e6fa2f06
