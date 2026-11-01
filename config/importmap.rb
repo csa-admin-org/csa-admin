@@ -21,7 +21,7 @@ pin "cap-widget", to: "#{cap_api_url}/assets/widget.js", preload: false
 # AppSignal
 pin "@appsignal/javascript", to: "@appsignal--javascript.js" # @1.6.1
 pin "https", preload: false # @2.1.0
-pin "tslib", preload: false # @2.8.1
+pin "tslib", preload: false # @2.9.1
 
 # Members
 pin "members", preload: false
