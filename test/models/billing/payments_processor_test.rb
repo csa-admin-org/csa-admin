@@ -377,6 +377,55 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
       fingerprint: nil).pluck(:fingerprint)
   end
 
+  test "claims an imported payment that used the shared entry reference" do
+    invoice = invoices(:annual_fee)
+    payment = Payment.create!(
+      invoice: invoice,
+      amount: 30,
+      date: Date.current,
+      origin: "camt.053",
+      fingerprint: "legacy-entry-reference")
+    data = PaymentData.new(
+      origin: "camt.053",
+      member_id: invoice.member_id,
+      invoice_id: invoice.id,
+      amount: 30,
+      date: Date.current,
+      fingerprint: "entry-reference",
+      legacy_fingerprint: "legacy-entry-reference")
+
+    assert_no_difference "Payment.count" do
+      Billing::PaymentsProcessor.new([ data ], raise_on_error: true).process!
+    end
+
+    assert_equal "entry-reference", payment.reload.fingerprint
+  end
+
+  test "does not claim a shared entry reference for a different credit" do
+    invoice = invoices(:annual_fee)
+    payment = Payment.create!(
+      invoice: invoice,
+      amount: 30,
+      date: Date.current,
+      origin: "camt.053",
+      fingerprint: "legacy-entry-reference")
+    data = PaymentData.new(
+      origin: "camt.053",
+      member_id: invoice.member_id,
+      invoice_id: invoice.id,
+      amount: 10,
+      date: Date.current,
+      fingerprint: "other-entry-reference",
+      legacy_fingerprint: "legacy-entry-reference")
+
+    assert_difference "Payment.count", 1 do
+      Billing::PaymentsProcessor.new([ data ], raise_on_error: true).process!
+    end
+
+    assert_equal "legacy-entry-reference", payment.reload.fingerprint
+    assert Payment.exists?(fingerprint: "other-entry-reference", amount: 10)
+  end
+
   test "continues processing after a payment fingerprint race" do
     invoice = invoices(:annual_fee)
     first_payment = PaymentData.new(

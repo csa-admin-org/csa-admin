@@ -77,6 +77,7 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
 
   test "returns payment data from CAMT.053 entry without TxDtls" do
     file = Billing::CamtFile.new(file_fixture("camt053_no_txdtls.xml"))
+    payments = file.payments_data
     assert_payment_data [
       Billing::CamtFile::PaymentData.new(
         invoice_id: 1,
@@ -84,7 +85,31 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
         amount: 460,
         date: Date.new(2026, 2, 25),
         origin: "camt.053")
-    ], file.payments_data
+    ], payments
+    assert payments.first.legacy_fingerprint
+    assert_not_equal payments.first.fingerprint, payments.first.legacy_fingerprint
+  end
+
+  test "keeps QR credits that share a Valiant entry reference without TxDtls" do
+    payments = Billing::CamtFile.new(file_fixture("camt053_shared_entry_reference.xml")).payments_data
+
+    assert_payment_data [
+      Billing::CamtFile::PaymentData.new(
+        invoice_id: 46,
+        member_id: 37,
+        amount: BigDecimal("212.75"),
+        date: Date.new(2026, 5, 28),
+        origin: "camt.053"),
+      Billing::CamtFile::PaymentData.new(
+        invoice_id: 40,
+        member_id: 37,
+        amount: BigDecimal("232.75"),
+        date: Date.new(2026, 5, 28),
+        origin: "camt.053")
+    ], payments
+    assert_equal 2, payments.map(&:fingerprint).uniq.size
+    assert_equal 1, payments.map(&:legacy_fingerprint).uniq.size
+    assert payments.all? { it.legacy_fingerprint.present? }
   end
 
   test "reuses a CAMT fingerprint on replay and distinguishes bank references" do
@@ -203,7 +228,7 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
   end
 
   def assert_payment_data(expected, actual)
-    assert_equal expected, actual.map { Billing::CamtFile::PaymentData.new(it.to_h.except(:fingerprint)) }
+    assert_equal expected, actual.map { Billing::CamtFile::PaymentData.new(it.to_h.except(:fingerprint, :legacy_fingerprint)) }
     actual.each { assert_match(/\A[0-9a-f]{64}\z/, it.fingerprint) }
   end
 

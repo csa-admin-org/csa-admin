@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.04">
+<BkToCstmrStmt>
+  <GrpHdr>
+    <MsgId>2026030645936301</MsgId>
+    <CreDtTm>2026-03-06T07:27:12</CreDtTm>
+    <MsgPgntn>
+      <PgNb>1</PgNb>
+      <LastPgInd>true</LastPgInd>
+    </MsgPgntn>
+  </GrpHdr>
+  <Stmt>
+    <Id>2026030645936301</Id>
+    <ElctrncSeqNb>1</ElctrncSeqNb>
+    <CreDtTm>2026-03-06T07:27:12</CreDtTm>
+    <FrToDt>
+      <FrDtTm>2026-01-01T00:00:00</FrDtTm>
+      <ToDtTm>2026-03-05T23:59:59</ToDtTm>
+    </FrToDt>
+    <Acct>
+      <Id>
+        <IBAN>CH6106300504852414687</IBAN>
+      </Id>
+      <Ccy>CHF</Ccy>
+      <Ownr>
+        <Nm>Test Owner</Nm>
+      </Ownr>
+      <Svcr>
+        <FinInstnId>
+          <BICFI>VABECH22XXX</BICFI>
+          <Nm>Valiant Bank AG</Nm>
+        </FinInstnId>
+      </Svcr>
+    </Acct>
+    <Ntry>
+      <Amt Ccy="CHF">212.75</Amt>
+      <CdtDbtInd>CRDT</CdtDbtInd>
+      <RvslInd>false</RvslInd>
+      <Sts>BOOK</Sts>
+      <BookgDt>
+        <Dt>2026-05-28</Dt>
+      </BookgDt>
+      <ValDt>
+        <Dt>2026-05-28</Dt>
+      </ValDt>
+      <AcctSvcrRef>ZV20260528/787596</AcctSvcrRef>
+      <BkTxCd>
+        <Domn>
+          <Cd>PMNT</Cd>
+          <Fmly>
+            <Cd>RCDT</Cd>
+            <SubFmlyCd>VCOM</SubFmlyCd>
+          </Fmly>
+        </Domn>
+      </BkTxCd>
+      <NtryDtls>
+        <Btch>
+          <NbOfTxs>1</NbOfTxs>
+          <TtlAmt Ccy="CHF">212.75</TtlAmt>
+          <CdtDbtInd>CRDT</CdtDbtInd>
+        </Btch>
+      </NtryDtls>
+      <AddtlNtryInf>Crédit QRF 000000000000000370000000460</AddtlNtryInf>
+    </Ntry>
+    <Ntry>
+      <Amt Ccy="CHF">232.75</Amt>
+      <CdtDbtInd>CRDT</CdtDbtInd>
+      <RvslInd>false</RvslInd>
+      <Sts>BOOK</Sts>
+      <BookgDt>
+        <Dt>2026-05-28</Dt>
+      </BookgDt>
+      <ValDt>
+        <Dt>2026-05-28</Dt>
+      </ValDt>
+      <AcctSvcrRef>ZV20260528/787596</AcctSvcrRef>
+      <BkTxCd>
+        <Domn>
+          <Cd>PMNT</Cd>
+          <Fmly>
+            <Cd>RCDT</Cd>
+            <SubFmlyCd>VCOM</SubFmlyCd>
+          </Fmly>
+        </Domn>
+      </BkTxCd>
+      <NtryDtls>
+        <Btch>
+          <NbOfTxs>1</NbOfTxs>
+          <TtlAmt Ccy="CHF">232.75</TtlAmt>
+          <CdtDbtInd>CRDT</CdtDbtInd>
+        </Btch>
+      </NtryDtls>
+      <AddtlNtryInf>Crédit QRF 000000000000000370000000402</AddtlNtryInf>
+    </Ntry>
+  </Stmt>
+</BkToCstmrStmt>
+</Document>

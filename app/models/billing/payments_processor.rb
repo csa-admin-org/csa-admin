@@ -70,7 +70,28 @@ module Billing
       reconciled_payment = reconcile_legacy_camt_payment(data)
       return if reconciled_payment == :ambiguous
 
-      reconciled_payment || payment
+      reconciled_payment || claim_entry_reference_payment(data) || payment
+    end
+
+    def claim_entry_reference_payment(data)
+      return unless data.respond_to?(:legacy_fingerprint) && data.legacy_fingerprint.present?
+
+      payment = Payment.find_by(fingerprint: data.legacy_fingerprint)
+      return unless payment
+      return unless same_camt_payment?(payment, data)
+
+      claimed = Payment.where(id: payment.id, fingerprint: data.legacy_fingerprint).update_all(
+        fingerprint: data.fingerprint,
+        updated_at: Time.current)
+      return Payment.find(payment.id) if claimed == 1
+
+      Payment.find_by(fingerprint: data.fingerprint)
+    end
+
+    def same_camt_payment?(payment, data)
+      payment.invoice_id == data.invoice_id &&
+        payment.amount == data.amount &&
+        payment.date == data.date
     end
 
     def reconcile_legacy_camt_payment(data)

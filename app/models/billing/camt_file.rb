@@ -157,17 +157,15 @@ module Billing
       ref = Billing.reference.extract_ref(entry.additional_information)
       if Billing.reference.valid?(ref)
         payload = Billing.reference.payload(ref)
+        fingerprint, legacy_fingerprint = entry_reference_fingerprints(entry, origin, entry_index, xml_digest, ref)
         [ PaymentData.new(
           origin: origin,
           member_id: payload[:member_id],
           invoice_id: payload[:invoice_id],
           amount: entry.amount,
           date: date,
-          fingerprint: payment_fingerprint(
-            origin,
-            entry: entry,
-            entry_index: entry_index,
-            xml_digest: xml_digest)) ]
+          fingerprint: fingerprint,
+          legacy_fingerprint: legacy_fingerprint) ]
       elsif Billing.reference.unknown?(ref)
         Rails.event.notify(:unknown_payment_reference,
           origin: origin,
@@ -180,6 +178,25 @@ module Billing
       end
     end
 
+    # Valiant books several QR credits under one AcctSvcrRef and omits TxDtls.
+    # The shared reference used to collapse them into one fingerprint. Keep the
+    # old fingerprint so an already imported credit is claimed, not duplicated.
+    def entry_reference_fingerprints(entry, origin, entry_index, xml_digest, ref)
+      legacy = payment_fingerprint(
+        origin,
+        entry: entry,
+        entry_index: entry_index,
+        xml_digest: xml_digest)
+      current = payment_fingerprint(
+        origin,
+        entry: entry,
+        entry_index: entry_index,
+        xml_digest: xml_digest,
+        reference: ref,
+        amount: entry.amount)
+      [ current, (legacy if legacy != current) ]
+    end
+
     def file_content(file)
       return file if file.is_a?(String)
 
@@ -189,11 +206,13 @@ module Billing
       file.rewind if file.respond_to?(:rewind)
     end
 
-    def payment_fingerprint(_origin, entry:, transaction: nil, entry_index:, transaction_index: nil, xml_digest:)
+    def payment_fingerprint(_origin, entry:, transaction: nil, entry_index:, transaction_index: nil, xml_digest:, reference: nil, amount: nil)
       if bank_reference = transaction&.bank_reference.presence
         fingerprint("camt", "transaction_bank_reference", bank_reference)
       elsif transaction_id = transaction&.transaction_id.presence
         fingerprint("camt", "transaction_id", transaction_id)
+      elsif reference.present? && (bank_reference = entry.bank_reference.presence)
+        fingerprint("camt", "entry_reference", bank_reference, reference, amount)
       elsif bank_reference = entry.bank_reference.presence
         fingerprint(
           "camt",
