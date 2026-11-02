@@ -109,6 +109,7 @@ ActiveAdmin.register Organization do
     :bidding_round_basket_size_price_min_percentage, :bidding_round_basket_size_price_max_percentage,
     :delivery_pdf_member_info,
     :delivery_pdf_member_name_format,
+    :delivery_pdf_member_order_mode,
     :shop_admin_only,
     :shop_order_maximum_weight_in_kg, :shop_order_minimal_amount,
     :shop_member_percentages,

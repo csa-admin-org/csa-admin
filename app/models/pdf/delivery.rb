@@ -43,7 +43,7 @@ module PDF
             22
           end
         total_pages = (member_ids.count / members_per_page.to_f).ceil
-        members = Member.where(id: member_ids).sort_by { |m| depot.member_sorting(m) }
+        members = depot.sort_delivery_sheet_members(Member.where(id: member_ids), baskets)
         members.each_slice(members_per_page).with_index do |slice, i|
           page_n = i + 1
           page(depot, slice, baskets, basket_sizes, shop_orders, page: page_n, total_pages: total_pages)

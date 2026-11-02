@@ -22,6 +22,10 @@ context.instance_eval do
           fmt
         ]
       }
+    f.input :delivery_pdf_member_order_mode,
+      as: :select,
+      collection: member_order_modes_collection(Organization::DeliveryPDF),
+      prompt: true
     translated_input(f, :delivery_pdf_footers, required: false)
   end
 end

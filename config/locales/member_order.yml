@@ -1,6 +1,48 @@
 _:
   member_order:
     modes:
+      basket_size:
+        _en: Basket size, alphabetical
+        _fr: Taille de panier, ordre alphabétique
+        _de: Korbgrösse, alphabetisch
+        _it: Dimensione della cesta, ordine alfabetico
+        _nl: Mandgrootte, alfabetisch
+      basket_size/bag:
+        _en: Bag size, alphabetical
+        _fr: Taille de sac, ordre alphabétique
+        _de: Taschengrösse, alphabetisch
+        _it: Dimensione della borsa, ordine alfabetico
+        _nl: Tasgrootte, alfabetisch
+      basket_size/basket:
+        _en: Basket size, alphabetical
+        _fr: Taille de panier, ordre alphabétique
+        _de: Korbgrösse, alphabetisch
+        _it: Dimensione della cesta, ordine alfabetico
+        _nl: Mandgrootte, alfabetisch
+      basket_size/cone:
+        _en: Cone size, alphabetical
+        _fr: Taille de cornet, ordre alphabétique
+        _de: Tütengrösse, alphabetisch
+        _it: Dimensione del cono, ordine alfabetico
+        _nl: Zakgrootte, alfabetisch
+      basket_size/crate:
+        _en: Crate size, alphabetical
+        _fr: Taille de cagette, ordre alphabétique
+        _de: Kistengrösse, alphabetisch
+        _it: Dimensione della cassetta, ordine alfabetico
+        _nl: Kratgrootte, alfabetisch
+      basket_size/package:
+        _en: Package size, alphabetical
+        _fr: Taille de colis, ordre alphabétique
+        _de: Paketgrösse, alphabetisch
+        _it: Dimensione del pacco, ordine alfabetico
+        _nl: Pakketgrootte, alfabetisch
+      basket_size/share:
+        _en: Share size, alphabetical
+        _fr: Taille de part, ordre alphabétique
+        _de: Anteilsgrösse, alphabetisch
+        _it: Dimensione della parte, ordine alfabetico
+        _nl: Deelgrootte, alfabetisch
       deliveries_count_asc:
         _en: Number of deliveries (ascending), alphabetical
         _fr: Nombre de livraisons (croissant), ordre alphabétique

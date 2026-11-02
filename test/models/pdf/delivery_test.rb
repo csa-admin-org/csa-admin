@@ -9,6 +9,14 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     PDF::Inspector::Text.analyze(pdf.render).strings
   end
 
+  def assert_member_names_in_order(pdf_strings, *names)
+    positions = names.map { |name| pdf_strings.index(name) }
+    missing = names.zip(positions).select { |_name, position| position.nil? }.map(&:first)
+    assert_empty missing, "Missing from PDF: #{missing.join(", ")}"
+    ordered = names.zip(positions).sort_by(&:last).map(&:first)
+    assert_equal names, ordered
+  end
+
   test "generates invoice with support amount + complements + annual membership" do
     travel_to "2024-01-01"
     delivery = deliveries(:monday_1)
@@ -407,5 +415,53 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     assert_includes pdf_strings, "ABSENT"
     assert_not_includes pdf_strings, "Chantemerle 16"
     assert_not_includes pdf_strings, "Valentine Schneider"
+  end
+
+  test "orders depot members by basket size then name when configured" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:monday_1)
+    depot = depots(:farm)
+    basket_sizes(:large).update!(price: basket_sizes(:medium).price)
+    members(:john).update!(name: "Amy Doe")
+    members(:anna).update!(name: "Zoe Doe")
+    memberships(:bob).update!(depot: depot)
+    memberships(:anna).update!(depot: depot)
+    create_shop_order(
+      member: members(:jane),
+      delivery: delivery,
+      depot: depot,
+      items_attributes: {
+        "0" => {
+          product_id: shop_products(:oil).id,
+          product_variant_id: shop_product_variants(:oil_1000).id,
+          quantity: 2
+        }
+      })
+
+    assert_equal "name_asc", Current.org.delivery_pdf_member_order_mode
+    pdf_strings = save_pdf_and_return_strings(delivery, depot)
+    assert_member_names_in_order(pdf_strings, "Amy Doe", "Bob Doe", "Jane Doe", "Zoe Doe")
+
+    Current.org.update!(delivery_pdf_member_order_mode: "basket_size")
+    pdf_strings = save_pdf_and_return_strings(delivery, depot)
+    # Large and Medium share a price, so BasketSize.ordered puts Large (Zoe) before Medium (Amy).
+    # Jane has a shop order and no basket.
+    assert_member_names_in_order(pdf_strings, "Bob Doe", "Zoe Doe", "Amy Doe", "Jane Doe")
+  end
+
+  test "home delivery keeps manual member order when basket size sorting is on" do
+    travel_to "2024-01-01"
+    Current.org.update!(delivery_pdf_member_order_mode: "basket_size")
+    delivery = deliveries(:monday_1)
+    depot = depots(:home)
+    memberships(:john).update!(depot: depot)
+    memberships(:anna).update!(depot: depot)
+
+    pdf_strings = save_pdf_and_return_strings(delivery, depot)
+    assert_member_names_in_order(pdf_strings, "Anna Doe", "Bob Doe", "John Doe")
+
+    depot.update!(member_ids_position: [ members(:john).id, members(:anna).id, members(:bob).id ])
+    pdf_strings = save_pdf_and_return_strings(delivery, depot)
+    assert_member_names_in_order(pdf_strings, "John Doe", "Anna Doe", "Bob Doe")
   end
 end

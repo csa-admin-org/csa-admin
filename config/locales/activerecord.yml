@@ -3810,6 +3810,12 @@ _:
           _de: Abkürzung des Mitgliedernamens
           _it: Abbreviazione del nome del socio
           _nl: Afkorting van de ledennaam
+        delivery_pdf_member_order_mode:
+          _en: Order of members
+          _fr: Ordre des membres
+          _de: Reihenfolge der Mitglieder
+          _it: Ordine dei soci
+          _nl: Volgorde van leden
         depots_member_order_mode:
           _en: Order of depots
           _fr: Ordre des dépôts

@@ -38,6 +38,7 @@ module Query
       delivery_cycles_member_order_mode
       delivery_pdf_member_info
       delivery_pdf_member_name_format
+      delivery_pdf_member_order_mode
       depots_member_order_mode
       feature_flags
       features

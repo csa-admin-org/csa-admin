@@ -2323,6 +2323,12 @@ _:
           _de: Kürzt Mitgliedernamen auf Lieferscheinen zum Schutz der Privatsphäre. Gilt nicht für Hauszustellungsdepots, bei denen der vollständige Name erforderlich ist.
           _it: Abbrevia i nomi dei soci sulle schede di consegna per proteggere la privacy. Non si applica ai depositi con consegna a domicilio dove è richiesto il nome completo.
           _nl: Verkort ledennamen op leveringsbonnen om de privacy te beschermen. Niet van toepassing op thuisleveringsdepots waar de volledige naam vereist is.
+        delivery_pdf_member_order_mode:
+          _en: Sets the order of members on each depot page of the delivery sheets. Home delivery depots keep their manual order.
+          _fr: Définit l'ordre des membres sur la fiche de chaque dépôt. Les dépôts en livraison à domicile conservent leur ordre manuel.
+          _de: Legt die Reihenfolge der Mitglieder auf jeder Depotseite der Lieferscheine fest. Hauszustellungsdepots behalten ihre manuelle Reihenfolge.
+          _it: Definisce l'ordine dei soci sulla scheda di ogni deposito. I depositi con consegna a domicilio mantengono l'ordine manuale.
+          _nl: Stelt de volgorde van leden op elke depotpagina van de leveringsbonnen in. Thuisleveringsdepots behouden hun handmatige volgorde.
         depots_member_order_mode:
           _en: Sets the order of depots in the registration form after considering their individual priority.
           _fr: Permet de définir l'ordre d'affichage des dépôts dans le formulaire d'inscription, après avoir pris en compte leur priorité individuelle.
