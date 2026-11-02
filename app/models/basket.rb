@@ -131,7 +131,7 @@ class Basket < ApplicationRecord
   end
 
   def can_member_update?
-    return false if absent?
+    return false if absent? || shifted?
     return false unless Current.org.basket_update_limit_in_days
     return false unless delivery.date >= Current.org.basket_update_limit_in_days.days.from_now
 
@@ -163,7 +163,7 @@ class Basket < ApplicationRecord
   end
 
   def can_unforce?
-    forced?
+    forced? && !shifted?
   end
 
   def can_member_force?

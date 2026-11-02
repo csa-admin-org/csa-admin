@@ -1384,6 +1384,12 @@ _:
           _de: Der Inhalt dieses Anteils kann auf eine andere Lieferung verschoben werden, um eine Abwesenheit zu kompensieren.
           _it: Il contenuto di questa parte può essere spostato in un'altra consegna per compensare un'assenza.
           _nl: De inhoud van dit deel kan naar een andere levering worden verschoven om een afwezigheid te compenseren.
+        basket_shift_forced:
+          _en: This delivery stays billed. Its content moves to the chosen delivery, and no other delivery is marked provisionally absent.
+          _fr: Cette livraison reste facturée. Son contenu est déplacé vers la livraison choisie, et aucune autre livraison n'est marquée provisoirement absente.
+          _de: Diese Lieferung bleibt in Rechnung gestellt. Der Inhalt wird auf die gewählte Lieferung verschoben, und keine andere Lieferung wird vorläufig als abwesend markiert.
+          _it: Questa consegna resta fatturata. Il contenuto viene spostato sulla consegna scelta e nessun'altra consegna viene segnata come assenza provvisoria.
+          _nl: Deze levering blijft gefactureerd. De inhoud wordt naar de gekozen levering verschoven en geen andere levering wordt voorlopig als afwezig gemarkeerd.
         basket_shift_none:
           _en: No shift
           _fr: Aucun déplacement

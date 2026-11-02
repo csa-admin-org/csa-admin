@@ -202,7 +202,8 @@
       padding: 0.75rem;
     }
 
-    &.is-absent {
+    &.is-absent,
+    &.is-shifted {
       background-color: var(--color-neutral-50);
       color: var(--color-gray-400);
 
@@ -253,7 +254,8 @@
       color: var(--color-gray-200);
     }
 
-    .basket.is-absent & {
+    .basket.is-absent &,
+    .basket.is-shifted & {
       color: var(--color-neutral-400);
 
       &:where(.dark, .dark *) {

@@ -45,6 +45,8 @@ Conta come uno spostamento, stesso limite annuale. Annullare l'assenza rimette l
 
 > Anche un'assenza inclusa può essere spostata. Il contenuto della <%= Basket.model_name.human.downcase %> sarà quindi fatturato sulla consegna di destinazione e l'assenza non viene conteggiata tra quelle incluse nell'abbonamento. L'assenza inclusa non utilizzata rimane disponibile e, quando possibile, viene assegnata provvisoriamente a un'altra consegna.
 
+> Una consegna forzata a fine anno, perché un'assenza inclusa non è stata usata, può essere spostata allo stesso modo da un admin o dal socio. Valgono la stessa scadenza, il periodo dell'abbonamento e le regole fuori ciclo. Resta fatturata, quindi nessun'altra consegna viene segnata come assenza provvisoria. Lo spostamento non crea un'assenza. Eliminare lo spostamento rimette la consegna alla sua data.
+
 ### Modello di newsletter
 
 Quando una <%= Basket.model_name.human.downcase %> è stata spostata, puoi visualizzare un promemoria nei tuoi [modelli di newsletter](/newsletter_templates) utilizzando le variabili `basket.shifted` e `basket.shifts`:

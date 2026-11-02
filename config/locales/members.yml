@@ -746,6 +746,12 @@ _:
           _de: Nach Deiner Abwesenheit
           _it: Dopo la tua assenza
           _nl: Na je afwezigheid
+        after_delivery:
+          _en: After this delivery
+          _fr: Après cette livraison
+          _de: Nach dieser Lieferung
+          _it: Dopo questa consegna
+          _nl: Na deze levering
         basket_shift_declined/bag:
           _en: I don't want to shift my bag
           _fr: Je ne désire pas déplacer mon sac
@@ -788,6 +794,12 @@ _:
           _de: Vor Deiner Abwesenheit
           _it: Prima della tua assenza
           _nl: Voor je afwezigheid
+        before_delivery:
+          _en: Before this delivery
+          _fr: Avant cette livraison
+          _de: Vor dieser Lieferung
+          _it: Prima di questa consegna
+          _nl: Voor deze levering
         cancel_link:
           _en: Cancel
           _fr: Annuler
@@ -807,6 +819,31 @@ _:
             _de: Die Verschiebung ist auf <strong>%{count} Wochen vor oder nach Deiner Abwesenheit beschränkt</strong>.
             _it: Il trasferimento è limitato a <strong>%{count} settimane prima o dopo la tua assenza</strong>.
             _nl: De verplaatsing is beperkt tot <strong>%{count} weken voor of na je afwezigheid</strong>.
+        forced_deadline_text_html:
+          one:
+            _en: The shift is limited to <strong>one week before or after this delivery</strong>.
+            _fr: Le déplacement est limité à <strong>une semaine avant ou après cette livraison</strong>.
+            _de: Die Verschiebung ist auf <strong>eine Woche vor oder nach dieser Lieferung beschränkt</strong>.
+            _it: Lo spostamento è limitato a <strong>una settimana prima o dopo questa consegna</strong>.
+            _nl: De verplaatsing is beperkt tot <strong>één week voor of na deze levering</strong>.
+          other:
+            _en: The shift is limited to <strong>%{count} weeks before or after this delivery</strong>.
+            _fr: Le déplacement est limité à <strong>%{count} semaines avant ou après cette livraison</strong>.
+            _de: Die Verschiebung ist auf <strong>%{count} Wochen vor oder nach dieser Lieferung beschränkt</strong>.
+            _it: Lo spostamento è limitato a <strong>%{count} settimane prima o dopo questa consegna</strong>.
+            _nl: De verplaatsing is beperkt tot <strong>%{count} weken voor of na deze levering</strong>.
+        forced_subtitle:
+          _en: Shift this delivery
+          _fr: Déplacer cette livraison
+          _de: Diese Lieferung verschieben
+          _it: Spostare questa consegna
+          _nl: Deze levering verplaatsen
+        forced_text:
+          _en: This delivery is billed. You can move it to another date. No other delivery is marked provisionally absent.
+          _fr: Cette livraison est facturée. Vous pouvez la déplacer à une autre date. Aucune autre livraison n'est marquée provisoirement absente.
+          _de: Diese Lieferung wird in Rechnung gestellt. Du kannst sie auf ein anderes Datum verschieben. Keine andere Lieferung wird vorläufig als abwesend markiert.
+          _it: Questa consegna è fatturata. Puoi spostarla a un'altra data. Nessun'altra consegna viene segnata come assenza provvisoria.
+          _nl: Deze levering is gefactureerd. Je kunt hem naar een andere datum verplaatsen. Geen andere levering wordt voorlopig als afwezig gemarkeerd.
         limit_text_html:
           one:
             _en: You can still make <strong>one shift</strong> this year.

@@ -112,7 +112,7 @@ module Membership::BasketShifts
       source = shift.source_basket
       target = shift.target_basket
 
-      unless source && target && source.absent? && !target.absent?
+      unless source && target && (source.absent? || source.forced?) && !target.absent?
         Rails.logger.info("[BasketShift] skipping reapply for shift=#{shift.id} " \
           "source_present=#{source.present?} target_present=#{target.present?} " \
           "source_absent=#{source&.absent?} target_absent=#{target&.absent?}")

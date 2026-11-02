@@ -105,10 +105,12 @@ module Membership::Absence
     end
   end
 
-  # Shifted sources are delivered on their target dates and do not consume the
-  # included absence quota.
+  # An absence shift is delivered on its target date and frees its included
+  # absence. A forced delivery has no absence: it stays in this set, so the
+  # shift does not hand that slot to another basket.
   def baskets_counting_as_absences_included
-    baskets.where.not(delivery_id: basket_shifts.select(:source_delivery_id))
+    baskets.where.not(
+      delivery_id: basket_shifts.where.not(absence_id: nil).select(:source_delivery_id))
   end
 
   # A target receiving shifted content must remain deliverable when the freed

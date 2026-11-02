@@ -2,7 +2,7 @@
 
 <div
   id="<%= dom_id(basket) %>"
-  class="basket <%= " is-absent" if basket.absent? %> <%= " is-trial" if basket.trial? %>"
+  class="basket<%= " is-absent" if basket.absent? %><%= " is-shifted" if basket.shifted? && basket.content_forfeited? %><%= " is-trial" if basket.trial? %>"
 >
   <div class="basket-header">
     <h3 class="basket-title">

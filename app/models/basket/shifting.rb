@@ -27,8 +27,11 @@ module Basket::Shifting
     !billable? && can_be_shifted?
   end
 
-  # Not billable (absences_included quota) or empty means content won't be received.
+  # Nothing is received on this date: a non-billable or emptied absence, or a
+  # shift that already moved the quantity. A forced shift is not an absence.
   def content_forfeited?
+    return true if shifted? && empty?
+
     absent? && (!billable? || empty?)
   end
 
@@ -42,7 +45,7 @@ module Basket::Shifting
 
   def can_be_member_shifted?
     return false unless member_shift_open?
-    return false unless absence_id? || member_direct_shift?
+    return false unless member_shift_candidate_source?
 
     member_shiftable_basket_targets.any? || member_off_cycle_shift_deliveries.any?
   end
@@ -68,7 +71,6 @@ module Basket::Shifting
     return :past_membership unless membership.can_update?
     return :already_shifted if shifted?
     return :received_shift if received_shift?
-    return :forced if forced?
     return :absences_not_billed unless Current.org.absences_billed?
     return :no_targets unless shift_candidates.any? { |target| admin_shift_target?(target) } || admin_off_cycle_shift_deliveries.any?
 
@@ -102,7 +104,7 @@ module Basket::Shifting
   end
 
   def ensure_definite_absence!(admin: nil)
-    return self if absence_id?
+    return self if absence_id? || forced?
 
     date = delivery.date
     member.absences.including_date(date).first ||
@@ -119,8 +121,8 @@ module Basket::Shifting
 
   def member_shiftable_basket_targets
     return @member_shiftable_basket_targets if defined?(@member_shiftable_basket_targets)
-    return [] unless membership.basket_shift_allowed?
-    return [] unless can_be_shifted? || (!absent? && member_direct_shift?)
+    return [] unless member_shift_open?
+    return [] unless member_shift_candidate_source?
 
     candidates = member_shift_candidates
     if range_allowed = member_shift_allowed_range
@@ -137,7 +139,7 @@ module Basket::Shifting
   # is blank. A date outside the membership period cannot be saved.
   def member_off_cycle_shift_deliveries
     return @member_off_cycle_shift_deliveries if defined?(@member_off_cycle_shift_deliveries)
-    return [] unless absence_id? || (!absent? && member_direct_shift?)
+    return [] unless member_shift_candidate_source?
     return [] unless member_shift_open?
 
     window = member_shift_allowed_range || (Date.tomorrow..membership.ended_on)
@@ -214,6 +216,10 @@ module Basket::Shifting
       Current.org.basket_shift_allowed_range_for(self) || direct_shift_deadline_range
   end
 
+  def member_shift_candidate_source?
+    absence_id? || forced? || member_direct_shift?
+  end
+
   def direct_shift_deadline_range
     return unless member_direct_shift? && Current.org.basket_shift_deadline_enabled?
 
@@ -224,7 +230,7 @@ module Basket::Shifting
   def member_shift_open?
     return false unless Current.org.basket_shift_enabled?
     return false unless membership.can_update? && membership.basket_shift_allowed?
-    return false if shifted? || received_shift? || content_empty? || forced?
+    return false if shifted? || received_shift? || content_empty?
     return false if member_overlay_covers?(delivery)
 
     true

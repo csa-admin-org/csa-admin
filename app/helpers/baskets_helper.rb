@@ -70,6 +70,13 @@ module BasketsHelper
     [ baskets, deliveries ]
   end
 
+  # Declining a forced delivery would leave it delivered and hide the shift.
+  def member_shift_declined_option(basket)
+    return "".html_safe if basket.forced?
+
+    options_for_select([ [ t(".basket_shift_declined"), :declined ] ])
+  end
+
   # Prebuilt option HTML, not a collection. Rails only treats a select as
   # grouped when its first choice is a group, so a flat declined option ahead
   # of the groups would render each group as a single empty option.
@@ -82,7 +89,13 @@ module BasketsHelper
   end
 
   def basket_shift_panel_text(basket)
-    key = basket.absence_id? ? "basket_shift_explanation" : "basket_shift_one_step"
+    key = if basket.absence_id?
+      "basket_shift_explanation"
+    elsif basket.forced?
+      "basket_shift_forced"
+    else
+      "basket_shift_one_step"
+    end
     t("active_admin.resource.form.#{key}")
   end
 
@@ -136,8 +149,8 @@ module BasketsHelper
     basket_shift_target_groups(
       source,
       options,
-      after: ".after_absence",
-      before: ".before_absence")
+      after: source.forced? ? ".after_delivery" : ".after_absence",
+      before: source.forced? ? ".before_delivery" : ".before_absence")
   end
 
   def basket_shift_target_groups(source, options, after:, before:)

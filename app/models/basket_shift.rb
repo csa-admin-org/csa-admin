@@ -3,14 +3,14 @@
 class BasketShift < ApplicationRecord
   include HasDescription
 
-  belongs_to :absence
+  belongs_to :absence, optional: true
   belongs_to :membership
   belongs_to :source_delivery, class_name: "Delivery"
   belongs_to :target_delivery, class_name: "Delivery"
 
   validates :source_delivery_id, uniqueness: { scope: :membership_id }
 
-  validate :source_basket_must_be_absent_and_not_empty, on: :create
+  validate :source_basket_must_be_shiftable, on: :create
   validate :target_basket_must_same_membership_and_not_absent, on: :create
 
   after_validation :set_quantities, on: :create
@@ -25,7 +25,9 @@ class BasketShift < ApplicationRecord
   }
   after_destroy :cleanup_shift!
   after_commit -> { membership.touch if membership.persisted? }
-  after_commit -> { MailTemplate.deliver(:absence_baskets_shifted, absence: absence) }, on: :create
+  after_commit -> {
+    MailTemplate.deliver(:absence_baskets_shifted, absence: absence) if absence
+  }, on: :create
 
   def self.shiftable?(source, target)
     return false unless source && target
@@ -113,7 +115,8 @@ class BasketShift < ApplicationRecord
   # A longer absence, or one the member declared earlier, stays.
   def remove_generated_absence!
     record = absence
-    return unless record&.started_on == record.ended_on
+    return unless record
+    return unless record.started_on == record.ended_on
     return if record.basket_shifts.exists?
     return if (record.created_at - created_at).abs > 1.minute
 
@@ -132,13 +135,12 @@ class BasketShift < ApplicationRecord
     }
   end
 
-  def source_basket_must_be_absent_and_not_empty
-    return unless absence
-
+  # An absence shift must belong to that absence. A forced shift has none.
+  def source_basket_must_be_shiftable
     basket = source_basket
-    if basket.nil? || absence.baskets.exclude?(basket) || basket.empty?
-      errors.add(:source_delivery, :invalid)
-    end
+    invalid = basket.nil? || basket.empty?
+    invalid ||= absence ? absence.baskets.exclude?(basket) : !basket.forced?
+    errors.add(:source_delivery, :invalid) if invalid
   end
 
   def target_basket_must_same_membership_and_not_absent

@@ -47,11 +47,16 @@ module Organization::AbsenceFeature
   def basket_shift_allowed_range_for(basket)
     return unless basket_shift_deadline_enabled?
 
-    absence = basket.absence
-    return unless absence
+    started_on, ended_on =
+      if (absence = basket.absence)
+        [ absence.started_on, absence.ended_on ]
+      elsif basket.forced?
+        [ basket.delivery.date, basket.delivery.date ]
+      end
+    return unless started_on && ended_on
 
     deadline = basket_shift_deadline_in_weeks.weeks
-    ([ absence.started_on - deadline, Date.tomorrow ].max)..(absence.ended_on + deadline)
+    ([ started_on - deadline, Date.tomorrow ].max)..(ended_on + deadline)
   end
 
   def absences_included_provisional_absence_mode?

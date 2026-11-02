@@ -45,6 +45,8 @@ Das zählt als eine Verschiebung, gleiches Jahreslimit. Die Abwesenheit stornier
 
 > Auch eine inbegriffene Abwesenheit kann verschoben werden. Der Inhalt der <%= Basket.model_name.human %> wird dann bei der Ziellieferung in Rechnung gestellt und die Abwesenheit wird nicht auf die im Abonnement inbegriffenen Abwesenheiten angerechnet. Die ungenutzte inbegriffene Abwesenheit bleibt verfügbar und wird, wenn möglich, einer anderen Lieferung vorläufig zugewiesen.
 
+> Eine Lieferung, die zum Jahresende erzwungen wurde, weil eine inbegriffene Abwesenheit ungenutzt blieb, kann auf die gleiche Weise von einem Admin oder vom Mitglied verschoben werden. Dieselbe Frist, der Abonnementzeitraum und die Regeln außerhalb des Zyklus gelten. Sie bleibt in Rechnung gestellt, daher wird keine andere Lieferung vorläufig als abwesend markiert. Die Verschiebung erzeugt keine Abwesenheit. Die Verschiebung löschen setzt die Lieferung auf ihr Datum zurück.
+
 ### Newsletter-Vorlage
 
 Wenn eine <%= Basket.model_name.human %> Verschiebungen erhalten hat, kannst Du eine Erinnerung in Deinen [Newsletter-Vorlagen](/newsletter_templates) anzeigen, indem Du die Variablen `basket.shifted` und `basket.shifts` verwendest:
