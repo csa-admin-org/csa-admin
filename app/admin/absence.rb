@@ -70,11 +70,12 @@ ActiveAdmin.register Absence do
   csv do
     column(:id)
     column(:member_id) { |a| a.member&.display_id }
-    column(:name) { |m| m.member.name }
+    column(:name) { |a| a.member.name }
+    column(:created_by) { |a| a.created_by&.name }
+    column(:created_at)
     column(:started_on)
     column(:ended_on)
     column(:note)
-    column(:created_at)
   end
 
   sidebar_handbook_link("absence")
@@ -104,6 +105,7 @@ ActiveAdmin.register Absence do
             if creator = absence.created_by
               row(:created_by) { absence_creator(creator) }
             end
+            row(:created_at) { l absence.created_at, format: :medium }
             row(:email_session) { absence.session&.email }
             row(:started_on) { l absence.started_on, format: :long }
             row(:ended_on) { l absence.ended_on, format: :long }
