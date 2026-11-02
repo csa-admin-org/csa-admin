@@ -245,6 +245,55 @@ class Basket::OffCycleShiftTest < ActiveSupport::TestCase
     assert_includes basket.member_off_cycle_shift_deliveries.map(&:date), basket.delivery.date + 11.days
   end
 
+  test "does not offer an off-cycle date after the membership ends" do
+    org(basket_shift_deadline_in_weeks: 1)
+    basket = memberships(:jane).baskets.coming.not_absent.first
+    travel_to basket.delivery.date - 2.weeks
+    later = Delivery.find_by!(date: basket.delivery.date + 4.days)
+    earlier = Delivery.find_by!(date: basket.delivery.date - 3.days)
+    basket.membership.update_columns(ended_on: basket.delivery.date)
+
+    assert later.date > basket.membership.ended_on
+    assert_includes basket.member_off_cycle_shift_deliveries, earlier
+    assert_not_includes basket.member_off_cycle_shift_deliveries, later
+    assert_not_includes basket.admin_off_cycle_shift_deliveries, later
+
+    error = assert_raises(ActiveRecord::RecordInvalid) {
+      basket.membership.create_shift_receptacle!(later)
+    }
+    assert error.record.errors.added?(:delivery, :exclusion)
+  end
+
+  test "does not offer an off-cycle date before the membership starts" do
+    basket = memberships(:jane).baskets.coming.not_absent.first
+    travel_to basket.delivery.date - 2.weeks
+    earlier = Delivery.find_by!(date: basket.delivery.date - 3.days)
+    later = Delivery.find_by!(date: basket.delivery.date + 4.days)
+    basket.membership.update_columns(started_on: basket.delivery.date)
+
+    assert earlier.date < basket.membership.started_on
+    assert earlier.date.in?(Date.tomorrow..basket.membership.ended_on)
+    assert_not_includes basket.member_off_cycle_shift_deliveries, earlier
+    assert_includes basket.member_off_cycle_shift_deliveries, later
+  end
+
+  test "does not offer an off-cycle date past the membership when the absence deadline extends past it" do
+    org(basket_shift_deadline_in_weeks: 1)
+    basket = memberships(:jane).baskets.coming.not_absent.first
+    travel_to basket.delivery.date - 2.weeks
+    later = Delivery.find_by!(date: basket.delivery.date + 4.days)
+    create_absence(
+      member: basket.member,
+      started_on: basket.delivery.date,
+      ended_on: basket.delivery.date)
+    basket.reload
+    basket.membership.update_columns(ended_on: basket.delivery.date)
+
+    assert basket.absence_id?
+    assert later.date > basket.membership.ended_on
+    assert_not_includes basket.member_off_cycle_shift_deliveries, later
+  end
+
   test "only the next two deliveries outside the notice period shift without an absence" do
     membership = memberships(:jane)
     coming = membership.baskets.coming.not_absent.sort_by { |b| b.delivery.date }
