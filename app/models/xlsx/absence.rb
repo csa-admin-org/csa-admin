@@ -29,6 +29,12 @@ module XLSX
         ::Absence.human_attribute_name(:member_id),
         @absences.map { |absence| absence.member&.display_id })
       add_column(
+        ::Absence.human_attribute_name(:created_by),
+        @absences.map { |absence| absence.created_by&.name })
+      add_column(
+        ::Absence.human_attribute_name(:created_at),
+        @absences.map { |absence| absence.created_at.to_s })
+      add_column(
         ::Absence.human_attribute_name(:name),
         @absences.map { |absence| absence.member.name })
       add_column(
@@ -43,9 +49,6 @@ module XLSX
       add_column(
         ::Absence.human_attribute_name(:note),
         @absences.map(&:note))
-      add_column(
-        ::Absence.human_attribute_name(:created_at),
-        @absences.map { |absence| absence.created_at.to_s })
     end
 
     def build_baskets_worksheet
