@@ -174,6 +174,30 @@ class Members::BasketShiftsControllerTest < ActionDispatch::IntegrationTest
     assert_equal monday.id, basket.shift_as_source.target_delivery_id
   end
 
+  test "create ignores an off-cycle delivery outside the membership period" do
+    org(basket_shift_deadline_in_weeks: 1)
+    basket = memberships(:jane).baskets.coming.not_absent.first
+    travel_to basket.delivery.date - 2.weeks
+    later = Delivery.find_by!(date: basket.delivery.date + 4.days)
+    earlier = Delivery.find_by!(date: basket.delivery.date - 3.days)
+    basket.membership.update_columns(ended_on: basket.delivery.date)
+
+    get new_members_basket_basket_shifts_path(basket)
+
+    assert_response :success
+    assert_select "select#basket_shift_target_basket_id option[value=?]", "delivery:#{earlier.id}"
+    assert_select "select#basket_shift_target_basket_id option[value=?]", "delivery:#{later.id}", count: 0
+
+    assert_no_difference -> { BasketShift.count } do
+      post members_basket_basket_shifts_path(basket), params: {
+        basket: { shift_target_basket_id: "delivery:#{later.id}" }
+      }
+    end
+
+    assert_redirected_to members_deliveries_path
+    assert_not basket.reload.absent?
+  end
+
   test "create ignores an off-cycle delivery outside the deadline" do
     org(basket_shift_deadline_in_weeks: 1)
     basket = memberships(:jane).baskets.where(state: "normal").first

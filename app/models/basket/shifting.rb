@@ -133,7 +133,8 @@ module Basket::Shifting
 
   # Unused deliveries the depot still serves, off this membership's cycle.
   # Same window as a shift onto a basket they already have: the deadline in
-  # weeks, or any date in the membership when that deadline is blank.
+  # weeks, or any future date through the membership end when that deadline
+  # is blank. A date outside the membership period cannot be saved.
   def member_off_cycle_shift_deliveries
     return @member_off_cycle_shift_deliveries if defined?(@member_off_cycle_shift_deliveries)
     return [] unless absence_id? || (!absent? && member_direct_shift?)
@@ -144,13 +145,17 @@ module Basket::Shifting
     cycle = membership.delivery_cycle
 
     @member_off_cycle_shift_deliveries =
-      Delivery.between(window).where.not(id: occupied_ids).select { |candidate|
-        candidate.date != delivery.date &&
-          !cycle.include_delivery?(candidate) &&
-          depot_serves_delivery?(candidate) &&
-          !member_overlay_covers?(candidate) &&
-          member.absences.including_date(candidate.date).none?
-      }
+      Delivery
+        .between(window)
+        .where(date: membership.period)
+        .where.not(id: occupied_ids)
+        .select { |candidate|
+          candidate.date != delivery.date &&
+            !cycle.include_delivery?(candidate) &&
+            depot_serves_delivery?(candidate) &&
+            !member_overlay_covers?(candidate) &&
+            member.absences.including_date(candidate.date).none?
+        }
   end
 
   # Admin has no deadline. Same dates the delivery dropdown used to list.
