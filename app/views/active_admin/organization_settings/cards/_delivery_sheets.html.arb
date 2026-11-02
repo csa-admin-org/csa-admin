@@ -7,6 +7,7 @@ context.instance_eval do
   attributes_table_for org do
     row(:delivery_pdf_member_info) { t("organization.delivery_pdf_member_info.#{org.delivery_pdf_member_info}") }
     row(:delivery_pdf_member_name_format) { t("organization.delivery_pdf_member_name_format.#{org.delivery_pdf_member_name_format}") }
+    row(:delivery_pdf_member_order_mode) { t("member_order.modes.#{org.delivery_pdf_member_order_mode}") }
     if delivery_pdf_footer.present?
       row(:delivery_pdf_footer) { organization_settings_text_value(delivery_pdf_footer, class_name: "text-center text-sm") }
     else

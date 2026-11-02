@@ -148,7 +148,7 @@ module XLSX
       baskets = @baskets.where(depot: depot).includes(:membership, :basket_size, :complements, baskets_basket_complements: :basket_complement)
       shop_orders = @shop_orders.where(depot: depot).includes(:member, items: { product_variant: :basket_complement })
       member_ids = (baskets.filled.pluck(memberships: :member_id) + shop_orders.pluck(shop_orders: :member_id)).uniq
-      members = Member.where(id: member_ids).sort_by { |m| depot.member_sorting(m) }
+      members = depot.sort_delivery_sheet_members(Member.where(id: member_ids), baskets)
       members.each do |member|
         member.basket = baskets.find { |b| b.membership.member_id == member.id }
         member.shop_order = shop_orders.find { |so| so.member_id == member.id }

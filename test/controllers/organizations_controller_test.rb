@@ -982,6 +982,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert delivery_sheets_fieldset
     assert_includes delivery_sheets_fieldset.to_html, "organization_delivery_pdf_member_info"
     assert_includes delivery_sheets_fieldset.to_html, "organization_delivery_pdf_member_name_format"
+    assert_includes delivery_sheets_fieldset.to_html, "organization_delivery_pdf_member_order_mode"
     assert_includes delivery_sheets_fieldset.to_html, "organization_delivery_pdf_footer_#{locale}"
   end
 

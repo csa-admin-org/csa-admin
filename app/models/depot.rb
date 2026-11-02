@@ -99,18 +99,35 @@ class Depot < ApplicationRecord
   end
 
   def baskets_for(delivery)
-    baskets
+    list = baskets
       .deliverable
       .includes(:basket_size, :complements, :member, :membership, :baskets_basket_complements)
       .where(delivery_id: delivery.id)
       .uniq
-      .sort_by { |basket| member_sorting(basket.member) }
+    indexes = basket_size_indexes_for_sorting
+    list.sort_by { |basket|
+      index = indexes ? indexes.fetch(basket.basket_size_id, indexes.size) : nil
+      member_sorting(basket.member, basket_size_index: index)
+    }
   end
 
-  def member_sorting(member)
+  def sort_delivery_sheet_members(members, baskets)
+    indexes = basket_size_indexes_for_sorting
+    return members.sort_by { |member| member_sorting(member) } unless indexes
+
+    index_by_member_id = earliest_basket_size_indexes(baskets, indexes)
+    last = indexes.size
+    members.sort_by { |member|
+      member_sorting(member, basket_size_index: index_by_member_id.fetch(member.id, last))
+    }
+  end
+
+  def member_sorting(member, basket_size_index: nil)
     position = []
     if delivery_sheets_mode == "home_delivery"
       position << (member_ids_position.index(member.id) || 1000)
+    elsif !basket_size_index.nil?
+      position << basket_size_index
     end
     position << I18n.transliterate(member.name).downcase
     position
@@ -173,5 +190,28 @@ class Depot < ApplicationRecord
 
   def set_default_delivery_cycle
     self.delivery_cycles << DeliveryCycle.primary if delivery_cycles.empty?
+  end
+
+  def basket_size_indexes_for_sorting
+    return if delivery_sheets_mode == "home_delivery"
+    return unless Current.org.delivery_pdf_member_order_mode == "basket_size"
+
+    BasketSize.ordered.ids.each_with_index.to_h
+  end
+
+  def earliest_basket_size_indexes(baskets, indexes)
+    pairs = baskets.filled.pluck(:membership_id, :basket_size_id)
+    member_id_by_membership_id =
+      Membership.where(id: pairs.map(&:first)).pluck(:id, :member_id).to_h
+    chosen = {}
+    pairs.each do |membership_id, size_id|
+      member_id = member_id_by_membership_id[membership_id]
+      next unless member_id
+
+      index = indexes.fetch(size_id, indexes.size)
+      current = chosen[member_id]
+      chosen[member_id] = index if current.nil? || index < current
+    end
+    chosen
   end
 end

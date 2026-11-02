@@ -4,6 +4,10 @@ module Organization::DeliveryPDF
   extend ActiveSupport::Concern
 
   MEMBER_INFOS = %w[none phones food_note]
+  MEMBER_ORDER_MODES = %w[
+    name_asc
+    basket_size
+  ].freeze
   MEMBER_NAME_SEGMENT_SEPARATOR = /(\s*,\s*|\s+(?:und|en|et|and|&)\s+)/i
 
   included do
@@ -19,6 +23,9 @@ module Organization::DeliveryPDF
     validates :delivery_pdf_member_info,
       presence: true,
       inclusion: { in: MEMBER_INFOS }
+    validates :delivery_pdf_member_order_mode,
+      presence: true,
+      inclusion: { in: MEMBER_ORDER_MODES }
   end
 
   def format_member_name_for_pdf(name)
