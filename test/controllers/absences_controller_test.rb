@@ -121,6 +121,17 @@ class AbsencesControllerTest < ActionDispatch::IntegrationTest
     assert_equal Date.new(2024, 6, 10), absence.reload.started_on
   end
 
+  test "show includes when the absence was entered" do
+    travel_to "2024-06-01 14:30"
+    absence = create_absence(started_on: "2024-06-10", ended_on: "2024-06-12")
+
+    get absence_path(absence)
+
+    assert_response :success
+    assert_select "th", text: Absence.human_attribute_name(:created_at)
+    assert_select "td", text: I18n.l(absence.created_at, format: :medium)
+  end
+
   test "show links the member who created the absence" do
     travel_to "2024-06-01"
     absence = create_absence(member: members(:jane), started_on: "2024-06-10", ended_on: "2024-06-12")
