@@ -3,12 +3,12 @@
 require "nokogiri"
 
 module Support
-  # Client signatures, not the operator ++ sign-off. Gmail and Infomaniak
-  # mark the block. Render drops data attributes, so a trailing block of
-  # signature images is the same footer. A line that is exactly "-- " is
-  # the RFC 3676 delimiter: everything after it is the signature.
+  # Client signatures, not the operator ++ sign-off. Gmail, Infomaniak,
+  # and Thunderbird mark the block. Render drops data attributes, so a
+  # trailing block of signature images is the same footer. A line that is
+  # exactly "-- " is the RFC 3676 delimiter: everything after it is the signature.
   class MailSignature
-    CSS = ".gmail_signature, .gmail_signature_prefix, #Signature, [data-ik-opengraph-ignore]"
+    CSS = ".gmail_signature, .gmail_signature_prefix, #Signature, [data-ik-opengraph-ignore], .moz-signature"
     DELIMITER = /\A--[[:space:]]*\z/
     SIGNATURE_IMAGE = %r{workspace\.storage\.infomaniak\.com/signature}i
 
@@ -26,6 +26,15 @@ module Support
       return source if head.nil? || head == source || head.blank?
 
       head.rstrip
+    end
+
+    # A cid image inside the signature must not become a file
+    # attachment once the block is gone from the stored HTML.
+    def self.without_signature_parts(attachments, html)
+      hidden = signature_cids(html)
+      return attachments if hidden.empty?
+
+      Array(attachments).reject { |raw| hidden.include?(part_id(raw)) }
     end
 
     def self.drop_image_blocks!(root)
@@ -52,6 +61,27 @@ module Support
       img["src"].to_s.match?(SIGNATURE_IMAGE)
     end
     private_class_method :signature_image?
+
+    def self.signature_cids(html)
+      root = Nokogiri::HTML::DocumentFragment.parse(html.to_s)
+      marked = root.css(CSS).flat_map { |node| cids_in(node) }
+      outside = cids_in(root) - marked
+
+      marked - outside
+    end
+    private_class_method :signature_cids
+
+    def self.cids_in(node)
+      node.css("img[src^='cid:']").map { |img|
+        img["src"].delete_prefix("cid:").delete_prefix("<").delete_suffix(">")
+      }
+    end
+    private_class_method :cids_in
+
+    def self.part_id(raw)
+      raw.to_h.stringify_keys["ContentID"].to_s.delete("<>").presence
+    end
+    private_class_method :part_id
 
     def self.reply_before?(node)
       node.xpath("preceding-sibling::*").any? { |sibling| word?(sibling) }

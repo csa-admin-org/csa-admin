@@ -493,6 +493,38 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     end
   end
 
+  test "drops a thunderbird signature image" do
+    html = <<~HTML
+      <div>Thanks for the update.</div>
+      <div class="moz-signature"><img src="cid:sign@example.test" border="0"></div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+    extracted = Support::ReplyHtml.extract(html)
+
+    assert_includes shown, "Thanks for the update"
+    assert_not_includes shown, "moz-signature"
+    assert_not_includes shown, "cid:"
+    assert_not_includes extracted, "cid:"
+  end
+
+  test "does not keep a signature image as a file part" do
+    html = <<~HTML
+      <div>See this.</div>
+      <img src="cid:shot@example.test">
+      <div class="moz-signature"><img src="cid:sign@example.test"></div>
+    HTML
+    parts = [
+      { "ContentID" => "<sign@example.test>", "Name" => "logo.jpeg" },
+      { "ContentID" => "shot@example.test", "Name" => "shot.png" },
+      { "Name" => "notes.pdf" }
+    ]
+
+    kept = Support::MailSignature.without_signature_parts(parts, html)
+
+    assert_equal %w[shot.png notes.pdf], kept.map { |part| part["Name"] }
+  end
+
   test "keeps a reply image that is not a signature" do
     html = <<~HTML
       <div>See the invoice.</div>

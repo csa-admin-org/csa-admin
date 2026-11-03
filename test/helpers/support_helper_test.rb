@@ -35,6 +35,27 @@ class SupportHelperTest < ActionView::TestCase
     assert_not_includes html, "gmail_signature"
   end
 
+  test "hides a stored thunderbird signature image on an admin reply" do
+    blob = ActiveStorage::Blob.create_and_upload!(
+      io: file_fixture("logo.png").open,
+      filename: "logo.jpeg",
+      content_type: "image/jpeg")
+    message = Support::Message.new(author: "admin", body: "Thanks")
+    message.html = <<~HTML
+      <div>Thanks for the update.</div>
+      <div class="moz-signature">
+        <action-text-attachment sgid="#{blob.attachable_sgid}" content-type="image/jpeg" filename="logo.jpeg"></action-text-attachment>
+      </div>
+    HTML
+
+    html = view.support_message_html(message)
+
+    assert_includes html, "Thanks for the update"
+    assert_not_includes html, "moz-signature"
+    assert_not_includes html, "logo.jpeg"
+    assert_not_includes html, "<img"
+  end
+
   test "hides a stored infomaniak signature on an admin reply" do
     message = Support::Message.new(
       author: "admin",

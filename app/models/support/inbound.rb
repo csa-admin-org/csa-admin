@@ -60,11 +60,12 @@ module Support
       @payload = payload.to_h.stringify_keys
       @from = InboundAddress.from_email(@payload)
       @rfc_message_id = InboundAddress.message_id_from(@payload)
-      @attachments = @payload["Attachments"]
       @subject = Ticket.inbound_subject(@payload["Subject"])
       @reply = empty_hop
       @original = empty_hop
       parse
+      @attachments = MailSignature.without_signature_parts(
+        @payload["Attachments"], @payload["HtmlBody"])
     end
 
     def blank?

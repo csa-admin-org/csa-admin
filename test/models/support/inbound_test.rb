@@ -325,6 +325,41 @@ class Support::InboundTest < ActiveSupport::TestCase
     end
   end
 
+  test "does not import a thunderbird signature image" do
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
+    bytes = file_fixture("logo.png").binread
+    html = <<~HTML
+      <div>Thanks for the update.</div>
+      <div class="moz-signature"><img src="cid:sign@example.test" border="0"></div>
+      <div class="moz-cite-prefix">On Monday, CSA Admin wrote:</div>
+      <blockquote type="cite"><div>Earlier</div></blockquote>
+    HTML
+
+    assert_difference "Support::Message.count", 1 do
+      ingest(
+        "To" => ticket.inbound_email,
+        "From" => admins(:external).email,
+        "HtmlBody" => html,
+        "TextBody" => "Thanks for the update.",
+        "Attachments" => [ {
+          "Name" => "logo.jpeg",
+          "ContentType" => "image/png",
+          "ContentID" => "<sign@example.test>",
+          "Content" => Base64.strict_encode64(bytes),
+          "ContentLength" => bytes.bytesize
+        } ],
+        "MessageID" => "moz-signature")
+    end
+
+    message = ticket.messages.order(:id).last
+    assert_equal 0, message.attachments.count
+    assert_includes message.body, "Thanks for the update"
+    assert_not_includes message.html.to_s, "moz-signature"
+    assert_not_includes message.html.to_s, "cid:"
+    assert_not_includes message.body, "Earlier"
+  end
+
   test "address hint uses the domain only" do
     assert_equal "example.com", Support::Inbound.address_hint("pat@example.com")
     assert_equal "example.com", Support::Inbound.address_hint([ nil, "pat@example.com" ])
