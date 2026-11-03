@@ -13,7 +13,7 @@ module Postmark
       if supported_payload?
         WebhookHandlerJob.perform_later(**payload)
       else
-        Rails.event.notify(:unsupported_postmark_webhook, **payload)
+        Rails.event.notify(:unsupported_postmark_webhook, **event_payload)
       end
       head :ok
     end
@@ -29,6 +29,10 @@ module Postmark
     def supported_payload?
       payload[:record_type].in?(RECORD_TYPES)
         && payload[:message_stream].in?(MESSAGE_STREAMS)
+    end
+
+    def event_payload
+      payload.slice(:record_type, :message_stream, :message_id, :type, :type_code)
     end
 
     def payload

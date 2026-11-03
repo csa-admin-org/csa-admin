@@ -39,6 +39,14 @@ Rails.application.configure do
     options = {}
     options[:tenant] = Tenant.current if Tenant.inside?
     options[:params] = event.payload[:params].except(:controller, :action, :format, :id)
+    # Merged after lograge's own path. custom_payload does not set path, so this
+    # replaces the logged path. Strip the query string the way lograge does;
+    # assigning payload[:path] raw would put it back.
+    path = event.payload[:path].to_s
+    path = path[0, path.index("?") || path.length]
+    options[:path] = path
+      .gsub(%r{/sessions/[^/?]+}, "/sessions/[FILTERED]")
+      .gsub(%r{/newsletters/(un)?subscribe/[^/?]+}, "/newsletters/\\1subscribe/[FILTERED]")
     options
   end
 

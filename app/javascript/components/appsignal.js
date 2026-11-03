@@ -1,5 +1,47 @@
 import Appsignal from "@appsignal/javascript"
 
+// Page URLs can carry a single-use login token or a reusable newsletter token.
+// Regexes are created per call so a global lastIndex cannot skip the next match.
+export function filterSensitiveUrl(value) {
+  if (typeof value !== "string") return value
+
+  return value
+    .replace(/\/sessions\/[^/?#]+/g, "/sessions/[FILTERED]")
+    .replace(/\/newsletters\/(un)?subscribe\/[^/?#]+/g, "/newsletters/$1subscribe/[FILTERED]")
+}
+
+function filterSpanUrl(span) {
+  const action = span.getAction()
+  if (action) span.setAction(filterSensitiveUrl(action))
+
+  const error = span.getError()
+  if (error) {
+    const message = filterSensitiveUrl(error.message)
+    const backtrace = (error.backtrace || []).map(filterSensitiveUrl)
+    const changed =
+      message !== error.message || backtrace.some((line, index) => line !== error.backtrace[index])
+    if (changed) {
+      span.setError({
+        name: error.name,
+        message,
+        stack: backtrace.join("\n")
+      })
+    }
+  }
+
+  const breadcrumbs = span.getBreadcrumbs()
+  if (breadcrumbs.length > 0) {
+    span.setBreadcrumbs(
+      breadcrumbs.map((breadcrumb) => ({
+        ...breadcrumb,
+        action: filterSensitiveUrl(breadcrumb.action)
+      }))
+    )
+  }
+
+  return span
+}
+
 export const appsignal = new Appsignal({
   key: "da2af09a-a494-44ea-aa4c-90fb690ec0fa",
   ignoreErrors: [
@@ -29,3 +71,5 @@ export const appsignal = new Appsignal({
     /UnhandledRejection: Non-Error promise rejection captured with value/
   ]
 })
+
+appsignal.addDecorator(filterSpanUrl)

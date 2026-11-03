@@ -94,7 +94,7 @@ module Billing
           origin: "bunq",
           amount: amount,
           date: parse_date(payment["created"]),
-          ref: description))
+          ref_present: description.present?))
     end
 
     def reached_cutoff_date?(payment)

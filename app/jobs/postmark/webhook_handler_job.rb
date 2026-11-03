@@ -9,18 +9,22 @@ module Postmark
       actionable = email.nil? || email.processing?
 
       if email.nil?
-        Rails.event.notify(:unmatched_postmark_webhook, **payload)
+        Rails.event.notify(:unmatched_postmark_webhook, **event_payload(payload))
       elsif email.processing?
         event = payload[:record_type].downcase
         send("handle_#{event}", email, payload)
       else
-        Rails.event.notify(:irrelevant_postmark_webhook, **payload)
+        Rails.event.notify(:irrelevant_postmark_webhook, **event_payload(payload))
       end
 
       sync_suppressions(payload) if actionable
     end
 
     private
+
+    def event_payload(payload)
+      payload.slice(:record_type, :message_stream, :message_id, :type, :type_code)
+    end
 
     def sync_suppressions(payload)
       event = payload.values_at(:record_type, :message_stream, :type)
