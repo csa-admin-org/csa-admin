@@ -221,6 +221,11 @@
     vertical-align: middle;
   }
 
+  /* Optical nudge: flex centers the SVG box above the text. */
+  .period-created-at svg {
+    translate: 0 0.5px;
+  }
+
   .data-table-resource-actions {
     display: flex;
     gap: 0.5rem;

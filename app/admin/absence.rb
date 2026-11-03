@@ -52,12 +52,18 @@ ActiveAdmin.register Absence do
         link_with_session absence.member, absence.session
       end
     }, sortable: "members.name"
-    column :started_on, ->(absence) {
-      l(absence.started_on, format: :short)
-    }, class: "text-right"
-    column :ended_on, ->(absence) {
-      l(absence.ended_on, format: :short)
-    }, class: "text-right"
+    column :period, ->(absence) {
+      created_at = content_tag(
+        :span,
+        class: "period-created-at cluster is-end is-snug text-sm is-muted",
+        title: Absence.human_attribute_name(:created_at)) do
+        safe_join([
+          icon("clock-plus", class: "icon-3"),
+          l(absence.created_at, format: :short)
+        ])
+      end
+      safe_join([ display_period(absence.date_range, format: :short), created_at ])
+    }, sortable: :started_on, class: "text-right is-nowrap"
     column :deliveries, ->(absence) {
       absence.baskets.size
     }, class: "text-right"

@@ -121,6 +121,22 @@ class AbsencesControllerTest < ActionDispatch::IntegrationTest
     assert_equal Date.new(2024, 6, 10), absence.reload.started_on
   end
 
+  test "index shows the period and when the absence was created" do
+    travel_to "2024-06-01 14:30"
+    absence = create_absence(started_on: "2024-06-10", ended_on: "2024-06-12")
+
+    get absences_path
+
+    assert_response :success
+    assert_select "th a[href='#{absences_path(order: 'started_on_asc')}']"
+    assert_select "td", text: /#{Regexp.escape(I18n.l(absence.started_on, format: :short))}.*#{Regexp.escape(I18n.l(absence.ended_on, format: :short))}/ do
+      assert_select "span[title='#{Absence.human_attribute_name(:created_at)}']" do
+        assert_select "svg"
+        assert_select "span", text: I18n.l(absence.created_at, format: :short)
+      end
+    end
+  end
+
   test "show includes when the absence was entered" do
     travel_to "2024-06-01 14:30"
     absence = create_absence(started_on: "2024-06-10", ended_on: "2024-06-12")
