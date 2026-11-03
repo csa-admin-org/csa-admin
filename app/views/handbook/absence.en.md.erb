@@ -47,6 +47,8 @@ If the absence is canceled, the <%= Basket.model_name.human.downcase %> content 
 
 > An included absence can also be shifted. Its <%= Basket.model_name.human.downcase %> content is then billed on the target delivery and the absence does not count toward the membership's included absences. The unused included absence remains available and, when possible, is provisionally assigned to another delivery.
 
+> A delivery forced at year end, because an included absence was unused, can be shifted the same way by an admin or by the member. The same deadline, membership period, and off-cycle rules apply. It stays billed, so another delivery is not marked provisionally absent. The shift does not create an absence. Deleting the shift puts the delivery back on its date.
+
 ### Newsletter Template
 
 When a <%= Basket.model_name.human.downcase %> has received shifts, you can display a reminder in your [newsletter templates](/newsletter_templates) using the `basket.shifted` and `basket.shifts` variables:

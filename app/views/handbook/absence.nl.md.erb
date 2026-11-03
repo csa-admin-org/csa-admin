@@ -45,6 +45,8 @@ Dat telt als één verschuiving, dezelfde jaarlimiet. De afwezigheid annuleren z
 
 > Ook een inbegrepen afwezigheid kan worden verschoven. De inhoud van de <%= Basket.model_name.human.downcase %> wordt dan gefactureerd op de doellevering en de afwezigheid geldt niet als gebruikte inbegrepen afwezigheid. De ongebruikte inbegrepen afwezigheid blijft beschikbaar en wordt, indien mogelijk, voorlopig aan een andere levering toegewezen.
 
+> Een levering die aan het einde van het jaar is geforceerd, omdat een inbegrepen afwezigheid ongebruikt bleef, kan op dezelfde manier worden verschoven door een beheerder of door het lid. Dezelfde termijn, de lidmaatschapsperiode en de regels buiten de cyclus gelden. Ze blijft gefactureerd, dus een andere levering wordt niet voorlopig als afwezig gemarkeerd. De verplaatsing maakt geen afwezigheid aan. De verplaatsing verwijderen zet de levering terug op haar datum.
+
 ### Nieuwsbriefsjabloon
 
 Wanneer een <%= Basket.model_name.human.downcase %> is verschoven, kun je met de variabelen `basket.shifted` en `basket.shifts` een herinnering tonen in je [nieuwsbriefsjablonen](/newsletter_templates):

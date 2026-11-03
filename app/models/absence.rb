@@ -91,12 +91,20 @@ class Absence < ApplicationRecord
     end
   end
 
+  # A shift keeps its ForcedDelivery. Deleting it would drop the included
+  # slot when this absence is later removed, while the quantity stays moved.
   def clear_conflicting_forced_deliveries!
     ForcedDelivery
       .joins(:member)
       .where(member: { id: member_id })
       .where(delivery_id: Delivery.between(date_range))
-      .delete_all
+      .find_each do |forced_delivery|
+        next if BasketShift.exists?(
+          membership_id: forced_delivery.membership_id,
+          source_delivery_id: forced_delivery.delivery_id)
+
+        forced_delivery.delete
+      end
   end
 
   def update_memberships!

@@ -47,6 +47,8 @@ Si l'absence est annulée, le contenu du <%= Basket.model_name.human.downcase %>
 
 > Une absence incluse peut aussi être déplacée. Le contenu du <%= Basket.model_name.human.downcase %> est alors facturé sur la livraison cible et l'absence n'est pas comptabilisée parmi les absences incluses dans l'abonnement. L'absence incluse non utilisée reste disponible et, si possible, est provisoirement attribuée à une autre livraison.
 
+> Une livraison forcée en fin d'année, parce qu'une absence incluse n'a pas été utilisée, peut être déplacée de la même façon par un admin ou par le membre. Le même délai, la période de l'abonnement et les règles hors cycle s'appliquent. Elle reste facturée, donc aucune autre livraison n'est marquée provisoirement absente. Le déplacement ne crée pas d'absence. Supprimer le déplacement remet la livraison à sa date.
+
 ### Modèle de newsletter
 
 Lorsqu'un <%= Basket.model_name.human.downcase %> a été déplacé, vous pouvez afficher un rappel dans [vos modèles de newsletter](/newsletter_templates) en utilisant les variables `basket.shifted` et `basket.shifts`:

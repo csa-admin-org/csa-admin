@@ -36,7 +36,7 @@ class Members::BasketShiftsController < Members::BaseController
   def resolve_shift_target_id
     raw = params.require(:basket).permit(:shift_target_basket_id)[:shift_target_basket_id]
     return if raw.blank?
-    return "declined" if raw == "declined"
+    return "declined" if raw == "declined" && !@basket.forced?
 
     if raw.start_with?("delivery:")
       delivery_id = raw.delete_prefix("delivery:")

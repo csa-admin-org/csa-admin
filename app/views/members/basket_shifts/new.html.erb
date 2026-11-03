@@ -3,10 +3,10 @@
 </h1>
 
 <section>
-  <h2><%= t(".subtitle") %></h2>
+  <h2><%= t(@basket.forced? ? ".forced_subtitle" : ".subtitle") %></h2>
 
   <div class="form-copy">
-    <p><%= t(".text") %></p>
+    <p><%= t(@basket.forced? ? ".forced_text" : ".text") %></p>
 
     <% if Current.org.basket_shift_annual_limit? %>
       <p>
@@ -16,7 +16,9 @@
 
     <% if Current.org.basket_shift_deadline_enabled? && @basket.member_shiftable_basket_targets.any? %>
       <p>
-        <%= t(".deadline_text_html", count: Current.org.basket_shift_deadline_in_weeks) %>
+        <%= t(
+          @basket.forced? ? ".forced_deadline_text_html" : ".deadline_text_html",
+          count: Current.org.basket_shift_deadline_in_weeks) %>
       </p>
     <% end %>
 
@@ -24,7 +26,7 @@
       <p><%= t(".absences_included_warning") %></p>
     <% end %>
 
-    <% if @basket.member_direct_shift? %>
+    <% if @basket.member_direct_shift? && !@basket.forced? %>
       <p class="is-italic"><%= t(".one_step") %></p>
     <% end %>
 
@@ -33,7 +35,7 @@
         <%= f.label :shift_target_basket_id %>
 
         <%= f.select :shift_target_basket_id,
-          options_for_select([ [ t(".basket_shift_declined"), :declined ] ]) +
+          member_shift_declined_option(@basket) +
             grouped_options_for_select(basket_shift_targets_member_collection(@basket)),
           { include_blank: false } %>
 
