@@ -349,7 +349,19 @@ module Support
         [ "support", nil ]
       elsif (matched = Admin.with_email(from).first)
         [ "admin", matched ]
+      elsif admin && organization_email?(from)
+        [ "admin", admin ]
       end
+    end
+
+    # Shared mailbox (org email / default From), not a person. Attribute the
+    # reply to the admin already on the ticket.
+    def organization_email?(from)
+      addresses = [ Current.org&.email, Current.org&.email_default_from ]
+      canonical = Support::InboundAddress.canonical_local(from)
+      addresses.compact_blank.any? { |address|
+        Support::InboundAddress.canonical_local(address) == canonical
+      }
     end
 
     def email_address_with_name(email, name)

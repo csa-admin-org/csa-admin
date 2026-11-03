@@ -110,6 +110,61 @@ class Support::InboundJobTest < ActiveJob::TestCase
     end
   end
 
+  test "attributes the organization mailbox to the ticket admin" do
+    org(email: "info@lafermedugoupil.ch", email_default_from: "contact@acme.test")
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
+
+    assert_difference "Support::Message.count", 1 do
+      ingest(
+        "To" => ticket.inbound_email,
+        "From" => "info@lafermedugoupil.ch",
+        "TextBody" => "From the CSA mailbox",
+        "MessageID" => "inbound-org-email",
+        "Headers" => [ { "Name" => "Message-ID", "Value" => "<inbound-org-email@mail>" } ])
+    end
+
+    message = ticket.messages.order(:id).last
+    assert_equal "admin", message.author
+    assert_equal admins(:external), message.admin
+    assert_equal "From the CSA mailbox", message.body
+  end
+
+  test "attributes the organization default from address to the ticket admin" do
+    org(email: "contact@acme.test", email_default_from: "info@lafermedugoupil.ch")
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
+
+    assert_difference "Support::Message.count", 1 do
+      ingest(
+        "To" => ticket.inbound_email,
+        "From" => "Info+alias@lafermedugoupil.ch",
+        "TextBody" => "From the default sender",
+        "MessageID" => "inbound-org-from",
+        "Headers" => [ { "Name" => "Message-ID", "Value" => "<inbound-org-from@mail>" } ])
+    end
+
+    message = ticket.messages.order(:id).last
+    assert_equal "admin", message.author
+    assert_equal admins(:external), message.admin
+  end
+
+  test "does not invent an admin for the organization mailbox" do
+    org(email: "info@lafermedugoupil.ch")
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Help", content: "Opening")
+
+    assert_no_difference "Support::Message.count" do
+      assert_raises Support::Inbound::UnknownSender do
+        ingest(
+          "To" => ticket.inbound_email,
+          "From" => "info@lafermedugoupil.ch",
+          "TextBody" => "Hello",
+          "MessageID" => "inbound-org-no-admin")
+      end
+    end
+  end
+
   test "appends a reply from an extra operator address" do
     ticket = Support::Ticket.create!(
       priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
