@@ -47,6 +47,7 @@ ActiveAdmin.register Absence do
 
   includes :member, :session, { baskets: :membership }
   index download_links: [ :csv, :xlsx ] do
+    column :id
     column :member, ->(absence) {
       with_note_icon absence.note, reply: absence.note_reply_args do
         link_with_session absence.member, absence.session
