@@ -1,34 +1,62 @@
-# Drittanbieter-Dienste und Konformität
+# Datenschutz
 
-Um den reibungslosen Betrieb, die Sicherheit und die Leistung von CSA Admin zu gewährleisten, nutzt CSA Admin spezialisierte Drittanbieter-Dienste. Diese Partner spielen eine zentrale Rolle bei Hosting, Speicherung, Backup, Kommunikation und Überwachung der Anwendung. Jeder Dienst wurde aufgrund seiner Zuverlässigkeit und Einhaltung der Anforderungen der **Datenschutz-Grundverordnung (DSGVO)** der Europäischen Union sowie der geltenden Schweizer Gesetzgebung ausgewählt.
-<br><br>
-Nachfolgend findest Du eine detaillierte Liste dieser Dienste, ihre Rolle in der CSA Admin-Infrastruktur und Links zu ihren Datenschutzrichtlinien oder DSGVO-Verpflichtungen.
+CSA Admin ist ein gehosteter Dienst. Du bist die verantwortliche Stelle für die personenbezogenen Daten Deiner Mitglieder. Ich hoste die Anwendung und verarbeite diese Daten in Deinem Auftrag, nach der [DSGVO](https://commission.europa.eu/law/law-topic/data-protection_de) (EU) und dem [nDSG](https://www.kmu.admin.ch/kmu/de/home/fakten-trends/digitalisierung/datenschutz/neues-datenschutzgesetz-ndsg.html) (Schweiz).
 
-### Hetzner
-- **Rolle**: Hosting des Haupt-CSA-Admin-Servers, der sich in Deutschland (Nürnberg) befindet. Hier wird die Anwendung ausgeführt und die SQLite-Datenbanken gespeichert.
-- **Konformität**: Hetzner erfüllt die Anforderungen der DSGVO und bietet auf Anfrage Datenverarbeitungsvereinbarungen (DPA) an.
-- **Mehr Infos**: [Datenschutzrichtlinie Hetzner](https://www.hetzner.com/legal/privacy-policy), [Nachhaltigkeit bei Hetzner](https://www.hetzner.com/unternehmen/nachhaltigkeit)
+Der Vertrag sind die [Nutzungsbedingungen (Terms of Service)](https://csa-admin.org/terms) und der [Auftragsverarbeitungsvertrag (DPA)](https://csa-admin.org/dpa). Mit der Annahme der Nutzungsbedingungen kommt der DPA zustande. Wenn wir einen DPA unterschrieben haben, gilt das unterschriebene Exemplar. Diese Seite fasst sie zusammen. Die englische Fassung geht vor.
 
-### Cloudflare R2
-- **Rolle**: Speicherung von in CSA Admin hochgeladenen Anhängen (wie Dokumenten oder Bildern) auf einer Objektspeicherlösung in Zentraleuropa. Diese Daten sind serverseitig verschlüsselt (SSE) und werden täglich auf meinem persönlichen Computer gesichert, der ebenfalls verschlüsselt ist.
-- **Konformität**: Cloudflare verpflichtet sich zur Einhaltung der DSGVO durch DPAs und sichere Praktiken.
-- **Mehr Infos**: [Cloudflare und DSGVO](https://www.cloudflare.com/trust-hub/gdpr/)
+Gebühren, Support, Kündigungsfristen und Haftung stehen in den Nutzungsbedingungen. Die Datenschutzerklärung und die Regeln, die Deine Mitglieder im [Anmeldeformular](/handbook/registration#documents) akzeptieren, sind Deine Dokumente, nicht diese.
 
-### Backblaze B2
-- **Rolle**: Sicherung der CSA Admin-Datenbanken über das Tool [Litestream](https://litestream.io), mit Speicherung in Europa (Amsterdam). Diese Daten sind serverseitig verschlüsselt (SSE) und werden täglich auf meinem persönlichen Computer gesichert, der ebenfalls verschlüsselt ist.
-- **Konformität**: Backblaze hält sich an das EU-U.S. Data Privacy Framework und bietet DPAs für europäische Kunden an.
-- **Mehr Infos**: [DSGVO-Richtlinie Backblaze](https://www.backblaze.com/company/policy/gdpr)
+## Was verarbeitet wird {#processing}
 
-### Postmark
-- **Rolle**: Versand von Transaktions-E-Mails ([E-Mail-Vorlagen](/mail_templates)) sowie [Newslettern](/handbook/newsletters) (Broadcast) an CSA Admin-Nutzer.
-- **Konformität**: Verwaltet von ActiveCampaign, erfüllt Postmark die DSGVO und stellt DPAs zur Sicherstellung des Datenschutzes bereit.
-- **Mehr Infos**: [DSGVO bei Postmark/ActiveCampaign](https://www.postmarkapp.com/eu-privacy)
+Der Dienst umfasst Mitglieder und Mitgliedschaften, die Warteliste, Lieferungen, Abwesenheiten, Aktivitäten, den Hofladen, die Rechnungsstellung, Zahlungen (einschliesslich SEPA), E-Mails an Mitglieder und Admin-Konten.
 
-### AppSignal
-- **Rolle**: Überwachung der Leistung der CSA Admin-Anwendung, Sammlung von Metriken und Analyse von Logs, um technische Probleme schnell zu erkennen und zu beheben. Die gesendeten Daten sind anonymisiert und enthalten keine persönlichen Informationen.
-- **Konformität**: AppSignal entspricht der DSGVO und bietet DPAs für seine Kunden an.
-- **Mehr Infos**: [Datenschutzrichtlinie AppSignal](https://docs.appsignal.com/appsignal/gdpr.html)
+Ich nutze Mitgliederdaten, um den Dienst zu betreiben. Die eine Zahl, die ich daraus nehme, ist die Rechnungssumme, um die Gebühr zu berechnen.
+
+Du entscheidest, was Du einträgst. Freitextfelder, etwa Essensnotizen, können Gesundheitsdaten enthalten. Wenn Du solche Daten erfasst, brauchst Du eine Rechtsgrundlage (eine ausdrückliche Einwilligung, zum Beispiel) und Du hältst sie kurz.
+
+Du kannst Deine Daten jederzeit aus der Anwendung exportieren. Auf Anfrage kann ich auch eine Kopie des letzten Backups schicken.
+
+Die [Löschung eines Mitglieds](/handbook/right_to_be_forgotten) hat zwei Phasen: Der Zugang wird sofort gesperrt, danach werden personenbezogene Daten nach 30 Tagen anonymisiert. Rechnungen, Zahlungen und SEPA-Mandate bleiben, weil Du sie in der Regel aufbewahren musst. Du bestimmst die Aufbewahrungsfristen. Ist eine Frist abgelaufen, kannst Du mich bitten, diese Unterlagen zu löschen.
+
+Am Ende des Dienstes kannst Du innerhalb von 30 Tagen einen vollständigen Export verlangen. Danach werden Datenbank, Anhänge und Backup-Kopien gelöscht. Gesetzlich vorgeschriebene Unterlagen bewahrst Du ausserhalb von CSA Admin auf. Die Einzelheiten stehen im [DPA, Abschnitt 10](https://csa-admin.org/dpa).
+
+## Wo Daten liegen {#storage}
+
+Die Anwendung und ihre Datenbanken laufen in Deutschland (Nürnberg), bei [Hetzner](https://www.hetzner.com). Jede Organisation hat eine eigene Datenbank. Anhänge und Datenbank-Backups liegen in der EU, sind im Ruhezustand verschlüsselt und werden täglich auf meinen verschlüsselten Computer in der Schweiz kopiert. Änderungen an der Datenbank werden laufend kopiert und einige Tage aufbewahrt. Ein Ausfall kann bis zu einer Stunde Änderungen kosten.
+
+Der gesamte Verkehr ist verschlüsselt (HTTPS). Die Anmeldung läuft über einen Einmalcode oder einen Link per E-Mail. Ich speichere keine Passwörter.
+
+Die Schweiz hat einen Angemessenheitsbeschluss der Europäischen Kommission. Cloudflare, Backblaze und Postmark sind US-Unternehmen. Übermittlungen an sie stützen sich auf das EU-U.S. und das Swiss-U.S. Data Privacy Framework oder auf die Standardvertragsklauseln in ihren Verträgen. Die vollständige Liste, die Orte und die Garantien stehen in [DPA-Anhang 2](https://csa-admin.org/dpa).
+
+## Eingesetzte Dienste {#services}
+
+| Dienst | Aufgabe | Ort |
+| --- | --- | --- |
+| [Hetzner](https://www.hetzner.com/legal/privacy-policy) | Anwendung und Datenbanken | Nürnberg, Deutschland |
+| [Cloudflare](https://www.cloudflare.com/trust-hub/gdpr/) | Reverse-Proxy und TLS. Der gesamte Webverkehr läuft darüber. | Cloudflare-Netz. EU-Verkehr wird in der Regel in Europa verarbeitet. |
+| [Cloudflare R2](https://www.cloudflare.com/trust-hub/gdpr/) | Hochgeladene Anhänge, im Ruhezustand verschlüsselt | Osteuropa |
+| [Backblaze B2](https://www.backblaze.com/company/policy/gdpr) | Datenbank-Backups, im Ruhezustand verschlüsselt | Amsterdam |
+| [Postmark](https://www.postmarkapp.com/eu-privacy) (ActiveCampaign) | Transaktions-E-Mails und Newsletter. Inhalt und Protokolle werden 45 Tage aufbewahrt. | USA |
+| [AppSignal](https://docs.appsignal.com/appsignal/gdpr.html) | Leistungs- und Fehlerüberwachung. Bekannte personenbezogene Felder werden vor dem Senden herausgefiltert. Sitzungsdaten werden nicht gesendet. Eine Fehlermeldung kann trotzdem personenbezogene Daten enthalten. Traces werden höchstens 60 Tage aufbewahrt. | Niederlande |
+
+Support und Entwicklung nutzen ausserdem interne Werkzeuge, etwa das Support-Postfach und KI-Assistenten. Das sind keine Dienste, die die Anwendung aufruft. Die aktuelle Liste steht in [DPA-Anhang 2](https://csa-admin.org/dpa).
+
+Eine Support-E-Mail oder ein Screenshot kann personenbezogene Daten enthalten. Für eine Mitgliederliste oder einen anderen grossen Transfer bitte mich um einen verschlüsselten Kanal, statt sie im Klartext zu schicken. Diese Dateien lösche ich, sobald die Anfrage erledigt ist.
+
+EBICS verbindet CSA Admin mit Deiner Bank. Deine Bank ist kein Unterauftragsverarbeiter von CSA Admin.
+
+Ich schreibe Dir mindestens 30 Tage, bevor ich einen Dienst hinzufüge oder ersetze. Du kannst innerhalb von 14 Tagen aus Datenschutzgründen widersprechen. Finden wir keine Lösung, kannst Du den Dienst zum Zeitpunkt der Änderung beenden.
+
+## Wenn etwas schiefgeht {#breaches}
+
+Nach einer Verletzung des Schutzes personenbezogener Daten kontaktiere ich die E-Mail der Organisation und die E-Mails der [Super Admins](/handbook/permissions#super-admin) innerhalb von 48 Stunden, nachdem ich davon erfahren habe. Du informierst Deine Aufsichtsbehörde und die betroffenen Personen.
+
+Schreibt mir ein Mitglied direkt wegen seiner Daten, leite ich die Anfrage an Dich weiter.
+
+Bin ich lange nicht erreichbar, verwahren Vertrauenspersonen versiegelte Anweisungen. Sie können den Dienst weiterbetreiben oder Dir Deine Daten übergeben. Vorher haben sie keinen Zugriff auf die Daten, und sie behalten die Anweisungen für sich.
 
 ---
 
-Siehe auch: [Recht auf Vergessenwerden](/handbook/right_to_be_forgotten) – DSGVO-konforme Mitgliederlöschung und Datenanonymisierung.
+Der [Quellcode ist öffentlich](https://github.com/csa-admin-org/csa-admin). Du kannst nachsehen, wie die Anwendung mit Daten umgeht.
+
+Siehe auch: [Recht auf Vergessenwerden](/handbook/right_to_be_forgotten), zum Ablauf der Mitgliederlöschung.

@@ -2,6 +2,8 @@
 
 CSA Admin bietet einen zweiphasigen Löschprozess für Mitglieder, der sowohl der [DSGVO](https://commission.europa.eu/law/law-topic/data-protection_de) (EU) als auch dem [nDSG](https://www.kmu.admin.ch/kmu/de/home/fakten-trends/digitalisierung/datenschutz/neues-datenschutzgesetz-ndsg.html) (Schweiz) entspricht. Dies ermöglicht es den Mitgliedern, ihr Recht auf Vergessenwerden auszuüben, während gesetzlich vorgeschriebene Finanzdokumente erhalten bleiben.
 
+Du bist die verantwortliche Stelle für die Daten Deiner Mitglieder. Du bearbeitest die Anfrage in der Anwendung. Schreibt mir ein Mitglied, leite ich sie an Dich weiter. Was nach der Anonymisierung bleibt, und was mit den Daten am Ende des Dienstes passiert, steht im [Auftragsverarbeitungsvertrag (DPA)](https://csa-admin.org/dpa).
+
 ## Funktionsweise {#how-it-works}
 
 Der Löschprozess besteht aus zwei unterschiedlichen Phasen:
@@ -34,7 +36,7 @@ Nach 30 Tagen werden die personenbezogenen Daten automatisch und unwiderruflich 
 
 **Daten, die erhalten bleiben:**
 
-- [Rechnungen](/handbook/billing) und ihre PDF-Anhänge (erforderlich für Buchhaltung/Steuerzwecke)
+- [Rechnungen](/handbook/billing) und ihre PDF-Anhänge (Buchhaltungsunterlagen, die Du in der Regel aufbewahren musst)
 - Zahlungsaufzeichnungen
 - Abonnementverlauf (für statistische Zwecke)
 - [Aktivitätsteilnahmen](/handbook/activity#participations) (mit entfernten persönlichen Notizen)
@@ -79,6 +81,8 @@ Der gleiche zweiphasige Prozess gilt: sofortige Zugriffssperrung, dann Anonymisi
 ## Wichtige Hinweise {#important-notes}
 
 - **Anonymisierung ist unwiderruflich** – nach Ablauf der 30-Tage-Frist können personenbezogene Daten nicht wiederhergestellt werden
-- **Rechnungen werden aufbewahrt** – Schweizer und europäisches Recht verlangen die Aufbewahrung von Rechnungen für bis zu 10 Jahre für Steuerzwecke
+- **Buchhaltungsunterlagen bleiben** – Rechnungen, Zahlungen und SEPA-Mandate werden durch die Anonymisierung nicht entfernt. Du bestimmst die Aufbewahrungsfristen (oft 10 Jahre in der Schweiz; 6, 8 oder 10 Jahre in Deutschland, je nach Dokument). Ist eine Frist abgelaufen, kannst Du mich bitten, diese Unterlagen zu löschen.
+- **Sie bleiben nur, solange Du den Dienst nutzt** – am Ende des Dienstes kannst Du innerhalb von 30 Tagen einen vollständigen Export verlangen. Danach werden Datenbank, Anhänge und Backups gelöscht. Diese Unterlagen bewahrst Du ausserhalb von CSA Admin auf. Siehe [DPA, Abschnitt 10](https://csa-admin.org/dpa).
+- **Backups sind kurz** – in der Anwendung gelöschte oder anonymisierte Daten verlassen den Backup-Speicher innerhalb weniger Tage. Die Löschung eines Mitglieds ist erst nach der 30-Tage-Frist abgeschlossen.
 - **Historische Statistiken bleiben gültig** – anonymisierte Mitglieder werden weiterhin in Abonnement- und Lieferstatistiken gezählt
 - **Exportsicherheit** – Exporte (CSV, XLSX, PDF) zeigen keine Mitglieder-IDs für anonymisierte Mitglieder an

@@ -1,34 +1,62 @@
-# Third-Party Services and Compliance
+# Data protection
 
-To ensure its proper functioning, security, and performance, CSA Admin uses specialized third-party services. These partners play a key role in hosting, storage, backup, communication, and monitoring of the application. Each service is selected for its reliability and compliance with the requirements of the **General Data Protection Regulation (GDPR)** of the European Union as well as applicable Swiss legislation.
-<br><br>
-Below is a detailed list of these services, their role in the CSA Admin infrastructure, and links to their privacy policies or GDPR commitments.
+CSA Admin is a hosted service. Your organization is the controller of your members' data. I host the application and process that data on your behalf, under the [GDPR](https://commission.europa.eu/law/law-topic/data-protection_en) (EU) and the [nFADP](https://www.kmu.admin.ch/kmu/en/home/facts-and-trends/digitization/data-protection/new-federal-act-on-data-protection-nfadp.html) (Switzerland).
 
-### Hetzner
-- **Role**: Hosting of the main CSA Admin server, located in Germany (Nuremberg). This is where the application runs and the SQLite databases are stored.
-- **Compliance**: Hetzner complies with GDPR requirements and offers data processing agreements (DPAs) upon request.
-- **More Info**: [Hetzner Privacy Policy](https://www.hetzner.com/legal/privacy-policy), [Sustainability at Hetzner](https://www.hetzner.com/unternehmen/nachhaltigkeit)
+The contract is the [Terms of Service](https://csa-admin.org/terms) and the [Data Processing Agreement](https://csa-admin.org/dpa) (DPA). Accepting the Terms concludes the DPA. If we have signed a DPA, the signed copy applies instead. This page summarizes them. The English version prevails.
 
-### Cloudflare R2
-- **Role**: Storage of attachments uploaded to CSA Admin (such as documents or images) on an object storage solution based in Central Europe. This data is encrypted server-side (SSE) and backed up daily on my personal computer, which is also encrypted.
-- **Compliance**: Cloudflare commits to GDPR compliance through DPAs and secure practices.
-- **More Info**: [Cloudflare and GDPR](https://www.cloudflare.com/trust-hub/gdpr/)
+Fees, support, notice periods, and liability are in the Terms. The privacy policy and the rules your members accept on the [registration form](/handbook/registration#documents) are yours, not these documents.
 
-### Backblaze B2
-- **Role**: Backup of CSA Admin databases via the [Litestream](https://litestream.io) tool, with storage located in Europe (Amsterdam). This data is encrypted server-side (SSE) and backed up daily on my personal computer, which is also encrypted.
-- **Compliance**: Backblaze adheres to the EU-U.S. Data Privacy Framework and offers DPAs for European clients.
-- **More Info**: [Backblaze GDPR Policy](https://www.backblaze.com/company/policy/gdpr)
+## What is processed {#processing}
 
-### Postmark
-- **Role**: Sending transactional emails ([email templates](/mail_templates)) as well as [newsletters](/handbook/newsletters) (broadcast) to CSA Admin users.
-- **Compliance**: Managed by ActiveCampaign, Postmark complies with GDPR and provides DPAs to ensure data protection.
-- **More Info**: [GDPR at Postmark/ActiveCampaign](https://www.postmarkapp.com/eu-privacy)
+The service covers members and memberships, the waiting list, deliveries, absences, activities, the shop, invoicing, payments (including SEPA), emails to members, and admin accounts.
 
-### AppSignal
-- **Role**: Monitoring of CSA Admin application performance, collecting metrics, and analyzing logs to quickly detect and resolve technical issues. The data sent is anonymized and contains no personal information.
-- **Compliance**: AppSignal complies with GDPR and offers DPAs for its clients.
-- **More Info**: [AppSignal Privacy Policy](https://docs.appsignal.com/appsignal/gdpr.html)
+I use member data to run the service. The one figure I take from it is the invoice total, to calculate the fee.
+
+You decide what you enter. Free-text fields, such as food notes, can contain health data. If you record that, you need a legal basis (explicit consent, for example) and you keep it short.
+
+You can export your data at any time from the application. On request, I can also send a copy of the latest backup.
+
+[Member deletion](/handbook/right_to_be_forgotten) has two phases: access is revoked immediately, then personal data is anonymized after 30 days. Invoices, payments, and SEPA mandates stay, because you generally have to keep them. You decide the retention periods. Once a period has expired, you can ask me to delete those records.
+
+When the service ends, you can request a full export within 30 days. After that, the database, attachments, and backup copies are deleted. The records the law requires you to keep stay outside CSA Admin. Details are in the [DPA, section 10](https://csa-admin.org/dpa).
+
+## Where data is stored {#storage}
+
+The application and its databases run in Germany (Nuremberg), on [Hetzner](https://www.hetzner.com). Each organization has its own database. Attachments and database backups are stored in the EU, encrypted at rest, and copied daily to my encrypted computer in Switzerland. Database changes are copied continuously and kept for a few days. A disaster can lose up to one hour of changes.
+
+All traffic is encrypted (HTTPS). Logins use a one-time code or link sent by email. I store no passwords.
+
+Switzerland has an adequacy decision from the European Commission. Cloudflare, Backblaze, and Postmark are US companies. Transfers to them rely on the EU-U.S. and Swiss-U.S. Data Privacy Framework, or on the Standard Contractual Clauses in their agreements. The full list, locations, and safeguards are in [DPA annex 2](https://csa-admin.org/dpa).
+
+## Services used {#services}
+
+| Service | Role | Location |
+| --- | --- | --- |
+| [Hetzner](https://www.hetzner.com/legal/privacy-policy) | Application and databases | Nuremberg, Germany |
+| [Cloudflare](https://www.cloudflare.com/trust-hub/gdpr/) | Reverse proxy and TLS. All web traffic goes through it. | Cloudflare's network. EU traffic is normally handled in Europe. |
+| [Cloudflare R2](https://www.cloudflare.com/trust-hub/gdpr/) | Uploaded attachments, encrypted at rest | Eastern Europe |
+| [Backblaze B2](https://www.backblaze.com/company/policy/gdpr) | Database backups, encrypted at rest | Amsterdam |
+| [Postmark](https://www.postmarkapp.com/eu-privacy) (ActiveCampaign) | Transactional emails and newsletters. Content and logs are kept 45 days. | USA |
+| [AppSignal](https://docs.appsignal.com/appsignal/gdpr.html) | Performance and error monitoring. Known personal data fields are filtered out before sending. Session data is not sent. An error message can still contain personal data. Traces are kept at most 60 days. | Netherlands |
+
+Support and development also use internal tools, such as the support mailbox and AI assistants. They are not services the application calls. The current list is in [DPA annex 2](https://csa-admin.org/dpa).
+
+A support email or screenshot can contain personal data. For a member list or another large transfer, ask me for an encrypted channel instead of sending it in plain email. I delete those files once the request is done.
+
+EBICS connects CSA Admin to your bank. Your bank is not a sub-processor of CSA Admin.
+
+I will email you at least 30 days before adding or replacing a service. You can object on data protection grounds within 14 days. If we find no solution, you can end the service when the change takes effect.
+
+## If something goes wrong {#breaches}
+
+After a personal data breach, I contact the organization email and the [Super Admin](/handbook/permissions#super-admin) emails within 48 hours of learning about it. You notify your supervisory authority and the people affected.
+
+If a member writes to me directly about their data, I forward the request to you.
+
+If I am unavailable for a long time, trusted persons hold sealed instructions. They can keep the service running, or hand your data over. They have no access to the data until then, and they keep those instructions confidential.
 
 ---
 
-See also: [Right to be Forgotten](/handbook/right_to_be_forgotten) – GDPR-compliant member deletion and data anonymization.
+The [source code is public](https://github.com/csa-admin-org/csa-admin), so you can see how the application handles data.
+
+See also: [Right to be Forgotten](/handbook/right_to_be_forgotten), for how member deletion works.

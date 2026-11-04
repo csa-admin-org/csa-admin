@@ -1,34 +1,62 @@
-# Diensten van derden en naleving
+# Gegevensbescherming
 
-Om een goede werking, beveiliging en prestaties te garanderen, gebruikt CSA Admin gespecialiseerde diensten van derden. Deze partners spelen een sleutelrol bij het hosten, opslaan, back-uppen, communiceren en monitoren van de applicatie. Elke dienst is gekozen vanwege zijn betrouwbaarheid en naleving van de vereisten van de **Algemene Verordening Gegevensbescherming (AVG)** van de Europese Unie evenals de toepasselijke Zwitserse wetgeving.
-<br><br>
-Hieronder staat een gedetailleerde lijst van deze diensten, hun rol in de CSA Admin infrastructuur, en links naar hun privacybeleid of AVG-verplichtingen.
+CSA Admin is een gehoste dienst. Je organisatie is verwerkingsverantwoordelijke voor de gegevens van je leden. Ik host de applicatie en verwerk die gegevens in jouw opdracht, onder de [AVG](https://commission.europa.eu/law/law-topic/data-protection_nl) (EU) en de Zwitserse gegevensbeschermingswet.
 
-### Hetzner
-- **Rol**: Hosting van de hoofdserver van CSA Admin, gelokaliseerd in Duitsland (Neurenberg). Hier draait de applicatie en worden de SQLite databases opgeslagen.
-- **Naleving**: Hetzner voldoet aan AVG-vereisten en biedt op verzoek verwerkersovereenkomsten (DPA's) aan.
-- **Meer info**: [Hetzner Privacybeleid](https://www.hetzner.com/legal/privacy-policy), [Duurzaamheid bij Hetzner](https://www.hetzner.com/unternehmen/nachhaltigkeit)
+Het contract zijn de [gebruiksvoorwaarden (Terms of Service)](https://csa-admin.org/terms) en de [verwerkersovereenkomst (DPA)](https://csa-admin.org/dpa). Het aanvaarden van de voorwaarden sluit de DPA. Als we een DPA hebben ondertekend, geldt het ondertekende exemplaar. Deze pagina vat ze samen. De Engelse versie prevaleert.
 
-### Cloudflare R2
-- **Rol**: Opslag van bijlagen geüpload naar CSA Admin (zoals documenten of afbeeldingen) op een objectopslagoplossing gebaseerd in Centraal-Europa. Deze gegevens zijn server-side versleuteld (SSE) en worden dagelijks geback-upt op mijn persoonlijke computer, die ook is versleuteld.
-- **Naleving**: Cloudflare verbindt zich tot AVG-naleving via DPA's en veilige praktijken.
-- **Meer info**: [Cloudflare en AVG](https://www.cloudflare.com/trust-hub/gdpr/)
+Tarieven, support, opzegtermijnen en aansprakelijkheid staan in de voorwaarden. Het privacybeleid en de regels die je leden aanvaarden op het [registratieformulier](/handbook/registration#documents) zijn van jou, niet deze documenten.
 
-### Backblaze B2
-- **Rol**: Back-up van CSA Admin databases via de [Litestream](https://litestream.io) tool, met opslag gelokaliseerd in Europa (Amsterdam). Deze gegevens zijn server-side versleuteld (SSE) en worden dagelijks geback-upt op mijn persoonlijke computer, die ook is versleuteld.
-- **Naleving**: Backblaze houdt zich aan het EU-VS Gegevensprivacy Framework en biedt DPA's voor Europese klanten.
-- **Meer info**: [Backblaze AVG-beleid](https://www.backblaze.com/company/policy/gdpr)
+## Wat er wordt verwerkt {#processing}
 
-### Postmark
-- **Rol**: Verzending van transactionele e-mails ([e-mailsjablonen](/mail_templates)) evenals [nieuwsbrieven](/handbook/newsletters) (broadcast) naar CSA Admin gebruikers.
-- **Naleving**: Beheerd door ActiveCampaign, Postmark voldoet aan AVG en biedt DPA's om gegevensbescherming te waarborgen.
-- **Meer info**: [AVG bij Postmark/ActiveCampaign](https://www.postmarkapp.com/eu-privacy)
+De dienst dekt leden en lidmaatschappen, de wachtlijst, leveringen, afwezigheden, activiteiten, de winkel, facturering, betalingen (inclusief SEPA), e-mails aan leden en adminaccounts.
 
-### AppSignal
-- **Rol**: Monitoring van CSA Admin applicatieprestaties, verzamelen van metrieken en analyseren van logs om technische problemen snel te detecteren en op te lossen. De verzonden gegevens zijn geanonimiseerd en bevatten geen persoonlijke informatie.
-- **Naleving**: AppSignal voldoet aan AVG en biedt DPA's voor zijn klanten.
-- **Meer info**: [AppSignal Privacybeleid](https://docs.appsignal.com/appsignal/gdpr.html)
+Ik gebruik ledendata om de dienst te draaien. Het ene cijfer dat ik eruit haal is het factuurtotaal, om de vergoeding te berekenen.
+
+Jij beslist wat je invoert. Vrije tekstvelden, zoals voedingsnotities, kunnen gezondheidsgegevens bevatten. Als je die vastlegt, heb je een rechtsgrond nodig (uitdrukkelijke toestemming, bijvoorbeeld) en houd je het kort.
+
+Je kunt je gegevens op elk moment uit de applicatie exporteren. Op verzoek kan ik ook een kopie van de laatste back-up sturen.
+
+[Een lid verwijderen](/handbook/right_to_be_forgotten) gebeurt in twee fasen: de toegang wordt meteen ingetrokken, daarna worden persoonsgegevens na 30 dagen geanonimiseerd. Facturen, betalingen en SEPA-mandaten blijven, omdat je die doorgaans moet bewaren. Jij bepaalt de bewaartermijnen. Is een termijn verstreken, dan kun je me vragen die stukken te verwijderen.
+
+Aan het einde van de dienst kun je binnen 30 dagen een volledige export vragen. Daarna worden de database, bijlagen en back-upkopieën verwijderd. Wat de wet je verplicht te bewaren, bewaar je buiten CSA Admin. De details staan in de [DPA, sectie 10](https://csa-admin.org/dpa).
+
+## Waar gegevens staan {#storage}
+
+De applicatie en de databases draaien in Duitsland (Neurenberg), bij [Hetzner](https://www.hetzner.com). Elke organisatie heeft een eigen database. Bijlagen en databaseback-ups staan in de EU, versleuteld in rust, en worden dagelijks gekopieerd naar mijn versleutelde computer in Zwitserland. Databasewijzigingen worden continu gekopieerd en een paar dagen bewaard. Een incident kan tot een uur aan wijzigingen kosten.
+
+Al het verkeer is versleuteld (HTTPS). Inloggen gebeurt met een eenmalige code of link per e-mail. Ik sla geen wachtwoorden op.
+
+Zwitserland heeft een adequaatheidsbesluit van de Europese Commissie. Cloudflare, Backblaze en Postmark zijn Amerikaanse bedrijven. Doorgiften daarnaartoe steunen op het EU-U.S. en Swiss-U.S. Data Privacy Framework, of op de standaardcontractbepalingen in hun overeenkomsten. De volledige lijst, locaties en waarborgen staan in [DPA-bijlage 2](https://csa-admin.org/dpa).
+
+## Gebruikte diensten {#services}
+
+| Dienst | Rol | Locatie |
+| --- | --- | --- |
+| [Hetzner](https://www.hetzner.com/legal/privacy-policy) | Applicatie en databases | Neurenberg, Duitsland |
+| [Cloudflare](https://www.cloudflare.com/trust-hub/gdpr/) | Reverse proxy en TLS. Al het webverkeer gaat erdoor. | Cloudflare-netwerk. EU-verkeer wordt normaal in Europa afgehandeld. |
+| [Cloudflare R2](https://www.cloudflare.com/trust-hub/gdpr/) | Geüploade bijlagen, versleuteld in rust | Oost-Europa |
+| [Backblaze B2](https://www.backblaze.com/company/policy/gdpr) | Databaseback-ups, versleuteld in rust | Amsterdam |
+| [Postmark](https://www.postmarkapp.com/eu-privacy) (ActiveCampaign) | Transactionele e-mails en nieuwsbrieven. Inhoud en logs worden 45 dagen bewaard. | VS |
+| [AppSignal](https://docs.appsignal.com/appsignal/gdpr.html) | Prestatie- en foutmonitoring. Bekende persoonsgegevensvelden worden voor het verzenden gefilterd. Sessiegegevens worden niet meegestuurd. Een foutmelding kan nog persoonsgegevens bevatten. Traces worden hoogstens 60 dagen bewaard. | Nederland |
+
+Support en ontwikkeling gebruiken ook interne tools, zoals de supportpostbus en AI-assistenten. Dat zijn geen diensten die de applicatie aanroept. De actuele lijst staat in [DPA-bijlage 2](https://csa-admin.org/dpa).
+
+Een supportmail of screenshot kan persoonsgegevens bevatten. Voor een ledenlijst of een andere grote overdracht: vraag me een versleuteld kanaal in plaats van het in gewone e-mail te sturen. Die bestanden verwijder ik zodra het verzoek af is.
+
+EBICS koppelt CSA Admin aan je bank. Je bank is geen subverwerker van CSA Admin.
+
+Ik mail je minstens 30 dagen voordat ik een dienst toevoeg of vervang. Je kunt binnen 14 dagen bezwaar maken op grond van gegevensbescherming. Vinden we geen oplossing, dan kun je de dienst beëindigen op het moment van de wijziging.
+
+## Als er iets misgaat {#breaches}
+
+Na een inbreuk op persoonsgegevens neem ik binnen 48 uur nadat ik ervan weet contact op met het e-mailadres van de organisatie en de e-mailadressen van de [Super Admins](/handbook/permissions#super-admin). Jij informeert je toezichthoudende autoriteit en de betrokkenen.
+
+Schrijft een lid mij rechtstreeks over zijn gegevens, dan stuur ik dat verzoek naar jou door.
+
+Ben ik lang niet beschikbaar, dan bewaren vertrouwenspersonen verzegelde instructies. Zij kunnen de dienst laten doorlopen, of je gegevens overdragen. Tot dan hebben ze geen toegang tot de gegevens, en ze houden die instructies voor zich.
 
 ---
 
-Zie ook: [Recht om vergeten te worden](/handbook/right_to_be_forgotten) – AVG-conforme verwijdering en anonimisering van ledengegevens.
+De [broncode is openbaar](https://github.com/csa-admin-org/csa-admin), zodat je kunt zien hoe de applicatie met gegevens omgaat.
+
+Zie ook: [Recht om vergeten te worden](/handbook/right_to_be_forgotten), voor hoe het verwijderen van een lid werkt.
