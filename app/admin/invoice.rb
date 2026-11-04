@@ -237,9 +237,7 @@ ActiveAdmin.register Invoice do
         else
           panel "PDF", icon: "eye", action: icon_file_link(:pdf, pdf_invoice_path(invoice), target: "_blank") do
             div class: "panel-inset" do
-              link_to_invoice_pdf(invoice) do
-                render "invoice_preview", invoice: invoice
-              end
+              render "invoice_preview", invoice: invoice
             end
             text_node payment_matching_note if payment_matching_note
           end
@@ -425,7 +423,10 @@ ActiveAdmin.register Invoice do
   member_action :pdf, method: :get do
     return redirect_to resource_path unless resource.pdf_current?
 
-    redirect_to rails_blob_path(resource.pdf_file, disposition: "inline")
+    send_data resource.pdf_file.download,
+      filename: resource.pdf_file.filename.to_s,
+      type: "application/pdf",
+      disposition: "inline"
   end
 
   member_action :send_email, method: :post do

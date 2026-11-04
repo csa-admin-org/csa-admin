@@ -131,9 +131,7 @@ ActiveAdmin.register Payment do
         if payment.invoice_id?
           panel auto_link(payment.invoice), icon: "eye", action: icon_file_link(:pdf, pdf_invoice_path(payment.invoice), target: "_blank") do
             div class: "panel-inset" do
-              link_to_invoice_pdf(payment.invoice) do
-                render "invoice_preview", invoice: payment.invoice
-              end
+              render "invoice_preview", invoice: payment.invoice
             end
           end
         else

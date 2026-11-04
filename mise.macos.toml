@@ -1,3 +1,2 @@
 [bootstrap.packages]
-"brew:poppler" = "latest"
 "brew:vips" = "latest"

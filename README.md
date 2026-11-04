@@ -66,7 +66,7 @@ Development requirements are managed with [Mise](https://mise.jdx.dev) 2026.7 or
    mise bootstrap
    ```
 
-   This installs libvips and Poppler, the Ruby, Node, and Aube versions declared in `mise.toml`, then runs `bin/setup --skip-server`. On Intel macOS, install libvips and Poppler through Homebrew first because Mise's Brew bootstrap supports Apple Silicon only.
+   This installs libvips, the Ruby, Node, and Aube versions declared in `mise.toml`, then runs `bin/setup --skip-server`. On Intel macOS, install libvips through Homebrew first because Mise's Brew bootstrap supports Apple Silicon only.
 
 4. Update the generated `config/tenant.yml` with your admin and member hostnames.
 5. Start the server:

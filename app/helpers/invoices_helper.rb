@@ -85,17 +85,13 @@ module InvoicesHelper
       invoice.currency_code == LocalCurrency::Radis::CODE
   end
 
-  def link_to_invoice_pdf(invoice, title: "PDF", **options, &block)
+  def link_to_invoice_pdf(invoice, title: "PDF", **options)
     return unless invoice
     return if invoice.processing?
     return unless invoice.pdf_current?
 
     link_to pdf_invoice_path(invoice), **options, title: title, target: "_blank", class: "invoice-pdf-link" do
-      if block
-        block.call
-      else
-        icon("file-down", class: "icon-5")
-      end
+      icon("file-down", class: "icon-5")
     end
   end
 end

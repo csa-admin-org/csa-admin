@@ -52,6 +52,22 @@ class InvoicesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.body, 'data-controller="auto-refresh"'
     assert_select "svg.spinner"
+    assert_select "canvas.invoice-preview-page", count: 0
+  end
+
+  test "show embeds the current invoice PDF" do
+    enable_invoice_pdf
+    invoice = create_other_invoice(amount: 10)
+    login admins(:ultra)
+
+    get invoice_path(invoice)
+
+    assert_response :success
+    assert_select "canvas.invoice-preview-page[data-invoice-preview-target=canvas]"
+    assert_select ".invoice-preview-text", count: 0
+    assert_select "[data-controller=invoice-preview][data-invoice-preview-src-value='#{pdf_invoice_path(invoice)}'][data-invoice-preview-worker-value][data-invoice-preview-script-value]", count: 0
+    assert_select "iframe", count: 0
+    assert_select "img.invoice-preview-page", count: 0
   end
 
   test "invalid update does not enqueue a PDF refresh" do
@@ -121,6 +137,20 @@ class InvoicesControllerTest < ActionDispatch::IntegrationTest
     get pdf_invoice_path(invoice)
 
     assert_redirected_to invoice_path(invoice)
+  end
+
+  test "pdf action serves the current invoice PDF inline" do
+    enable_invoice_pdf
+    invoice = create_other_invoice(amount: 10)
+    login admins(:ultra)
+
+    get pdf_invoice_path(invoice)
+
+    assert_response :success
+    assert_equal "application/pdf", response.media_type
+    assert_includes response.headers["Content-Disposition"], "inline"
+    assert_equal "SAMEORIGIN", response.headers["X-Frame-Options"]
+    assert_equal invoice.pdf_file.download, response.body
   end
 
   test "shop order filter includes a group invoice and does not add a second object" do

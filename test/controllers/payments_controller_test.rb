@@ -60,6 +60,21 @@ class PaymentsControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes response.body, "<th>#{I18n.t("active_admin.resources.organization.bank_connection.health", locale: admins(:super).language)}</th>"
   end
 
+  test "show embeds the linked invoice PDF" do
+    enable_invoice_pdf
+    invoice = create_other_invoice(amount: 10)
+    payment = create_payment(member: invoice.member, invoice: invoice, amount: 10)
+    login admins(:ultra)
+
+    get payment_path(payment)
+
+    assert_response :success
+    assert_select "canvas.invoice-preview-page[data-invoice-preview-target=canvas]"
+    assert_select ".invoice-preview-text", count: 0
+    assert_select "[data-controller=invoice-preview][data-invoice-preview-src-value='#{pdf_invoice_path(invoice)}'][data-invoice-preview-worker-value][data-invoice-preview-script-value]", count: 0
+    assert_select "iframe", count: 0
+  end
+
   private
 
   def h005_payment_settings
