@@ -1,6 +1,9 @@
 name: Deploy
 
 on:
+  # Production deploy after CI on master. Job requires this repo, a successful
+  # same-repo workflow_run, and checks out head_sha with persist-credentials: false.
+  # jactionlint ignore=dangerous-triggers
   workflow_run:
     workflows: [CI]
     types: [completed]
@@ -42,24 +45,22 @@ jobs:
           fi
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
           persist-credentials: false
 
       - name: Setup Ruby
-        uses: jdx/mise-action@v4
+        uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5.2.6
         env:
           MISE_AQUA_GITHUB_ATTESTATIONS: false
-          MISE_DISABLE_TOOLS: node,aube,actionlint
+          MISE_DISABLE_TOOLS: node,aube,jactionlint,shellcheck
 
       - name: Install Kamal
-        run: |
-          kamal_version="$(awk '/^    kamal \(/ { gsub(/[()]/, "", $2); print $2; exit }' Gemfile.lock)"
-          gem install kamal -v "$kamal_version"
+        run: bundle install --frozen
 
       - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.10.0
+        uses: webfactory/ssh-agent@e83874834305fe9a4a2997156cb26c5de65a8555 # v0.10.0
         with:
           ssh-private-key: ${{ secrets.KAMAL_SSH_PRIVATE_KEY }}
 
@@ -78,4 +79,4 @@ jobs:
       - name: Deploy
         run: |
           echo "Deploying $(git rev-parse HEAD)"
-          kamal deploy
+          bundle exec kamal deploy

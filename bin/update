@@ -3,6 +3,7 @@
 
 require "fileutils"
 require "json"
+require "tempfile"
 
 APP_ROOT = File.expand_path("..", __dir__)
 HERB_NPM_PACKAGES = %w[@herb-tools/linter @herb-tools/formatter].freeze
@@ -21,6 +22,29 @@ def gemfile_cooldown
   # Pass the Gemfile value so a user-level cooldown cannot change this update.
   File.read("Gemfile")[/^source\s+".*",\s*cooldown:\s*(\d+)\s*$/, 1] or
     abort "Could not read source cooldown from Gemfile"
+end
+
+def update_github_actions!(cooldown)
+  # pinact updates SHA pins to the newest release at least `cooldown` days old.
+  # Config min_age filters candidates. CLI --min-age also verifies current pins
+  # and exits 2 when one is still inside the window, which would abort this
+  # script after it had just written that pin.
+  config = nil
+  config = Tempfile.create([ "pinact", ".yaml" ])
+  config.write(<<~YAML)
+    version: 3
+    min_age:
+      value: #{cooldown}
+  YAML
+  config.flush
+
+  system! "mise", "install", "pinact"
+  system! "mise", "exec", "--", "pinact", "run", "--update", "-c", config.path
+ensure
+  if config
+    config.close
+    File.unlink(config.path)
+  end
 end
 
 def sync_dockerfile_ruby!
@@ -125,10 +149,13 @@ FileUtils.chdir APP_ROOT do
   puts "\n== Upgrading mise tools =="
   system! "mise", "upgrade"
 
+  cooldown = gemfile_cooldown
+  puts "\n== Updating GitHub Actions (cooldown: #{cooldown} days) =="
+  update_github_actions!(cooldown)
+
   puts "\n== Syncing Dockerfile Ruby version =="
   sync_dockerfile_ruby!
 
-  cooldown = gemfile_cooldown
   puts "\n== Updating gems (cooldown: #{cooldown} days) =="
   system! "bundle", "update", "--all", "--cooldown", cooldown
 

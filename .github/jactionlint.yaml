@@ -1,0 +1,3 @@
+# Default is already the implicit profile. State it so a missing file cannot
+# silently fall back, and so the security/policy rules stay on.
+profile: default

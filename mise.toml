@@ -4,7 +4,9 @@ min_version = { hard = "2026.9.9" }
 ruby = "4.0.9"
 node = "latest"
 aube = "latest"
-actionlint = "latest"
+jactionlint = "latest"
+pinact = "latest"
+shellcheck = "latest"
 
 [tasks.bootstrap]
 description = "Install application dependencies and prepare databases"

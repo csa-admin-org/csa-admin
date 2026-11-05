@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "open3"
+
+root = File.expand_path("..", __dir__)
+
+def mise_which(tool)
+  executable, status = Open3.capture2("mise", "which", tool)
+  exit(status.exitstatus || 1) unless status.success?
+
+  executable.strip
+end
+
+Dir.chdir(root) do
+  argv = ARGV.dup
+  version_or_help = argv.intersect?(%w[--version -V --help -h])
+  shellcheck_given = argv.any? { it == "--shellcheck" || it.start_with?("--shellcheck=") }
+  argv.unshift("--shellcheck=#{mise_which("shellcheck")}") unless version_or_help || shellcheck_given
+
+  exec "mise", "exec", "--", mise_which("jactionlint"), *argv
+end

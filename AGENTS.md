@@ -6,7 +6,7 @@ CSA Admin is a multi-tenant Rails app for Community Supported Agriculture organi
 
 - Iterate with filtered `bin/ci` (`-g style|security|tests`, `-s "Style: RuboCop"`, `-f`). Names match `config/ci.rb`.
 - Full tests: `bin/rails test:all` (`acme` tenant). Minitest, Capybara, parallel, WebMock; stub HTTP, no process-global mutable state.
-- Final: `bin/ci`. Single-tool wrappers: `bin/rubocop`, `bin/locales`, `bin/herb`, `bin/jobs check`.
+- Final: `bin/ci`. Single-tool wrappers: `bin/rubocop`, `bin/locales`, `bin/herb`, `bin/jactionlint`, `bin/shellcheck`, `bin/jobs check`.
 - Setup: `mise bootstrap`. Upgrades: `bin/update` (review the diff).
 - `bin/ci` `--group`/`--step` is `config/ci_filter.rb` until upstream Rails has both. Groups themselves are upstream.
 

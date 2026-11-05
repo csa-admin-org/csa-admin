@@ -15,7 +15,7 @@
 CI.run do
   step "Setup", "bin/setup", "--skip-server"
 
-  group "Style", parallel: 8 do
+  group "Style", parallel: 10 do
     step "Style: Locales", "bin/locales", "check"
     step "Style: Herb format", "bin/herb", "format", ".", "--check"
     step "Style: Oxfmt", "bin/oxfmt", "--check"
@@ -23,7 +23,10 @@ CI.run do
     step "Style: Oxlint", "bin/oxlint", "app/javascript"
     step "Style: Stylelint", "bin/stylelint", "app/assets/stylesheets/**/*.css"
     step "Style: Herb lint", "bin/herb", "lint", "."
-    step "Style: Actionlint", "bin/actionlint"
+    step "Style: Jactionlint", "bin/jactionlint"
+    step "Style: Shellcheck", "bin/shellcheck",
+      ".kamal/hooks/pre-deploy",
+      "bin/docker-entrypoint"
     step "Style: Solid Queue", "bin/jobs", "check"
   end
 

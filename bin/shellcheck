@@ -6,7 +6,7 @@ require "open3"
 root = File.expand_path("..", __dir__)
 
 Dir.chdir(root) do
-  executable, status = Open3.capture2("mise", "which", "actionlint")
+  executable, status = Open3.capture2("mise", "which", "shellcheck")
   exit(status.exitstatus || 1) unless status.success?
 
   exec "mise", "exec", "--", executable.strip, *ARGV
