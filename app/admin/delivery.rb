@@ -276,7 +276,21 @@ ActiveAdmin.register Delivery do
     shop_open_for_depot_ids: [],
     basket_complement_ids: []
 
-  batch_action :destroy, if: proc { future_fiscal_year_filter? }
+  # Redeclaring :destroy replaces ActiveAdmin's default handler. A declaration
+  # without a block stores an empty proc, so the POST returns 204 and deletes nothing.
+  batch_action :destroy,
+    confirm: proc { ActiveAdmin::Localizers.resource(active_admin_config).t(:delete_confirmation) },
+    if: proc { authorized?(:batch_action, Delivery) && future_fiscal_year_filter? } do |selection|
+    authorize! :batch_action, Delivery
+
+    deliveries = Delivery.where(id: selection).to_a
+    eligible = deliveries.select { |delivery| authorized?(:destroy, delivery) }
+    authorize! :destroy, deliveries.first if eligible.empty? && deliveries.any?
+
+    eligible.each { |delivery| destroy_resource(delivery) }
+
+    redirect_back fallback_location: collection_path, notice: destroyed_deliveries_notice(eligible)
+  end
 
   batch_action :open_shop, if: proc {
     authorized?(:batch_action, Delivery) && feature?("shop") && (coming_delivery_scope? || future_fiscal_year_filter?)
@@ -319,6 +333,17 @@ ActiveAdmin.register Delivery do
 
     def future_fiscal_year_filter?
       params.dig(:q, :during_year).to_i > Current.fy_year
+    end
+
+    def destroyed_deliveries_notice(deliveries)
+      destroyed = deliveries.count(&:destroyed?)
+      return if destroyed.zero?
+
+      I18n.t(
+        "active_admin.batch_actions.successfully_destroyed",
+        count: destroyed,
+        model: active_admin_config.resource_label.downcase,
+        plural_model: active_admin_config.plural_resource_label(count: destroyed).downcase)
     end
 
     def apply_sorting(chain)
