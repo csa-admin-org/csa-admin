@@ -3,10 +3,6 @@
 module TranslatedRichTexts
   extend ActiveSupport::Concern
 
-  included do
-    after_create :reuse_existing_translated_rich_texts
-  end
-
   class_methods do
     def translated_rich_texts(*texts, required: false)
       texts.each do |text|
@@ -59,28 +55,6 @@ module TranslatedRichTexts
           end
         end
       end
-    end
-  end
-
-  private
-
-  # Demo reset deletes records with delete_all and restarts primary keys, so a
-  # new row can reuse an id that still has a rich text. Autosave would insert a
-  # second row and raise RecordNotUnique. Keep the existing row and let autosave
-  # write the new body into it.
-  def reuse_existing_translated_rich_texts
-    self.class.rich_text_association_names.each do |name|
-      association = association(name)
-      next unless association.loaded?
-
-      draft = association.target
-      next unless draft&.new_record?
-
-      existing = ActionText::RichText.find_by(record: self, name: draft.name)
-      next unless existing
-
-      existing.body = draft.body
-      association.target = existing
     end
   end
 end

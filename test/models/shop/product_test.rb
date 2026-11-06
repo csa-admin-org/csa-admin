@@ -149,45 +149,4 @@ class Shop::ProductTest < ActiveSupport::TestCase
     assert product.reload.discarded?
     assert_equal 2, product.all_variants.discarded.count
   end
-
-  test "create with a French description reuses a rich text row left at that id" do
-    france_org
-    I18n.locale = :fr
-    next_id = Shop::Product.connection.select_value(
-      "SELECT seq FROM sqlite_sequence WHERE name = 'shop_products'"
-    ).to_i + 1
-    orphan = ActionText::RichText.new(
-      record_type: "Shop::Product",
-      record_id: next_id,
-      name: "description_fr",
-      body: "<p>ancien</p>")
-    orphan.save!(validate: false)
-
-    product = Shop::Product.new(
-      name_fr: "Pommes",
-      description_fr: "<p>Des pommes du verger</p>",
-      available: "1",
-      display_in_delivery_sheets: "0",
-      producer_id: "",
-      available_for_depot_ids: [ "", depots(:farm).id.to_s ],
-      available_for_delivery_ids: [ "", deliveries(:thursday_1).id.to_s ],
-      variants_attributes: {
-        "0" => {
-          name_fr: "1 kg",
-          price: "7",
-          stock: "4",
-          weight_in_kg: "",
-          basket_complement_id: "",
-          available: "1"
-        }
-      })
-
-    product.save!
-    assert_equal next_id, product.id
-
-    texts = ActionText::RichText.where(record: product, name: "description_fr")
-    assert_equal 1, texts.count
-    assert_includes texts.sole.to_plain_text, "pommes"
-    assert_not_includes texts.sole.to_plain_text, "ancien"
-  end
 end
