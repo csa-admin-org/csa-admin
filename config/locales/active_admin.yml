@@ -3391,11 +3391,11 @@ _:
             _it: Da richiedere o verificare durante la registrazione EBICS
             _nl: Aanvragen of controleren bij de EBICS-registratie
           bas_html:
-            _en: For Alternative Bank Switzerland (ABS/BAS), follow the <a href="%{handbook_url}">handbook instructions</a> instead. If needed, <a href="%{support_url}">contact me</a>.
-            _fr: Pour la Banque Alternative Suisse (BAS), suivez plutôt les <a href="%{handbook_url}">instructions du manuel</a>. Si besoin, <a href="%{support_url}">contactez-moi</a>.
-            _de: Für die Alternative Bank Schweiz (ABS/BAS) stattdessen den <a href="%{handbook_url}">Anweisungen im Handbuch</a> folgen. Bei Bedarf <a href="%{support_url}">Kontakt aufnehmen</a>.
-            _it: Per Banca Alternativa Svizzera (ABS/BAS), seguite invece le <a href="%{handbook_url}">istruzioni del manuale</a>. Se necessario, <a href="%{support_url}">contattatemi</a>.
-            _nl: Voor Alternative Bank Switzerland (ABS/BAS) in plaats daarvan de <a href="%{handbook_url}">instructies in het handboek</a> volgen. Neem indien nodig <a href="%{support_url}">contact op</a>.
+            _en: Alternative Bank Switzerland (ABS/BAS) keyfile connections are removed on 15 November 2026. Ask ABS now to set up an EBICS connection to replace it. Details are in the <a href="%{handbook_url}">handbook</a>. If needed, <a href="%{support_url}">contact me</a>.
+            _fr: Les connexions par fichier de clés de la Banque Alternative Suisse (BAS) sont retirées le 15 novembre 2026. Demandez dès maintenant à la BAS la mise en place d'une connexion EBICS pour la remplacer. Les détails sont dans le <a href="%{handbook_url}">manuel</a>. Si besoin, <a href="%{support_url}">contactez-moi</a>.
+            _de: Keyfile-Verbindungen der Alternative Bank Schweiz (ABS/BAS) werden am 15. November 2026 entfernt. Die ABS jetzt um die Einrichtung einer EBICS-Verbindung als Ersatz bitten. Details im <a href="%{handbook_url}">Handbuch</a>. Bei Bedarf <a href="%{support_url}">Kontakt aufnehmen</a>.
+            _it: Le connessioni con file di chiave di Banca Alternativa Svizzera (ABS/BAS) vengono rimosse il 15 novembre 2026. Chiedete subito alla BAS di attivare una connessione EBICS per sostituirle. I dettagli sono nel <a href="%{handbook_url}">manuale</a>. Se necessario, <a href="%{support_url}">contattatemi</a>.
+            _nl: Keyfile-verbindingen van Alternative Bank Switzerland (ABS/BAS) worden verwijderd op 15 november 2026. De ABS nu om een EBICS-verbinding ter vervanging vragen. Details staan in het <a href="%{handbook_url}">handboek</a>. Neem indien nodig <a href="%{support_url}">contact op</a>.
           demo_disabled:
             _en: EBICS setup is disabled in demo mode.
             _fr: La mise en place EBICS est désactivée dans le mode démo.
@@ -3546,11 +3546,11 @@ _:
               _nl: Als deze waarden uit het EBICS-contract komen en de fout blijft optreden, neem dan contact op.
         password:
           contract_changed_html:
-            _en: If this contract number no longer matches the bank, <a href="%{support_url}">contact me</a>. The ABS setup must be redone. See the <a href="%{handbook_url}">handbook</a>.
-            _fr: Si ce numéro de contrat ne correspond plus à la banque, <a href="%{support_url}">contactez-moi</a>. La mise en place BAS doit être recommencée. Voir le <a href="%{handbook_url}">manuel</a>.
-            _de: Wenn diese Vertragsnummer nicht mehr zur Bank passt, <a href="%{support_url}">Kontakt aufnehmen</a>. Die ABS-Einrichtung muss neu gestartet werden. Siehe das <a href="%{handbook_url}">Handbuch</a>.
-            _it: Se questo numero di contratto non corrisponde più alla banca, <a href="%{support_url}">contattatemi</a>. La configurazione BAS deve essere rifatta. Consultate il <a href="%{handbook_url}">manuale</a>.
-            _nl: Als dit contractnummer niet meer bij de bank past, <a href="%{support_url}">contact opnemen</a>. De ABS-instelling moet opnieuw. Zie het <a href="%{handbook_url}">handboek</a>.
+            _en: If this contract number no longer matches the bank, <a href="%{support_url}">contact me</a>. The keyfile connection is removed on 15 November 2026. See the <a href="%{handbook_url}">handbook</a>.
+            _fr: Si ce numéro de contrat ne correspond plus à la banque, <a href="%{support_url}">contactez-moi</a>. La connexion par fichier de clés est retirée le 15 novembre 2026. Voir le <a href="%{handbook_url}">manuel</a>.
+            _de: Wenn diese Vertragsnummer nicht mehr zur Bank passt, <a href="%{support_url}">Kontakt aufnehmen</a>. Die Keyfile-Verbindung wird am 15. November 2026 entfernt. Siehe das <a href="%{handbook_url}">Handbuch</a>.
+            _it: Se questo numero di contratto non corrisponde più alla banca, <a href="%{support_url}">contattatemi</a>. La connessione con file di chiave viene rimossa il 15 novembre 2026. Consultate il <a href="%{handbook_url}">manuale</a>.
+            _nl: Als dit contractnummer niet meer bij de bank past, <a href="%{support_url}">contact opnemen</a>. De keyfile-verbinding wordt verwijderd op 15 november 2026. Zie het <a href="%{handbook_url}">handboek</a>.
           fields:
             contract_number:
               _en: Contract number
@@ -4161,11 +4161,11 @@ _:
           _nl: Alle optionele functies zijn geconfigureerd.
         bank_connection:
           bas_html:
-            _en: For Alternative Bank Switzerland (ABS/BAS), follow the <a href="%{handbook_url}">handbook instructions</a>. If needed, <a href="%{support_url}">contact me</a>.
-            _fr: Pour la Banque Alternative Suisse (BAS), suivez les <a href="%{handbook_url}">instructions du manuel</a>. Si besoin, <a href="%{support_url}">contactez-moi</a>.
-            _de: Für die Alternative Bank Schweiz (ABS/BAS) zuerst den <a href="%{handbook_url}">Anweisungen im Handbuch</a> folgen. Bei Bedarf <a href="%{support_url}">Kontakt aufnehmen</a>.
-            _it: Per Banca Alternativa Svizzera (ABS/BAS), seguite prima le <a href="%{handbook_url}">istruzioni del manuale</a>. Se necessario, <a href="%{support_url}">contattatemi</a>.
-            _nl: Voor Alternative Bank Switzerland (ABS/BAS) eerst de <a href="%{handbook_url}">instructies in het handboek</a> volgen. Neem indien nodig <a href="%{support_url}">contact op</a>.
+            _en: Alternative Bank Switzerland (ABS/BAS) keyfile connections are removed on 15 November 2026. Ask ABS now to set up an EBICS connection to replace it. See the <a href="%{handbook_url}">handbook</a>, or <a href="%{support_url}">contact me</a>.
+            _fr: Les connexions par fichier de clés de la Banque Alternative Suisse (BAS) sont retirées le 15 novembre 2026. Demandez dès maintenant à la BAS la mise en place d'une connexion EBICS pour la remplacer. Voir le <a href="%{handbook_url}">manuel</a>, ou <a href="%{support_url}">contactez-moi</a>.
+            _de: Keyfile-Verbindungen der Alternative Bank Schweiz (ABS/BAS) werden am 15. November 2026 entfernt. Die ABS jetzt um die Einrichtung einer EBICS-Verbindung als Ersatz bitten. Siehe <a href="%{handbook_url}">Handbuch</a>, oder <a href="%{support_url}">Kontakt aufnehmen</a>.
+            _it: Le connessioni con file di chiave di Banca Alternativa Svizzera (ABS/BAS) vengono rimosse il 15 novembre 2026. Chiedete subito alla BAS di attivare una connessione EBICS per sostituirle. Vedere il <a href="%{handbook_url}">manuale</a>, o <a href="%{support_url}">contattatemi</a>.
+            _nl: Keyfile-verbindingen van Alternative Bank Switzerland (ABS/BAS) worden verwijderd op 15 november 2026. De ABS nu om een EBICS-verbinding ter vervanging vragen. Zie het <a href="%{handbook_url}">handboek</a>, of neem <a href="%{support_url}">contact op</a>.
           connection:
             _en: Connection
             _fr: Connexion
@@ -5208,6 +5208,12 @@ _:
           _de: Aus öffentlichem Feed entfernen
           _it: Ritirare dal feed pubblico
           _nl: Uit openbare feed halen
+      bas_keyfile_shutdown_html:
+        _en: The Alternative Bank Switzerland keyfile connection is removed on <strong>15 November 2026</strong>. Ask ABS now to set up an EBICS connection to replace it. See the <a href="%{url}">handbook</a>.
+        _fr: La connexion par fichier de clés de la Banque Alternative Suisse est retirée le <strong>15 novembre 2026</strong>. Demandez dès maintenant à la BAS la mise en place d'une connexion EBICS pour la remplacer. Voir le <a href="%{url}">manuel</a>.
+        _de: Die Keyfile-Verbindung der Alternative Bank Schweiz wird am <strong>15. November 2026</strong> entfernt. Die ABS jetzt um die Einrichtung einer EBICS-Verbindung als Ersatz bitten. Siehe <a href="%{url}">Handbuch</a>.
+        _it: La connessione con file di chiave di Banca Alternativa Svizzera viene rimossa il <strong>15 novembre 2026</strong>. Chiedete subito alla BAS di attivare una connessione EBICS per sostituirla. Vedere il <a href="%{url}">manuale</a>.
+        _nl: De keyfile-verbinding van Alternative Bank Switzerland wordt verwijderd op <strong>15 november 2026</strong>. De ABS nu om een EBICS-verbinding ter vervanging vragen. Zie het <a href="%{url}">handboek</a>.
       sidebar_section:
         activity_participation_ical_text_html:
           _en: Feed <a href="https://en.wikipedia.org/wiki/ICalendar">iCalendar</a> containing all upcoming activity participations.

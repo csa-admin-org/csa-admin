@@ -251,7 +251,7 @@ Questa modalità di ridistribuzione è molto comoda e permette così di gestire 
 Il modo più efficiente per elaborare i tuoi pagamenti è chiedere alla tua banca di impostare [una connessione EBICS 3.0](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics). CSA Admin supporta solo EBICS 3.0 (H005/BTF); le vecchie connessioni EBICS 2.x/H003/H004 con tipi d'ordine non sono più supportate. Questo permette al sistema di importare automaticamente ogni notte i pagamenti dei tuoi soci tramite file ISO camt.053/camt.054.
 
 <!-- country:CH -->
-CSA Admin gestisce anche il recupero automatico dei pagamenti della [Banca Alternativa Svizzera (BAS)](https://www.abs.ch/it) che non supporta il sistema EBICS.
+CSA Admin recupera ancora i pagamenti della [Banca Alternativa Svizzera (BAS)](https://www.abs.ch/it) tramite una connessione con file di chiave. Questa connessione viene rimossa il 15 novembre 2026. Chiedi subito alla BAS di attivare una connessione EBICS per sostituirla. [Vedi sotto](#abs-setup).
 <!-- /country:CH -->
 
 > Se hai domande riguardanti il supporto di una banca in particolare o l'impostazione di EBICS, non esitare a [chiedermelo](/support).
@@ -260,7 +260,11 @@ CSA Admin gestisce anche il recupero automatico dei pagamenti della [Banca Alter
 
 L'impostazione di una connessione EBICS 3.0 (H005/BTF) con la tua banca comprende diverse fasi e richiede generalmente alcuni giorni. Ecco il processo:
 
-1. **Richiedere il modulo di iscrizione EBICS alla tua banca** — Contatta la tua banca per chiedere di attivare una connessione EBICS 3.0 (H005/BTF) per il tuo conto con recupero giornaliero dei file di pagamento (`BTD`) e supporto dei formati **camt.053/camt.054**. Chiedi alla banca l'URL EBICS, l'ID host, l'ID cliente/contratto/partner e l'ID partecipante/utente.
+<!-- country:CH -->
+Se la tua banca è Banca Alternativa Svizzera (BAS), la connessione con file di chiave viene rimossa il 15 novembre 2026. Vedi [Banca Alternativa Svizzera](#abs-setup).
+<!-- /country:CH -->
+
+1. **Richiedere il modulo di iscrizione EBICS alla tua banca** — Contatta la tua banca per chiedere di attivare una connessione EBICS 3.0 (H005/BTF) per il tuo conto con recupero giornaliero dei file di pagamento (`BTD`) e supporto dei formati **camt.053/camt.054** (versioni 2009/04 e 2019/08). Chiedi alla banca l'URL EBICS, l'ID host, l'ID cliente/contratto/partner e l'ID partecipante/utente.
 2. **Avviare la configurazione in CSA Admin** — Apri le [impostazioni della connessione bancaria](/settings#bank_connection), clicca su **Avviare la configurazione EBICS** e inserisci gli identificativi del contratto bancario. CSA Admin verifica prima l'URL e l'ID host, poi invia gli ordini di inizializzazione EBICS.
 3. **Firma della lettera INI** — Scarica la lettera di inizializzazione, firma **ogni pagina** e inviala alla tua banca.
 4. **Finalizzazione** — Una volta che la tua banca ha ricevuto e convalidato la lettera INI firmata, CSA Admin verifica una volta al giorno e attiva automaticamente la connessione.
@@ -268,19 +272,11 @@ L'impostazione di una connessione EBICS 3.0 (H005/BTF) con la tua banca comprend
 > Nel frattempo, puoi utilizzare [l'importazione manuale](#manual-import) per elaborare i tuoi pagamenti. Se la banca rifiuta gli identificativi o la configurazione richiede supporto, [chiedimelo](/support).
 
 <!-- country:CH -->
-### Configurazione Banca Alternativa Svizzera (BAS) {#abs-setup}
+### Banca Alternativa Svizzera (BAS) {#abs-setup}
 
-La connessione con la [Banca Alternativa Svizzera (BAS)](https://www.abs.ch/it) utilizza un sistema di file keyfile (file di chiave), poiché non supporta EBICS. Ecco il processo:
+Le connessioni con file di chiave della [Banca Alternativa Svizzera (BAS)](https://www.abs.ch/it) vengono rimosse il **15 novembre 2026**. Chiedi subito alla BAS di attivare una connessione EBICS per sostituirle. CSA Admin supporta già EBICS 3.0; il processo in banca è descritto in [Impostazione di EBICS](#ebics-setup).
 
-1. **Contattare la banca** — Tramite il canale di messaggistica sicura dell'e-banking, richiedere una connessione "keyfile (file di chiave)" per il contratto e-banking esistente (IBXXXXXXX).
-2. **Ricevere il file keyfile** — La banca invierà per email un file keyfile cifrato (formato `.p12`) e la relativa password per posta separata.
-3. **Inviarmi le informazioni** — Una volta ricevuti tutti i dati, trasmettili preferibilmente tramite un canale sicuro con crittografia end-to-end (Signal, Telegram, WhatsApp, iMessage, ...):
-   - Il file keyfile cifrato (formato `.p12`) e la sua password
-   - Il numero di contratto IBXXXXXXX
-   - La password del contratto IBXXXXXXX, uguale a quella dell'e-banking. Da notare che non ho accesso al tuo e-banking — il sistema può recuperare solo i file camt.054 contenenti l'elenco dei pagamenti.
-   - Il numero di conto bancario (XXX.XXX.XXX-XX)
-
-> ⚠️ Se modifichi la password dell'e-banking, un superadmin può aggiornarla dalle [impostazioni della connessione bancaria](/settings#bank_connection). Il recupero dei pagamenti resta in pausa finché la nuova password non funzionerà. Se il numero di contratto IB è cambiato, [contattami](/support): l'intera configurazione con file di chiavi deve essere rifatta.
+Fino a quella data, la connessione con file di chiave continua a importare i pagamenti, e [l'importazione manuale](#manual-import) resta disponibile. A partire da lunedì 16 novembre 2026, una volta ricevute le informazioni per la configurazione EBICS, apri le [impostazioni della connessione bancaria](/settings#bank_connection), clicca su **Avviare la configurazione EBICS** e inserisci gli identificativi della banca (URL EBICS, ID host, ID cliente/contratto/partner e ID partecipante). Per qualsiasi domanda, [chiedimelo](/support).
 <!-- /country:CH -->
 
 ### Importazione manuale {#manual-import}

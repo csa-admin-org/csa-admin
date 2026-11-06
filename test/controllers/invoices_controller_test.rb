@@ -173,4 +173,53 @@ class InvoicesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "a[href='#{invoice_path(invoice)}']"
   end
+
+  test "invoices index warns when the active connection is BAS" do
+    login admins(:super)
+
+    get invoices_path
+
+    assert_response :success
+    assert_select ".admin-warning-pane", text: /keyfile/, count: 0
+
+    create_ready_connection("bas")
+
+    get invoices_path
+
+    assert_response :success
+    assert_select ".admin-page-warning .admin-warning-pane a[href='#{handbook_page_path("billing", anchor: "abs-setup")}']"
+    assert_includes response.body, "15 November 2026"
+
+    BankConnection.delete_all
+    create_ready_connection("ebics", credentials: synthetic_ebics_credentials, settings: h005_payment_settings)
+
+    get invoices_path
+
+    assert_response :success
+    assert_select ".admin-warning-pane", text: /keyfile/, count: 0
+  end
+
+  private
+
+  def create_ready_connection(provider, credentials: { account_number: "389.090.100.04" }, settings: {})
+    BankConnection.create!(
+      provider: provider,
+      active: true,
+      state: "ready",
+      health_status: "healthy",
+      credentials: credentials,
+      settings: settings)
+  end
+
+  def h005_payment_settings
+    {
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
+        }
+      }
+    }
+  end
 end

@@ -58,6 +58,37 @@ class PaymentsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, I18n.t("active_admin.resources.organization.bank_connection.health_status.healthy", locale: admins(:super).language)
     assert_includes response.body, "data-status=\"healthy\""
     assert_not_includes response.body, "<th>#{I18n.t("active_admin.resources.organization.bank_connection.health", locale: admins(:super).language)}</th>"
+    assert_select ".admin-warning-pane", text: /keyfile/, count: 0
+  end
+
+  test "payments index warns when the active connection is BAS and keeps the processing sidebar" do
+    login admins(:super)
+
+    get payments_path
+
+    assert_response :success
+    assert_select ".admin-warning-pane", text: /keyfile/, count: 0
+
+    BankConnection.create!(
+      provider: "bas",
+      active: true,
+      state: "ready",
+      health_status: "healthy",
+      credentials: { account_number: "389.090.100.04" })
+
+    get payments_path
+
+    assert_response :success
+    assert_select ".admin-page-warning .admin-warning-pane a[href='#{handbook_page_path("billing", anchor: "abs-setup")}']"
+    assert_includes response.body, "15 November 2026"
+    assert_includes response.body, I18n.t("active_admin.shared.sidebar_section.automatic_payments_processing", locale: admins(:super).language)
+
+    BankConnection.update_all(active: false)
+
+    get payments_path
+
+    assert_response :success
+    assert_select ".admin-warning-pane", text: /keyfile/, count: 0
   end
 
   test "show embeds the linked invoice PDF" do

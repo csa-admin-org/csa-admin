@@ -63,3 +63,14 @@
     <% end %>
   </div>
 <% end %>
+
+<% if params[:action] == "index" && params[:controller].in?(%w[invoices payments]) && Current.org.active_bank_connection&.bas? %>
+  <div class="admin-page-warning">
+    <%= Arbre::Context.new({}, self) {
+          warning_pane {
+            text_node t("active_admin.shared.bas_keyfile_shutdown_html",
+              url: handbook_page_path("billing", anchor: "abs-setup"))
+          }
+        }.to_s %>
+  </div>
+<% end %>
