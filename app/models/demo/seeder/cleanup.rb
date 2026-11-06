@@ -99,6 +99,7 @@ module Demo::Seeder::Cleanup
   end
 
   def delete_reference_records!
+    delete_reference_rich_texts!
     connection = ActiveRecord::Base.connection
     connection.execute("DELETE FROM basket_contents_depots")
     BasketContent.delete_all
@@ -122,5 +123,16 @@ module Demo::Seeder::Cleanup
     ::Shop::SpecialDelivery.delete_all
     MailTemplate.delete_all
     Newsletter::Template.delete_all
+  end
+
+  # delete_all skips has_rich_text dependent: :destroy. Ids restart afterwards,
+  # so a leftover row collides with the next create of the same record type.
+  def delete_reference_rich_texts!
+    ActionText::RichText.where(record_type: %w[
+      Depot
+      Producer
+      Shop::Product
+      Shop::SpecialDelivery
+    ]).delete_all
   end
 end

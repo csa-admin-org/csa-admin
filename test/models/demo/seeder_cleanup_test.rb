@@ -32,6 +32,26 @@ class Demo::SeederCleanupTest < ActiveSupport::TestCase
     end
   end
 
+  test "reference cleanup deletes shop product rich texts before ids restart" do
+    text = ActionText::RichText.new(
+      record_type: "Shop::Product",
+      record_id: shop_products(:bread).id,
+      name: "description_fr",
+      body: "<p>ancien</p>")
+    text.save!(validate: false)
+
+    Tenant.stub(:demo?, true) do
+      Tenant.stub(:demo_language, "en") do
+        Tenant.stub(:admin_host, "admin.csa-admin.org") do
+          Demo::Seeder.new.send(:delete_reference_rich_texts!)
+        end
+      end
+    end
+
+    assert_not ActionText::RichText.exists?(text.id)
+    assert Shop::Product.exists?(shop_products(:bread).id)
+  end
+
   private
 
   def create_demo_admin(email, created_at:)
