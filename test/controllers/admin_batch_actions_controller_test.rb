@@ -35,9 +35,120 @@ class AdminBatchActionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "input[name='collection_selection[]']"
-    assert_select "[data-batch-action-item][data-action=destroy]"
+    assert_select "[data-batch-action-item][data-action=destroy]" do |links|
+      assert_equal I18n.t("active_admin.resources.delivery.delete_confirmation"),
+        links.first["data-confirm"]
+    end
     assert_select "[data-batch-action-item][data-action=open_shop]"
     assert_select "[data-batch-action-item][data-action=close_shop]"
+  end
+
+  test "batch destroy deletes the selected extra future deliveries" do
+    travel_to "2024-06-01"
+    login admins(:super)
+    first = Delivery.create!(date: "2025-12-20")
+    second = Delivery.create!(date: "2025-12-23")
+    kept = deliveries(:monday_future_1)
+    assert first.can_destroy?
+    assert second.can_destroy?
+    assert_empty first.baskets
+    assert_empty second.baskets
+
+    assert_difference -> { Delivery.count }, -2 do
+      post batch_action_deliveries_path, params: {
+        batch_action: "destroy",
+        collection_selection: [ first.id, second.id ],
+        scope: "all",
+        q: { during_year: 2025 }
+      }, headers: {
+        "HTTP_REFERER" => deliveries_url(q: { during_year: 2025 }, scope: :all)
+      }
+    end
+
+    assert_redirected_to deliveries_path(q: { during_year: 2025 }, scope: :all)
+    assert_not Delivery.exists?(first.id)
+    assert_not Delivery.exists?(second.id)
+    assert Delivery.exists?(kept.id)
+    assert flash[:notice].present?
+  end
+
+  test "batch destroy deletes a future delivery that already has baskets" do
+    travel_to "2024-01-01"
+    login admins(:super)
+    delivery = deliveries(:monday_future_1)
+    assert delivery.can_destroy?
+    assert delivery.baskets.any?
+
+    assert_difference -> { Delivery.count }, -1 do
+      post batch_action_deliveries_path, params: {
+        batch_action: "destroy",
+        collection_selection: [ delivery.id ],
+        scope: "all",
+        q: { during_year: 2025 }
+      }
+    end
+
+    assert_not Delivery.exists?(delivery.id)
+    assert_equal 0, Basket.where(delivery_id: delivery.id).count
+  end
+
+  test "batch destroy leaves deliveries that cannot be destroyed" do
+    travel_to "2024-06-01"
+    login admins(:super)
+    past = deliveries(:monday_1)
+    future = Delivery.create!(date: "2025-12-20")
+    past_baskets = past.baskets.count
+    assert_not past.can_destroy?
+    assert future.can_destroy?
+    assert past_baskets.positive?
+
+    assert_difference -> { Delivery.count }, -1 do
+      post batch_action_deliveries_path, params: {
+        batch_action: "destroy",
+        collection_selection: [ past.id, future.id ],
+        scope: "all",
+        q: { during_year: 2025 }
+      }
+    end
+
+    assert Delivery.exists?(past.id)
+    assert_equal past_baskets, past.baskets.count
+    assert_not Delivery.exists?(future.id)
+  end
+
+  test "batch destroy denies a selection that cannot be destroyed" do
+    travel_to "2024-06-01"
+    login admins(:super)
+    past = deliveries(:monday_1)
+    assert_not past.can_destroy?
+
+    assert_no_difference -> { Delivery.count } do
+      post batch_action_deliveries_path, params: {
+        batch_action: "destroy",
+        collection_selection: [ past.id ]
+      }
+    end
+
+    assert_denied_batch_action
+    assert Delivery.exists?(past.id)
+  end
+
+  test "read-only admin cannot batch destroy deliveries" do
+    travel_to "2024-06-01"
+    delivery = Delivery.create!(date: "2025-12-20")
+    login admins(:external)
+
+    assert_no_difference -> { Delivery.count } do
+      post batch_action_deliveries_path, params: {
+        batch_action: "destroy",
+        collection_selection: [ delivery.id ],
+        scope: "all",
+        q: { during_year: 2025 }
+      }
+    end
+
+    assert_denied_batch_action
+    assert Delivery.exists?(delivery.id)
   end
 
   test "current fiscal year all scope does not show delivery batch selection" do
