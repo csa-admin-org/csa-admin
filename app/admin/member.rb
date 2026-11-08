@@ -221,7 +221,11 @@ ActiveAdmin.register Member do
               end
               if member.waiting_price_reduction
                 if reason = member.waiting_price_reduction_skip_reason
-                  para t("active_admin.resource.show.price_reduction_skipped", reason: t("price_reductions.skip_reasons.#{reason}")), class: "alert alert-warning"
+                  # A missing or expired card is refused on the member form.
+                  # Cap, depot, and a discarded program can still change after the save.
+                  unless reason == :card
+                    para t("active_admin.resource.show.price_reduction_skipped", reason: t("price_reductions.skip_reasons.#{reason}")), class: "alert alert-warning"
+                  end
                 end
               end
 

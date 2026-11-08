@@ -227,11 +227,13 @@ class MembershipPricing
     @quoted_price_reduction ||= PriceReduction.visible.kept.find_by(id: id)
   end
 
+  # The selected program is quoted before its card is complete. A date that
+  # is already past the quote date is not: that cut will not be granted.
   def subtract_price_reduction
     reduction = quoted_price_reduction
     return unless reduction
     return unless reduction.depot_allowed?(depot)
-    return unless quoted_card_valid?(reduction)
+    return if quoted_card_expired?(reduction)
 
     cuts = [ @min, @max ].map { |gross| reduction.raw_amount(gross) }
     return if reduction.capped? && cuts.max > reduction.remaining_amount(quoted_fiscal_year.year).to_d
@@ -253,19 +255,28 @@ class MembershipPricing
     @max = [ @max - cuts.max, 0 ].max
   end
 
-  def quoted_card_valid?(reduction)
-    return true unless reduction.price_reduction_card_id
+  def quoted_card_expired?(reduction)
+    type = reduction.price_reduction_card
+    return false unless type&.require_expires_on?
 
     row = quoted_card_rows.find { |card|
-      card[:price_reduction_card_id].to_s == reduction.price_reduction_card_id.to_s
+      card[:price_reduction_card_id].to_s == type.id.to_s
     }
-    return false unless row
+    expires_on = row && row[:expires_on].presence
+    return false unless expires_on
 
-    MemberCard.new(
-      price_reduction_card: reduction.price_reduction_card,
-      name: row[:name],
-      number: row[:number],
-      expires_on: row[:expires_on]).valid_on?(Date.current)
+    Date.parse(expires_on.to_s) < quoted_on
+  rescue Date::Error, TypeError
+    false
+  end
+
+  # Registration quotes the next delivery. Renewal quotes the following year.
+  def quoted_on
+    if @params[:renewal_fiscal_year].present?
+      quoted_fiscal_year.beginning_of_year
+    else
+      (delivery_cycle&.next_delivery || Delivery.next)&.date || Date.current
+    end
   end
 
   # The registration form posts [] rows. A hash keyed by index is the other shape.

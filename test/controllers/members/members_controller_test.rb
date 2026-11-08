@@ -32,7 +32,7 @@ class Members::MembersControllerTest < ActionDispatch::IntegrationTest
       require_name: true,
       require_number: true,
       require_expires_on: true)
-    PriceReduction.create!(
+    reduction = PriceReduction.create!(
       names: { "en" => "Caritas" },
       percentage: 10,
       price_reduction_card: card,
@@ -46,9 +46,14 @@ class Members::MembersControllerTest < ActionDispatch::IntegrationTest
     assert_select ".choice-title", text: "Caritas"
     assert_select ".choice-details", text: '10%, Card "Culture card" required'
     assert_select "label[for=member_waiting_price_reduction_id]" do
-      assert_select "input[type=radio][value=''][checked][id=member_waiting_price_reduction_id]"
+      assert_select "input[type=radio][value=''][checked][id=member_waiting_price_reduction_id][data-action=?]",
+        "price-reduction#filter form-pricing#refresh"
       assert_select ".choice-title", text: "No reduction"
     end
+    assert_select "input[type=radio][name='member[waiting_price_reduction_id]'][value=?][data-action=?][data-card-id=?][data-depot-ids='']",
+      reduction.id.to_s,
+      "price-reduction#filter form-pricing#refresh",
+      card.id.to_s
     assert_select ".choice-title", text: "No reduction"
     assert_select "fieldset[data-price-reduction-target=card][disabled]" do
       assert_select "legend", text: "Card: Culture card"

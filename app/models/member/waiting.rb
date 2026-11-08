@@ -60,6 +60,7 @@ module Member::Waiting
       if: :waiting_membership_started_on_change_to_be_saved
     validate :unique_waiting_basket_complement_id
     validate :waiting_membership_started_on_required_for_admin_create, on: :create
+    validate :waiting_price_reduction_card_usable
     validate :complete_waiting_list_request_for_inactive_member, on: :update
   end
 
@@ -326,6 +327,28 @@ module Member::Waiting
     return unless waiting_depot
 
     self.waiting_delivery_cycle ||= waiting_depot.delivery_cycles.primary
+  end
+
+  # Activation would skip the cut and only say so afterwards. The admin
+  # form has to refuse the selection while the member is still pending or waiting.
+  def waiting_price_reduction_card_usable
+    return if public_create
+    return unless pending? || waiting?
+    return unless Current.org.feature?("price_reductions")
+
+    reduction = waiting_price_reduction
+    return unless reduction&.price_reduction_card_id
+
+    on = waiting_membership_start_on || Date.current
+    card = member_cards.reject(&:marked_for_destruction?).find { |member_card|
+      member_card.price_reduction_card_id == reduction.price_reduction_card_id
+    }
+    if card.nil? || !card.complete?
+      errors.add(:waiting_price_reduction, :card_required)
+    elsif !card.valid_on?(on)
+      errors.add(:waiting_price_reduction, :card_expired)
+      card.errors.add(:expires_on, :expired)
+    end
   end
 
   def waiting_membership_started_on_required_for_admin_create

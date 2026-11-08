@@ -432,6 +432,71 @@ class Member::WaitingTest < ActiveSupport::TestCase
     assert member.send(:waiting_price_reduction_gross).positive?
   end
 
+  test "a waiting reduction without its card fails the admin form" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features | [ "price_reductions" ])
+    member = members(:aria)
+    reduction = PriceReduction.create!(
+      names: { "en" => "Culture" },
+      percentage: 10,
+      price_reduction_card: culture_card)
+
+    assert_not member.update(waiting_price_reduction: reduction)
+    assert member.errors.of_kind?(:waiting_price_reduction, :card_required)
+    assert_nil member.reload.waiting_price_reduction_id
+  end
+
+  test "a waiting reduction with an expired card fails the admin form" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features | [ "price_reductions" ])
+    member = members(:aria)
+    reduction = PriceReduction.create!(
+      names: { "en" => "Culture" },
+      percentage: 10,
+      price_reduction_card: culture_card)
+    member.member_cards.create!(
+      price_reduction_card: culture_card,
+      name: "Ada",
+      number: "CC-1",
+      expires_on: Date.current)
+    on = member.waiting_membership_start_on
+
+    assert on > Date.current
+    assert_not member.update(waiting_price_reduction: reduction)
+    assert member.errors.of_kind?(:waiting_price_reduction, :card_expired)
+    assert member.member_cards.first.errors.of_kind?(:expires_on, :expired)
+  end
+
+  test "a pending reduction with a valid card is saved" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features | [ "price_reductions" ])
+    member = members(:aria)
+    member.update_column(:state, "pending")
+    reduction = PriceReduction.create!(
+      names: { "en" => "Culture" },
+      percentage: 10,
+      price_reduction_card: culture_card)
+    member.member_cards.create!(
+      price_reduction_card: culture_card,
+      name: "Ada",
+      number: "CC-1",
+      expires_on: member.waiting_membership_start_on)
+
+    assert member.update(waiting_price_reduction: reduction)
+  end
+
+  test "an active member can keep a waiting reduction without a card" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features | [ "price_reductions" ])
+    member = members(:jane)
+    reduction = PriceReduction.create!(
+      names: { "en" => "Culture" },
+      percentage: 10,
+      price_reduction_card: culture_card)
+
+    assert member.update(waiting_price_reduction: reduction)
+  end
+
   test "a used unique promotion fails the waiting form instead of raising" do
     member = members(:aria)
     used = Promotion.create!(name: "Gift", amount: 10, max_uses: 1)
@@ -443,6 +508,14 @@ class Member::WaitingTest < ActiveSupport::TestCase
   end
 
   private
+
+  def culture_card
+    @culture_card ||= PriceReductionCard.create!(
+      names: { "en" => "Culture card" },
+      require_name: true,
+      require_number: true,
+      require_expires_on: true)
+  end
 
   def past_same_year_membership!(member, started_on: Date.new(2024, 4, 1), ended_on: Date.new(2024, 4, 28))
     membership = create_membership(

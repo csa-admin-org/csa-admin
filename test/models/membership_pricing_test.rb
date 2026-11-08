@@ -487,6 +487,52 @@ class MembershipPricingTest < ActiveSupport::TestCase
     assert_equal full.map { |price| price * 0.9 }, quoted
   end
 
+  test "selecting a reduction is subtracted before its card is complete" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    card = price_reduction_card
+    reduction = PriceReduction.create!(
+      names: { "en" => "Culture" },
+      percentage: 10,
+      price_reduction_card: card,
+      visible: true)
+    full = pricing(
+      basket_size_id: small_id,
+      delivery_cycle_id: mondays_id).prices
+
+    quoted = pricing(
+      basket_size_id: small_id,
+      delivery_cycle_id: mondays_id,
+      price_reduction_id: reduction.id).prices
+
+    assert_equal full.map { |price| price * 0.9 }, quoted
+  end
+
+  test "a card expired before the next delivery is not subtracted" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    card = price_reduction_card
+    reduction = PriceReduction.create!(
+      names: { "en" => "Culture" },
+      percentage: 10,
+      price_reduction_card: card,
+      visible: true)
+    full = pricing(
+      basket_size_id: small_id,
+      delivery_cycle_id: mondays_id).prices
+    start = DeliveryCycle.find(mondays_id).next_delivery.date
+
+    quoted = pricing(
+      basket_size_id: small_id,
+      delivery_cycle_id: mondays_id,
+      price_reduction_id: reduction.id,
+      member_cards_attributes: [ {
+        "price_reduction_card_id" => card.id.to_s,
+        "expires_on" => (start - 1.day).to_s
+      } ]).prices
+
+    assert_equal full, quoted
+    assert start > Date.current
+  end
+
   test "a fiscal year cap uses the next delivery year, not the last scheduled delivery" do
     org(features: Current.org.features | [ "price_reductions" ])
     Delivery.insert({

@@ -67,13 +67,15 @@ module MembersHelper
   DEPOT_FILTER_MIN = 8
   FEATURED_MEMBER_LIMIT = 8
 
-  def price_reduction_options(reductions, selected_id: nil, blank_id: nil)
+  def price_reduction_options(reductions, selected_id: nil, blank_id: nil, data: {})
     # The blank value still posts nothing. Its generated id ends in "_"
     # while the label for does not, so clicking the row does nothing.
+    # Collection item data replaces input_html[:data], so the refresh action
+    # has to ride on every option or the program radios never fetch a quote.
     none = [
       collection_text(t("members.shared.price_reductions.none")),
       "",
-      { checked: selected_id.blank?, id: blank_id }
+      { checked: selected_id.blank?, id: blank_id, data: data.presence }.compact
     ]
     programs = reductions.map { |reduction|
       [
@@ -84,7 +86,7 @@ module MembersHelper
           data: {
             depot_ids: reduction.depot_ids.join(","),
             card_id: reduction.price_reduction_card_id
-          }
+          }.merge(data)
         }
       ]
     }
