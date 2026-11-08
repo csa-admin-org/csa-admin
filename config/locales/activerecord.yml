@@ -4773,18 +4773,18 @@ _:
                 _it: Questo socio ha già un abbonamento per questo anno fiscale. Non può quindi essere attivato direttamente, modificate quell'abbonamento.
                 _nl: Dit lid heeft al een lidmaatschap voor dit boekjaar. Direct activeren is daarom niet mogelijk, dat lidmaatschap bewerken.
             waiting_price_reduction:
-              card_required:
-                _en: needs the card data this reduction requires
-                _fr: exige les informations de carte requises pour cette réduction
-                _de: erfordert die für diese Reduktion verlangten Kartendaten
-                _it: richiede i dati della tessera previsti da questa riduzione
-                _nl: vereist de kaartgegevens die deze reductie verlangt
               card_expired:
                 _en: cannot be used because the card is expired
                 _fr: ne peut pas être utilisée car la carte est expirée
                 _de: kann nicht verwendet werden, weil die Karte abgelaufen ist
                 _it: non può essere usata perché la tessera è scaduta
                 _nl: kan niet worden gebruikt omdat de kaart is verlopen
+              card_required:
+                _en: needs the card data this reduction requires
+                _fr: exige les informations de carte requises pour cette réduction
+                _de: erfordert die für diese Reduktion verlangten Kartendaten
+                _it: richiede i dati della tessera previsti da questa riduzione
+                _nl: vereist de kaartgegevens die deze reductie verlangt
             waiting_promotion:
               not_redeemable:
                 _en: is no longer valid
