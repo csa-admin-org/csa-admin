@@ -10,6 +10,7 @@ class QRCode
 
   def image
     return placeholder_image if show_placeholder?
+    return png_file unless @logo
 
     qr_image = Vips::Image.new_from_buffer(blob, "")
     ImageProcessing::Vips
@@ -20,6 +21,14 @@ class QRCode
   end
 
   private
+
+  def png_file
+    file = Tempfile.new([ "qr", ".png" ])
+    file.binmode
+    file.write(blob)
+    file.rewind
+    file
+  end
 
   def logo_image
     path = Rails.root.join("lib", "assets", "images", "#{@logo}.png")

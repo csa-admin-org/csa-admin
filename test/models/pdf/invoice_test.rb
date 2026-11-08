@@ -38,6 +38,29 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     assert_includes strings, "-4.00"
   end
 
+  test "membership invoice includes the promotion name and a negative amount" do
+    invoice = invoices(:bob_membership)
+    code = Promotion.create!(name: "Gift card", amount: 40)
+    redemption = PromotionClaim.claim!(invoice.member, code, membership: invoice.entity)
+    redemption.update!(benefit_amount: 40)
+
+    strings = save_pdf_and_return_strings(invoice)
+
+    assert_includes strings, "Gift card"
+    assert_includes strings, "-40.00"
+  end
+
+  test "an expired promotion is not a line on the invoice" do
+    invoice = invoices(:bob_membership)
+    code = Promotion.create!(name: "Gift card", amount: 40)
+    redemption = PromotionClaim.claim!(invoice.member, code, membership: invoice.entity)
+    redemption.update!(benefit_amount: 40, expires_on: Date.current - 1.day)
+
+    strings = save_pdf_and_return_strings(invoice)
+
+    assert_not_includes strings, "Gift card"
+  end
+
   test "membership invoice adds the reduction logo after the organization logos" do
     org(features: Current.org.features | [ "price_reductions" ])
     Current.org.invoice_logos.attach(

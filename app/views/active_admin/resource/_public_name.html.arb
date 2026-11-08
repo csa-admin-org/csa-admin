@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
-translated_input(f, :public_names,
+public_name_options = {
   label: ->(locale) { label_with_language(t("attributes.name"), locale) },
-  required: true)
+  required: true
+}
+public_name_options[:hint] = public_name_hint if local_assigns[:public_name_hint]
+translated_input(f, :public_names, **public_name_options)
 translated_input(f, :admin_names,
   hint: t("formtastic.hints.attributes.admin_name"))

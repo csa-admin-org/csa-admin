@@ -296,12 +296,14 @@ module Member::Waiting
     complements = members_basket_complements.reject(&:marked_for_destruction?).each_with_index.to_h { |comp, index|
       [ index.to_s, { basket_complement_id: comp.basket_complement_id, quantity: comp.quantity } ]
     }
-    pricing = MembershipPricing.new(
+    # Gross before the promotion. A price reduction is applied first.
+    pricing = MembershipPricing.new({
       basket_size_id: waiting_basket_size_id,
       depot_id: waiting_depot_id,
       delivery_cycle_id: waiting_delivery_cycle_id,
       basket_price_extra: waiting_basket_price_extra,
-      members_basket_complements_attributes: complements)
+      members_basket_complements_attributes: complements
+    })
     pricing.prices.max.to_d
   end
 

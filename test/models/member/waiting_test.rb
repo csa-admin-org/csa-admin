@@ -421,6 +421,27 @@ class Member::WaitingTest < ActiveSupport::TestCase
       membership.activity_participations_demanded_annually
   end
 
+  test "a waiting price reduction uses the quoted membership gross" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features | [ "price_reductions" ])
+    member = members(:aria)
+    reduction = PriceReduction.create!(names: { "en" => "Caritas" }, percentage: 10)
+    member.update!(waiting_price_reduction: reduction)
+
+    assert_nil member.waiting_price_reduction_skip_reason
+    assert member.send(:waiting_price_reduction_gross).positive?
+  end
+
+  test "a used unique promotion fails the waiting form instead of raising" do
+    member = members(:aria)
+    used = Promotion.create!(name: "Gift", amount: 10, max_uses: 1)
+    PromotionClaim.claim!(members(:jane), used)
+
+    assert_not member.update(waiting_promotion: used)
+    assert_includes member.errors[:waiting_promotion], "is no longer valid"
+    assert_nil member.reload.waiting_promotion_id
+  end
+
   private
 
   def past_same_year_membership!(member, started_on: Date.new(2024, 4, 1), ended_on: Date.new(2024, 4, 28))

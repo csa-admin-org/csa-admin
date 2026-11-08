@@ -1,0 +1,57 @@
+# Aktion
+
+Eine Aktion ist ein Anmeldelink und ein QR-Code, den Du auf einem Flyer, einem Plakat oder einer Geschenkkarte druckst. Wer den Link öffnet, sieht ein Banner. Nach der Anmeldung wird ein fester Betrag von einem Abo abgezogen. Es gibt nichts einzutippen.
+
+## Wann nutzen? {#which}
+
+Eine [Preisreduktion](/handbook/price_reductions) ist ein Programm, das das Mitglied wählen kann. Sie ist ein Prozentsatz oder ein fester Betrag. Sie kann verborgen, auf Depots beschränkt, mit einem Plafond versehen oder an eine Karte gebunden sein. Die Verlängerung kann sie fortführen.
+
+Eine Aktion ist der gedruckte Link. Ein fester Betrag, eine Einlösung, ein Abo. Sie ist keine Auswahl im Formular, und sie erneuert sich nicht.
+
+Nimm eine Preisreduktion für ein Programm. Nimm eine Aktion für einen Flyer, ein Plakat, einen Gutschein oder eine Geschenkkarte.
+
+Ein Mitglied kann beides haben. Die Preisreduktion wird zuerst angewendet. Die Aktion wird vom Rest abgezogen. Keine von beiden gilt für den [Jahresbeitrag](/handbook/billing#annual-fee), die [Anteilscheine](/handbook/billing#share-capital) oder die [Teilnahmegebühr](/handbook/new_member_fee).
+
+## Eine Aktion erstellen {#creating}
+
+Öffne das Menü Weiteres (…), dann Aktionen. Nichts zu aktivieren.
+
+Der Link wird beim Speichern erzeugt. Er ändert sich nicht. Ein schon gedruckter QR-Code funktioniert weiter, wenn Du später den Namen oder den Betrag änderst. Diese Änderungen gelten nur für neue Einlösungen. Eine schon gemachte Einlösung behält den Namen und den Betrag, den das Mitglied gesehen hat.
+
+Der Name ist das Banner und die Zeile auf dem Abo. Ein eigener interner Name, falls Du einen setzt, ist der Name in der Verwaltung.
+
+Verwendungen ist "Einmalig" oder "Unbegrenzt". Einmalig für einen Gutschein oder eine Geschenkkarte. Unbegrenzt für ein Plakat. Eine ausstehende Anmeldung belegt eine einmalige Verwendung, bis Du sie entfernst oder ein Jahr vergangen ist.
+
+## Die URL und der QR-Code {#url}
+
+Die Seite zeigt die Anmelde-URL und einen QR-Code. Das Gedruckte muss auf diese URL zeigen. Kopiere die URL von dieser Seite, um bei Bedarf einen eigenen QR-Code zu erstellen.
+
+Die Mitgliederseite merkt sich den Link 90 Tage. Das Anmeldeformular hat kein Feld dafür. Ist der Link nicht mehr gültig, sagt das Banner es und der Link wird vergessen.
+
+## Der Betrag {#amount}
+
+Ein fester Betrag, vom Abonnementbetrag abgezogen, wenn das Abo erstellt wird, nach einer Preisreduktion. Er kann den Betrag nicht unter null senken. Die Rechnung zeigt die Aktion auf einer eigenen Zeile. Der zu zahlende Betrag ist der Abonnementbetrag, schon reduziert.
+
+Der Rabatt bleibt ein Jahr auf diesem Abo, ab dem Tag der Einlösung. Archivieren und das Enddatum nehmen ihn nicht zurück. Nach einem Jahr gilt wieder der Betrag ohne Aktion. Die Rechnung zeigt die Zeile nicht mehr. Die einmalige Verwendung ist wieder frei.
+
+Bei einem bereits abgerechneten Abo wird die Differenz am nächsten Abrechnungstag behandelt, wie eine [Preisänderung](/handbook/billing#price-change).
+
+## Enddatum und Archiv {#archive}
+
+Archiviere auf der Seite, oder setze ein Enddatum. Das Enddatum ist der letzte Tag, an dem neue Einlösungen akzeptiert werden. Ein vergangenes Datum wird abgelehnt. In der Nacht nach diesem Datum wird die Aktion archiviert und das Datum gelöscht. Ein leeres Datum bleibt offen, bis Du archivierst.
+
+Das Archivieren nimmt keinen Rabatt zurück, der schon eingelöst wurde. Um ihn zurückzunehmen, entferne die Aktion beim wartenden Mitglied oder auf dem Abo.
+
+Eine archivierte Aktion kann nicht mehr bearbeitet werden. Hebe die Archivierung zuerst auf.
+
+Lösche eine Aktion nur, wenn niemand sie eingelöst hat. Sobald eine Einlösung existiert, wird das Löschen nicht mehr angeboten. Archiviere, um den Link zu schliessen.
+
+## Probezeit und Abo-Formular {#trial}
+
+Langfristige Verpflichtung wendet den Rabatt ebenfalls sofort an, auch während der [Probezeit](/handbook/billing#trial-baskets). Er entfällt nur, wenn dieses Abo endet, solange es nur noch <%= Basket.model_name.human(count: 2) %> zur Probe enthält.
+
+Das Abo-Formular bietet die Aktion beim Erstellen an, und sobald das Abo Lieferungen über die Probezeit hinaus hat. Es bietet sie nicht an, wenn das Abo nur <%= Basket.model_name.human(count: 2) %> zur Probe enthält. Nach der Probezeit kannst Du sie entfernen oder tauschen. Ein Tausch, der nicht mehr funktioniert, lässt die aktuelle Einlösung stehen.
+
+Ein Lohn-<%= Basket.model_name.human %> kann keine Aktion haben. Das Formular bietet sie nicht an, weder beim wartenden Mitglied noch auf dem Abo.
+
+Du kannst eine Aktion auch bei einem wartenden Mitglied und auf einem neuen Abo setzen, entfernen oder tauschen.

@@ -1,0 +1,11 @@
+<% redemption = membership.promotion_claim %>
+
+<% if redemption&.billable? && redemption.benefit_amount&.nonzero? %>
+  <li class="price-row">
+    <span class="price-label"><%= redemption.public_name %></span>
+
+    <span class="price-value">
+      <%= cur(-redemption.benefit_amount) %>
+    </span>
+  </li>
+<% end %>

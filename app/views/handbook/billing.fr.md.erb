@@ -1,5 +1,7 @@
 # Facturation
 
+Une [promotion](/handbook/promotions) est écrite dans le montant de l'abonnement. La facture la montre sur sa propre ligne. Elle ne s'applique pas à la cotisation annuelle, aux parts, ni aux frais d'adhésion.
+
 CSA Admin vise à automatiser la plupart des tâches relatives à la facturation ([abonnements](#memberships)<% if Current.org.feature?("shares") %>, [parts sociales](#share-capital)<% end %>, [traitements des paiements](#payments))<% if Current.org.feature?("activity") %>, mais certains aspects comme la facturation des [<%= activities_human_name %> non effectuées](#activity) doivent être effectués manuellement<% end %>.
 
 ## Types de factures {#invoice-types}

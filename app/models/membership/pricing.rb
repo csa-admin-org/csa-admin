@@ -152,7 +152,19 @@ module Membership::Pricing
   end
 
   def computed_membership_price
-    price_before_reduction - price_reduction_amount.to_d
+    gross = price_before_reduction - price_reduction_amount.to_d
+    [ gross - promotion_amount(gross), 0 ].max
+  end
+
+  # Same shape as a price reduction: the claim cuts the membership amount.
+  # Pass the amount after the price reduction.
+  def promotion_amount(gross)
+    return 0 if member.salary_basket?
+
+    redemption = promotion_claim
+    return 0 unless redemption&.billable?
+
+    redemption.compute_benefit_amount(gross).to_d
   end
 
   private
@@ -164,6 +176,10 @@ module Membership::Pricing
     association(:baskets).reset
 
     sync_price_reduction!
+    apply_posted_promotion!
+    void_commitment_ended_in_trial!
+    sync_promotion_claim!
+
     computed_price = computed_membership_price
     computed_invoices_amount = invoices.not_canceled.sum(:memberships_amount)
 
@@ -176,6 +192,55 @@ module Membership::Pricing
       price: computed_price,
       invoices_amount: computed_invoices_amount,
       previsional_invoicing_amounts: Billing::PrevisionalInvoicing.new(self).compute)
+    promotion_claim&.recompute_benefit_amount!
+  end
+
+  # The discount is on the price from create, trial included. A commitment
+  # claim comes off only when that membership later ends still trial-only.
+  def void_commitment_ended_in_trial!
+    redemption = promotion_claim
+    return unless ended_during_trial
+    self.ended_during_trial = false
+    return unless redemption&.commitment_required?
+    return unless trial_only?
+
+    redemption.void!
+    self.promotion_id = nil
+    self.voided_promotion_claim_id = redemption.id
+    reload_promotion_claim
+  end
+
+  # Admin membership form. nil means the form did not post. "" clears it.
+  # claim! voids a different live row only after the replacement is redeemable.
+  def apply_posted_promotion!
+    return if promotion_id.nil?
+    return if promotion_id.to_s == promotion_claim&.promotion_id.to_s
+
+    if promotion_id.blank?
+      promotion_claim&.void!
+      reload_promotion_claim
+      return
+    end
+
+    code = Promotion.find_redeemable_by_id(promotion_id)
+    return unless code
+
+    PromotionClaim.claim!(member, code, membership: self)
+    reload_promotion_claim
+  end
+
+  # Attaches a waiting claim once the membership has a price, and keeps the
+  # snapshotted benefit in step. Ending the membership does not give it back.
+  # A commitment claim is voided instead, and only while still trial-only.
+  def sync_promotion_claim!
+    return if voided_promotion_claim_id
+
+    redemption = promotion_claim || member.promotion_claims.occupying.where(membership_id: nil).first
+    return unless redemption
+    return if member.salary_basket?
+
+    redemption.attach!(self) if redemption.membership_id != id
+    redemption.recompute_benefit_amount!
   end
 
   def destroy_or_cancel_invoices!

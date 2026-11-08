@@ -52,8 +52,9 @@ class Members::MembersController < Members::BaseController
     end
     member.public_create = true
 
-    registration = MemberRegistration.new(member, member_params)
+    registration = MemberRegistration.new(member, member_params, promotion: current_promotion)
     if registration.save
+      clear_promotion_cookie if registration.clear_promotion_cookie?
       if current_member
         redirect_to members_memberships_path, notice: t(".flash.notice")
       else

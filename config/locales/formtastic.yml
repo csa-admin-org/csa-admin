@@ -2937,6 +2937,37 @@ _:
           _de: Nur die ausgewählten Felder werden für diese Karte abgefragt und sind auszufüllen.
           _it: Solo i campi selezionati sono richiesti per questa tessera e vanno compilati.
           _nl: Alleen de geselecteerde velden worden voor deze kaart gevraagd en moeten worden ingevuld.
+      promotion:
+        amount:
+          _en: Taken off the membership amount when the membership is created, after every other adjustment has been applied.
+          _fr: Déduit du montant de l'abonnement à sa création, après tous les autres ajustements appliqués.
+          _de: Vom Abonnementbetrag abgezogen, wenn das Abo erstellt wird, nachdem alle anderen Anpassungen angewendet wurden.
+          _it: Detratto dall'importo dell'abbonamento alla creazione, dopo tutti gli altri adeguamenti.
+          _nl: Afgetrokken van het abonnementsbedrag bij het aanmaken, nadat alle andere aanpassingen zijn toegepast.
+        commitment_required:
+          _en: The discount is applied at once. It is removed if that membership ends during the trial.
+          _fr: La réduction est appliquée tout de suite. Elle est retirée si cet abonnement se termine pendant la période d'essai.
+          _de: Der Rabatt wird sofort angewendet. Er entfällt, wenn dieses Abo während der Probezeit endet.
+          _it: Lo sconto è applicato subito. Viene tolto se quell'abbonamento termina durante il periodo di prova.
+          _nl: De korting wordt meteen toegepast. Hij vervalt als dat abonnement tijdens de proefperiode eindigt.
+        ends_on:
+          _en: Last day new claims are accepted. Leave blank to keep it open.
+          _fr: Dernier jour où de nouvelles utilisations sont acceptées. Laisser vide pour ne pas archiver automatiquement.
+          _de: Letzter Tag, an dem neue Einlösungen akzeptiert werden. Leer lassen, um nicht automatisch zu archivieren.
+          _it: Ultimo giorno in cui i nuovi riscatti sono accettati. Lasciate vuoto per non archiviare automaticamente.
+          _nl: Laatste dag waarop nieuwe inwisselingen worden geaccepteerd. Leeg laten om niet automatisch te archiveren.
+        max_uses:
+          _en: 'Example: "Unique" for a coupon or a gift card, "Unlimited" for a poster.'
+          _fr: 'Exemple: "Unique" pour un coupon ou une carte cadeau, "Illimité" pour une affiche.'
+          _de: 'Beispiel: "Einmalig" für einen Gutschein oder eine Geschenkkarte, "Unbegrenzt" für ein Plakat.'
+          _it: 'Esempio: "Singolo" per un coupon o una carta regalo, "Illimitato" per un manifesto.'
+          _nl: 'Voorbeeld: "Eenmalig" voor een coupon of een cadeaubon, "Onbeperkt" voor een poster.'
+        public_name:
+          _en: Shown on the registration banner and on the membership. A change only applies to future claims.
+          _fr: Affiché sur la bannière d'inscription et sur l'abonnement. Le modifier n'affecte que les utilisations futures.
+          _de: Erscheint auf dem Anmelde-Banner und auf dem Abo. Eine Änderung gilt nur für künftige Einlösungen.
+          _it: Compare sul banner di iscrizione e sull'abbonamento. Una modifica riguarda solo i riscatti futuri.
+          _nl: Staat op de inschrijvingsbanner en op het abonnement. Een wijziging geldt alleen voor toekomstige inwisselingen.
       shop/order:
         amount_percentage:
           _en: Changes the final amount of the order by a certain percentage.

@@ -28,6 +28,10 @@ module AdminHelper
     PriceReduction.kept.order_by_name.map { |reduction| [ reduction.name, reduction.id ] }
   end
 
+  def admin_promotions_collection
+    Promotion.kept.order_by_name.map { |promotion| [ promotion.name, promotion.id ] }
+  end
+
   def admin_price_reduction_choices(membership)
     selected_id = membership.price_reduction_choice_id
     membership.member&.member_cards&.load

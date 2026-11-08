@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register PriceReduction do
-  menu parent: :other, priority: 8
+  menu parent: :other, priority: 7, if: -> { feature?("price_reductions") }
 
   breadcrumb do
     links = []
@@ -26,6 +26,12 @@ ActiveAdmin.register PriceReduction do
     collection: -> { PriceReductionCard.order_by_name.map { |card| [ card.name, card.id ] } }
   filter :renew
   filter :visible
+
+  sidebar :info, only: :index do
+    side_panel t(".info"), action: handbook_icon_link("price_reductions") do
+      para t(".price_reduction_info")
+    end
+  end
 
   action_item :price_reduction_cards, only: :index do
     action_link PriceReductionCard.model_name.human(count: 2), price_reduction_cards_path, icon: "id-card"

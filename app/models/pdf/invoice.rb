@@ -233,6 +233,12 @@ module PDF
               cur(-entity.price_reduction_amount)
             ]
           end
+          if (redemption = entity.promotion_claim)&.billable? && redemption.benefit_amount&.nonzero?
+            data << [
+              redemption.public_name,
+              cur(-redemption.benefit_amount)
+            ]
+          end
         end
       when "ActivityParticipation"
         if entity

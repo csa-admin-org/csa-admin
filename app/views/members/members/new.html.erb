@@ -1,3 +1,5 @@
+<%= render "members/members/promotion_banner" %>
+
 <h1 class="form-page-title"><%= t(".title") %></h1>
 
 <div class="form-lead">
@@ -102,7 +104,7 @@
 
   <%= turbo_frame_tag "pricing" do %>
     <% if params[:member].present? %>
-      <%= render partial: "members/members/pricing", locals: { params: member_params.to_unsafe_h } %>
+      <%= render partial: "members/members/pricing", locals: { params: member_params.to_unsafe_h, promotion: current_promotion } %>
     <% end %>
   <% end %>
 </div>

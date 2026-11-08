@@ -2174,6 +2174,31 @@ _:
           _de: Jahr
           _it: anno
           _nl: jaar
+      promotion_banner:
+        commitment:
+          _en: Commitment beyond the trial required.
+          _fr: Engagement au-delà de l'essai requis.
+          _de: Verpflichtung über die Probezeit hinaus erforderlich.
+          _it: Impegno oltre la prova richiesto.
+          _nl: Verbintenis na de proefperiode vereist.
+        expires:
+          _en: Expires %{date}.
+          _fr: Expire le %{date}.
+          _de: Läuft am %{date} ab.
+          _it: Scade il %{date}.
+          _nl: Verloopt op %{date}.
+        invalid:
+          _en: "%{name} is no longer valid."
+          _fr: "%{name} n'est plus valable."
+          _de: "%{name} ist nicht mehr gültig."
+          _it: "%{name} non è più valida."
+          _nl: "%{name} is niet meer geldig."
+        salary_basket:
+          _en: This promotion does not apply to a salary basket.
+          _fr: Cette promotion ne s'applique pas à un panier salaire.
+          _de: Diese Aktion gilt nicht für einen Lohn-Korb.
+          _it: Questa promozione non si applica a una cesta-compenso.
+          _nl: Deze actie geldt niet voor een salarismand.
       welcome:
         text:
           _en: Your registration will be confirmed in the coming days. We are at your disposal for any questions.

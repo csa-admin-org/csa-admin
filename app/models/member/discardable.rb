@@ -9,6 +9,7 @@ module Member::Discardable
     scope :kept, -> { undiscarded }
 
     after_discard :revoke_sessions
+    after_discard :void_unapplied_promotion
     before_undiscard do
       raise "Cannot undiscard anonymized member ##{id}" if anonymized?
     end
@@ -52,6 +53,10 @@ module Member::Discardable
     else
       raise "Cannot destroy Member##{id}"
     end
+  end
+
+  def void_unapplied_promotion
+    promotion_claims.occupying.where(membership_id: nil).find_each(&:void!)
   end
 
   def active_emails

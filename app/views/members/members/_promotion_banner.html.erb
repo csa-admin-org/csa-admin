@@ -1,0 +1,17 @@
+<% if invalid_promotion %>
+  <div class="promotion-banner is-invalid" role="status">
+    <%= t("members.members.promotion_banner.invalid", name: invalid_promotion.public_name) %>
+  </div>
+<% elsif current_promotion %>
+  <div class="promotion-banner" role="status">
+    <strong class="promotion-banner-title"><%= current_promotion.public_name %></strong>
+
+    <% unless current_member&.salary_basket? %>
+      <span class="promotion-banner-amount"><%= promotion_banner_amount(current_promotion) %></span>
+    <% end %>
+
+    <% if (note = promotion_banner_note(current_promotion)) %>
+      <p class="promotion-banner-note"><%= note %></p>
+    <% end %>
+  </div>
+<% end %>

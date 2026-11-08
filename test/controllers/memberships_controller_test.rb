@@ -349,6 +349,52 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "12.00", jane_row[amount_header].delete("^0-9.")
   end
 
+  test "index filters memberships by promotion" do
+    travel_to "2024-05-01"
+    code = Promotion.create!(name: "Summer", amount: 20)
+    PromotionClaim.claim!(members(:jane), code, membership: memberships(:jane))
+    login admins(:super)
+
+    get memberships_path, params: {
+      q: { with_promotion: code.id },
+      scope: :all
+    }
+
+    assert_response :success
+    assert_select "select#q_with_promotion"
+    assert_select "td a[href='#{membership_path(memberships(:jane))}']"
+    assert_select "td a[href='#{membership_path(memberships(:john))}']", count: 0
+
+    uses = memberships_path(scope: :all, q: { with_promotion: code.id })
+    get promotion_path(code)
+    assert_select ".panel-title a[href='#{uses}']"
+
+    get promotions_path
+    assert_select "a[href='#{uses}']", text: /∞/
+  end
+
+  test "edit hides the promotion select on a trial-only membership and shows it after" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+    member.update!(trial_baskets_count: 4)
+    membership = memberships(:jane)
+    fourth = membership.baskets.joins(:delivery).order("deliveries.date").fourth
+    membership.update!(ended_on: fourth.delivery.date)
+    Promotion.create!(name: "Summer", amount: 20)
+    login admins(:super)
+
+    get edit_membership_path(membership)
+
+    assert membership.reload.trial_only?
+    assert_select "select#membership_promotion_id", count: 0
+
+    membership.update!(ended_on: Current.fy_range.max)
+    get edit_membership_path(membership)
+
+    assert_not membership.reload.trial_only?
+    assert_select "select#membership_promotion_id"
+  end
+
   test "edit price reduction choice shows the rule and disables a missing or expired card" do
     travel_to "2024-05-01"
     org(features: Current.org.features | [ "price_reductions" ])

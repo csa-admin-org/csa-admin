@@ -204,6 +204,25 @@ class Invoice::AmountsTest < ActiveSupport::TestCase
     assert_equal 0, AdminMailer.deliveries.size
   end
 
+  test "VAT for a membership invoice is extracted from the memberships amount" do
+    org(
+      features: Current.org.features | [ :vat ],
+      vat_number: "XXX",
+      vat_membership_rate: 10)
+    invoice = Invoice.new(
+      member: members(:john),
+      entity_type: "Membership",
+      annual_fee: 30,
+      date: Date.current)
+    invoice[:memberships_amount] = 180
+    invoice.send(:set_amount)
+    invoice.send(:set_vat_rate_and_amount)
+
+    assert_equal 210, invoice.amount
+    assert_equal 180, invoice.amount_with_vat
+    assert_in_delta 16.36, invoice.vat_amount, 0.01
+  end
+
   test "does not send notification when already notified" do
     invoice = invoices(:annual_fee)
     create_payment(invoice: invoice, amount: 100)

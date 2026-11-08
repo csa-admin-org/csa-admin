@@ -4512,6 +4512,56 @@ _:
           _de: Neue %{model}
           _it: Nuova %{model}
           _nl: Nieuwe %{model}
+      promotion:
+        create_model:
+          _en: Create promotion
+          _fr: Créer la promotion
+          _de: Aktion erstellen
+          _it: Crea promozione
+          _nl: Actie aanmaken
+        delete_model:
+          _en: Delete promotion
+          _fr: Supprimer la promotion
+          _de: Aktion löschen
+          _it: Elimina promozione
+          _nl: Actie verwijderen
+        edit_model:
+          _en: Edit promotion
+          _fr: Modifier la promotion
+          _de: Aktion bearbeiten
+          _it: Modifica promozione
+          _nl: Actie bewerken
+        new_model:
+          _en: New promotion
+          _fr: Nouvelle promotion
+          _de: Neue Aktion
+          _it: Nuova promozione
+          _nl: Nieuwe actie
+        scopes:
+          active:
+            _en: Active
+            _fr: Actives
+            _de: Aktiv
+            _it: Attive
+            _nl: Actief
+          all:
+            _en: All
+            _fr: Toutes
+            _de: Alle
+            _it: Tutte
+            _nl: Alle
+          archived:
+            _en: Archived
+            _fr: Archivées
+            _de: Archiviert
+            _it: Archiviate
+            _nl: Gearchiveerd
+        update_model:
+          _en: Update promotion
+          _fr: Modifier la promotion
+          _de: Aktion aktualisieren
+          _it: Aggiorna promozione
+          _nl: Actie bijwerken
       shop/order:
         new_model:
           _en: New %{model}
@@ -4900,6 +4950,18 @@ _:
           _de: Dies erstellt eine Mitgliedschaft und aktiviert das Mitglied. Die Mitgliedschaft kann bei Bedarf nachträglich bearbeitet werden. Fortfahren?
           _it: Creerete l'abbonamento e attiverete il socio. Potrete modificare l'abbonamento in seguito se necessario. Continuare?
           _nl: Het lidmaatschap wordt aangemaakt en het lid wordt geactiveerd. Het lidmaatschap kan nadien indien nodig worden bewerkt. Doorgaan?
+        archive:
+          _en: Archive
+          _fr: Archiver
+          _de: Archivieren
+          _it: Archiviare
+          _nl: Archiveren
+        archive_confirm:
+          _en: Archive this promotion? New claims are blocked. A discount already claimed stays.
+          _fr: Archiver cette promotion? Les nouvelles utilisations sont bloquées. Une réduction déjà réclamée reste.
+          _de: Diese Aktion archivieren? Neue Einlösungen werden blockiert. Ein schon eingelöster Rabatt bleibt.
+          _it: Volete archiviare questa promozione? I nuovi riscatti vengono bloccati. Uno sconto già riscosso resta.
+          _nl: Deze actie archiveren? Nieuwe inwisselingen worden geblokkeerd. Een al ingewisselde korting blijft.
         bidding_round:
           complete_confirm/bag:
             _en: Are you sure you want to complete this bidding round? The memberships bag price will be updated with the pledged amount.
@@ -5184,6 +5246,12 @@ _:
           _de: Einstellungen
           _it: Impostazioni
           _nl: Instellingen
+        unarchive:
+          _en: Unarchive
+          _fr: Désarchiver
+          _de: Archivierung aufheben
+          _it: Ripristinare
+          _nl: Dearchiveren
         unignore:
           _en: Restore
           _fr: Restaurer
@@ -5543,6 +5611,12 @@ _:
           _de: Karten sind die Dokumente, die eine Preisreduktion verlangen kann. Jede Karte gibt an, welche der Felder Name, Nummer und Ablaufdatum abgefragt werden.
           _it: Le tessere sono i documenti che una riduzione di prezzo può richiedere. Ogni tessera indica quali tra nome, numero e data di scadenza sono richiesti.
           _nl: Kaarten zijn de documenten die een prijsreductie kan vereisen. Elke kaart geeft aan welke van naam, nummer en vervaldatum worden gevraagd.
+        price_reduction_info:
+          _en: A percentage or a fixed amount off the membership price. Visible ones appear on the registration form.
+          _fr: Un pourcentage ou un montant fixe sur le prix de l'abonnement. Les réductions visibles apparaissent dans le formulaire d'inscription.
+          _de: Ein Prozentsatz oder ein fester Betrag auf den Abo-Preis. Sichtbare erscheinen im Anmeldeformular.
+          _it: Una percentuale o un importo fisso sul prezzo dell'abbonamento. Quelle visibili compaiono nel modulo di iscrizione.
+          _nl: Een percentage of een vast bedrag op de abonnementsprijs. Zichtbare staan op het inschrijfformulier.
         producer_info:
           _en: Producers group shop products and basket content products by origin. Assign one to a product, then filter by producer or split a mixed delivery export by producer.
           _fr: Les producteurs regroupent les produits de l'épicerie et du contenu des paniers par origine. Associez-en un à un produit, puis filtrez par producteur ou séparez un export de livraison mixte par producteur.
@@ -5585,6 +5659,12 @@ _:
           _de: Produkte stellen die Artikel dar, die in die Anteile gelegt werden können. Einmal erstellt, können sie bei der Konfiguration des Anteilsinhalts für jede Lieferung wiederverwendet werden.
           _it: I prodotti rappresentano gli articoli che possono essere messi nelle parti. Una volta creati, possono essere riutilizzati per ogni consegna durante la configurazione del contenuto delle parti.
           _nl: Producten vertegenwoordigen de artikelen die in de delen kunnen worden gedaan. Eenmaal aangemaakt, kunnen ze bij het configureren van de deelinhoud voor elke levering worden hergebruikt.
+        promotion_info:
+          _en: A QR code for a flyer, a poster, or a gift card, to lower the amount due on one membership.
+          _fr: Un QR code pour un flyer, une affiche ou une carte cadeau, afin de baisser le montant à payer d'un abonnement.
+          _de: Ein QR-Code für einen Flyer, ein Plakat oder eine Geschenkkarte, um den zu zahlenden Betrag eines Abos zu senken.
+          _it: Un codice QR per un volantino, un manifesto o una carta regalo, per abbassare l'importo da pagare di un abbonamento.
+          _nl: Een QR-code voor een flyer, een poster of een cadeaubon, om het te betalen bedrag van een abonnement te verlagen.
         renew_all_action:
           one:
             _en: Renew (%{count})
@@ -5866,6 +5946,12 @@ _:
         _de: aktiv
         _it: attivo
         _nl: actief
+      archived:
+        _en: archived
+        _fr: archivée
+        _de: archiviert
+        _it: archiviata
+        _nl: gearchiveerd
       bounced:
         _en: bounced
         _fr: rejetée

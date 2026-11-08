@@ -61,6 +61,7 @@ module Invoice::SEPA
 
   def sepa_direct_debit_order_uploadable?
     open?
+      && amount.positive?
       && sepa?
       && sent?
       && !sepa_direct_debit_order_uploaded?

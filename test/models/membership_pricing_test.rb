@@ -7,8 +7,8 @@ class MembershipPricingTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
   end
 
-  def pricing(params = {})
-    MembershipPricing.new(params)
+  def pricing(params = {}, promotion = nil)
+    MembershipPricing.new(params, promotion: promotion)
   end
 
   test "with no params" do
@@ -432,6 +432,33 @@ class MembershipPricingTest < ActiveSupport::TestCase
 
     # Should be less than 140
     assert pricing.prices.first < 140
+  end
+
+  test "a promotion is subtracted after a price reduction and cannot go below zero" do
+    org(features: Current.org.features | [ "price_reductions" ])
+    reduction = PriceReduction.create!(
+      names: { "en" => "Culture" },
+      percentage: 10,
+      visible: true)
+    code = Promotion.create!(name: "Gift", amount: 20)
+    quoted = pricing({
+      basket_size_id: small_id,
+      delivery_cycle_id: mondays_id,
+      price_reduction_id: reduction.id
+    }, code)
+
+    assert_equal [ 70 ], quoted.prices
+    assert quoted.present?
+
+    code.update!(amount: 500)
+    wiped = pricing({
+      basket_size_id: small_id,
+      delivery_cycle_id: mondays_id,
+      price_reduction_id: reduction.id
+    }, code)
+
+    assert_equal [ 0 ], wiped.prices
+    assert wiped.present?
   end
 
   test "a card posted as an array of hashes is subtracted" do

@@ -1,4 +1,5 @@
-<% pricing = MembershipPricing.new(params) %>
+<%# locals: (params:, promotion: nil) %>
+<% pricing = MembershipPricing.new(params, promotion: (promotion unless current_member&.salary_basket?)) %>
 
 <% if pricing.present? || current_member&.salary_basket? %>
   <div class="pricing">

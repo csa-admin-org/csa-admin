@@ -53,6 +53,12 @@ production:
     queue: low
     schedule: at midnight every day
 
+  promotions_archiver:
+    class: TenantSwitchEachJob
+    args: [Scheduled::PromotionsArchiverJob]
+    queue: low
+    schedule: at 12:01am every day
+
   clear_solid_queue_finished_jobs:
     command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
     queue: low

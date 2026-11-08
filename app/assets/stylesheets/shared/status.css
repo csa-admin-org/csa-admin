@@ -45,6 +45,7 @@
     &[data-status="primary"],
     &[data-status="forced"],
     &[data-status="healthy"],
+    &[data-status="applied"],
     &[data-status="yes"] {
       background-color: var(--color-green-100);
       color: var(--color-green-800);
@@ -81,6 +82,7 @@
     &[data-status="manual_suppression"],
     &[data-status="renewal_pending"],
     &[data-status="scheduled"],
+    &[data-status="held"],
     &[data-status="waiting"] {
       background-color: var(--color-orange-100);
       color: var(--color-orange-800);
@@ -162,7 +164,9 @@
     &[data-status="unavailable"],
     &[data-status="inactive"],
     &[data-status="unknown"],
-    &[data-status="unconfigured"] {
+    &[data-status="unconfigured"],
+    &[data-status="expired"],
+    &[data-status="voided"] {
       background-color: var(--color-neutral-100);
       color: var(--color-neutral-700);
       box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-neutral-500) 20%, transparent);

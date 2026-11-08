@@ -31,6 +31,9 @@ class Membership < ApplicationRecord
     source: :basket_complement,
     through: :memberships_basket_complements
   has_many :invoices, as: :entity
+  has_one :promotion_claim, -> { not_voided.order(id: :desc) }
+
+  attr_accessor :promotion_id, :ended_during_trial, :voided_promotion_claim_id
   has_many :forced_deliveries, dependent: :destroy
   has_many :bidding_round_pledges,
     class_name: "BiddingRound::Pledge",
@@ -93,12 +96,20 @@ class Membership < ApplicationRecord
       all
     end
   }
+  scope :with_promotion, ->(id) {
+    if id.present?
+      where(id: PromotionClaim.where(promotion_id: id).select(:membership_id))
+    else
+      all
+    end
+  }
 
   def self.ransackable_scopes(_auth_object = nil)
     super + %i[
       renewal_state_eq
       with_memberships_basket_complement
       with_price_reduction
+      with_promotion
       activity_participations_missing_eq
       activity_participations_missing_gt
       activity_participations_missing_lt
@@ -329,6 +340,7 @@ class Membership < ApplicationRecord
   end
 
   def sync_baskets_after_update!
+    remember_trial_end!
     sync_baskets_with_started_on_change!
     sync_baskets_with_ended_on_change!
     sync_baskets_with_config_change!
@@ -351,6 +363,16 @@ class Membership < ApplicationRecord
     update_member_and_baskets!
   ensure
     update_price_and_invoices_amount!
+  end
+
+  # after_commit no longer has saved_change. A commitment claim voids only
+  # when this save shortened the membership. trial_only? is checked later,
+  # once the baskets past the new end date are gone.
+  def remember_trial_end!
+    return unless saved_change_to_ended_on? || saved_change_to_renew?
+    return unless ended_on_before_last_save && ended_on < ended_on_before_last_save
+
+    self.ended_during_trial = true
   end
 
   def sync_baskets_with_started_on_change!

@@ -1,3 +1,3 @@
 <%= turbo_stream.update "pricing" do %>
-  <%= render partial: "members/members/pricing" %>
+  <%= render partial: "members/members/pricing", locals: { params: params, promotion: current_promotion } %>
 <% end %>

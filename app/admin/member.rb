@@ -239,6 +239,9 @@ ActiveAdmin.register Member do
                 if member.waiting_price_reduction
                   row(PriceReduction.model_name.human) { auto_link member.waiting_price_reduction }
                 end
+                if member.waiting_promotion
+                  row(Promotion.model_name.human) { auto_link member.waiting_promotion }
+                end
                 row(:depot) { auto_link member.waiting_depot }
                 row(:delivery_cycle) { delivery_cycle_link(member.waiting_delivery_cycle) }
                 if member.direct_membership_start_requested?
@@ -836,6 +839,13 @@ ActiveAdmin.register Member do
             include_blank: true,
             required: false
         end
+        unless member.salary_basket?
+          f.input :waiting_promotion,
+            label: Promotion.model_name.human,
+            collection: promotion_options(member.waiting_promotion),
+            include_blank: true,
+            required: false
+        end
         f.input :waiting_basket_size,
           label: BasketSize.model_name.human,
           collection: admin_basket_sizes_collection,
@@ -1087,6 +1097,7 @@ ActiveAdmin.register Member do
     :desired_shares_number, :required_shares_number,
     :waiting, :waiting_membership_started_on,
     :waiting_basket_size_id, :waiting_basket_price_extra, :waiting_price_reduction_id,
+    :waiting_promotion_id,
     :waiting_activity_participations_demanded_annually,
     :waiting_depot_id, :waiting_delivery_cycle_id,
     :waiting_billing_year_division,

@@ -5,9 +5,20 @@ class MemberRegistration
 
   attr_reader :member
 
-  def initialize(member, permitted_params)
+  def initialize(member, permitted_params, promotion: nil)
     @member = member
     @permitted_params = permitted_params
+    @promotion = promotion
+  end
+
+  def claimed_promotion?
+    @claimed_promotion
+  end
+
+  # Shop-only leaves the cookie for a later membership registration. Everything
+  # else that did not claim, including an invalid code, drops it.
+  def clear_promotion_cookie?
+    !claimed_promotion? && !shop_only?
   end
 
   def save
@@ -15,6 +26,7 @@ class MemberRegistration
 
     prepare_support_only_registration! if support_only?
     if @member.save
+      claim_promotion!
       notify_admins!
       return true
     end
@@ -48,6 +60,7 @@ class MemberRegistration
     @member.waiting_started_at = nil
 
     if @member.save
+      claim_promotion!
       cancel_last_membership_open_renewal!
       notify_admins!(existing: true)
       true
@@ -63,6 +76,32 @@ class MemberRegistration
 
   def notify_admins!(existing: false)
     Admin.notify!(:new_registration, member: @member, existing: existing)
+  end
+
+  # Shop-only, support-only, and a salary basket have nothing to invoice.
+  # An open membership is a renewal, not a new claim. A code that is no
+  # longer redeemable is ignored so the registration still succeeds.
+  def claim_promotion!
+    return unless claimable_promotion?
+
+    PromotionClaim.claim!(@member, @promotion)
+    @member.update_column(:waiting_promotion_id, @promotion.id)
+    @claimed_promotion = true
+  rescue PromotionClaim::Error
+    nil
+  end
+
+  def claimable_promotion?
+    return false if @promotion.nil? || !@promotion.redeemable?
+    return false if support_only? || shop_only?
+    return false unless Promotion.acceptable_target?(@member)
+    return false if @member.current_year_membership || @member.future_membership
+
+    true
+  end
+
+  def shop_only?
+    Current.org.member_form_mode == "shop"
   end
 
   def support_only?

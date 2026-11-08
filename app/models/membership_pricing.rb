@@ -3,13 +3,14 @@
 require "rounding"
 
 class MembershipPricing
-  def initialize(params = {})
+  def initialize(params = {}, promotion: nil)
     # Works with both the registration and renewal form params
     @params = params.transform_keys { |k|
       k.to_s
         .sub(/\Awaiting_/, "")
         .sub(/members_basket_complements_attributes/, "memberships_basket_complements_attributes")
     }.with_indifferent_access
+    @promotion = promotion
     @min = 0
     @max = 0
   end
@@ -23,13 +24,17 @@ class MembershipPricing
       complements_prices.each { |prices| add(prices) }
       add(activity_participations_prices)
       subtract_price_reduction
+      subtract_promotion
 
       [ @min, @max ].uniq
     end
   end
 
   def present?
-    !simple_pricing? && prices.any?(&:positive?)
+    return false if simple_pricing?
+    return true if @promotion_applied
+
+    prices.any?(&:positive?)
   end
 
   private
@@ -43,6 +48,7 @@ class MembershipPricing
       && !Current.org.feature?("basket_price_extra")
       && !@params[:activity_participations_demanded_annually]
       && quoted_price_reduction.nil?
+      && @promotion.nil?
   end
 
   def basket_size
@@ -232,6 +238,19 @@ class MembershipPricing
 
     @min -= cuts.min
     @max -= cuts.max
+  end
+
+  # After the price reduction, same cap as a claim: the discount cannot
+  # take the quoted amount below zero.
+  def subtract_promotion
+    return unless @promotion
+
+    cuts = [ @min, @max ].map { |gross| [ @promotion.amount.to_d, gross ].min }
+    return unless cuts.any?(&:positive?)
+
+    @promotion_applied = true
+    @min = [ @min - cuts.min, 0 ].max
+    @max = [ @max - cuts.max, 0 ].max
   end
 
   def quoted_card_valid?(reduction)

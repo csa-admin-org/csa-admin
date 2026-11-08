@@ -23,6 +23,12 @@ class Member < ApplicationRecord
 
   searchable :name, :emails, :city, :zip, :id, priority: 1
 
+  belongs_to :waiting_promotion, class_name: "Promotion", optional: true
+  has_many :promotion_claims, dependent: :restrict_with_exception
+
+  validate :waiting_promotion_must_be_redeemable, if: :waiting_promotion_id_changed?
+  after_save :sync_waiting_promotion_claim, if: :saved_change_to_waiting_promotion_id?
+
   BILLING_INTERVALS = %w[annual quarterly].freeze
   generates_token_for :calendar do
     Tenant.current || raise("Cannot generate calendar token outside tenant context")
@@ -35,6 +41,17 @@ class Member < ApplicationRecord
   # when Members::CalendarsController 401s in AppSignal dry up.
   def self.find_by_calendar_token(token)
     find_by_token_for(:calendar, token) || find_by_legacy_id_only_calendar_token(token)
+  end
+
+  # Setting the waiting code is the claim. Clearing it voids an unapplied claim.
+  def sync_waiting_promotion_claim
+    return if salary_basket?
+
+    if waiting_promotion_id.nil?
+      promotion_claims.occupying.where(membership_id: nil).find_each(&:void!)
+    else
+      PromotionClaim.claim!(self, waiting_promotion)
+    end
   end
 
   def self.find_by_legacy_id_only_calendar_token(token)
@@ -221,6 +238,15 @@ class Member < ApplicationRecord
     unless Current.org.annual_fee_support_member_only? && waiting_basket_size_id?
       self[:annual_fee] ||= Current.org.annual_fee
     end
+  end
+
+  # A posted selection that can no longer be claimed fails the form. The
+  # callback still raises if the row is taken between this check and the save.
+  def waiting_promotion_must_be_redeemable
+    return if waiting_promotion_id.blank? || salary_basket?
+    return if Promotion.find_redeemable_by_id(waiting_promotion_id)
+
+    errors.add(:waiting_promotion, :not_redeemable)
   end
 
   def email_must_be_unique

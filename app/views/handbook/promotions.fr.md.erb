@@ -1,0 +1,57 @@
+# Promotion
+
+Une promotion est un lien d'inscription et un QR code que vous imprimez sur un prospectus, une affiche ou une carte cadeau. Une personne qui ouvre ce lien voit une bannière. Une fois inscrite, un montant fixe est retiré d'un seul abonnement. Il n'y a rien à saisir.
+
+## Quand l'utiliser? {#which}
+
+Une [réduction de prix](/handbook/price_reductions) est un programme que le membre peut choisir. C'est un pourcentage ou un montant fixe. Elle peut être cachée, limitée à des dépôts, plafonnée, ou liée à une carte. Le renouvellement peut la reconduire.
+
+Une promotion est le lien imprimé. Un montant fixe, une utilisation, un abonnement. Ce n'est pas un choix du formulaire, et elle ne se renouvelle pas.
+
+Utilisez une réduction de prix pour un programme. Utilisez une promotion pour un prospectus, une affiche, un coupon ou une carte cadeau.
+
+Un membre peut avoir les deux. La réduction de prix est appliquée d'abord. La promotion est retirée de ce qui reste. Ni l'une ni l'autre ne s'applique à [la cotisation annuelle](/handbook/billing#annual-fee), aux [parts sociales](/handbook/billing#share-capital), ni aux [frais d'adhésion](/handbook/new_member_fee).
+
+## Créer une promotion {#creating}
+
+Depuis le menu Autre (…), choisissez Promotions. Aucune fonctionnalité supplémentaire à activer.
+
+Le lien est généré à l'enregistrement. Il ne change pas. Un QR déjà imprimé continue de fonctionner si vous modifiez ensuite le nom ou le montant. Ces modifications valent seulement pour les nouvelles utilisations. Une utilisation déjà faite garde le nom et le montant vus par le membre.
+
+Le nom est la bannière et la ligne sur l'abonnement. Un nom interne distinct, si vous en indiquez un, est celui que vous voyez dans l'administration.
+
+Utilisations: "Unique" ou "Illimité". Unique pour un coupon ou une carte cadeau. Illimité pour une affiche. Une inscription en attente occupe une utilisation unique jusqu'à ce que vous la retiriez, ou qu'une année soit passée.
+
+## L'URL et le QR {#url}
+
+La page affiche l'URL d'inscription et un QR code. L'imprimé doit pointer vers cette URL. Copiez l'URL depuis cette page pour créer votre propre QR si nécessaire.
+
+Le site des membres mémorise le lien pendant 90 jours. Le formulaire d'inscription n'a pas de champ pour le saisir. Si le lien n'est plus valable, la bannière le dit et le lien est oublié.
+
+## Le montant {#amount}
+
+Un montant fixe, retiré du montant de l'abonnement à sa création, après une réduction de prix. Il ne peut pas ramener le montant sous zéro. La facture montre la promotion sur sa propre ligne. Le montant à payer est le montant de l'abonnement, déjà réduit.
+
+La réduction reste sur cet abonnement pendant un an, à compter du jour où l'utilisation est enregistrée. L'archivage et la date de fin ne la retirent pas. Au bout d'un an, le montant revient au tarif sans promotion. La facture ne montre plus la ligne. L'utilisation unique redevient libre.
+
+Sur un abonnement déjà facturé, la différence est traitée le prochain jour de facturation, comme un [changement de prix](/handbook/billing#price-change).
+
+## Date de fin et archivage {#archive}
+
+Archivez depuis la page, ou indiquez une date de fin. La date de fin est le dernier jour où de nouvelles utilisations sont acceptées. Une date passée est refusée. La nuit qui suit cette date, la promotion est archivée et la date est effacée. Une date vide reste ouverte jusqu'à ce que vous archiviez.
+
+L'archivage ne retire pas la réduction à quelqu'un qui l'a déjà réclamée. Pour la reprendre, retirez la promotion sur le membre en attente, ou sur l'abonnement.
+
+Une promotion archivée ne peut plus être modifiée. Désarchivez-la d'abord.
+
+Supprimez une promotion seulement si personne ne l'a utilisée. Dès qu'une utilisation existe, la suppression n'est plus proposée. Archivez pour fermer le lien.
+
+## Essai et formulaire d'abonnement {#trial}
+
+L'engagement long terme applique aussi la réduction tout de suite, y compris pendant [la période d'essai](/handbook/billing#trial-baskets). Elle est retirée seulement si cet abonnement se termine alors qu'il ne contient plus que des <%= Basket.model_name.human(count: 2).downcase %> à l'essai.
+
+Le formulaire d'abonnement propose la promotion à la création, et dès que l'abonnement a des livraisons au-delà de l'essai. Il ne la propose pas sur un abonnement qui ne contient que des <%= Basket.model_name.human(count: 2).downcase %> à l'essai. Après l'essai, vous pouvez la retirer ou l'échanger. Un échange qui ne fonctionne plus laisse l'utilisation en cours.
+
+Un <%= Basket.model_name.human.downcase %> salaire ne peut pas avoir de promotion. Le formulaire ne la propose pas, ni sur le membre en attente, ni sur l'abonnement.
+
+Vous pouvez aussi définir, retirer ou échanger une promotion sur un membre en attente, et sur un nouvel abonnement.

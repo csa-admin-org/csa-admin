@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_11_02_223000) do
+ActiveRecord::Schema[8.2].define(version: 2026_11_05_120000) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -744,6 +744,7 @@ ActiveRecord::Schema[8.2].define(version: 2026_11_02_223000) do
     t.date "waiting_membership_started_on"
     t.string "shop_invoice_period"
     t.integer "waiting_price_reduction_id"
+    t.integer "waiting_promotion_id"
     t.index ["anonymized_at"], name: "index_members_on_anonymized_at"
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["shop_delivery_cycle_id"], name: "index_members_on_shop_delivery_cycle_id"
@@ -755,6 +756,7 @@ ActiveRecord::Schema[8.2].define(version: 2026_11_02_223000) do
     t.index ["waiting_delivery_cycle_id"], name: "index_members_on_waiting_delivery_cycle_id"
     t.index ["waiting_depot_id"], name: "index_members_on_waiting_depot_id"
     t.index ["waiting_price_reduction_id"], name: "index_members_on_waiting_price_reduction_id"
+    t.index ["waiting_promotion_id"], name: "index_members_on_waiting_promotion_id"
     t.index ["waiting_started_at"], name: "index_members_on_waiting_started_at"
   end
 
@@ -1133,6 +1135,45 @@ ActiveRecord::Schema[8.2].define(version: 2026_11_02_223000) do
     t.index ["discarded_at"], name: "index_producers_on_discarded_at"
   end
 
+  create_table "promotion_claims", force: :cascade do |t|
+    t.integer "promotion_id", null: false
+    t.integer "member_id", null: false
+    t.integer "membership_id"
+    t.decimal "amount", precision: 8, scale: 2, null: false
+    t.boolean "commitment_required", default: false, null: false
+    t.decimal "benefit_amount", precision: 8, scale: 2
+    t.datetime "voided_at"
+    t.date "expires_on", null: false
+    t.json "names", default: {}, null: false
+    t.json "public_names", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expires_on"], name: "index_promotion_claims_on_expires_on"
+    t.index ["member_id"], name: "index_promotion_claims_on_member_id"
+    t.index ["membership_id"], name: "index_promotion_claims_on_membership_id"
+    t.index ["promotion_id"], name: "index_promotion_claims_on_promotion_id"
+    t.index ["promotion_id", "member_id", "membership_id"], name: "index_promotion_claims_on_promotion_member_membership", unique: true
+    t.index ["voided_at"], name: "index_promotion_claims_on_voided_at"
+  end
+
+  create_table "promotions", force: :cascade do |t|
+    t.string "code", null: false
+    t.json "names", default: {}, null: false
+    t.json "public_names", default: {}, null: false
+    t.string "state", default: "active", null: false
+    t.date "ends_on"
+    t.integer "max_uses"
+    t.decimal "amount", precision: 8, scale: 2, null: false
+    t.boolean "commitment_required", default: false, null: false
+    t.datetime "discarded_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_promotions_on_code", unique: true
+    t.index ["discarded_at"], name: "index_promotions_on_discarded_at"
+    t.check_constraint "max_uses IS NULL OR max_uses = 1", name: "promotions_max_uses"
+    t.check_constraint "state IN ('active', 'archived')", name: "promotions_state"
+  end
+
   create_table "sepa_mandates", force: :cascade do |t|
     t.integer "member_id", null: false
     t.integer "session_id"
@@ -1338,6 +1379,7 @@ ActiveRecord::Schema[8.2].define(version: 2026_11_02_223000) do
   add_foreign_key "members", "depots", column: "shop_depot_id"
   add_foreign_key "members", "depots", column: "waiting_depot_id"
   add_foreign_key "members", "price_reductions", column: "waiting_price_reduction_id"
+  add_foreign_key "members", "promotions", column: "waiting_promotion_id"
   add_foreign_key "membership_price_reductions", "memberships"
   add_foreign_key "membership_price_reductions", "price_reductions"
   add_foreign_key "memberships", "delivery_cycles"
@@ -1352,6 +1394,9 @@ ActiveRecord::Schema[8.2].define(version: 2026_11_02_223000) do
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "members"
   add_foreign_key "price_reductions", "price_reduction_cards"
+  add_foreign_key "promotion_claims", "members"
+  add_foreign_key "promotion_claims", "memberships"
+  add_foreign_key "promotion_claims", "promotions"
   add_foreign_key "sessions", "admins"
   add_foreign_key "sessions", "members"
   add_foreign_key "shop_order_groups", "members"

@@ -484,4 +484,204 @@ class Membership::PricingTest < ActiveSupport::TestCase
     assert_equal "canceled", sent_invoice.reload.state
     assert_raises(ActiveRecord::RecordNotFound) { not_sent_invoice.reload }
   end
+
+  test "posting a promotion on a fully invoiced membership leaves the invoice for the next billing day" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+    member.update!(annual_fee: 0)
+    membership = memberships(:jane)
+    membership.update!(billing_year_division: 1)
+    membership.send(:update_price_and_invoices_amount!)
+    invoice = force_invoice(member, send_email: true)
+    perform_enqueued_jobs
+    price = membership.reload.price
+    code = Promotion.create!(name: "Gift", amount: 50)
+
+    membership.promotion_id = code.id
+    assert_no_difference -> { Invoice.count } do
+      membership.send(:update_price_and_invoices_amount!)
+    end
+
+    assert_equal "open", invoice.reload.state
+    assert_equal price - 50, membership.reload.price
+    assert membership.overcharged_invoices_amount?
+    assert_equal code.id, membership.promotion_claim.promotion_id
+  end
+
+  test "swapping a billed promotion voids the old claim and attaches the new one" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+    member.update!(annual_fee: 0)
+    membership = memberships(:jane)
+    membership.update!(billing_year_division: 1)
+    invoice = force_invoice(member, send_email: true)
+    perform_enqueued_jobs
+    first = Promotion.create!(name: "Gift", amount: 50)
+    second = Promotion.create!(name: "Other", amount: 80)
+    membership.promotion_id = first.id
+    membership.send(:update_price_and_invoices_amount!)
+    perform_enqueued_jobs
+    replacement = membership.invoices.not_canceled.order(:id).last
+
+    membership.promotion_id = second.id
+    assert_no_difference -> { Invoice.count } do
+      membership.send(:update_price_and_invoices_amount!)
+    end
+
+    assert member.promotion_claims.find_by!(promotion: first).voided?
+    assert_equal second.id, membership.reload.promotion_claim.promotion_id
+    assert_equal "open", invoice.reload.state
+    assert_equal "open", replacement.reload.state
+    assert membership.overcharged_invoices_amount?
+  end
+
+  test "clearing a billed promotion raises the amount and leaves the invoice" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+    member.update!(annual_fee: 0)
+    membership = memberships(:jane)
+    membership.update!(billing_year_division: 1)
+    code = Promotion.create!(name: "Gift", amount: 50)
+    membership.promotion_id = code.id
+    membership.send(:update_price_and_invoices_amount!)
+    price = membership.reload.price
+    invoice = force_invoice(member, send_email: true)
+    perform_enqueued_jobs
+
+    membership.reload
+    membership.promotion_id = ""
+    membership.send(:update_price_and_invoices_amount!)
+
+    assert_equal "open", invoice.reload.state
+    assert_equal price + 50, membership.reload.price
+    assert_nil membership.promotion_claim
+    assert_equal 50, membership.missing_invoices_amount
+  end
+
+  test "saving the same billed promotion does not cancel the invoice" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+    member.update!(annual_fee: 0)
+    membership = memberships(:jane)
+    membership.update!(billing_year_division: 1)
+    code = Promotion.create!(name: "Gift", amount: 50)
+    membership.promotion_id = code.id
+    membership.send(:update_price_and_invoices_amount!)
+    invoice = force_invoice(member, send_email: true)
+    perform_enqueued_jobs
+
+    membership.reload
+    membership.promotion_id = code.id
+    assert_no_difference -> { Invoice.canceled.count } do
+      membership.send(:update_price_and_invoices_amount!)
+    end
+    assert_equal "open", invoice.reload.state
+  end
+
+  test "a posted promotion that is no longer redeemable leaves the live claim" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    live = Promotion.create!(name: "Gift", amount: 50)
+    membership.promotion_id = live.id
+    membership.send(:update_price_and_invoices_amount!)
+    gone = Promotion.create!(name: "Ended", amount: 20)
+    gone.archive!
+
+    membership.promotion_id = gone.id
+    membership.send(:update_price_and_invoices_amount!)
+
+    assert_not membership.reload.promotion_claim.voided?
+    assert_equal live.id, membership.promotion_claim.promotion_id
+  end
+
+  test "a price refresh without a posted promotion does not void the claim" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+    membership = memberships(:jane)
+    code = Promotion.create!(name: "Gift", amount: 50)
+    PromotionClaim.claim!(member, code, membership: membership)
+
+    membership.send(:update_price_and_invoices_amount!)
+
+    assert_equal code.id, membership.reload.promotion_claim.promotion_id
+    assert_not membership.promotion_claim.voided?
+  end
+
+  test "a promotion on a membership with nothing invoiced does not create an invoice" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    code = Promotion.create!(name: "Gift", amount: 50)
+
+    membership.promotion_id = code.id
+    assert_no_difference -> { Invoice.count } do
+      membership.send(:update_price_and_invoices_amount!)
+    end
+    assert membership.reload.promotion_claim
+  end
+
+  test "a promotion that still fits on a later invoice does not cancel the last one" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+    member.update!(annual_fee: 0)
+    membership = memberships(:jane)
+    membership.update!(billing_year_division: 2)
+    membership.send(:update_price_and_invoices_amount!)
+    invoice = Billing::Invoicer.new(member, billing_year_division: 2).invoice(send_email: true)
+    perform_enqueued_jobs
+    code = Promotion.create!(name: "Small", amount: 10)
+
+    membership.reload
+    membership.promotion_id = code.id
+    membership.send(:update_price_and_invoices_amount!)
+
+    assert_equal "open", invoice.reload.state
+    assert membership.missing_invoices_amount >= membership.promotion_claim.benefit_amount
+  end
+
+  test "ending a trial-only membership voids a commitment claim and restores the price" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+    member.update!(trial_baskets_count: 4)
+    membership = memberships(:jane)
+    membership.update_baskets_counts!
+    code = Promotion.create!(name: "Commit", amount: 40, commitment_required: true)
+    membership.promotion_id = code.id
+    membership.send(:update_price_and_invoices_amount!)
+
+    assert membership.reload.cancel_trial!
+
+    assert membership.reload.trial_only?
+    assert_nil membership.promotion_claim
+    assert_equal membership.price_before_reduction, membership.price
+  end
+
+  test "shortening a membership to the trial voids a posted commitment claim" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+    member.update!(trial_baskets_count: 4)
+    membership = memberships(:jane)
+    fourth = membership.baskets.joins(:delivery).order("deliveries.date").fourth
+    code = Promotion.create!(name: "Commit", amount: 40, commitment_required: true)
+    membership.promotion_id = code.id
+    membership.send(:update_price_and_invoices_amount!)
+    membership.update!(ended_on: fourth.delivery.date)
+
+    assert membership.reload.trial_only?
+    assert_nil membership.promotion_claim
+    assert_equal membership.price_before_reduction, membership.price
+  end
+
+  test "ending a committed membership keeps a commitment claim" do
+    travel_to "2024-06-01"
+    membership = memberships(:jane)
+    code = Promotion.create!(name: "Commit", amount: 40, commitment_required: true)
+    membership.promotion_id = code.id
+    membership.send(:update_price_and_invoices_amount!)
+
+    membership.reload.update!(ended_on: membership.ended_on - 1.week)
+
+    assert_not membership.reload.trial_only?
+    assert_equal code.id, membership.promotion_claim.promotion_id
+    assert_not membership.promotion_claim.voided?
+  end
 end

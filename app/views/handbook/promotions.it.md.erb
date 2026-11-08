@@ -1,0 +1,57 @@
+# Promozione
+
+Una promozione è un link di iscrizione e un codice QR che stampi su un volantino, un manifesto o una carta regalo. Chi apre il link vede un banner. Una volta iscritto, un importo fisso viene tolto da un solo abbonamento. Non c'è niente da digitare.
+
+## Quando usarla? {#which}
+
+Una [riduzione di prezzo](/handbook/price_reductions) è un programma che il socio può scegliere. È una percentuale o un importo fisso. Può essere nascosta, limitata ad alcuni punti di ritiro, con un massimale, o legata a una tessera. Il rinnovo può mantenerla.
+
+Una promozione è il link stampato. Un importo fisso, un riscatto, un abbonamento. Non è una scelta del modulo, e non si rinnova.
+
+Usa una riduzione di prezzo per un programma. Usa una promozione per un volantino, un manifesto, un coupon o una carta regalo.
+
+Un socio può avere entrambe. La riduzione di prezzo è applicata per prima. La promozione è tolta da quello che resta. Nessuna delle due si applica alla [quota annuale](/handbook/billing#annual-fee), alle [quote sociali cooperative](/handbook/billing#share-capital) o alla [quota di adesione](/handbook/new_member_fee).
+
+## Creare una promozione {#creating}
+
+Dal menu Altro (…), scegli Promozioni. Niente da attivare.
+
+Il link è generato al salvataggio. Non cambia. Un QR già stampato continua a funzionare se poi modifichi il nome o l'importo. Queste modifiche valgono solo per i nuovi riscatti. Un riscatto già fatto conserva il nome e l'importo visti dal socio.
+
+Il nome è il banner e la riga sull'abbonamento. Un nome interno distinto, se lo imposti, è quello che vedi nell'amministrazione.
+
+Utilizzi: "Singolo" o "Illimitato". Singolo per un coupon o una carta regalo. Illimitato per un manifesto. Un'iscrizione in attesa occupa un utilizzo singolo finché non la togli, o finché non è passato un anno.
+
+## L'URL e il QR {#url}
+
+La pagina mostra l'URL di iscrizione e un codice QR. Lo stampato deve puntare a questo URL. Copia l'URL da questa pagina per creare un tuo QR se serve.
+
+Il sito dei soci ricorda il link per 90 giorni. Il modulo di iscrizione non ha un campo per digitarlo. Se il link non è più valido, il banner lo dice e il link è dimenticato.
+
+## L'importo {#amount}
+
+Un importo fisso, tolto dall'importo dell'abbonamento alla creazione, dopo una riduzione di prezzo. Non può portare l'importo sotto zero. La fattura mostra la promozione su una riga a parte. L'importo da pagare è l'importo dell'abbonamento, già ridotto.
+
+Lo sconto resta su quell'abbonamento per un anno, dal giorno in cui il riscatto è stato salvato. L'archivio e la data di fine non lo tolgono. Dopo un anno l'importo torna alla tariffa senza promozione. La fattura non mostra più la riga. L'utilizzo singolo torna libero.
+
+Su un abbonamento già fatturato, la differenza è trattata il prossimo giorno di fatturazione, come un [cambiamento di prezzo](/handbook/billing#price-change).
+
+## Data di fine e archivio {#archive}
+
+Archivia dalla pagina, oppure indica una data di fine. La data di fine è l'ultimo giorno in cui i nuovi riscatti sono accettati. Una data passata è rifiutata. La notte dopo quella data, la promozione è archiviata e la data è cancellata. Una data vuota resta aperta finché non archivi.
+
+L'archiviazione non toglie lo sconto a chi lo ha già riscattato. Per riprenderlo, togli la promozione dal socio in attesa, o dall'abbonamento.
+
+Una promozione archiviata non si può più modificare. Toglila dall'archivio prima.
+
+Elimina una promozione solo se nessuno l'ha usata. Appena esiste un riscatto, l'eliminazione non è più proposta. Archivia per chiudere il link.
+
+## Prova e modulo di abbonamento {#trial}
+
+L'impegno a lungo termine applica lo sconto subito, anche durante il [periodo di prova](/handbook/billing#trial-baskets). Viene tolto solo se quell'abbonamento termina mentre contiene solo <%= Basket.model_name.human(count: 2).downcase %> di prova.
+
+Il modulo di abbonamento propone la promozione alla creazione, e appena l'abbonamento ha consegne oltre la prova. Non la propone su un abbonamento che contiene solo <%= Basket.model_name.human(count: 2).downcase %> di prova. Dopo la prova, puoi toglierla o scambiarla. Uno scambio che non funziona più lascia il riscatto in corso.
+
+Una <%= Basket.model_name.human.downcase %>-compenso non può avere una promozione. Il modulo non la propone, né sul socio in attesa né sull'abbonamento.
+
+Puoi anche impostare, togliere o scambiare una promozione su un socio in attesa e su un nuovo abbonamento.

@@ -1,0 +1,57 @@
+# Actie
+
+Een actie is een inschrijvingslink en een QR-code die je op een flyer, een poster of een cadeaubon drukt. Wie de link opent, ziet een banner. Na inschrijving gaat een vast bedrag van één abonnement af. Er is niets in te typen.
+
+## Wanneer gebruiken? {#which}
+
+Een [prijsreductie](/handbook/price_reductions) is een programma dat het lid kan kiezen. Het is een percentage of een vast bedrag. Ze kan verborgen zijn, beperkt tot depots, een plafond hebben, of aan een kaart gekoppeld zijn. Bij verlenging kan ze worden voortgezet.
+
+Een actie is de gedrukte link. Eén vast bedrag, één inwisseling, één abonnement. Het is geen keuze op het formulier, en hij vernieuwt niet.
+
+Gebruik een prijsreductie voor een programma. Gebruik een actie voor een flyer, een poster, een coupon of een cadeaubon.
+
+Een lid kan beide hebben. De prijsreductie wordt eerst toegepast. De actie gaat van wat overblijft af. Geen van beide geldt voor de [jaarlijkse bijdrage](/handbook/billing#annual-fee), de [coöperatieve aandelen](/handbook/billing#share-capital) of de [inschrijvingskosten](/handbook/new_member_fee).
+
+## Een actie maken {#creating}
+
+Open het menu Overig (…), dan Acties. Niets om aan te zetten.
+
+De link wordt gemaakt bij het opslaan. Hij verandert niet. Een al gedrukte QR blijft werken als je later de naam of het bedrag wijzigt. Die wijzigingen gelden alleen voor nieuwe inwisselingen. Een al gedane inwisseling houdt de naam en het bedrag die het lid heeft gezien.
+
+De naam is de banner en de regel op het abonnement. Een aparte interne naam, als je die instelt, is de naam die je in het beheer ziet.
+
+Gebruik is "Eenmalig" of "Onbeperkt". Eenmalig voor een coupon of een cadeaubon. Onbeperkt voor een poster. Een inschrijving in afwachting bezet een eenmalig gebruik tot je die weghaalt, of tot er een jaar voorbij is.
+
+## De URL en de QR {#url}
+
+De pagina toont de inschrijvings-URL en een QR-code. Het drukwerk moet naar die URL wijzen. Kopieer de URL van deze pagina om zelf een QR te maken als dat nodig is.
+
+De ledensite onthoudt de link 90 dagen. Het inschrijvingsformulier heeft er geen veld voor. Is de link niet meer geldig, dan zegt de banner dat en wordt de link vergeten.
+
+## Het bedrag {#amount}
+
+Een vast bedrag, afgetrokken van het abonnementsbedrag bij het aanmaken, na een prijsreductie. Het kan het bedrag niet onder nul brengen. De factuur toont de actie op een eigen regel. Het te betalen bedrag is het abonnementsbedrag, al verlaagd.
+
+De korting blijft een jaar op dat abonnement, vanaf de dag waarop de inwisseling is opgeslagen. Archiveren en de einddatum nemen die niet weg. Na een jaar geldt weer het bedrag zonder actie. De factuur toont de regel niet meer. Het eenmalige gebruik is weer vrij.
+
+Op een al gefactureerd abonnement wordt het verschil op de volgende facturatiedag verwerkt, zoals een [prijswijziging](/handbook/billing#price-change).
+
+## Einddatum en archief {#archive}
+
+Archiveer op de pagina, of stel een einddatum in. De einddatum is de laatste dag waarop nieuwe inwisselingen worden geaccepteerd. Een verstreken datum wordt geweigerd. De nacht na die datum wordt de actie gearchiveerd en de datum gewist. Een lege datum blijft open tot je archiveert.
+
+Archiveren haalt geen korting terug bij wie al heeft ingewisseld. Om die terug te nemen, verwijder je de actie bij het lid in de wachtlijst, of op het abonnement.
+
+Een gearchiveerde actie kan niet meer worden bewerkt. Haal die eerst uit het archief.
+
+Verwijder een actie alleen als niemand die heeft ingewisseld. Zodra er een inwisseling is, wordt verwijderen niet meer aangeboden. Archiveer om de link te sluiten.
+
+## Proefperiode en abonnementsformulier {#trial}
+
+Langetermijnverbintenis past de korting ook meteen toe, ook tijdens de [proefperiode](/handbook/billing#trial-baskets). Hij vervalt alleen als dat abonnement eindigt terwijl het alleen nog <%= Basket.model_name.human(count: 2).downcase %> op proef bevat.
+
+Het abonnementsformulier biedt de actie aan bij het aanmaken, en zodra het abonnement leveringen na de proefperiode heeft. Het biedt die niet aan op een abonnement dat alleen <%= Basket.model_name.human(count: 2).downcase %> op proef bevat. Na de proefperiode kun je die weghalen of wisselen. Een wissel die niet meer werkt, laat de huidige inwisseling staan.
+
+Een salaris-<%= Basket.model_name.human.downcase %> kan geen actie hebben. Het formulier biedt die niet aan, niet bij het wachtende lid en niet op het abonnement.
+
+Je kunt een actie ook zetten, weghalen of wisselen bij een wachtend lid en op een nieuw abonnement.

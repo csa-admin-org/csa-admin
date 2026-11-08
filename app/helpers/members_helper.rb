@@ -1,6 +1,68 @@
 # frozen_string_literal: true
 
 module MembersHelper
+  include NumbersHelper
+
+  def promotion_state_tag(code)
+    content_tag(:span, t("states.promotion.#{code.state}"), class: "status-tag", data: { status: code.state })
+  end
+
+  def promotion_claim_state(redemption)
+    return "voided" if redemption.voided?
+    return "expired" if redemption.expired?
+    return "held" if redemption.commitment_required? && redemption.membership&.trial_only?
+    return "applied" if redemption.on_committed_membership?
+
+    "pending"
+  end
+
+  def promotion_claim_status(redemption)
+    t("promotions.status.#{promotion_claim_state(redemption)}")
+  end
+
+  def promotion_claim_status_tag(redemption)
+    status = promotion_claim_state(redemption)
+    content_tag(:span, promotion_claim_status(redemption), class: "status-tag", data: { status: status })
+  end
+
+
+
+  def memberships_with_promotion_path(promotion)
+    memberships_path(scope: :all, q: { with_promotion: promotion.id })
+  end
+
+  def promotion_options(current = nil)
+    offers = Promotion.claimable.to_a
+    offers.reject! { |offer| !offer.uses_remaining? }
+    offers.unshift(current) if current && offers.none? { |offer| offer.id == current.id }
+    offers.uniq(&:id).map { |offer| [ promotion_option_label(offer), offer.id ] }
+  end
+
+  def promotion_option_label(code)
+    "#{code.name} (#{promotion_banner_amount(code)})"
+  end
+
+  def promotion_benefit_summary(code, short: false)
+    amount = cur(code.amount)
+    return amount if short
+
+    t("promotions.benefit.fixed", amount: amount)
+  end
+
+  def promotion_banner_amount(code)
+    amount = "-#{number_to_rounded(code.amount, precision: 2, strip_insignificant_zeros: true)}"
+    "#{amount}#{NumbersHelper::NBSP}#{currency_symbol}"
+  end
+
+  def promotion_banner_note(code)
+    return t("members.members.promotion_banner.salary_basket") if current_member&.salary_basket?
+
+    notes = []
+    notes << t("members.members.promotion_banner.expires", date: l(code.ends_on, format: :short)) if code.ends_on
+    notes << t("members.members.promotion_banner.commitment") if code.commitment_required?
+    notes.presence&.join(" ")
+  end
+
   RADIO_BUTTONS_MAX = 6
   DEPOT_FILTER_MIN = 8
   FEATURED_MEMBER_LIMIT = 8

@@ -299,6 +299,19 @@ _:
         _de: manuell
         _it: manuale
         _nl: handmatig
+    promotion:
+      active:
+        _en: Active
+        _fr: Active
+        _de: Aktiv
+        _it: Attiva
+        _nl: Actief
+      archived:
+        _en: Archived
+        _fr: Archivée
+        _de: Archiviert
+        _it: Archiviata
+        _nl: Gearchiveerd
     shop/order:
       cart:
         _en: cart

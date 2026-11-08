@@ -1153,6 +1153,104 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal "2024-07-01", Billing::Invoicer.new(member.reload).next_date.to_s
   end
 
+  test "a fixed promotion lowers the membership amount and leaves the annual fee" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    membership.send(:update_price_and_invoices_amount!)
+    price = membership.reload.price
+    code = Promotion.create!(name: "Summer", amount: 30)
+    PromotionClaim.claim!(member, code, membership: membership)
+    membership.send(:update_price_and_invoices_amount!)
+
+    invoice = force_invoice(member)
+
+    assert_equal price - 30, membership.reload.price
+    assert_equal membership.price, invoice.memberships_amount
+    assert_equal invoice.memberships_amount + invoice.annual_fee.to_d, invoice.amount
+  end
+
+  test "two invoices of the same membership bill the reduced amount" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    member.update!(annual_fee: 0)
+    membership = member.current_membership
+    membership.update!(billing_year_division: 2)
+    code = Promotion.create!(name: "Half", amount: 10)
+    PromotionClaim.claim!(member, code, membership: membership)
+    membership.send(:update_price_and_invoices_amount!)
+
+    first = Billing::Invoicer.new(member, billing_year_division: 2).invoice
+    second = Billing::Invoicer.new(member, date: Date.new(2024, 7, 1), billing_year_division: 2).invoice
+
+    assert_equal membership.reload.price, first.memberships_amount + second.memberships_amount
+  end
+
+  test "canceling the invoice and rebilling keeps the reduced membership amount" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    member.update!(annual_fee: 0)
+    membership = member.current_membership
+    code = Promotion.create!(name: "Gift", amount: 10)
+    PromotionClaim.claim!(member, code, membership: membership)
+    membership.send(:update_price_and_invoices_amount!)
+    invoice = force_invoice(member, send_email: true)
+    perform_enqueued_jobs
+    invoice.reload.cancel!
+    membership.send(:update_price_and_invoices_amount!)
+
+    rebilled = force_invoice(member.reload)
+
+    assert_equal membership.price, rebilled.memberships_amount
+    assert_equal code.id, membership.reload.promotion_claim.promotion_id
+  end
+
+  test "an archived promotion still reduces an existing claim" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    membership.send(:update_price_and_invoices_amount!)
+    price = membership.reload.price
+    code = Promotion.create!(name: "Ended", amount: 8)
+    PromotionClaim.claim!(member, code, membership: membership)
+    code.update!(state: "archived")
+    membership.send(:update_price_and_invoices_amount!)
+
+    invoice = force_invoice(member)
+
+    assert_equal price - 8, membership.reload.price
+    assert_equal membership.price, invoice.memberships_amount
+  end
+
+  test "a trial-only membership with commitment required is discounted" do
+    travel_to "2024-01-01"
+    member = members(:anna)
+    membership = member.current_membership
+    membership.send(:update_price_and_invoices_amount!)
+    price = membership.reload.price
+    membership.update_columns(baskets_count: membership.trial_baskets_count)
+    code = Promotion.create!(name: "Commit", amount: 12, commitment_required: true)
+    PromotionClaim.claim!(member, code, membership: membership)
+    membership.send(:update_price_and_invoices_amount!)
+
+    assert_equal price - 12, membership.reload.price
+    assert_not membership.promotion_claim.voided?
+  end
+
+  test "a discount larger than the membership amount brings it to zero" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    org(annual_fee: nil)
+    membership = member.current_membership
+    membership.send(:update_price_and_invoices_amount!)
+    code = Promotion.create!(name: "Full", amount: membership.reload.price + 50)
+    PromotionClaim.claim!(member, code, membership: membership)
+    membership.send(:update_price_and_invoices_amount!)
+
+    assert_equal 0, membership.reload.price
+    assert_nil force_invoice(member)
+  end
+
   test "next_date returns nil when billing_starts_after_first_delivery and no billable delivery exists" do
     org(billing_starts_after_first_delivery: true)
     travel_to "2024-01-01"

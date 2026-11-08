@@ -1,0 +1,95 @@
+_:
+  promotions:
+    amount_with_currency:
+      _en: Amount (%{currency})
+      _fr: Montant (%{currency})
+      _de: Betrag (%{currency})
+      _it: Importo (%{currency})
+      _nl: Bedrag (%{currency})
+    benefit:
+      amount:
+        _en: "%{amount}"
+        _fr: "%{amount}"
+        _de: "%{amount}"
+        _it: "%{amount}"
+        _nl: "%{amount}"
+      fixed:
+        _en: "%{amount} off the membership amount"
+        _fr: "%{amount} de réduction sur le montant de l'abonnement"
+        _de: "%{amount} Rabatt auf den Abonnementbetrag"
+        _it: "%{amount} di sconto sull'importo dell'abbonamento"
+        _nl: "%{amount} korting op het abonnementsbedrag"
+    copied:
+      _en: Copied
+      _fr: Copié
+      _de: Kopiert
+      _it: Copiato
+      _nl: Gekopieerd
+    copy:
+      _en: Copy
+      _fr: Copier
+      _de: Kopieren
+      _it: Copiare
+      _nl: Kopiëren
+    no_redemptions:
+      _en: No claims yet.
+      _fr: Aucune utilisation pour le moment.
+      _de: Noch keine Einlösungen.
+      _it: Nessun riscatto per ora.
+      _nl: Nog geen inwisselingen.
+    registration_url:
+      _en: Registration URL
+      _fr: URL d'inscription
+      _de: Anmelde-URL
+      _it: URL di iscrizione
+      _nl: Inschrijvings-URL
+    status:
+      applied:
+        _en: Applied
+        _fr: Appliquée
+        _de: Angewendet
+        _it: Applicato
+        _nl: Toegepast
+      expired:
+        _en: Expired
+        _fr: Expirée
+        _de: Abgelaufen
+        _it: Scaduto
+        _nl: Verlopen
+      held:
+        _en: Held for commitment
+        _fr: En attente d'engagement
+        _de: Wartet auf Verpflichtung
+        _it: In attesa di impegno
+        _nl: Wacht op verbintenis
+      pending:
+        _en: Pending
+        _fr: En attente
+        _de: Ausstehend
+        _it: In attesa
+        _nl: In afwachting
+      voided:
+        _en: Voided
+        _fr: Annulée
+        _de: Storniert
+        _it: Annullato
+        _nl: Ongeldig
+    uses:
+      count:
+        _en: Number of uses
+        _fr: Nombre d'utilisations
+        _de: Anzahl der Verwendungen
+        _it: Numero di utilizzi
+        _nl: Aantal gebruiken
+      unique:
+        _en: Unique
+        _fr: Unique
+        _de: Einmalig
+        _it: Singolo
+        _nl: Eenmalig
+      unlimited:
+        _en: Unlimited
+        _fr: Illimité
+        _de: Unbegrenzt
+        _it: Illimitato
+        _nl: Onbeperkt

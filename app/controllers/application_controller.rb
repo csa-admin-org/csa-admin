@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   include DemoPageVisitTracking
   include Observability
   include SmartReferer
+  include PromotionCookie
 
   protect_from_forgery with: :exception
 

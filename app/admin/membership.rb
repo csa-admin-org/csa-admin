@@ -75,6 +75,10 @@ ActiveAdmin.register Membership do
   filter :activity_participations_accepted, if: proc { feature?("activity") }
   filter :activity_participations_demanded, if: proc { feature?("activity") }
   filter :activity_participations_missing, as: :numeric, if: proc { feature?("activity") }
+  filter :with_promotion,
+    as: :select,
+    collection: -> { admin_promotions_collection },
+    label: -> { Promotion.model_name.human }
   filter :with_price_reduction,
     as: :select,
     collection: -> { admin_price_reductions_collection },
@@ -660,6 +664,11 @@ ActiveAdmin.register Membership do
                   end
                 }
               end
+              if (redemption = m.promotion_claim)&.billable? && redemption.benefit_amount&.nonzero?
+                row(link_to(redemption.public_name, redemption.promotion).html_safe, class: "tabular-nums") {
+                  cur(-redemption.benefit_amount, unit: false)
+                }
+              end
               row(:price, class: "row-rule font-bold tabular-nums") {
                 cur(m.price, format: "%u %n")
               }
@@ -1012,6 +1021,15 @@ ActiveAdmin.register Membership do
       if BasketComplement.kept.any?
         f.input :basket_complements_annual_price_change
       end
+      redemption = f.object.promotion_claim
+      if !f.object.member&.salary_basket? && (f.object.new_record? || !f.object.trial_only?)
+        f.input :promotion_id,
+          as: :select,
+          label: Promotion.model_name.human,
+          collection: promotion_options(redemption&.promotion),
+          selected: redemption&.promotion_id,
+          include_blank: true
+      end
     end
 
     if feature?("price_reductions")
@@ -1088,6 +1106,7 @@ ActiveAdmin.register Membership do
     :force_activity_participations_demanded_annually,
     :new_config_from,
     :price_reduction_choice_id,
+    :promotion_id,
     membership_price_reduction_attributes: [
       :id, :percentage, :fixed_amount
     ],

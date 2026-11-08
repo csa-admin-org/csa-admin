@@ -6,7 +6,7 @@ class Ability
   MODELS_MAPPING = {
     delivery: [ Delivery, DeliveryCycle ],
     depot: [ Depot, DepotGroup ],
-    membership: [ Membership, Basket, BasketShift, BasketOverride ],
+    membership: [ Membership, Basket, BasketShift, BasketOverride, Promotion, PromotionClaim ],
     billing: [ Invoice, Payment ],
     activity: [ Activity, ActivityParticipation, ActivityPreset ],
     basket_content: [ BasketContent, BasketContent::Product, Producer ],
@@ -121,6 +121,8 @@ class Ability
       can :stop, Membership, can_stop?: true
       can :force, Basket, can_force?: true
       can :unforce, Basket, can_unforce?: true
+      can :archive, Promotion, discarded_at: nil
+      can :unarchive, Promotion, discarded_at: nil
     end
 
     if admin.permission.can_write?(:billing)

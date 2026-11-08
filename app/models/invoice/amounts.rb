@@ -44,6 +44,8 @@ module Invoice::Amounts
   end
 
   def amount_with_vat
+    return memberships_amount || 0 if membership_type?
+
     memberships_amount || amount
   end
 

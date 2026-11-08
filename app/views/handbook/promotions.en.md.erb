@@ -1,0 +1,57 @@
+# Promotion
+
+A promotion is a registration link and a QR code you print on a flyer, a poster, or a gift card. Someone who opens that link sees a banner. Once they register, a fixed amount comes off one membership. There is nothing to type.
+
+## When to use it {#which}
+
+A [price reduction](/handbook/price_reductions) is a program the member can choose. It is a percentage or a fixed amount. It can be hidden, limited to depots, capped, or tied to a card. Renewal can carry it over.
+
+A promotion is the printed link. One fixed amount, one claim, one membership. It is not a choice on the form, and it does not renew.
+
+Use a price reduction for a program. Use a promotion for a flyer, a poster, a coupon, or a gift card.
+
+A member can have both. The price reduction is applied first. The promotion comes off what remains. Neither applies to the [annual fee](/handbook/billing#annual-fee), [shares](/handbook/billing#share-capital), or the [new-member fee](/handbook/new_member_fee).
+
+## Creating a promotion {#creating}
+
+From the Other (…) menu, choose Promotions. Nothing to turn on.
+
+The link is generated when you save. It does not change. A printed QR keeps working if you later change the name or the amount. Those changes apply to new claims only. A claim already made keeps the name and the amount the member saw.
+
+The name is the banner and the line on the membership. A separate admin name, if you set one, is what you see in the admin.
+
+Uses is "Unique" or "Unlimited". Unique is a coupon or a gift card. Unlimited is a poster. A pending registration holds a unique use until you clear it, or until a year has passed.
+
+## The URL and the QR {#url}
+
+The page shows the registration URL and a QR code. Point the print at that URL. Copy the URL from this page to make your own QR if you need one.
+
+The members site remembers the link for 90 days. The registration form has no field for it. If the link is no longer valid, the banner says so and the link is forgotten.
+
+## The amount {#amount}
+
+A fixed amount, taken off the membership amount when the membership is created, after any price reduction. It cannot bring the amount below zero. The invoice shows the promotion as its own line. The amount due is the membership amount, already reduced.
+
+The discount stays on that membership for one year from the day the claim was saved. Archiving and the end date do not remove it. After that year the amount goes back to the price without the promotion. The invoice no longer shows the line. The unique use is free again.
+
+On a membership already invoiced, the difference is handled on the next billing day, like a [price change](/handbook/billing#price-change).
+
+## End date and archive {#archive}
+
+Archive on the show page, or set an end date. The end date is the last day new claims are accepted. A past date is refused. The night after that date, the promotion is archived and the date is cleared. A blank date stays open until you archive it.
+
+Archiving does not take the discount back from someone who already claimed. To take it back, clear the promotion on the waiting member, or on the membership.
+
+An archived promotion cannot be edited. Unarchive it first.
+
+Delete a promotion only if nobody has used it. Once a claim exists, delete is no longer offered. Archive to close the link.
+
+## Trial and the membership form {#trial}
+
+Long-term commitment still applies the discount at once, including during the [trial](/handbook/billing#trial-baskets). It is removed only if that membership ends while it still has only trial <%= Basket.model_name.human(count: 2).downcase %>.
+
+The membership form offers the promotion on create, and once the membership has deliveries past the trial. It does not offer it on a membership that has only trial <%= Basket.model_name.human(count: 2).downcase %>. After the trial, you can clear it or swap it. A swap that no longer works leaves the current claim.
+
+A salary <%= Basket.model_name.human.downcase %> cannot have a promotion. The form does not offer it, on the waiting member or on the membership.
+
+You can also set, clear, or swap a promotion on a waiting member, and on a new membership.

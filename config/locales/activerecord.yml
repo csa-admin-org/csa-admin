@@ -4348,6 +4348,56 @@ _:
           _de: Pflichtfelder
           _it: Campi obbligatori
           _nl: Verplichte velden
+      promotion:
+        amount:
+          _en: Discount
+          _fr: Réduction
+          _de: Rabatt
+          _it: Sconto
+          _nl: Korting
+        commitment_required:
+          _en: Long-term commitment
+          _fr: Engagement long terme
+          _de: Langfristige Verpflichtung
+          _it: Impegno a lungo termine
+          _nl: Langetermijnverbintenis
+        ends_on:
+          _en: End date
+          _fr: Date de fin
+          _de: Enddatum
+          _it: Data di fine
+          _nl: Einddatum
+        max_uses:
+          _en: Uses
+          _fr: Utilisations
+          _de: Verwendungen
+          _it: Utilizzi
+          _nl: Gebruik
+        state:
+          _en: State
+          _fr: État
+          _de: Status
+          _it: Stato
+          _nl: Status
+      promotion_claim:
+        benefit_amount:
+          _en: Discount
+          _fr: Réduction
+          _de: Rabatt
+          _it: Sconto
+          _nl: Korting
+        expires_on:
+          _en: Expires
+          _fr: Expire
+          _de: Läuft ab
+          _it: Scade
+          _nl: Verloopt
+        status:
+          _en: Status
+          _fr: Statut
+          _de: Status
+          _it: Stato
+          _nl: Status
       session:
         last_used_at:
           _en: Logged in on
@@ -4722,6 +4772,13 @@ _:
                 _de: Für dieses Mitglied besteht bereits ein Abonnement für dieses Geschäftsjahr. Eine direkte Aktivierung ist daher nicht möglich, dieses Abonnement bearbeiten.
                 _it: Questo socio ha già un abbonamento per questo anno fiscale. Non può quindi essere attivato direttamente, modificate quell'abbonamento.
                 _nl: Dit lid heeft al een lidmaatschap voor dit boekjaar. Direct activeren is daarom niet mogelijk, dat lidmaatschap bewerken.
+            waiting_promotion:
+              not_redeemable:
+                _en: is no longer valid
+                _fr: n'est plus valable
+                _de: ist nicht mehr gültig
+                _it: non è più valida
+                _nl: is niet meer geldig
         membership:
           attributes:
             alternate_delivery_cycle:
@@ -4757,6 +4814,15 @@ _:
             _de: Es ist nur eine Organisation erlaubt
             _it: È consentita una sola organizzazione
             _nl: Er is maar één organisatie toegestaan
+        promotion:
+          attributes:
+            ends_on:
+              past:
+                _en: cannot be in the past
+                _fr: ne peut pas être dans le passé
+                _de: darf nicht in der Vergangenheit liegen
+                _it: non può essere nel passato
+                _nl: mag niet in het verleden liggen
         session:
           attributes:
             email:
@@ -5690,6 +5756,32 @@ _:
           _de: Produzenten
           _it: Produttori
           _nl: Producenten
+      promotion:
+        one:
+          _en: Promotion
+          _fr: Promotion
+          _de: Aktion
+          _it: Promozione
+          _nl: Actie
+        other:
+          _en: Promotions
+          _fr: Promotions
+          _de: Aktionen
+          _it: Promozioni
+          _nl: Acties
+      promotion_claim:
+        one:
+          _en: Claim
+          _fr: Utilisation
+          _de: Einlösung
+          _it: Riscatto
+          _nl: Inwisseling
+        other:
+          _en: Claims
+          _fr: Utilisations
+          _de: Einlösungen
+          _it: Riscatti
+          _nl: Inwisselingen
       session:
         one:
           _en: Session
