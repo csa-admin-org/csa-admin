@@ -240,6 +240,88 @@ class BasketContentTest < ActiveSupport::TestCase
     assert_equal 1.5, bc.price_for(basket_sizes(:medium), depots(:farm))
   end
 
+  test "delivery producer prices sum priced contents across basket sizes" do
+    config(small: 2, medium: 1)
+    delivery = deliveries(:monday_1)
+    farm = producers(:farm)
+    garden = Producer.create!(name: "Garden")
+    carrots = basket_content_products(:carrots)
+    cucumbers = basket_content_products(:cucumbers)
+    carrots.update!(producer: farm)
+    cucumbers.update!(producer: garden)
+    pears = BasketContent::Product.create!(name: "Pears", unit: "kg")
+
+    # small 2 x 0.5kg + medium 1 x 1kg = 2kg at 4 = 8.00 for Farm
+    create_basket_content(
+      product: carrots,
+      delivery: delivery,
+      basket_size_ids_quantities: { small_id => 500, medium_id => 1000 },
+      unit: "kg",
+      unit_price: 4)
+    # 5 pieces at 3 = 15.00 for Garden
+    create_basket_content(
+      product: cucumbers,
+      delivery: delivery,
+      basket_size_ids_quantities: { small_id => 2, medium_id => 1 },
+      unit: "pc",
+      unit_price: 3)
+    create_basket_content(
+      product: pears,
+      delivery: delivery,
+      basket_size_ids_quantities: { small_id => 1000 },
+      unit: "kg",
+      unit_price: 9)
+    create_basket_content(
+      product: BasketContent::Product.create!(name: "Apples", unit: "kg", producer: farm),
+      delivery: delivery,
+      basket_size_ids_quantities: { small_id => 500 },
+      unit: "kg",
+      unit_price: nil)
+
+    rows = delivery.basket_content_producer_prices
+
+    assert_equal [ garden, farm ], rows.map(&:producer)
+    assert_equal [ 15, 8 ], rows.map(&:price)
+    assert_equal [ 65, 35 ], rows.map(&:percentage)
+    assert_equal 100, rows.sum(&:percentage)
+  end
+
+  test "delivery producer prices are empty without a producer or a price" do
+    config(small: 1)
+    delivery = deliveries(:monday_1)
+    create_basket_content(
+      basket_size_ids_quantities: { small_id => 500 },
+      unit: "kg",
+      unit_price: 2)
+
+    assert_empty delivery.basket_content_producer_prices
+
+    basket_content_products(:carrots).update!(producer: producers(:farm))
+    BasketContent.last.update!(unit_price: nil)
+
+    assert_empty delivery.basket_content_producer_prices
+  end
+
+  test "delivery producer percentages always sum to 100" do
+    config(small: 1)
+    delivery = deliveries(:monday_1)
+    %w[Cider Dairy Eggs].each do |name|
+      product = BasketContent::Product.create!(name: name, unit: "pc", producer: Producer.create!(name: name))
+      create_basket_content(
+        product: product,
+        delivery: delivery,
+        basket_size_ids_quantities: { small_id => 1 },
+        unit: "pc",
+        unit_price: 1)
+    end
+
+    rows = delivery.basket_content_producer_prices
+
+    assert_equal 100, rows.sum(&:percentage)
+    assert_equal [ 34, 33, 33 ], rows.map(&:percentage)
+    assert_equal "Cider", rows.first.producer.name
+  end
+
   test "price_for returns nil when depot not included" do
     config(small: 1)
     bc = create_basket_content(

@@ -147,6 +147,29 @@ ActiveAdmin.register BasketContent do
     column(:depots) { |bc| display_depots(bc.depots) }
   end
 
+  config.sidebar_sections.find { |section| section.name == "filters" }.options[:priority] = 0
+
+  sidebar :producers, only: :index, priority: 1, if: -> { index_delivery_producer_prices.any? } do
+    side_panel Producer.model_name.human(count: 2) do
+      rows = index_delivery_producer_prices
+      div class: "bc-producer-totals" do
+        rows.each do |row|
+          div class: "bc-producer-total" do
+            span row.producer.name, class: "bc-producer-total-name"
+            span class: "bc-producer-total-figures" do
+              span number_to_percentage(row.percentage, precision: 0), class: "bc-producer-total-percentage text-xs"
+              span cur(row.price, unit: false), class: "bc-producer-total-price"
+            end
+          end
+        end
+        div class: "bc-producer-total is-total" do
+          span t(".total"), class: "bc-producer-total-name"
+          span cur(rows.sum(&:price)), class: "bc-producer-total-price"
+        end
+      end
+    end
+  end
+
   sidebar :total, only: :index, if: -> {
     params.dig(:q, :product_id_eq).present? && params.dig(:q, :delivery_id_eq).blank?
   } do
@@ -290,6 +313,7 @@ ActiveAdmin.register BasketContent do
 
     helper_method :initial_distribution_data,
       :index_delivery,
+      :index_delivery_producer_prices,
       :coming_deliveries_missing_contents,
       :filled_deliveries_with_contents_missing
 
@@ -335,6 +359,12 @@ ActiveAdmin.register BasketContent do
 
       delivery_id = params.dig(:q, :delivery_id_eq)
       @index_delivery = delivery_id.present? ? Delivery.find_by(id: delivery_id) : nil
+    end
+
+    def index_delivery_producer_prices
+      return @index_delivery_producer_prices if defined?(@index_delivery_producer_prices)
+
+      @index_delivery_producer_prices = index_delivery&.basket_content_producer_prices || []
     end
 
     def coming_deliveries_missing_contents

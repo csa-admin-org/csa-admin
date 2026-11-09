@@ -385,6 +385,59 @@
     line-height: 2rem;
   }
 
+  .bc-producer-totals {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.375rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bc-producer-total {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 0.75rem;
+    row-gap: 0.125rem;
+  }
+
+  .bc-producer-total-name {
+    flex: 1 1 auto;
+    max-width: 100%;
+    min-width: min(100%, max-content);
+    overflow-wrap: anywhere;
+  }
+
+  .bc-producer-total-figures {
+    display: grid;
+    grid-template-columns: 2.5rem max-content;
+    align-items: baseline;
+    column-gap: 0.25rem;
+    flex: none;
+    margin-inline-start: auto;
+  }
+
+  .bc-producer-total-percentage {
+    color: var(--color-ink-muted);
+    text-align: end;
+    font-size: var(--text-xs);
+  }
+
+  .bc-producer-total-price {
+    text-align: end;
+    white-space: nowrap;
+  }
+
+  .bc-producer-total.is-total {
+    margin-top: 0.25rem;
+    border-top: 1px solid var(--color-black);
+    padding-top: 0.25rem;
+    font-weight: 700;
+
+    &:where(.dark, .dark *) {
+      border-top-color: var(--color-white);
+    }
+  }
+
   .qty-input {
     margin: 0;
     width: 3.25rem;

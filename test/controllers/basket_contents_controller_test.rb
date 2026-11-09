@@ -159,6 +159,71 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     assert_select "tbody tr#basket_content_product_#{product.id}", count: 1
   end
 
+  test "index shows producer prices for the selected delivery" do
+    delivery = deliveries(:monday_1)
+    farm = producers(:farm)
+    garden = Producer.create!(name: "Les jardins de la colline aux longues saisons")
+    carrots = basket_content_products(:carrots)
+    cucumbers = basket_content_products(:cucumbers)
+    carrots.update!(producer: farm)
+    cucumbers.update!(producer: garden)
+    baskets(:bob_1).update_column(:quantity, 2)
+    baskets(:john_1).update_column(:quantity, 1)
+    baskets(:anna_1).update_column(:quantity, 0)
+    create_basket_content(
+      product: carrots,
+      delivery: delivery,
+      basket_size_ids_quantities: { small_id => 500, medium_id => 1000 },
+      unit: "kg",
+      unit_price: 4)
+    create_basket_content(
+      product: cucumbers,
+      delivery: delivery,
+      basket_size_ids_quantities: { small_id => 2, medium_id => 1 },
+      unit: "pc",
+      unit_price: 3)
+
+    get basket_contents_path(q: {
+      delivery_id_eq: delivery.id,
+      product_id_eq: carrots.id,
+      basket_size_eq: small_id
+    })
+
+    assert_response :success
+    assert_select "#producers_sidebar_section .admin-side-panel-title", text: "Producers"
+    assert_select ".bc-producer-total:not(.is-total)", count: 2
+    assert_select ".bc-producer-total-name", text: garden.name
+    assert_select ".bc-producer-total", text: /#{Regexp.escape(garden.name)}/ do |rows|
+      assert_includes rows.first.text, "15.00"
+      assert_includes rows.first.text, "65%"
+    end
+    assert_select ".bc-producer-total", text: /Farm/ do |rows|
+      assert_includes rows.first.text, "8.00"
+      assert_includes rows.first.text, "35%"
+    end
+    assert_select ".bc-producer-total.is-total", text: /23.00/
+    assert_match(/id="filters_sidebar_section".*id="producers_sidebar_section"/m, response.body)
+  end
+
+  test "index hides producer prices without a delivery, producer, or price" do
+    product = basket_content_products(:carrots)
+    create_basket_content(
+      product: product,
+      basket_size_ids_quantities: { small_id => 500 },
+      unit: "kg",
+      unit_price: 2)
+
+    get basket_contents_path(q: { delivery_id_eq: deliveries(:monday_1).id })
+
+    assert_response :success
+    assert_select "#producers_sidebar_section", count: 0
+
+    get basket_contents_path(q: { product_id_eq: product.id })
+
+    assert_response :success
+    assert_select "#producers_sidebar_section", count: 0
+  end
+
   test "index hides total sidebar when delivery filter is present" do
     product = basket_content_products(:carrots)
     create_basket_content(

@@ -273,6 +273,30 @@ class Delivery < ApplicationRecord
     end
   end
 
+  ProducerPrice = Data.define(:producer, :price, :percentage)
+
+  # Total value of priced basket contents, grouped by producer.
+  # Percentages are rounded so the rows always sum to 100.
+  def basket_content_producer_prices
+    contents = basket_contents.with_unit_price.includes(:depots, product: :producer).to_a
+    contents.select! { |bc| bc.producer && bc.unit_price.to_d.positive? }
+    return [] if contents.empty?
+
+    assign_basket_content_counts!(contents)
+
+    rows = contents.group_by(&:producer).filter_map { |producer, group|
+      price = group.sum { |bc| (bc.unit_price * BigDecimal(bc.quantity.to_s)).round_to_one_cent }
+      [ producer, price ] if price.positive?
+    }
+    return [] if rows.empty?
+
+    rows.sort_by! { |producer, price| [ -price, producer.name ] }
+    percentages = percentages_totaling_100(rows.map(&:last))
+    rows.zip(percentages).map { |(producer, price), percentage|
+      ProducerPrice.new(producer:, price:, percentage:)
+    }
+  end
+
   def basket_content_prices
     bcs = basket_contents.with_unit_price.includes(:depots)
     return {} if bcs.empty?
@@ -311,6 +335,31 @@ class Delivery < ApplicationRecord
   end
 
   private
+
+  def assign_basket_content_counts!(contents)
+    counts = baskets.active.group(:depot_id, :basket_size_id).sum(:quantity)
+    contents.each do |bc|
+      depot_ids = bc.depots.map(&:id)
+      bc.baskets_counts_hash = counts.each_with_object(Hash.new(0)) do |((depot_id, size_id), qty), hash|
+        hash[size_id] += qty if depot_ids.include?(depot_id)
+      end
+    end
+  end
+
+  # Largest remainder on cent amounts, so integer percentages sum to 100.
+  # Ties go to the larger amount, then to the earlier row.
+  def percentages_totaling_100(amounts)
+    cents = amounts.map { |amount| (amount * 100).to_i }
+    total = cents.sum
+    return [] if total.zero?
+
+    bases, remainders = cents.map { |cent|
+      (cent * 100).divmod(total)
+    }.transpose
+    ranked = remainders.each_index.sort_by { |i| [ -remainders[i], -cents[i], i ] }
+    (100 - bases.sum).times { |n| bases[ranked[n]] += 1 }
+    bases
+  end
 
   def bulk_attributes
     super.map { |h|
