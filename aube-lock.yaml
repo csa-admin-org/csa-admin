@@ -9,10 +9,10 @@ importers:
   .:
     devDependencies:
       '@herb-tools/formatter':
-        specifier: ^0.11.1
+        specifier: ^0.11.2
         version: 0.11.2
       '@herb-tools/linter':
-        specifier: ^0.11.1
+        specifier: ^0.11.2
         version: 0.11.2
       oxfmt:
         specifier: ^0.59.0
