@@ -21,6 +21,16 @@ Na het kiezen van de titel van de extra en een uitleg tekst (optioneel), kun je 
 
 Laat [Dynamische prijs](/settings#basket_price_extra) leeg, tenzij de gefactureerde extra moet veranderen met de <%= BasketSize.model_name.human.downcase %> of de aanvullingen. Staat het veld ingevuld, dan gebruiken de facturen het resultaat. Het bedrag dat het lid koos is alleen het startpunt.
 
+Dynamische prijs gebruikt [Liquid](https://shopify.github.io/liquid). Deze objecten zijn beschikbaar:
+
+- **`extra`** – het bedrag dat het lid koos, per levering
+- **`basket_size_id`** – het id van de <%= BasketSize.model_name.human.downcase %>
+- **`basket_size_price`** – de prijs van de <%= BasketSize.model_name.human.downcase %> voor die levering
+- **`complements_price`** – de prijs van de aanvullingen voor die levering
+- **`deliveries_count`** – het hoogste aantal leveringen in het boekjaar, over alle cycli. Bestaande formules die dit gebruiken blijven werken.
+- **`delivery_cycle_id`** – het id van de leveringscyclus van het lidmaatschap
+- **`delivery_cycle_deliveries_count`** – factureerbare leveringen voor die cyclus en die <%= BasketSize.model_name.human.downcase %>. Hetzelfde aantal als de schatting bij inschrijving. Gebruik dit wanneer een tweewekelijks lidmaatschap niet als een wekelijks mag worden gefactureerd.
+
 Vervolgens moet je definiëren hoe je extra's worden weergegeven, bijvoorbeeld met behulp van [Liquid syntax](https://shopify.github.io/liquid) als volgt:
 
 ~~~ liquid

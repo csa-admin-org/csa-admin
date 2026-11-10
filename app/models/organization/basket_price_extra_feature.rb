@@ -34,7 +34,14 @@ module Organization::BasketPriceExtraFeature
     self[:basket_price_extras] = string.split(",").map(&:presence).compact.map(&:to_f)
   end
 
-  def calculate_basket_price_extra(extra, basket_size_price, basket_size_id, complements_price, deliveries_count)
+  def calculate_basket_price_extra(
+    extra,
+    basket_size_price,
+    basket_size_id,
+    complements_price,
+    deliveries_count,
+    delivery_cycle: nil,
+    basket_size: nil)
     return extra unless basket_price_extra_dynamic_pricing?
 
     template = Liquid::Template.parse(basket_price_extra_dynamic_pricing)
@@ -43,7 +50,9 @@ module Organization::BasketPriceExtraFeature
       "basket_size_price" => basket_size_price.to_f,
       "basket_size_id" => basket_size_id,
       "complements_price" => complements_price.to_f,
-      "deliveries_count" => deliveries_count.to_f
+      "deliveries_count" => deliveries_count.to_f,
+      "delivery_cycle_id" => delivery_cycle&.id,
+      "delivery_cycle_deliveries_count" => delivery_cycle_deliveries_count(delivery_cycle, basket_size)
     ).to_f
   end
 
@@ -72,6 +81,18 @@ module Organization::BasketPriceExtraFeature
   end
 
   private
+
+  def delivery_cycle_deliveries_count(delivery_cycle, basket_size)
+    return 0.0 unless delivery_cycle
+
+    count =
+      if basket_size
+        delivery_cycle.billable_deliveries_count_for_basket_size(basket_size)
+      else
+        delivery_cycle.billable_deliveries_count
+      end
+    count.to_f
+  end
 
   def set_basket_price_extra_defaults
     self.basket_price_extra_labels = default_basket_price_extra_labels

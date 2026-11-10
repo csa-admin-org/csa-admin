@@ -183,6 +183,14 @@ class Basket < ApplicationRecord
       updated_at: Time.current)
   end
 
+  def self.price_extra_includes
+    if Current.org.basket_price_extra_dynamic_pricing?
+      [ :baskets_basket_complements, :basket_size, { membership: :delivery_cycle } ]
+    else
+      [ :baskets_basket_complements, :membership ]
+    end
+  end
+
   private
 
   def apply_member_update!(params)
@@ -279,6 +287,13 @@ class Basket < ApplicationRecord
       basket_size_price,
       basket_size_id,
       complements_price,
-      Current.org.deliveries_count(membership.fy_year))
+      Current.org.deliveries_count(membership.fy_year),
+      **price_extra_cycle)
+  end
+
+  def price_extra_cycle
+    return {} unless Current.org.basket_price_extra_dynamic_pricing?
+
+    { delivery_cycle: membership.delivery_cycle, basket_size: basket_size }
   end
 end

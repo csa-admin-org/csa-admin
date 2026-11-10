@@ -34,7 +34,7 @@ class BasketsBasketComplementsUpdaterJob < ApplicationJob
     scope = Basket.unscoped.where(id: basket_ids)
     membership_ids = scope.distinct.pluck(:membership_id)
 
-    scope.includes(:baskets_basket_complements, :membership)
+    scope.includes(Basket.price_extra_includes)
       .find_each(&:write_calculated_price_extra!)
     Membership.where(id: membership_ids).find_each(&:refresh_after_complements_change!)
   end

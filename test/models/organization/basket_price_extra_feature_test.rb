@@ -118,4 +118,39 @@ class BasketPriceExtraFeatureTest < ActiveSupport::TestCase
     result = org.calculate_basket_price_extra(2, 60, 1, 5, 40)
     assert_equal 4.0, result
   end
+
+  test "calculate_basket_price_extra exposes the delivery cycle" do
+    travel_to "2024-01-01"
+    cycle = delivery_cycles(:mondays)
+    cycle.update_column(:deliveries_counts, { "2024" => 17, "2025" => 0 })
+    cycle.reload
+    Current.reset
+    org = organizations(:acme)
+    org.basket_price_extra_dynamic_pricing = <<-LIQUID
+      {% if delivery_cycle_id == #{cycle.id} %}
+        {{ delivery_cycle_deliveries_count }}
+      {% else %}
+        0
+      {% endif %}
+    LIQUID
+
+    result = org.calculate_basket_price_extra(
+      1, 10, basket_sizes(:small).id, 0, 33,
+      delivery_cycle: cycle,
+      basket_size: basket_sizes(:small))
+
+    assert_equal 17.0, result
+  end
+
+  test "calculate_basket_price_extra keeps deliveries_count unchanged" do
+    org = organizations(:acme)
+    org.basket_price_extra_dynamic_pricing = "{{ deliveries_count }}"
+
+    result = org.calculate_basket_price_extra(
+      1, 10, 1, 0, 40,
+      delivery_cycle: delivery_cycles(:thursdays),
+      basket_size: basket_sizes(:small))
+
+    assert_equal 40.0, result
+  end
 end

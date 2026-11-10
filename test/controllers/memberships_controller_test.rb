@@ -1189,6 +1189,27 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#membership-basket-price-extra", false
   end
 
+  test "basket price extra preview uses the form delivery cycle count" do
+    travel_to "2024-05-01"
+    cycle = delivery_cycles(:thursdays)
+    cycle.update_column(:deliveries_counts, { "2024" => 17, "2025" => 0 })
+    cycle.reload
+    Current.reset
+    org(basket_price_extra_dynamic_pricing: "{{ delivery_cycle_deliveries_count }}")
+    membership = memberships(:jane)
+    login admins(:super)
+
+    get basket_price_extra_preview_memberships_path, params: {
+      membership: preview_membership_params(membership).merge(
+        basket_price_extra: 1,
+        basket_size_price: 30,
+        delivery_cycle_id: cycle.id)
+    }
+
+    assert_response :success
+    assert_select "turbo-frame#membership-basket-price-extra [data-billed-extra='#{billed_extra(17)}']"
+  end
+
   test "basket price extra preview returns billed extra" do
     travel_to "2024-05-01"
     org(basket_price_extra_dynamic_pricing: "{{ extra | times: 2 }}")

@@ -343,6 +343,61 @@ class BasketTest < ActiveSupport::TestCase
     assert_equal 4 / 20.0, basket.send(:calculate_price_extra)
   end
 
+  test "calculate_price_extra uses the membership delivery cycle count" do
+    travel_to "2024-01-01"
+    stub_cycle_deliveries_count(delivery_cycles(:mondays), 33)
+    stub_cycle_deliveries_count(delivery_cycles(:thursdays), 17)
+    Current.reset
+    org(
+      features: [ :basket_price_extra ],
+      basket_price_extra_dynamic_pricing: "{{ delivery_cycle_deliveries_count }}")
+    weekly = build_basket(
+      membership: memberships(:john),
+      basket_size: basket_sizes(:small),
+      basket_size_price: 10,
+      price_extra: 1)
+    biweekly = build_basket(
+      membership: memberships(:jane),
+      basket_size: basket_sizes(:small),
+      basket_size_price: 10,
+      price_extra: 1)
+
+    assert_equal 33.0, weekly.send(:calculate_price_extra)
+    assert_equal 17.0, biweekly.send(:calculate_price_extra)
+    assert_not_equal weekly.send(:calculate_price_extra), biweekly.send(:calculate_price_extra)
+  end
+
+  test "calculate_price_extra exposes the membership delivery cycle id" do
+    org(
+      features: [ :basket_price_extra ],
+      basket_price_extra_dynamic_pricing: "{{ delivery_cycle_id }}")
+    basket = build_basket(
+      membership: memberships(:jane),
+      basket_size: basket_sizes(:small),
+      basket_size_price: 10,
+      price_extra: 1)
+
+    assert_equal memberships(:jane).delivery_cycle_id, basket.send(:calculate_price_extra)
+  end
+
+  test "calculate_price_extra keeps deliveries_count as the org-wide maximum" do
+    travel_to "2024-01-01"
+    stub_cycle_deliveries_count(delivery_cycles(:mondays), 33)
+    stub_cycle_deliveries_count(delivery_cycles(:thursdays), 17)
+    Current.reset
+    org(
+      features: [ :basket_price_extra ],
+      basket_price_extra_dynamic_pricing: "{{ deliveries_count }}")
+    basket = build_basket(
+      membership: memberships(:jane),
+      basket_size: basket_sizes(:small),
+      basket_size_price: 10,
+      price_extra: 1)
+
+    assert_equal 33.0, basket.send(:calculate_price_extra)
+    assert_equal 33, Current.org.deliveries_count(2024)
+  end
+
   test "can_force? returns true when provisionally absent and not billable" do
     org(features: [ :absence ])
     basket = baskets(:jane_5) # This is an absent basket
@@ -666,5 +721,10 @@ class BasketTest < ActiveSupport::TestCase
     deliverable_ids = Basket.deliverable.pluck(:id).sort
     expected_ids = Basket.all.select(&:deliverable?).map(&:id).sort
     assert_equal expected_ids, deliverable_ids
+  end
+
+  def stub_cycle_deliveries_count(cycle, count)
+    cycle.update_column(:deliveries_counts, { "2024" => count, "2025" => 0 })
+    cycle.reload
   end
 end

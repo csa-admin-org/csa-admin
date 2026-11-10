@@ -269,7 +269,13 @@ module MembershipsHelper
     end
   end
 
-  def basket_price_extra_preview_payload(extra:, basket_size_id:, basket_size_price:, complements_price:, deliveries_count:)
+  def basket_price_extra_preview_payload(
+    extra:,
+    basket_size_id:,
+    basket_size_price:,
+    complements_price:,
+    deliveries_count:,
+    delivery_cycle: nil)
     extra = extra.to_f
     basket_size_id = basket_size_id.presence&.to_i
     basket_size_price = basket_size_price.to_f
@@ -283,9 +289,15 @@ module MembershipsHelper
           basket_size_price,
           basket_size_id,
           complements_price,
-          deliveries_count)
+          deliveries_count,
+          delivery_cycle: delivery_cycle,
+          basket_size: BasketSize.find_by(id: basket_size_id))
       end
     { billed_extra: cur(billed) }
+  end
+
+  def basket_price_extra_preview_cycle(id)
+    DeliveryCycle.find_by(id: id) || DeliveryCycle.primary
   end
 
   def basket_price_extra_preview_from_membership_record(membership)
@@ -296,7 +308,8 @@ module MembershipsHelper
       basket_size_price: membership.basket_size_price.nil? ? membership.basket_size&.price : membership.basket_size_price,
       complements_price: basket_price_extra_complements_price_from(
         membership.memberships_basket_complements),
-      deliveries_count: Current.org.deliveries_count(year))
+      deliveries_count: Current.org.deliveries_count(year),
+      delivery_cycle: membership.delivery_cycle)
   end
 
   def basket_price_extra_preview_from_waiting_member(member)
@@ -312,7 +325,8 @@ module MembershipsHelper
       basket_size_id: member.waiting_basket_size_id,
       basket_size_price: member.waiting_basket_size&.price,
       complements_price: complements_price,
-      deliveries_count: Current.org.deliveries_count(year))
+      deliveries_count: Current.org.deliveries_count(year),
+      delivery_cycle: member.waiting_delivery_cycle || DeliveryCycle.primary)
   end
 
   def basket_price_extra_preview_from_basket_record(basket)
@@ -322,7 +336,8 @@ module MembershipsHelper
       basket_size_price: basket.basket_size_price.nil? ? basket.basket_size&.price : basket.basket_size_price,
       complements_price: basket_price_extra_complements_price_from(
         basket.baskets_basket_complements),
-      deliveries_count: Current.org.deliveries_count(basket.membership.fy_year))
+      deliveries_count: Current.org.deliveries_count(basket.membership.fy_year),
+      delivery_cycle: basket.membership.delivery_cycle)
   end
 
   def basket_price_extra_preview_from_membership(raw)
@@ -337,7 +352,8 @@ module MembershipsHelper
       basket_size_price: basket_price_extra_preview_size_price(attrs),
       complements_price: basket_price_extra_preview_complements_price(
         attrs[:memberships_basket_complements_attributes]),
-      deliveries_count: Current.org.deliveries_count(year))
+      deliveries_count: Current.org.deliveries_count(year),
+      delivery_cycle: basket_price_extra_preview_cycle(attrs[:delivery_cycle_id]))
   end
 
   def basket_price_extra_preview_from_waiting(raw)
@@ -352,7 +368,8 @@ module MembershipsHelper
       basket_size_price: BasketSize.find_by(id: size_id)&.price,
       complements_price: basket_price_extra_preview_complements_price(
         attrs[:members_basket_complements_attributes]),
-      deliveries_count: Current.org.deliveries_count(year))
+      deliveries_count: Current.org.deliveries_count(year),
+      delivery_cycle: basket_price_extra_preview_cycle(attrs[:waiting_delivery_cycle_id]))
   end
 
   def basket_price_extra_preview_from_basket(raw, year: nil)
@@ -366,7 +383,8 @@ module MembershipsHelper
       basket_size_price: basket_price_extra_preview_size_price(attrs),
       complements_price: basket_price_extra_preview_complements_price(
         attrs[:baskets_basket_complements_attributes]),
-      deliveries_count: Current.org.deliveries_count(year))
+      deliveries_count: Current.org.deliveries_count(year),
+      delivery_cycle: basket_price_extra_preview_cycle(attrs[:delivery_cycle_id]))
   end
 
   def activity_participations_default_annually(membership)

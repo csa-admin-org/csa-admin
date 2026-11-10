@@ -118,6 +118,8 @@ ActiveAdmin.register Basket do
             basket_price_extra_preview_baskets_path
           basket_fieldset["data-form-basket-price-extra-year-value"] =
             f.object.membership.fy_year
+          basket_fieldset["data-form-basket-price-extra-delivery-cycle-id-value"] =
+            f.object.membership.delivery_cycle_id
           basket_price_extra_preview_from_basket_record(f.object)
         end
         f.inputs [

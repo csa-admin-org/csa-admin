@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { debounce } from "throttle-debounce"
 
 const PREVIEW_PARAM =
-  /\[(basket_price_extra|waiting_basket_price_extra|price_extra|basket_size_id|waiting_basket_size_id|basket_size_price|started_on|waiting_membership_started_on)\]$|\[(memberships_basket_complements_attributes|members_basket_complements_attributes|baskets_basket_complements_attributes)\]/
+  /\[(basket_price_extra|waiting_basket_price_extra|price_extra|basket_size_id|waiting_basket_size_id|basket_size_price|started_on|waiting_membership_started_on|delivery_cycle_id|waiting_delivery_cycle_id)\]$|\[(memberships_basket_complements_attributes|members_basket_complements_attributes|baskets_basket_complements_attributes)\]/
 
 export default class extends Controller {
   static get targets() {
@@ -10,7 +10,7 @@ export default class extends Controller {
   }
 
   static get values() {
-    return { url: String, year: Number }
+    return { url: String, year: Number, deliveryCycleId: Number }
   }
 
   initialize() {
@@ -55,6 +55,9 @@ export default class extends Controller {
       if (PREVIEW_PARAM.test(key)) params.append(key, value)
     }
     if (this.hasYearValue) params.append("year", String(this.yearValue))
+    if (this.hasDeliveryCycleIdValue) {
+      params.append("basket[delivery_cycle_id]", String(this.deliveryCycleIdValue))
+    }
     const url = new URL(this.urlValue, window.location.origin)
     url.search = params.toString()
     Turbo.visit(url, { frame: this.frameTarget.id })

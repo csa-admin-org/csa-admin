@@ -66,39 +66,40 @@ class MembershipPricing
 
   def baskets_price_extras
     extra = @params[:basket_price_extra].to_f
-    return [ 0, 0 ] if extra.zero?
+    return [ 0, 0 ] if extra.zero? || !basket_size || delivery_cycles.empty?
 
-    comp_prices = [ 0, 0 ]
-    complements_prices.each { |p|
-      comp_prices = comp_prices.zip(rounded_prices(p)).map(&:sum)
-    }
+    totals = delivery_cycles.filter_map { |cycle| extra_total_for(cycle, extra) }
+    return [ 0, 0 ] if totals.empty?
 
-    [
-      extra_total(deliveries_counts.min, extra, comp_prices.min),
-      extra_total(deliveries_counts.max, extra, comp_prices.max)
-    ]
+    [ totals.min, totals.max ]
   end
 
-  def extra_total(deliveries_count, extra, complements_price)
-    return 0 unless deliveries_count&.positive?
+  def extra_total_for(delivery_cycle, extra)
+    count = delivery_cycle.billable_deliveries_count_for_basket_size(basket_size)
+    return unless count.positive?
 
-    deliveries_count * calculate_price_extra(
-      extra,
-      basket_size,
-      complements_price / deliveries_count,
-      deliveries_count)
-  end
-
-  def calculate_price_extra(extra, basket_size, complements_price, deliveries_count)
-    return 0 if extra.to_f.zero?
-    return 0 unless basket_size
-
-    Current.org.calculate_basket_price_extra(
+    count * Current.org.calculate_basket_price_extra(
       extra,
       basket_size.price,
       basket_size.id,
-      complements_price,
-      deliveries_count)
+      complements_annual_price(delivery_cycle) / count,
+      count,
+      delivery_cycle: delivery_cycle,
+      basket_size: basket_size)
+  end
+
+  def complements_annual_price(delivery_cycle)
+    attrs = @params[:memberships_basket_complements_attributes].to_h
+    return 0 if attrs.blank?
+
+    attrs.sum { |_, row|
+      complement = BasketComplement.find_by(id: row[:basket_complement_id])
+      quantity = row[:quantity].to_i
+      next 0 unless complement && quantity.positive?
+
+      (delivery_cycle.billable_deliveries_count_for_basket_complement(complement) *
+        complement.price * quantity).round_to_five_cents
+    }
   end
 
   def complements_prices

@@ -223,6 +223,35 @@ class MembershipPricingTest < ActiveSupport::TestCase
     assert_equal [ 120, 240 ], pricing.prices
   end
 
+  test "dynamic price extra estimate matches billing for a bi-weekly cycle" do
+    stub_cycle_deliveries_count(delivery_cycles(:mondays), 33)
+    stub_cycle_deliveries_count(delivery_cycles(:thursdays), 17)
+    Current.reset
+    org(
+      features: [ :basket_price_extra ],
+      basket_price_extra_dynamic_pricing: "{{ extra | times: delivery_cycle_deliveries_count }}")
+    size = basket_sizes(:small)
+    cycle = delivery_cycles(:thursdays)
+    membership = memberships(:jane)
+    membership.update_columns(basket_size_id: size.id, basket_size_price: size.price, basket_price_extra: 2)
+    basket = membership.baskets.billable.first
+    basket.update!(price_extra: 2, basket_size: size, basket_size_price: size.price)
+
+    quoted = pricing(
+      basket_size_id: size.id,
+      delivery_cycle_id: cycle.id,
+      depot_id: membership.depot_id,
+      basket_price_extra: 2)
+    without_extra = pricing(
+      basket_size_id: size.id,
+      delivery_cycle_id: cycle.id,
+      depot_id: membership.depot_id)
+
+    assert_equal 34.0, basket.reload.calculated_price_extra
+    assert_not_equal 33.0, basket.calculated_price_extra
+    assert_equal [ without_extra.prices.first + 17 * basket.calculated_price_extra ], quoted.prices
+  end
+
   test "membership renewal form with multiple delivery cycles" do
     cycle = delivery_cycles(:all)
     cycle.update!(depots: [ depots(:farm) ])
@@ -582,6 +611,11 @@ class MembershipPricingTest < ActiveSupport::TestCase
       renewal_fiscal_year: 2025)
 
     assert_equal [ 90 ], quoted.prices
+  end
+
+  def stub_cycle_deliveries_count(cycle, count)
+    cycle.update_column(:deliveries_counts, { "2024" => count, "2025" => 0 })
+    cycle.reload
   end
 
   def price_reduction_card

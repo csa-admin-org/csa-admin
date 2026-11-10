@@ -21,6 +21,16 @@ Nachdem Du den Titel des Extras und einen (optionalen) Erklärungstext gewählt 
 
 Lass [Dynamischer Preis](/settings#basket_price_extra) leer, ausser das abgerechnete Extra soll sich mit der <%= BasketSize.model_name.human %> oder den Ergänzungen ändern. Ist das Feld gefüllt, nutzen die Rechnungen sein Ergebnis. Der vom Mitglied gewählte Betrag ist nur der Ausgangswert.
 
+Dynamischer Preis nutzt [Liquid](https://shopify.github.io/liquid). Diese Objekte stehen zur Verfügung:
+
+- **`extra`** – der vom Mitglied gewählte Betrag, pro Lieferung
+- **`basket_size_id`** – die ID der <%= BasketSize.model_name.human %>
+- **`basket_size_price`** – der Preis der <%= BasketSize.model_name.human %> für diese Lieferung
+- **`complements_price`** – der Preis der Ergänzungen für diese Lieferung
+- **`deliveries_count`** – die grösste Anzahl Lieferungen im Geschäftsjahr, über alle Zyklen. Bestehende Formeln, die das nutzen, funktionieren weiter.
+- **`delivery_cycle_id`** – die ID des Lieferzyklus des Abonnements
+- **`delivery_cycle_deliveries_count`** – abrechenbare Lieferungen für diesen Zyklus und diese <%= BasketSize.model_name.human %>. Dieselbe Anzahl wie die Schätzung bei der Anmeldung. Nutze das, wenn ein zweiwöchentliches Abonnement nicht wie ein wöchentliches abgerechnet werden soll.
+
 Anschliessend musst Du definieren, mit welchem Label Deine Extras angezeigt werden, zum Beispiel mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid):
 
 ~~~ liquid

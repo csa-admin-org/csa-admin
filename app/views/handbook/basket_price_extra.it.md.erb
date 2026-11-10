@@ -21,6 +21,16 @@ Una volta scelto il titolo dell'extra e un testo esplicativo (opzionale), puoi q
 
 Lascia [Prezzo dinamico](/settings#basket_price_extra) vuoto, a meno che l'extra fatturato debba cambiare con la <%= BasketSize.model_name.human.downcase %> o i complementi. Quando il campo è compilato, le fatture usano il suo risultato. L'importo scelto dal socio è solo il punto di partenza.
 
+Prezzo dinamico usa [Liquid](https://shopify.github.io/liquid). Questi oggetti sono disponibili:
+
+- **`extra`** – l'importo scelto dal socio, per consegna
+- **`basket_size_id`** – l'id della <%= BasketSize.model_name.human.downcase %>
+- **`basket_size_price`** – il prezzo della <%= BasketSize.model_name.human.downcase %> per quella consegna
+- **`complements_price`** – il prezzo dei complementi per quella consegna
+- **`deliveries_count`** – il numero più alto di consegne nell'anno fiscale, su tutti i cicli. Le formule esistenti che lo usano continuano a funzionare.
+- **`delivery_cycle_id`** – l'id del ciclo di consegne dell'abbonamento
+- **`delivery_cycle_deliveries_count`** – consegne fatturabili per quel ciclo e quella <%= BasketSize.model_name.human.downcase %>. Lo stesso numero della stima all'iscrizione. Usalo quando un abbonamento bisettimanale non deve essere fatturato come uno settimanale.
+
 Successivamente, devi definire con quale etichetta saranno visualizzati i tuoi extra, per esempio utilizzando [la sintassi Liquid](https://shopify.github.io/liquid) seguente:
 
 ~~~ liquid
