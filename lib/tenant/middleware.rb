@@ -18,12 +18,33 @@ module Tenant
         Tenant.switch(tenant) { @app.call(env) }
       elsif app_domain?(request.host)
         @app.call(env)
+      elsif (location = development_browser_redirect(request))
+        [ 302, { "location" => location }, [] ]
       else
         [ 404, {}, [ "Not Found" ] ]
       end
     end
 
     private
+
+    # Cursor opens the forwarded dev server at 127.0.0.1. That host is not a
+    # tenant, so send the browser to DEV_BROWSER_HOST and keep the port the
+    # browser used (the local forward is often not 3000).
+    def development_browser_redirect(request)
+      return unless Rails.env.development?
+      return unless request.get? || request.head?
+      return unless loopback_host?(request.host)
+
+      host = ENV["DEV_BROWSER_HOST"].presence
+      return if host.blank?
+
+      uri = URI.parse(Tenant.local_url(host))
+      "#{uri.scheme}://#{uri.host}:#{request.port}#{request.fullpath}"
+    end
+
+    def loopback_host?(host)
+      %w[127.0.0.1 ::1 localhost].include?(host)
+    end
 
     def app_subdomain?(request)
       APP_SUBDOMAINS.include?(request.subdomains.first)
