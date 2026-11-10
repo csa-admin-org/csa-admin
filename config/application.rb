@@ -62,5 +62,10 @@ module CSAAdmin
     config.action_dispatch.rescue_responses.merge!(
       "ActionDispatch::RemoteIp::IpSpoofAttackError" => :bad_request
     )
+
+    # After Lexxy writes its render list. See config/initializers/action_text.rb.
+    initializer "action_text.sanitizer", after: "lexxy.sanitization" do |app|
+      app.config.after_initialize { ActionTextHighlightColors.install }
+    end
   end
 end
