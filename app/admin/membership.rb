@@ -1028,7 +1028,8 @@ ActiveAdmin.register Membership do
           label: Promotion.model_name.human,
           collection: promotion_options(redemption&.promotion),
           selected: redemption&.promotion_id,
-          include_blank: true
+          include_blank: true,
+          hint: promotion_form_hint
       end
     end
 

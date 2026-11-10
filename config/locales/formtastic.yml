@@ -2962,6 +2962,12 @@ _:
           _de: 'Beispiel: "Einmalig" für einen Gutschein oder eine Geschenkkarte, "Unbegrenzt" für ein Plakat.'
           _it: 'Esempio: "Singolo" per un coupon o una carta regalo, "Illimitato" per un manifesto.'
           _nl: 'Voorbeeld: "Eenmalig" voor een coupon of een cadeaubon, "Onbeperkt" voor een poster.'
+        on_membership_html:
+          _en: Manage them on the %{promotions} page. <a href="%{handbook_url}">See the handbook</a>
+          _fr: Gérez-les sur la page %{promotions}. <a href="%{handbook_url}">Voir le manuel</a>
+          _de: Auf der Seite %{promotions} verwalten. <a href="%{handbook_url}">Handbuch ansehen</a>
+          _it: Gestitele nella pagina %{promotions}. <a href="%{handbook_url}">Vedete il manuale</a>
+          _nl: Beheren op de pagina %{promotions}. <a href="%{handbook_url}">Handboek bekijken</a>
         public_name:
           _en: Shown on the registration banner and on the membership. A change only applies to future claims.
           _fr: Affiché sur la bannière d'inscription et sur l'abonnement. Le modifier n'affecte que les utilisations futures.

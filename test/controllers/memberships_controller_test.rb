@@ -393,6 +393,8 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
 
     assert_not membership.reload.trial_only?
     assert_select "select#membership_promotion_id"
+    assert_select "a[href='#{promotions_path}']", text: "Promotions"
+    assert_select "a[href='#{handbook_page_path("promotions")}']", text: "See the handbook"
   end
 
   test "edit price reduction choice shows the rule and disables a missing or expired card" do

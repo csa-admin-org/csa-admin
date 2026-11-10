@@ -125,6 +125,12 @@ module AdminHelper
       url: handbook_page_path(page, anchor: anchor))
   end
 
+  def promotion_form_hint
+    t("formtastic.hints.promotion.on_membership_html",
+      promotions: link_to(Promotion.model_name.human(count: 2), promotions_path),
+      handbook_url: handbook_page_path("promotions"))
+  end
+
   def price_reduction_choice_label(reduction, issue)
     parts = [ reduction.name, reduction.rule_label ]
     if issue

@@ -848,7 +848,8 @@ ActiveAdmin.register Member do
             label: Promotion.model_name.human,
             collection: promotion_options(member.waiting_promotion),
             include_blank: true,
-            required: false
+            required: false,
+            hint: promotion_form_hint
         end
         f.input :waiting_basket_size,
           label: BasketSize.model_name.human,
