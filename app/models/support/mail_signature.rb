@@ -6,11 +6,15 @@ module Support
   # Client signatures, not the operator ++ sign-off. Gmail, Infomaniak,
   # and Thunderbird mark the block. Render drops data attributes, so a
   # trailing block of signature images is the same footer. A line that is
-  # exactly "-- " is the RFC 3676 delimiter: everything after it is the signature.
+  # exactly "-- " is the RFC 3676 delimiter, including when it is only a
+  # text node between breaks: everything after it is the signature.
   class MailSignature
     CSS = ".gmail_signature, .gmail_signature_prefix, #Signature, [data-ik-opengraph-ignore], .moz-signature"
     DELIMITER = /\A--[[:space:]]*\z/
-    SIGNATURE_IMAGE = %r{workspace\.storage\.infomaniak\.com/signature}i
+    SIGNATURE_IMAGE = %r{
+      workspace\.storage\.infomaniak\.com/signature |
+      googleusercontent\.com/mail-sig/
+    }ix
 
     def self.strip_fragment!(root)
       return unless root
@@ -116,7 +120,9 @@ module Support
     private_class_method :fenced?
 
     def self.delimiter?(node)
-      node.element? && node.text.match?(DELIMITER) && node.css("img, a").empty?
+      return false if node.element? && node.css("img, a").any?
+
+      node.text.match?(DELIMITER)
     end
     private_class_method :delimiter?
 

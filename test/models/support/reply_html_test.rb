@@ -525,6 +525,66 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_equal %w[shot.png notes.pdf], kept.map { |part| part["Name"] }
   end
 
+  test "drops a gmail signature after an inline dash delimiter" do
+    html = <<~HTML
+      <div>Thanks for the update.</div>
+      <div>Merci<br><br>On Monday, CSA Admin wrote:
+        <blockquote class="gmail_quote"><div>Earlier</div></blockquote>
+      </div>
+      <br><br>-- <br><div dir="ltr"><div>
+        <div><img src="https://ci3.googleusercontent.com/mail-sig/logo" width="96" height="76"></div>
+        <div><i>Green Farm</i></div>
+        <div>1 Farm Road</div>
+      </div></div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+    extracted = Support::ReplyHtml.extract(html)
+
+    assert_includes shown, "Thanks for the update"
+    assert_includes shown, "Merci"
+    assert_not_includes shown, "Green Farm"
+    assert_not_includes shown, "Farm Road"
+    assert_not_includes shown, "mail-sig"
+    assert_not_includes shown, "--"
+    assert_not_includes extracted, "Green Farm"
+    assert_includes extracted, "Thanks for the update"
+  end
+
+  test "keeps a bare dash that is not the signature delimiter" do
+    html = <<~HTML
+      <div>Range is 1 -- 3.</div>
+      <div>--<br>not a signature</div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+
+    assert_includes shown, "1 -- 3"
+    assert_includes shown, "not a signature"
+  end
+
+  test "keeps only the emoji from an infomaniak reaction" do
+    html = <<~HTML
+      <div><div>
+        <table bgcolor="#F4F6FD">
+          <tr><td>
+            <span>👍</span><span> </span><span>Sam</span> a réagi à l’e-mail
+          </td></tr>
+        </table>
+        <div>Réaction envoyée avec <a href="https://www.infomaniak.com/gtl/apps.kmail">Infomaniak Mail</a></div>
+      </div></div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+    extracted = Support::ReplyHtml.extract(html)
+
+    assert_includes shown, "👍"
+    assert_not_includes shown, "Sam"
+    assert_not_includes shown, "Infomaniak"
+    assert_not_includes shown, "<table"
+    assert_equal shown, extracted
+  end
+
   test "keeps a reply image that is not a signature" do
     html = <<~HTML
       <div>See the invoice.</div>

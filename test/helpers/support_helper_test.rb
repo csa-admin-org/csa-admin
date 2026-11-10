@@ -56,6 +56,23 @@ class SupportHelperTest < ActionView::TestCase
     assert_not_includes html, "<img"
   end
 
+  test "shows an infomaniak reaction as the emoji" do
+    message = Support::Message.new(author: "admin", body: "reaction")
+    message.html = <<~HTML
+      <div>
+        <table><tr><td><span>👍</span><span> Sam</span> a réagi</td></tr></table>
+        <div>Réaction envoyée avec <a href="https://www.infomaniak.com/gtl/apps.kmail">Infomaniak Mail</a></div>
+      </div>
+    HTML
+
+    html = view.support_message_html(message)
+
+    assert_includes html, "👍"
+    assert_not_includes html, "Sam"
+    assert_not_includes html, "Infomaniak"
+    assert_not_includes html, "<table"
+  end
+
   test "hides a stored infomaniak signature on an admin reply" do
     message = Support::Message.new(
       author: "admin",

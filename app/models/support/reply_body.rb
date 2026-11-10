@@ -37,7 +37,8 @@ module Support
     end
 
     def self.cleaned_text(text)
-      Support::MailSignature.strip_text(Support::ReplyQuote.strip_text(cut_quoted(text)).to_s).strip
+      stripped = Support::MailSignature.strip_text(Support::ReplyQuote.strip_text(cut_quoted(text)).to_s)
+      Support::MailReaction.collapse_text(stripped).strip
     end
     private_class_method :cleaned_text
 

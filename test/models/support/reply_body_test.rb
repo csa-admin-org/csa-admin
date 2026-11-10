@@ -76,6 +76,12 @@ class Support::ReplyBodyTest < ActiveSupport::TestCase
     assert_equal "jane@org.ch", Support::ReplyBody.original_from(text)
   end
 
+  test "keeps only the emoji from an infomaniak reaction" do
+    text = "👍 Sam a réagi à l’e-mail\n\nRéaction envoyée avec Infomaniak Mail"
+
+    assert_equal "👍", Support::ReplyBody.without_quote(text)
+  end
+
   test "cuts a trailing client signature at the dash delimiter" do
     body = Support::ReplyBody.extract(
       text_body: "Nothing urgent.\n\nSam\n\n-- \nGreen Farm\nWebsite",
