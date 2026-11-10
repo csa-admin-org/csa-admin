@@ -7,6 +7,7 @@ module XLSX
   class Base
     include ActionView::Helpers::NumberHelper
     include ActionView::Helpers::TextHelper
+    include NumbersHelper
     include ApplicationHelper
 
     delegate :content_type, to: :workbook
@@ -54,16 +55,17 @@ module XLSX
       @worksheet.change_row_bold(0, true)
     end
 
-    def add_column(header, values, border: "none", align: "left", max_width: nil, min_width: 5)
+    def add_column(header, values, border: "none", align: "left", max_width: nil, min_width: 5, format: nil)
       @worksheet.add_cell(0, @column, header)
       @worksheet.sheet_data[0][@column].change_font_bold(true)
 
       Array(values).each_with_index do |val, i|
         cell = @worksheet.add_cell(i + 1, @column, val)
+        cell.set_number_format(format) if format && !val.nil?
         cell.change_text_wrap(true) if val.is_a?(String) && val.include?("\n")
       end
 
-      max_width ||= ([ header ] + Array(values)).map { |v| v.to_s.length }.max.to_i + 2
+      max_width ||= ([ header ] + Array(values)).map { |value| value.to_s.length }.max.to_i + 2
       @worksheet.change_column_width(@column, [ min_width, max_width ].max)
 
       if border != "none"
@@ -77,6 +79,16 @@ module XLSX
       @column += 1
     end
 
+    def add_money_cell(row, column, amount, precision: 2)
+      cell = @worksheet.add_cell(row, column, money(amount, precision:))
+      cell.set_number_format(money_format(precision)) unless amount.nil?
+      cell
+    end
+
+    def add_count_cell(row, column, amount)
+      @worksheet.add_cell(row, column, count(amount)).set_number_format(count_format)
+    end
+
     def add_empty_line
       @worksheet.add_cell(@line, 0)
       @line += 1
@@ -84,6 +96,46 @@ module XLSX
 
     def t(key, **args)
       I18n.t("billing.#{key}", **args)
+    end
+
+    def money(amount, precision: 2)
+      return if amount.nil?
+
+      BigDecimal(amount.to_s).round(precision, :half_up).to_f
+    end
+
+    def quantity(amount, precision: 3)
+      BigDecimal((amount || 0).to_s).round(precision, :half_up).to_f
+    end
+
+    def count(amount)
+      (amount || 0).to_i
+    end
+
+    def money_price(unit_price, amount)
+      return if unit_price.nil?
+
+      money(BigDecimal(unit_price.to_s) * BigDecimal((amount || 0).to_s))
+    end
+
+    # Symbol first, matching cur(). Quoted so Excel shows this code instead of
+    # substituting the workbook locale's currency.
+    def money_format(precision = 2)
+      decimals = "0" * precision
+      number = precision.positive? ? "#,##0.#{decimals}" : "#,##0"
+      "\"#{currency_symbol}\" #{number};\"#{currency_symbol}\" -#{number}"
+    end
+
+    def quantity_format(precision = 3)
+      precision.positive? ? "0.#{"0" * precision}" : count_format
+    end
+
+    def count_format
+      "0"
+    end
+
+    def percentage_format
+      "0%"
     end
   end
 end

@@ -21,6 +21,7 @@ module XLSX
           build_depot_worksheet(depot, baskets)
         end
       end
+      build_producers_worksheet
     end
 
     def filename
@@ -42,24 +43,9 @@ module XLSX
       add_product_columns(@basket_contents)
       add_unit_columns(@basket_contents)
       add_unit_price_columns(@basket_contents)
-      add_column(
-        ::BasketContent.human_attribute_name(:quantity),
-        @basket_contents.map { |bc| bc.quantity })
+      add_quantity_column(@basket_contents) { |bc| bc.quantity }
       @basket_sizes.each do |basket_size|
-        add_column(
-          "#{basket_size.name} - #{Basket.model_name.human(count: 2)}",
-          @basket_contents.map { |bc| bc.baskets_count(basket_size) })
-        add_column(
-          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:basket_quantity)}",
-          @basket_contents.map { |bc| bc.basket_quantity(basket_size) })
-        add_column(
-          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:basket_total_quantity)}",
-          @basket_contents.map { |bc| bc.baskets_count(basket_size) * bc.basket_quantity(basket_size) })
-        add_column(
-          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:price)}",
-          @basket_contents.map { |bc|
-            display_price bc.unit_price, bc.basket_quantity(basket_size)
-          })
+        add_size_columns(basket_size, @basket_contents)
       end
       add_column(
         Depot.model_name.human(count: 2),
@@ -80,33 +66,32 @@ module XLSX
       add_product_columns(basket_contents)
       add_unit_columns(basket_contents)
       add_unit_price_columns(basket_contents)
-      add_column(
-        ::BasketContent.human_attribute_name(:quantity),
-        basket_contents.map { |bc|
-          bc.basket_size_ids.sum do |basket_size_id|
-            baskets_count = baskets.where(basket_size_id: basket_size_id).sum(:quantity)
-            baskets_count * bc.basket_quantity(basket_size_id)
-          end
-        })
+      add_quantity_column(basket_contents) { |bc| depot_quantity(bc, baskets) }
       @basket_sizes.each do |basket_size|
-        baskets_count = baskets.where(basket_size_id: basket_size.id).sum(:quantity)
-        add_column(
-          "#{basket_size.name} - #{Basket.model_name.human(count: 2)}",
-          basket_contents.map { |bc| baskets_count if bc.baskets_count(basket_size).positive? })
-        add_column(
-          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:basket_quantity)}",
-          basket_contents.map { |bc| bc.basket_quantity(basket_size) })
-        add_column(
-          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:basket_total_quantity)}",
-          basket_contents.map { |bc|
-            bc.baskets_count(basket_size).to_i > 0 ? baskets_count * bc.basket_quantity(basket_size) : nil
-          })
-        add_column(
-          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:price)}",
-          basket_contents.map { |bc|
-            display_price bc.unit_price, bc.basket_quantity(basket_size)
-          })
+        add_size_columns(basket_size, basket_contents, baskets.where(basket_size_id: basket_size.id).sum(:quantity))
       end
+    end
+
+    def build_producers_worksheet
+      rows = @delivery.basket_content_producer_prices
+      return if rows.empty?
+
+      add_worksheet(Producer.model_name.human(count: 2))
+      add_column(
+        Producer.model_name.human,
+        rows.map { |row| row.producer.name } + [ I18n.t("attributes.total") ])
+      add_column(
+        I18n.t("basket_content.producers.amount"),
+        rows.map { |row| money(row.price) } + [ money(rows.sum(&:price)) ],
+        align: "right",
+        min_width: 12,
+        format: money_format)
+      add_column(
+        I18n.t("attributes.amount_percentage"),
+        rows.map { |row| row.percentage / 100.0 } + [ 1 ],
+        align: "right",
+        format: percentage_format)
+      @worksheet.change_row_bold(rows.size + 1, true)
     end
 
     def preload_baskets_counts(basket_contents)
@@ -145,7 +130,60 @@ module XLSX
     def add_unit_price_columns(basket_contents)
       add_column(
         ::BasketContent.human_attribute_name(:unit_price),
-        basket_contents.map { |bc| bc.unit_price })
+        basket_contents.map { |bc| money(bc.unit_price) },
+        align: "right",
+        min_width: 12,
+        format: money_format)
+    end
+
+    def add_quantity_column(basket_contents)
+      add_column(
+        ::BasketContent.human_attribute_name(:quantity),
+        basket_contents.map { |bc| quantity(yield(bc)) },
+        align: "right",
+        format: quantity_format)
+    end
+
+    def add_size_columns(basket_size, basket_contents, depot_count = nil)
+      add_column(
+        "#{basket_size.name} - #{Basket.model_name.human(count: 2)}",
+        basket_contents.map { |bc| count(size_count(bc, basket_size, depot_count)) },
+        align: "right",
+        format: count_format)
+      add_column(
+        "#{basket_size.name} - #{::BasketContent.human_attribute_name(:basket_quantity)}",
+        basket_contents.map { |bc| quantity(bc.basket_quantity(basket_size)) },
+        align: "right",
+        format: quantity_format)
+      add_column(
+        "#{basket_size.name} - #{::BasketContent.human_attribute_name(:basket_total_quantity)}",
+        basket_contents.map { |bc| quantity(size_total(bc, basket_size, depot_count)) },
+        align: "right",
+        format: quantity_format)
+      add_column(
+        "#{basket_size.name} - #{::BasketContent.human_attribute_name(:price)}",
+        basket_contents.map { |bc| money_price(bc.unit_price, bc.basket_quantity(basket_size)) },
+        align: "right",
+        min_width: 12,
+        format: money_format)
+    end
+
+    def size_count(basket_content, basket_size, depot_count)
+      return basket_content.baskets_count(basket_size) if depot_count.nil?
+
+      basket_content.baskets_count(basket_size).positive? ? depot_count : 0
+    end
+
+    def size_total(basket_content, basket_size, depot_count)
+      BigDecimal(size_count(basket_content, basket_size, depot_count).to_s) *
+        BigDecimal(basket_content.basket_quantity(basket_size).to_s)
+    end
+
+    def depot_quantity(basket_content, baskets)
+      basket_content.basket_size_ids.sum do |basket_size_id|
+        baskets_count = baskets.where(basket_size_id: basket_size_id).sum(:quantity)
+        BigDecimal(baskets_count.to_s) * BigDecimal(basket_content.basket_quantity(basket_size_id).to_s)
+      end
     end
   end
 end
