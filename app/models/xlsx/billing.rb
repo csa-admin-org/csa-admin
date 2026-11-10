@@ -153,16 +153,16 @@ module XLSX
       add_line(t_payment, @payments.not_ignored.sum(:amount))
 
       worksheet.change_column_width(0, 35)
-      worksheet.change_column_width(1, 12)
-      worksheet.change_column_width(2, 12)
+      worksheet.change_column_width(1, 14)
+      worksheet.change_column_width(2, 14)
       worksheet.change_column_horizontal_alignment(1, "right")
       worksheet.change_column_horizontal_alignment(2, "right")
     end
 
     def add_line(description, total, price = nil)
       @worksheet.add_cell(@line, 0, description)
-      @worksheet.add_cell(@line, 1, price).set_number_format("0.000")
-      @worksheet.add_cell(@line, 2, total).set_number_format("0.00")
+      add_money_cell(@line, 1, price, precision: 3)
+      add_money_cell(@line, 2, total || 0)
       @line += 1
     end
 
@@ -194,6 +194,8 @@ module XLSX
       worksheet.change_column_width(1, 20)
       worksheet.change_column_width(2, 35)
       worksheet.change_column_width(3, 15)
+      worksheet.change_column_width(4, 10)
+      worksheet.change_column_width(5, 14)
       worksheet.change_column_horizontal_alignment(4, "right")
       worksheet.change_column_horizontal_alignment(5, "right")
     end
@@ -203,8 +205,8 @@ module XLSX
       @worksheet.add_cell(@line, 1, variant.name)
       @worksheet.add_cell(@line, 2, variant.product.producer.name)
       @worksheet.add_cell(@line, 3, variant.product.tags.map(&:name).join(", "))
-      @worksheet.add_cell(@line, 4, quantity).set_number_format("0")
-      @worksheet.add_cell(@line, 5, total).set_number_format("0.00")
+      add_count_cell(@line, 4, quantity)
+      add_money_cell(@line, 5, total)
       @line += 1
     end
 

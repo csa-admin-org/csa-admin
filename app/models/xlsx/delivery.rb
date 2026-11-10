@@ -77,7 +77,7 @@ module XLSX
         add_empty_line
 
         @worksheet.add_cell(@line, 0, ::Absence.model_name.human(count: 2))
-        @worksheet.add_cell(@line, 1, @delivery.baskets.absent.sum(:quantity)).set_number_format("0")
+        add_count_cell(@line, 1, @delivery.baskets.absent.sum(:quantity))
       end
 
       @worksheet.change_column_width(0, 35)
@@ -92,11 +92,11 @@ module XLSX
       baskets = depot_ids ? @baskets.where(depot_id: depot_ids) : @baskets
       cols_count = 1
       @worksheet.add_cell(@line, 0, title || summary_depot_title(depot))
-      @worksheet.add_cell(@line, 1, baskets.sum(:quantity)).set_number_format("0")
+      add_count_cell(@line, 1, baskets.sum(:quantity))
       @basket_sizes.each_with_index do |basket_size, i|
         amount = baskets.where(basket_size_id: basket_size.id).sum(:quantity)
         cols_count += 1
-        @worksheet.add_cell(@line, cols_count, amount).set_number_format("0")
+        add_count_cell(@line, cols_count, amount)
       end
 
 
@@ -109,13 +109,13 @@ module XLSX
           if Current.org.feature?("shop")
             amount += shop_orders.complement_count(complement)
           end
-          @worksheet.add_cell(@line, cols_count, amount).set_number_format("0")
+          add_count_cell(@line, cols_count, amount)
         end
       end
 
       if shop_orders.any?
         cols_count += 2
-        @worksheet.add_cell(@line, cols_count, shop_orders.count).set_number_format("0")
+        add_count_cell(@line, cols_count, shop_orders.count)
       end
 
       if @shop_products.any?
@@ -123,7 +123,7 @@ module XLSX
         @shop_products.each_with_index do |product, i|
           amount = shop_orders.quantity_for(product)
           cols_count += 1
-          @worksheet.add_cell(@line, cols_count, amount).set_number_format("0")
+          add_count_cell(@line, cols_count, amount)
         end
       end
 
