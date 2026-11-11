@@ -1151,8 +1151,8 @@ ActiveRecord::Schema[8.2].define(version: 2026_11_05_120000) do
     t.index ["expires_on"], name: "index_promotion_claims_on_expires_on"
     t.index ["member_id"], name: "index_promotion_claims_on_member_id"
     t.index ["membership_id"], name: "index_promotion_claims_on_membership_id"
-    t.index ["promotion_id"], name: "index_promotion_claims_on_promotion_id"
     t.index ["promotion_id", "member_id", "membership_id"], name: "index_promotion_claims_on_promotion_member_membership", unique: true
+    t.index ["promotion_id"], name: "index_promotion_claims_on_promotion_id"
     t.index ["voided_at"], name: "index_promotion_claims_on_voided_at"
   end
 
