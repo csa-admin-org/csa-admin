@@ -37,10 +37,15 @@ class Demo::SeederTest < ActiveSupport::TestCase
       seeder.send(:create_deliveries!)
 
       seeder.send(:seed_fiscal_years).each do |fy|
-        tuesdays = Delivery.during_year(fy).select { |delivery|
-          delivery.date.tuesday? && delivery.date.month.between?(4, 11)
-        }
+        deliveries = Delivery.during_year(fy).to_a
+        tuesdays = deliveries.select { |delivery| delivery.date.tuesday? }
+
+        assert deliveries.all? { |delivery| delivery.date.month.between?(4, 12) }
+        assert tuesdays.any? { |delivery| delivery.date.month == 12 },
+          "expected a December delivery in #{fy.year}"
         assert tuesdays.size >= 20, "expected Tuesday deliveries in #{fy.year}, got #{tuesdays.size}"
+        assert_includes seeder.instance_variable_get(:@weekly_cycle).deliveries(fy.year),
+          tuesdays.find { |delivery| delivery.date.month == 12 }
       end
     end
   end
@@ -101,11 +106,13 @@ class Demo::SeederTest < ActiveSupport::TestCase
     end
   end
 
-  test "seed_basket_contents! always fills the last past delivery and the next one" do
+  test "seed_basket_contents! always fills the last past delivery and the next two" do
     travel_to Date.new(2024, 4, 10)
     with_demo_tenant do
       last_past = deliveries(:monday_2)
       upcoming = deliveries(:monday_future_1)
+      following = deliveries(:monday_future_2)
+      later = deliveries(:monday_future_3)
       product = BasketContent::Product.create!(
         names: { "en" => "Salad" },
         unit: "pc",
@@ -115,7 +122,7 @@ class Demo::SeederTest < ActiveSupport::TestCase
       seeder = Demo::Seeder.new
       seeder.instance_variable_set(:@products, [ product ])
       seeder.instance_variable_set(:@current_year_deliveries, [
-        deliveries(:monday_1), last_past, upcoming
+        deliveries(:monday_1), last_past, upcoming, following, later
       ])
       seeder.instance_variable_set(:@all_depots, Depot.all)
 
@@ -125,6 +132,8 @@ class Demo::SeederTest < ActiveSupport::TestCase
 
       assert BasketContent.where(delivery: last_past, product: product).exists?
       assert BasketContent.where(delivery: upcoming, product: product).exists?
+      assert BasketContent.where(delivery: following, product: product).exists?
+      assert_not BasketContent.where(delivery: later, product: product).exists?
     end
   end
 

@@ -36,12 +36,12 @@ module Demo::Seeder::Catalog
       names: translated_text("Weekly"),
       wdays: [ 2 ],
       absences_included_annually: 2,
-      periods_attributes: [ { from_fy_month: 4, to_fy_month: 11 } ])
+      periods_attributes: [ { from_fy_month: 4, to_fy_month: 12 } ])
     @biweekly_cycle = DeliveryCycle.create!(
       names: translated_text("Bi-weekly"),
       wdays: [ 2 ],
       absences_included_annually: 1,
-      periods_attributes: [ { from_fy_month: 4, to_fy_month: 11, results: :even } ])
+      periods_attributes: [ { from_fy_month: 4, to_fy_month: 12, results: :even } ])
   end
 
   def create_basket_sizes!
@@ -111,7 +111,7 @@ module Demo::Seeder::Catalog
     deliveries = []
 
     while date <= fiscal_year.end_of_year
-      if date.month.between?(4, 11)
+      if date.month.between?(4, 12)
         delivery = Delivery.new(date: date, shop_open: false)
         delivery.save!(validate: date >= Date.current)
         deliveries << delivery

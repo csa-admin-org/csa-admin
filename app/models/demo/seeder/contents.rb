@@ -71,8 +71,11 @@ module Demo::Seeder::Contents
 
   def basket_content_deliveries_to_always_fill(candidates)
     last_past = candidates.select { |delivery| delivery.date <= Date.current }.max_by(&:date)
-    upcoming = candidates.select { |delivery| delivery.date > Date.current }.min_by(&:date)
-    [ last_past, upcoming ].compact
+    upcoming = candidates
+      .select { |delivery| delivery.date > Date.current }
+      .sort_by(&:date)
+      .first(Demo::Seeder::UPCOMING_BASKET_CONTENTS_COUNT)
+    [ last_past, *upcoming ].compact
   end
 
   def fill_basket_content!(delivery, basket_sizes)

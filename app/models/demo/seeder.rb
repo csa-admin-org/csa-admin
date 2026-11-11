@@ -126,6 +126,8 @@ class Demo::Seeder
   EARLY_EXITS_PER_CHURN_YEAR = 2
   ABSENCES_PER_YEAR = 3
   CONTENTS_COVERAGE_BY_OFFSET = { 2 => 0.70, 1 => 0.80, 0 => 0.90 }.freeze
+  # Monday reset must also fill the delivery that becomes next before the next reset.
+  UPCOMING_BASKET_CONTENTS_COUNT = 2
   PRODUCTS = [
     { key: "Carrots", unit: "kg", price: 4.50 },
     { key: "Potatoes", unit: "kg", price: 3.00 },
