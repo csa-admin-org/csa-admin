@@ -30,6 +30,7 @@ class Demo::Seeder
   include Demo::Seeder::Contents
   include Demo::Seeder::Activities
   include Demo::Seeder::Shop
+  include Demo::Seeder::Promotions
 
   ADMIN_INACTIVE_THRESHOLD = 6.months
   UNUSED_ADMIN_THRESHOLD = 2.weeks
@@ -76,6 +77,8 @@ class Demo::Seeder
     "Dried Herbs" => { "en" => "Dried Herbs", "fr" => "Herbes séchées", "de" => "Getrocknete Kräuter" },
     "Jam" => { "en" => "Jam", "fr" => "Confiture", "de" => "Marmelade" },
     "Pickles" => { "en" => "Pickles", "fr" => "Cornichons", "de" => "Essiggurken" },
+    "Gift voucher" => { "en" => "Gift voucher", "fr" => "Bon cadeau", "de" => "Geschenkgutschein", "it" => "Buono regalo", "nl" => "Cadeaubon" },
+    "Spring offer" => { "en" => "Spring offer", "fr" => "Offre de printemps", "de" => "Frühlingsangebot", "it" => "Offerta di primavera", "nl" => "Lenteaanbieding" },
     "500g jar" => { "en" => "500g jar", "fr" => "Pot de 500g", "de" => "500g Glas" },
     "250g jar" => { "en" => "250g jar", "fr" => "Pot de 250g", "de" => "250g Glas" },
     "1L bottle" => { "en" => "1L bottle", "fr" => "Bouteille 1L", "de" => "1L Flasche" },

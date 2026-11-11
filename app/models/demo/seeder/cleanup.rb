@@ -81,6 +81,7 @@ module Demo::Seeder::Cleanup
     MembershipsBasketComplement.delete_all
     MembersBasketComplement.delete_all
     Membership.delete_all
+    PromotionClaim.delete_all
     Session.where.not(member_id: nil).delete_all
     Member.delete_all
     EmailSuppression.delete_all
@@ -123,6 +124,7 @@ module Demo::Seeder::Cleanup
     ::Shop::SpecialDelivery.delete_all
     MailTemplate.delete_all
     Newsletter::Template.delete_all
+    Promotion.delete_all
   end
 
   # delete_all skips has_rich_text dependent: :destroy. Ids restart afterwards,

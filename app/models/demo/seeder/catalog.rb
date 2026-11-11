@@ -16,6 +16,7 @@ module Demo::Seeder::Catalog
     create_activity_presets!
     create_shop_producers!
     create_shop_products!
+    create_promotions!
     create_default_configurations!
   end
 

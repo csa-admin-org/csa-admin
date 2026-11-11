@@ -322,6 +322,28 @@ class Demo::SeederTest < ActiveSupport::TestCase
     end
   end
 
+  test "create_promotions! seeds a unique gift voucher and an open offer" do
+    travel_to Date.new(2026, 3, 1)
+    with_demo_tenant do
+      seeder = Demo::Seeder.new
+      seeder.send(:create_promotions!)
+
+      promotions = Promotion.order(:id).last(2)
+      gift = promotions.find { |promotion| promotion.name == "Gift voucher" }
+      offer = promotions.find { |promotion| promotion.name == "Spring offer" }
+
+      assert gift
+      assert offer
+
+      assert_equal 40, gift.amount
+      assert_equal 1, gift.max_uses
+      assert_nil gift.ends_on
+      assert_equal 20, offer.amount
+      assert_nil offer.max_uses
+      assert_equal Date.new(2026, 12, 31), offer.ends_on
+    end
+  end
+
   private
 
   def create_sepa_mandate
