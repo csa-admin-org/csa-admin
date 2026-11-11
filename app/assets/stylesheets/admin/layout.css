@@ -550,8 +550,8 @@
     color: var(--color-blue-800);
 
     &:where(.dark, .dark *) {
-      border-color: var(--color-blue-300);
-      background-color: var(--color-blue-800);
+      border-color: color-mix(in oklch, var(--color-blue-400) 45%, transparent);
+      background-color: var(--color-blue-950);
       color: var(--color-blue-300);
     }
   }
