@@ -109,6 +109,117 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes response.body, deliveries(:monday_2).date.to_s
   end
 
+  test "csv export keeps counts, prices, and depot labels" do
+    baskets(:bob_1).update_column(:quantity, 4)
+    baskets(:john_1).update_column(:quantity, 2)
+    baskets(:anna_1).update_column(:state, "absent")
+    baskets(:john_2).update_column(:quantity, 5)
+    group = DepotGroup.create!(names: { "en" => "Tour" })
+    depots(:farm).update!(group: group)
+    depots(:bakery).update!(group: group)
+    Depot.create!(names: { "en" => "Extra" }, language: "en", price: 0, position: 99)
+    basket_content_products(:cucumbers).update!(producer: producers(:farm))
+
+    year = deliveries(:monday_1).fy_year
+    all_depots = create_basket_content(
+      delivery: deliveries(:monday_1),
+      product: basket_content_products(:carrots),
+      depots: Depot.kept.to_a,
+      basket_size_ids_quantities: { small_id => 500, medium_id => 250 },
+      unit: "kg",
+      unit_price: 2)
+    grouped = create_basket_content(
+      delivery: deliveries(:monday_1),
+      product: basket_content_products(:cucumbers),
+      depots: [ depots(:farm), depots(:bakery) ],
+      basket_size_ids_quantities: { small_id => 1, medium_id => 3 },
+      unit: "pc",
+      unit_price: 3)
+    later = create_basket_content(
+      delivery: deliveries(:monday_2),
+      product: basket_content_products(:carrots),
+      depots: [ depots(:farm) ],
+      basket_size_ids_quantities: { medium_id => 1000 },
+      unit: "kg",
+      unit_price: 4)
+    only_tour = I18n.t("basket_content.depots.only", selected: group.name)
+
+    get basket_contents_path(q: { during_year: year })
+
+    assert_response :success
+    assert_select "td", text: "All"
+    assert_select "td", text: "Farm"
+    assert_select "td", text: only_tour
+
+    fiscal_year_rows = [
+      basket_content_csv_row(all_depots, counts: { "Small" => "4", "Medium" => "2", "Large" => "0" },
+        quantities: { "Small" => "0.5", "Medium" => "0.25", "Large" => "0" },
+        prices: { "Small" => money(1), "Medium" => money(0.5), "Large" => money(0) },
+        depots: "All"),
+      basket_content_csv_row(grouped, counts: { "Small" => "0", "Medium" => "2", "Large" => "0" },
+        quantities: { "Small" => "1.0", "Medium" => "3.0", "Large" => "0" },
+        prices: { "Small" => money(3), "Medium" => money(9), "Large" => money(0) },
+        depots: only_tour),
+      basket_content_csv_row(later, counts: { "Small" => "0", "Medium" => "5", "Large" => "0" },
+        quantities: { "Small" => "0", "Medium" => "1.0", "Large" => "0" },
+        prices: { "Small" => money(0), "Medium" => money(4), "Large" => money(0) },
+        depots: "Farm")
+    ]
+
+    get basket_contents_path(q: { during_year: year }, format: :csv)
+
+    assert_response :success
+    assert_equal expected_basket_contents_csv(fiscal_year_rows).b, response.body.b
+
+    get basket_contents_path(q: { delivery_id_eq: deliveries(:monday_1).id }, format: :csv)
+
+    assert_response :success
+    assert_equal expected_basket_contents_csv(fiscal_year_rows.first(2)).b, response.body.b
+  end
+
+  test "csv queries do not grow with the number of basket contents" do
+    group = DepotGroup.create!(names: { "en" => "Tour" })
+    depots(:farm).update!(group: group)
+    depots(:bakery).update!(group: group)
+    Depot.create!(names: { "en" => "Extra" }, language: "en", price: 0, position: 99)
+    basket_content_products(:cucumbers).update!(producer: producers(:farm))
+    year = deliveries(:monday_1).fy_year
+
+    seed_csv_basket_contents!
+    # Warm the process once so the two measured exports are comparable.
+    get basket_contents_path(q: { during_year: year }, format: :csv)
+    assert_response :success
+
+    few = collect_sql_queries {
+      get basket_contents_path(q: { during_year: year }, format: :csv)
+    }
+    assert_response :success
+    few_body = response.body
+    assert_csv_export_queries_bounded(few)
+
+    12.times do |i|
+      delivery = deliveries(:"monday_#{(i % 8) + 1}")
+      create_basket_content(
+        delivery: delivery,
+        product: i.even? ? basket_content_products(:carrots) : basket_content_products(:cucumbers),
+        depots: i % 3 == 0 ? Depot.kept.to_a : [ depots(:farm), depots(:bakery) ],
+        basket_size_ids_quantities: { small_id => i.even? ? 200 : 1, medium_id => i.even? ? 400 : 2 },
+        unit_price: 1.5)
+    end
+
+    many = collect_sql_queries {
+      get basket_contents_path(q: { during_year: year }, format: :csv)
+    }
+    assert_response :success
+    assert_csv_export_queries_bounded(many)
+    assert_equal csv_query_profile(few), csv_query_profile(many)
+    assert_equal few.size, many.size, <<~MSG
+      Query count changed from #{few.size} to #{many.size}.
+      Profile: #{csv_query_profile(many).inspect}
+    MSG
+    assert response.body.start_with?(few_body)
+  end
+
   test "index filters by producer" do
     product = basket_content_products(:carrots)
     product.update!(producer: producers(:farm))
@@ -741,5 +852,107 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
       product: basket_content_products(:carrots),
       depots: [ depots(:home), depots(:farm) ],
       **attrs)
+  end
+
+  def seed_csv_basket_contents!
+    create_basket_content(
+      depots: Depot.kept.to_a,
+      basket_size_ids_quantities: { small_id => 500, medium_id => 250 },
+      unit_price: 2)
+    create_basket_content(
+      product: basket_content_products(:cucumbers),
+      depots: [ depots(:farm), depots(:bakery) ],
+      basket_size_ids_quantities: { small_id => 1, medium_id => 2 },
+      unit_price: 3)
+    create_basket_content(
+      delivery: deliveries(:monday_2),
+      depots: [ depots(:home) ],
+      basket_size_ids_quantities: { medium_id => 1000 },
+      unit_price: 4)
+  end
+
+  def collect_sql_queries
+    queries = []
+    callback = ->(_name, _start, _finish, _id, payload) {
+      sql = payload[:sql]
+      queries << sql unless payload[:name] == "SCHEMA" || sql.match?(/\A(?:BEGIN|COMMIT|SAVEPOINT|RELEASE)/i)
+    }
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") { yield }
+    queries
+  end
+
+  def csv_query_profile(queries)
+    {
+      basket_sums: queries.count { |sql|
+        sql.match?(/\bSUM\(/i) && sql.match?(/FROM ["`]baskets["`]/i)
+      },
+      depot_counts: queries.count { |sql|
+        sql.match?(/\bCOUNT\(\*\)/i) && sql.match?(/["`]depots["`]/i)
+      },
+      depot_groups: queries.count { |sql|
+        sql.match?(/FROM ["`]depot_groups["`]/i)
+      },
+      depot_loads: queries.count { |sql|
+        sql.match?(/FROM ["`]depots["`]/i) && !sql.match?(/\bCOUNT\(\*\)/i)
+      }
+    }
+  end
+
+  def assert_csv_export_queries_bounded(queries)
+    profile = csv_query_profile(queries)
+    assert_operator profile[:basket_sums], :<=, 1, profile.inspect
+    assert_operator profile[:depot_counts], :<=, 1, profile.inspect
+    assert_operator profile[:depot_groups], :<=, 1, profile.inspect
+    assert_operator profile[:depot_loads], :<=, 6, profile.inspect
+  end
+
+  def money(amount)
+    ApplicationController.helpers.cur(amount)
+  end
+
+  def basket_content_csv_row(basket_content, counts:, quantities:, prices:, depots:)
+    delivery = basket_content.delivery
+    [
+      delivery.date.to_s,
+      I18n.t("date.month_names")[delivery.date.month],
+      I18n.t("date.day_names")[delivery.date.wday],
+      basket_content.product.name,
+      basket_content.product.producer&.name,
+      I18n.t("units.#{basket_content.unit}.flex"),
+      money(basket_content.unit_price),
+      basket_content.quantity.to_s,
+      *BasketSize.paid.ordered.flat_map { |size|
+        [
+          counts.fetch(size.name),
+          quantities.fetch(size.name),
+          prices.fetch(size.name)
+        ]
+      },
+      depots
+    ]
+  end
+
+  def expected_basket_contents_csv(rows)
+    headers = [
+      BasketContent.human_attribute_name(:date),
+      BasketContent.human_attribute_name(:month),
+      BasketContent.human_attribute_name(:wday),
+      BasketContent.human_attribute_name(:product),
+      BasketContent.human_attribute_name(:producer),
+      BasketContent.human_attribute_name(:unit),
+      BasketContent.human_attribute_name(:unit_price),
+      BasketContent.human_attribute_name(:quantity)
+    ]
+    BasketSize.paid.ordered.each do |size|
+      headers << "#{size.name} - #{Basket.model_name.human(count: 2)}".humanize
+      headers << "#{size.name} - #{I18n.t("attributes.quantity")}".humanize
+      headers << "#{size.name} - #{BasketContent.human_attribute_name(:price)}".humanize
+    end
+    headers << BasketContent.human_attribute_name(:depots)
+
+    csv = String.new("\xEF\xBB\xBF", encoding: Encoding::UTF_8)
+    csv << CSV.generate_line(headers)
+    rows.each { |row| csv << CSV.generate_line(row) }
+    csv
   end
 end

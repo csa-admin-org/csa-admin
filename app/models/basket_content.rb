@@ -113,6 +113,34 @@ class BasketContent < ApplicationRecord
   class << self
     private
 
+    def depot_ids_for_counts(records)
+      if records.all? { |record| record.association(:depots).loaded? }
+        return records.to_h { |record| [ record.id, record.depot_ids.uniq ] }
+      end
+
+      ids = Hash.new { |hash, key| hash[key] = [] }
+      joins(:depots)
+        .where(id: records.map(&:id))
+        .pluck("basket_contents.id", "depots.id")
+        .each { |content_id, depot_id| ids[content_id] << depot_id }
+      records.each { |record| ids[record.id] }
+      ids
+    end
+
+    def basket_counts_by_delivery_and_depot(records)
+      grouped = Basket.active
+        .unscope(:order)
+        .where(delivery_id: records.map(&:delivery_id).uniq)
+        .group(:delivery_id, :depot_id, :basket_size_id)
+        .sum(:quantity)
+
+      grouped.each_with_object({}) do |((delivery_id, depot_id, basket_size_id), quantity), counts|
+        delivery_counts = counts[delivery_id.to_i] ||= {}
+        size_counts = delivery_counts[depot_id.to_i] ||= {}
+        size_counts[basket_size_id.to_i] = quantity
+      end
+    end
+
     def basket_percentages_pro_rated(basket_sizes)
       total_prices = basket_sizes.sum(&:price)
       percentages = basket_sizes.map do |basket_size|
@@ -176,6 +204,26 @@ class BasketContent < ApplicationRecord
   # (e.g. in XLSX export where all contents share the same delivery)
   def baskets_counts_hash=(hash)
     @baskets_counts_hash = hash
+  end
+
+  # One grouped sum for a CSV batch. Counts match #baskets_counts_hash:
+  # active basket quantities at each content's depots, for that delivery.
+  def self.assign_baskets_counts!(contents)
+    records = Array(contents)
+    return records if records.empty?
+
+    depot_ids = depot_ids_for_counts(records)
+    counts = basket_counts_by_delivery_and_depot(records)
+    records.each do |record|
+      totals = {}
+      depot_ids[record.id].each do |depot_id|
+        (counts.dig(record.delivery_id, depot_id) || {}).each do |size_id, quantity|
+          totals[size_id] = totals.fetch(size_id, 0) + quantity
+        end
+      end
+      record.baskets_counts_hash = totals
+    end
+    records
   end
 
   def unit
