@@ -120,27 +120,27 @@ module BasketContentsHelper
   end
 
   def display_depots(depots)
-    depots = depots.kept
-    all_depots = Depot.kept.to_a
-    if depots.size == all_depots.size
+    selected = basket_content_kept_depots_for(depots)
+    all_depots = basket_content_kept_depots
+    if selected.size == all_depots.size
       I18n.t("basket_content.depots.all")
-    elsif depots.size == 1
-      depots.first.name
-    elsif all_depots.size - depots.size == 1
-      I18n.t("basket_content.depots.all_but", missing: (all_depots - depots).first.name)
-    elsif (result = display_depots_by_group(depots, all_depots))
+    elsif selected.size == 1
+      selected.first.name
+    elsif all_depots.size - selected.size == 1
+      I18n.t("basket_content.depots.all_but", missing: (all_depots - selected).first.name)
+    elsif (result = display_depots_by_group(selected, all_depots))
       result
-    elsif all_depots.size - depots.size < 3
-      missing = all_depots - depots
+    elsif all_depots.size - selected.size < 3
+      missing = all_depots - selected
       I18n.t("basket_content.depots.all_but",
         missing: missing.map(&:name).to_sentence)
     else
-      depots.map(&:name).to_sentence
+      selected.map(&:name).to_sentence
     end
   end
 
   def display_depots_by_group(depots, all_depots)
-    groups = DepotGroup.includes(:depots).to_a
+    groups = basket_content_depot_groups
     return if groups.empty?
 
     depot_ids = depots.map(&:id).to_set
@@ -273,6 +273,27 @@ module BasketContentsHelper
     return options unless featured
 
     searchable_select_collection(options, recent_basket_content_product_ids & products.map(&:id))
+  end
+
+  private def basket_content_kept_depots
+    @basket_content_kept_depots ||= Depot.kept.to_a
+  end
+
+  private def basket_content_depot_groups
+    @basket_content_depot_groups ||= DepotGroup.includes(:depots).to_a
+  end
+
+  private def basket_content_kept_depots_for(depots)
+    ids = basket_content_kept_depot_ids(depots)
+    basket_content_kept_depots.select { |depot| ids.include?(depot.id) }
+  end
+
+  private def basket_content_kept_depot_ids(depots)
+    if depots.respond_to?(:loaded?) && depots.loaded?
+      depots.reject(&:discarded?).map(&:id)
+    else
+      depots.kept.unscope(:order).pluck(:id)
+    end
   end
 
   private def basket_content_product_option(product)

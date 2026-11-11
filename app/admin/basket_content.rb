@@ -344,6 +344,19 @@ ActiveAdmin.register BasketContent do
       super.joins(:delivery, :product)
     end
 
+    # CSV streams the fiscal year in id batches. Counts and associations are
+    # loaded once per batch so the export does not query per row.
+    def in_paginated_batches(&block)
+      collection.reorder(:id).find_in_batches(batch_size: 1000) do |batch|
+        ActiveRecord::Associations::Preloader.new(
+          records: batch,
+          associations: [ :depots, :delivery, { product: :producer } ]
+        ).call
+        BasketContent.assign_baskets_counts!(batch)
+        batch.each { |resource| yield apply_decorator(resource) }
+      end
+    end
+
     private
 
     def initial_distribution_data(basket_content)
