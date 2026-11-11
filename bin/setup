@@ -25,6 +25,15 @@ FileUtils.chdir APP_ROOT do
     FileUtils.cp "config/tenant.yml.example", "config/tenant.yml"
   end
 
+  # Cloud Agents use RAILS_PROD_MASTER_KEY / RAILS_TEST_MASTER_KEY. Writing
+  # key files happens in a child process; clear RAILS_MASTER_KEY here so later
+  # `bin/rails` calls in this process inherit the file-based keys.
+  if !ENV["RAILS_PROD_MASTER_KEY"].to_s.strip.empty? || !ENV["RAILS_TEST_MASTER_KEY"].to_s.strip.empty?
+    puts "\n== Writing Rails credentials key files =="
+    system! "bin/write-credentials-keys"
+    ENV.delete("RAILS_MASTER_KEY")
+  end
+
   puts "\n== Preparing database =="
   system! "bin/rails db:prepare"
   system! "bin/rails db:reset" if ARGV.include?("--reset")
