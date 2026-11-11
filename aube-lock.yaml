@@ -933,7 +933,7 @@ snapshots:
       '@csstools/css-tokenizer': 4.0.0
 
   '@csstools/css-syntax-patches-for-csstree@1.1.12(css-tree@3.2.1)':
-    dependencies:
+    optionalDependencies:
       css-tree: 3.2.1
 
   '@csstools/css-tokenizer@4.0.0': {}
@@ -1276,7 +1276,7 @@ snapshots:
       reusify: 1.1.0
 
   fdir@6.5.0(picomatch@4.0.5):
-    dependencies:
+    optionalDependencies:
       picomatch: 4.0.5
 
   file-entry-cache@11.1.5:
