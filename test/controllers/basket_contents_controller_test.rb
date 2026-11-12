@@ -894,6 +894,12 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
       },
       depot_loads: queries.count { |sql|
         sql.match?(/FROM ["`]depots["`]/i) && !sql.match?(/\bCOUNT\(\*\)/i)
+      },
+      eager_joins: queries.count { |sql|
+        sql.match?(/FROM ["`]basket_contents["`]/i) && sql.match?(/LEFT OUTER JOIN/i)
+      },
+      depot_link_preloads: queries.count { |sql|
+        sql.match?(/FROM ["`]basket_contents_depots["`]/i)
       }
     }
   end
@@ -904,6 +910,8 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     assert_operator profile[:depot_counts], :<=, 1, profile.inspect
     assert_operator profile[:depot_groups], :<=, 1, profile.inspect
     assert_operator profile[:depot_loads], :<=, 6, profile.inspect
+    assert_equal 0, profile[:eager_joins], profile.inspect
+    assert_equal 1, profile[:depot_link_preloads], profile.inspect
   end
 
   def money(amount)
