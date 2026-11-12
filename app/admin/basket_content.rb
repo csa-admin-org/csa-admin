@@ -344,13 +344,14 @@ ActiveAdmin.register BasketContent do
       super.joins(:delivery, :product)
     end
 
-    # CSV streams the fiscal year in id batches. Counts and associations are
-    # loaded once per batch so the export does not query per row.
+    # CSV streams in id batches. The index includes depots, and with
+    # joins(:delivery, :product) that becomes one wide eager load, a row
+    # per depot link. Drop those includes and preload what each row reads.
     def in_paginated_batches(&block)
-      collection.reorder(:id).find_in_batches(batch_size: 1000) do |batch|
+      collection.except(:includes, :eager_load).reorder(:id).find_in_batches(batch_size: 1000) do |batch|
         ActiveRecord::Associations::Preloader.new(
           records: batch,
-          associations: [ :depots, :delivery, { product: :producer } ]
+          associations: [ :delivery, { product: :producer }, :depots ]
         ).call
         BasketContent.assign_baskets_counts!(batch)
         batch.each { |resource| yield apply_decorator(resource) }
