@@ -395,7 +395,7 @@ class SupportTicketsControllerTest < ActionDispatch::IntegrationTest
       priority: :normal, subject: "Need help", content: "Opening", admin: admins(:external))
     login admins(:ultra)
 
-    assert_no_enqueued_jobs only: ActionMailer::MailDeliveryJob do
+    assert_no_enqueued_jobs only: Support::MailDeliveryJob do
       patch support_ticket_path(ticket), params: {
         support_ticket: { subject: "Renamed", priority: "high", context: "https://example.com" }
       }

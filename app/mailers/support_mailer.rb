@@ -5,6 +5,7 @@ require "nokogiri"
 class SupportMailer < ApplicationMailer
   layout "support_mailer"
   default from: -> { default_from }
+  self.delivery_job = Support::MailDeliveryJob
 
   def wrap_email
     setup_message
@@ -54,6 +55,7 @@ class SupportMailer < ApplicationMailer
   def setup_message
     @message = params[:message]
     @ticket = @message.ticket
+    @missing_attachments = []
   end
 
   def default_from
@@ -140,9 +142,12 @@ class SupportMailer < ApplicationMailer
       blob = blob_from_src(img["src"])
       next unless blob
 
+      content = download_blob(blob)
+      next unless content
+
       attachments.inline[blob.filename.to_s] = {
         mime_type: blob.content_type,
-        content: blob.download
+        content: content
       }
       img["src"] = attachments[blob.filename.to_s].url
     end
@@ -160,10 +165,42 @@ class SupportMailer < ApplicationMailer
   end
 
   def attach_blob(blob)
+    content = download_blob(blob)
+    return unless content
+
     filename = ActiveSupport::Inflector.transliterate(blob.filename.to_s.gsub(/"/, "'"))
     attachments[filename] = {
       mime_type: blob.content_type,
-      content: blob.download
+      content: content
     }
+  end
+
+  # The delivery job raises on the early attempts so a file that is still
+  # uploading can be attached. The last attempt, and a direct render, skip it.
+  def download_blob(blob)
+    blob.download
+  rescue ActiveStorage::FileNotFoundError => error
+    raise if retry_missing_attachment?
+
+    note_missing_attachment(blob, error)
+    nil
+  end
+
+  def retry_missing_attachment?
+    attempt = params[:missing_attachment_attempt]
+    attempt.present? && attempt < Support::MailDeliveryJob::MISSING_FILE_ATTEMPTS
+  end
+
+  def note_missing_attachment(blob, error)
+    filename = blob.filename.to_s
+    return if @missing_attachments.include?(filename)
+
+    @missing_attachments << filename
+    Rails.error.report(error, context: {
+      message_id: @message&.id,
+      blob_id: blob.id,
+      filename: filename,
+      key: blob.key
+    })
   end
 end

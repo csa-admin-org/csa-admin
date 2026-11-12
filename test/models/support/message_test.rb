@@ -133,14 +133,78 @@ class Support::MessageTest < ActiveSupport::TestCase
     assert_equal I18n.t("active_admin.unknown"), message.display_name
   end
 
+  test "inbound attachment mail is enqueued after the file is uploaded" do
+    assert_support_mail_enqueued_after_upload do |ticket|
+      message = ticket.messages.build(
+        author: "admin", admin: admins(:super), body: "See attached", via: :inbound)
+      message.attachments.build.file.attach(logo_upload)
+      message.save!
+      message
+    end
+  end
+
+  test "reply form attachment mail is enqueued after the file is uploaded" do
+    assert_support_mail_enqueued_after_upload do |ticket|
+      ticket.messages.create!(
+        author: "admin",
+        admin: admins(:super),
+        body: "See attached",
+        via: :app,
+        attachments_attributes: [ { file: logo_upload } ])
+    end
+  end
+
   test "skip_notify does not ping or wrap" do
     ticket = create_ticket
     with_env("SUPPORT_EMAIL" => "support@csa-admin.org") do
-      assert_no_enqueued_jobs only: ActionMailer::MailDeliveryJob do
+      assert_no_enqueued_jobs only: Support::MailDeliveryJob do
         message = ticket.messages.build(author: "support", body: "Imported answer", via: :import)
         message.skip_notify = true
         message.save!
       end
     end
+  end
+
+  private
+
+  def assert_support_mail_enqueued_after_upload
+    service = ActiveStorage::Blob.service
+    seen = []
+    count_mail_jobs = -> { support_mail_job_count }
+    service.singleton_class.alias_method(:upload_without_ordering_probe, :upload)
+    service.define_singleton_method(:upload) do |key, io, **kwargs|
+      seen << count_mail_jobs.call
+      upload_without_ordering_probe(key, io, **kwargs)
+    end
+
+    with_env("SUPPORT_EMAIL" => "support@csa-admin.org") do
+      ticket = create_ticket
+      before = support_mail_job_count
+      message = yield ticket
+
+      assert seen.any?
+      assert_equal [ before ], seen.uniq
+      assert_operator support_mail_job_count, :>, before
+
+      mail = SupportMailer.with(message: message).ping_email
+      assert_includes mail.attachments.map(&:filename), "logo.png"
+    end
+  ensure
+    if service&.singleton_class&.method_defined?(:upload_without_ordering_probe)
+      service.singleton_class.remove_method(:upload)
+      service.singleton_class.remove_method(:upload_without_ordering_probe)
+    end
+  end
+
+  def support_mail_job_count
+    enqueued_jobs.count { |job| job["job_class"] == "Support::MailDeliveryJob" }
+  end
+
+  def logo_upload
+    {
+      io: StringIO.new(file_fixture("logo.png").binread),
+      filename: "logo.png",
+      content_type: "image/png"
+    }
   end
 end

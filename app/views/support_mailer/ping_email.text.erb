@@ -1,1 +1,3 @@
-<%= @message.body %><%= @context_footer %>
+<%= @message.body %><% @missing_attachments.each do |filename| %>
+<%= t("support.mailer.missing_attachment", filename: filename) %>
+<% end %><%= @context_footer %>
