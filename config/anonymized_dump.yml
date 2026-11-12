@@ -1,0 +1,1163 @@
+# Column classification for anonymized tenant dumps.
+# Every column in db/schema.rb must appear here. A new column fails
+# test/lib/anonymized_dump/classification_test.rb until it is classified.
+#
+# Rules: keep, clear, set_false, empty_object, empty_array, drop,
+# person_name, emails, email, phone, street, zip, city, iban, token,
+# card_number, encrypt_null, encrypt_empty, encrypt_placeholder.
+# action: drop empties the table. email_policy allow skips the
+# disposable-domain scan for org-authored copy.
+allowed_email_domain: mailinator.com
+placeholder_api_token: anon-api-token
+seed_salt: csa-admin-anonymized-v1
+retention_days: 30
+purge_rich_text_record_types:
+  - Support::Message
+  - Support::Ticket
+drop_order:
+  - active_storage_variant_records
+  - active_storage_attachments
+  - active_storage_blobs
+  - invoice_items
+  - invoices
+  - mail_delivery_emails
+  - mail_deliveries
+  - demo_page_visits
+  - sessions
+  - support_messages
+  - support_tickets
+  - audits
+  - email_suppressions
+email_policy:
+  allow:
+    - organizations.email
+    - organizations.email_default_from
+    - organizations.email_signatures
+    - organizations.email_footers
+    - organizations.invoice_infos
+    - organizations.invoice_footers
+    - organizations.invoice_sepa_infos
+    - organizations.delivery_pdf_footers
+    - organizations.shop_delivery_pdf_footers
+    - organizations.shop_invoice_infos
+    - mail_templates.subjects
+    - mail_templates.contents
+    - newsletter_templates.titles
+    - newsletter_templates.contents
+    - newsletters.subjects
+    - newsletters.template_contents
+    - newsletters.signatures
+    - newsletter_publications.payload
+    - action_text_rich_texts.body
+  disposable:
+    - admins.email
+    - basket_complements.emails
+    - depots.emails
+    - members.emails
+    - members.billing_email
+    - newsletters.from
+    - search_entries.content_primary
+    - search_entries.content_secondary
+tables:
+  absences:
+    rules:
+      id: keep
+      member_id: keep
+      started_on: keep
+      ended_on: keep
+      note: clear
+      created_at: keep
+      updated_at: keep
+      session_id: clear
+      admins_notified_at: keep
+  action_text_rich_texts:
+    rules:
+      id: keep
+      name: keep
+      body: keep
+      record_type: keep
+      record_id: keep
+      created_at: keep
+      updated_at: keep
+  active_admin_comments:
+    rules:
+      id: keep
+      namespace: keep
+      body: clear
+      resource_id: keep
+      resource_type: keep
+      author_id: keep
+      author_type: keep
+      created_at: keep
+      updated_at: keep
+  active_storage_attachments:
+    action: drop
+    rules:
+      id: drop
+      name: drop
+      record_type: drop
+      record_id: drop
+      blob_id: drop
+      created_at: drop
+  active_storage_blobs:
+    action: drop
+    rules:
+      id: drop
+      key: drop
+      filename: drop
+      content_type: drop
+      metadata: drop
+      byte_size: drop
+      checksum: drop
+      created_at: drop
+      service_name: drop
+  active_storage_variant_records:
+    action: drop
+    rules:
+      id: drop
+      blob_id: drop
+      variation_digest: drop
+  activities:
+    rules:
+      id: keep
+      date: keep
+      start_time: keep
+      end_time: keep
+      participants_limit: keep
+      created_at: keep
+      updated_at: keep
+      places: keep
+      place_urls: keep
+      titles: keep
+      descriptions: keep
+      visible: keep
+  activity_participations:
+    rules:
+      id: keep
+      activity_id: keep
+      member_id: keep
+      validator_id: keep
+      state: keep
+      validated_at: keep
+      rejected_at: keep
+      participants_count: keep
+      carpooling_phone: phone
+      created_at: keep
+      updated_at: keep
+      latest_reminder_sent_at: keep
+      carpooling_city: city
+      session_id: clear
+      review_sent_at: keep
+      note: clear
+      admins_notified_at: keep
+  activity_presets:
+    rules:
+      id: keep
+      places: keep
+      place_urls: keep
+      titles: keep
+  admins:
+    rules:
+      id: keep
+      email: email
+      created_at: keep
+      updated_at: keep
+      name: person_name
+      notifications: keep
+      language: keep
+      latest_update_read: keep
+      permission_id: keep
+      theme: keep
+      demo_follow_up_sent_at: keep
+      demo_message: clear
+      demo_registration_notification_sent_at: keep
+  announcements:
+    rules:
+      id: keep
+      texts: keep
+      delivery_ids: keep
+      depot_ids: keep
+      created_at: keep
+      updated_at: keep
+  attachments:
+    rules:
+      id: keep
+      created_at: keep
+      updated_at: keep
+      attachable_type: keep
+      attachable_id: keep
+  audits:
+    action: drop
+    rules:
+      id: drop
+      session_id: drop
+      auditable_type: drop
+      auditable_id: drop
+      audited_changes: drop
+      created_at: drop
+      updated_at: drop
+      metadata: drop
+  bank_connection_finalization_notifications:
+    rules:
+      id: keep
+      bank_connection_id: keep
+      event_id: keep
+      recipient: keep
+      state: keep
+      delivery_started_at: keep
+      delivered_at: keep
+      delivery_claim_token: clear
+      last_error_class: clear
+      created_at: keep
+      updated_at: keep
+  bank_connections:
+    rules:
+      id: keep
+      provider: keep
+      name: keep
+      active: keep
+      state: keep
+      credentials: encrypt_empty
+      settings: empty_object
+      capabilities: keep
+      status_details: empty_object
+      last_health_check_at: keep
+      health_status: keep
+      last_import_attempted_at: keep
+      last_import_succeeded_at: keep
+      last_no_data_at: keep
+      last_upload_attempted_at: keep
+      last_upload_succeeded_at: keep
+      last_error_class: clear
+      last_error_message: clear
+      created_at: keep
+      updated_at: keep
+  basket_complements:
+    rules:
+      id: keep
+      price: keep
+      created_at: keep
+      updated_at: keep
+      names: keep
+      visible: keep
+      public_names: keep
+      form_details: keep
+      member_order_priority: keep
+      activity_participations_demanded_annually: keep
+      discarded_at: keep
+      emails: emails
+      language: keep
+      notify_days_before_delivery: keep
+  basket_complements_deliveries:
+    rules:
+      id: keep
+      basket_complement_id: keep
+      delivery_id: keep
+  basket_content_products:
+    rules:
+      id: keep
+      created_at: keep
+      updated_at: keep
+      names: keep
+      url: keep
+      unit: keep
+      default_price: keep
+      default_basket_quantities: keep
+      producer_id: keep
+  basket_contents:
+    rules:
+      id: keep
+      delivery_id: keep
+      product_id: keep
+      unit: keep
+      created_at: keep
+      updated_at: keep
+      basket_quantities: keep
+      unit_price: keep
+  basket_contents_depots:
+    rules:
+      basket_content_id: keep
+      depot_id: keep
+  basket_overrides:
+    rules:
+      id: keep
+      membership_id: keep
+      delivery_id: keep
+      session_id: clear
+      diff: keep
+      created_at: keep
+      updated_at: keep
+  basket_shifts:
+    rules:
+      id: keep
+      absence_id: keep
+      quantities: keep
+      created_at: keep
+      updated_at: keep
+      membership_id: keep
+      source_delivery_id: keep
+      target_delivery_id: keep
+  basket_sizes:
+    rules:
+      id: keep
+      created_at: keep
+      updated_at: keep
+      price: keep
+      activity_participations_demanded_annually: keep
+      names: keep
+      shares_number: keep
+      visible: keep
+      public_names: keep
+      form_details: keep
+      member_order_priority: keep
+      discarded_at: keep
+      first_cweek: keep
+      last_cweek: keep
+  baskets:
+    rules:
+      id: keep
+      membership_id: keep
+      delivery_id: keep
+      basket_size_id: keep
+      depot_id: keep
+      basket_size_price: keep
+      depot_price: keep
+      created_at: keep
+      updated_at: keep
+      quantity: keep
+      calculated_price_extra: keep
+      price_extra: keep
+      state: keep
+      absence_id: keep
+      billable: keep
+      delivery_cycle_price: keep
+      shift_declined_at: keep
+  baskets_basket_complements:
+    rules:
+      id: keep
+      basket_complement_id: keep
+      basket_id: keep
+      price: keep
+      created_at: keep
+      updated_at: keep
+      quantity: keep
+  bidding_round_pledges:
+    rules:
+      id: keep
+      bidding_round_id: keep
+      membership_id: keep
+      basket_size_price: keep
+      created_at: keep
+      updated_at: keep
+  bidding_rounds:
+    rules:
+      id: keep
+      fy_year: keep
+      number: keep
+      state: keep
+      created_at: keep
+      updated_at: keep
+      eligible_memberships_count: keep
+      total_expected_value: keep
+      total_final_value: keep
+  billing_snapshots:
+    rules:
+      id: keep
+      created_at: keep
+      updated_at: keep
+  deliveries:
+    rules:
+      id: keep
+      date: keep
+      created_at: keep
+      updated_at: keep
+      note: keep
+      number: keep
+      shop_open: keep
+      basket_content_avg_prices: keep
+      shop_closed_for_depot_ids: keep
+      basket_size_price_percentage: keep
+      basket_content_depot_price_ranges: keep
+  delivery_cycle_periods:
+    rules:
+      id: keep
+      delivery_cycle_id: keep
+      from_fy_month: keep
+      to_fy_month: keep
+      results: keep
+      created_at: keep
+      updated_at: keep
+  delivery_cycles:
+    rules:
+      id: keep
+      names: keep
+      public_names: keep
+      wdays: keep
+      months: keep
+      week_numbers: keep
+      results: keep
+      created_at: keep
+      updated_at: keep
+      deliveries_counts: keep
+      member_order_priority: keep
+      absences_included_annually: keep
+      discarded_at: keep
+      form_details: keep
+      price: keep
+      invoice_names: keep
+      first_cweek: keep
+      last_cweek: keep
+      exclude_cweek_range: keep
+  delivery_cycles_depots:
+    rules:
+      id: keep
+      depot_id: keep
+      delivery_cycle_id: keep
+  demo_page_visits:
+    action: drop
+    rules:
+      id: drop
+      admin_id: drop
+      session_id: drop
+      path: drop
+      controller_name: drop
+      action_name: drop
+      page_key: drop
+      status: drop
+      created_at: drop
+      updated_at: drop
+  depot_groups:
+    rules:
+      id: keep
+      names: keep
+      public_names: keep
+      member_order_priority: keep
+      created_at: keep
+      updated_at: keep
+  depots:
+    rules:
+      id: keep
+      street: keep
+      zip: keep
+      city: keep
+      created_at: keep
+      updated_at: keep
+      price: keep
+      emails: emails
+      address_name: keep
+      phones: phone
+      note: clear
+      language: keep
+      visible: keep
+      public_names: keep
+      contact_name: person_name
+      member_order_priority: keep
+      position: keep
+      member_ids_position: keep
+      delivery_sheets_mode: keep
+      group_id: keep
+      discarded_at: keep
+      names: keep
+      form_details: keep
+      invoice_names: keep
+      notify_days_before_delivery: keep
+      maps_visible: keep
+      latitude: keep
+      longitude: keep
+  email_suppressions:
+    action: drop
+    rules:
+      id: drop
+      email: drop
+      reason: drop
+      origin: drop
+      stream_id: drop
+      unsuppressed_at: drop
+      created_at: drop
+  forced_deliveries:
+    rules:
+      id: keep
+      membership_id: keep
+      delivery_id: keep
+      created_at: keep
+      updated_at: keep
+  home_delivery_address_deliveries:
+    rules:
+      id: keep
+      home_delivery_address_id: keep
+      delivery_id: keep
+      member_id: keep
+      created_at: keep
+      updated_at: keep
+  home_delivery_addresses:
+    rules:
+      id: keep
+      member_id: keep
+      session_id: clear
+      name: person_name
+      street: street
+      zip: zip
+      city: city
+      note: clear
+      created_at: keep
+      updated_at: keep
+  invoice_items:
+    action: drop
+    rules:
+      id: drop
+      invoice_id: drop
+      description: drop
+      amount: drop
+      created_at: drop
+      updated_at: drop
+  invoices:
+    action: drop
+    rules:
+      id: drop
+      member_id: drop
+      date: drop
+      paid_amount: drop
+      amount: drop
+      annual_fee: drop
+      memberships_amount_description: drop
+      memberships_amount: drop
+      remaining_memberships_amount: drop
+      paid_memberships_amount: drop
+      sent_at: drop
+      created_at: drop
+      updated_at: drop
+      overdue_notices_count: drop
+      overdue_notice_sent_at: drop
+      canceled_at: drop
+      state: drop
+      entity_type: drop
+      entity_id: drop
+      missing_activity_participations_count: drop
+      vat_amount: drop
+      shares_number: drop
+      overpaid_notification_sent_at: drop
+      vat_rate: drop
+      amount_percentage: drop
+      amount_before_percentage: drop
+      stamped_at: drop
+      missing_activity_participations_fiscal_year: drop
+      currency_code: drop
+      sepa_direct_debit_order_id: drop
+      sepa_direct_debit_order_uploaded_at: drop
+      sepa_mandate_id: drop
+      sepa_debtor_name: drop
+      sepa_direct_debit_submission_state: drop
+      sepa_direct_debit_submission_attempted_at: drop
+      sepa_direct_debit_transaction_id: drop
+      sepa_direct_debit_pain_message_id: drop
+      sepa_direct_debit_pain_payload_sha256: drop
+      pdf_stale: drop
+  mail_deliveries:
+    action: drop
+    rules:
+      id: drop
+      mailable_type: drop
+      mailable_ids: drop
+      action: drop
+      member_id: drop
+      state: drop
+      subject: drop
+      content: drop
+      created_at: drop
+      updated_at: drop
+      mailable_id: drop
+  mail_delivery_emails:
+    action: drop
+    rules:
+      id: drop
+      mail_delivery_id: drop
+      email: drop
+      state: drop
+      processed_at: drop
+      delivered_at: drop
+      bounced_at: drop
+      bounce_type: drop
+      bounce_type_code: drop
+      bounce_description: drop
+      postmark_message_id: drop
+      postmark_details: drop
+      email_suppression_ids: drop
+      email_suppression_reasons: drop
+      created_at: drop
+      updated_at: drop
+  mail_templates:
+    rules:
+      id: keep
+      title: keep
+      active: keep
+      subjects: keep
+      contents: keep
+      created_at: keep
+      updated_at: keep
+      delivery_cycle_ids: keep
+      delay_in_days: keep
+  member_cards:
+    rules:
+      id: keep
+      member_id: keep
+      price_reduction_card_id: keep
+      name: person_name
+      number: card_number
+      expires_on: keep
+      expiration_notice_sent_on: keep
+      created_at: keep
+      updated_at: keep
+  members:
+    rules:
+      id: keep
+      emails: emails
+      phones: phone
+      street: street
+      zip: zip
+      city: city
+      created_at: keep
+      updated_at: keep
+      waiting_started_at: keep
+      food_note: clear
+      note: clear
+      validator_id: keep
+      validated_at: keep
+      waiting_basket_size_id: keep
+      waiting_depot_id: keep
+      salary_basket: keep
+      state: keep
+      name: person_name
+      profession: clear
+      come_from: clear
+      annual_fee: keep
+      language: keep
+      shares_info: clear
+      existing_shares_number: keep
+      activated_at: keep
+      waiting_basket_price_extra: keep
+      country_code: keep
+      contact_sharing: set_false
+      desired_shares_number: keep
+      waiting_delivery_cycle_id: keep
+      billing_email: email
+      memberships_count: keep
+      shop_depot_id: keep
+      delivery_note: clear
+      required_shares_number: keep
+      waiting_activity_participations_demanded_annually: keep
+      waiting_billing_year_division: keep
+      initial_basket_sent_at: keep
+      final_basket_sent_at: keep
+      trial_baskets_count: keep
+      billing_name: person_name
+      billing_street: street
+      billing_city: city
+      billing_zip: zip
+      use_local_currency: keep
+      discarded_at: keep
+      anonymized_at: keep
+      theme: keep
+      sepa_disabled_at: keep
+      shop_delivery_cycle_id: keep
+      waiting_membership_started_on: keep
+      shop_invoice_period: keep
+      waiting_price_reduction_id: keep
+      waiting_promotion_id: keep
+  members_basket_complements:
+    rules:
+      id: keep
+      basket_complement_id: keep
+      member_id: keep
+      quantity: keep
+      created_at: keep
+      updated_at: keep
+  members_waiting_alternative_depots:
+    rules:
+      depot_id: keep
+      member_id: keep
+  membership_price_reductions:
+    rules:
+      id: keep
+      membership_id: keep
+      price_reduction_id: keep
+      percentage: keep
+      fixed_amount: keep
+      amount: keep
+      created_at: keep
+      updated_at: keep
+  memberships:
+    rules:
+      id: keep
+      member_id: keep
+      activity_participations_annual_price_change: keep
+      activity_participations_demanded_annually: keep
+      started_on: keep
+      ended_on: keep
+      created_at: keep
+      updated_at: keep
+      baskets_count: keep
+      activity_participations_demanded: keep
+      activity_participations_accepted: keep
+      renew: keep
+      basket_size_id: keep
+      depot_id: keep
+      basket_quantity: keep
+      basket_size_price: keep
+      depot_price: keep
+      baskets_annual_price_change: keep
+      basket_complements_annual_price_change: keep
+      past_baskets_count: keep
+      remaining_trial_baskets_count: keep
+      price: keep
+      invoices_amount: keep
+      renewal_annual_fee: keep
+      renewed_at: keep
+      renewal_opened_at: keep
+      renewal_note: clear
+      renewal_reminder_sent_at: keep
+      basket_price_extra: keep
+      last_trial_basket_sent_at: keep
+      delivery_cycle_id: keep
+      absences_included_annually: keep
+      absences_included: keep
+      billing_year_division: keep
+      trial_baskets_count: keep
+      first_basket_sent_at: keep
+      last_basket_sent_at: keep
+      delivery_cycle_price: keep
+      bidding_round_opened_reminder_sent_at: keep
+      second_last_trial_basket_sent_at: keep
+      absences_included_reminder_sent_at: keep
+      previsional_invoicing_amounts: keep
+      apply_basket_size_price_percentage: keep
+      alternate_depot_id: keep
+      alternate_depot_price: keep
+      alternate_delivery_cycle_id: keep
+      force_absences_included_annually: keep
+      force_activity_participations_demanded_annually: keep
+  memberships_basket_complements:
+    rules:
+      id: keep
+      basket_complement_id: keep
+      membership_id: keep
+      price: keep
+      quantity: keep
+      created_at: keep
+      updated_at: keep
+      delivery_cycle_id: keep
+  newsletter_blocks:
+    rules:
+      id: keep
+      newsletter_id: keep
+      block_id: keep
+      created_at: keep
+      updated_at: keep
+  newsletter_publications:
+    rules:
+      id: keep
+      newsletter_id: keep
+      newsletter_template_id: keep
+      published_at: keep
+      withdrawn_at: keep
+      atom_id: keep
+      content_digest: keep
+      payload: keep
+      created_at: keep
+      updated_at: keep
+  newsletter_segments:
+    rules:
+      id: keep
+      titles: keep
+      depot_ids: keep
+      basket_size_ids: keep
+      basket_complement_ids: keep
+      delivery_cycle_ids: keep
+      renewal_state: keep
+      created_at: keep
+      updated_at: keep
+      first_membership: keep
+      coming_deliveries_in_days: keep
+      billing_year_division: keep
+      city: keep
+      membership_scope: keep
+      member_ids: keep
+      member_state: keep
+  newsletter_templates:
+    rules:
+      id: keep
+      contents: keep
+      created_at: keep
+      updated_at: keep
+      titles: keep
+      feed_enabled: keep
+  newsletters:
+    rules:
+      id: keep
+      newsletter_template_id: keep
+      template_contents: keep
+      subjects: keep
+      sent_at: keep
+      created_at: keep
+      updated_at: keep
+      audience: keep
+      liquid_data_preview_yamls: empty_object
+      from: email
+      signatures: keep
+      audience_names: keep
+      scheduled_at: keep
+  organizations:
+    rules:
+      id: keep
+      name: keep
+      created_at: keep
+      updated_at: keep
+      features: keep
+      email_default_from: keep
+      fiscal_year_start_month: keep
+      trial_baskets_count: keep
+      annual_fee: keep
+      billing_year_divisions: keep
+      activity_i18n_scope: keep
+      email: keep
+      phone: keep
+      url: keep
+      activity_participation_deletion_deadline_in_days: keep
+      vat_number: keep
+      vat_membership_rate: keep
+      languages: keep
+      share_price: keep
+      invoice_infos: keep
+      invoice_footers: keep
+      delivery_pdf_footers: keep
+      terms_of_service_urls: keep
+      statutes_urls: keep
+      activity_availability_limit_in_days: keep
+      activity_phone: keep
+      activity_price: keep
+      absences_billed: keep
+      recurring_billing_wday: keep
+      email_notifications: keep
+      feature_flags: keep
+      iban: iban
+      creditor_name: keep
+      creditor_street: keep
+      creditor_city: keep
+      creditor_zip: keep
+      country_code: keep
+      currency_code: keep
+      email_signatures: keep
+      email_footers: keep
+      billing_starts_after_first_delivery: keep
+      allow_alternative_depots: keep
+      member_form_extra_text_only: keep
+      basket_price_extras: keep
+      basket_price_extra_titles: keep
+      basket_price_extra_texts: keep
+      basket_price_extra_labels: keep
+      basket_price_extra_label_details: keep
+      membership_renewal_depot_update: keep
+      absence_notice_period_in_days: keep
+      shop_invoice_infos: keep
+      shop_order_maximum_weight_in_kg: keep
+      shop_order_minimal_amount: keep
+      shop_delivery_open_delay_in_days: keep
+      shop_delivery_open_last_day_end_time: keep
+      shop_delivery_pdf_footers: keep
+      shop_terms_of_sale_urls: keep
+      absence_extra_text_only: keep
+      shop_admin_only: keep
+      basket_price_extra_public_titles: keep
+      icalendar_auth_token: encrypt_null
+      bank_reference: keep
+      activity_participations_demanded_logic: keep
+      send_closed_invoice: keep
+      member_profession_form_mode: keep
+      member_come_from_form_mode: keep
+      basket_update_limit_in_days: keep
+      membership_depot_update_allowed: keep
+      basket_price_extra_dynamic_pricing: keep
+      vat_activity_rate: keep
+      vat_shop_rate: keep
+      member_form_mode: keep
+      membership_complements_update_allowed: keep
+      shop_member_percentages: keep
+      basket_sizes_member_order_mode: keep
+      basket_complements_member_order_mode: keep
+      depots_member_order_mode: keep
+      delivery_cycles_member_order_mode: keep
+      shop_order_automatic_invoicing_delay_in_days: keep
+      membership_renewed_attributes: keep
+      new_member_fee: keep
+      new_member_fee_descriptions: keep
+      member_information_titles: keep
+      billing_ends_on_last_delivery_fy_month: keep
+      shares_number: keep
+      privacy_policy_urls: keep
+      charter_urls: keep
+      activity_participations_form_min: keep
+      activity_participations_form_max: keep
+      activity_participations_form_details: keep
+      sepa_creditor_identifier: keep
+      delivery_pdf_member_info: keep
+      activity_participations_form_step: keep
+      annual_fee_member_form: keep
+      social_network_urls: keep
+      invoice_sepa_infos: keep
+      annual_fee_support_member_only: keep
+      invoice_document_names: keep
+      basket_shifts_annually: keep
+      basket_shift_deadline_in_weeks: keep
+      api_token: encrypt_placeholder
+      postmark_server_token: encrypt_null
+      postmark_server_id: clear
+      bidding_round_basket_size_price_min_percentage: keep
+      bidding_round_basket_size_price_max_percentage: keep
+      local_currency_code: keep
+      local_currency_identifier: clear
+      local_currency_wallet: clear
+      local_currency_secret: encrypt_null
+      member_form_complement_quantities: keep
+      absences_included_mode: keep
+      invoice_membership_summary_only: keep
+      member_form_delivery_cycle_labels: keep
+      basket_content_member_display_quantity: keep
+      basket_content_member_notes: keep
+      basket_content_member_titles: keep
+      basket_content_member_visible: keep
+      basket_content_member_visible_hours_before: keep
+      local_currency_membership_annual_fee_only: keep
+      basket_i18n_scopes: keep
+      basket_content_member_display_product_url: keep
+      basket_content_delivery_pdf_visible: keep
+      delivery_pdf_member_name_format: keep
+      cap_site_key: keep
+      cap_secret_key: encrypt_null
+      maps_style: keep
+      member_form_depot_map: keep
+      absences_included_logic: keep
+      shop_invoice_period: keep
+      delivery_pdf_member_order_mode: keep
+  payments:
+    rules:
+      id: keep
+      member_id: keep
+      invoice_id: clear
+      amount: keep
+      date: keep
+      fingerprint: clear
+      created_at: keep
+      updated_at: keep
+      ignored_at: keep
+      currency_code: keep
+      reversal_notification_sent_at: keep
+      origin: keep
+  permissions:
+    rules:
+      id: keep
+      names: keep
+      rights: keep
+      created_at: keep
+      updated_at: keep
+  price_reduction_cards:
+    rules:
+      id: keep
+      names: keep
+      require_name: keep
+      require_number: keep
+      require_expires_on: keep
+      created_at: keep
+      updated_at: keep
+  price_reductions:
+    rules:
+      id: keep
+      names: keep
+      form_details: keep
+      percentage: keep
+      fixed_amount: keep
+      cap_amount: keep
+      cap_mode: keep
+      renew: keep
+      depot_ids: keep
+      price_reduction_card_id: keep
+      visible: keep
+      member_order_priority: keep
+      discarded_at: keep
+      created_at: keep
+      updated_at: keep
+      public_names: keep
+  producers:
+    rules:
+      id: keep
+      name: keep
+      website_url: keep
+      discarded_at: keep
+  promotion_claims:
+    rules:
+      id: keep
+      promotion_id: keep
+      member_id: keep
+      membership_id: keep
+      amount: keep
+      commitment_required: keep
+      benefit_amount: keep
+      voided_at: keep
+      expires_on: keep
+      names: keep
+      public_names: keep
+      created_at: keep
+      updated_at: keep
+  promotions:
+    rules:
+      id: keep
+      code: keep
+      names: keep
+      public_names: keep
+      state: keep
+      ends_on: keep
+      max_uses: keep
+      amount: keep
+      commitment_required: keep
+      discarded_at: keep
+      created_at: keep
+      updated_at: keep
+  sepa_mandates:
+    rules:
+      id: keep
+      member_id: keep
+      session_id: clear
+      iban: iban
+      umr: token
+      signed_on: keep
+      ip: clear
+      user_agent: clear
+      source: keep
+      created_at: keep
+  sessions:
+    action: drop
+    rules:
+      id: drop
+      member_id: drop
+      user_agent: drop
+      remote_addr: drop
+      created_at: drop
+      updated_at: drop
+      last_used_at: drop
+      last_remote_addr: drop
+      last_user_agent: drop
+      email: drop
+      admin_id: drop
+      revoked_at: drop
+      redeemed_at: drop
+  shop_order_groups:
+    rules:
+      id: keep
+      member_id: keep
+      period: keep
+      created_at: keep
+      updated_at: keep
+  shop_order_items:
+    rules:
+      id: keep
+      order_id: keep
+      product_id: keep
+      product_variant_id: keep
+      quantity: keep
+      item_price: keep
+      created_at: keep
+      updated_at: keep
+  shop_orders:
+    rules:
+      id: keep
+      member_id: keep
+      delivery_id: keep
+      state: keep
+      amount: keep
+      created_at: keep
+      updated_at: keep
+      delivery_type: keep
+      depot_id: keep
+      amount_percentage: keep
+      amount_before_percentage: keep
+      order_group_id: keep
+  shop_product_variants:
+    rules:
+      id: keep
+      product_id: keep
+      names: keep
+      price: keep
+      weight_in_kg: keep
+      stock: keep
+      available: keep
+      discarded_at: keep
+      basket_complement_id: keep
+  shop_products:
+    rules:
+      id: keep
+      producer_id: keep
+      names: keep
+      available: keep
+      unavailable_for_depot_ids: keep
+      unavailable_for_delivery_ids: keep
+      display_in_delivery_sheets: keep
+      discarded_at: keep
+  shop_products_special_deliveries:
+    rules:
+      special_delivery_id: keep
+      product_id: keep
+  shop_products_tags:
+    rules:
+      product_id: keep
+      tag_id: keep
+  shop_special_deliveries:
+    rules:
+      id: keep
+      date: keep
+      open_delay_in_days: keep
+      open_last_day_end_time: keep
+      open: keep
+      shop_products_count: keep
+      created_at: keep
+      updated_at: keep
+      titles: keep
+      unavailable_for_depot_ids: keep
+  shop_tags:
+    rules:
+      id: keep
+      names: keep
+      emoji: keep
+      discarded_at: keep
+  support_messages:
+    action: drop
+    rules:
+      id: drop
+      ticket_id: drop
+      author: drop
+      admin_id: drop
+      admin_name: drop
+      body: drop
+      rfc_message_id: drop
+      created_at: drop
+      updated_at: drop
+  support_tickets:
+    action: drop
+    rules:
+      id: drop
+      subject: drop
+      content: drop
+      context: drop
+      priority: drop
+      admin_id: drop
+      created_at: drop
+      updated_at: drop
+      emails: drop
+      token: drop
+      replied_at: drop
+      last_activity_at: drop
+  search_entries:
+    rules:
+      searchable_type: keep
+      searchable_id: keep
+      content_primary: keep
+      content_secondary: keep
+      priority: keep
+      updated_at: keep
