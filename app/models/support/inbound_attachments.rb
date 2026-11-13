@@ -30,6 +30,17 @@ module Support
       [ leftover, cid_blobs ]
     end
 
+    # Inline CID images referenced by +html+, return leftover raw parts for a
+    # later hop (convert original vs support reply).
+    def self.claim_cids(raw_attachments, html)
+      leftover, cid_blobs = split(raw_attachments, html: html)
+      rewritten = html
+      if html.present? && cid_blobs.any?
+        rewritten = rewrite_cids(html, cid_blobs)
+      end
+      [ leftover.map(&:last), rewritten ]
+    end
+
     def self.rewrite_cids(html, cid_blobs)
       return html if cid_blobs.blank?
 

@@ -206,22 +206,35 @@ module Support
         skip_opening_message: true)
       transaction do
         ticket.save!
+        remaining = inbound.attachments
+        original_html = inbound.original.html
         if inbound.original.present?
+          if inbound.reply.present?
+            # Inline images belong to the cited original; leftover files stay
+            # with the operator reply.
+            remaining, original_html = Support::InboundAttachments.claim_cids(
+              remaining, original_html)
+            original_attachments = nil
+          else
+            original_attachments = remaining
+            remaining = []
+          end
           ticket.persist_inbound_message(
             author: "admin",
             admin: matched_admin,
             body: inbound.original.body,
-            html: inbound.original.html,
+            html: original_html,
             rfc_message_id: nil,
-            skip_notify: true)
+            skip_notify: true,
+            attachments: original_attachments)
         end
-        if inbound.reply.present? || (inbound.attachments.present? && inbound.original.blank?)
+        if inbound.reply.present? || remaining.present?
           ticket.persist_inbound_message(
             author: "support",
             body: inbound.reply.body,
             html: inbound.reply.html,
             rfc_message_id: rfc_id,
-            attachments: inbound.attachments)
+            attachments: remaining)
         end
       end
       ticket

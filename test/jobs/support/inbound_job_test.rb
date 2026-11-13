@@ -525,6 +525,11 @@ class Support::InboundJobTest < ActiveJob::TestCase
     assert_includes reply.body, "Here is the answer"
     assert_not_includes reply.body, "Hello from the member"
     assert_not_includes reply.html.to_s, "On 13 Oct"
+    assert original.html.body.attachments.any?
+    assert_equal 0, original.attachments.count
+    assert_equal 0, reply.attachments.count
+    assert_not_includes original.html.to_s, "cid:"
+    assert_empty reply.html.body.attachments
   end
 
   test "does not discard inbound policy errors" do
