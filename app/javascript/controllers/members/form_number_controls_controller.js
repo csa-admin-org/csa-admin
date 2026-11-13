@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { debounce } from "throttle-debounce"
-import { nextQuantity } from "controllers/members/quantity_step"
+import { nextQuantity, normalizedQuantity } from "controllers/members/quantity_step"
 
 export default class extends Controller {
   static get targets() {
@@ -19,7 +19,21 @@ export default class extends Controller {
     this.step(-1, event)
   }
 
+  normalize() {
+    const input = this.inputTarget
+    const next = normalizedQuantity(input.value, {
+      step: input.step,
+      min: input.min,
+      max: input.max
+    })
+    if (String(next) === input.value) return
+
+    input.value = next
+    this.inputChanged()
+  }
+
   step(delta, event) {
+    this.normalize()
     const current = Number(this.inputTarget.value)
     if (Number.isNaN(current)) {
       event.preventDefault()

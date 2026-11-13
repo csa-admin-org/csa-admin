@@ -64,7 +64,10 @@
                 step: ff.object.product_variant.kg? ? 0.01 : 1,
                 max: ff.object.product_variant.kg? ? shop_quantity(ff.object.product_variant.stock) : shop_quantity(ff.object.product_variant.stock || 99),
                 value: shop_quantity(ff.object.quantity),
-                data: { form_number_controls_target: "input", action: "change->form-submitter#submit" } %>
+                data: {
+                  form_number_controls_target: "input",
+                  action: "input->form-number-controls#normalize change->form-number-controls#normalize change->form-submitter#submit"
+                } %>
 
               <% disabled = available_products.exclude?(ff.object.product) || ff.object.product_variant.unavailable? || (ff.object.product_variant.stock && ff.object.quantity >= ff.object.product_variant.stock) %>
 
