@@ -117,9 +117,10 @@ Formtastic::FormBuilder.action_class_finder = Formtastic::ActionClassFinder
 
 Formtastic::Inputs::Base::Labelling.module_eval do
   def label_html_options
+    label_html = (options[:label_html] || {}).compact
     {
       for: input_html_options[:id],
       class: Array(options[:label_class])
-    }
+    }.merge(label_html)
   end
 end

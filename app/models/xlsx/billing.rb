@@ -205,7 +205,7 @@ module XLSX
       @worksheet.add_cell(@line, 1, variant.name)
       @worksheet.add_cell(@line, 2, variant.product.producer.name)
       @worksheet.add_cell(@line, 3, variant.product.tags.map(&:name).join(", "))
-      add_count_cell(@line, 4, quantity)
+      add_quantity_cell(@line, 4, quantity)
       add_money_cell(@line, 5, total)
       @line += 1
     end

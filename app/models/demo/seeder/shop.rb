@@ -68,7 +68,7 @@ module Demo::Seeder::Shop
       next unless variant
       next if variant.out_of_stock?
 
-      max_qty = [ quantity, variant.stock ].min
+      max_qty = [ shop_line_quantity(variant, quantity), variant.stock ].min
       next unless max_qty.positive?
 
       order.items.build(
@@ -78,5 +78,11 @@ module Demo::Seeder::Shop
         quantity: max_qty)
     end
     order.items.any? ? order : nil
+  end
+
+  def shop_line_quantity(variant, quantity)
+    return quantity unless variant.kg?
+
+    [ quantity, rand(1..6).to_d / 2 ].min
   end
 end

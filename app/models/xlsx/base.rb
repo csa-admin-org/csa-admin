@@ -9,6 +9,7 @@ module XLSX
     include ActionView::Helpers::TextHelper
     include NumbersHelper
     include ApplicationHelper
+    include NumbersHelper
 
     delegate :content_type, to: :workbook
 
@@ -89,6 +90,10 @@ module XLSX
       @worksheet.add_cell(row, column, count(amount)).set_number_format(count_format)
     end
 
+    def add_quantity_cell(row, column, amount)
+      @worksheet.add_cell(row, column, quantity(amount)).set_number_format(flexible_quantity_format)
+    end
+
     def add_empty_line
       @worksheet.add_cell(@line, 0)
       @line += 1
@@ -133,6 +138,10 @@ module XLSX
 
     def count_format
       "0"
+    end
+
+    def flexible_quantity_format
+      "0.##"
     end
 
     def percentage_format

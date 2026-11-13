@@ -78,6 +78,66 @@ class ShopOrdersControllerTest < ActionDispatch::IntegrationTest
     assert_select "select[name='shop_order[items_attributes][0][product_variant_id]'] option[value='#{item.product_variant_id}'][data-price='5']"
   end
 
+  test "quantity input step is 0.01 when the selected variant is kilograms" do
+    variant = shop_product_variants(:flour_wheat)
+    variant.update!(unit: "kg")
+    order = create_shop_order(items_attributes: {
+      "0" => {
+        product_id: shop_products(:flour).id,
+        product_variant_id: variant.id,
+        quantity: "1.25"
+      }
+    })
+
+    get edit_shop_order_path(order)
+
+    assert_response :success
+    assert_select "input[name='shop_order[items_attributes][0][quantity]'][step='0.01'][min='0.01']"
+    assert_select "option[value='#{variant.id}'][data-unit='kg']"
+    assert_select "label[data-form-reset-target='quantityLabel']",
+      text: /#{Regexp.escape(Shop::OrderItem.human_attribute_name("quantity/kg"))}/
+    assert_select "[data-form-reset-target='priceSuffix']", text: "/#{I18n.t("units.kg.flex")}"
+    assert_select "label[for*='item_price']", text: Shop::OrderItem.human_attribute_name(:price)
+  end
+
+  test "show aligns the price and quantity with the variant unit" do
+    variant = shop_product_variants(:flour_wheat)
+    variant.update!(unit: "kg")
+    order = create_shop_order(items_attributes: {
+      "0" => {
+        product_id: shop_products(:flour).id,
+        product_variant_id: variant.id,
+        quantity: "12.69",
+        item_price: "69"
+      }
+    })
+
+    get shop_order_path(order)
+
+    assert_response :success
+    assert_select "th", text: Shop::OrderItem.human_attribute_name(:price)
+    assert_select ".shop-unit-value", text: /12.69/
+    assert_select ".shop-unit-label", text: I18n.t("units.kg.short")
+    assert_select ".shop-unit-label", text: "/#{I18n.t("units.kg.short")}"
+    assert_select "[data-controller='auto-refresh']", count: 0
+  end
+
+  test "show refreshes while the invoice is still processing" do
+    order = shop_orders(:john)
+    order.update_columns(state: Shop::Order::INVOICED_STATE)
+    invoice = Invoice.create!(
+      member: order.member,
+      date: Date.current,
+      entity: order,
+      items_attributes: { "0" => { description: "Shop", amount: order.amount } })
+
+    get shop_order_path(order)
+
+    assert invoice.processing?
+    assert_response :success
+    assert_select "[data-controller='auto-refresh']"
+  end
+
   test "edit keeps an item price override" do
     item = shop_order_items(:john_bread_500)
     item.update_column(:item_price, 6.5)
@@ -129,7 +189,7 @@ class ShopOrdersControllerTest < ActionDispatch::IntegrationTest
     assert_select "input[name='shop_order[amount_percentage]'][value='12.5']"
     variant = "select[name='shop_order[items_attributes][0][product_variant_id]']"
     assert_select "#{variant} option[selected][value='#{item.product_variant_id}']"
-    assert_select "input[name='shop_order[items_attributes][0][quantity]'][value='#{item.quantity}']"
+    assert_select "input[name='shop_order[items_attributes][0][quantity]'][value='#{shop_quantity(item.quantity)}']"
     assert_select "input[name='shop_order[items_attributes][0][item_price]'][value='7.5']"
   end
 

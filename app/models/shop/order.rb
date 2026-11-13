@@ -290,7 +290,7 @@ module Shop
       items.map { |item|
         next unless complement = item.product_variant.basket_complement
 
-        describe(complement, item.quantity, public_name: public_name)
+        describe(complement, item.quantity.to_i, public_name: public_name)
       }.compact.to_sentence.presence
     end
 
@@ -349,7 +349,8 @@ module Shop
     end
 
     def reject_items(attrs)
-      if attrs[:quantity].to_i.zero?
+      quantity = attrs[:quantity]
+      if quantity.blank? || quantity.to_d.zero?
         if attrs[:id].present?
           attrs.merge!(_destroy: 1)
           false

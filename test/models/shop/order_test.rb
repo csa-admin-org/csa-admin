@@ -70,6 +70,43 @@ class Shop::OrderTest < ActiveSupport::TestCase
     assert_equal 11, order.weight_in_kg
   end
 
+  test "maximum weight counts a kilogram quantity" do
+    org(shop_order_maximum_weight_in_kg: 1)
+    variant = shop_product_variants(:flour_wheat)
+    variant.update!(unit: "kg")
+    order = build_shop_order(items_attributes: {
+      "0" => {
+        product_id: shop_products(:flour).id,
+        product_variant_id: variant.id,
+        quantity: "1.25"
+      }
+    })
+
+    assert_not order.valid?
+    assert_equal "1.25".to_d, order.weight_in_kg
+  end
+
+  test "admin nested attributes keep a half kilogram line" do
+    variant = shop_product_variants(:flour_wheat)
+    variant.update!(unit: "kg")
+    order = create_shop_order(items_attributes: {
+      "0" => {
+        product_id: shop_products(:flour).id,
+        product_variant_id: variant.id,
+        quantity: "0.5"
+      }
+    })
+
+    order.update!(items_attributes: {
+      "0" => {
+        id: order.items.sole.id,
+        quantity: "0.5"
+      }
+    })
+
+    assert_equal "0.5".to_d, order.items.sole.quantity
+  end
+
   test "validate minimum order amount when defined" do
     org(shop_order_minimal_amount: 20)
     order = build_shop_order(items_attributes: {

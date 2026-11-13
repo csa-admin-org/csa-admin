@@ -3100,6 +3100,12 @@ _:
               _de: "%{count} verfügbar"
               _it: "%{count} disponibili"
               _nl: "%{count} beschikbaar"
+          live_stock_kg:
+            _en: "%{quantity} available"
+            _fr: "%{quantity} disponible"
+            _de: "%{quantity} verfügbar"
+            _it: "%{quantity} disponibile"
+            _nl: "%{quantity} beschikbaar"
       terms_of_sale:
         _en: Terms of sale
         _fr: Conditions de vente

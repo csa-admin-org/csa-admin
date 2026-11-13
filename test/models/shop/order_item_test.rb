@@ -103,6 +103,72 @@ class Shop::OrderItemTest < ActiveSupport::TestCase
     assert_equal 0, product.variants.first.reload.stock
   end
 
+  test "kilogram line prices weight and describes the sold quantity" do
+    variant = shop_product_variants(:flour_wheat)
+    variant.update!(unit: "kg", price: 3, weight_in_kg: 1)
+
+    order = create_shop_order(items_attributes: {
+      "0" => {
+        product_id: shop_products(:flour).id,
+        product_variant_id: variant.id,
+        quantity: "1.25"
+      }
+    })
+    item = order.items.sole
+
+    assert_equal "3.75".to_d, item.amount
+    assert_equal "1.25".to_d, item.weight_in_kg
+    assert_equal(
+      "#{I18n.t("units.kg_quantity", quantity: "1.25")} x 3.00/#{I18n.t("units.kg.flex")}",
+      item.priced_quantity)
+
+    item.quantity = "1.001"
+    assert_not item.valid?
+    assert item.errors[:quantity].any?
+  end
+
+  test "piece line refuses a partial piece and keeps its description and weight" do
+    variant = shop_product_variants(:oil_500)
+    order = create_shop_order(items_attributes: {
+      "0" => {
+        product_id: shop_products(:oil).id,
+        product_variant_id: variant.id,
+        quantity: 2
+      }
+    })
+    item = order.items.sole
+
+    assert_equal 1, item.weight_in_kg
+    assert_match(/\A2x /, item.priced_quantity)
+    assert_not_includes item.description, "kg"
+
+    item.quantity = "1.5"
+    assert_not item.valid?
+    assert item.errors[:quantity].any?
+  end
+
+  test "pending kilogram quantity edit decrements stock by the decimal difference" do
+    variant = shop_product_variants(:flour_wheat)
+    variant.update!(unit: "kg", stock: 10)
+
+    order = create_shop_order(items_attributes: {
+      "0" => {
+        product_id: shop_products(:flour).id,
+        product_variant_id: variant.id,
+        quantity: "1.25"
+      }
+    })
+
+    order.update!(items_attributes: {
+      "0" => {
+        id: order.items.sole.id,
+        quantity: 2
+      }
+    })
+
+    assert_equal "8.0".to_d, variant.reload.stock
+  end
+
   test "validate product is available for delivery" do
     travel_to "2024-01-01"
     delivery = deliveries(:thursday_1)

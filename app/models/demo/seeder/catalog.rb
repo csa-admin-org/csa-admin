@@ -180,13 +180,20 @@ module Demo::Seeder::Catalog
       product_data[:variants].each do |variant_data|
         product.variants.build(
           names: translated_text(variant_data[:key]),
+          unit: variant_data[:unit] || "pc",
           price: variant_data[:price],
           available: true,
-          stock: rand(40..80))
+          stock: shop_variant_stock(variant_data[:unit]))
       end
       product.tap(&:save!)
     end
     open_shop_deliveries!
+  end
+
+  def shop_variant_stock(unit)
+    return rand(40..80) unless unit == "kg"
+
+    rand(80..200).to_d / 10
   end
 
   def open_shop_deliveries!

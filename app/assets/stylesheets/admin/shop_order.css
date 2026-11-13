@@ -1,0 +1,16 @@
+/* Shop order show. Price and quantity units share a column so /kg lines up with /p. */
+
+.shop-unit-value {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.shop-unit-label {
+  flex: 0 0 2.5ch;
+  text-align: left;
+  white-space: nowrap;
+  margin-right: -2.5ch;
+}

@@ -166,8 +166,12 @@ ActiveAdmin.register Shop::Order do
                 "#{i.product.name}, #{i.product_variant.name}",
                 data: { "table-row-action": "edit" }
             }
-            column(:item_price, class: "text-right") { |i| cur(i.item_price) }
-            column(:quantity, class: "text-right")
+            column(Shop::OrderItem.human_attribute_name(:price), class: "text-right") { |i|
+              shop_unit_amount(i.item_price, i.product_variant.unit)
+            }
+            column(:quantity, class: "text-right") { |i|
+              shop_unit_quantity(i.quantity, i.product_variant.unit)
+            }
             column(:amount, class: "text-right") { |i| cur(i.amount) }
           end
         end
@@ -179,13 +183,13 @@ ActiveAdmin.register Shop::Order do
             row(:member)
             row(:delivery) { auto_link order.delivery, order.delivery.display_name }
             row(:depot)
-            row(:weight) { kg(order.weight_in_kg) }
+            row(:weight) { shop_weight(order.weight_in_kg) }
             row(:created_at) { l(order.created_at, format: :medium) }
             row(:updated_at) { l(order.updated_at, format: :medium) }
           end
         end
 
-        panel t("billing.title"), icon: "banknotes" do
+        panel t("billing.title"), icon: "banknotes", data: ({ controller: "auto-refresh" } if order.invoice&.processing?) do
           attributes_table do
             if order.amount_percentage?
               row(:amount_before_percentage) { cur(order.amount_before_percentage) }
@@ -230,7 +234,17 @@ ActiveAdmin.register Shop::Order do
       f.input :amount_percentage,
         step: 0.1, min: -100, max: 200,
         hint: I18n.t("formtastic.hints.shop/order.amount_percentage")
-      f.has_many :items, allow_destroy: true, data: { controller: "form-reset" } do |ff|
+      f.has_many :items, allow_destroy: true, data: {
+        controller: "form-reset",
+        "form-reset-quantity-labels-value" => {
+          kg: Shop::OrderItem.human_attribute_name("quantity/kg"),
+          pc: Shop::OrderItem.human_attribute_name("quantity/pc")
+        }.to_json,
+        "form-reset-price-suffixes-value" => {
+          kg: "/#{t("units.kg.flex")}",
+          pc: "/#{t("units.pc.flex")}"
+        }.to_json
+      } do |ff|
         ff.input :product_variant,
           label: t("active_admin.searchable_select.product_and_variant"),
           collection: shop_order_variants_collection(ff.object.product_variant),
@@ -242,11 +256,33 @@ ActiveAdmin.register Shop::Order do
               searchable_select_empty_value: t("active_admin.searchable_select.products_no_results")
             }
           )
-        ff.input :quantity, as: :number, step: 1, min: 1
-        ff.input :item_price,
-          hint: true,
-          required: false,
-          input_html: catalog_price_input_html(ff.object.item_price, ff.object.product_variant&.price)
+        ff.input :quantity,
+          as: :number,
+          label: Shop::OrderItem.human_attribute_name(ff.object.product_variant&.kg? ? "quantity/kg" : "quantity/pc"),
+          step: ff.object.product_variant&.kg? ? 0.01 : 1,
+          min: ff.object.product_variant&.kg? ? 0.01 : 1,
+          label_html: { data: { "form-reset-target" => "quantityLabel" } },
+          input_html: {
+            value: helpers.shop_quantity(ff.object.quantity),
+            data: { form_reset_target: "quantity" }
+          }
+        price_html = catalog_price_input_html(ff.object.item_price, ff.object.product_variant&.price)
+        unit = ff.object.product_variant&.unit || "pc"
+        ff.template.concat(ff.template.tag.li(class: "input numeric stringish") {
+          ff.template.safe_join([
+            ff.label(:item_price, Shop::OrderItem.human_attribute_name(:price)),
+            ff.template.tag.div(class: "cluster") {
+              ff.template.safe_join([
+                ff.text_field(:item_price, type: "number", step: 0.01, min: 0, **price_html),
+                ff.template.tag.span(
+                  "/#{t("units.#{unit}.flex")}",
+                  class: "text-sm is-muted",
+                  data: { form_reset_target: "priceSuffix" })
+              ])
+            },
+            ff.template.tag.p(t("formtastic.hints.shop/order_item.item_price"), class: "inline-hints")
+          ])
+        })
       end
       f.semantic_errors :items
     end

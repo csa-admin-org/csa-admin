@@ -206,6 +206,42 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     assert_includes pdf_strings, "Jane Doe"
   end
 
+  test "kilogram shop column header carries the unit and the complement column stays a count" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:thursday_1)
+    delivery.update!(shop_open: true)
+    shop_product_variants(:flour_buckwheat).discard!
+    shop_products(:flour).update!(display_in_delivery_sheets: true)
+    shop_product_variants(:flour_wheat).update!(unit: "kg")
+
+    create_shop_order(
+      member: members(:jane),
+      delivery: delivery,
+      depot: depots(:bakery),
+      items_attributes: {
+        "0" => {
+          product_id: shop_products(:flour).id,
+          product_variant_id: shop_product_variants(:flour_wheat).id,
+          quantity: "1.25"
+        },
+        "1" => {
+          product_id: shop_products(:bread).id,
+          product_variant_id: shop_product_variants(:bread_500).id,
+          quantity: 2
+        }
+      })
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+
+    assert_includes pdf_strings, shop_products(:flour).reload.delivery_sheet_name
+    assert_includes shop_products(:flour).delivery_sheet_name, "kg"
+    assert_includes pdf_strings, "1.25"
+    assert_includes pdf_strings, "Bread"
+    assert_includes pdf_strings, "3"
+    assert_not_includes pdf_strings, "3.0"
+    assert_not_includes pdf_strings.join, "2 kg"
+  end
+
   test "summary includes depot-group sections when they add information beyond free and paid depots" do
     travel_to "2024-01-01"
     delivery = deliveries(:monday_1)

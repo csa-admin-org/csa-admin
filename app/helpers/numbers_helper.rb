@@ -43,6 +43,37 @@ module NumbersHelper
     "#{sprintf("%.1f", number)}#{NBSP}kg"
   end
 
+  # Shop quantities and piece weights. Up to 3 decimals, zeros stripped.
+  # Round first so a SQLite SUM float does not print as 1.2500000000000002.
+  def shop_quantity(number)
+    return if number.nil?
+
+    rounded = number.to_d.round(3)
+    text = rounded.to_s("F")
+    text.sub(/\.0+\z/, "").sub(/(\.[0-9]*?)0+\z/, "\\1")
+  end
+
+  def shop_weight(amount)
+    I18n.t("units.kg_quantity", quantity: shop_quantity(amount))
+  end
+
+  def shop_unit_price(amount, variant)
+    "#{cur(amount)}/#{I18n.t("units.#{variant.unit}.short")}"
+  end
+
+  def shop_catalog_price(variant)
+    content_tag(:span, class: "shop-catalog-price") do
+      safe_join([
+        content_tag(:span, cur(variant.price), class: "shop-catalog-price-amount"),
+        content_tag(:span, "/#{I18n.t("units.#{variant.unit}.short")}", class: "shop-catalog-price-unit")
+      ])
+    end
+  end
+
+  def shop_quantity_with_unit(quantity, variant)
+    variant.kg? ? shop_weight(quantity) : shop_quantity(quantity)
+  end
+
   def _number_to_percentage(number, **options)
     txt = number_to_percentage(number, **options)
     if number.positive?

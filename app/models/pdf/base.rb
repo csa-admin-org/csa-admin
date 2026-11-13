@@ -9,6 +9,7 @@ module PDF
   class Base < Prawn::Document
     include ActionView::Helpers::NumberHelper
     include ApplicationHelper
+    include NumbersHelper
 
     def initialize(*_args)
       super(

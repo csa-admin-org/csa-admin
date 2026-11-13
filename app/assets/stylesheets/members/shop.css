@@ -342,6 +342,25 @@
       flex: none;
     }
 
+    .shop-catalog-price {
+      display: inline-flex;
+      align-items: baseline;
+      justify-content: flex-end;
+      gap: 0.25rem;
+    }
+
+    .shop-catalog-price-amount {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .shop-catalog-price-unit {
+      flex: 0 0 2.75ch;
+      font-size: 0.75rem;
+      line-height: 1rem;
+      text-align: left;
+      color: var(--color-gray-400);
+    }
+
     button.shop-add {
       display: flex;
       cursor: pointer;
@@ -552,12 +571,17 @@
       text-align: start;
     }
 
+    .shop-order-item-name-line {
+      display: flex;
+      align-items: baseline;
+      margin-inline-end: 0.5rem;
+    }
+
     .shop-order-item-name {
       margin-inline-end: 0.5rem;
     }
 
     .shop-order-item-price {
-      margin-inline-end: 0.5rem;
       text-align: start;
       font-size: 0.75rem;
       line-height: 1rem;

@@ -19,6 +19,7 @@ module Shop
     validates :item_price, presence: true, numericality: true
     validates :quantity, presence: true, numericality: { greater_than: 0 }
     validates :order_id, uniqueness: { scope: %i[product_id product_variant_id] }
+    validate :quantity_scale
     validate :ensure_available_product_variant_stock
     validate :ensure_product_available_for_delivery
 
@@ -37,6 +38,7 @@ module Shop
     end
 
     def weight_in_kg
+      return quantity if product_variant.kg?
       return 0 unless product_variant.weight_in_kg
 
       product_variant.weight_in_kg * quantity
@@ -58,8 +60,29 @@ module Shop
       [
         product.name,
         product_variant.name,
-        "#{quantity}x #{cur(item_price, format: '%n')}"
+        priced_quantity
       ].join(", ")
+    end
+
+    def priced_quantity
+      price = cur(item_price, format: "%n")
+      if product_variant.kg?
+        "#{I18n.t("units.kg_quantity", quantity: shop_quantity(quantity))} x #{price}/#{I18n.t("units.kg.flex")}"
+      else
+        "#{shop_quantity(quantity)}x #{price}"
+      end
+    end
+
+    def delivery_quantity_label
+      if product_variant.kg?
+        I18n.t("units.kg_quantity", quantity: shop_quantity(quantity))
+      else
+        "#{shop_quantity(quantity)}x"
+      end
+    end
+
+    def displayed_quantity
+      shop_quantity(quantity)
     end
 
     def quantity_was
@@ -72,15 +95,33 @@ module Shop
       if order.cart? || order_just_confirmed?
         unless product_variant.available_stock?(quantity)
           self.errors.add(:quantity, :less_than_or_equal_to,
-            count: product_variant.stock)
+            count: shop_quantity_with_unit(product_variant.stock, product_variant))
         end
       elsif quantity_changed?
-        change = quantity - quantity_was.to_i
+        change = quantity - quantity_was
         unless product_variant.available_stock?(change)
           self.errors.add(:quantity, :less_than_or_equal_to,
-            count: quantity_was.to_i + product_variant.stock)
+            count: shop_quantity_with_unit(quantity_was + product_variant.stock, product_variant))
         end
       end
+    end
+
+    def quantity_scale
+      return if quantity.blank? || product_variant.blank?
+
+      if product_variant.pc? && !whole_number?(quantity)
+        errors.add(:quantity, :not_an_integer)
+      elsif product_variant.kg? && !at_most_two_decimals?(quantity)
+        errors.add(:quantity, :invalid)
+      end
+    end
+
+    def whole_number?(value)
+      value.to_d == value.to_d.round(0)
+    end
+
+    def at_most_two_decimals?(value)
+      value.to_d == value.to_d.round(2)
     end
 
     def ensure_product_available_for_delivery

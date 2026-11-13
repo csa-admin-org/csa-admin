@@ -37,7 +37,7 @@ ActiveAdmin.register Shop::Product do
     label: -> { Shop::ProductVariant.human_attribute_name(:price) },
     as: :numeric
   filter :stock,
-    label: -> { Shop::ProductVariant.human_attribute_name(:stock) },
+    label: -> { Shop::ProductVariant.human_attribute_name(:stock_filter) },
     as: :numeric
 
   includes :uninvoiced_orders, :order_items, variants: :basket_complement
@@ -68,7 +68,8 @@ ActiveAdmin.register Shop::Product do
     column(:product_variant)  { |p| p[:variant_name] }
     column(:price) { |p| p["variant_price"] }
     column(:weight_in_kg) { |p| p["variant_weight_in_kg"] }
-    column(:stock) { |p| p["variant_stock"] }
+    column(:unit) { |p| p["variant_unit"] }
+    column(Shop::ProductVariant.human_attribute_name(:stock_filter)) { |p| helpers.shop_quantity(p["variant_stock"]) }
     column(:available)
   end
 
@@ -94,15 +95,68 @@ ActiveAdmin.register Shop::Product do
     end
     f.inputs Shop::ProductVariant.model_name.human(count: 2), icon: "list-tree" do
       basket_complements = BasketComplement.includes(:shop_product_variant).ordered
-      f.has_many :variants, allow_destroy: ->(pv) { pv.can_destroy? }, heading: nil do |ff|
+      f.has_many :variants, allow_destroy: ->(pv) { pv.can_destroy? }, heading: nil,
+        data: {
+          controller: "price-unit-suffix",
+          "price-unit-suffix-suffixes-value" => { kg: "/#{t("units.kg.flex")}", pc: "/#{t("units.pc.flex")}" }.to_json,
+          "price-unit-suffix-stock-labels-value" => {
+            kg: Shop::ProductVariant.human_attribute_name("stock/kg"),
+            pc: Shop::ProductVariant.human_attribute_name(:stock)
+          }.to_json
+        } do |ff|
         translated_input(ff, :names)
-        ff.input :price, as: :number, step: 0.01, min: 0, max: 99999.99
-        ff.input :weight_in_kg, as: :number, step: 0.001, min: 0, required: false
-        ff.input :stock, as: :number, step: 1, min: 0, required: false
+        ff.input :unit,
+          as: :select,
+          collection: units_collection,
+          include_blank: false,
+          required: false,
+          hint: (t("formtastic.hints.shop/product_variant.unit") unless ff.object.can_delete?),
+          input_html: {
+            disabled: !ff.object.can_delete?,
+            data: {
+              "price-unit-suffix-target" => "select",
+              action: "price-unit-suffix#update"
+            }
+          }
+        ff.template.concat(ff.template.tag.li(class: "input number") {
+          ff.template.safe_join([
+            ff.label(:price),
+            ff.template.tag.div(class: "cluster") {
+              ff.template.safe_join([
+                ff.text_field(:price, type: "number", step: 0.01, min: 0, max: 99999.99, required: true),
+                ff.template.tag.span(
+                  "/#{t("units.#{ff.object.unit || "pc"}.flex")}",
+                  class: "text-sm is-muted",
+                  data: { price_unit_suffix_target: "text" })
+              ])
+            }
+          ])
+        })
+        ff.input :weight_in_kg,
+          as: :number, step: 0.001, min: 0, required: false,
+          wrapper_html: {
+            class: ("hidden" if ff.object.kg?),
+            data: { "price-unit-suffix-target" => "weight" }
+          }
+        ff.input :stock,
+          as: :number,
+          label: ff.object.kg? ? Shop::ProductVariant.human_attribute_name("stock/kg") : Shop::ProductVariant.human_attribute_name(:stock),
+          step: ff.object.kg? ? 0.01 : 1,
+          min: 0,
+          required: false,
+          label_html: { data: { "price-unit-suffix-target" => "stockLabel" } },
+          input_html: {
+            value: helpers.shop_quantity(ff.object.stock),
+            data: { "price-unit-suffix-target" => "stock" }
+          }
         ff.input :basket_complement,
           collection: basket_complements.map { |bc|
             linked_variant = bc.shop_product_variant
             [ bc.name, bc.id, disabled: linked_variant && linked_variant != ff.object ]
+          },
+          wrapper_html: {
+            class: ("hidden" if ff.object.kg? && ff.object.basket_complement_id.blank?),
+            data: { "price-unit-suffix-target" => "complement" }
           }
         ff.input :available, as: :boolean, required: false
       end
@@ -155,6 +209,7 @@ ActiveAdmin.register Shop::Product do
       :id,
       :basket_complement_id,
       :price,
+      :unit,
       :weight_in_kg,
       :stock,
       :available,
@@ -198,6 +253,7 @@ ActiveAdmin.register Shop::Product do
           json_extract(shop_product_variants.names, '$.#{I18n.locale}') as variant_name,
           shop_product_variants.price as variant_price,
           shop_product_variants.weight_in_kg as variant_weight_in_kg,
+          shop_product_variants.unit as variant_unit,
           shop_product_variants.stock as variant_stock
         SQL
       end

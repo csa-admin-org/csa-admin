@@ -78,7 +78,7 @@ class Analytics::Shop
           "shop-products", shop_products_title, self.class.icon,
           variants.map { |key, records|
             product, variant = records
-            [ [ product.name, variant.name ].join(" · "), series.map { |year| year.variant_quantities[key].to_i } ]
+            [ [ product.name, variant.name ].join(" · "), series.map { |year| year.variant_quantities[key].to_d } ]
           },
           share_totals: series.map { |year| year.variant_quantities.values.sum })
       end
@@ -163,7 +163,7 @@ class Analytics::Shop
   def variant_quantities_for(items)
     quantities = Hash.new(0)
     items.each do |row|
-      quantities[[ row.product_id, row.variant_id ]] += row.quantity.to_i
+      quantities[[ row.product_id, row.variant_id ]] += row.quantity.to_d
     end
     quantities
   end

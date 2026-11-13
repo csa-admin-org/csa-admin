@@ -36,9 +36,9 @@ module Shop
     scope :price_eq, ->(v) { joins(:variants).where("shop_product_variants.price = ?", v.to_f) }
     scope :price_gt, ->(v) { joins(:variants).where("shop_product_variants.price > ?", v.to_f) }
     scope :price_lt, ->(v) { joins(:variants).where("shop_product_variants.price < ?", v.to_f) }
-    scope :stock_eq, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock = ?", v.to_i) }
-    scope :stock_gt, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock > ?", v.to_i) }
-    scope :stock_lt, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock < ?", v.to_i) }
+    scope :stock_eq, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock = ?", v.to_d) }
+    scope :stock_gt, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock > ?", v.to_d) }
+    scope :stock_lt, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock < ?", v.to_d) }
     scope :variant_name_cont, ->(str) {
       joins(:variants).merge(ProductVariant.name_cont(str))
     }
@@ -128,6 +128,14 @@ module Shop
       raise "Product has more than one variant" if variants.many?
 
       "#{name} (#{variants.first.name})"
+    end
+
+    # Unit stays off name_with_single_variant so piece headers do not change.
+    def delivery_sheet_name
+      name = name_with_single_variant
+      return name unless variants.first&.kg?
+
+      "#{name} (#{I18n.t("units.kg.short")})"
     end
 
     def can_update?; true end

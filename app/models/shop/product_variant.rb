@@ -7,6 +7,8 @@ module Shop
     include TranslatedAttributes
     include Discardable
 
+    UNITS = %w[kg pc].freeze
+
     translated_attributes :name, required: true
 
     default_scope { order(:price).order_by_name }
@@ -35,6 +37,7 @@ module Shop
     }
 
     validates :available, inclusion: [ true, false ]
+    validates :unit, inclusion: { in: UNITS }
     validates :basket_complement_id, uniqueness: true, allow_nil: true
     validates :price,
       presence: true,
@@ -43,6 +46,19 @@ module Shop
       numericality: { greater_than_or_equal_to: 0, allow_nil: true }
     validates :weight_in_kg,
       numericality: { greater_than: 0, allow_nil: true }
+    validate :stock_scale
+    validate :basket_complement_only_for_pieces
+    validate :unit_locked_after_orders, on: :update
+
+    before_validation :clear_weight_for_kilograms
+
+    def kg?
+      unit == "kg"
+    end
+
+    def pc?
+      unit == "pc"
+    end
 
     def unavailable?
       !available?
@@ -84,6 +100,43 @@ module Shop
 
     def can_delete?
       order_items.none?
+    end
+
+    private
+
+    def clear_weight_for_kilograms
+      self.weight_in_kg = nil if kg?
+    end
+
+    def stock_scale
+      return if stock.nil?
+
+      if pc? && !whole_number?(stock)
+        errors.add(:stock, :not_an_integer)
+      elsif kg? && !at_most_two_decimals?(stock)
+        errors.add(:stock, :invalid)
+      end
+    end
+
+    def basket_complement_only_for_pieces
+      return unless kg? && basket_complement_id.present?
+
+      errors.add(:basket_complement_id, :invalid)
+    end
+
+    def unit_locked_after_orders
+      return unless unit_changed?
+      return if order_items.none?
+
+      errors.add(:unit, :locked)
+    end
+
+    def whole_number?(value)
+      value.to_d == value.to_d.round(0)
+    end
+
+    def at_most_two_decimals?(value)
+      value.to_d == value.to_d.round(2)
     end
   end
 end

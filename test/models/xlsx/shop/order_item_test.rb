@@ -29,6 +29,6 @@ class XLSX::Shop::OrderItemTest < ActiveSupport::TestCase
     assert_equal 3, sheet[1][quantity].value
     assert_nil sheet[1][price].datatype
     assert_equal "[$CHF] #,##0.00;[$CHF] -#,##0.00", sheet[1][amount].number_format.format_code
-    assert_equal "0", sheet[1][quantity].number_format.format_code
+    assert_equal "0.##", sheet[1][quantity].number_format.format_code
   end
 end

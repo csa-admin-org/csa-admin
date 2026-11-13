@@ -16,6 +16,14 @@ module ShopHelper
     end
   end
 
+  def shop_unit_amount(amount, unit)
+    shop_aligned_unit(cur(amount), "/#{I18n.t("units.#{unit}.short")}")
+  end
+
+  def shop_unit_quantity(quantity, unit)
+    shop_aligned_unit(shop_quantity(quantity), I18n.t("units.#{unit}.short"))
+  end
+
   def live_stock(variant, order)
     return unless variant.stock
 
@@ -34,7 +42,7 @@ module ShopHelper
             link_to edit_shop_product_path(product, anchor: :variants) do
               parts = [ variant.name ]
               parts << cur(variant.price)
-              parts << "<b>#{variant.stock}x</b>" unless variant.stock.nil?
+              parts << "<b>#{variant_stock_label(variant)}</b>" unless variant.stock.nil?
               parts.join(", ").html_safe
             end
           end
@@ -96,6 +104,24 @@ module ShopHelper
     end
   end
 
+  private def shop_aligned_unit(value, unit)
+    content_tag(:span, class: "shop-unit-value tabular-nums") do
+      safe_join([
+        content_tag(:span, value, class: "shop-unit-amount"),
+        content_tag(:span, unit, class: "shop-unit-label text-sm is-muted")
+      ])
+    end
+  end
+
+  private def variant_stock_label(variant)
+    quantity = shop_quantity(variant.stock)
+    if variant.kg?
+      I18n.t("units.kg_quantity", quantity: quantity)
+    else
+      "#{quantity}x"
+    end
+  end
+
   private def shop_order_variants
     @shop_order_variants ||= Shop::Product.kept
       .includes(:producer, :tags, :variants)
@@ -111,7 +137,8 @@ module ShopHelper
       {
         data: {
           search: shop_variant_search_text(variant),
-          price: catalog_price_placeholder(variant.price)
+          price: catalog_price_placeholder(variant.price),
+          unit: variant.unit
         }
       }
     ]

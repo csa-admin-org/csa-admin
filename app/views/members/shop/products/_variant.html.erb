@@ -4,17 +4,29 @@
   <div class="shop-variant-main">
     <span><%= variant.name %></span>
 
-    <% case live_stock %>
-    <% when 1..5 %>
-      <span class="shop-stock is-low">
-        <%= t(".live_stock", count: live_stock) %>
-      </span>
-    <% when ..0 %>
-      <span class="shop-stock is-empty"><%= t(".live_stock", count: 0) %></span>
+    <% if variant.kg? %>
+      <% if live_stock&.positive? && live_stock <= 5 %>
+        <span class="shop-stock is-low">
+          <%= t(".live_stock_kg", quantity: shop_weight(live_stock)) %>
+        </span>
+      <% elsif live_stock && !live_stock.positive? %>
+        <span class="shop-stock is-empty"><%= t(".live_stock", count: 0) %></span>
+      <% end %>
+    <% else %>
+      <% case live_stock %>
+      <% when 1..5 %>
+        <span class="shop-stock is-low">
+          <%= t(".live_stock", count: live_stock.to_i) %>
+        </span>
+      <% when ..0 %>
+        <span class="shop-stock is-empty"><%= t(".live_stock", count: 0) %></span>
+      <% end %>
     <% end %>
   </div>
 
-  <div class="shop-variant-price"><%= cur(variant.price) %></div>
+  <div class="shop-variant-price">
+    <%= shop_catalog_price(variant) %>
+  </div>
 
   <div class="shop-variant-action">
     <% if !live_stock || live_stock.positive? %>

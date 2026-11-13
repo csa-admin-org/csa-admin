@@ -2,6 +2,7 @@
 
 class Basket::CSVExporter
   include ActionView::Helpers::NumberHelper
+  include NumbersHelper
 
   def initialize(delivery: nil, fiscal_year: nil)
     raise ArgumentError, "Provide either delivery or fiscal_year" if delivery.nil? && fiscal_year.nil?
@@ -136,7 +137,7 @@ class Basket::CSVExporter
       if @basket_complements_exist
         cols << "#{Basket.human_attribute_name(:complement_ids)} (#{Shop::Order.model_name.human(count: 1)})"
       end
-      @shop_products.each { |p| cols << "#{p.name_with_single_variant} (#{I18n.t('shop.title')})" }
+      @shop_products.each { |p| cols << "#{p.delivery_sheet_name} (#{I18n.t('shop.title')})" }
     end
 
     cols.freeze
@@ -192,7 +193,7 @@ class Basket::CSVExporter
       complement_columns.each do |c|
         basket_qty = basket.baskets_basket_complements.select { |bc| bc.basket_complement_id == c.id }.sum(&:quantity)
         shop_qty = shop_order&.items&.select { |i| i.product_variant.basket_complement_id == c.id }&.sum(&:quantity) || 0
-        cols << (basket_qty + shop_qty)
+        cols << shop_quantity(basket_qty + shop_qty)
       end
       cols << basket.complements_description(public_name: true)
       cols << cur(basket.complements_price)
@@ -202,8 +203,8 @@ class Basket::CSVExporter
       cols << (shop_order ? "X" : nil)
       cols << shop_order&.complements_description if @basket_complements_exist
       @shop_products.each do |p|
-        quantity = shop_order&.items&.find { |i| i.product_id == p.id }&.quantity
-        cols << (quantity ? "#{quantity}x #{p.name_with_single_variant}" : nil)
+        item = shop_order&.items&.find { |i| i.product_id == p.id }
+        cols << (item ? "#{item.delivery_quantity_label} #{p.name_with_single_variant}" : nil)
       end
     end
 

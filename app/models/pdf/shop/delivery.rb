@@ -102,13 +102,13 @@ module PDF
           if item.product.producer && item.product.producer_id?
             item_description << item.product.producer.name
           end
-          [ item_description.join(", "), item.quantity ]
+          [ item_description.join(", "), item ]
         }.sort_by { |(desc, q)| desc }
 
-        items.each do |item_description, quantity|
+        items.each do |item_description, item|
           data << [
             {
-              content: quantity.to_s,
+              content: item.product_variant.kg? ? item.delivery_quantity_label : item.displayed_quantity,
               width: quantity_width,
               padding_left: 20,
               align: :left

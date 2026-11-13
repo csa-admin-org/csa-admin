@@ -282,7 +282,7 @@ module PDF
         end
         shop_products.each_with_index do |product, i|
           fill_color header_index.even? ? "666666" : "000000"
-          text_box product.name_with_single_variant,
+          text_box product.delivery_sheet_name,
             rotate: total_rotate,
             at: [ depot_name_width + (bs_size + bc_size + 1 + i) * number_width + offset_x, cursor + offset_y ],
             valign: :center,
@@ -317,7 +317,7 @@ module PDF
       }
       basket_complements.each do |c|
         total_line << {
-          content: cached_total_complement_count(c.id).to_s,
+          content: shop_quantity(cached_total_complement_count(c.id)),
           width: number_width,
           align: :center
         }
@@ -331,7 +331,7 @@ module PDF
       end
       shop_products.each do |p|
         total_line << {
-          content: @shop_orders.quantity_for(p).to_s,
+          content: shop_quantity(@shop_orders.quantity_for(p)),
           width: number_width,
           align: :center
         }
@@ -626,7 +626,7 @@ module PDF
         end
         shop_products.each_with_index do |product, i|
           fill_color header_index.even? ? "666666" : "000000"
-          text_box product.name_with_single_variant,
+          text_box product.delivery_sheet_name,
             rotate: 45,
             at: [ numbers_width_offset + (bs_size + bc_size + 1 + i) * number_width + offset_x, cursor + offset_y ],
             valign: :center,
@@ -666,7 +666,7 @@ module PDF
       end
       basket_complements.each do |c|
         total_line << {
-          content: cached_complement_count(depot.id, c.id).to_s,
+          content: shop_quantity(cached_complement_count(depot.id, c.id)),
           width: number_width,
           align: :center
         }
@@ -680,7 +680,7 @@ module PDF
       end
       shop_products.each do |p|
         total_line << {
-          content: shop_orders.quantity_for(p).to_s,
+          content: shop_quantity(shop_orders.quantity_for(p)),
           width: number_width,
           align: :center
         }
@@ -994,7 +994,7 @@ module PDF
     end
 
     def display_quantity(quantity)
-      quantity.zero? ? "" : quantity.to_s
+      quantity.to_d.zero? ? "" : shop_quantity(quantity)
     end
 
     def basket_content_for_depot(depot)

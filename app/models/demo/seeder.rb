@@ -85,6 +85,7 @@ class Demo::Seeder
     "3L bag-in-box" => { "en" => "3L bag-in-box", "fr" => "Bag-in-box 3L", "de" => "3L Bag-in-Box" },
     "Bundle" => { "en" => "Bundle", "fr" => "Bouquet", "de" => "Bund" },
     "Jar" => { "en" => "Jar", "fr" => "Bocal", "de" => "Glas" },
+    "Bulk" => { "en" => "Bulk", "fr" => "Vrac", "de" => "Lose" },
     "Strawberry" => { "en" => "Strawberry", "fr" => "Fraise", "de" => "Erdbeere" },
     "Apricot" => { "en" => "Apricot", "fr" => "Abricot", "de" => "Aprikose" },
     "Sunny Acres Apiary" => { "en" => "Sunny Acres Apiary", "fr" => "Rucher des Acres Ensoleillées", "de" => "Sonnige Äcker Imkerei" },
@@ -158,6 +159,12 @@ class Demo::Seeder
     ] },
     { key: "Pickles", variants: [
       { key: "Jar", price: 8.00 }
+    ] },
+    { key: "Tomatoes", variants: [
+      { key: "Bulk", unit: "kg", price: 6.00 }
+    ] },
+    { key: "Potatoes", variants: [
+      { key: "Bulk", unit: "kg", price: 3.00 }
     ] }
   ].freeze
   SHOP_PRODUCERS = [

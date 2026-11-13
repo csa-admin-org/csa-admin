@@ -14,20 +14,22 @@
       <div class="shop-order-item">
         <%= ff.label :quantity, class: "shop-order-item-label" do %>
           <div class="shop-order-item-info">
-            <span class="shop-order-item-name">
-              <%= ff.object.product.name %>,
-              <%= ff.object.product_variant.name %>
-            </span>
+            <span class="shop-order-item-name-line">
+              <span class="shop-order-item-name">
+                <%= ff.object.product.name %>,
+                <%= ff.object.product_variant.name %>
+              </span>
 
-            <span class="shop-order-item-price">
-              <%= cur(ff.object.item_price) %>
+              <span class="shop-order-item-price">
+                <%= shop_unit_price(ff.object.item_price, ff.object.product_variant) %>
+              </span>
             </span>
 
             <% if available_products.exclude?(ff.object.product) || ff.object.product_variant.unavailable? %>
               <span class="shop-stock is-low"><%= t(".unavailable") %></span>
             <% elsif !ff.object.product_variant.available_stock?(ff.object.quantity + 5) %>
               <span class="shop-stock is-low">
-                <%= t(".stock", count: ff.object.product_variant.stock) %>
+                <%= t(".stock", count: shop_quantity_with_unit(ff.object.product_variant.stock, ff.object.product_variant)) %>
               </span>
             <% end %>
           </div>
@@ -35,19 +37,20 @@
           <div class="shop-order-item-totals">
             <span
               class="shop-order-item-amount"
-              title="<%= ff.object.quantity %> x <%= cur(ff.object.item_price) %>"
+              title="<%= ff.object.priced_quantity %>"
             >
               <%= cur(ff.object.amount) %>
             </span>
 
             <%= ff.input :quantity, as: :numeric, label: false, wrapper_html: { class: "shop-qty", data: { controller: "form-number-controls" } } do %>
               <button
+                type="button"
                 aria-label="<%= t("accessibility.members.decrease_quantity", product: [ ff.object.product.name, ff.object.product_variant.name ].join(", ")) %>"
                 class="shop-qty-btn is-minus"
                 data-action="form-number-controls#decrement"
               >
                 <div class="shop-qty-btn-icon">
-                  <% if ff.object.quantity == 1 %>
+                  <% if ff.object.quantity <= 1 %>
                     <%= icon "trash", class: "shop-qty-icon is-trash" %>
                   <% else %>
                     <%= icon "minus", class: "shop-qty-icon" %>
@@ -55,10 +58,18 @@
                 </div>
               </button>
 
-              <%= ff.input_field :quantity, class: "shop-qty-input controls-none", min: 0, max: ff.object.product_variant.stock || 99, data: { form_number_controls_target: "input", action: "change->form-submitter#submit" } %>
-              <% disabled = available_products.exclude?(ff.object.product) || ff.object.product_variant.unavailable? || (ff.object.product_variant.stock && ff.object.quantity >= ff.object.product_variant.stock.to_i) %>
+              <%= ff.input_field :quantity,
+                class: "shop-qty-input controls-none",
+                min: 0,
+                step: ff.object.product_variant.kg? ? 0.01 : 1,
+                max: ff.object.product_variant.kg? ? shop_quantity(ff.object.product_variant.stock) : shop_quantity(ff.object.product_variant.stock || 99),
+                value: shop_quantity(ff.object.quantity),
+                data: { form_number_controls_target: "input", action: "change->form-submitter#submit" } %>
+
+              <% disabled = available_products.exclude?(ff.object.product) || ff.object.product_variant.unavailable? || (ff.object.product_variant.stock && ff.object.quantity >= ff.object.product_variant.stock) %>
 
               <%= tag.button(
+                type: "button",
                 "aria-label": t("accessibility.members.increase_quantity", product: [ ff.object.product.name, ff.object.product_variant.name ].join(", ")),
                 class: "shop-qty-btn is-plus",
                 "data-action": "form-number-controls#increment",
@@ -117,7 +128,7 @@
 
     <div class="shop-weight" title="<%= t(".order_total_weight") %>">
       <%= icon "scale", class: "shop-icon-sm" %>
-      <span class="shop-weight-value"><%= kg(f.object.weight_in_kg) %></span>
+      <span class="shop-weight-value"><%= shop_weight(f.object.weight_in_kg) %></span>
     </div>
   </div>
 

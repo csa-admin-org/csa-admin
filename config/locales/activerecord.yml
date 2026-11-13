@@ -4135,11 +4135,11 @@ _:
           _it: Fatturazione automatica prima/dopo la consegna (in giorni)
           _nl: Automatische facturering voor/na levering (in dagen)
         shop_order_maximum_weight_in_kg:
-          _en: Maximum weight of an order (in kg)
-          _fr: Poids maximal d'une commande (en kg)
-          _de: Maximales Gewicht einer Bestellung (in kg)
-          _it: Peso massimo di un ordine (in kg)
-          _nl: Maximaal gewicht van een bestelling (in kg)
+          _en: Maximum weight of an order (kg)
+          _fr: Poids maximal d'une commande (kg)
+          _de: Maximales Gewicht einer Bestellung (kg)
+          _it: Peso massimo di un ordine (kg)
+          _nl: Maximaal gewicht van een bestelling (kg)
         shop_order_minimal_amount:
           _en: Minimum order amount
           _fr: Montant minimal d'une commande
@@ -4455,6 +4455,12 @@ _:
           _de: Stückpreis
           _it: Prezzo unitario
           _nl: Eenheidsprijs
+        item_price/kg:
+          _en: Price per kg
+          _fr: Prix au kg
+          _de: Preis pro kg
+          _it: Prezzo al kg
+          _nl: Prijs per kg
         member_id:
           _en: Member ID
           _fr: Membre ID
@@ -4479,6 +4485,24 @@ _:
           _de: Status der Bestellung
           _it: Stato dell'ordine
           _nl: Bestelling status
+        price:
+          _en: Price
+          _fr: Prix
+          _de: Preis
+          _it: Prezzo
+          _nl: Prijs
+        quantity/kg:
+          _en: Quantity (kg)
+          _fr: Quantité (kg)
+          _de: Menge (kg)
+          _it: Quantità (kg)
+          _nl: Hoeveelheid (kg)
+        quantity/pc:
+          _en: Quantity (piece)
+          _fr: Quantité (pièce)
+          _de: Menge (Stück)
+          _it: Quantità (pezzo)
+          _nl: Hoeveelheid (stuk)
       shop/product:
         display_in_delivery_sheets:
           _en: Display in delivery sheets (PDF) and summary (XLSX)
@@ -4529,6 +4553,24 @@ _:
           _de: Anteilszusatz
           _it: Aggiunta parte
           _nl: Deelaanvulling
+        stock/kg:
+          _en: Quantity in stock (kg)
+          _fr: Quantité en stock (kg)
+          _de: Menge auf Lager (kg)
+          _it: Quantità in magazzino (kg)
+          _nl: Hoeveelheid op voorraad (kg)
+        stock_filter:
+          _en: Stock
+          _fr: Stock
+          _de: Lagerbestand
+          _it: Scorta
+          _nl: Voorraad
+        unit:
+          _en: Unit
+          _fr: Unité
+          _de: Einheit
+          _it: Unità
+          _nl: Eenheid
       shop/special_delivery:
         open:
           _en: Open
@@ -4912,6 +4954,15 @@ _:
                 _de: Kann nicht aktiviert werden, wenn das Produkt mehrere Varianten hat
                 _it: Non può essere attivato se il prodotto ha più varianti
                 _nl: Kan niet worden geactiveerd als het product meerdere varianten heeft
+        shop/product_variant:
+          attributes:
+            unit:
+              locked:
+                _en: cannot change after an order
+                _fr: ne peut pas changer après une commande
+                _de: kann nach einer Bestellung nicht geändert werden
+                _it: non può cambiare dopo un ordine
+                _nl: kan niet wijzigen na een bestelling
     models:
       absence:
         one:

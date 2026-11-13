@@ -1219,7 +1219,7 @@ ActiveRecord::Schema[8.2].define(version: 2026_11_12_103000) do
     t.bigint "order_id", null: false
     t.bigint "product_id", null: false
     t.bigint "product_variant_id", null: false
-    t.integer "quantity", default: 1, null: false
+    t.decimal "quantity", precision: 8, scale: 3, default: "1.0", null: false
     t.decimal "item_price", precision: 8, scale: 2, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -1250,10 +1250,11 @@ ActiveRecord::Schema[8.2].define(version: 2026_11_12_103000) do
     t.json "names", default: {}, null: false
     t.decimal "price", precision: 8, scale: 2, null: false
     t.decimal "weight_in_kg", precision: 8, scale: 3
-    t.integer "stock"
+    t.decimal "stock", precision: 8, scale: 3
     t.boolean "available", default: true, null: false
     t.datetime "discarded_at"
     t.integer "basket_complement_id"
+    t.string "unit", default: "pc", null: false
     t.index ["available"], name: "index_shop_product_variants_on_available"
     t.index ["basket_complement_id"], name: "index_shop_product_variants_on_basket_complement_id", unique: true
     t.index ["discarded_at"], name: "index_shop_product_variants_on_discarded_at"

@@ -1063,11 +1063,11 @@ _:
       _it: Peso
       _nl: Gewicht
     weight_in_kg:
-      _en: Weight (in kg)
-      _fr: Poids (en kg)
-      _de: Gewicht (in kg)
-      _it: Peso (in kg)
-      _nl: Gewicht (in kg)
+      _en: Weight (kg)
+      _fr: Poids (kg)
+      _de: Gewicht (kg)
+      _it: Peso (kg)
+      _nl: Gewicht (kg)
     with_email:
       _en: Email
       _fr: Email

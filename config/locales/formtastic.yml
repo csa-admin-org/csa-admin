@@ -3044,6 +3044,12 @@ _:
           _de: Leer lassen, wenn der Lagerbestand nicht verwaltet wird.
           _it: Lasciare vuoto se lo stock non è gestito.
           _nl: Laat leeg als de voorraad niet wordt beheerd.
+        unit:
+          _en: Can no longer be changed. Add a new variant instead.
+          _fr: Ne peut plus être modifiée. Ajouter une nouvelle variante à la place.
+          _de: Kann nicht mehr geändert werden. Stattdessen eine neue Variante hinzufügen.
+          _it: Non può più essere modificata. Aggiungere una nuova variante.
+          _nl: Kan niet meer worden gewijzigd. In plaats daarvan een nieuwe variant toevoegen.
         weight_in_kg:
           _en: Leave blank if not included in the total weight of the order.
           _fr: Laisser vide si ne compte pas dans le poids total de la commande.

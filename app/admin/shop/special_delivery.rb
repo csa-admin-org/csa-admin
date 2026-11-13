@@ -82,7 +82,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
                   auto_link i.product, data: { "table-row-action": "edit" }
                 }
                 column(:product_variant) { |i| i.product_variant }
-                column(:quantity, class: "text-right")
+                column(:quantity, class: "text-right") { |i| shop_quantity(i.quantity) }
                 column(:amount, class: "text-right") { |i|
                   span(class: "is-nowrap") { cur(i.amount) }
                 }

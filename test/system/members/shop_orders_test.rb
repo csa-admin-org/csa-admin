@@ -79,6 +79,48 @@ class Members::ShopOrdersTest < ApplicationSystemTestCase
     ], order.reload.items.pluck(:product_variant_id, :quantity)
   end
 
+  test "kilogram cart keeps a typed two decimal quantity" do
+    travel_to "2024-04-01"
+    variant = shop_product_variants(:flour_wheat)
+    variant.update!(unit: "kg", stock: 10)
+    order = create_shop_order(state: "cart", items_attributes: {
+      "0" => {
+        product_id: shop_products(:flour).id,
+        product_variant_id: variant.id,
+        quantity: "0.66"
+      }
+    })
+
+    visit "/shop/orders/#{order.id}"
+
+    field = find_field("shop_order_items_attributes_0_quantity")
+    assert_equal "0.01", field["step"]
+    assert_equal "10", field["max"]
+    assert_selector ".shop-qty-btn.is-minus .shop-qty-icon.is-trash"
+
+    fill_in "shop_order_items_attributes_0_quantity", with: "1.25"
+    find("input[data-test-update-order]").click
+
+    assert_equal "1.25".to_d, order.reload.items.sole.quantity
+  end
+
+  test "piece cart rejects a typed half piece" do
+    travel_to "2024-04-01"
+    order = create_shop_order(state: "cart")
+
+    visit "/shop/orders/#{order.id}"
+
+    field = find_field("shop_order_items_attributes_0_quantity")
+    assert_equal "1", field["step"]
+    assert_selector ".shop-qty-btn.is-minus .shop-qty-icon.is-trash"
+
+    fill_in "shop_order_items_attributes_0_quantity", with: "1.5"
+    find("input[data-test-update-order]").click
+
+    assert_text "must be an integer"
+    assert_equal 1, order.reload.items.sole.quantity.to_d
+  end
+
   test "unavailable product in cart order" do
     travel_to "2024-04-01"
     order = create_shop_order(state: "cart")

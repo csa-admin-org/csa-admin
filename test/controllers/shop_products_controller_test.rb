@@ -51,6 +51,62 @@ class ShopProductsControllerTest < ActionDispatch::IntegrationTest
     assert_includes product.rich_text_description_fr.to_plain_text, "pommes"
   end
 
+  test "create a kilogram variant" do
+    assert_difference -> { Shop::Product.count }, 1 do
+      post shop_products_path, params: {
+        shop_product: {
+          name_en: "Potatoes",
+          available: "1",
+          variants_attributes: {
+            "0" => {
+              name_en: "Bulk",
+              unit: "kg",
+              price: "2.5",
+              stock: "1.25",
+              weight_in_kg: "0.5",
+              available: "1"
+            }
+          }
+        }
+      }
+    end
+
+    variant = Shop::Product.order(:id).last.variants.sole
+    assert_equal "kg", variant.unit
+    assert_equal "1.25".to_d, variant.stock
+    assert_nil variant.weight_in_kg
+  end
+
+  test "edit form shows the unit select and the kilogram price suffix" do
+    shop_product_variants(:flour_wheat).update!(unit: "kg")
+
+    get edit_shop_product_path(shop_products(:flour))
+
+    assert_response :success
+    assert_select "select[name*='[unit]'] option[value='kg'][selected]"
+    assert_select "fieldset[data-controller='price-unit-suffix'] [data-price-unit-suffix-target='text']", minimum: 2
+    assert_includes response.body, "/kg"
+    assert_select "label[data-price-unit-suffix-target='stockLabel']",
+      text: Shop::ProductVariant.human_attribute_name("stock/kg")
+  end
+
+  test "edit form disables the unit select once the variant has an order" do
+    variant = shop_product_variants(:flour_wheat)
+    create_shop_order(items_attributes: {
+      "0" => {
+        product_id: shop_products(:flour).id,
+        product_variant_id: variant.id,
+        quantity: 1
+      }
+    })
+
+    get edit_shop_product_path(shop_products(:flour))
+
+    assert_response :success
+    assert_select "select[name*='[unit]'][disabled]"
+    assert_select "p.inline-hints", text: I18n.t("formtastic.hints.shop/product_variant.unit")
+  end
+
   private
 
   def login(admin)

@@ -76,10 +76,10 @@ module XLSX
           order_items.map { |i| i.product_variant.name })
         add_column(
           ::Shop::OrderItem.human_attribute_name(:quantity),
-          order_items.map { |item| count(item.quantity) },
+          order_items.map { |item| quantity(item.quantity) },
           align: "right",
           min_width: 8,
-          format: count_format)
+          format: flexible_quantity_format)
         add_column(
           ::Shop::OrderItem.human_attribute_name(:price),
           order_items.map { |item| money(item.item_price) },

@@ -53,7 +53,7 @@ module XLSX
       end
       if @shop_products.any?
         cols << ""
-        cols += @shop_products.map(&:name_with_single_variant)
+        cols += @shop_products.map(&:delivery_sheet_name)
       end
 
       add_headers(*cols)
@@ -123,7 +123,7 @@ module XLSX
         @shop_products.each_with_index do |product, i|
           amount = shop_orders.quantity_for(product)
           cols_count += 1
-          add_count_cell(@line, cols_count, amount)
+          add_quantity_cell(@line, cols_count, amount)
         end
       end
 
@@ -243,10 +243,10 @@ module XLSX
           add_column(
             "#{::Shop::Product.model_name.human(count: 2)} (#{I18n.t('shop.title')})",
             members.map { |m|
-              @shop_products.map { |p|
-                quantity = m.shop_order&.items&.find { |i| i.product_id == p.id }&.quantity
-                quantity ? "#{quantity}x #{p.name_with_single_variant}" : nil
-              }.compact.join(", ")
+              @shop_products.filter_map { |p|
+                item = m.shop_order&.items&.find { |i| i.product_id == p.id }
+                "#{item.delivery_quantity_label} #{p.name_with_single_variant}" if item
+              }.join(", ")
             },
             border: border)
         end

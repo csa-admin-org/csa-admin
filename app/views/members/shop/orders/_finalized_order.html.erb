@@ -3,17 +3,17 @@
     <div class="shop-finalized-item">
       <div class="shop-finalized-info">
         <span>
-          <b><%= item.quantity %></b> x <%= item.product.name %>,
+          <b><%= item.delivery_quantity_label %></b> <%= item.product.name %>,
           <%= item.product_variant.name %>
         </span>
 
-        <span class="shop-finalized-price"><%= cur(item.item_price) %></span>
+        <span class="shop-finalized-price"><%= shop_unit_price(item.item_price, item.product_variant) %></span>
       </div>
 
       <div class="shop-finalized-amount">
         <span
           class="shop-order-item-amount"
-          title="<%= item.quantity %> x <%= cur(item.item_price) %>"
+          title="<%= item.priced_quantity %>"
         >
           <%= cur(item.amount) %>
         </span>
@@ -46,7 +46,7 @@
 <div class="shop-finalized-footer">
   <div class="shop-finalized-weight" title="<%= t(".order_total_weight") %>">
     <%= icon "scale", class: "shop-icon-sm" %>
-    <span class="shop-weight-value"><%= kg(order.weight_in_kg) %></span>
+    <span class="shop-weight-value"><%= shop_weight(order.weight_in_kg) %></span>
   </div>
 
   <div class="shop-finalized-total">

@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { debounce } from "throttle-debounce"
+import { nextQuantity } from "controllers/members/quantity_step"
 
 export default class extends Controller {
   static get targets() {
@@ -11,22 +12,32 @@ export default class extends Controller {
   }
 
   increment(event) {
-    var i = parseInt(this.inputTarget.value)
-    var max = parseInt(this.inputTarget.max)
-    if (!max || i < max) {
-      this.inputTarget.value = ++i
-      this.inputChanged()
-    }
-    event.preventDefault()
+    this.step(1, event)
   }
 
   decrement(event) {
-    var i = parseInt(this.inputTarget.value)
-    var min = parseInt(this.inputTarget.min)
-    if (i > min) {
-      this.inputTarget.value = --i
-      this.inputChanged()
+    this.step(-1, event)
+  }
+
+  step(delta, event) {
+    const current = Number(this.inputTarget.value)
+    if (Number.isNaN(current)) {
+      event.preventDefault()
+      return
     }
+
+    let next = nextQuantity(current, delta, {
+      step: this.inputTarget.step,
+      max: this.inputTarget.max
+    })
+    if (next === current) {
+      event.preventDefault()
+      return
+    }
+    if (next < 0) next = 0
+
+    this.inputTarget.value = next
+    this.inputChanged()
     event.preventDefault()
   }
 
