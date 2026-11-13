@@ -133,6 +133,21 @@ class Support::MessageTest < ActiveSupport::TestCase
     assert_equal I18n.t("active_admin.unknown"), message.display_name
   end
 
+  test "waits a few seconds before sending mail so the upload can finish" do
+    with_env("SUPPORT_EMAIL" => "support@csa-admin.org") do
+      ticket = create_ticket
+      assert_enqueued_with(job: ActionMailer::MailDeliveryJob, at: 5.seconds.from_now) do
+        message = ticket.messages.build(
+          author: "admin", admin: admins(:super), body: "See attached", via: :inbound)
+        message.attachments.build.file.attach(
+          io: StringIO.new(file_fixture("logo.png").binread),
+          filename: "logo.png",
+          content_type: "image/png")
+        message.save!
+      end
+    end
+  end
+
   test "skip_notify does not ping or wrap" do
     ticket = create_ticket
     with_env("SUPPORT_EMAIL" => "support@csa-admin.org") do

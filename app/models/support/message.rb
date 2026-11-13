@@ -142,8 +142,12 @@ module Support
       return if skip_notify
 
       ensure_rfc_message_id!
-      SupportMailer.with(message: self).wrap_email.deliver_later if wrap?
-      SupportMailer.with(message: self).ping_email.deliver_later if ping?
+      # Active Storage uploads the file in a later after_commit. Another
+      # worker can run the mail job before that PUT finishes. A short wait
+      # is enough: retrying the failed job once the object existed succeeded.
+      wait = 5.seconds
+      SupportMailer.with(message: self).wrap_email.deliver_later(wait:) if wrap?
+      SupportMailer.with(message: self).ping_email.deliver_later(wait:) if ping?
       Support::MessageNotifyJob.perform_later(self) if Support::Ticket.webhook_url
     end
   end
