@@ -276,6 +276,12 @@ _:
           _de: Ermöglicht es, einen Preis manuell für die nächste Verwendung festzulegen. Wird automatisch beim Speichern eines neuen Inhalts aktualisiert.
           _it: Permette di impostare un prezzo manualmente per il prossimo utilizzo. Aggiornato automaticamente al salvataggio di un nuovo contenuto.
           _nl: Stel handmatig een prijs in voor het volgende gebruik. Wordt automatisch bijgewerkt bij het opslaan van nieuwe inhoud.
+        default_price_locked:
+          _en: Do not update this price when content is saved.
+          _fr: Ne pas mettre à jour ce prix lors de l'enregistrement d'un contenu.
+          _de: Diesen Preis beim Speichern eines Inhalts nicht aktualisieren.
+          _it: Non aggiornare questo prezzo al salvataggio di un contenuto.
+          _nl: Deze prijs niet bijwerken bij het opslaan van inhoud.
         url:
           _en: For example, a page referencing the sale price.
           _fr: Par exemple, une page référençant le prix de vente.

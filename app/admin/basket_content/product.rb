@@ -22,6 +22,7 @@ class BasketContent
     filter :unit, collection: -> { units_collection }, as: :select
     filter :producer, as: :select, collection: -> { Producer.kept }
     filter :default_price
+    filter :default_price_locked, as: :boolean
 
     includes :producer, :basket_contents, latest_basket_content: :delivery
     index do
@@ -31,12 +32,7 @@ class BasketContent
       column(:producer) { |p| p.producer&.name }
       column(:unit) { |p| I18n.t("units.#{p.unit}.long") }
       column(:default_price, class: "text-right") { |p|
-        if p.default_price.present?
-          span class: "cluster is-end is-baseline is-snug tabular-nums" do
-            span cur(p.default_price, unit: false)
-            span "/#{t("units.#{p.unit}.short")}", class: "text-sm is-muted"
-          end
-        end
+        display_product_default_price(p)
       }
       column(:latest_use, class: "text-right tabular-nums") { |p|
         if p.latest_basket_content
@@ -89,7 +85,10 @@ class BasketContent
       f.inputs t(".settings"), icon: "sliders-horizontal",
         data: {
           controller: "price-unit-suffix",
-          "price-unit-suffix-suffixes-value" => { kg: "/#{t("units.kg.flex")}", pc: "/#{t("units.pc.flex")}" }.to_json
+          "price-unit-suffix-suffixes-value" => {
+            kg: "/#{t("units.kg.flex")}",
+            pc: "/#{t("units.pc.flex")}"
+          }.to_json
         } do
         f.input :unit,
           as: :select,
@@ -104,23 +103,51 @@ class BasketContent
           }
         li class: "input number" do
           label BasketContent::Product.human_attribute_name(:default_price), for: "basket_content_product_default_price", class: "label"
-          div class: "cluster" do
+          div class: "cluster is-nowrap is-baseline" do
             text_node helpers.tag.input(
               type: "number", min: 0, step: 0.01,
               id: "basket_content_product_default_price",
               name: "basket_content_product[default_price]",
-              value: f.object.default_price)
+              value: f.object.default_price,
+              class: "bc-price-input")
             span "/#{t("units.#{f.object.unit || 'kg'}.flex")}",
               class: "text-sm is-muted",
               data: { "price-unit-suffix-target" => "text" }
           end
           para t("formtastic.hints.basket_content/product.default_price"), class: "inline-hints"
         end
+        f.input :default_price_locked, as: :boolean,
+          hint: t("formtastic.hints.basket_content/product.default_price_locked"),
+          wrapper_html: { class: "admin-formula-force" }
       end
       f.actions
     end
 
-    permit_params(:url, :unit, :default_price, :producer_id, *I18n.available_locales.map { |l| "name_#{l}" })
+    member_action :toggle_default_price_lock, method: :patch do
+      product = Product.find(params[:id])
+      authorize!(:update, product)
+      product.update!(default_price_locked: !product.default_price_locked?)
+      redirect_back fallback_location: collection_path
+    end
+
+    member_action :inline_update_default_price, method: :patch do
+      product = Product.find(params[:id])
+      authorize!(:update, product)
+      product.default_price = params[:default_price].presence
+      if product.save
+        redirect_back fallback_location: collection_path
+      else
+        redirect_back fallback_location: collection_path, alert: product.errors.full_messages.to_sentence
+      end
+    end
+
+    permit_params(
+      :url,
+      :unit,
+      :default_price,
+      :default_price_locked,
+      :producer_id,
+      *I18n.available_locales.map { |l| "name_#{l}" })
 
     controller do
       include TranslatedCSVFilename

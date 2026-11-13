@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_11_05_120000) do
+ActiveRecord::Schema[8.2].define(version: 2026_11_12_103000) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -256,6 +256,7 @@ ActiveRecord::Schema[8.2].define(version: 2026_11_05_120000) do
     t.decimal "default_price", precision: 8, scale: 2
     t.json "default_basket_quantities", default: {}, null: false
     t.integer "producer_id"
+    t.boolean "default_price_locked", default: false, null: false
     t.index ["producer_id"], name: "index_basket_content_products_on_producer_id"
   end
 

@@ -11,7 +11,7 @@ Ein Produkt kann auch [einem Produzenten](/producers) zugeordnet werden. Die Lis
 
 Der Export einer Lieferung (CSV und XLSX) enthält eine Produzentenspalte neben dem Produktnamen. Wenn eine Lieferung Produkte aus mehreren Quellen mischt, filtere diese Spalte in der Tabellenkalkulation, um die Zeilen eines Produzenten zu behalten.
 
-Produkte sind über Lieferungen hinweg wiederverwendbar — einmal erstellt, können sie beim Hinzufügen von Inhalten zu jeder Lieferung ausgewählt werden. Preis und Mengen der letzten Verwendung werden automatisch gespeichert und beim Hinzufügen des Produkts zu einer neuen Lieferung vorausgefüllt.
+Produkte sind über Lieferungen hinweg wiederverwendbar — einmal erstellt, können sie beim Hinzufügen von Inhalten zu jeder Lieferung ausgewählt werden. Die Mengen der letzten Verwendung werden automatisch gespeichert und beim Hinzufügen des Produkts zu einer neuen Lieferung vorausgefüllt. Der Preis ebenfalls, ausser Du sperrst den Standardpreis auf dem Produkt.
 
 ## <%= BasketContent.model_name.human %> konfigurieren {#configuring-basket-contents}
 
@@ -38,7 +38,7 @@ Um Zeit zu sparen, kannst Du den gesamten <%= BasketContent.model_name.human %> 
 
 ### Preise {#prices}
 
-Beim Anzeigen einer bestimmten Lieferung erscheint über der Produktliste ein Preisfenster für alle Produkte mit festgelegtem Stückpreis. Für jede <%= BasketSize.model_name.human %> zeigt es den berechneten Inhaltspreis und die Abweichung vom Basispreis. Der Stückpreis gehört zu diesem Produkt für diese Lieferung. Der zuletzt verwendete Preis ist der Standard für das nächste Mal, keine Überschreibung früherer Lieferungen.
+Beim Anzeigen einer bestimmten Lieferung erscheint über der Produktliste ein Preisfenster für alle Produkte mit festgelegtem Stückpreis. Für jede <%= BasketSize.model_name.human %> zeigt es den berechneten Inhaltspreis und die Abweichung vom Basispreis. Der Stückpreis gehört zu diesem Produkt für diese Lieferung. Der zuletzt verwendete Preis ist der Standard für das nächste Mal, ausser der Standardpreis ist gesperrt. Frühere Lieferungen werden nicht überschrieben.
 
 Wenn Depots unterschiedliche Körbepreise erhalten — zum Beispiel weil bestimmte Produkte nur bestimmten Depots zugewiesen sind — zeigt das Fenster eine Min-Max-Preisspanne. Beim Überfahren eines Werts wird angezeigt, welche Depots diesem Preis entsprechen.
 

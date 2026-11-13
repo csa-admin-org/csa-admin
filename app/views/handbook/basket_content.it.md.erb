@@ -11,7 +11,7 @@ Un prodotto può anche essere associato a [un produttore](/producers). L'elenco 
 
 L'esportazione di una consegna (CSV e XLSX) include una colonna produttore accanto al nome del prodotto. Quando una consegna mescola prodotti di più provenienze, filtra quella colonna nel foglio di calcolo per tenere solo le righe di un produttore.
 
-I prodotti sono riutilizzabili da una consegna all'altra — una volta creati, possono essere selezionati quando si aggiunge contenuto a qualsiasi consegna. Il prezzo e le quantità dell'ultimo utilizzo vengono salvati automaticamente e precompilati quando si aggiunge il prodotto a una nuova consegna.
+I prodotti sono riutilizzabili da una consegna all'altra — una volta creati, possono essere selezionati quando si aggiunge contenuto a qualsiasi consegna. Le quantità dell'ultimo utilizzo vengono salvate automaticamente e precompilate quando si aggiunge il prodotto a una nuova consegna. Anche il prezzo, a meno che tu non blocchi il prezzo predefinito sul prodotto.
 
 ## Configurare il <%= BasketContent.model_name.human.downcase %> {#configuring-basket-contents}
 
@@ -38,7 +38,7 @@ Per risparmiare tempo, puoi duplicare tutto il <%= BasketContent.model_name.huma
 
 ### Prezzi {#prices}
 
-Quando si visualizza una consegna specifica, un pannello dei prezzi appare sopra la lista dei prodotti per ogni prodotto con un prezzo unitario impostato. Per ogni <%= BasketSize.model_name.human.downcase %>, mostra il prezzo calcolato del contenuto e la sua differenza rispetto al prezzo base. Il prezzo unitario appartiene a quel prodotto per quella consegna. L'ultimo usato è il default per la volta successiva, non una riscrittura delle consegne passate.
+Quando si visualizza una consegna specifica, un pannello dei prezzi appare sopra la lista dei prodotti per ogni prodotto con un prezzo unitario impostato. Per ogni <%= BasketSize.model_name.human.downcase %>, mostra il prezzo calcolato del contenuto e la sua differenza rispetto al prezzo base. Il prezzo unitario appartiene a quel prodotto per quella consegna. L'ultimo usato è il default per la volta successiva, a meno che il prezzo predefinito sia bloccato. Le consegne passate non vengono riscritte.
 
 Quando i depositi ricevono prezzi diversi — ad esempio perché alcuni prodotti sono assegnati solo a certi depositi — il pannello mostra un intervallo di prezzo min–max. Passando il cursore su ogni valore si vedono i depositi corrispondenti.
 
