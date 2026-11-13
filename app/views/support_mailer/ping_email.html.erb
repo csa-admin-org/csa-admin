@@ -4,10 +4,6 @@
   <%= simple_format(@body) %>
 <% end %>
 
-<% @missing_attachments.each do |filename| %>
-  <p><%= t("support.mailer.missing_attachment", filename: filename) %></p>
-<% end %>
-
 <% if @ticket.context.present? %>
   <p>----</p>
   <p><%= @ticket.context %></p>

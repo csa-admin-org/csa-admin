@@ -7,12 +7,6 @@ _:
         _de: Unterhaltung ansehen
         _it: Vedere la conversazione
         _nl: Het gesprek bekijken
-      missing_attachment:
-        _en: "%{filename} (not attached)"
-        _fr: "%{filename} (non joint)"
-        _de: "%{filename} (nicht angehängt)"
-        _it: "%{filename} (non allegato)"
-        _nl: "%{filename} (niet bijgevoegd)"
       ping:
         header:
           _en: "%{org} (%{tenant}) — %{author}"

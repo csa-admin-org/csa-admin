@@ -164,7 +164,7 @@ class Support::TicketTest < ActiveSupport::TestCase
 
   test "enqueues ping email on creation" do
     with_env("SUPPORT_EMAIL" => "support@csa-admin.org") do
-      assert_enqueued_jobs 1, only: Support::MailDeliveryJob do
+      assert_enqueued_jobs 1, only: ActionMailer::MailDeliveryJob do
         Support::Ticket.create!(priority: :normal, subject: "Test", content: "Test", admin: admins(:external))
       end
     end

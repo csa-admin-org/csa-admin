@@ -142,27 +142,13 @@ module Support
       return if skip_notify
 
       ensure_rfc_message_id!
-      # The blob row commits with the message. Active Storage uploads the bytes
-      # in the attachment after_commit, which runs after this one, and the mail
-      # job can be picked up before that PUT finishes (S3 NoSuchKey). Upload
-      # first. A direct upload is already stored; its upload is a no-op.
-      upload_pending_attachments
-      SupportMailer.with(message: self).wrap_email.deliver_later if wrap?
-      SupportMailer.with(message: self).ping_email.deliver_later if ping?
+      # Active Storage uploads the file in a later after_commit. Another
+      # worker can run the mail job before that PUT finishes. A short wait
+      # is enough: retrying the failed job once the object existed succeeded.
+      wait = 5.seconds
+      SupportMailer.with(message: self).wrap_email.deliver_later(wait:) if wrap?
+      SupportMailer.with(message: self).ping_email.deliver_later(wait:) if ping?
       Support::MessageNotifyJob.perform_later(self) if Support::Ticket.webhook_url
-    end
-
-    def upload_pending_attachments
-      attachments.each { |attachment| upload_attachment_change(attachment, "file") }
-      upload_attachment_change(rich_text_html, "embeds") if rich_text_html
-    end
-
-    def upload_attachment_change(record, name)
-      change = record.attachment_changes[name]
-      return unless change.respond_to?(:upload)
-
-      record.attachment_changes.delete(name)
-      change.upload
     end
   end
 end

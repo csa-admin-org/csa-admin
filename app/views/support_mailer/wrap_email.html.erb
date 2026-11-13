@@ -4,10 +4,6 @@
   <%= simple_format(@body) %>
 <% end %>
 
-<% @missing_attachments.each do |filename| %>
-  <p><%= t("support.mailer.missing_attachment", filename: filename) %></p>
-<% end %>
-
 <% if @previous %>
   <p class="quoted_header"><%= @quoted_header %></p>
   <blockquote type="cite">
