@@ -1,6 +1,6 @@
 # Agent Instructions
 
-CSA Admin is a multi-tenant Rails app for Community Supported Agriculture organizations. Each tenant is an isolated SQLite database, resolved from the request host, not an `org_id` column. Domain terms: `.agents/glossary.md`.
+CSA Admin is a multi-tenant Rails app for Community Supported Agriculture organizations. Each tenant is an isolated SQLite database, resolved from the request host, not an `org_id` column. Domain terms: `GLOSSARY.md`.
 
 ## Commands
 
