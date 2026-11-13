@@ -538,6 +538,18 @@ _:
           _de: Standardpreis
           _it: Prezzo predefinito
           _nl: Standaardprijs
+        default_price_locked:
+          _en: Lock default price
+          _fr: Verrouiller le prix par défaut
+          _de: Standardpreis sperren
+          _it: Bloccare il prezzo predefinito
+          _nl: Standaardprijs vergrendelen
+        default_price_unlocked:
+          _en: Unlock default price
+          _fr: Déverrouiller le prix par défaut
+          _de: Standardpreis entsperren
+          _it: Sbloccare il prezzo predefinito
+          _nl: Standaardprijs ontgrendelen
         latest_delivery:
           _en: Latest delivery
           _fr: Dernière livraison

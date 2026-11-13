@@ -39,6 +39,84 @@
     width: 6rem;
   }
 
+  .formtastic .inputs .bc-price-input {
+    width: 10rem;
+  }
+
+  .bc-default-price {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    width: 100%;
+  }
+
+  .bc-default-price-editor,
+  .bc-default-price-form,
+  .bc-default-price-lock-form {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+  }
+
+  .bc-default-price-lock {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-gray-800);
+    cursor: pointer;
+    line-height: 0;
+
+    svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    &:where(.dark, .dark *) {
+      color: var(--color-gray-100);
+    }
+
+    &.is-open {
+      color: var(--color-gray-400);
+
+      &:where(.dark, .dark *) {
+        color: var(--color-gray-600);
+      }
+    }
+  }
+
+  .bc-default-price-input {
+    margin: 0;
+    width: 4.5rem;
+    height: 1.5rem;
+    appearance: textfield;
+    border: 0.5px solid var(--color-gray-200);
+    padding: 0 0.25rem;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      appearance: none;
+    }
+
+    &:where(.dark, .dark *) {
+      border-color: var(--color-gray-700);
+      background-color: var(--color-gray-800);
+      color: var(--color-gray-100);
+    }
+  }
+
+  .bc-default-price-unit {
+    flex: 0 0 2.75ch;
+    text-align: left;
+    white-space: nowrap;
+  }
+
   .bc-total-value {
     margin-top: 0.375rem;
     margin-inline-start: 1.5rem;

@@ -148,6 +148,66 @@ class BasketContent::ProductTest < ActiveSupport::TestCase
     assert_equal({ small_id.to_s => 500, medium_id.to_s => 750 }, product.default_basket_quantities)
   end
 
+  test "sync_latest_basket_content! skips default_price when locked" do
+    product = basket_content_products(:carrots)
+    product.update!(default_price: 4.50, default_price_locked: true)
+
+    create_basket_content(
+      product: product,
+      delivery: deliveries(:monday_2),
+      basket_size_ids_quantities: { small_id => 500, medium_id => 750 },
+      depots: Depot.all,
+      unit: "kg",
+      unit_price: 3.25)
+
+    product.reload
+    assert product.default_price_locked?
+    assert_equal BigDecimal("4.50"), product.default_price
+    assert_equal({ small_id.to_s => 500, medium_id.to_s => 750 }, product.default_basket_quantities)
+  end
+
+  test "sync_latest_basket_content! leaves a blank locked price blank" do
+    product = basket_content_products(:carrots)
+    product.update!(default_price: nil, default_price_locked: true)
+
+    create_basket_content(
+      product: product,
+      delivery: deliveries(:monday_1),
+      basket_size_ids_quantities: { small_id => 300, medium_id => 600 },
+      depots: Depot.all,
+      unit: "kg",
+      unit_price: 2.50)
+
+    product.reload
+    assert_nil product.default_price
+    assert_equal({ small_id.to_s => 300, medium_id.to_s => 600 }, product.default_basket_quantities)
+  end
+
+  test "removing the latest content keeps a locked price and syncs earlier quantities" do
+    product = basket_content_products(:carrots)
+    product.update!(default_price: 4.50, default_price_locked: true)
+    create_basket_content(
+      product: product,
+      delivery: deliveries(:monday_1),
+      basket_size_ids_quantities: { small_id => 300, medium_id => 600 },
+      depots: Depot.all,
+      unit: "kg",
+      unit_price: 2.50)
+    newer = create_basket_content(
+      product: product,
+      delivery: deliveries(:monday_2),
+      basket_size_ids_quantities: { small_id => 500, medium_id => 750 },
+      depots: Depot.all,
+      unit: "kg",
+      unit_price: 1.10)
+
+    newer.destroy!
+
+    product.reload
+    assert_equal BigDecimal("4.50"), product.default_price
+    assert_equal({ small_id.to_s => 300, medium_id.to_s => 600 }, product.default_basket_quantities)
+  end
+
   test "sync_latest_basket_content! does not change product unit" do
     product = basket_content_products(:carrots)
     assert_equal "kg", product.unit

@@ -259,6 +259,110 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
       select["data-searchable-select-placeholder-value"]
   end
 
+  test "product form locks the default price" do
+    product = basket_content_products(:carrots)
+    product.update!(default_price: 4.25)
+
+    get edit_basket_content_product_path(product)
+
+    assert_response :success
+    assert_select "input#basket_content_product_default_price[value='4.25']"
+    assert_select "input#basket_content_product_default_price_locked[type='checkbox']"
+    assert_select "#basket_content_product_default_price_locked_input.admin-formula-force"
+    price = response.body.index('id="basket_content_product_default_price"')
+    lock = response.body.index('id="basket_content_product_default_price_locked"')
+    assert_operator price, :<, lock
+    assert_select "li.input p.inline-hints",
+      text: I18n.t("formtastic.hints.basket_content/product.default_price")
+    assert_select "#basket_content_product_default_price_locked_input label",
+      text: BasketContent::Product.human_attribute_name(:default_price_locked)
+    assert_select "#basket_content_product_default_price_locked_input .inline-hints",
+      text: I18n.t("formtastic.hints.basket_content/product.default_price_locked")
+
+    patch basket_content_product_path(product), params: {
+      basket_content_product: {
+        default_price: "4.25",
+        default_price_locked: "1",
+        unit: "kg",
+        name_en: "Carrots"
+      }
+    }
+
+    assert_response :redirect
+    product.reload
+    assert product.default_price_locked?
+    assert_equal BigDecimal("4.25"), product.default_price
+
+    get edit_basket_content_product_path(product)
+
+    assert_response :success
+    assert_select "input#basket_content_product_default_price_locked[checked]"
+    assert_select "li.input p.inline-hints",
+      text: I18n.t("formtastic.hints.basket_content/product.default_price")
+
+    patch basket_content_product_path(product), params: {
+      basket_content_product: { default_price_locked: "0" }
+    }
+
+    assert_not product.reload.default_price_locked?
+  end
+
+  test "product index marks a locked default price" do
+    product = basket_content_products(:carrots)
+    product.update!(default_price: 4.25, default_price_locked: true)
+    locked = BasketContent::Product.human_attribute_name(:default_price_locked)
+    unlocked = BasketContent::Product.human_attribute_name(:default_price_unlocked)
+
+    get basket_content_products_path
+
+    assert_response :success
+    assert_select "tr#basket_content_product_#{product.id} button[title='#{locked}']"
+    assert_select "tr#basket_content_product_#{product.id} input[name='default_price'][value='4.25']"
+    assert_select "button[title='#{locked}']", count: 1
+    assert_select "button[title='#{unlocked}']"
+  end
+
+  test "product index toggles the default price lock" do
+    product = basket_content_products(:carrots)
+    product.update!(default_price_locked: false)
+
+    patch toggle_default_price_lock_basket_content_product_path(product)
+
+    assert_redirected_to basket_content_products_path
+    assert product.reload.default_price_locked?
+
+    patch toggle_default_price_lock_basket_content_product_path(product)
+
+    assert_not product.reload.default_price_locked?
+  end
+
+  test "product index updates the default price inline" do
+    product = basket_content_products(:carrots)
+    product.update!(default_price: 4.25)
+
+    patch inline_update_default_price_basket_content_product_path(product),
+      params: { default_price: "3.5" }
+
+    assert_redirected_to basket_content_products_path
+    assert_equal BigDecimal("3.5"), product.reload.default_price
+
+    patch inline_update_default_price_basket_content_product_path(product),
+      params: { default_price: "" }
+
+    assert_nil product.reload.default_price
+  end
+
+  test "product index filters locked default prices" do
+    product = basket_content_products(:carrots)
+    product.update!(default_price_locked: true)
+
+    get basket_content_products_path(q: { default_price_locked_eq: true })
+
+    assert_response :success
+    assert_select "tbody tr", count: 1
+    assert_select "tbody tr#basket_content_product_#{product.id}"
+  end
+
   test "product index does not use its collection delivery association for ordering" do
     product = basket_content_products(:carrots)
     create_basket_content(product: product, delivery: deliveries(:monday_1))

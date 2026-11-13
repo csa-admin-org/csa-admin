@@ -234,6 +234,19 @@ module BasketContentsHelper
     end
   end
 
+  def display_product_default_price(product)
+    editable = authorized?(:update, product)
+    return if !editable && product.default_price.blank? && !product.default_price_locked?
+
+    content_tag(:span, class: "bc-default-price tabular-nums") do
+      concat product_default_price_lock(product, editable)
+      concat product_default_price_amount(product, editable)
+      if product.default_price.present? || editable
+        concat content_tag(:span, "/#{I18n.t("units.#{product.unit}.short")}", class: "bc-default-price-unit text-sm is-muted")
+      end
+    end
+  end
+
   def display_with_unit_price(price, unit)
     return yield unless price.present?
 
@@ -241,6 +254,48 @@ module BasketContentsHelper
       concat content_tag(:span, cur(price), class: "text-sm tabular-nums")
       concat content_tag(:span, "/#{I18n.t("units.#{unit}.short")}", class: "text-xs")
     }).html_safe
+  end
+
+  def product_default_price_lock(product, editable)
+    locked = product.default_price_locked?
+    title = BasketContent::Product.human_attribute_name(locked ? :default_price_locked : :default_price_unlocked)
+    icon_tag = icon(locked ? "lock" : "lock-open")
+    css = locked ? "bc-default-price-lock" : "bc-default-price-lock is-open"
+    if editable
+      button_to(toggle_default_price_lock_basket_content_product_path(product),
+        method: :patch,
+        class: css,
+        form: { class: "bc-default-price-lock-form" },
+        title: title) { icon_tag }
+    else
+      content_tag(:span, icon_tag, class: css, title: title)
+    end
+  end
+
+  def product_default_price_amount(product, editable)
+    return "".html_safe if product.default_price.blank? && !editable
+
+    value = product.default_price && format("%.2f", product.default_price)
+    if editable
+      content_tag(:span, class: "bc-default-price-editor", data: { controller: "inline-edit" }) do
+        form_tag(inline_update_default_price_basket_content_product_path(product),
+          method: :patch,
+          class: "bc-default-price-form",
+          data: { "inline-edit-target" => "form" }
+        ) do
+          number_field_tag(:default_price, value,
+            min: 0,
+            step: 0.01,
+            class: "bc-default-price-input",
+            data: {
+              "inline-edit-target" => "input",
+              action: "blur->inline-edit#submit keydown->inline-edit#keydown"
+            })
+        end
+      end
+    else
+      content_tag(:span, cur(product.default_price, unit: false), class: "bc-default-price-amount")
+    end
   end
 
   def units_collection(format: :long)

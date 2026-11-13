@@ -39,10 +39,13 @@ class BasketContent
 
     def sync_latest_basket_content!
       if latest = reload_latest_basket_content
-        update_columns(
-          default_price: latest.unit_price,
+        synced = {
           default_basket_quantities: latest.basket_size_ids_quantities
-            .transform_keys(&:to_s))
+            .transform_keys(&:to_s)
+        }
+        synced[:default_price] = latest.unit_price unless default_price_locked?
+
+        update_columns(synced)
       end
     end
 

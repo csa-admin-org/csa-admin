@@ -11,7 +11,7 @@ Un produit peut aussi être lié à [un producteur](/producers). La liste est pa
 
 L'export d'une livraison (CSV et XLSX) inclut une colonne producteur à côté du nom du produit. Quand une livraison mélange des produits de plusieurs provenances, filtrez cette colonne dans le tableur pour ne garder que les lignes d'un producteur.
 
-Les produits sont réutilisables d'une livraison à l'autre — une fois créés, ils peuvent être sélectionnés lors de l'ajout de contenu à n'importe quelle livraison. Le prix et les quantités de la dernière utilisation sont automatiquement sauvegardés et pré-remplis lors de l'ajout du produit à une nouvelle livraison.
+Les produits sont réutilisables d'une livraison à l'autre — une fois créés, ils peuvent être sélectionnés lors de l'ajout de contenu à n'importe quelle livraison. Les quantités de la dernière utilisation sont automatiquement sauvegardées et pré-remplies lors de l'ajout du produit à une nouvelle livraison. Le prix l'est aussi, sauf si vous verrouillez le prix par défaut sur le produit.
 
 ## Configurer le <%= BasketContent.model_name.human.downcase %> {#configuring-basket-contents}
 
@@ -38,7 +38,7 @@ Pour gagner du temps, vous pouvez dupliquer tout le <%= BasketContent.model_name
 
 ### Prix {#prices}
 
-Lors de la consultation d'une livraison spécifique, un panneau de prix apparaît au-dessus de la liste des produits pour tout produit avec un prix unitaire défini. Pour chaque <%= BasketSize.model_name.human.downcase %>, il affiche le prix calculé du contenu et sa différence par rapport au prix de base. Le prix unitaire appartient à ce produit pour cette livraison. Le dernier utilisé est le défaut pour la prochaine fois, pas une réécriture des livraisons passées.
+Lors de la consultation d'une livraison spécifique, un panneau de prix apparaît au-dessus de la liste des produits pour tout produit avec un prix unitaire défini. Pour chaque <%= BasketSize.model_name.human.downcase %>, il affiche le prix calculé du contenu et sa différence par rapport au prix de base. Le prix unitaire appartient à ce produit pour cette livraison. Le dernier utilisé est le défaut pour la prochaine fois, sauf si le prix par défaut est verrouillé. Les livraisons passées ne sont pas réécrites.
 
 Lorsque les dépôts reçoivent des prix différents — par exemple parce que certains produits ne sont attribués qu'à certains dépôts — le panneau affiche une plage de prix min–max. En survolant chaque valeur, les dépôts correspondants sont affichés.
 
