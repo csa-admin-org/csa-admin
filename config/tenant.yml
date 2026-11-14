@@ -162,6 +162,15 @@ production: &production
     admin_host: admin.plukcsa.nl
     members_host: members.plukcsa.nl
     state: onboarding
+  fonddeletang:
+    admin_host: admin.lafermedufonddeletang.ch
+    members_host: members.lafermedufonddeletang.ch
+    aliases:
+      - lafermedufonddeletang
+      - dufonddeletang
+      - etang
+    state: onboarding
+
   zalpenblick:
     admin_host: admin.zalpenblick.ch
     members_host: mitglieder.zalpenblick.ch
