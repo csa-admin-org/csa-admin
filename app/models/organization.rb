@@ -197,7 +197,7 @@ class Organization < ApplicationRecord
   end
 
   def domain
-    @domain ||= PublicSuffix.parse(Tenant.admin_host).domain
+    @domain ||= Tenant.domain
   end
 
   def members_subdomain
@@ -217,10 +217,7 @@ class Organization < ApplicationRecord
   end
 
   def hostnames
-    [
-      admin_url,
-      members_url
-    ].map { |url| URI.parse(url).host }
+    Tenant.hostnames
   end
 
   def website_origins

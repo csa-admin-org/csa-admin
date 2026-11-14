@@ -37,6 +37,28 @@ module Tenant
     config.dig(current.to_s, "members_host")
   end
 
+  def domain
+    PublicSuffix.parse(admin_host).domain
+  end
+
+  def hostnames
+    [ admin_host, members_host ]
+  end
+
+  # Yields each tenant with `current` set, without opening the tenant DB.
+  # Prefer this over `switch_each` for config-only walks (hosts, DNS, …).
+  def config_each(tenants = all)
+    Array(tenants).each do |tenant|
+      enter(tenant)
+      begin
+        yield tenant
+      ensure
+        leave
+      end
+    end
+    nil
+  end
+
   def local_url(host)
     options = local_url_options(host)
     url = "#{options[:protocol]}://#{options[:host]}"

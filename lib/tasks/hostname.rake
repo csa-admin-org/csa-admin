@@ -16,11 +16,11 @@ namespace :hostname do
       Cloudflare.connect(email: email, key: key) do |cf|
         zone = cf.zones.find_by_name("csa-admin.org")
 
-        Tenant.switch_each do |tenant|
+        Tenant.config_each do |tenant|
           next if Tenant.custom? && !ENV["TENANT"]
 
           puts "\n#{tenant}"
-          Current.org.hostnames.each do |hostname|
+          Tenant.hostnames.each do |hostname|
             print "- #{hostname} "
             custom_hostname = zone.custom_hostnames.find { |ch| ch.hostname == hostname }
 
@@ -47,8 +47,8 @@ namespace :hostname do
       email = Rails.app.creds.require(:cloudflare_email)
       key = Rails.app.creds.require(:cloudflare_api_key)
 
-      Tenant.switch(tenant_name) do
-        hostnames = Current.org.hostnames
+      Tenant.config_each([ tenant_name ]) do
+        hostnames = Tenant.hostnames
 
         puts "WARNING: This will permanently delete #{hostnames.size} custom hostname(s) from Cloudflare:"
         hostnames.each { |h| puts "  - #{h}" }
@@ -94,10 +94,10 @@ namespace :hostname do
         custom_hostnames = zone.custom_hostnames.index_by(&:hostname)
         rows = []
 
-        Tenant.switch_each do |tenant|
+        Tenant.config_each do |tenant|
           next if Tenant.custom? && !ENV["TENANT"]
 
-          Current.org.hostnames.each do |hostname|
+          Tenant.hostnames.each do |hostname|
             rows << custom_hostname_info_row(tenant, hostname, custom_hostnames[hostname])
           end
         end
@@ -120,11 +120,11 @@ namespace :hostname do
       Cloudflare.connect(email: email, key: key) do |cf|
         zone = cf.zones.find_by_name("csa-admin.org")
 
-        Tenant.switch_each do |tenant|
+        Tenant.config_each do |tenant|
           next if Tenant.custom? && !ENV["TENANT"]
 
           puts "\n#{tenant}"
-          Current.org.hostnames.each do |hostname|
+          Tenant.hostnames.each do |hostname|
             print "- #{hostname} "
             custom_hostname = zone.custom_hostnames.find { |ch| ch.hostname == hostname }
 
@@ -154,11 +154,11 @@ namespace :hostname do
       Cloudflare.connect(email: email, key: key) do |cf|
         zone = cf.zones.find_by_name("csa-admin.org")
 
-        Tenant.switch_each do |tenant|
+        Tenant.config_each do |tenant|
           next if Tenant.custom? && !ENV["TENANT"]
 
           puts "\n#{tenant}"
-          Current.org.hostnames.each do |hostname|
+          Tenant.hostnames.each do |hostname|
             print "- #{hostname} "
             custom_hostname = zone.custom_hostnames.find { |ch| ch.hostname == hostname }
 
@@ -191,15 +191,15 @@ namespace :hostname do
     invalid_tenants = []
 
     Resolv::DNS.open do |dns|
-      Tenant.switch_each do |tenant|
+      Tenant.config_each do |tenant|
         next if Tenant.custom? && !ENV["TENANT"]
 
         puts "\n#{tenant}"
 
-        ns = dns.getresources Current.org.domain, Resolv::DNS::Resource::IN::NS
+        ns = dns.getresources Tenant.domain, Resolv::DNS::Resource::IN::NS
         puts "- NS: #{ns.map(&:name).join(", ")}"
 
-        Current.org.hostnames.each do |hostname|
+        Tenant.hostnames.each do |hostname|
           print "- #{hostname} "
 
           ip4 = dns.getresources hostname, Resolv::DNS::Resource::IN::A
@@ -308,7 +308,7 @@ def print_ssl_txt_records(ssl)
   records.group_by { |record| record[:txt_name] }.each do |txt_name, group|
     next unless txt_name
 
-    puts "    TXT NAME:  #{txt_name.delete_suffix(".#{Current.org.domain}")}"
+    puts "    TXT NAME:  #{txt_name.delete_suffix(".#{Tenant.domain}")}"
     group.each do |record|
       puts "    TXT VALUE: #{record[:txt_value]}"
     end

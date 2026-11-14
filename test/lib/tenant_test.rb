@@ -16,6 +16,25 @@ class TenantTest < ActiveSupport::TestCase
     assert_equal "acme", Tenant.current
     assert_equal "admin.acme.test", Tenant.admin_host
     assert_equal "members.acme.test", Tenant.members_host
+    assert_equal "acme.test", Tenant.domain
+    assert_equal %w[admin.acme.test members.acme.test], Tenant.hostnames
+  end
+
+  test "config_each sets current without requiring a tenant database" do
+    seen = []
+
+    Tenant.disconnect
+    Tenant.config_each(%w[acme beta]) do |tenant|
+      seen << [ tenant, Tenant.current, Tenant.admin_host ]
+    end
+
+    assert_nil Tenant.current
+    assert_equal [
+      [ "acme", "acme", "admin.acme.test" ],
+      [ "beta", "beta", "admin.beta.test" ]
+    ], seen
+  ensure
+    Tenant.connect("acme")
   end
 
   test "inside? / outside?" do
