@@ -100,3 +100,16 @@ _:
         _de: Menü anzeigen
         _it: Mostra menu
         _nl: Menu tonen
+    mission_control:
+      filter_tenants:
+        _en: Filter tenants
+        _fr: Filtrer les organisations
+        _de: Organisationen filtern
+        _it: Filtrare le organizzazioni
+        _nl: Organisaties filteren
+      toggle_theme:
+        _en: Toggle color theme
+        _fr: Changer le thème de couleur
+        _de: Farbschema umschalten
+        _it: Cambia tema colore
+        _nl: Kleurenthema wisselen

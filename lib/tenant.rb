@@ -57,6 +57,25 @@ module Tenant
     end
   end
 
+  # Config-only rows for the Mission Control launcher (no tenant DB).
+  def launcher_tenants
+    all.sort.map { |name| launcher_tenant(name) }
+  end
+
+  def launcher_tenant(name)
+    attrs = config.fetch(name.to_s)
+    {
+      name: name.to_s,
+      state: attrs["state"] || "production",
+      aliases: Array(attrs["aliases"]),
+      admin_host: attrs["admin_host"],
+      members_host: attrs["members_host"],
+      admin_url: local_url(attrs["admin_host"]),
+      members_url: local_url(attrs["members_host"]),
+      logo_url: "https://cdn.csa-admin.org/logos/#{name}"
+    }
+  end
+
   def state
     config.dig(current.to_s, "state") || "production"
   end

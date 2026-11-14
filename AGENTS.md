@@ -1,6 +1,6 @@
 # Agent Instructions
 
-CSA Admin is a multi-tenant Rails app for Community Supported Agriculture organizations. Each tenant is an isolated SQLite database, resolved from the request host, not an `org_id` column. Domain terms: `GLOSSARY.md`.
+CSA Admin is a multi-tenant Rails app for Community Supported Agriculture organizations. Each tenant is an isolated SQLite database, resolved from the request host, not an `org_id` column. Domain terms: `GLOSSARY.md` and the `glossary` skill.
 
 ## Commands
 
@@ -21,7 +21,7 @@ CSA Admin is a multi-tenant Rails app for Community Supported Agriculture organi
 - Gate features with `Current.org.feature?`. Fiscal years: `Current.fiscal_year` or `Current.org.fiscal_year_for`, not `Date.current.year`.
 - Discardable: `.kept`, `can_destroy?`, `can_discard?`. Exports: `member&.display_id`, never `member.id` (`test/models/member/discardable_test.rb`).
 
-Dev: `bin/dev` on `http://*.localhost:3000` (`DEV_ORIGIN=localhost`), or puma-dev on `https://*.test`. Hosts: `.agents/browser/README.md`. `acme` is test-only.
+Dev: `bin/dev` on `http://*.localhost:3000` (`DEV_ORIGIN=localhost`), or puma-dev on `https://*.test`. Tenant launcher: `http://127.0.0.1:3000` or `http://localhost:3000` (dev) / `https://mc.csa-admin.org` (prod). Hosts and auth: `browser` skill. `acme` is test-only.
 
 ## Code
 

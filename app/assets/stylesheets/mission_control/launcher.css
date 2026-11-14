@@ -1,0 +1,184 @@
+.mc-body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  color-scheme: light;
+}
+
+html.dark .mc-body {
+  color-scheme: dark;
+}
+
+.mc-launcher {
+  width: min(52rem, calc(100% - 2rem));
+  margin-inline: auto;
+  padding-block: 2rem 3rem;
+}
+
+.mc-launcher-header {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.mc-brand-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.mc-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  grid-column: 2;
+}
+
+.mc-brand-logo {
+  width: 1.75rem;
+  height: 1.75rem;
+  display: block;
+}
+
+.mc-brand-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  /* Same green as app/assets/images/logo.png / csa-admin.org */
+  color: #22952f;
+}
+
+.mc-theme-toggle {
+  grid-column: 3;
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-ink-secondary);
+  cursor: pointer;
+}
+
+.mc-theme-toggle:hover {
+  color: var(--color-ink);
+  border-color: var(--color-accent-strong);
+}
+
+.mc-theme-toggle:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 1px;
+}
+
+.mc-theme-toggle-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+}
+
+.mc-theme-icon[hidden] {
+  display: none;
+}
+
+.mc-filter-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: inherit;
+  font: inherit;
+}
+
+.mc-tenant-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.mc-tenant {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.65rem;
+  background: transparent;
+}
+
+.mc-tenant.is-active {
+  border-color: var(--color-accent-strong);
+  box-shadow: 0 0 0 1px var(--color-accent-strong);
+}
+
+.mc-tenant[hidden] {
+  display: none;
+}
+
+.mc-tenant-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.mc-tenant-logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  object-fit: contain;
+  border-radius: 0.4rem;
+  background: transparent;
+}
+
+.mc-tenant-names {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.55rem;
+  min-width: 0;
+}
+
+.mc-tenant-name {
+  font-weight: 600;
+}
+
+.mc-tenant-portals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mc-portal-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-line);
+  text-decoration: none;
+  color: inherit;
+  font-size: var(--text-sm);
+}
+
+.mc-portal-link.is-selected,
+.mc-portal-link:focus {
+  border-color: var(--color-accent-strong);
+  background: color-mix(in oklch, var(--color-green-500) 16%, transparent);
+  outline: none;
+}
+
+.mc-empty {
+  margin: 1.5rem 0 0;
+  color: var(--color-ink-muted);
+}

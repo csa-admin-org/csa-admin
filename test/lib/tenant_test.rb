@@ -62,6 +62,18 @@ class TenantTest < ActiveSupport::TestCase
     end
   end
 
+  test "launcher_tenants builds config-only portal urls" do
+    entry = Tenant.launcher_tenant("acme")
+
+    assert_equal "acme", entry[:name]
+    assert_equal "production", entry[:state]
+    assert_includes entry[:aliases], "ac"
+    assert_equal "https://admin.acme.test", entry[:admin_url]
+    assert_equal "https://members.acme.test", entry[:members_url]
+    assert_equal "https://cdn.csa-admin.org/logos/acme", entry[:logo_url]
+    assert_equal %w[acme beta], Tenant.launcher_tenants.map { |t| t[:name] }
+  end
+
   test "demo_admin_hosts maps seeded languages and ignores TENANT" do
     config = {
       "demo-de" => { "admin_host" => "admin.solawi-admin.org" },

@@ -136,6 +136,23 @@ module ApplicationHelper
     "https://csa-admin.org#{path}"
   end
 
+  # Ultra-admin jump to the Mission Control tenant launcher (cross-host).
+  def mc_launcher_url
+    if Rails.env.development? && ENV["DEV_ORIGIN"] == "localhost"
+      host =
+        if respond_to?(:request) && Tenant::Middleware::DEV_LAUNCHER_HOSTS.include?(request.host)
+          request.host
+        else
+          "localhost"
+        end
+      "http://#{host}:#{ENV.fetch("PORT", "3000")}/"
+    else
+      domain = Rails.app.creds.option(:app_domain).presence ||
+        (Rails.env.production? ? "csa-admin.org" : "csa-admin.test")
+      "https://mc.#{domain}/"
+    end
+  end
+
   def display_emails_with_link(arbre, emails)
     return unless emails.present?
 

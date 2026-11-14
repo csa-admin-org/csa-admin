@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html lang="<%= I18n.locale %>" data-theme="system">
+  <head>
+    <title>CSA Admin</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <script nonce="<%= content_security_policy_nonce %>">
+      ;(function() {
+        try {
+          var stored = localStorage.getItem("mc-theme")
+          if (stored === "light" || stored === "dark" || stored === "system") {
+            document.documentElement.dataset.theme = stored
+          }
+        } catch (e) {}
+        var preference = document.documentElement.dataset.theme || "system"
+        var isDark =
+          preference === "dark" ||
+          (preference !== "light" &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches)
+        document.documentElement.classList.toggle("dark", isDark)
+      })()
+    </script>
+
+    <%= stylesheet_link_tag "mission_control", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags "mission_control" %>
+  </head>
+
+  <body class="mc-body" data-controller="theme">
+    <%= yield %>
+  </body>
+</html>

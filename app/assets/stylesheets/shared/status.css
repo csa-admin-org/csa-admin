@@ -98,7 +98,8 @@
     /* Lime statuses - in process */
     &[data-status="renewal_opened"],
     &[data-status="open"].bidding_round,
-    &[data-status="pending"] {
+    &[data-status="pending"],
+    &[data-status="onboarding"] {
       background-color: var(--color-lime-100);
       color: var(--color-lime-800);
       box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-lime-600) 25%, transparent);
@@ -115,7 +116,8 @@
     &[data-status="draft"],
     &[data-status="manual"],
     &[data-status="not_sent"],
-    &[data-status="trial"] {
+    &[data-status="trial"],
+    &[data-status="custom"] {
       background-color: var(--color-blue-100);
       color: var(--color-blue-800);
       box-shadow: inset 0 0 0 1px color-mix(in oklch, var(--color-blue-600) 20%, transparent);

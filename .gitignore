@@ -52,3 +52,10 @@ results.sarif
 !/app/assets/builds/.keep
 
 /config/credentials/test.key
+
+# Shared agent skills (global excludesfile ignores all of .agents/)
+!.agents/
+.agents/*
+!.agents/skills/
+!.agents/skills/**
+.agents/skills/**/.DS_Store

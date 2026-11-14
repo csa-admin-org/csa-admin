@@ -1,0 +1,114 @@
+<main
+  class="mc-launcher"
+  data-controller="tenant-filter"
+  data-action="
+    keydown@window->tenant-filter#keydown
+    keydown.meta+k@window->tenant-filter#focusQuery:prevent
+    keydown.ctrl+k@window->tenant-filter#focusQuery:prevent
+  "
+>
+  <header class="mc-launcher-header">
+    <div class="mc-brand-row">
+      <div class="mc-brand">
+        <%= image_tag "logo.png", class: "mc-brand-logo logo", alt: "", width: 28, height: 28 %>
+
+        <h1 class="mc-brand-title">CSA Admin</h1>
+      </div>
+
+      <button
+        type="button"
+        class="mc-theme-toggle"
+        data-action="theme#cycle"
+        aria-label="<%= t("accessibility.mission_control.toggle_theme") %>"
+      >
+        <span
+          class="mc-theme-icon"
+          data-theme-target="icon"
+          data-theme-icon="system"
+        >
+          <%= icon "sun-moon", class: "mc-theme-toggle-icon" %>
+        </span>
+
+        <span
+          class="mc-theme-icon"
+          data-theme-target="icon"
+          data-theme-icon="light"
+          hidden
+        >
+          <%= icon "sun", class: "mc-theme-toggle-icon" %>
+        </span>
+
+        <span
+          class="mc-theme-icon"
+          data-theme-target="icon"
+          data-theme-icon="dark"
+          hidden
+        >
+          <%= icon "moon", class: "mc-theme-toggle-icon" %>
+        </span>
+      </button>
+    </div>
+
+    <input
+      type="search"
+      class="mc-filter-input"
+      placeholder="Search tenant, alias, host…"
+      autocomplete="off"
+      autofocus
+      title="Ctrl+K"
+      aria-label="<%= t("accessibility.mission_control.filter_tenants") %>"
+      data-tenant-filter-target="query"
+      data-action="input->tenant-filter#filter"
+    >
+  </header>
+
+  <ul class="mc-tenant-list" data-tenant-filter-target="list">
+    <% @tenants.each do |tenant| %>
+      <li
+        class="mc-tenant"
+        data-tenant-filter-target="tenant"
+        data-search="<%= [ tenant[:name], *tenant[:aliases], tenant[:admin_host], tenant[:members_host] ].join(" ") %>"
+      >
+        <div class="mc-tenant-identity">
+          <%= image_tag tenant[:logo_url],
+                class: "mc-tenant-logo logo",
+                alt: "",
+                width: 40,
+                height: 40,
+                loading: "lazy",
+                data: { action: "error->tenant-filter#hideBrokenLogo" } %>
+
+          <div class="mc-tenant-names">
+            <span class="mc-tenant-name"><%= tenant[:name] %></span>
+
+            <% unless tenant[:state] == "production" %>
+              <span class="status-tag" data-status="<%= tenant[:state] %>"><%= tenant[:state] %></span>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="mc-tenant-portals">
+          <%= link_to "Admin", tenant[:admin_url],
+                class: "mc-portal-link",
+                data: {
+                  tenant_filter_target: "link",
+                  portal: "admin",
+                  action: "focus->tenant-filter#selectLink"
+                } %>
+
+          <%= link_to "Members", tenant[:members_url],
+                class: "mc-portal-link",
+                data: {
+                  tenant_filter_target: "link",
+                  portal: "members",
+                  action: "focus->tenant-filter#selectLink"
+                } %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+  <p class="mc-empty" data-tenant-filter-target="empty" hidden>
+    No tenants match.
+  </p>
+</main>

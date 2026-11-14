@@ -957,6 +957,7 @@
     }
   }
 
+  .admin-menu-tenants-wrap,
   .admin-menu-logout-wrap {
     padding: 0.25rem;
     border-top: 1px solid var(--color-gray-100);
@@ -966,6 +967,7 @@
     }
   }
 
+  .admin-menu-tenants,
   .admin-menu-logout {
     display: flex;
     align-items: center;
@@ -1013,6 +1015,7 @@
     }
   }
 
+  .admin-menu-tenants-icon,
   .admin-menu-logout-icon {
     width: 1rem;
     height: 1rem;

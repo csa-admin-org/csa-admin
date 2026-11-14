@@ -46,6 +46,15 @@
       <% end %>
     </ul>
 
+    <% if current_active_admin_user&.ultra? %>
+      <div class="admin-menu-tenants-wrap">
+        <%= link_to mc_launcher_url, class: "admin-menu-tenants", data: { turbo: false } do %>
+          <%= t("active_admin.tenants_launcher") %>
+          <%= icon "arrow-left-right", class: "admin-menu-tenants-icon" %>
+        <% end %>
+      </div>
+    <% end %>
+
     <div class="admin-menu-logout-wrap">
       <%= link_to auto_logout_link_path, class: "admin-menu-logout", data: { method: :delete } do %>
         <%= t("active_admin.logout") %>

@@ -26,6 +26,10 @@ pin "tslib", preload: false # @2.9.1
 # Members
 pin "members", preload: false
 pin_all_from "app/javascript/controllers/members", under: "controllers/members", preload: false
+
+# Mission Control launcher
+pin "mission_control", preload: false
+pin_all_from "app/javascript/controllers/mission_control", under: "controllers/mission_control", preload: false
 # Pinned from unpkg (`bin/importmap pin vanilla-calendar-pro@3.3.1 --from unpkg`)
 # because jspm still serves 3.2.0.
 pin "vanilla-calendar-pro", preload: false # @3.4.0

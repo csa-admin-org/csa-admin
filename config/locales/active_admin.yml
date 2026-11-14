@@ -6204,6 +6204,12 @@ _:
         _de: zurückgezogen
         _it: ritirata
         _nl: ingetrokken
+    tenants_launcher:
+      _en: Tenants
+      _fr: Organisations
+      _de: Organisationen
+      _it: Organizzazioni
+      _nl: Organisaties
     unknown:
       _en: Unknown
       _fr: Inconnu

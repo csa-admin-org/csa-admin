@@ -6,8 +6,15 @@ Rails.application.routes.draw do
   resources :logos, only: :show
 
   constraints subdomain: "mc" do
+    root to: "mission_control/tenants#index", as: :mc_root
     mount MissionControl::Jobs::Engine, at: "/jobs"
     get "sessions/:tenant" => "mission_control/sessions#show", as: :mc_login
+  end
+
+  if Rails.env.development?
+    constraints(host: Tenant::Middleware::DEV_LAUNCHER_HOSTS) do
+      root to: "mission_control/tenants#index", as: :dev_launcher_root
+    end
   end
 
   constraints subdomain: "query" do

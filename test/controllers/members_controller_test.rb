@@ -937,6 +937,24 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert member.validated_at?
   end
 
+  test "ultra admin sees tenants launcher in the user menu" do
+    login admins(:ultra)
+
+    get members_path
+
+    assert_response :success
+    assert_select "a.admin-menu-tenants[href=?]", "https://mc.csa-admin.test/", text: /Tenants/
+  end
+
+  test "non-ultra admin does not see tenants launcher in the user menu" do
+    login admins(:super)
+
+    get members_path
+
+    assert_response :success
+    assert_select "a.admin-menu-tenants[href=?]", "https://mc.csa-admin.test/", count: 0
+  end
+
   private
 
   def past_same_year_membership!(member, started_on: Date.new(2024, 4, 1), ended_on: Date.new(2024, 4, 28))
