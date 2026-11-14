@@ -315,6 +315,21 @@ class MembersHelperTest < ActionView::TestCase
     assert_equal [ members(:jane).id ], collection.pluck(:id)
   end
 
+  test "members_collection only drops the collection member filter" do
+    relation = Membership.joins(:baskets).where(
+      member_id: members(:john).id,
+      baskets: { member_id: members(:jane).id })
+
+    sql = nil
+    assert_not_deprecated(ActiveRecord.deprecator) do
+      sql = send(:member_ids_for_filter, relation).to_sql
+    end
+
+    where_sql = sql.split(" WHERE ", 2).last
+    assert_not_includes where_sql, '"memberships"."member_id"'
+    assert_includes where_sql, '"baskets"."member_id"'
+  end
+
   test "depot map icon location falls back to address when maps feature is off" do
     org(features: Current.org.features - [ :maps ])
     farm = depots(:farm)

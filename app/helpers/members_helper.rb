@@ -228,7 +228,7 @@ module MembersHelper
   private def member_ids_for_filter(relation)
     relation
       .except(:order, :limit, :offset, :includes, :preload, :eager_load)
-      .unscope(where: :member_id)
+      .unscope(where: "#{relation.klass.table_name}.member_id")
       .reselect(:member_id)
       .distinct
   end

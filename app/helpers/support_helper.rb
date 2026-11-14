@@ -4,7 +4,7 @@ module SupportHelper
   def ticket_admins_collection(relation = nil)
     collection = Admin.order_by_name
     if relation
-      admin_ids = relation.unscope(where: :admin_id).unscope(:limit, :offset).distinct.pluck(:admin_id)
+      admin_ids = relation.unscope(where: "#{relation.klass.table_name}.admin_id").unscope(:limit, :offset).distinct.pluck(:admin_id)
       collection = collection.where(id: admin_ids)
     end
     collection

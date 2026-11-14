@@ -203,4 +203,14 @@ class SupportHelperTest < ActionView::TestCase
     assert_includes html, "Quoted question"
     assert_empty spacers
   end
+
+  test "ticket_admins_collection only drops the ticket admin filter" do
+    relation = Support::Ticket.joins(:messages).where(
+      admin_id: admins(:ultra).id,
+      support_messages: { admin_id: admins(:ultra).id })
+
+    assert_not_deprecated(ActiveRecord.deprecator) do
+      ticket_admins_collection(relation).load
+    end
+  end
 end
