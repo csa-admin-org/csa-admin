@@ -27,4 +27,19 @@ class LogosController < ActionController::Base
       head :not_found
     end
   end
+
+  # The app host has no tenant. A disk URL on that host cannot build a path.
+  # Point it at the tenant admin host, which the middleware can enter.
+  # Local lookup ignores the TLD, so csa-admin.test matches demo-en and must
+  # not count as this tenant's host.
+  def active_storage_url_options
+    return super if Tenant.find_by(host: request.host) == Tenant.current
+
+    local = Tenant.local_url_options(Tenant.admin_host)
+    {
+      protocol: "#{local[:protocol]}://",
+      host: local[:host],
+      port: local[:port]
+    }.compact
+  end
 end

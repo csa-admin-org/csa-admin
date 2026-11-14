@@ -39,6 +39,41 @@ class LogosControllerTest < ActionDispatch::IntegrationTest
     assert_equal Rails.root.join("app/assets/images/logo.png").binread, response.body
   end
 
+  test "does not keep an app host that collides with another tenant" do
+    attach_logo
+    Tenant.disconnect
+    host! "csa-admin.test"
+    original = Tenant.method(:find_by)
+
+    Tenant.stub(:find_by, ->(host:) {
+      host == "csa-admin.test" ? "demo-en" : original.call(host: host)
+    }) do
+      get logo_path("acme")
+    end
+
+    assert_redirected_to %r{\Ahttps://admin\.acme\.test/rails/active_storage/disk/}
+  end
+
+  test "serves a tenant logo from the local app apex" do
+    attach_logo
+    Tenant.disconnect
+    host! "csa-admin.test"
+
+    get logo_path("acme")
+
+    assert_redirected_to %r{\Ahttps://admin\.acme\.test/rails/active_storage/disk/}
+  end
+
+  test "serves a tenant logo from the cdn host" do
+    attach_logo
+    Tenant.disconnect
+    host! "cdn.csa-admin.test"
+
+    get logo_path("acme")
+
+    assert_redirected_to %r{\Ahttps://admin\.acme\.test/rails/active_storage/disk/}
+  end
+
   test "returns not found for unknown tenant" do
     get logo_path("unknown")
 
