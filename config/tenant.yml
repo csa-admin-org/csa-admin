@@ -164,7 +164,7 @@ production: &production
     state: onboarding
   fonddeletang:
     admin_host: admin.lafermedufonddeletang.ch
-    members_host: members.lafermedufonddeletang.ch
+    members_host: membres.lafermedufonddeletang.ch
     aliases:
       - lafermedufonddeletang
       - dufonddeletang
