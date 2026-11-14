@@ -145,7 +145,8 @@ module ApplicationHelper
         else
           "localhost"
         end
-      "http://#{host}:#{ENV.fetch("PORT", "3000")}/"
+      port = respond_to?(:request) ? request.port : ENV.fetch("PORT", "3000")
+      "http://#{host}:#{port}/"
     else
       domain = Rails.app.creds.option(:app_domain).presence ||
         (Rails.env.production? ? "csa-admin.org" : "csa-admin.test")

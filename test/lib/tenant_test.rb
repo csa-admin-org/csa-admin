@@ -77,6 +77,11 @@ class TenantTest < ActiveSupport::TestCase
           Tenant.local_url_options("membres.ragedevert.ch"))
         assert_equal "http://membres.ragedevert.localhost:3001",
           Tenant.local_url("membres.ragedevert.ch")
+        assert_equal(
+          { protocol: "http", host: "membres.ragedevert.localhost", port: 54321 },
+          Tenant.local_url_options("membres.ragedevert.ch", port: 54321))
+        assert_equal "http://membres.ragedevert.localhost:54321",
+          Tenant.local_url("membres.ragedevert.ch", port: 54321)
       end
     end
   end
@@ -91,6 +96,17 @@ class TenantTest < ActiveSupport::TestCase
     assert_equal "https://members.acme.test", entry[:members_url]
     assert_equal "https://cdn.csa-admin.org/logos/acme", entry[:logo_url]
     assert_equal %w[acme beta], Tenant.launcher_tenants.map { |t| t[:name] }
+  end
+
+  test "launcher_tenant uses explicit port for localhost portal urls" do
+    with_rails_env("development") do
+      with_env("DEV_ORIGIN" => "localhost", "PORT" => "3000") do
+        entry = Tenant.launcher_tenant("acme", port: 54321)
+
+        assert_equal "http://admin.acme.localhost:54321", entry[:admin_url]
+        assert_equal "http://members.acme.localhost:54321", entry[:members_url]
+      end
+    end
   end
 
   test "demo_admin_hosts maps seeded languages and ignores TENANT" do

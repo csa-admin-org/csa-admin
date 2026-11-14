@@ -59,32 +59,33 @@ module Tenant
     nil
   end
 
-  def local_url(host)
-    options = local_url_options(host)
+  def local_url(host, port: nil)
+    options = local_url_options(host, port: port)
     url = "#{options[:protocol]}://#{options[:host]}"
     url += ":#{options[:port]}" if options[:port]
     url
   end
 
-  def local_url_options(host)
+  def local_url_options(host, port: nil)
     return { protocol: "https", host: host } unless Rails.env.development?
 
     parsed = PublicSuffix.parse(host)
     labels = [ parsed.trd, parsed.sld ].compact.join(".")
 
     if ENV["DEV_ORIGIN"] == "localhost"
-      { protocol: "http", host: "#{labels}.localhost", port: ENV.fetch("PORT", "3000") }
+      { protocol: "http", host: "#{labels}.localhost", port: port || ENV.fetch("PORT", "3000") }
     else
       { protocol: "https", host: "#{labels}.test" }
     end
   end
 
   # Config-only rows for the Mission Control launcher (no tenant DB).
-  def launcher_tenants
-    all.sort.map { |name| launcher_tenant(name) }
+  # Pass +port+ from the request so cloud-agent port forwards match the current URL.
+  def launcher_tenants(port: nil)
+    all.sort.map { |name| launcher_tenant(name, port: port) }
   end
 
-  def launcher_tenant(name)
+  def launcher_tenant(name, port: nil)
     attrs = config.fetch(name.to_s)
     {
       name: name.to_s,
@@ -92,8 +93,8 @@ module Tenant
       aliases: Array(attrs["aliases"]),
       admin_host: attrs["admin_host"],
       members_host: attrs["members_host"],
-      admin_url: local_url(attrs["admin_host"]),
-      members_url: local_url(attrs["members_host"]),
+      admin_url: local_url(attrs["admin_host"], port: port),
+      members_url: local_url(attrs["members_host"], port: port),
       logo_url: "https://cdn.csa-admin.org/logos/#{name}"
     }
   end
