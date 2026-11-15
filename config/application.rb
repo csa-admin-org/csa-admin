@@ -16,8 +16,8 @@ module CSAAdmin
     config.load_defaults 8.2
 
     # 8.2 default. HTML compiles through Herb; every other format stays Erubi.
-    # `bin/rails herb:check` is the compile gate. The ActiveAdmin navigation
-    # override is what makes that check pass.
+    # `bin/rails herb:check` is the compile gate. Unrendered gem templates
+    # that Herb cannot compile are skipped in config/initializers/herb_check.rb.
     config.action_view.erb_implementation = :herb
 
     # 8.2's :json refuses Marshal. Action Text stores attachment SGIDs in the
