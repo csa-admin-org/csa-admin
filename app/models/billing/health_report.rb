@@ -107,8 +107,6 @@ class Billing::HealthReport
     case connection.provider
     when "ebics"
       "EBICS #{connection.settings.to_h.deep_stringify_keys["protocol"].presence || "?"}"
-    when "bas"
-      "BAS keyfile"
     when "bunq"
       "bunq API"
     when "mock"

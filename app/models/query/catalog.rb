@@ -32,7 +32,7 @@ module Query
         method: "GET",
         path: "/bank_connections",
         params: {
-          provider: "ebics / bas / bunq / mock.",
+          provider: "ebics / bunq / mock.",
           state: "draft / initializing / waiting_for_bank / ready / disabled / errored.",
           active: "true / false.",
           tenant: "Optional slug or list. Intersect with the token allowlist."

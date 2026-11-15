@@ -402,29 +402,6 @@ The purge task removes only `credentials["previous_key_rotation"]`, keeps active
 recovery depend on backups/bank coordination instead of retaining old private keys
 indefinitely.
 
-## BAS
-
-BAS connections use the bank keyfile flow instead of EBICS. Superadmins can
-update `contract_password` from Bank connection settings after a login check.
-A `Billing::BAS::LoginError` sets health to `errored` and skips nightly import
-until that check succeeds. Keep lifecycle `state` as `ready`.
-
-```ruby
-Tenant.switch("tenant") do
-  BankConnection.create!(
-    provider: "bas",
-    name: "BAS 123.456.789-00",
-    active: true,
-    state: "ready",
-    credentials: {
-      "account_number" => "123.456.789-00",
-      "contract_number" => "IB1234567",
-      "contract_password" => "...",
-      "private_key" => "... keyfile private key ..."
-    })
-end
-```
-
 ## bunq
 
 Prefer the setup task because bunq requires API installation/device/session

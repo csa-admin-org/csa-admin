@@ -123,22 +123,6 @@ class ActiveAdmin::OrganizationSettingsHelperTest < ActionView::TestCase
       "Payment automation needs review."
   end
 
-  test "active BAS connection display exposes contract and account ids" do
-    connection = BankConnection.create!(
-      provider: "bas",
-      active: true,
-      state: "ready",
-      health_status: "healthy",
-      credentials: {
-        account_number: "389.090.100.04",
-        contract_number: "IB1601431",
-        contract_password: "secret"
-      })
-
-    assert_equal "BAS IB1601431 / 389.090.100.04", organization_settings_bank_connection_provider(connection)
-    assert_not_includes organization_settings_bank_connection_provider(connection), "secret"
-  end
-
   test "active bunq connection display exposes the monetary account id" do
     connection = BankConnection.create!(
       provider: "bunq",
@@ -156,11 +140,11 @@ class ActiveAdmin::OrganizationSettingsHelperTest < ActionView::TestCase
 
   test "healthy no-data import stays healthy and shows only the date" do
     connection = BankConnection.create!(
-      provider: "bas",
+      provider: "bunq",
       active: true,
       state: "ready",
       health_status: "healthy",
-      credentials: { account_number: "IB1601431", contract_password: "secret" },
+      credentials: { api_key: "secret", monetary_account_id: "123456" },
       last_no_data_at: Time.zone.parse("2026-07-05 08:00"))
 
     assert_includes organization_settings_bank_connection_health(connection), "Healthy"
@@ -169,48 +153,35 @@ class ActiveAdmin::OrganizationSettingsHelperTest < ActionView::TestCase
   end
 
   test "latest error display does not expose raw provider messages" do
-    healthy = BankConnection.new(provider: "bas", health_status: "healthy", last_error_message: "hidden")
+    healthy = BankConnection.new(provider: "bunq", health_status: "healthy", last_error_message: "hidden")
     capability_warning = BankConnection.new(
       provider: "ebics",
       health_status: "warning",
       last_error_class: "UnexpectedEBICSCapability")
     errored = BankConnection.new(
-      provider: "bas",
+      provider: "bunq",
       health_status: "errored",
-      last_error_class: "Billing::BAS::LoginError",
-      last_error_message: "Login issue with secret token")
-
-    unknown = BankConnection.new(
-      provider: "bas",
-      health_status: "errored",
-      last_error_class: "Billing::BAS::UnknownError",
-      last_error_message: "BAS login unknown error (302)")
+      last_error_class: "Billing::Bunq::AuthenticationError",
+      last_error_message: "authentication failed with secret token")
 
     assert_not organization_settings_bank_connection_error?(healthy)
     assert_not organization_settings_bank_connection_error?(capability_warning)
     assert organization_settings_bank_connection_error?(errored)
-    assert organization_settings_bank_connection_error?(unknown)
     assert_includes organization_settings_bank_connection_error(healthy), "Not configured"
-    assert_equal I18n.t("active_admin.resources.organization.bank_connection.errors.login"), organization_settings_bank_connection_error(errored)
-    assert_equal I18n.t("active_admin.resources.organization.bank_connection.errors.unknown"), organization_settings_bank_connection_error(unknown)
+    assert_equal "Authentication error", organization_settings_bank_connection_error(errored)
     assert_not_includes organization_settings_bank_connection_error(errored), "secret"
-    assert_not_includes organization_settings_bank_connection_error(unknown), "302"
   end
 
-  test "errored BAS login shows the failed import date instead of an old no-data date" do
+  test "errored import shows the failed import date instead of an old no-data date" do
     connection = BankConnection.create!(
-      provider: "bas",
+      provider: "bunq",
       active: true,
       state: "ready",
       health_status: "errored",
-      last_error_class: "Billing::BAS::LoginError",
+      last_error_class: "Billing::Bunq::AuthenticationError",
       last_no_data_at: Time.zone.parse("2026-09-03 08:00"),
       last_import_attempted_at: Time.zone.parse("2026-09-04 02:00"),
-      credentials: {
-        account_number: "389.090.100.04",
-        contract_number: "IB1601431",
-        contract_password: "secret"
-      })
+      credentials: { api_key: "secret", monetary_account_id: "123456" })
 
     assert_includes organization_settings_bank_connection_last_import(connection),
       I18n.t("active_admin.resources.organization.bank_connection.last_import_failed",

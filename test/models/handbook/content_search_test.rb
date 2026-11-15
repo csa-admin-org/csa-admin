@@ -515,27 +515,6 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     Current.org.update_column(:country_code, "CH")
   end
 
-  test "content_search finds Alternative Bank content for CH org" do
-    assert_equal "CH", Current.org.country_code
-
-    results = Handbook.content_search("Alternative Bank", locale: :en)
-
-    match = results.find { |r| r[:name] == "billing" }
-    assert match, "Expected a content match for 'Alternative Bank' in billing page for CH org"
-  end
-
-  test "content_search excludes Alternative Bank content for non-CH org" do
-    Current.org.update_column(:country_code, "FR")
-    Handbook.clear_pages_cache!
-
-    results = Handbook.content_search("Alternative Bank", locale: :en)
-
-    match = results.find { |r| r[:name] == "billing" }
-    assert_nil match, "Expected no 'Alternative Bank' content match for FR org"
-  ensure
-    Current.org.update_column(:country_code, "CH")
-  end
-
   test "content_search still finds shared content regardless of country" do
     results = Handbook.content_search("overdue notice", locale: :en)
     match = results.find { |r| r[:name] == "billing" }

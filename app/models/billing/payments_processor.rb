@@ -8,7 +8,7 @@ module Billing
       return if Rails.env.development?
 
       connection = Current.org.active_bank_connection
-      return if connection.nil? || connection.payment_import_blocked?
+      return if connection.nil?
 
       connection.runtime_adapter.process_payments!
     end

@@ -109,10 +109,10 @@ class InvoicesTest < ApplicationSystemTestCase
     BankConnection.delete_all
     german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
     BankConnection.create!(
-      provider: "bas",
+      provider: "bunq",
       active: true,
       state: "ready",
-      credentials: { account_number: "123", contract_password: "secret" })
+      credentials: { api_key: "secret" })
     member = members(:anna)
     member.update!(language: "de", country_code: "DE")
     member.sepa_mandates.create!(

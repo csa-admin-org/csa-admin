@@ -2,9 +2,8 @@
 
 class BankConnection < ApplicationRecord
   include HasState
-  include BAS
 
-  PROVIDERS = %w[ebics bas bunq mock]
+  PROVIDERS = %w[ebics bunq mock]
   HEALTH_STATUSES = %w[unknown healthy warning errored]
   SUPPORTED_EBICS_SEPA_DIRECT_DEBIT_SCHEMAS = %w[pain.008.001.08].freeze
   EBICS_BTF_SERVICE_KEYS = %w[service_name scope service_option container message_name version].freeze
@@ -40,8 +39,6 @@ class BankConnection < ApplicationRecord
     case provider
     when "ebics"
       Billing::EBICS.new(credentials, settings: settings, bank_connection: self)
-    when "bas"
-      Billing::BAS.new(credentials)
     when "bunq"
       Billing::Bunq.new(credentials)
     when "mock"

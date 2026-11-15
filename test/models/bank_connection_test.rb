@@ -37,12 +37,12 @@ class BankConnectionTest < ActiveSupport::TestCase
 
   test "accepts non-EBICS connections without operation settings" do
     connection = BankConnection.create!(
-      provider: "bas",
+      provider: "bunq",
       active: true,
       state: "ready",
-      credentials: { account_number: "123", contract_password: "secret" })
+      credentials: { api_key: "secret" })
 
-    assert_equal "bas", connection.provider
+    assert_equal "bunq", connection.provider
     assert_empty connection.settings
   end
 
@@ -170,91 +170,6 @@ class BankConnectionTest < ActiveSupport::TestCase
     assert_not_includes connection.attributes.to_json, provider_text
   end
 
-  test "update_bas_password! verifies then stores the password and clears the login latch" do
-    connection = BankConnection.create!(
-      provider: "bas",
-      active: true,
-      state: "ready",
-      health_status: "errored",
-      last_error_class: "Billing::BAS::LoginError",
-      last_error_message: "Login issue (200)",
-      status_details: {
-        "last_error" => { "notified_at" => "2026-09-04T02:00:00Z" }
-      },
-      credentials: {
-        account_number: "123",
-        contract_number: "IB0043999",
-        contract_password: "old-secret"
-      })
-    verified = false
-    client = Object.new
-    client.define_singleton_method(:verify_login!) { verified = true }
-
-    Billing::BAS.stub(:new, ->(credentials) {
-      assert_equal "new-secret", credentials.fetch("contract_password")
-      client
-    }) do
-      assert_enqueued_with(job: Scheduled::BillingPaymentsProcessorJob) do
-        connection.update_bas_password!("new-secret")
-      end
-    end
-
-    connection.reload
-    assert verified
-    assert_equal "new-secret", connection.credentials.fetch("contract_password")
-    assert_equal "healthy", connection.health_status
-    assert_nil connection.last_error_class
-    assert_nil connection.status_details["last_error"]
-    assert connection.status_details["credentials_updated_at"].present?
-  end
-
-  test "credentials_updated_after? treats same-second updates as later" do
-    connection = BankConnection.create!(
-      provider: "bas",
-      active: true,
-      state: "ready",
-      credentials: {
-        account_number: "123",
-        contract_number: "IB0043999",
-        contract_password: "secret"
-      })
-    now = Time.zone.parse("2026-09-04 02:00:00.400")
-    connection.update_columns(status_details: { "credentials_updated_at" => now.change(usec: 0).iso8601 })
-
-    assert connection.credentials_updated_after?(now)
-    assert_not connection.credentials_updated_after?(now + 1.second)
-  end
-
-  test "notify_bas_login_error! mails superadmins once and skips suppressions" do
-    connection = BankConnection.create!(
-      provider: "bas",
-      active: true,
-      state: "ready",
-      health_status: "errored",
-      last_error_class: "Billing::BAS::LoginError",
-      credentials: {
-        account_number: "123",
-        contract_number: "IB0043999",
-        contract_password: "secret"
-      })
-    EmailSuppression.suppress!(admins(:ultra).email,
-      stream_id: "outbound",
-      origin: "Recipient",
-      reason: "HardBounce")
-    admins(:super).update!(notifications: [])
-
-    assert_enqueued_emails 1 do
-      connection.notify_bas_login_error!
-    end
-
-    connection.reload
-    assert connection.status_details.dig("last_error", "notified_at").present?
-
-    assert_no_enqueued_emails do
-      connection.notify_bas_login_error!
-    end
-  end
-
   test "tracks capabilities health and warnings" do
     connection = BankConnection.create!(
       provider: "ebics",
@@ -368,7 +283,6 @@ class BankConnectionTest < ActiveSupport::TestCase
           }
         }
       })
-    bas = BankConnection.new(provider: "bas", credentials: { account_number: "123", contract_password: "secret" })
     bunq = BankConnection.new(provider: "bunq", credentials: { api_key: "secret" })
     mock = BankConnection.new(provider: "mock", credentials: { password: "secret" })
 
@@ -378,7 +292,6 @@ class BankConnectionTest < ActiveSupport::TestCase
     assert matching_version.sepa_direct_debit_upload?
     assert_not missing_upload_settings.sepa_direct_debit_upload?
     assert_not legacy_upload_settings.sepa_direct_debit_upload?
-    assert_not bas.sepa_direct_debit_upload?
     assert_not bunq.sepa_direct_debit_upload?
     assert mock.sepa_direct_debit_upload?
   end
@@ -639,10 +552,10 @@ class BankConnectionTest < ActiveSupport::TestCase
       credentials: { password: "secret" })
 
     connection = BankConnection.new(
-      provider: "bas",
+      provider: "bunq",
       active: true,
       state: "ready",
-      credentials: { account_number: "123" })
+      credentials: { api_key: "secret" })
 
     assert_not connection.valid?
     assert_includes connection.errors[:active], "is already used by another bank connection"

@@ -122,7 +122,6 @@ module ActiveAdmin::OrganizationSettingsHelper
     actions << organization_setting_section_website_action(org) if section[:key] == "general" && org.url.present?
     actions << organization_setting_section_registration_action if section[:key] == "registration"
     actions << organization_setting_section_handbook_action(section) if section[:handbook]
-    actions << organization_setting_section_bas_password_action(org) if section[:key] == "bank_connection"
     actions << organization_setting_section_edit_action(section, org) if authorized?(:update, Organization) && organization_setting_section_editable?(section)
 
     safe_join(actions, " ")
@@ -444,8 +443,6 @@ module ActiveAdmin::OrganizationSettingsHelper
     case connection.provider
     when "ebics"
       [ "EBICS", organization_settings_ebics_version(connection), organization_settings_ebics_security(connection) ].compact_blank.join(" ")
-    when "bas"
-      [ "BAS", organization_settings_bas_identifier(connection) ].compact_blank.join(" ")
     when "bunq"
       [ "Bunq", connection.credentials.to_h.stringify_keys["monetary_account_id"].presence || connection.name ].compact_blank.join(" ")
     else
@@ -490,29 +487,8 @@ module ActiveAdmin::OrganizationSettingsHelper
   def organization_settings_bank_connection_error(connection)
     return organization_settings_missing_status_tag if connection.health_status == "healthy"
 
-    message = case connection.last_error_class
-    when BankConnection::BAS::LOGIN_ERROR_CLASS
-      t("active_admin.resources.organization.bank_connection.errors.login")
-    when BankConnection::BAS::UNKNOWN_ERROR_CLASS
-      t("active_admin.resources.organization.bank_connection.errors.unknown")
-    else
-      connection.last_error_class.to_s.demodulize.underscore.humanize.presence ||
-        t("active_admin.resources.organization.bank_connection.onboarding_state.errored")
-    end
-
-    return message unless organization_settings_bas_password_update?(connection) &&
-      connection.last_error_class == BankConnection::BAS::LOGIN_ERROR_CLASS
-
-    content_tag(:div, class: "stack is-snug text-right") do
-      safe_join([
-        content_tag(:span, message),
-        content_tag(:div, class: "cluster is-end") do
-          link_to(edit_bas_password_bank_connections_path, class: "btn btn-sm") do
-            icon("key", class: "icon-4") + t("active_admin.resources.bank_connection.password.update")
-          end
-        end
-      ])
-    end
+    connection.last_error_class.to_s.demodulize.underscore.humanize.presence ||
+      t("active_admin.resources.organization.bank_connection.onboarding_state.errored")
   end
 
   def organization_settings_bank_connection_onboarding_state(connection)
@@ -534,13 +510,6 @@ module ActiveAdmin::OrganizationSettingsHelper
     Billing::EBICS::Onboarding.new(connection: connection).letter_available?
   end
 
-  def organization_settings_bas_password_update?(connection)
-    admin = try(:current_admin)
-    return unless admin && connection
-
-    Ability.new(admin).can?(:update_bas_password, connection)
-  end
-
   private
 
   def organization_settings_ebics_setup_connection
@@ -548,11 +517,6 @@ module ActiveAdmin::OrganizationSettingsHelper
       provider: "ebics",
       active: false,
       state: %w[initializing waiting_for_bank errored]).order(id: :desc).first
-  end
-
-  def organization_settings_bas_identifier(connection)
-    credentials = connection.credentials.to_h.stringify_keys
-    [ credentials["contract_number"], credentials["account_number"] ].compact_blank.join(" / ").presence || connection.name
   end
 
   def organization_settings_ebics_version(connection)
@@ -654,17 +618,6 @@ module ActiveAdmin::OrganizationSettingsHelper
       handbook_page_path(section[:handbook], anchor: section[:handbook_anchor]),
       title: I18n.t("active_admin.site_footer.handbook")) do
       icon "book-open", class: "icon-5"
-    end
-  end
-
-  def organization_setting_section_bas_password_action(org)
-    connection = organization_settings_bank_connection(org)
-    return unless organization_settings_bas_password_update?(connection)
-
-    link_to(
-      edit_bas_password_bank_connections_path,
-      title: I18n.t("active_admin.resources.bank_connection.password.update")) do
-      icon "square-pen", class: "icon-5"
     end
   end
 

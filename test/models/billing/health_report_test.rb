@@ -41,14 +41,14 @@ class Billing::HealthReportTest < ActiveSupport::TestCase
   end
 
   test "provider filter matches bank name and hides non-matching connections" do
-    create_connection(provider: "bas", name: "BAS")
+    create_connection(provider: "bunq", name: "bunq")
 
     assert_empty Billing::HealthReport.new(tenant_names: [ "acme" ], provider: "ebics").rows
 
-    rows = Billing::HealthReport.new(tenant_names: [ "acme" ], provider: "BAS").rows
+    rows = Billing::HealthReport.new(tenant_names: [ "acme" ], provider: "bunq").rows
 
     assert_equal 1, rows.size
-    assert_equal "bas / BAS", rows.first.fetch(:bank)
+    assert_equal "bunq / bunq", rows.first.fetch(:bank)
   end
 
   test "reports missing active connection when unfiltered" do

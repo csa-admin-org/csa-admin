@@ -17,13 +17,13 @@ class Organization::BillingTest < ActiveSupport::TestCase
   test "bank_connection returns active tenant-local runtime adapter" do
     BankConnection.delete_all
     BankConnection.create!(
-      provider: "bas",
+      provider: "bunq",
       active: true,
       state: "ready",
-      credentials: { account_number: "123", contract_number: "456", contract_password: "secret", private_key: "key" })
+      credentials: { api_key: "secret" })
 
     assert_instance_of BankConnection::RuntimeAdapter, Current.org.bank_connection
-    assert_respond_to Current.org.bank_connection, :version
+    assert_respond_to Current.org.bank_connection, :payments_data
   end
 
   test "bank_connection is blank without an active tenant-local row" do

@@ -40,14 +40,14 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
 
   test "reports non-EBICS tenants without EBICS details" do
     BankConnection.create!(
-      provider: "bas",
+      provider: "bunq",
       active: true,
       state: "ready",
-      credentials: { account_number: "123" })
+      credentials: { api_key: "secret" })
 
     report = Billing::EBICS::ReadinessReport.new(tenant: "acme").to_h
 
-    assert_equal "bas", report.dig("active_connection", "provider")
+    assert_equal "bunq", report.dig("active_connection", "provider")
     assert_nil report.fetch("ebics")
   end
 

@@ -34,9 +34,9 @@ class BillingRakeTest < ActiveSupport::TestCase
   end
 
   test "payments process dry-run lists table-backed provider target without importing" do
-    connection = create_connection(provider: "bas")
+    connection = create_connection(provider: "bunq")
 
-    with_env("PROVIDER" => "bas") do
+    with_env("PROVIDER" => "bunq") do
       Tenant.stub(:switch_each, ->(&block) { block.call("acme") }) do
         Billing::PaymentsProcessor.stub(:retrieve_and_process!, -> { flunk "should not import without CONFIRM=true" }) do
           out, = capture_io { Rake::Task["billing:payments:process"].invoke }
@@ -45,7 +45,7 @@ class BillingRakeTest < ActiveSupport::TestCase
           assert_not json.fetch("confirmed")
           assert_equal({ "dry_run" => 1 }, json.fetch("summary"))
           assert_equal "acme", json.dig("results", 0, "tenant")
-          assert_equal "bas", json.dig("results", 0, "provider")
+          assert_equal "bunq", json.dig("results", 0, "provider")
           assert_equal "bank_connections", json.dig("results", 0, "source")
           assert_equal connection.id, json.dig("results", 0, "bank_connection_id")
         end
@@ -104,7 +104,7 @@ class BillingRakeTest < ActiveSupport::TestCase
   test "payments process filters by provider" do
     create_connection(provider: "bunq")
 
-    with_env("PROVIDER" => "bas", "CONFIRM" => "true") do
+    with_env("PROVIDER" => "mock", "CONFIRM" => "true") do
       Tenant.stub(:switch_each, ->(&block) { block.call("acme") }) do
         Billing::PaymentsProcessor.stub(:retrieve_and_process!, -> { flunk "provider filter should skip bunq" }) do
           out, = capture_io { Rake::Task["billing:payments:process"].invoke }

@@ -162,7 +162,7 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
 
   test "does nothing if bank connection cannot upload SEPA direct debits" do
     german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
-    create_bas_bank_connection
+    create_bunq_bank_connection
     assert Current.org.sepa_creditor_identifier?
     assert Current.org.bank_connection?
     assert_not Current.org.bank_connection_sepa_direct_debit_upload?
@@ -196,11 +196,11 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
       credentials: { password: "secret" })
   end
 
-  def create_bas_bank_connection
+  def create_bunq_bank_connection
     BankConnection.create!(
-      provider: "bas",
+      provider: "bunq",
       active: true,
       state: "ready",
-      credentials: { account_number: "123", contract_password: "secret" })
+      credentials: { api_key: "secret" })
   end
 end

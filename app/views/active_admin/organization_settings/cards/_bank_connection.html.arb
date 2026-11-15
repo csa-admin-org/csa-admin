@@ -70,16 +70,8 @@ context.instance_eval do
     end
   else
     div class: "panel-inset is-flush stack" do
-      para t("active_admin.resources.organization.bank_connection.not_configured_html", support_url: support_path).html_safe,
+      para t("active_admin.resources.organization.bank_connection.not_configured"),
         class: "description"
-
-      if org.country_code == "CH"
-        para t(
-          "active_admin.resources.organization.bank_connection.bas_html",
-          handbook_url: handbook_page_path("billing", anchor: "abs-setup"),
-          support_url: support_path).html_safe,
-          class: "description"
-      end
 
       if authorized?(:create, BankConnection) && BankConnection::EBICSSetup.supported_country?(org)
         div class: "cluster is-center" do
