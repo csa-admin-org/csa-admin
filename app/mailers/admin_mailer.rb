@@ -34,7 +34,7 @@ class AdminMailer < ApplicationMailer
         "action_url" => params[:action_url],
         "demo" => Tenant.demo?)
       subject_key = Tenant.demo? ? ".subject_demo" : ".subject"
-      @signature = "#{I18n.t("organization.default_email_signature")}\n#{Admin.ultra.name}" if Tenant.demo?
+      @signature = ultra_admin_signature if Tenant.demo?
       content_mail(content,
         to: admin.email,
         subject: t(subject_key, org: Current.org.name),
@@ -49,6 +49,7 @@ class AdminMailer < ApplicationMailer
         "admin" => Liquid::AdminDrop.new(@admin),
         "letter_url" => ebics_initialization_letter_url(host: Current.org.admin_url),
         "settings_url" => organization_url(anchor: "bank_connection", host: Current.org.admin_url))
+      @signature = ultra_admin_signature
       content_mail(content,
         to: @admin.email,
         subject: t(".subject"),
@@ -62,6 +63,7 @@ class AdminMailer < ApplicationMailer
       content = liquid_template.render(
         "admin" => Liquid::AdminDrop.new(@admin),
         "settings_url" => organization_url(anchor: "bank_connection", host: Current.org.admin_url))
+      @signature = ultra_admin_signature
       content_mail(content,
         to: @admin.email,
         subject: t(".subject"),
@@ -239,7 +241,7 @@ class AdminMailer < ApplicationMailer
       content = liquid_template.render(
         "admin" => Liquid::AdminDrop.new(admin),
         "setup_handbook_url" => setup_handbook_url)
-      @signature = "#{I18n.t("organization.default_email_signature")}\n#{Admin.ultra.name}"
+      @signature = ultra_admin_signature
       content_mail(content,
         to: admin.email,
         subject: t(".subject"),
@@ -305,6 +307,10 @@ class AdminMailer < ApplicationMailer
   end
 
   private
+
+  def ultra_admin_signature
+    "++\n#{Admin.ultra.name}"
+  end
 
   def demo_page_visit_summary_lines(admin)
     return [] unless admin.persisted?

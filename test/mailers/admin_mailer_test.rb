@@ -73,7 +73,7 @@ class AdminMailerTest < ActionMailer::TestCase
 
       body = mail.body.to_s
       assert_includes body, "This login link stays valid for one week."
-      assert_match %r{<p class="closing">Best regards,\n<br />Thibaud</p>}, body
+      assert_match %r{<p class="closing">\+\+\n<br />Thibaud</p>}, body
     end
   end
 
@@ -585,7 +585,7 @@ class AdminMailerTest < ActionMailer::TestCase
       assert_includes body, "https://admin.csa-admin.org/handbook/setup"
       assert_not_includes body, ">Setup</a>"
       assert_not_includes body, "resets weekly"
-      assert_match %r{<p class="closing">Best regards,\n<br />Thibaud</p>}, body
+      assert_match %r{<p class="closing">\+\+\n<br />Thibaud</p>}, body
     end
   end
 

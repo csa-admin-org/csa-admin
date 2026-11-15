@@ -26,6 +26,7 @@ class AdminMailerEBICSOnboardingTest < ActionMailer::TestCase
     assert_includes body, "https://admin.acme.test/ebics_initialization_letter"
     assert_includes body, "https://admin.acme.test/settings#bank_connection"
     assert_includes body, "Review bank connection settings"
+    assert_ultra_admin_signature body
     assert_sanitized body
   end
 
@@ -45,6 +46,7 @@ class AdminMailerEBICSOnboardingTest < ActionMailer::TestCase
     assert_includes body, "The EBICS connection is active."
     assert_includes body, "Payment automation health is shown in the bank connection settings."
     assert_includes body, "https://admin.acme.test/settings#bank_connection"
+    assert_ultra_admin_signature body
     assert_sanitized body
   end
 
@@ -59,8 +61,10 @@ class AdminMailerEBICSOnboardingTest < ActionMailer::TestCase
     ]
 
     mails.each do |mail|
-      assert_includes mail.body.to_s, "Salut Acme Super Admin,"
-      assert_not_includes mail.body.to_s, "Bonjour Acme Super Admin,"
+      body = mail.body.to_s
+      assert_includes body, "Salut Acme Super Admin,"
+      assert_not_includes body, "Bonjour Acme Super Admin,"
+      assert_ultra_admin_signature body
     end
   end
 
@@ -95,6 +99,11 @@ class AdminMailerEBICSOnboardingTest < ActionMailer::TestCase
       })
     connection.save!(validate: !active)
     connection
+  end
+
+  def assert_ultra_admin_signature(body)
+    assert_includes body, "<p class=\"closing\">++\n<br />#{Admin.ultra.name}</p>"
+    assert_not_includes body, "<p class=\"closing\">Best regards,\n<br />Acme</p>"
   end
 
   def assert_sanitized(body)
