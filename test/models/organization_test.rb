@@ -52,9 +52,18 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_not Current.org.valid?
   end
 
-  test "validates that activity_price cannot be 0" do
-    org = Organization.new(activity_price: nil)
-    assert_not org.valid?
+  test "activity_price of zero is valid" do
+    Current.org.activity_price = 0
+
+    assert Current.org.valid?
+    assert_empty Current.org.errors[:activity_price]
+  end
+
+  test "activity_price cannot be negative" do
+    Current.org.activity_price = -1
+
+    assert_not Current.org.valid?
+    assert_includes Current.org.errors[:activity_price], "must be greater than or equal to 0"
   end
 
   test "validates absences_included_logic liquid syntax" do

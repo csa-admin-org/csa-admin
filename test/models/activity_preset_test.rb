@@ -21,7 +21,8 @@ class ActivityPresetTest < ActiveSupport::TestCase
       titles: { "en" => "Different title" }
     )
 
-    assert_not_includes preset.errors[:places], "has already been taken"
+    assert preset.valid?
+    assert_empty preset.errors[:places]
   end
 
   test "allows same title with different place" do
@@ -31,6 +32,7 @@ class ActivityPresetTest < ActiveSupport::TestCase
       titles: existing.titles
     )
 
-    assert_not_includes preset.errors[:places], "has already been taken"
+    assert preset.valid?
+    assert_empty preset.errors[:places]
   end
 end

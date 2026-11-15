@@ -33,6 +33,13 @@ Importmap, Turbo, Stimulus, Lucide, no-build CSS.
 
 Copy: `TRANSLATIONS.md` and the `translations` skill. Never overwrite tenant-customized mail or newsletter content when changing source defaults.
 
+## Tests
+
+- `with_tenant` only sets the thread-local name. Another shard is `with_connected_tenant`.
+- Do not merge `membership_*_test.rb` with `test/models/membership/`. They are different classes.
+- After `travel_to` across a fiscal year, `Current.reset`. Dates stay inside the fixture window. Do not stretch fixtures to the current year.
+- System tests are rack_test. A green one is not Stimulus coverage.
+
 ## Hands off
 
 Leave `db/schema.rb`, `db/queue_schema.rb`, applied migrations, tenant SQLite files, credentials, and `config/tenant.yml` hosts alone unless that is the task. Do not re-enable `db:prepare` in `bin/docker-entrypoint`.

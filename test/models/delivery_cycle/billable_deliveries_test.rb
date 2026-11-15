@@ -29,11 +29,8 @@ class DeliveryCycle::BillableDeliveriesTest < ActiveSupport::TestCase
     # Set up complement with some delivery_ids that overlap with cycle
     complement.delivery_ids = cycle.current_and_future_delivery_ids.take(5)
 
-    count = cycle.billable_deliveries_count_for_basket_complement(complement)
-
-    # Should be less than the raw intersection count due to pro-rated absences
-    assert count <= 5
-    assert count >= 0
+    # Intersection 5, full year 10, 2 included absences → round(5 / 10 * 2) = 1.
+    assert_equal 4, cycle.billable_deliveries_count_for_basket_complement(complement)
   end
 
   test "billable_deliveries_count_for_basket_complement without absences" do

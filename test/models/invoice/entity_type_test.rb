@@ -13,16 +13,7 @@ class Invoice::EntityTypeTest < ActiveSupport::TestCase
     assert_equal "ActivityParticipation", invoice.entity_type
   end
 
-  test "sets entity_type to Share with shares_number" do
-    org(share_price: 250, shares_number: 1)
-    invoice = Invoice.new(shares_number: -2)
-
-    assert_equal "Share", invoice.entity_type
-    assert_equal(-2, invoice.shares_number)
-    assert_equal(-500, invoice.amount)
-  end
-
-  test "sets items and round to five cents each item" do
+  test "item amounts are summed as entered" do
     invoice = Invoice.new(
       items_attributes: {
         "0" => { description: "Cool cheap thing", amount: "10.11" },

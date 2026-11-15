@@ -81,30 +81,14 @@ class Organization::BillingTest < ActiveSupport::TestCase
     assert fiscal_years.any? { |fy| fy.include?(max_date) }
   end
 
-  test "fiscal_years handles nil delivery dates by using compact" do
-    # This tests the fix for the "comparison of Integer with nil failed" error
-    # that occurs when Delivery.minimum(:date) or Delivery.maximum(:date)
-    # returns nil (no deliveries in the database).
-    #
-    # The fix uses .compact before .min/.max to filter out nil values:
-    #   [ Delivery.minimum(:date)&.year, Current.fy_year, ... ].compact.min
-
-    # Simulate what would happen with nil values from the database
-    current_year = Date.current.year
-
-    # Without compact, this would raise "comparison of Integer with nil failed"
-    with_nil = [ nil, current_year, current_year ].compact.min
-    assert_equal current_year, with_nil
-
-    # Also verify that max works the same way
-    with_nil_max = [ nil, current_year, current_year ].compact.max
-    assert_equal current_year, with_nil_max
-
-    # When all delivery dates are nil, we should still get valid years
-    only_nils = [ nil, nil, current_year ].compact
-    assert_equal [ current_year ], only_nils
-    assert_equal current_year, only_nils.min
-    assert_equal current_year, only_nils.max
+  test "fiscal_years covers the current year when there are no deliveries" do
+    travel_to "2024-06-01"
+    Current.reset
+    Delivery.stub(:minimum, nil) do
+      Delivery.stub(:maximum, nil) do
+        assert_equal [ Current.org.fiscal_year_for(2024) ], Current.org.fiscal_years
+      end
+    end
   end
 
   private

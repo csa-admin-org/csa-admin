@@ -263,15 +263,14 @@ class SearchEntryTest < ActiveSupport::TestCase
     assert_equal 3, results.count
   end
 
-  test "search handles special FTS5 characters safely" do
+  test "search treats FTS5 operators as words, not syntax" do
     member = members(:john)
     SearchEntry.reindex_record(member, primary_text: "John Doe test", priority: 10)
 
-    # Should not raise even with FTS5 operators in query
-    assert_nothing_raised { SearchEntry.search("test AND something") }
-    assert_nothing_raised { SearchEntry.search("test OR something") }
-    assert_nothing_raised { SearchEntry.search('test "quoted"') }
-    assert_nothing_raised { SearchEntry.search("test*") }
+    assert_equal [ member.id ], SearchEntry.search("test*").map(&:searchable_id)
+    assert_equal [ member.id ], SearchEntry.search('test "').map(&:searchable_id)
+    # Raw FTS OR would match "test". Stripped, "or" and "xyzzy" are required words.
+    assert_empty SearchEntry.search("test OR xyzzy")
   end
 
   # --- Rebuild ---
