@@ -363,9 +363,7 @@ class I18n::Backend::ScopedLookupTest < ActiveSupport::TestCase
     clear
   end
 
-  # === Scoped key does not exist but has subtree ===
-
-  test "does not return hash subtrees as scoped results" do
+  test "returns a hash when the scoped key is a subtree" do
     org(basket_i18n_scopes: { "en" => "bag" })
 
     store(:en, { test_lookup: {
@@ -373,9 +371,6 @@ class I18n::Backend::ScopedLookupTest < ActiveSupport::TestCase
       "parent/bag": { nested: "This is nested, not a translation" }
     } })
 
-    # The scoped key resolves to a Hash (subtree), not a string.
-    # I18n.t should treat it as the resolved value (a Hash), which is valid
-    # behavior for subtree access. This test just ensures no crash.
     result = I18n.t("test_lookup.parent")
     assert_kind_of Hash, result
   ensure

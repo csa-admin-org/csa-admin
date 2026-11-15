@@ -37,7 +37,6 @@ module Invoice::Processing
     return unless can_send_email?
     raise Invoice::UnprocessedError if processing?
 
-    # Leave some time for the invoice PDF to be uploaded
     MailTemplate.deliver(:invoice_created, invoice: self)
     update!(sent_at: Time.current)
   rescue => e

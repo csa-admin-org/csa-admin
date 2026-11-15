@@ -184,7 +184,6 @@ namespace :bunq do
       puts "   Session started (User ID: #{user_id}, Type: #{user_type})"
     end
 
-    # Step 5: Fetch monetary accounts and let user choose or auto-select
     def fetch_monetary_accounts
       puts "5. Fetching monetary accounts..."
 
@@ -220,8 +219,6 @@ namespace :bunq do
         puts "   #{i + 1}. #{account[:description]} (#{account[:iban]}) - #{account[:currency]} #{account[:balance]}"
       end
 
-      # Auto-select if only one account, otherwise use first one
-      # In production, this could be interactive or based on IBAN matching
       selected = if accounts.size == 1
         accounts.first
       else

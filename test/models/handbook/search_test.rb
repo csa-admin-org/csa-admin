@@ -185,9 +185,7 @@ class HandbookSearchTest < ActiveSupport::TestCase
       results_plain.map { |r| [ r[:name], r[:anchor] ] }
   end
 
-  test "search matches accented heading with unaccented query" do
-    # "Résumé" in the renewals form heading, or similar
-    # Use "livraisons" page in FR which has "Cycles de livraisons {#delivery-cycles}"
+  test "search matches a heading anchor" do
     results = Handbook.search("depots", locale: :en)
 
     match = results.find { |r| r[:name] == "getting_started" && r[:anchor] == "depots" }

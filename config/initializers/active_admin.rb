@@ -249,7 +249,6 @@ ActiveAdmin.setup do |config|
   #
   #   end
   config.download_links = [ :csv ]
-  # Streaming is causing issue with apartment DB schema.
   config.disable_streaming_in = %w[production development test]
 
   # == Pagination

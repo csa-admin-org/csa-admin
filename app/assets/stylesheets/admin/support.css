@@ -247,7 +247,6 @@
 }
 
 @layer utilities {
-  /* Beat unlayered content CSS (`* { margin: 0 }` + image max-width). */
   .panel-body:has(.support-conversation) {
     overflow: visible;
   }

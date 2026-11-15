@@ -39,7 +39,6 @@ Rails.application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   config.asset_host = Rails.app.creds.option(:asset_host)
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :tenant_object_store
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
@@ -66,11 +65,9 @@ Rails.application.configure do
   # Prevent health checks from clogging up the logs.
   config.silence_healthcheck_path = "/up"
 
-  # Don't log any deprecations.
   config.active_support.deprecation = :notify
   config.active_support.report_deprecations = true
 
-  # Replace the default in-process memory cache store with a durable alternative.
   config.cache_store = :memory_store, {
     namespace: -> { Tenant.current }
   }
@@ -80,8 +77,6 @@ Rails.application.configure do
   # Use shard instead of database, see config/initializers/solid_queue_shard.rb
   config.solid_queue.connects_to = { shards: { queue: { writing: :queue } } }
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :postmark
 
