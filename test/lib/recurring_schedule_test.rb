@@ -11,6 +11,11 @@ class RecurringScheduleTest < ActiveSupport::TestCase
     assert_equal "every hour at minute 12", cleanup.fetch("schedule")
   end
 
+  test "sunday vacuum does not start with the ebics fan-out" do
+    assert_equal "every sunday at 1:40am", production_tasks.fetch("database_vacuum").fetch("schedule")
+    assert_equal "at 3:45am every day", production_tasks.fetch("ebics_onboarding_finalization").fetch("schedule")
+  end
+
   test "every production task uses the low queue" do
     production_tasks.each do |name, task|
       assert_equal "low", task["queue"], "#{name} should use the low queue"

@@ -30,6 +30,7 @@ production:
     <<: *default
     database: storage/production_queue.sqlite3
     migrations_paths: db/queue_migrate
+    timeout: 20_000 # milliseconds
     pragmas:
       auto_vacuum: full
   <<: *tenants
