@@ -25,7 +25,7 @@ Dev: `bin/dev` on `http://*.localhost:3000` (`DEV_ORIGIN=localhost`), or puma-de
 
 ## Code
 
-Vanilla Rails, rich models. No service, query, or form objects. Model concerns: `app/models/member/billing.rb`; shared: `app/models/concerns/`.
+Vanilla Rails, rich models. No service, query, or form objects. `Archspec.rb` enforces that; `bin/archspec check` after an edit. Model concerns: `app/models/member/billing.rb`; shared: `app/models/concerns/`.
 
 ActiveAdmin: `app/admin/`, DSL `lib/active_admin/`. Custom actions must authorize via `Ability`. UI: `DESIGN.md`.
 

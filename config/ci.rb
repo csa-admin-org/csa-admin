@@ -15,7 +15,7 @@
 CI.run do
   step "Setup", "bin/setup", "--skip-server"
 
-  group "Style", parallel: 10 do
+  group "Style", parallel: 11 do
     step "Style: Locales", "bin/locales", "check"
     step "Style: Herb format", "bin/herb", "format", ".", "--check"
     step "Style: Oxfmt", "bin/oxfmt", "--check"
@@ -28,6 +28,7 @@ CI.run do
       ".kamal/hooks/pre-deploy",
       "bin/docker-entrypoint"
     step "Style: Solid Queue", "bin/jobs", "check"
+    step "Style: Archspec", "bin/archspec", "check"
   end
 
   group "Security", parallel: 4 do

@@ -41,7 +41,7 @@ module LiquidErb
     context = RenderContext.new(i18n_scope)
 
     I18n.with_locale(locale) do
-      ERB.new(erb_source).result(context.get_binding)
+      ERB.new(erb_source).result(context.erb_binding)
     end
   end
 
@@ -52,7 +52,7 @@ module LiquidErb
       @i18n_scope = i18n_scope
     end
 
-    def get_binding
+    def erb_binding
       binding
     end
 

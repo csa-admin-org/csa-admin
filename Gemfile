@@ -105,11 +105,11 @@ group :development do
   gem "letter_opener"
 
   # Code Quality
-  gem "ruby-lsp-rails", require: false
   gem "rubocop-rails-omakase", require: false
   gem "rubocop-erb", require: false
   gem "rubocop-minitest", require: false
   gem "herb", require: false
+  gem "archspec", require: false
 
   # Security
   gem "brakeman", require: false

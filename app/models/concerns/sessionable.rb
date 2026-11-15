@@ -11,7 +11,7 @@ module Sessionable
   end
 
   def actor
-    session&.owner || fallback_actor
+    session&.owner || fallback_actor # archspec:disable-line methods.forbid -- association, not the controller session
   end
 
   private

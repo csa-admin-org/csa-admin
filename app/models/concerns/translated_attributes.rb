@@ -25,10 +25,12 @@ module TranslatedAttributes
           send(attr, locale).present?
         end
         define_method("#{attr}=") do |str|
+          # archspec:disable-next-line concerns.independence -- locale catalog, not the includer
           Organization.languages.each do |locale|
             send("#{attr}_#{locale}=", str.presence&.strip)
           end
         end
+        # archspec:disable-next-line concerns.independence -- locale catalog, not the includer
         Organization.languages.each do |locale|
           define_method("#{attr}_#{locale}") { self[column][locale].presence }
           define_method("#{attr}_#{locale}=") do |str|
@@ -53,6 +55,7 @@ module TranslatedAttributes
 
         if required
           validate_options = required.is_a?(Hash) ? required : {}
+          # archspec:disable-next-line concerns.independence -- locale catalog, not the includer
           Organization.languages.each do |locale|
             validates "#{attr}_#{locale}".to_sym, presence: true, **validate_options, if: -> {
               locale.in?(Current.org.languages)

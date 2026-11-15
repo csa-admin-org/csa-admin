@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class Liquid::PriceReductionDrop < Liquid::Drop
+  include NumbersHelper
+
+  private(*NumbersHelper.public_instance_methods)
+  private(*ActiveSupport::NumberHelper.instance_methods)
+
   def initialize(price_reduction, amount: nil)
     @price_reduction = price_reduction
     @amount = amount
@@ -17,6 +22,6 @@ class Liquid::PriceReductionDrop < Liquid::Drop
   def amount
     return if @amount.nil?
 
-    ApplicationController.helpers.cur(@amount)
+    cur(@amount)
   end
 end
