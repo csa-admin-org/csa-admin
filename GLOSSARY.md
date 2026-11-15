@@ -41,7 +41,7 @@
 - **Same-week Deliveries**: Other deliveries sharing the same ISO calendar week as a given delivery.
 - **Duplicate All**: Copying basket content products missing from a target delivery while preserving their unit, unit price, basket quantities, and depots.
 
-- **Cap**: The current bot barrier for unauthenticated forms (member registration, member login, admin login, demo registration). CSA Admin self-hosts Cap Standalone at `https://cap.csa-admin.org`; each tenant stores its own `cap_site_key` and encrypted `cap_secret_key` on `organizations`.
+- **Cap**: The current bot barrier for unauthenticated forms (member registration, member login, admin login, demo registration). CSA Admin self-hosts capd at `https://cap.csa-admin.org`; each tenant stores its own `cap_site_key` and encrypted `cap_secret_key` on `organizations`.
 
 - **Demo Page Visit** (`Demo::PageVisit`): A demo-tenant-only record of an authenticated admin-side HTML page load. Meaningful visits are classified live from `page_key`, so the non-meaningful page list can be adjusted without rewriting stored visits.
 

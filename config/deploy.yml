@@ -72,14 +72,13 @@ accessories:
     cmd: "valkey-server --save 60 1 --loglevel warning --maxmemory-policy noeviction"
 
   cap:
-    image: tiago2/cap:3.1.17
+    image: tiago2/cap:4.0.14
     host: isle.thibaud.gg
     env:
       clear:
         REDIS_URL: redis://csa-admin-cap-valkey:6379
-        RATELIMIT_IP_HEADER: cf-connecting-ip
         ENABLE_ASSETS_SERVER: "true"
-        WIDGET_VERSION: "0.1.58"
+        WIDGET_VERSION: "0.1.63"
         WASM_VERSION: "0.0.8"
       secret:
         - ADMIN_KEY

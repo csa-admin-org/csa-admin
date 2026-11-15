@@ -24,20 +24,36 @@ class Cap::Client
       corsOrigins: cors_origins)
   end
 
+  def keys
+    request(:get, "/server/keys")
+  end
+
+  def key(site_key)
+    request(:get, "/server/keys/#{site_key}")
+  end
+
+  def rotate_secret(site_key)
+    request(:post, "/server/keys/#{site_key}/rotate-secret")
+  end
+
+  def pin_sha256(site_key)
+    request(:put, "/server/keys/#{site_key}/config", protocol: "sha256-pow")
+  end
+
   private
 
   def default_api_key
     Rails.app.creds.option(:cap_api_key)
   end
 
-  def request(method, path, body)
+  def request(method, path, body = nil)
     raise "Missing CAP_API_KEY or cap_api_key in credentials" if @api_key.blank?
 
     uri = URI("#{@api_url}#{path}")
     request = request_class(method).new(uri,
       "Authorization" => "Bot #{@api_key}",
       "Content-Type" => "application/json")
-    request.body = body.to_json
+    request.body = body.to_json if body
 
     response = Net::HTTP.start(uri.host, uri.port,
       use_ssl: uri.scheme == "https",
@@ -51,6 +67,7 @@ class Cap::Client
 
   def request_class(method)
     case method
+    when :get then Net::HTTP::Get
     when :post then Net::HTTP::Post
     when :put then Net::HTTP::Put
     else raise ArgumentError, "Unsupported HTTP method: #{method}"

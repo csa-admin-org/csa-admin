@@ -35,6 +35,85 @@ namespace :cap do
     end
   end
 
+  desc "Rotate v3 Cap secrets that capd 4 rejects. Dry-run unless CONFIRM=1"
+  task rotate_secrets: :environment do
+    client = Cap::Client.new
+    confirm = ENV["CONFIRM"] == "1"
+    keys = client.keys.index_by { |key| key.fetch("siteKey") }
+    seen = []
+
+    Tenant.switch_each do |tenant|
+      next if Tenant.custom? && !ENV["TENANT"]
+
+      site_key = Current.org.cap_site_key
+      if site_key.blank?
+        puts "Org row with no site key: #{tenant}"
+        next
+      end
+
+      seen << site_key
+      key = keys[site_key]
+      unless key
+        puts "Org site key missing from Cap: #{tenant} #{site_key}"
+        next
+      end
+      next unless key["secretOutdated"]
+
+      puts "#{confirm ? '✅' : 'dry-run'} #{tenant}: rotate #{site_key}"
+      next unless confirm
+
+      result = client.rotate_secret(site_key)
+      secret = result.fetch("secretKey")
+      begin
+        Current.org.update!(cap_secret_key: secret)
+      rescue StandardError => error
+        warn "#{tenant} #{site_key}: rotated on Cap but not saved (#{error.class}). Save this secret, then re-run. A second rotate replaces it."
+        warn secret
+        abort
+      end
+    end
+
+    keys.each_value do |key|
+      next unless key["secretOutdated"]
+      next if seen.include?(key.fetch("siteKey"))
+
+      puts "Cap key missing from this walk, secretOutdated: #{key['name']} #{key.fetch('siteKey')}"
+    end
+    puts "Re-run with CONFIRM=1 to rotate." unless confirm
+  end
+
+  desc "Pin every Cap key to sha256-pow. Dry-run unless CONFIRM=1"
+  task pin_sha256: :environment do
+    client = Cap::Client.new
+    confirm = ENV["CONFIRM"] == "1"
+    details = client.keys.map { |key| client.key(key.fetch("siteKey")) }
+    blocked = details.select { |detail|
+      config = detail.dig("key", "config")
+      next false unless config.is_a?(Hash)
+
+      protocol = config["protocol"]
+      protocol.present? && protocol != "sha256-pow"
+    }
+    if blocked.any?
+      blocked.each do |detail|
+        key = detail.fetch("key")
+        puts "#{key['name']} #{key.fetch('siteKey')}: #{key.dig('config', 'protocol')}"
+      end
+      abort "Refusing to pin: a key is not sha256-pow. Nothing was written."
+    end
+
+    pending = details.reject { |detail|
+      detail.dig("key", "config", "protocol") == "sha256-pow"
+    }
+    pending.each do |detail|
+      key = detail.fetch("key")
+      puts "#{confirm ? '✅' : 'dry-run'} pin #{key['name']} #{key.fetch('siteKey')}"
+      client.pin_sha256(key.fetch("siteKey")) if confirm
+    end
+    puts "Already sha256-pow: #{details.size - pending.size}"
+    puts "Re-run with CONFIRM=1 to pin." unless confirm
+  end
+
   namespace :development do
     desc "Create or update one allow-all Cap site key for local development"
     task setup: :environment do
