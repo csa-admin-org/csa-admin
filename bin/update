@@ -4,6 +4,7 @@
 require "fileutils"
 require "json"
 require "tempfile"
+require "tmpdir"
 
 APP_ROOT = File.expand_path("..", __dir__)
 HERB_NPM_PACKAGES = %w[@herb-tools/linter @herb-tools/formatter].freeze
@@ -139,6 +140,65 @@ def restore_chartjs_umd!
   File.write("config/importmap.rb", cleaned) if cleaned != importmap
 end
 
+PDFJS_PREBUILT = {
+  "build/pdf.mjs" => [ "vendor/javascript/pdfjs-dist.js", 'const version = "' ],
+  "build/pdf.worker.mjs" => [ "vendor/javascript/pdfjs-dist-worker.js", "pdfjsVersion = " ]
+}.freeze
+
+def restore_pdfjs_prebuilt!
+  # importmap update rewrites pdfjs-dist from jspm. That graph splits the
+  # package into extra pins. The invoice preview needs Mozilla's prebuilt
+  # modern-browsers modules, not that graph.
+  version = File.read("config/importmap.rb")[/^pin "pdfjs-dist".*# @(\d+\.\d+\.\d+)/, 1] or
+    abort "Could not read pdfjs-dist version from config/importmap.rb"
+  url = "https://github.com/mozilla/pdf.js/releases/download/v#{version}/pdfjs-#{version}-dist.zip"
+
+  Dir.mktmpdir("pdfjs-dist") do |dir|
+    zip = File.join(dir, "dist.zip")
+    system! "curl", "-fsSL", "-o", zip, url
+    system! "unzip", "-qo", zip, *PDFJS_PREBUILT.keys, "-d", dir
+
+    PDFJS_PREBUILT.each do |entry, (destination, marker)|
+      install_pdfjs_module(File.join(dir, entry), destination, version, marker, url)
+    end
+  end
+
+  Dir.glob("vendor/javascript/pdfjs-dist*") do |entry|
+    next if entry.end_with?("pdfjs-dist.js", "pdfjs-dist-worker.js")
+
+    FileUtils.rm_rf(entry)
+  end
+  restore_pdfjs_pins!(version)
+end
+
+def install_pdfjs_module(source, destination, version, marker, url)
+  body = File.read(source).sub(/\A\/\/ pdfjs-dist@.*\n+/, "")
+  body = body.sub(%r{\n*//# sourceMappingURL=.*\n?\z}, "\n")
+  unless body.include?("#{marker}#{version}") && body.match?(/^export \{/)
+    abort "PDF.js download from #{url} is not the #{version} prebuilt ESM module"
+  end
+  if body.match?(/^import[\s{]/)
+    abort "PDF.js download from #{url} is not a self-contained prebuilt module"
+  end
+
+  File.write(destination, "// pdfjs-dist@#{version} prebuilt from #{url}\n\n#{body}")
+end
+
+def restore_pdfjs_pins!(version)
+  display = %(pin "pdfjs-dist", to: "pdfjs-dist.js", preload: false # @#{version}\n)
+  worker = %(pin "pdfjs-dist/worker", to: "pdfjs-dist-worker.js", preload: false # @#{version}\n)
+  importmap = File.read("config/importmap.rb")
+  cleaned = importmap.gsub(/^pin "pdfjs-dist"(?:,| #).*(?:\n|\z)/, display)
+  cleaned = cleaned.gsub(/^pin "pdfjs-dist\/(?!worker").*(?:\n|\z)/, "")
+  cleaned = cleaned.gsub(/^pin "pdfjs-dist\/worker".*(?:\n|\z)/, worker)
+  cleaned = cleaned.sub(display, display + worker) unless cleaned.include?(worker)
+  unless cleaned.include?(display) && cleaned.include?(worker)
+    abort "Could not restore pdfjs-dist pins in config/importmap.rb"
+  end
+
+  File.write("config/importmap.rb", cleaned) if cleaned != importmap
+end
+
 FileUtils.chdir APP_ROOT do
   # Update local toolchains and dependency lockfiles.
   # Review the diff afterward — this is intentionally non-conservative.
@@ -173,4 +233,7 @@ FileUtils.chdir APP_ROOT do
 
   puts "\n== Restoring Chart.js UMD pin =="
   restore_chartjs_umd!
-end
+
+  puts "\n== Restoring PDF.js prebuilt pin =="
+  restore_pdfjs_prebuilt!
+end if File.expand_path($PROGRAM_NAME) == File.expand_path(__FILE__)

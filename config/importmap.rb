@@ -65,6 +65,8 @@ pin "@floating-ui/utils/dom", to: "@floating-ui--utils--dom.js", preload: false 
 # the jspm ESM graph needs an unpinned helpers chunk, and analytics reads globalThis.Chart.
 # bin/update re-downloads this file from unpkg after importmap update.
 pin "chart.js", preload: false # @4.6.1
-# Mozilla PDF.js (vendored ESM). Do not let `bin/importmap update` rewrite these.
-pin "pdfjs-dist", to: "pdfjs-dist.js", preload: false # @4.10.38
-pin "pdfjs-dist/worker", to: "pdfjs-dist-worker.js", preload: false # @4.10.38
+# Mozilla PDF.js prebuilt (modern browsers). Do not let `bin/importmap update` rewrite these:
+# jspm splits the package into extra pins. bin/update restores build/pdf.mjs and
+# build/pdf.worker.mjs from the matching GitHub release zip.
+pin "pdfjs-dist", to: "pdfjs-dist.js", preload: false # @6.5.438
+pin "pdfjs-dist/worker", to: "pdfjs-dist-worker.js", preload: false # @6.5.438
