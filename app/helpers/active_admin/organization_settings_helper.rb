@@ -211,20 +211,6 @@ module ActiveAdmin::OrganizationSettingsHelper
     amount.present? ? number_to_percentage(amount, precision: 2) : organization_settings_missing_status_tag
   end
 
-  def organization_settings_percentage_values(amounts)
-    values = Array(amounts).compact_blank
-    return organization_settings_missing_status_tag if values.none?
-
-    values.map { |amount| number_to_percentage(amount, precision: 0) }.to_sentence
-  end
-
-  def organization_settings_currency_values(amounts)
-    values = Array(amounts).compact_blank
-    return organization_settings_missing_status_tag if values.none?
-
-    values.map { |amount| cur(amount) }.to_sentence
-  end
-
   def organization_settings_number_values(amounts)
     values = Array(amounts).compact_blank
     return organization_settings_missing_status_tag if values.none?
@@ -243,14 +229,6 @@ module ActiveAdmin::OrganizationSettingsHelper
 
   def organization_settings_weight_value(amount)
     amount.present? ? "#{amount} kg" : organization_settings_missing_status_tag
-  end
-
-  def organization_settings_range_value(min, max)
-    return "#{min} – #{max}" if min.present? && max.present?
-    return "≥ #{min}" if min.present?
-    return "≤ #{max}" if max.present?
-
-    organization_settings_missing_status_tag
   end
 
   def organization_settings_activity_participations_form_choice(org)

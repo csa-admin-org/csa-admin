@@ -1633,42 +1633,6 @@ _:
           _de: Abonnement (laufend)
           _it: Abbonamento (in corso)
           _nl: Lidmaatschap (lopend)
-        deliveries_received_count_since_first_membership/bag:
-          _en: Bags received
-          _fr: Sacs reçus
-          _de: Erhaltene Taschen
-          _it: Borse ricevute
-          _nl: Ontvangen tassen
-        deliveries_received_count_since_first_membership/basket:
-          _en: Baskets received
-          _fr: Paniers reçus
-          _de: Erhaltene Körbe
-          _it: Ceste ricevute
-          _nl: Ontvangen manden
-        deliveries_received_count_since_first_membership/cone:
-          _en: Cones received
-          _fr: Cornets reçus
-          _de: Erhaltene Tüten
-          _it: Coni ricevute
-          _nl: Ontvangen zakken
-        deliveries_received_count_since_first_membership/crate:
-          _en: Crates received
-          _fr: Cagettes reçues
-          _de: Erhaltene Kisten
-          _it: Cassette ricevute
-          _nl: Ontvangen kratten
-        deliveries_received_count_since_first_membership/package:
-          _en: Packages received
-          _fr: Colis reçus
-          _de: Erhaltene Pakete
-          _it: Pacchi ricevute
-          _nl: Ontvangen pakketten
-        deliveries_received_count_since_first_membership/share:
-          _en: Shares received
-          _fr: Parts reçus
-          _de: Erhaltene Anteile
-          _it: Parti ricevute
-          _nl: Ontvangen delen
         depot:
           _en: Depot
           _fr: Dépôt
@@ -2904,42 +2868,6 @@ _:
           _de: Anteile
           _it: Parti
           _nl: Delen
-        deliveries_received_count/bag:
-          _en: Delivered bags
-          _fr: Sacs livrés
-          _de: Gelieferte Taschen
-          _it: Borse consegnate
-          _nl: Geleverde tassen
-        deliveries_received_count/basket:
-          _en: Delivered baskets
-          _fr: Paniers livrés
-          _de: Gelieferte Körbe
-          _it: Ceste consegnate
-          _nl: Geleverde manden
-        deliveries_received_count/cone:
-          _en: Delivered cones
-          _fr: Cornets livrés
-          _de: Gelieferte Tüten
-          _it: Coni consegnati
-          _nl: Geleverde zakken
-        deliveries_received_count/crate:
-          _en: Delivered crates
-          _fr: Cagettes livrées
-          _de: Gelieferte Kisten
-          _it: Cassette consegnate
-          _nl: Geleverde kratten
-        deliveries_received_count/package:
-          _en: Delivered packages
-          _fr: Colis livrés
-          _de: Gelieferte Pakete
-          _it: Pacchi consegnati
-          _nl: Geleverde pakketten
-        deliveries_received_count/share:
-          _en: Delivered shares
-          _fr: Parts livrés
-          _de: Gelieferte Anteile
-          _it: Parti consegnate
-          _nl: Geleverde delen
         delivery_cycle_id:
           _en: Delivery cycle
           _fr: Cycle de livraisons
