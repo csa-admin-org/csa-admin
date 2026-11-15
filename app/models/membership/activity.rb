@@ -84,7 +84,8 @@ module Membership::Activity
     fiscal_year.past? && activity_participations_demanded > activity_participations_accepted
   end
 
-  # archspec:disable-next-line naming.forbidden -- public because Membership#refresh_after_baskets_update! calls it
+  private
+
   def set_activity_participations
     if Current.org.feature?("activity")
       self.activity_participations_demanded = ActivityParticipationDemanded.new(self).count
@@ -97,8 +98,6 @@ module Membership::Activity
       self.activity_participations_annual_price_change = 0
     end
   end
-
-  private
 
   def activity_participations_default_demanded
     copy = dup
