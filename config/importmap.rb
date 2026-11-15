@@ -45,7 +45,7 @@ pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js" # @
 pin "@rails/request.js", to: "@rails--request.js.js" # @0.0.13
 pin "sortablejs" # @1.15.7
 # CodeJar + Prism.js
-pin "codejar", preload: false # @4.3.0
+pin "codejar", preload: false # @5.0.0
 pin "prismjs", preload: false # @1.30.0
 pin "prismjs/components/prism-yaml", to: "prismjs--components--prism-yaml.js", preload: false
 pin "prismjs/components/prism-markup-templating", to: "prismjs--components--prism-markup-templating.js", preload: false
