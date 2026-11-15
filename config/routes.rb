@@ -68,7 +68,6 @@ Rails.application.routes.draw do
       as: :form_details_preview_organization
     resource :organization, path: "settings", only: %i[show update]
 
-    get "deliveries/next" => "next_delivery#next"
     get "handbook/search" => "handbook_search#show", as: :handbook_search
     get "handbook/:id" => "handbook#index", as: :handbook_page
     get "analytics/:id" => "analytics#index", as: :analytics_page
