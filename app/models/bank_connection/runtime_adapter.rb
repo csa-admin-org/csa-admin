@@ -10,7 +10,6 @@ class BankConnection
     end
 
     def process_payments!
-      attempted_at = Time.current
       connection.mark_import_attempted!(operation: payment_import_operation)
       payments_data = adapter.payments_data
       result = Billing::PaymentsProcessor.new(payments_data).process!

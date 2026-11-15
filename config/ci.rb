@@ -15,7 +15,8 @@
 CI.run do
   step "Setup", "bin/setup", "--skip-server"
 
-  group "Style", parallel: 11 do
+  group "Style", parallel: 12 do
+    step "Style: Prism", "bin/prism", "check"
     step "Style: Locales", "bin/locales", "check"
     step "Style: Herb format", "bin/herb", "format", ".", "--check"
     step "Style: Oxfmt", "bin/oxfmt", "--check"

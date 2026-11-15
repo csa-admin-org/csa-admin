@@ -6,7 +6,7 @@ CSA Admin is a multi-tenant Rails app for Community Supported Agriculture organi
 
 - Iterate with filtered `bin/ci` (`-g style|security|tests`, `-s "Style: RuboCop"`, `-f`). Names match `config/ci.rb`.
 - Full tests: `bin/rails test:all` (`acme` tenant). Minitest, Capybara, parallel, WebMock; stub HTTP, no process-global mutable state.
-- Final: `bin/ci`. Single-tool wrappers: `bin/rubocop`, `bin/locales`, `bin/herb`, `bin/jactionlint`, `bin/shellcheck`, `bin/jobs check`.
+- Final: `bin/ci`.
 - Setup: `mise bootstrap`. Upgrades: `bin/update` (review the diff).
 - `bin/ci` `--group`/`--step` is `config/ci_filter.rb` until upstream Rails has both. Groups themselves are upstream.
 
@@ -21,11 +21,11 @@ CSA Admin is a multi-tenant Rails app for Community Supported Agriculture organi
 - Gate features with `Current.org.feature?`. Fiscal years: `Current.fiscal_year` or `Current.org.fiscal_year_for`, not `Date.current.year`.
 - Discardable: `.kept`, `can_destroy?`, `can_discard?`. Exports: `member&.display_id`, never `member.id` (`test/models/member/discardable_test.rb`).
 
-Dev: `bin/dev` on `http://*.localhost:3000` (`DEV_ORIGIN=localhost`), or puma-dev on `https://*.test`. Tenant launcher: `http://127.0.0.1:3000` or `http://localhost:3000` (dev) / `https://mc.csa-admin.org` (prod). Hosts and auth: `browser` skill. `acme` is test-only.
+Dev: `bin/dev`. Hosts and auth: `browser` skill. `acme` is test-only.
 
 ## Code
 
-Vanilla Rails, rich models. No service, query, or form objects. `Archspec.rb` enforces that; `bin/archspec check` after an edit. Model concerns: `app/models/member/billing.rb`; shared: `app/models/concerns/`.
+Vanilla Rails, rich models. No service, query, or form objects. `Archspec.rb` enforces that. Model concerns: `app/models/member/billing.rb`; shared: `app/models/concerns/`.
 
 ActiveAdmin: `app/admin/`, DSL `lib/active_admin/`. Custom actions must authorize via `Ability`. UI: `DESIGN.md`.
 

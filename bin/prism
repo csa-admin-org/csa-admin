@@ -1,0 +1,78 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Prism warnings RuboCop's omakase set does not catch.
+# Not every -w warning: void context and indentation mismatch are too noisy.
+#
+#   bin/prism check
+#   bin/prism check app/models
+
+require "rubygems"
+require "bundler/setup"
+require "prism"
+
+WARNINGS = %i[
+  unused_local_variable
+  unreachable_statement
+  duplicated_hash_key
+  equal_in_conditional
+  equal_in_conditional_3_3
+].freeze
+
+SKIP = %w[.git .agents node_modules storage tmp vendor].freeze
+EXTENSIONS = %w[.rb .rake .ru].freeze
+NAMES = %w[Gemfile Rakefile].freeze
+
+def ruby_file?(path)
+  return true if EXTENSIONS.include?(File.extname(path)) || NAMES.include?(File.basename(path))
+
+  File.extname(path).empty? && ruby_shebang?(path)
+end
+
+def ruby_shebang?(path)
+  line = File.binread(path, 80)
+  line&.start_with?("#!") && line.match?(/\bruby\b/)
+end
+
+def skipped?(path)
+  SKIP.any? { |dir| path.split("/").include?(dir) }
+end
+
+def files(paths)
+  roots = paths.empty? ? [ "." ] : paths
+  roots.flat_map { |root|
+    if File.file?(root)
+      [ root ]
+    else
+      Dir.glob(File.join(root, "**", "*"), File::FNM_DOTMATCH)
+    end
+  }.uniq.select { |path| File.file?(path) && ruby_file?(path) && !skipped?(path) }.sort
+end
+
+unless ARGV.first.nil? || ARGV.first == "check"
+  warn "Usage: bin/prism [check] [paths...]"
+  exit 64
+end
+
+ARGV.shift if ARGV.first == "check"
+
+checked = files(ARGV)
+offenses = []
+checked.each do |path|
+  result = Prism.parse_file(path)
+  result.errors.each do |error|
+    offenses << "#{path}:#{error.location.start_line}: #{error.message}"
+  end
+  result.warnings.each do |warning|
+    next unless WARNINGS.include?(warning.type)
+
+    offenses << "#{path}:#{warning.location.start_line}: #{warning.message}"
+  end
+end
+
+if offenses.any?
+  warn offenses.join("\n")
+  exit 1
+end
+
+puts "#{checked.size} files, no offenses detected"

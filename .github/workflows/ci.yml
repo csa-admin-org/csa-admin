@@ -33,6 +33,9 @@ jobs:
           bootstrap: true
           cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
 
+      - name: Prism
+        run: bin/prism check
+
       - name: Locales
         run: bin/locales check
 
