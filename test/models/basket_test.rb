@@ -62,6 +62,45 @@ class BasketTest < ActiveSupport::TestCase
     end
   end
 
+  test "complements_price ignores a complement marked for removal" do
+    basket = baskets(:jane_1)
+    basket.baskets_basket_complements.to_a.sole.mark_for_destruction
+
+    assert_equal 0, basket.complements_price
+  end
+
+  test "update removes a complement posted with a blank price" do
+    travel_to "2024-01-01"
+    org(
+      features: [ :basket_price_extra ],
+      basket_price_extra_dynamic_pricing: "{{ complements_price | times: extra }}")
+    basket = baskets(:jane_1)
+    complement = basket.baskets_basket_complements.sole
+
+    basket.assign_attributes(
+      price_extra: 2,
+      baskets_basket_complements_attributes: {
+        "0" => {
+          id: complement.id,
+          basket_complement_id: complement.basket_complement_id,
+          price: "",
+          quantity: complement.quantity,
+          _destroy: "1"
+        }
+      })
+    removed = basket.baskets_basket_complements.find(&:marked_for_destruction?)
+
+    assert_nil removed.price
+    assert_equal 0, basket.complements_price
+
+    basket.save!
+
+    basket.reload
+    assert_empty basket.baskets_basket_complements
+    assert_equal 0, basket.complements_price
+    assert_equal 0, basket.calculated_price_extra
+  end
+
   test "sets basket_complement on creation when its match membership subscriptions" do
     travel_to "2024-01-01"
     membership = memberships(:jane)

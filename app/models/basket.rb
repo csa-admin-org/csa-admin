@@ -90,7 +90,9 @@ class Basket < ApplicationRecord
   end
 
   def complements_price
-    baskets_basket_complements.sum { |bbc| bbc.quantity.to_i * bbc.price }
+    baskets_basket_complements.reject(&:marked_for_destruction?).sum { |bbc|
+      bbc.quantity.to_i * bbc.price
+    }
   end
 
   def config
