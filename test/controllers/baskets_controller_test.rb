@@ -314,6 +314,39 @@ class BasketsControllerTest < ActionDispatch::IntegrationTest
     assert_select "[data-controller='form-absent-quantity']", count: 0
   end
 
+  test "update removes a complement posted with a blank price" do
+    org(
+      features: [ :absence, :basket_price_extra ],
+      basket_price_extra_dynamic_pricing: "{{ complements_price | times: extra }}")
+    basket = baskets(:jane_1)
+    complement = basket.baskets_basket_complements.sole
+
+    patch basket_path(basket), params: {
+      basket: {
+        price_extra: "6.0",
+        basket_size_id: basket.basket_size_id,
+        basket_size_price: basket.basket_size_price,
+        quantity: basket.quantity,
+        depot_id: basket.depot_id,
+        baskets_basket_complements_attributes: {
+          "0" => {
+            id: complement.id,
+            basket_complement_id: complement.basket_complement_id,
+            price: "",
+            quantity: "1",
+            _destroy: "1"
+          }
+        }
+      }
+    }
+
+    assert_redirected_to membership_path(basket.membership)
+    basket.reload
+    assert_empty basket.baskets_basket_complements
+    assert_equal 0, basket.complements_price
+    assert_equal 0, basket.calculated_price_extra
+  end
+
   test "update only permits shift for included absent basket" do
     target = @membership.baskets.last
     source_quantity = @basket.quantity
