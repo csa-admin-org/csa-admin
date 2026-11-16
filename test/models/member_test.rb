@@ -267,6 +267,40 @@ class MemberTest < ActiveSupport::TestCase
     ], members(:jane).baskets.between(range).map { |b| [ b.delivery.date.to_s, b.trial? ] }
   end
 
+  test "updating trial_baskets_count refreshes current and future basket trial state and membership counts" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 2)
+    member = members(:john)
+    current_membership = memberships(:john)
+    future_membership = memberships(:john_future)
+
+    member.update!(trial_baskets_count: 0)
+
+    assert_equal 0, member.baskets.trial.count
+    [ current_membership, future_membership ].each do |membership|
+      membership.reload
+      assert_equal 0, membership.trial_baskets_count
+      assert_equal 0, membership.remaining_trial_baskets_count
+    end
+
+    eligible_before_future = member.baskets
+      .between(...future_membership.started_on)
+      .where(state: "normal")
+      .where("baskets.quantity > 0")
+      .count
+    member.update!(trial_baskets_count: eligible_before_future + 1)
+
+    current_membership.reload
+    future_membership.reload
+    assert current_membership.baskets.all?(&:trial?)
+    assert_equal current_membership.baskets.count, current_membership.trial_baskets_count
+    assert_equal current_membership.trial_baskets_count, current_membership.remaining_trial_baskets_count
+    assert_equal 1, future_membership.baskets.trial.count
+    assert_equal 1, future_membership.trial_baskets_count
+    assert_equal 1, future_membership.remaining_trial_baskets_count
+    assert future_membership.baskets.offset(1).all?(&:normal?)
+  end
+
   test "update_trial_baskets! ignores empty baskets (quantity = 0)" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 2)

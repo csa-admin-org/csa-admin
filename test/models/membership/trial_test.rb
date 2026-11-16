@@ -86,6 +86,29 @@ class Membership::TrialTest < ActiveSupport::TestCase
     assert_not membership.can_member_cancel_trial?
   end
 
+  test "can_member_cancel_trial? returns false when member trial_baskets_count is zero" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 4)
+    membership = memberships(:jane)
+    membership.update_baskets_counts!
+    membership.member.update_columns(trial_baskets_count: 2)
+
+    assert membership.baskets.trial.exists?
+    assert membership.can_member_cancel_trial?
+
+    membership.member.update_columns(trial_baskets_count: 0)
+    original_ended_on = membership.ended_on
+
+    assert_not membership.can_member_cancel_trial?
+
+    membership.cancel_trial!(renewal_note: "Should not be saved")
+
+    membership.reload
+    assert_equal original_ended_on, membership.ended_on
+    assert_nil membership.renewal_note
+    assert_not membership.canceled?
+  end
+
   test "can_member_cancel_trial? returns true until day before first non-trial basket" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 2)

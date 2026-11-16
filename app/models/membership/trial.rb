@@ -21,6 +21,7 @@ module Membership::Trial
 
   def can_member_cancel_trial?
     Current.org.trial_baskets?
+      && member.trial_baskets_count.positive?
       && (current? || future?)
       && !canceled?
       && contains_last_trial_basket?

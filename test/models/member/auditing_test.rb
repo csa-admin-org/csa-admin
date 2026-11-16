@@ -87,4 +87,23 @@ class Member::AuditingTest < ActiveSupport::TestCase
 
     assert_equal [ [ depots(:bakery).id ], [] ], audit.audited_changes["waiting_alternative_depot_ids"]
   end
+
+  test "audits changes to trial_baskets_count" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+
+    assert_difference(-> { Audit.where(auditable: member).count }, 1) do
+      member.update!(trial_baskets_count: 0)
+    end
+
+    audit = member.audits.last
+    assert_equal [ 2, 0 ], audit.audited_changes["trial_baskets_count"]
+  end
+
+  test "trial_baskets_count audit label follows the basket name" do
+    org(languages: %w[en fr], basket_i18n_scopes: { "en" => "basket", "fr" => "bag" })
+
+    assert_equal "Trial baskets", I18n.with_locale(:en) { Member.human_attribute_name(:trial_baskets_count) }
+    assert_equal "Sacs à l'essai", I18n.with_locale(:fr) { Member.human_attribute_name(:trial_baskets_count) }
+  end
 end

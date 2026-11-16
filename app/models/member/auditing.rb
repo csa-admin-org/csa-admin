@@ -60,6 +60,7 @@ module Member::Auditing
       :profession, :come_from, :note, :delivery_note, :food_note, \
       :annual_fee, :shares_info, :existing_shares_number, :required_shares_number, :desired_shares_number, \
       :shop_depot_id, :shop_delivery_cycle_id, :salary_basket, \
+      :trial_baskets_count, \
       :waiting_started_at, :waiting_membership_started_on, \
       :waiting_basket_size_id, :waiting_depot_id, :waiting_delivery_cycle_id, \
       :waiting_basket_price_extra, :waiting_activity_participations_demanded_annually, \
