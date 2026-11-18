@@ -29,6 +29,7 @@ module Billing
 
     def process_payments!
       return unless Rails.env.production?
+      return if @bank_connection&.ebics_payment_download_missing?
 
       operation = operation_config.payment_download
       process_btf_payments!(operation)

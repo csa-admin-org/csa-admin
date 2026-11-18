@@ -412,6 +412,7 @@ module ActiveAdmin::OrganizationSettingsHelper
 
   def organization_settings_bank_connection_health(connection)
     status = connection.health_status.to_s
+    status = "warning" if status == "errored" && connection.ebics_payment_download_missing?
     organization_settings_status_tag(
       t("active_admin.resources.organization.bank_connection.health_status.#{status}"),
       status: status)
@@ -434,8 +435,13 @@ module ActiveAdmin::OrganizationSettingsHelper
 
   def organization_settings_bank_connection_payment_automation(connection)
     status = organization_settings_ebics_payment_automation_status(connection)
-    organization_settings_warning_text(
-      t("active_admin.resources.organization.bank_connection.payment_automation_status.#{status}"))
+    text = if status == "missing_payment_reports"
+      t("active_admin.resources.organization.bank_connection.payment_automation_status.missing_payment_reports",
+        report: organization_settings_payment_report_format(connection))
+    else
+      t("active_admin.resources.organization.bank_connection.payment_automation_status.#{status}")
+    end
+    organization_settings_warning_text(text)
   end
 
   def organization_settings_bank_connection_last_import(connection)
@@ -459,6 +465,8 @@ module ActiveAdmin::OrganizationSettingsHelper
   end
 
   def organization_settings_bank_connection_error?(connection)
+    return false if connection.ebics_payment_download_missing?
+
     connection.health_status != "healthy" && connection.last_error_class != "UnexpectedEBICSCapability"
   end
 
@@ -513,12 +521,17 @@ module ActiveAdmin::OrganizationSettingsHelper
   def organization_settings_ebics_payment_automation_status(connection)
     return "missing_payment_download" unless organization_settings_ebics_payment_download_configured?(connection)
     return "missing_sepa_upload" if Current.org.sepa_configured? && !connection.sepa_direct_debit_upload?
+    return "missing_payment_reports" if connection.ebics_payment_download_missing?
 
     capabilities_check = connection.status_details.to_h.dig("last_capabilities_check").to_h
     return "capabilities_pending" if capabilities_check.blank?
     return "capabilities_warning" if capabilities_check["status"] == "warning"
 
     "ok"
+  end
+
+  def organization_settings_payment_report_format(connection)
+    connection.settings.to_h.dig("downloads", "payments", "btf", "message_name").presence
   end
 
   def organization_settings_ebics_payment_download_configured?(connection)

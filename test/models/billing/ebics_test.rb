@@ -138,6 +138,55 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     assert_equal [ Billing::EBICS::GET_PAYMENTS_FROM.ago.to_date.to_s, Date.current.to_s ], range
   end
 
+  test "skips payment download when the configured report is not advertised" do
+    org(country_code: "CH")
+    BankConnection.delete_all
+    connection = bank_connection(settings: btf_settings)
+    connection.update!(capabilities: {
+      "h005" => {
+        "htd_btf_downloads" => [
+          {
+            "admin_order_type" => "BTD",
+            "service" => {
+              "service_name" => "STM",
+              "scope" => "CH",
+              "container" => "ZIP",
+              "message_name" => "camt.052",
+              "version" => "04"
+            }
+          }
+        ]
+      }
+    })
+    client = BtfClientStub.new([ file_fixture("camt054.xml") ])
+
+    with_rails_env("production") do
+      assert_nil Billing::EBICS
+        .new(credentials, settings: btf_settings, ebics_client: client, bank_connection: connection)
+        .process_payments!
+    end
+
+    assert_empty client.calls
+    connection.reload
+    assert_not connection.last_import_attempted_at?
+    assert_nil connection.last_error_class
+  end
+
+  test "still downloads payments when capabilities have not been checked" do
+    org(country_code: "CH")
+    BankConnection.delete_all
+    connection = bank_connection(settings: btf_settings)
+    client = BtfClientStub.new([])
+
+    with_rails_env("production") do
+      assert Billing::EBICS
+        .new(credentials, settings: btf_settings, ebics_client: client, bank_connection: connection)
+        .process_payments!
+    end
+
+    assert_equal :download_and_process, client.calls.first.first
+  end
+
   test "process payments updates bank connection import status" do
     org(country_code: "CH")
     BankConnection.delete_all

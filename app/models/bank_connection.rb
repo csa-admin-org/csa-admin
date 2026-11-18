@@ -99,6 +99,21 @@ class BankConnection < ApplicationRecord
     Billing::EBICS::KeyMetadata.inspectable_key_summary(credentials)
   end
 
+  def ebics_payment_download_missing?
+    return false unless ebics?
+
+    operation = Billing::EBICS::OperationConfig.new(settings).payment_download
+    advertised = ebics_advertised_payment_downloads
+    return false if advertised.empty?
+
+    configured = operation.btf.slice(*EBICS_BTF_SERVICE_KEYS).compact_blank
+    advertised.none? { |service|
+      service.to_h.deep_stringify_keys.slice(*EBICS_BTF_SERVICE_KEYS).compact_blank == configured
+    }
+  rescue Billing::EBICS::UnsupportedOperation
+    false
+  end
+
   def mark_import_attempted!(operation: nil)
     now = Time.current
     update_status!(
@@ -382,6 +397,12 @@ class BankConnection < ApplicationRecord
 
     errors.add(:settings, message) unless complete
     complete
+  end
+
+  def ebics_advertised_payment_downloads
+    h005 = capabilities.to_h.deep_stringify_keys.fetch("h005") { {} }
+    downloads = Array(h005["htd_btf_downloads"]).filter_map { |info| info.to_h.deep_stringify_keys["service"] }
+    downloads + Array(h005["haa_available_downloads"])
   end
 
   def ebics_sepa_direct_debit_upload_advertised?(operation)

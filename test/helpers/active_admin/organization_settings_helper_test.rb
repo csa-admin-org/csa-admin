@@ -102,6 +102,42 @@ class ActiveAdmin::OrganizationSettingsHelperTest < ActionView::TestCase
       "Direct debit upload is not fully configured yet."
   end
 
+  test "active EBICS card names a missing payment report and hides the client error" do
+    org(country_code: "CH", features: [], sepa_creditor_identifier: nil)
+    connection = BankConnection.create!(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      health_status: "errored",
+      last_error_class: "Billing::EBICS::ClientError",
+      last_error_message: "EBICS response 090003",
+      credentials: synthetic_ebics_credentials,
+      settings: h005_payment_settings,
+      capabilities: {
+        "h005" => {
+          "htd_btf_downloads" => [
+            {
+              "admin_order_type" => "BTD",
+              "service" => {
+                "service_name" => "STM",
+                "scope" => "CH",
+                "container" => "ZIP",
+                "message_name" => "camt.052",
+                "version" => "04"
+              }
+            }
+          ]
+        }
+      })
+
+    assert organization_settings_bank_connection_payment_automation_warning?(connection)
+    assert_includes organization_settings_bank_connection_payment_automation(connection),
+      "The bank does not offer camt.054 payment reports. Contact the bank to enable them."
+    assert_includes organization_settings_bank_connection_health(connection), "Warning"
+    assert_not_includes organization_settings_bank_connection_health(connection), "Error"
+    assert_not organization_settings_bank_connection_error?(connection)
+  end
+
   test "active EBICS card warns when payment automation needs review" do
     org(country_code: "CH", features: [], sepa_creditor_identifier: nil)
     connection = BankConnection.create!(
