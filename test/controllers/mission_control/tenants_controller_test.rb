@@ -19,7 +19,7 @@ class MissionControl::TenantsControllerTest < ActionDispatch::IntegrationTest
     assert_select "html[data-theme=system]"
     assert_select ".mc-tenant-name", text: "acme"
     assert_select ".mc-tenant-name", text: "beta"
-    assert_select "a.mc-portal-link[href=?]", "https://admin.acme.test"
+    assert_select "a.mc-portal-link[href=?]", "https://admin.acme.test?mc_login=true"
     assert_select "a.mc-portal-link[href=?]", "https://members.acme.test"
     assert_select ".mc-tenant-aliases", count: 0
   end

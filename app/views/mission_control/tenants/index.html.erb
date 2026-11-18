@@ -88,7 +88,7 @@
         </div>
 
         <div class="mc-tenant-portals">
-          <%= link_to "Admin", tenant[:admin_url],
+          <%= link_to "Admin", "#{tenant[:admin_url]}?mc_login=true",
                 class: "mc-portal-link",
                 data: {
                   tenant_filter_target: "link",

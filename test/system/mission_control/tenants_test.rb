@@ -15,7 +15,7 @@ class MissionControl::TenantsTest < ApplicationSystemTestCase
 
     assert_selector ".mc-tenant-name", text: "acme"
     assert_selector ".mc-tenant-name", text: "beta"
-    assert_link "Admin", href: "https://admin.acme.test"
+    assert_link "Admin", href: "https://admin.acme.test?mc_login=true"
     assert_link "Members", href: "https://members.acme.test"
     assert_selector ".mc-brand-title", text: "CSA Admin"
     assert_selector ".mc-filter-input"
