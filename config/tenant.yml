@@ -170,6 +170,12 @@ production: &production
       - dufonddeletang
       - etang
     state: onboarding
+  sophienhof:
+    admin_host: admin.sophienhof-oldendorf.de
+    members_host: mitglieder.sophienhof-oldendorf.de
+    aliases:
+      - oldendorf
+    state: onboarding
 
   zalpenblick:
     admin_host: admin.zalpenblick.ch
