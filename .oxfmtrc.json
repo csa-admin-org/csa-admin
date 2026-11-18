@@ -2,5 +2,13 @@
   "printWidth": 100,
   "semi": false,
   "trailingComma": "none",
-  "ignorePatterns": ["*.yaml", "*.yml", "*.tmp", "vendor/**", ".agents/**"]
+  "ignorePatterns": [
+    "*.yaml",
+    "*.yml",
+    "*.tmp",
+    "vendor/**",
+    ".agents/**",
+    "worktrees/**",
+    ".cursor/**"
+  ]
 }

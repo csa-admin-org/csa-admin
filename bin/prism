@@ -19,7 +19,7 @@ WARNINGS = %i[
   equal_in_conditional_3_3
 ].freeze
 
-SKIP = %w[.git .agents node_modules storage tmp vendor].freeze
+SKIP = %w[.git .agents node_modules storage tmp vendor worktrees].freeze
 EXTENSIONS = %w[.rb .rake .ru].freeze
 NAMES = %w[Gemfile Rakefile].freeze
 

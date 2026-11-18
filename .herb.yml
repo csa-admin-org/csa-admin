@@ -22,6 +22,7 @@ files:
     - 'tmp/**/*'
     - 'vendor/**/*'
     - 'lib/templates/erb/scaffold/**/*'
+    - 'worktrees/**/*'
 
 # engine:
 #   validators:
@@ -38,6 +39,7 @@ linter:
   # Patterns to exclude from linting
   exclude:
     - 'public/**/*'
+    - 'worktrees/**/*'
 
   rules:
     erb-no-extra-newline:
@@ -78,6 +80,7 @@ formatter:
   exclude:
     - '**/*.liquid.erb'
     - 'public/**/*'
+    - 'worktrees/**/*'
 
   # Rewriters modify templates during formatting
   rewriter:
