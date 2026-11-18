@@ -4201,18 +4201,18 @@ _:
               _de: Zahlungsautomatisierung benötigt eine Prüfung.
               _it: L'automazione dei pagamenti richiede una revisione.
               _nl: Betalingsautomatisering moet worden nagekeken.
-            missing_payment_reports:
-              _en: The bank does not offer %{report} payment reports. Contact the bank to enable them.
-              _fr: La banque ne propose pas de rapports de paiements en %{report}. Contactez la banque pour les activer.
-              _de: Die Bank bietet keine %{report}-Zahlungsreports. Zum Aktivieren die Bank kontaktieren.
-              _it: La banca non offre report dei pagamenti in %{report}. Contattate la banca per attivarli.
-              _nl: De bank biedt geen %{report}-betalingsrapporten. De bank contacteren om ze te activeren.
             missing_payment_download:
               _en: Payment download is not fully configured yet.
               _fr: Le téléchargement des paiements n'est pas encore entièrement configuré.
               _de: Zahlungsdownload ist noch nicht vollständig konfiguriert.
               _it: Lo scaricamento dei pagamenti non è ancora completamente configurato.
               _nl: Betalingsdownload is nog niet volledig geconfigureerd.
+            missing_payment_reports:
+              _en: The bank does not offer %{report} payment reports. Contact the bank to enable them.
+              _fr: La banque ne propose pas de rapports de paiements en %{report}. Contactez la banque pour les activer.
+              _de: Die Bank bietet keine %{report}-Zahlungsreports. Zum Aktivieren die Bank kontaktieren.
+              _it: La banca non offre report dei pagamenti in %{report}. Contattate la banca per attivarli.
+              _nl: De bank biedt geen %{report}-betalingsrapporten. De bank contacteren om ze te activeren.
             missing_sepa_upload:
               _en: Direct debit upload is not fully configured yet.
               _fr: L'envoi des prélèvements n'est pas encore entièrement configuré.
