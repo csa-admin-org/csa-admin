@@ -63,9 +63,6 @@ module Billing
       simulate_invoicing(unbilled, next_billing_date, last_month)
     end
 
-    # Already-billed periods are omitted above. A later price change can still
-    # leave missing_invoices_amount, which Billing::Invoicer bills on next_date.
-    # That balance belongs on the same month so the dashboard lines match the total.
     def place_remaining_amount(amounts, next_billing_date)
       projected = amounts.values.sum(0.to_d) { |amount| amount.to_d.round(2) }
       remainder = membership.missing_invoices_amount.to_d - projected
