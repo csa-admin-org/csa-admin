@@ -132,6 +132,79 @@ class Billing::PrevisionalInvoicingTest < ActiveSupport::TestCase
     assert_equal 0, membership.missing_invoices_amount
   end
 
+  test "annual price increase after the only period is invoiced lands on the next billing month" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    assert_equal 1, membership.billing_year_division
+    force_invoice(member)
+
+    # Tuesday 30 January. Recurring billing is Monday, so the next billing day is 5 February.
+    travel_to "2024-01-30"
+    membership.update!(baskets_annual_price_change: 30)
+    membership.reload
+
+    next_date = Billing::Invoicer.new(member, membership: membership).next_date(previsional: true)
+    assert_equal Date.new(2024, 2, 5), next_date
+    assert_equal 30, membership.missing_invoices_amount
+
+    result = Billing::PrevisionalInvoicing.new(membership).compute
+
+    assert_equal({ "2024-02" => 30.0 }, result)
+    assert_equal result, membership.previsional_invoicing_amounts
+    assert_sum_equals_missing membership, result
+  end
+
+  test "annual price increase past the fiscal year stays on the clamped invoicer date" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    force_invoice(member)
+
+    # Next Monday is 6 January 2025, after the fiscal year, so Invoicer bills on 31 December.
+    travel_to "2024-12-31"
+    membership.update!(baskets_annual_price_change: 30)
+    membership.reload
+
+    next_date = Billing::Invoicer.new(member, membership: membership).next_date(previsional: true)
+    assert_equal Date.new(2024, 12, 31), next_date
+
+    result = Billing::PrevisionalInvoicing.new(membership).compute
+
+    assert_equal({ "2024-12" => 30.0 }, result)
+    assert_sum_equals_missing membership, result
+  end
+
+  test "quarterly price increase after every period is invoiced lands on the next billing month" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+    membership.update!(billing_year_division: 4)
+    force_invoice(member)
+
+    travel_to "2024-04-01"
+    force_invoice(member)
+
+    travel_to "2024-07-01"
+    force_invoice(member)
+
+    travel_to "2024-10-01"
+    force_invoice(member)
+
+    travel_to "2024-11-26"
+    membership.update!(baskets_annual_price_change: 30)
+    membership.reload
+
+    next_date = Billing::Invoicer.new(member, membership: membership).next_date(previsional: true)
+    assert_equal Date.new(2024, 12, 2), next_date
+    assert_equal 30, membership.missing_invoices_amount
+
+    result = Billing::PrevisionalInvoicing.new(membership).compute
+
+    assert_equal({ "2024-12" => 30.0 }, result)
+    assert_sum_equals_missing membership, result
+  end
+
   test "salary basket member returns empty hash" do
     travel_to "2024-01-01"
     members(:john).update!(salary_basket: true)

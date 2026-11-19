@@ -26,6 +26,23 @@ module Billing
       next_billing_date = invoicer_next_date
       return {} unless next_billing_date
 
+      amounts = projected_period_amounts(next_billing_date)
+      place_remaining_amount(amounts, next_billing_date)
+    end
+
+    private
+
+    def projectable?
+      membership.price.present? &&
+        membership.missing_invoices_amount.positive? &&
+        !membership.member.salary_basket?
+    end
+
+    def invoicer_next_date
+      Billing::Invoicer.new(membership.member, membership: membership).next_date(previsional: true)
+    end
+
+    def projected_period_amounts(next_billing_date)
       periods = Billing::Periods.build(
         fiscal_year: membership.fiscal_year,
         billing_year_division: membership.billing_year_division)
@@ -46,16 +63,15 @@ module Billing
       simulate_invoicing(unbilled, next_billing_date, last_month)
     end
 
-    private
+    def place_remaining_amount(amounts, next_billing_date)
+      projected = amounts.values.sum(0.to_d) { |amount| amount.to_d.round(2) }
+      remainder = membership.missing_invoices_amount.to_d - projected
+      return amounts unless remainder.positive?
 
-    def projectable?
-      membership.price.present? &&
-        membership.missing_invoices_amount.positive? &&
-        !membership.member.salary_basket?
-    end
-
-    def invoicer_next_date
-      Billing::Invoicer.new(membership.member, membership: membership).next_date(previsional: true)
+      month_key = next_billing_date.strftime("%Y-%m")
+      current = amounts.fetch(month_key, 0).to_d.round(2)
+      amounts[month_key] = (current + remainder).to_f
+      amounts.sort.to_h
     end
 
     def membership_invoice_dates
