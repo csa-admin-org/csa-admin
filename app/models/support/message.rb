@@ -22,7 +22,7 @@ module Support
     after_create :bump_ticket_last_activity
     after_commit :notify, on: :create
 
-    attr_accessor :skip_notify
+    attr_accessor :skip_notify, :form_nudge
 
     def via
       @via || :app
@@ -146,7 +146,10 @@ module Support
       # worker can run the mail job before that PUT finishes. A short wait
       # is enough: retrying the failed job once the object existed succeeded.
       wait = 5.seconds
-      SupportMailer.with(message: self).wrap_email.deliver_later(wait:) if wrap?
+      if wrap?
+        SupportMailer.with(message: self, form_nudge: form_nudge.present?)
+          .wrap_email.deliver_later(wait:)
+      end
       SupportMailer.with(message: self).ping_email.deliver_later(wait:) if ping?
       Support::MessageNotifyJob.perform_later(self) if Support::Ticket.webhook_url
     end
