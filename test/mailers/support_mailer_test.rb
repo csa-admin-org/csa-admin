@@ -228,4 +228,140 @@ class SupportMailerTest < ActionMailer::TestCase
     mail = SupportMailer.with(message: reply).wrap_email
     assert_nil mail.to
   end
+
+  test "converted wrap email nudges the admin toward the in-app form" do
+    {
+      "en" => "support request form",
+      "fr" => "formulaire de demande de support",
+      "de" => "Formular für Supportanfragen",
+      "it" => "modulo di richiesta di supporto",
+      "nl" => "formulier voor ondersteuningsverzoeken"
+    }.each do |language, phrase|
+      mail = converted_wrap_mail(language)
+      text = mail.text_part.body.to_s
+      html = mail.html_part.body.to_s
+      url = admin_support_tickets_url
+      link = Nokogiri::HTML(html).at_css("p.form_nudge a")
+
+      assert_equal [ admins(:external).email ], mail.to
+      assert_includes text, I18n.t("support.mailer.form_nudge_text", locale: language, url: url)
+      assert_equal url, link["href"]
+      assert_equal phrase, link.text
+      assert_operator text.index("++\nThibaud"), :<, text.index(phrase)
+      assert_operator text.index(phrase), :<, text.index("> Hello")
+      assert_operator html.index("Thibaud"), :<, html.index("form_nudge")
+      assert_operator html.index("form_nudge"), :<, html.index("quoted_header")
+      mail.deliver_now
+      nudge = Nokogiri::HTML(ActionMailer::Base.deliveries.last.html_part.body.to_s)
+        .at_css("p.form_nudge")
+      assert_includes nudge["style"], "font-size: 13px"
+      assert_includes nudge["style"], "color: #6b7280"
+    end
+  end
+
+  test "wrap email omits the form nudge except on a converted reply" do
+    admins(:external).update!(language: "en")
+    phrase = "support request form"
+    url = admin_support_tickets_url
+
+    reply = @ticket.messages.create!(
+      author: "support",
+      body: "Here is the answer",
+      via: :app)
+    ordinary = wrap_mail_for(reply)
+    assert_not ordinary[:params][:form_nudge]
+    assert_form_nudge_absent(ordinary[:mail], phrase, url)
+
+    converted_wrap_mail("en")
+    ticket = Support::Ticket.order(:id).last
+    follow_up = wrap_mail_for(ticket.messages.create!(
+      author: "support",
+      body: "A later reply",
+      via: :app))
+    assert_not follow_up[:params][:form_nudge]
+    assert_form_nudge_absent(follow_up[:mail], phrase, url)
+
+    with_env("SUPPORT_EMAIL" => "support@csa-admin.org") do
+      ping = SupportMailer.with(message: reply, form_nudge: true).ping_email
+      assert_not_includes ping.body.encoded, phrase
+      assert_not_includes ping.body.encoded, "(#{url})"
+    end
+  end
+
+  private
+
+  def converted_wrap_mail(language)
+    admins(:external).update!(language: language)
+    params = nil
+    with_env(
+      "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+      "ULTRA_ADMIN_NAME" => "Thibaud",
+      "SUPPORT_EMAIL" => "support@csa-admin.org") do
+      params = wrap_params_during do
+        Support::Ticket.convert_inbound(Support::Inbound.parse(
+          "To" => "ticket-acme@support.csa-admin.org",
+          "From" => "support+high@csa-admin.org",
+          "Subject" => "Re: Informal help #{language}",
+          "TextBody" => <<~TEXT,
+            Here is the answer
+
+            On Mon, Jane Doe <#{admins(:external).email}> wrote:
+            Hello
+          TEXT
+          "Headers" => [ {
+            "Name" => "Message-ID",
+            "Value" => "<convert-nudge-#{language}@mail>"
+          } ]))
+      end
+    end
+    assert params[:form_nudge]
+    SupportMailer.with(params).wrap_email
+  end
+
+  def wrap_mail_for(message)
+    params = wrap_params.find { |payload| payload[:message] == message }
+    assert params, "expected a wrap_email for message #{message.id}"
+    { params: params, mail: SupportMailer.with(params).wrap_email }
+  end
+
+  def wrap_params_during
+    before = enqueued_jobs.map { |job| job["job_id"] }
+    yield
+    payloads = enqueued_jobs.filter_map { |job|
+      wrap_job_params(job) unless before.include?(job["job_id"])
+    }
+    assert_equal 1, payloads.size
+    payloads.first
+  end
+
+  def wrap_params
+    enqueued_jobs.filter_map { |job| wrap_job_params(job) }
+  end
+
+  def wrap_job?(job)
+    job[:job] == ActionMailer::MailDeliveryJob && job[:args][1] == "wrap_email"
+  end
+
+  def wrap_job_params(job)
+    return unless wrap_job?(job)
+
+    raw = job[:args].find { |arg|
+      arg.is_a?(Hash) && (arg["params"] || arg[:params])
+    }
+    ActiveJob::Arguments.deserialize([ raw ]).first[:params]
+  end
+
+  def assert_form_nudge_absent(mail, phrase, url)
+    text = mail.text_part.body.to_s
+    html = mail.html_part.body.to_s
+    assert_not_includes text, phrase
+    assert_not_includes html, phrase
+    assert_nil Nokogiri::HTML(html).at_css("p.form_nudge")
+    assert_not_includes text, "(#{url})"
+  end
+
+  def admin_support_tickets_url
+    Rails.application.routes.url_helpers.support_tickets_url(
+      **Tenant.local_url_options(Tenant.admin_host))
+  end
 end

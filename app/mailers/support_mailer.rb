@@ -14,6 +14,7 @@ class SupportMailer < ApplicationMailer
     I18n.with_locale(wrap_locale) do
       @header = nil
       @reply_marker = true
+      @form_nudge = params[:form_nudge]
       @previous = @message.previous
       attach_files
       sign_wrap!

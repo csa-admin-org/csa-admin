@@ -234,7 +234,8 @@ module Support
             body: inbound.reply.body,
             html: inbound.reply.html,
             rfc_message_id: rfc_id,
-            attachments: remaining)
+            attachments: remaining,
+            form_nudge: true)
         end
       end
       ticket
@@ -257,7 +258,9 @@ module Support
         attachments: inbound.attachments)
     end
 
-    def persist_inbound_message(author:, body:, rfc_message_id:, attachments: nil, admin: nil, html: nil, skip_notify: false)
+    def persist_inbound_message(
+      author:, body:, rfc_message_id:, attachments: nil, admin: nil,
+      html: nil, skip_notify: false, form_nudge: false)
       body = Support::Utf8.repair(body.to_s)
       html = Support::Utf8.repair(html.to_s).presence
       plain = body.presence || ActionText::Content.new(html.to_s).to_plain_text.presence
@@ -272,6 +275,7 @@ module Support
         via: :inbound,
         rfc_message_id: rfc_message_id)
       message.skip_notify = true if skip_notify
+      message.form_nudge = true if form_nudge
       rewritten = message.attach_inbound(attachments, html: html)
       message.html = rewritten.presence || html if html.present? || rewritten.present?
       message.save!

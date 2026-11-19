@@ -39,6 +39,17 @@
   font-weight: 600;
 }
 
+.form_nudge {
+  margin: 16px 0 0 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: #6b7280;
+}
+
+.form_nudge a {
+  color: #6b7280;
+}
+
 .quoted_header {
   margin: 1.2em 0 0.4em 0;
 }

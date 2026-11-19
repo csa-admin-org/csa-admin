@@ -1,1 +1,4 @@
-<%= @body %><%= @quoted_text %>
+<%= @body %><% if @form_nudge %>
+
+<%= t("support.mailer.form_nudge_text", url: support_tickets_url) -%>
+<% end %><%= @quoted_text %>

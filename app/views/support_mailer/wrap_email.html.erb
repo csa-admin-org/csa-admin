@@ -4,6 +4,12 @@
   <%= simple_format(@body) %>
 <% end %>
 
+<% if @form_nudge %>
+  <p class="form_nudge">
+    <%= t("support.mailer.form_nudge_html", url: support_tickets_url) %>
+  </p>
+<% end %>
+
 <% if @previous %>
   <p class="quoted_header"><%= @quoted_header %></p>
   <blockquote type="cite">

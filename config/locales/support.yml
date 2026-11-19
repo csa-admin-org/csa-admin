@@ -7,6 +7,18 @@ _:
         _de: Unterhaltung ansehen
         _it: Vedere la conversazione
         _nl: Het gesprek bekijken
+      form_nudge_html:
+        _en: Please use the <a href="%{url}">support request form</a> directly in the application, so I can keep requests in one place.
+        _fr: Merci d'utiliser le <a href="%{url}">formulaire de demande de support</a> directement dans l'application, cela me permet de centraliser les demandes.
+        _de: Bitte das <a href="%{url}">Formular für Supportanfragen</a> direkt in der Anwendung verwenden, damit die Anfragen zentral gesammelt werden.
+        _it: Grazie di usare il <a href="%{url}">modulo di richiesta di supporto</a> direttamente nell'applicazione, così posso raccogliere le richieste in un unico posto.
+        _nl: Het <a href="%{url}">formulier voor ondersteuningsverzoeken</a> rechtstreeks in de applicatie gebruiken, zodat de verzoeken op één plek binnenkomen.
+      form_nudge_text:
+        _en: Please use the support request form (%{url}) directly in the application, so I can keep requests in one place.
+        _fr: Merci d'utiliser le formulaire de demande de support (%{url}) directement dans l'application, cela me permet de centraliser les demandes.
+        _de: Bitte das Formular für Supportanfragen (%{url}) direkt in der Anwendung verwenden, damit die Anfragen zentral gesammelt werden.
+        _it: Grazie di usare il modulo di richiesta di supporto (%{url}) direttamente nell'applicazione, così posso raccogliere le richieste in un unico posto.
+        _nl: Het formulier voor ondersteuningsverzoeken (%{url}) rechtstreeks in de applicatie gebruiken, zodat de verzoeken op één plek binnenkomen.
       ping:
         header:
           _en: "%{org} (%{tenant}) — %{author}"
