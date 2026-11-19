@@ -37,7 +37,7 @@ When a change introduces, renames, or removes a lasting domain idea
    (`app/models/…`), and non-obvious gotchas only.
 4. Prefer one established name; do not cycle synonyms in new prose.
 5. No secrets, credentials, tenant slugs, or PII. Link task history under
-   `.agents/tasks/done/` only when it helps archaeology.
+   `.workbench/tasks/done/` only when it helps archaeology.
 
 Do not expand the glossary into a handbook. If the nuance belongs in
 `docs/`, `AGENTS.md`, or a skill, point there instead of duplicating.
