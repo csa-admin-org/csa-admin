@@ -227,6 +227,7 @@ GEM
       bigdecimal
       rexml
     crass (1.0.8)
+    cruise (0.3.0)
     cruise (0.3.0-aarch64-linux-gnu)
     cruise (0.3.0-arm64-darwin)
     cruise (0.3.0-x86_64-linux-gnu)
@@ -243,6 +244,8 @@ GEM
     debug (1.11.1)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    difftastic (0.8.0)
+      pretty_please
     difftastic (0.8.0-aarch64-linux)
       pretty_please
     difftastic (0.8.0-arm64-darwin)
@@ -268,6 +271,7 @@ GEM
       logger
     faraday-net_http (3.5.0)
       net-http (~> 0.5)
+    ffi (1.17.4)
     ffi (1.17.4-aarch64-linux-gnu)
     ffi (1.17.4-arm64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
@@ -297,6 +301,7 @@ GEM
       activesupport (>= 7.0)
     hashdiff (1.2.2)
     hashery (2.1.2)
+    herb (0.11.2)
     herb (0.11.2-aarch64-linux-gnu)
     herb (0.11.2-arm64-darwin)
     herb (0.11.2-x86_64-linux-gnu)
@@ -400,6 +405,7 @@ GEM
     marcel (2.1.0)
     matrix (0.4.3)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (6.1.0)
       drb (~> 2.0)
       prism (>= 1.5, < 3)
@@ -436,6 +442,9 @@ GEM
     net-ssh (7.3.10)
       logger
     nio4r (2.7.5)
+    nokogiri (1.19.7)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.19.7-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.7-arm64-darwin)
@@ -489,6 +498,7 @@ GEM
     pretty_please (0.2.0)
       dispersion (~> 0.2)
     prettyprint (0.2.1)
+    prism (2.1.0)
     prism (2.1.0-aarch64-linux-gnu)
     prism (2.1.0-arm64-darwin)
     prism (2.1.0-x86_64-linux-gnu)
@@ -613,6 +623,7 @@ GEM
     rubyXL (3.4.38)
       nokogiri (>= 1.10.8)
       rubyzip (>= 3.2.2)
+    rubydex (0.4.4)
     rubydex (0.4.4-aarch64-linux)
     rubydex (0.4.4-arm64-darwin)
     rubydex (0.4.4-x86_64-linux)
@@ -637,6 +648,8 @@ GEM
     sqlean (0.3.0-arm64-darwin)
     sqlean (0.3.0-x86_64-linux-gnu)
     sqlean (0.3.0-x86_64-linux-musl)
+    sqlite3 (2.10.2)
+      mini_portile2 (~> 2.8.0)
     sqlite3 (2.10.2-aarch64-linux-gnu)
     sqlite3 (2.10.2-arm64-darwin)
     sqlite3 (2.10.2-x86_64-linux-gnu)
@@ -656,6 +669,7 @@ GEM
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.5.0)
+    thruster (0.1.27)
     thruster (0.1.27-aarch64-linux)
     thruster (0.1.27-arm64-darwin)
     thruster (0.1.27-x86_64-linux)
@@ -827,7 +841,7 @@ CHECKSUMS
   bootsnap (1.26.1) sha256=5b5bd90f8f13ea338627c1d56ffbe2ea25e743ac48c2afec1a9bea3a06a264e2
   brakeman (8.1.0) sha256=cfa9e5214e4925842f4bc849a64f8a7e6c5d0425fe98eac8d7b7bc60fdc17e07
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
-  bundler (4.0.23) sha256=407ba8a1d928f412847f819aa5f8b6aef7c59fb51feb517112af8a165487287b
+  bundler (4.1.0) sha256=d7b7a797b988e544a0677a9c6ed78146f2f63d05ae1af8bc7d9426cf88b46377
   bundler-audit (0.9.3) sha256=81c8766c71e47d0d28a0f98c7eed028539f21a6ea3cd8f685eb6f42333c9b4e9
   cancancan (3.7.0) sha256=6dfcc6056cc3d8205446bcb368f50913b6aceec2191b3f4d84e82b5607013722
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
@@ -844,6 +858,7 @@ CHECKSUMS
   countries (8.1.0) sha256=4d6b318b8e906f1f769d5c021c13a418d33e917dc96ceb625a91d8e7ab2d192e
   crack (1.0.1) sha256=ff4a10390cd31d66440b7524eb1841874db86201d5b70032028553130b6d4c7e
   crass (1.0.8) sha256=7a0145c7a2c59f8e7923b3a69ce819c444823a00a5127d805298fea13be24efe
+  cruise (0.3.0) sha256=db75b7c589d1746965708bb82433591647ee32d77690fe7c42582352e0851e43
   cruise (0.3.0-aarch64-linux-gnu) sha256=99c96550a7d2e740212978770d3867837371de335cd866e4755abd34b8428838
   cruise (0.3.0-arm64-darwin) sha256=6bb8bbef2ab7b4103849e1809435aa1922d07ec5e2c766a525626c41682ab5ff
   cruise (0.3.0-x86_64-linux-gnu) sha256=a7bdd7c72307a450a9d37f3c7a90c118230ea6122663b32b8c8e52cad32adfa8
@@ -853,6 +868,7 @@ CHECKSUMS
   date (3.6.0) sha256=18ac945c4e24ebd93534f8eab8c2fd8c5604b3e977105b3798d62a1e8d27b580
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
   debug (1.11.1) sha256=2e0b0ac6119f2207a6f8ac7d4a73ca8eb4e440f64da0a3136c30343146e952b6
+  difftastic (0.8.0) sha256=09bfb93be6b22a753d5c972db598cfc733907f6085b6d9fe8ac76c420ef233f3
   difftastic (0.8.0-aarch64-linux) sha256=e79f439de7b68dccee4ea9865c0acc342ac5961bf218b7aa3c75b1362e9b46b4
   difftastic (0.8.0-arm64-darwin) sha256=49dc3ef5cba13457d7dcd267356bb89c9612116702fffa860f4365c1b07df578
   difftastic (0.8.0-x86_64-linux) sha256=9c384dd9d2395b2b1b388922e1745f1472d19c4b3af9f83c0d22b30f6619208f
@@ -867,6 +883,7 @@ CHECKSUMS
   faker (3.8.0) sha256=c147b308df73a90f27a4fc84f18d4c22ef0ad9c2a64b2b61c86fd0ca71753efc
   faraday (2.15.1) sha256=8708154deda739c5e86cc42b74960e23e8491fce0eba9e11639a6a34b1ac288f
   faraday-net_http (3.5.0) sha256=2e7094c34e38754ee048cc3df47376f8657005d9375f8473bce1c3b526a22e36
+  ffi (1.17.4) sha256=bcd1642e06f0d16fc9e09ac6d49c3a7298b9789bcb58127302f934e437d60acf
   ffi (1.17.4-aarch64-linux-gnu) sha256=b208f06f91ffd8f5e1193da3cae3d2ccfc27fc36fba577baf698d26d91c080df
   ffi (1.17.4-arm64-darwin) sha256=19071aaf1419251b0a46852abf960e77330a3b334d13a4ab51d58b31a937001b
   ffi (1.17.4-x86_64-linux-gnu) sha256=9d3db14c2eae074b382fa9c083fe95aec6e0a1451da249eab096c34002bc752d
@@ -884,6 +901,7 @@ CHECKSUMS
   has_scope (0.9.0) sha256=783a93006cf898525bb4899696f1d088c0f6ff897d6df2bf03fdbbe0d0b5124c
   hashdiff (1.2.2) sha256=e2e287452b42f18d2a8d82dd48c435e214a81dbadccf49344b956842a3b9127f
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
+  herb (0.11.2) sha256=926f16b6c552a077755f686d30f795db049a5596814a0dfd8133cbe36be787ba
   herb (0.11.2-aarch64-linux-gnu) sha256=b8015cba548ff79f04c69dd9ccf92a8dc8900fca8a0fc23b000f92fdf7219842
   herb (0.11.2-arm64-darwin) sha256=7a5e23818c3f784690384fc111eae50d6993723eb0c172a8a72d0be167281d78
   herb (0.11.2-x86_64-linux-gnu) sha256=2627fe909e7e6b0548926573d87a2e12b6d65bc85964832d34abf5ba165bfc37
@@ -924,6 +942,7 @@ CHECKSUMS
   marcel (2.1.0) sha256=f8b0327111dc7e516331eeefe052e981ce50e2bd826c1042a53cdf047fcc3512
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
+  mini_portile2 (2.8.9) sha256=0cd7c7f824e010c072e33f68bc02d85a00aeb6fce05bb4819c03dfd3c140c289
   minitest (6.1.0) sha256=ff373595aa8888631e8a5463986a76b3845346ae6d7fa46e139c1633d418076e
   minitest-difftastic (0.2.1) sha256=fc2c6e01cd839371772ed08604c9ce7b1567ee262e9dd4fef7d78665d1a99c45
   minitest-mock (5.27.0) sha256=7040ed7185417a966920987eaa6eaf1be4ea1fc5b25bb03ff4703f98564a55b0
@@ -938,6 +957,7 @@ CHECKSUMS
   net-smtp (0.5.2) sha256=35103cc04d6b2d94632f9928ede07483c24b70b9c0db1f231fea43909b678f3c
   net-ssh (7.3.10) sha256=8b54591acc8f9dbb63cd906add66a816c302f950cf92137b14155e809abea472
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
+  nokogiri (1.19.7) sha256=abe94507c54cb18f872777b16bdca4aad32b1abdc4c52fe843f1c80fbdf992b8
   nokogiri (1.19.7-aarch64-linux-gnu) sha256=8f5e15d299602456406e1f03a9f3456cceb33a0722811e818d2ee2214eb4c84a
   nokogiri (1.19.7-arm64-darwin) sha256=f27d7f25f4873fbc3aa35a2cc2fb680c98555fec1925348da439d0869d541142
   nokogiri (1.19.7-x86_64-linux-gnu) sha256=25865ccb462f714e712fdf8906fde07849cb6704a808e3d629d75baa5af5dd3b
@@ -961,6 +981,7 @@ CHECKSUMS
   premailer-rails (1.12.0) sha256=c13815d161b9bc7f7d3d81396b0bb0a61a90fa9bd89931548bf4e537c7710400
   pretty_please (0.2.0) sha256=1f00296f946ae8ffd53db25803ed3998d615b9cc07526517dc75fcca6af3a0d3
   prettyprint (0.2.1) sha256=d555d57ea6d7cf001d4774b693546a6bd88bec1e778ddffb5c60b68ceec4b7d4
+  prism (2.1.0) sha256=1c0a7c6dea0e93183390fb123f007564dbe663198e2f86ad87204151147601f3
   prism (2.1.0-aarch64-linux-gnu) sha256=808dddc72def68e1a0463689414c97e0ba211938eddbab05387a4844aa2b3ec2
   prism (2.1.0-arm64-darwin) sha256=2d0c2e3e011cfd89c041940907d3ff3def379d7b0f2ba158d1d42238e8ad8afc
   prism (2.1.0-x86_64-linux-gnu) sha256=b2b647afce09551e650b8bb3e2fc91d7d73d392a09534ca307ec0d619c33bfd4
@@ -1012,6 +1033,7 @@ CHECKSUMS
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
   ruby-vips (2.3.0) sha256=e685ec02c13969912debbd98019e50492e12989282da5f37d05f5471442f5374
   rubyXL (3.4.38) sha256=6b3f46a5ff8ec9903a562604a379a6b79b67cdec73515162b1785bd6092e6ce6
+  rubydex (0.4.4) sha256=f506bcc9f4ef4c55ac1312392410f95392ce919a4c0b0c36a18f243969bdd2ba
   rubydex (0.4.4-aarch64-linux) sha256=3638b08b7d683f264eb3215e86974c0f2458c7d63e4aab0c772d625e9e0392ea
   rubydex (0.4.4-arm64-darwin) sha256=e593b7a2b820e3d91ba3d6b7371916efe7c742b75d44f6eaa39cd04546211c09
   rubydex (0.4.4-x86_64-linux) sha256=6c9144ac21ec4455850bc3b087f0bdce350af9358429675610c9d61fb8bfccfd
@@ -1025,6 +1047,7 @@ CHECKSUMS
   sqlean (0.3.0-arm64-darwin) sha256=32ffa1e5a908a52c028fb06fa2dbe61f600a865c95960d7ec4f3fbc82f28bf78
   sqlean (0.3.0-x86_64-linux-gnu) sha256=51e7e0a66ceebf26c4a4509001412bea2214fb748752fde96a228db9cb2e85ce
   sqlean (0.3.0-x86_64-linux-musl) sha256=93eb4f18679539b64c478dd2d57e393404c036e0057a0a93b2a8089ea6caa94a
+  sqlite3 (2.10.2) sha256=f1ea68cd3287f8a49f39a088ac9e4bd0ef4e7f394c3d4a60dd4c7e44b0566964
   sqlite3 (2.10.2-aarch64-linux-gnu) sha256=e9aea2c2b3476fc875dd8a89313a9a2862818519c0186bfb5b56d6f57bb08d98
   sqlite3 (2.10.2-arm64-darwin) sha256=5b0d235ea037e6dcd1b8387a19d73be571917db9f93044d35741cf933a21a37d
   sqlite3 (2.10.2-x86_64-linux-gnu) sha256=ca92731ab464df9cae503fa1a439a549e2724f6953c8c05a7769b59366e38f15
@@ -1036,6 +1059,7 @@ CHECKSUMS
   strscan (3.1.8) sha256=aae2db611a225559f21ffbb71765c9a4e60fd262534a9ea84f4f11c7f32f679e
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
   thor (1.5.0) sha256=e3a9e55fe857e44859ce104a84675ab6e8cd59c650a49106a05f55f136425e73
+  thruster (0.1.27) sha256=5fd3855192bb4e8d13db69ae5f70d39f2dfd88fe0394fa372104996edf0bb599
   thruster (0.1.27-aarch64-linux) sha256=c50789f2dcd4dfa072c4719f99c38dea5d47ebb60ad0cc1fd1996b2266ecfd22
   thruster (0.1.27-arm64-darwin) sha256=ece0ff0f2ec195008030fbca97067e5e867f4e1f66501fa8b8a3ec3f829bf2bf
   thruster (0.1.27-x86_64-linux) sha256=7e0e6381011401810b047ff25506e0e38755b2430499ff5586f1a110086981c6
@@ -1062,4 +1086,4 @@ CHECKSUMS
   zeitwerk (2.8.3) sha256=2c85125a8467ce069e20123d1e709a08955c9d29c118c25b46b7b7fafdbb92e5
 
 BUNDLED WITH
-  4.0.23
+  4.1.0

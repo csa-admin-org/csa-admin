@@ -1,7 +1,7 @@
 min_version = { hard = "2026.9.9" }
 
 [tools]
-ruby = "4.0.9"
+ruby = "4.0.10"
 node = "latest"
 aube = "latest"
 jactionlint = "latest"
