@@ -146,6 +146,33 @@ class DeliveriesControllerTest < ActionDispatch::IntegrationTest
     assert_select "input#delivery_date[value='2024-09-18']"
   end
 
+  test "absences link uses basket quantities" do
+    travel_to "2024-04-01"
+    baskets(:anna_1).update_columns(state: "absent", quantity: 2)
+
+    get delivery_path(deliveries(:monday_1))
+
+    assert_response :success
+    assert_select ".delivery-footer a", text: "2 absences"
+    assert_select ".delivery-totals", text: /Total\s/
+    assert_select ".delivery-totals sup", count: 0
+    assert_select ".delivery-footer .is-italic", count: 0
+  end
+
+  test "delivery totals include absent quantities when the setting is on" do
+    travel_to "2024-04-01"
+    Current.org.update!(delivery_basket_counts_include_absences: true)
+    baskets(:anna_1).update_columns(state: "absent", quantity: 2)
+
+    get delivery_path(deliveries(:monday_1))
+
+    assert_response :success
+    assert_select ".delivery-footer a", text: "2 absences"
+    assert_select ".delivery-totals sup.delivery-total-mark", text: "*"
+    assert_select ".dashboard-section th sup.delivery-total-mark", text: "*"
+    assert_select ".delivery-footer.cluster.is-spread .is-italic", text: I18n.t("delivery.absences_included_mark")
+  end
+
   test "show depot rows include a sortable grip" do
     travel_to "2024-04-01"
     login admins(:super)

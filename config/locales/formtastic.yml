@@ -2311,6 +2311,12 @@ _:
           _de: Zahlungsintervall(e), das/die Mitgliedern im Anmelde- oder Verlängerungsformular angeboten wird/werden.
           _it: Intervallo(i) di pagamento proposto(i) ai soci nel modulo di registrazione o di rinnovo.
           _nl: Betalingsinterval(len) aangeboden aan leden in het registratie- of vernieuwingsformulier.
+        delivery_basket_counts_include_absences:
+          _en: Applied to the totals on the dashboard, the delivery page, the PDF sheets, and the XLSX file. Use this when an absence is redistributed and you always prepare the full number.
+          _fr: Appliqué aux totaux du tableau de bord, de la page de livraisons, des fiches PDF et XLSX. Utilisez cette option lorsqu'une absence est redistribuée et que vous préparez toujours le nombre complet.
+          _de: Gilt für die Summen im Dashboard, auf der Lieferseite, auf den PDF-Blättern und in der XLSX-Datei. Verwenden, wenn eine Abwesenheit umverteilt wird und immer die volle Anzahl vorbereitet wird.
+          _it: Applicato ai totali nella dashboard, nella pagina di consegna, nelle schede PDF e nel file XLSX. Usatela quando un'assenza viene redistribuita e preparate sempre il numero completo.
+          _nl: Van toepassing op de totalen op het dashboard, de leveringspagina, de PDF-bladen en het XLSX-bestand. Gebruiken wanneer een afwezigheid wordt herverdeeld en altijd het volledige aantal wordt klaargemaakt.
         delivery_cycles_member_order_mode:
           _en: Sets the order of delivery cycles in the registration form after considering their individual priority.
           _fr: Permet de définir l'ordre d'affichage des cycles de livraison dans le formulaire d'inscription, après avoir pris en compte leur priorité individuelle.

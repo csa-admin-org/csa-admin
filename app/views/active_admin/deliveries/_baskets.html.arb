@@ -2,6 +2,14 @@
 
 require "ostruct"
 
+total_label = if Current.org.delivery_basket_count_scope == :all
+  safe_join([
+    t("delivery.total"),
+    content_tag(:sup, "*", class: "delivery-total-mark")
+  ])
+else
+  t("active_admin.page.index.total", number: "")
+end
 bs_names = counts.basket_sizes.map(&:name).map { |name| content_tag :span, name, class: "is-nowrap" }
 show_shop_orders = feature?("shop") && delivery.shop_open && scope != :absent
 counts_by_depot = counts.all
@@ -70,7 +78,7 @@ if counts.present?
   end
 
   table_for nil, class: "delivery-totals data-no-hover" do
-    column(nil, :title, class: "col-name text-lg") { t("active_admin.page.index.total", number: "") }
+    column(nil, :title, class: "col-name text-lg") { total_label }
     if show_shop_orders
       column(class: "text-right text-lg") { counts.sum_shop_orders }
     end
@@ -90,7 +98,7 @@ if BasketComplement.kept.any?
           column link_to(t("shop.title"), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: "text-right"
         end
         column Membership.model_name.human(count: 2), :memberships_count, class: "text-right"
-        column t("active_admin.page.index.total", number: ""), :count, class: "text-right font-bold"
+        column total_label, :count, class: "text-right font-bold"
       end
     else
       em t("delivery.no_basket_complements"), class: "missing-data"

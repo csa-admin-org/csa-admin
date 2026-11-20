@@ -65,28 +65,29 @@ module PDF
     private
 
     def precompute_basket_sums
+      counted = counted_baskets
       @basket_sums_by_depot_and_size =
-        @baskets
-          .active
-          .group(:depot_id, :basket_size_id)
-          .sum(:quantity)
+        counted.group(:depot_id, :basket_size_id).sum(:quantity)
       @basket_sums_by_depot =
-        @baskets
-          .active
-          .group(:depot_id)
-          .sum(:quantity)
+        counted.group(:depot_id).sum(:quantity)
       @basket_sums_by_size =
-        @baskets
-          .active
-          .group(:basket_size_id)
-          .sum(:quantity)
-      @total_basket_sum = @baskets.active.sum(:quantity)
+        counted.group(:basket_size_id).sum(:quantity)
+      @total_basket_sum = counted.sum(:quantity)
+      @content_basket_sums_by_depot_and_size =
+        if Current.org.delivery_basket_count_scope == :active
+          @basket_sums_by_depot_and_size
+        else
+          @baskets.active.group(:depot_id, :basket_size_id).sum(:quantity)
+        end
+    end
+
+    def counted_baskets
+      @baskets.send(Current.org.delivery_basket_count_scope)
     end
 
     def precompute_complement_counts
       @basket_complement_counts_by_depot =
-        @baskets
-          .active
+        counted_baskets
           .joins(:baskets_basket_complements)
           .group(:depot_id, "baskets_basket_complements.basket_complement_id")
           .sum("baskets_basket_complements.quantity")
@@ -97,8 +98,7 @@ module PDF
           .group(:depot_id, "shop_product_variants.basket_complement_id")
           .sum("shop_order_items.quantity")
       @total_basket_complement_counts =
-        @baskets
-          .active
+        counted_baskets
           .joins(:baskets_basket_complements)
           .group("baskets_basket_complements.basket_complement_id")
           .sum("baskets_basket_complements.quantity")
@@ -112,6 +112,10 @@ module PDF
 
     def cached_basket_sum(depot_id, basket_size_id)
       @basket_sums_by_depot_and_size[[ depot_id, basket_size_id ]] || 0
+    end
+
+    def content_basket_sum(depot_id, basket_size_id)
+      @content_basket_sums_by_depot_and_size[[ depot_id, basket_size_id ]] || 0
     end
 
     def cached_depot_basket_sum(depot_id)
@@ -245,7 +249,11 @@ module PDF
       bounding_box [ page_border, cursor ], width: width, height: 25, position: :bottom do
         text_box "", width: depot_name_width, at: [ 0, cursor ]
         bs_names = basket_sizes.map(&:public_name)
-        bs_names << I18n.t("delivery.basket_sizes_total")
+        bs_names << if Current.org.delivery_basket_count_scope == :all
+          Current.org.delivery_total_label
+        else
+          I18n.t("delivery.basket_sizes_total")
+        end
         bs_names.each_with_index do |name, i|
           fill_color header_index.even? ? "666666" : "000000"
           text_box name,
@@ -1007,7 +1015,7 @@ module PDF
 
       basket_content.basket_sizes.sum do |bs|
         quantity_per_basket = basket_content.basket_quantity(bs)
-        baskets_count = depot_ids.sum { |did| cached_basket_sum(did, bs.id) }
+        baskets_count = depot_ids.sum { |did| content_basket_sum(did, bs.id) }
         quantity_per_basket * baskets_count
       end
     end

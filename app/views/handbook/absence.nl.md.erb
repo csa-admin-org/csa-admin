@@ -21,6 +21,8 @@ Annuleren herstelt de oorspronkelijke levering. Verschuiven zet de <%= Basket.mo
 
 Standaard worden <%= Basket.model_name.human(count: 2).downcase %> die als afwezig zijn gemarkeerd en niet geleverd worden, gefactureerd. Leden wordt aangeraden iemand te vragen hun <%= Basket.model_name.human.downcase %> op te halen. In [de instellingen](/settings#absence) kun je er ook voor kiezen ze niet te factureren. Het systeem [past dan automatisch de facturering aan](/handbook/billing#price-change) van het lidmaatschap.
 
+Wanneer een afwezigheid wordt herverdeeld en je toch elk abonnement klaarmaakt, zet [<%= Organization.human_attribute_name(:delivery_basket_counts_include_absences) %>](/settings#delivery_sheets) aan zodat die hoeveelheden in de leveringstotalen blijven. Zie [leveringsbladen](/handbook/deliveries#counts-including-absences).
+
 Als een lid weg is maar toch wil betalen, markeer geen afwezigheid, of houd facturering van afwezigheden in de instellingen. Het markeren als afwezig is wat een credit maakt wanneer facturering uit staat.
 
 ## Verschuiving van <%= Basket.model_name.human(count: 2).downcase %> {#basket-shift}

@@ -4,7 +4,7 @@ module XLSX
   class Delivery < Base
     def initialize(delivery, depot = nil)
       @delivery = delivery
-      @baskets = @delivery.baskets.active
+      @baskets = @delivery.baskets.send(Current.org.delivery_basket_count_scope)
       @shop_orders = @delivery.shop_orders.all_without_cart
       @shop_products = @shop_orders.products_displayed_in_delivery_sheets
       @depots = Depot.where(id: (@baskets.pluck(:depot_id) + @shop_orders.pluck(:depot_id)).uniq)
@@ -41,7 +41,8 @@ module XLSX
     def build_summary_worksheet
       add_worksheet(t("summary"))
 
-      cols = [ "", t("total") ]
+      total_label = Current.org.delivery_total_label
+      cols = [ "", total_label ]
       cols += @basket_sizes.map(&:name)
       if @basket_complements.any?
         cols << ""
@@ -70,7 +71,7 @@ module XLSX
         add_empty_line
       end
 
-      add_baskets_line(nil, bold: true, title: t("total"))
+      add_baskets_line(nil, bold: true, title: total_label)
 
       if Current.org.feature?("absence")
         add_empty_line
@@ -164,17 +165,28 @@ module XLSX
     end
 
     def build_absences_worksheet
-      baskets = @delivery.baskets.absent.includes(:membership, :member, :basket_size, :complements, baskets_basket_complements: :basket_complement)
+      absent = @delivery.baskets.absent
+      complements = absence_complements(absent)
+      baskets = absent.includes(:membership, :member, :basket_size, :depot, :complements, baskets_basket_complements: :basket_complement)
 
       members = baskets.map(&:member).sort_by(&:name)
       members.each do |member|
         member.basket = baskets.find { |b| b.membership.member_id == member.id }
       end
 
-      add_members_worksheet(::Absence.model_name.human(count: 2), members)
+      add_members_worksheet(
+        ::Absence.model_name.human(count: 2),
+        members,
+        complements: complements,
+        depot_column: true)
     end
 
-    def add_members_worksheet(name, members, mode: "signature", overlays: {})
+    def absence_complements(baskets)
+      ids = BasketComplement.for(baskets).pluck(:id) | @basket_complements.map(&:id)
+      BasketComplement.where(id: ids).ordered
+    end
+
+    def add_members_worksheet(name, members, mode: "signature", overlays: {}, complements: @basket_complements, depot_column: false)
       border = mode == "home_delivery" ? "thin" : "none"
 
       name = worksheet_name(name, members.size)
@@ -184,6 +196,12 @@ module XLSX
         Member.human_attribute_name(:name),
         members.map { |m| m.name },
         border: border)
+      if depot_column
+        add_column(
+          Depot.model_name.human,
+          members.map { |m| m.basket&.depot&.name },
+          border: border)
+      end
       add_column(
         Member.human_attribute_name(:phones),
         members.map { |m| m.phones_array.map { |p| display_phone(p) }.join(", ") },
@@ -222,7 +240,7 @@ module XLSX
         Basket.model_name.human,
         members.map { |m| m.basket&.basket_description || "-" },
         border: border)
-      if @basket_complements.any?
+      if complements.any?
         add_column(
           Basket.human_attribute_name(:complement_ids),
           members.map { |m| m.basket&.complements_description },
@@ -233,7 +251,7 @@ module XLSX
           I18n.t("shop.title_orders", count: 2),
           members.map { |m| m.shop_order ? "X" : "" },
           border: border)
-        if @basket_complements.any?
+        if complements.any?
           add_column(
             "#{Basket.human_attribute_name(:complement_ids)} (#{::Shop::Order.model_name.human(count: 1)})",
             members.map { |m| m.shop_order&.complements_description },

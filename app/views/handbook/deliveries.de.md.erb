@@ -176,6 +176,14 @@ Enthält ein Name mehrere Personen, die durch ein Komma oder eine Konjunktion (*
 
 Ein benutzerdefinierter Fusszeilentext kann über die [Einstellung für die Lieferungs-PDF-Fusszeile](/settings#delivery_sheets) zu allen Lieferscheinen hinzugefügt werden. Nützlich für eine Erinnerung, eine Dankesnachricht oder praktische Informationen.
 
+<% if Current.org.feature?("absence") %>
+### Zählungen mit Abwesenheiten {#counts-including-absences}
+
+Eine [Einstellung](/settings#delivery_sheets) behält abwesende <%= Basket.model_name.human(count: 2) %> in den Zählungen auf der Lieferseite, im Dashboard, auf den PDF-Blättern und in der Excel-Datei. Die PDF-Blätter und die Excel-Datei beschriften diese Summen mit "<%= I18n.t("delivery.total_including_absences") %>". Die Lieferseite und das Dashboard verwenden "<%= I18n.t("delivery.total") %>*" und setzen "<%= I18n.t("delivery.absences_included_mark") %>" kursiv unten links.
+
+Schalte sie ein, wenn eine Abwesenheit unter den anderen Mitgliedern umverteilt wird und Du immer die volle Anzahl vorbereitest. Abwesende Mitglieder bleiben auf dem PDF-Blatt, grau, mit ihren Mengen.
+<% end %>
+
 ### Ankündigungen {#announcements}
 
 Kurze Nachrichten können an bestimmte Depot/Lieferungs-Kombinationen angehängt werden und erscheinen auf den entsprechenden Lieferscheinen. Siehe die spezielle [Handbuchseite zu Ankündigungen](/handbook/announcements) für Details.

@@ -176,6 +176,14 @@ When a name contains multiple people joined by a comma or a conjunction (*und*, 
 
 A custom footer text can be added to all delivery sheets via the [delivery PDF footer setting](/settings#delivery_sheets). This is useful for a reminder, a thank-you message, or practical information.
 
+<% if Current.org.feature?("absence") %>
+### Counts including absences {#counts-including-absences}
+
+A [setting](/settings#delivery_sheets) keeps absent <%= Basket.model_name.human(count: 2).downcase %> in the counts on the delivery page, the dashboard, the PDF sheets, and the Excel file. The PDF sheets and the Excel file label those totals "<%= I18n.t("delivery.total_including_absences") %>". The delivery page and the dashboard use "<%= I18n.t("delivery.total") %>*" and put "<%= I18n.t("delivery.absences_included_mark") %>" in italics at the bottom left.
+
+Turn it on when an absence is redistributed among the other members and you always prepare the full number of subscriptions. Absent members stay on the PDF sheet, in grey, with their quantities.
+<% end %>
+
 ### Announcements {#announcements}
 
 Short messages can be attached to specific depot/delivery combinations and will appear on the corresponding delivery sheets. See the dedicated [announcements handbook page](/handbook/announcements) for details.

@@ -15,6 +15,7 @@
 ## Models
 
 - **Delivery** (`app/models/delivery.rb`): A scheduled delivery date. Multiple deliveries can exist in the same calendar week (e.g., Monday + Thursday via different delivery cycles).
+- **Delivery counts including absences**: Opt-in `organizations.delivery_basket_counts_include_absences` (default off). Shown in delivery-sheet settings only when the absence feature is on. `Organization#delivery_basket_count_scope` returns `:all` or `:active`. When on, depot rows and totals on the delivery page, the dashboard next-delivery panel, PDF summary and depot-sheet totals, and the delivery XLSX include absent baskets and their complements. PDF and Excel summaries label totals "Total (absences included)". The delivery page and the dashboard use "Total*" (the asterisk is a raised mark) and an italic "* absences included" at the bottom left. Basket content quantity distribution stays on active baskets.
 - **DeliveryCycle** (`app/models/delivery_cycle.rb`): Defines a recurring delivery pattern (e.g., "every Monday", "every Thursday", "both"). Members subscribe to a cycle.
 - **Basket** (`app/models/basket.rb`): A single basket instance for a member on a specific delivery. Linked to a `BasketSize` and `Depot`.
 - **BasketSize** (`app/models/basket_size.rb`): A tier of basket (e.g., Small, Medium, Large) with a base price. `paid` scope excludes the zero-price "complements only" size.

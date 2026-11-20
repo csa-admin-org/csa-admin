@@ -21,6 +21,8 @@ Annuler rétablit la livraison d'origine. Déplacer envoie le <%= Basket.model_n
 
 Par défaut, les <%= Basket.model_name.human(count: 2).downcase %> marqués comme absents et non délivrés sont facturés. Il est conseillé aux membres de trouver une connaissance pour récupérer leur <%= Basket.model_name.human.downcase %> à leur place. Dans [les paramètres](/settings#absence), vous pouvez également choisir de ne pas les facturer. Le système s'occupera alors automatiquement d'[ajuster la facturation](/handbook/billing#price-change) de l'abonnement.
 
+Lorsqu'une absence est redistribuée et que vous préparez toujours chaque abonnement, activez [<%= Organization.human_attribute_name(:delivery_basket_counts_include_absences) %>](/settings#delivery_sheets) pour garder ces quantités dans les totaux de livraison. Voir [les fiches de livraison](/handbook/deliveries#counts-including-absences).
+
 Si un membre est absent mais veut quand même payer, n'enregistrez pas d'absence, ou gardez la facturation des absences dans les paramètres. C'est le marquage absent qui crée un avoir quand la facturation est désactivée.
 
 ## Déplacement de <%= Basket.model_name.human(count: 2).downcase %> {#basket-shift}

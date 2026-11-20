@@ -146,7 +146,7 @@ class Delivery < ApplicationRecord
 
   def used_depots
     depot_ids =
-      baskets.active.pluck(:depot_id) +
+      baskets.send(Current.org.delivery_basket_count_scope).pluck(:depot_id) +
       shop_orders.all_without_cart.pluck(:depot_id)
     Depot.where(id: depot_ids.uniq)
   end
@@ -156,11 +156,11 @@ class Delivery < ApplicationRecord
   end
 
   def basket_counts(scope: nil)
-    BasketCounts.new(self, Depot.pluck(:id), scope: scope)
+    BasketCounts.new(self, Depot.pluck(:id), scope: scope || Current.org.delivery_basket_count_scope)
   end
 
   def basket_complement_counts(scope: nil)
-    BasketComplementCount.all(self, scope: scope)
+    BasketComplementCount.all(self, scope: scope || Current.org.delivery_basket_count_scope)
   end
 
   def shop_open_for_depots

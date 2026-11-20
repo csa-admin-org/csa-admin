@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
-absences_count = delivery.baskets.absent.count
-return unless absences_count.positive?
+absences_count = delivery.baskets.absent.sum(:quantity)
+note = t("delivery.absences_included_mark") if Current.org.delivery_basket_count_scope == :all
+return unless absences_count.positive? || note.present?
 
-div class: "delivery-footer text-end" do
-  link_to(
-    t("active_admin.page.index.absences_count", count: absences_count),
-    absences_path(q: { including_date: delivery.date }, scope: :all),
-    class: "is-muted")
+div class: "delivery-footer #{note.present? ? "cluster is-spread" : "text-end"}" do
+  span note, class: "is-italic text-sm" if note.present?
+  if absences_count.positive?
+    text_node link_to(
+      t("active_admin.page.index.absences_count", count: absences_count),
+      absences_path(q: { including_date: delivery.date }, scope: :all),
+      class: "is-muted")
+  end
 end

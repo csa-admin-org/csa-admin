@@ -35,6 +35,7 @@ module Query
       billing_year_divisions
       country_code
       currency_code
+      delivery_basket_counts_include_absences
       delivery_cycles_member_order_mode
       delivery_pdf_member_info
       delivery_pdf_member_name_format

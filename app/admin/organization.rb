@@ -110,6 +110,7 @@ ActiveAdmin.register Organization do
     :delivery_pdf_member_info,
     :delivery_pdf_member_name_format,
     :delivery_pdf_member_order_mode,
+    :delivery_basket_counts_include_absences,
     :shop_admin_only,
     :shop_order_maximum_weight_in_kg, :shop_order_minimal_amount,
     :shop_member_percentages,

@@ -28,6 +28,20 @@ module Organization::DeliveryPDF
       inclusion: { in: MEMBER_ORDER_MODES }
   end
 
+  def delivery_basket_count_scope
+    return :active unless feature?("absence") && delivery_basket_counts_include_absences?
+
+    :all
+  end
+
+  def delivery_total_label
+    if delivery_basket_count_scope == :all
+      I18n.t("delivery.total_including_absences")
+    else
+      I18n.t("delivery.total")
+    end
+  end
+
   def format_member_name_for_pdf(name)
     return name if full_name?
 

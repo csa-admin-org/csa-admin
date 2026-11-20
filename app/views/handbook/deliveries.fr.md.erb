@@ -176,6 +176,14 @@ Lorsqu'un nom contient plusieurs personnes séparées par une virgule ou une con
 
 Un texte de pied de page personnalisé peut être ajouté à toutes les fiches de livraison via le [paramètre de pied de page PDF de livraison](/settings#delivery_sheets). Utile pour un rappel, un message de remerciement ou des informations pratiques.
 
+<% if Current.org.feature?("absence") %>
+### Totaux avec les absences {#counts-including-absences}
+
+Un [paramètre](/settings#delivery_sheets) conserve les <%= Basket.model_name.human(count: 2).downcase %> absents dans les totaux de la page de livraison, du tableau de bord, des fiches PDF et du fichier Excel. Les fiches PDF et le fichier Excel libellent ces totaux "<%= I18n.t("delivery.total_including_absences") %>". La page de livraison et le tableau de bord utilisent "<%= I18n.t("delivery.total") %>*" et placent "<%= I18n.t("delivery.absences_included_mark") %>" en italique en bas à gauche.
+
+Activez-le lorsqu'une absence est redistribuée entre les autres membres et que vous préparez toujours le nombre complet d'abonnements. Les membres absents restent sur la fiche PDF, en gris, avec leurs quantités.
+<% end %>
+
 ### Annonces {#announcements}
 
 Des messages courts peuvent être rattachés à des combinaisons dépôt/livraison spécifiques et apparaîtront sur les fiches de livraison correspondantes. Consultez la page dédiée du [manuel des annonces](/handbook/announcements) pour plus de détails.
