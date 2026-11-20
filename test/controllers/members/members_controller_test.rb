@@ -25,6 +25,17 @@ class Members::MembersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "create rerenders the form when cap fails without member params" do
+    assert_no_difference -> { Member.count } do
+      post members_member_path
+    end
+
+    assert_response :unprocessable_entity
+    assert_equal I18n.t("cap.failed_retry"), flash[:alert]
+    assert_select ".member-flash-text", text: I18n.t("cap.failed_retry")
+    assert_select "form[action=?]", members_member_path
+  end
+
   test "new renders required card fields for a visible reduction" do
     org(features: Current.org.features | [ "price_reductions" ])
     card = PriceReductionCard.create!(
