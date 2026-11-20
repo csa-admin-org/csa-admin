@@ -3726,6 +3726,12 @@ _:
           _de: Währung
           _it: Valuta
           _nl: Valuta
+        delivery_basket_counts_include_absences:
+          _en: Include absences in counts
+          _fr: Inclure les absences dans les totaux
+          _de: Abwesenheiten in die Zählungen einbeziehen
+          _it: Includere le assenze nei conteggi
+          _nl: Afwezigheden meetellen
         delivery_cycles_member_order_mode:
           _en: Order of delivery cycles
           _fr: Ordre des cycles de livraisons

@@ -176,6 +176,14 @@ Quando un nome contiene più persone separate da una virgola o una congiunzione 
 
 Un testo personalizzato di piè di pagina può essere aggiunto a tutte le schede di consegna tramite l'[impostazione del piè di pagina PDF di consegna](/settings#delivery_sheets). Utile per un promemoria, un messaggio di ringraziamento o informazioni pratiche.
 
+<% if Current.org.feature?("absence") %>
+### Conteggi con le assenze {#counts-including-absences}
+
+Un'[impostazione](/settings#delivery_sheets) mantiene le <%= Basket.model_name.human(count: 2).downcase %> assenti nei conteggi della pagina di consegna, della dashboard, delle schede PDF e del file Excel. Le schede PDF e il file Excel etichettano questi totali "<%= I18n.t("delivery.total_including_absences") %>". La pagina di consegna e la dashboard usano "<%= I18n.t("delivery.total") %>*" e mettono "<%= I18n.t("delivery.absences_included_mark") %>" in corsivo in basso a sinistra.
+
+Attivala quando un'assenza viene redistribuita tra gli altri soci e prepari sempre il numero completo di abbonamenti. I soci assenti restano sulla scheda PDF, in grigio, con le loro quantità.
+<% end %>
+
 ### Annunci {#announcements}
 
 Brevi messaggi possono essere associati a combinazioni specifiche deposito/consegna e appariranno sulle schede di consegna corrispondenti. Consulta la pagina dedicata del [manuale degli annunci](/handbook/announcements) per i dettagli.

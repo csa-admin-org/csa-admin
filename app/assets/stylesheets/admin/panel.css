@@ -541,8 +541,19 @@
     }
   }
 
+  .delivery-total-mark {
+    margin-inline-start: 0.15em;
+    font-size: 0.75em;
+    line-height: 0;
+  }
+
   .delivery-footer {
     padding-inline: 0.5rem;
+  }
+
+  .delivery-footer.cluster.is-spread {
+    align-items: flex-end;
+    margin-top: 0.75rem;
   }
 
   .delivery-footer:last-child,

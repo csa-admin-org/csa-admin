@@ -930,6 +930,26 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_includes delivery_sheets_fieldset.to_html, "organization_delivery_pdf_member_name_format"
     assert_includes delivery_sheets_fieldset.to_html, "organization_delivery_pdf_member_order_mode"
     assert_includes delivery_sheets_fieldset.to_html, "organization_delivery_pdf_footer_#{locale}"
+    assert_includes delivery_sheets_fieldset.to_html, "organization_delivery_basket_counts_include_absences"
+  end
+
+  test "delivery sheets hide absence counts without the absence feature" do
+    org(features: Current.org.features - [ :absence ])
+    login admins(:super)
+
+    get edit_organization_path(:delivery_sheets)
+
+    assert_response :success
+    assert_select "#organization_delivery_basket_counts_include_absences", false
+  end
+
+  test "delivery sheets overview hides the absence counts setting" do
+    login admins(:super)
+
+    get organization_path
+
+    assert_response :success
+    assert_select "#delivery_sheets tr[data-row='delivery_basket_counts_include_absences']", count: 0
   end
 
   test "settings overview renders missing optional amounts as not configured" do

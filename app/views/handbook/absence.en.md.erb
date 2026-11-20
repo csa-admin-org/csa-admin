@@ -21,6 +21,8 @@ Canceling restores the original delivery. Shifting moves the <%= Basket.model_na
 
 By default, <%= Basket.model_name.human(count: 2).downcase %> marked as absent and not delivered are billed, and members are advised to find an acquaintance to collect their <%= Basket.model_name.human.downcase %> in their place. In [the settings](/settings#absence), you can also choose not to bill them. The system will then automatically [adjust the billing](/handbook/billing#price-change) of the membership.
 
+When an absence is redistributed and you still prepare every subscription, turn on [<%= Organization.human_attribute_name(:delivery_basket_counts_include_absences) %>](/settings#delivery_sheets) so those quantities stay in the delivery totals. See [delivery sheets](/handbook/deliveries#counts-including-absences).
+
 If a member is away but still wants to pay, do not mark an absence, or keep billing absences in the settings. Marking them absent is what creates a credit when billing is off.
 
 ## <%= Basket.model_name.human %> Shifts {#basket-shift}

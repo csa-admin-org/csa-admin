@@ -179,6 +179,14 @@ Wanneer een naam meerdere personen bevat die zijn verbonden door een komma of ee
 
 Een aangepaste voettekst kan worden toegevoegd aan alle leveringsbladen via de [instelling voor leverings-PDF-voettekst](/settings#delivery_sheets). Handig voor een herinnering, een bedankbericht of praktische informatie.
 
+<% if Current.org.feature?("absence") %>
+### Tellingen met afwezigheden {#counts-including-absences}
+
+Een [instelling](/settings#delivery_sheets) houdt afwezige <%= Basket.model_name.human(count: 2).downcase %> in de tellingen op de leveringspagina, het dashboard, de PDF-bladen en het Excel-bestand. De PDF-bladen en het Excel-bestand noemen die totalen "<%= I18n.t("delivery.total_including_absences") %>". De leveringspagina en het dashboard gebruiken "<%= I18n.t("delivery.total") %>*" en zetten "<%= I18n.t("delivery.absences_included_mark") %>" cursief linksonder.
+
+Zet dit aan wanneer een afwezigheid wordt herverdeeld over de andere leden en je altijd het volledige aantal klaarmaakt. Afwezige leden blijven op het PDF-blad staan, grijs, met hun hoeveelheden.
+<% end %>
+
 ### Aankondigingen {#announcements}
 
 Korte berichten kunnen worden gekoppeld aan specifieke depot/leveringscombinaties en verschijnen op de corresponderende leveringsbladen. Zie de speciale [handboekpagina over aankondigingen](/handbook/announcements) voor details.

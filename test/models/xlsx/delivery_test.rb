@@ -130,4 +130,75 @@ class XLSX::DeliveryTest < ActiveSupport::TestCase
     assert_equal "BBBBBB", bob_row[street_col].fill_color.upcase
     assert bob_row[note_col].is_bolded
   end
+
+  test "summary and depot sheets exclude absent baskets by default" do
+    delivery = absent_basket_with_complement
+    rows = summary_rows_for(delivery)
+    total_row = rows.reverse.find { |row| row.first == I18n.t("delivery.total") }
+
+    assert_equal I18n.t("delivery.total"), rows.first[1]
+    assert_nil rows.find { |row| row.first == "Bakery" }
+    assert_equal 2, total_row[1]
+    assert_not_includes rows.first, "Cheese"
+    assert_absence_sheet(delivery)
+    assert_not_includes depot_member_names(delivery, depots(:bakery)), "Anna Doe"
+  end
+
+  test "summary and depot sheets include absent baskets when enabled" do
+    Current.org.update!(delivery_basket_counts_include_absences: true)
+    delivery = absent_basket_with_complement
+    rows = summary_rows_for(delivery)
+    label = I18n.t("delivery.total_including_absences")
+    total_row = rows.reverse.find { |row| row.first == label }
+    bakery_row = rows.find { |row| row.first == "Bakery" }
+    cheese_column = rows.first.index("Cheese")
+
+    assert_equal label, rows.first[1]
+    assert_equal 2, bakery_row[1]
+    assert_equal 4, total_row[1]
+    assert_equal 3, total_row[cheese_column]
+    assert_absence_sheet(delivery)
+    assert_includes depot_member_names(delivery, depots(:bakery)), "Anna Doe"
+  end
+
+  private
+
+  def absent_basket_with_complement
+    travel_to "2024-04-01"
+    delivery = deliveries(:monday_1)
+    complement = basket_complements(:cheese)
+    delivery.basket_complements << complement
+    baskets(:anna_1).update!(
+      quantity: 2,
+      baskets_basket_complements_attributes: {
+        "0" => { basket_complement_id: complement.id, quantity: 3 }
+      })
+    baskets(:anna_1).update_column(:state, "absent")
+    delivery.reload
+  end
+
+  def workbook_for(delivery, depot = nil)
+    RubyXL::Parser.parse_buffer(StringIO.new(XLSX::Delivery.new(delivery, depot).data))
+  end
+
+  def sheet_rows(sheet)
+    sheet.sheet_data.rows.compact.map { |row| row.cells.map { |cell| cell&.value } }
+  end
+
+  def depot_member_names(delivery, depot)
+    sheet_rows(workbook_for(delivery, depot).worksheets.first).map(&:first)
+  end
+
+  def assert_absence_sheet(delivery)
+    sheet = workbook_for(delivery).worksheets.find { |worksheet|
+      worksheet.sheet_name.start_with?(Absence.model_name.human(count: 2))
+    }
+    rows = sheet_rows(sheet)
+    header = rows.first
+    anna = rows.find { |row| row.first == "Anna Doe" }
+
+    assert_equal Depot.model_name.human, header[1]
+    assert_equal "Bakery", anna[header.index(Depot.model_name.human)]
+    assert_equal "3x Cheese", anna[header.index(Basket.human_attribute_name(:complement_ids))]
+  end
 end

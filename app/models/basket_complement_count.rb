@@ -20,17 +20,15 @@ class BasketComplementCount
 
   def memberships_count
     @memberships_count ||=
-      @delivery
-        .baskets
-        .send(@scope)
-        .complement_count(@complement)
+      @delivery.baskets.send(@scope).complement_count(@complement).to_i
   end
 
   def shop_orders_count
     return 0 unless Current.org.feature?("shop")
     return 0 if @scope == :absent
 
-    @shop_orders_count ||= @delivery.shop_orders.all_without_cart.complement_count(@complement)
+    @shop_orders_count ||=
+      @delivery.shop_orders.all_without_cart.complement_count(@complement).to_i
   end
 
   def count

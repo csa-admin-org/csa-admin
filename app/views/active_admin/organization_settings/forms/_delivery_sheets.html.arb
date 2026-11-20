@@ -26,6 +26,9 @@ context.instance_eval do
       as: :select,
       collection: member_order_modes_collection(Organization::DeliveryPDF),
       prompt: true
+    if feature?("absence")
+      f.input :delivery_basket_counts_include_absences
+    end
     translated_input(f, :delivery_pdf_footers, required: false)
   end
 end

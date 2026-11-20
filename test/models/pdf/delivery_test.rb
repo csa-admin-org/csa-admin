@@ -453,6 +453,51 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     assert_not_includes pdf_strings, "Valentine Schneider"
   end
 
+  test "summary and depot totals exclude absent baskets by default" do
+    delivery = absent_basket_with_complement
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+    assert_includes pdf_strings, "Total baskets"
+    assert_not_includes pdf_strings, "Total (absences included)"
+    assert_contains pdf_strings, "Depot", "1", "1", "0", "2", "1", "0"
+
+    bakery = save_pdf_and_return_strings(delivery, depots(:bakery))
+    assert_contains bakery, "Member", "0", "0", "Signature"
+  end
+
+  test "summary and depot totals include absent baskets when enabled" do
+    Current.org.update!(delivery_basket_counts_include_absences: true)
+    delivery = absent_basket_with_complement
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+    assert_includes pdf_strings, "Total (absences included)"
+    assert_contains pdf_strings, "Depot", "1", "1", "2", "4", "1", "3"
+
+    bakery = save_pdf_and_return_strings(delivery, depots(:bakery))
+    assert_contains bakery, "Member", "2", "3", "Signature"
+  end
+
+  test "basket content totals stay on active baskets when absences are included" do
+    travel_to "2024-01-01"
+    Current.org.update!(
+      basket_content_delivery_pdf_visible: true,
+      delivery_basket_counts_include_absences: true)
+    delivery = deliveries(:monday_1)
+    baskets(:john_1).update_column(:state, "absent")
+    create_basket_content(
+      delivery: delivery,
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: { medium_id => 3200 },
+      depots: [ depots(:farm) ],
+      unit: "kg")
+
+    pdf_strings = save_pdf_and_return_strings(delivery, depots(:farm))
+
+    assert_contains pdf_strings, "Member", "1", "Signature"
+    assert_equal 1, pdf_strings.count { |string| string.include?("kg") }
+    assert_includes pdf_strings, "–"
+  end
+
   test "orders depot members by basket size then name when configured" do
     travel_to "2024-01-01"
     delivery = deliveries(:monday_1)
@@ -499,5 +544,21 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     depot.update!(member_ids_position: [ members(:john).id, members(:anna).id, members(:bob).id ])
     pdf_strings = save_pdf_and_return_strings(delivery, depot)
     assert_member_names_in_order(pdf_strings, "John Doe", "Anna Doe", "Bob Doe")
+  end
+
+  private
+
+  def absent_basket_with_complement
+    travel_to "2024-04-01"
+    delivery = deliveries(:monday_1)
+    complement = basket_complements(:cheese)
+    delivery.basket_complements << complement
+    baskets(:anna_1).update!(
+      quantity: 2,
+      baskets_basket_complements_attributes: {
+        "0" => { basket_complement_id: complement.id, quantity: 3 }
+      })
+    baskets(:anna_1).update_column(:state, "absent")
+    delivery.reload
   end
 end

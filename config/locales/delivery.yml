@@ -1,5 +1,11 @@
 _:
   delivery:
+    absences_included_mark:
+      _en: "* absences included"
+      _fr: "* absences incluses"
+      _de: "* Abwesenheiten inklusive"
+      _it: "* assenze incluse"
+      _nl: "* afwezigheden inbegrepen"
     basket_sizes_total/bag:
       _en: Total bags
       _fr: Total sacs
@@ -206,6 +212,12 @@ _:
       _de: Gesamt
       _it: Totale
       _nl: Totaal
+    total_including_absences:
+      _en: Total (absences included)
+      _fr: Total (absences incluses)
+      _de: Gesamt (Abwesenheiten inklusive)
+      _it: Totale (assenze incluse)
+      _nl: Totaal (afwezigheden inbegrepen)
     ungrouped_depots:
       _en: Ungrouped depots
       _fr: Dépôts non groupés

@@ -21,6 +21,8 @@ Stornieren stellt die ursprüngliche Lieferung wieder her. Verschieben legt die 
 
 Standardmässig werden als abwesend markierte und nicht gelieferte <%= Basket.model_name.human(count: 2) %> in Rechnung gestellt, und den Mitgliedern wird empfohlen, einen Bekannten zu finden, der ihre <%= Basket.model_name.human %> an ihrer Stelle abholt. In [den Einstellungen](/settings#absence) kannst Du auch wählen, sie nicht in Rechnung zu stellen. Das System wird dann automatisch [die Abrechnung des Abonnements anpassen](/handbook/billing#price-change).
 
+Wenn eine Abwesenheit umverteilt wird und Du trotzdem jedes Abo vorbereitest, schalte [<%= Organization.human_attribute_name(:delivery_basket_counts_include_absences) %>](/settings#delivery_sheets) ein, damit diese Mengen in den Liefertotalen bleiben. Siehe [Lieferscheine](/handbook/deliveries#counts-including-absences).
+
 Will ein Mitglied weg sein, aber trotzdem zahlen, markiere keine Abwesenheit, oder behalte die Abrechnung von Abwesenheiten in den Einstellungen. Das Markieren als abwesend erzeugt das Guthaben, wenn die Abrechnung aus ist.
 
 ## Verschiebung von <%= Basket.model_name.human(count: 2) %> {#basket-shift}

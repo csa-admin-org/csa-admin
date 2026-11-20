@@ -159,6 +159,21 @@ class DashboardTest < ActionDispatch::IntegrationTest
     assert_select ".calendar-count[title='#{I18n.t("activities.halfday_work.other")}']", count: 0
   end
 
+  test "next delivery marks totals that include absences" do
+    travel_to "2024-04-01"
+    Current.org.update!(delivery_basket_counts_include_absences: true)
+    baskets(:anna_1).update_columns(state: "absent", quantity: 2)
+    login admins(:super)
+
+    get root_path
+
+    assert_response :success
+    assert_select ".delivery-totals sup.delivery-total-mark", text: "*"
+    assert_select ".delivery-totals .is-muted", count: 0
+    assert_select ".delivery-footer.cluster.is-spread .is-italic", text: I18n.t("delivery.absences_included_mark")
+    assert_select ".delivery-footer a", text: "2 absences"
+  end
+
   test "next delivery depot rows show a sortable grip" do
     travel_to "2024-04-01"
     login admins(:super)
