@@ -70,7 +70,8 @@ class Members::MembersController < Members::BaseController
   private
 
   def cap_after_failure
-    @member = Member.new(member_params)
+    member = params.fetch(:member, {})
+    @member = Member.new(member.present? ? member_params : {})
     @member.public_create = true
     set_basket_complements
     flash.now[:alert] = t("cap.failed_retry")
