@@ -657,10 +657,11 @@ input.string:disabled {
 .disabled input::placeholder,
 input.string:disabled::placeholder {
   color: var(--color-gray-300);
+}
 
-  &:where(.dark, .dark *) {
-    color: var(--color-gray-600);
-  }
+.disabled input:where(.dark, .dark *)::placeholder,
+input.string:disabled:where(.dark, .dark *)::placeholder {
+  color: var(--color-gray-600);
 }
 
 .disabled a {

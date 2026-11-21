@@ -271,26 +271,26 @@
   [type="range"]:disabled {
     &::-webkit-slider-thumb {
       background-color: var(--color-gray-400);
+    }
 
-      &:hover {
-        cursor: not-allowed;
-      }
+    &::-webkit-slider-thumb:hover {
+      cursor: not-allowed;
     }
 
     &::-moz-range-thumb {
       background-color: var(--color-gray-400);
+    }
 
-      &:hover {
-        cursor: not-allowed;
-      }
+    &::-moz-range-thumb:hover {
+      cursor: not-allowed;
     }
 
     &::-ms-thumb {
       background-color: var(--color-gray-400);
+    }
 
-      &:hover {
-        cursor: not-allowed;
-      }
+    &::-ms-thumb:hover {
+      cursor: not-allowed;
     }
 
     &:where(.dark, .dark *) {
@@ -338,19 +338,19 @@
     font-size: 0.875rem;
     line-height: 1.25rem;
     color: var(--color-gray-900);
+  }
 
-    &:hover {
-      background-color: var(--color-gray-200);
-    }
+  input[type="file"]::file-selector-button:hover {
+    background-color: var(--color-gray-200);
   }
 
   input[type="file"]:where(.dark, .dark *)::file-selector-button {
     background-color: var(--color-gray-800);
     color: var(--color-gray-100);
+  }
 
-    &:hover {
-      background-color: var(--color-gray-700);
-    }
+  input[type="file"]:where(.dark, .dark *)::file-selector-button:hover {
+    background-color: var(--color-gray-700);
   }
 
   /* Tooltip arrow */

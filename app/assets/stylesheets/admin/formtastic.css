@@ -472,19 +472,11 @@
         &:hover {
           cursor: not-allowed;
         }
-
-        &:checked {
-          background-color: var(--color-gray-300);
-        }
       }
 
       &:where(.dark, .dark *) {
         &:disabled {
           background-color: var(--color-gray-900);
-
-          &:checked {
-            background-color: var(--color-gray-800);
-          }
         }
       }
     }
