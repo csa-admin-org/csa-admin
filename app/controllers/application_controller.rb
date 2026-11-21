@@ -101,11 +101,6 @@ class ApplicationController < ActionController::Base
     Time.use_zone(Current.org.time_zone) { yield }
   end
 
-  def create_session_from_devise_remember_token!
-    admin = ::Admin.find(cookies.signed[:remember_admin_token].first.first)
-    create_session!(admin)
-  end
-
   def create_session!(admin)
     Session.create!(
       remote_addr: request.remote_addr,
