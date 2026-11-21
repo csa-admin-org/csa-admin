@@ -200,27 +200,12 @@ module Billing
         download_request(operation, from: from, to: to, **overrides).to_xml
       end
 
-      def upload_request_xml(operation, document:, **overrides)
-        upload_request(operation, document: document, **overrides).to_xml
-      end
-
       def key_change_request_xml(target_key_store:, order_type: "HCS", **overrides)
         key_change_request(target_key_store: target_key_store, order_type: order_type, **overrides).to_xml
       end
 
       def key_change_order_data_xml(target_key_store:, order_type: "HCS")
         Btf::KeyChangeOrderData.new(client: target_key_store, order_type: order_type).to_xml
-      end
-
-      def initialization_order_data_xml(order_type, **overrides)
-        Btf::InitializationOrderData.new(
-          client: client,
-          order_type: order_type,
-          **setup_order_data_options.merge(overrides)).to_xml
-      end
-
-      def initialization_request_xml(order_type, **overrides)
-        initialization_request(order_type, **overrides).to_xml
       end
 
       def submit_initialization_order(order_type)
@@ -232,10 +217,6 @@ module Billing
           order_type: order_type.to_s.upcase,
           transaction_id: response.transaction_id.presence,
           order_id: response.order_id.presence)
-      end
-
-      def hpb_request_xml(**overrides)
-        hpb_request(**overrides).to_xml
       end
 
       def fetch_bank_public_keys
@@ -274,11 +255,6 @@ module Billing
         KeyChangeResult.new(
           transaction_id: transfer_response.transaction_id.presence || transaction_id,
           order_id: transfer_response.order_id.presence || initialisation_response.order_id)
-      end
-
-      def upload_transfer_request_xml(transaction_id:, document:, **overrides)
-        payload = Btf::UploadPayload.new(client: client, document: document)
-        upload_transfer_request(transaction_id, payload, **overrides).to_xml
       end
 
       def download_request(operation, from:, to:, **overrides)
