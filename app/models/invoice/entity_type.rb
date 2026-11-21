@@ -77,10 +77,6 @@ module Invoice::EntityType
     entity_type == "Other"
   end
 
-  def new_member_fee_type?
-    entity_type == "NewMemberFee"
-  end
-
   def entity_fy_year
     entity_id? ? entity&.fy_year : fy_year
   end

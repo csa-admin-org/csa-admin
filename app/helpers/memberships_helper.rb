@@ -622,16 +622,6 @@ module MembershipsHelper
     ]
   end
 
-  def display_basket_price_extra_raw(membership)
-    return unless membership.basket_price_extra&.positive?
-
-    if Current.org.basket_price_extra_dynamic_pricing?
-      membership.basket_price_extra.to_i
-    else
-      cur(membership.basket_price_extra)
-    end
-  end
-
   def membership_delivery_summary(membership)
     parts = [
       link_to(

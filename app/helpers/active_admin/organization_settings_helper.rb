@@ -48,10 +48,6 @@ module ActiveAdmin::OrganizationSettingsHelper
     end
   end
 
-  def organization_setting_section_keys
-    organization_setting_sections.map { |section| section[:key] }
-  end
-
   def organization_enabled_setting_sections(org = Current.org)
     sections = organization_setting_sections.select { |section|
       organization_setting_section_available?(section, org) &&
@@ -294,14 +290,6 @@ module ActiveAdmin::OrganizationSettingsHelper
   def organization_settings_document_url(org, document)
     org.public_send("#{document}_url").presence ||
       org.public_send("#{document}_urls").values.compact_blank.first
-  end
-
-  def organization_settings_translated_attribute_status(org, column)
-    organization_settings_status_tag(organization_settings_translated_attribute_present?(org, column))
-  end
-
-  def organization_settings_translated_attribute_present?(org, column)
-    org.public_send(column).values.any?(&:present?)
   end
 
   def organization_settings_shop_opening(org)

@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
 module OrganizationsHelper
-  def all_features
-    features = Organization.features
-    unless current_admin.ultra?
-      features -= Organization.restricted_features
-    end
-    features
-  end
-
   def feature?(feature)
     admin = current_admin if respond_to?(:current_admin)
     return if admin && feature.to_sym.in?(Organization.restricted_features) && !admin.ultra?

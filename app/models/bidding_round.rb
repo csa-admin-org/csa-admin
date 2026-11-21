@@ -140,18 +140,6 @@ class BiddingRound < ApplicationRecord
     ((pledges_count.to_f / eligible_memberships_count) * 100).round(2)
   end
 
-  def missing_pledges_percentage
-    return 0 if eligible_memberships_count.zero?
-
-    ((missing_pledges_count.to_f / eligible_memberships_count) * 100).round(2)
-  end
-
-  def average_pledge_amount
-    return 0 if pledges_count.zero?
-
-    pledges.average(:basket_size_price).to_f
-  end
-
   def eligible?(member)
     eligible_memberships.exists?(member: member)
   end
@@ -240,10 +228,6 @@ class BiddingRound < ApplicationRecord
         bidding_round: self,
         member: membership.member)
     end
-  end
-
-  def member_has_pledged?(membership)
-    pledges.exists?(membership: membership)
   end
 
   private

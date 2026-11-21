@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 module NewslettersHelper
-  def display_newsletter?
-    Newsletter.any?
-  end
-
   def newsletter_unsubscribed_email
     emails = current_session.admin_originated? ? current_member.emails_array : [ current_session.email ]
     EmailSuppression

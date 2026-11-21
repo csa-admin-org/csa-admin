@@ -156,10 +156,6 @@ class Organization < ApplicationRecord
     feature.in?(FEATURES) && !features.include?(feature)
   end
 
-  def feature_flag?(feature)
-    feature_flags.include?(feature.to_sym)
-  end
-
   def terms_of_service?
     charter_url || statutes_url || terms_of_service_url || privacy_policy_url
   end

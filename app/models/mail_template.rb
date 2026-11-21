@@ -197,10 +197,6 @@ class MailTemplate < ApplicationRecord
     title.in?(TITLES_WITH_DELIVERY_CYCLES_SCOPE)
   end
 
-  def price_reduction_card_expiring?
-    title == "price_reduction_card_expiring"
-  end
-
   def delay?
     DELAY_DEFAULTS.key?(title) && has_attribute?(:delay_in_days)
   end

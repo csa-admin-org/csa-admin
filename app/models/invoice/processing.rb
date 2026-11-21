@@ -68,6 +68,7 @@ module Invoice::Processing
     end
   end
 
+  # Kept for console use.
   def uncancel!
     transaction do
       update!(
