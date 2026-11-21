@@ -9,7 +9,7 @@ Native CSS. Propshaft serves `admin.css` and `member.css`, which `@import` sheet
 **New widget.** Add a file next to its siblings, `@import` it from the portal entry, name the thing (`.panel-action-row`). Do not attach a long class string to a one-off `div`.
 
 - Colors and space live in `shared/tokens.css`. Change them there. Numbered greys/greens stay put. Semantic names flip on `html.dark` / `.dark`. Do not invent a token for a 1–2× pair, a hover-only green, a status inversion, or CodeJar hex.
-- Stored preference is `system|light|dark` on `html[data-theme]`. Paint via `html.dark` / `.dark`. Do not switch to `@media (prefers-color-scheme)` or `light-dark()`.
+- Stored preference is `system|light|dark` on `html[data-theme]`. Paint via `html.dark` / `.dark`. Do not switch to `@media (prefers-color-scheme)` or `light-dark()`. `mailer.css` keeps `@media (prefers-color-scheme: dark)` because mail clients do not get `html.dark`.
 - Markup we own uses semantic classes (`.btn`, `.status-tag`, `.panel`). Name the thing, not the paint.
 - Prefix members layout chrome (`member-app`, `member-nav`) and Stimulus maps (`member-menu-open`). Admin chrome uses `admin-` the same way. Page widgets do not (`shop-cart`, `billing-card`).
 - Tiny utilities live in `shared/utilities.css` (`is-*`, `cluster` / `stack`, `icon-*`, type helpers). Read that file. Do not grow a spacing scale in HTML. Tooltip/menu visibility is nested (`.tooltip.is-visible`).
