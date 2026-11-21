@@ -18,6 +18,12 @@
     "KAMAL_REGISTRY_PASSWORD": "$KAMAL_REGISTRY_PASSWORD"
   },
 
+  // mise shims first, and PORT, for non-login exec shells.
+  "remoteEnv": {
+    "PATH": "/home/vscode/.local/share/mise/shims:${containerEnv:PATH}:/home/vscode/.local/bin",
+    "PORT": "${containerEnv:PORT}"
+  },
+
   // No 'forwardPorts': compose.yaml publishes DEV_PORT on the same host port,
   // so each worktree's container gets its own port without editor forwarding.
 
@@ -32,6 +38,6 @@
 
   // The image warms mise, gems, and aube under /tmp/deps. This still sets up the
   // mounted workspace (trust, bundle check, test database).
-  "postCreateCommand": "bash -lic 'mise trust && mise install && bin/setup --dependencies-only && RAILS_ENV=test bin/rails db:prepare'",
+  "postCreateCommand": "~/.local/bin/mise trust mise.toml && ~/.local/bin/mise trust mise.linux.toml && bash -lic 'mise install && bin/setup --dependencies-only && RAILS_ENV=test bin/rails db:prepare'",
   "postStartCommand": "sh .devcontainer/post-start.sh"
 }
