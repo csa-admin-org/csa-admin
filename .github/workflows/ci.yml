@@ -107,7 +107,7 @@ jobs:
         run: bin/importmap audit
 
       - name: Brakeman
-        run: bin/brakeman -f sarif -o results.sarif
+        run: bin/brakeman -f sarif -o results.sarif --exit-on-warn --exit-on-error
 
       - name: Upload SARIF file
         if: always()
