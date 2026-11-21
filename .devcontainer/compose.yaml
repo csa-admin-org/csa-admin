@@ -16,6 +16,7 @@ services:
     ports:
     - "127.0.0.1:${DEV_PORT:-3000}:${DEV_PORT:-3000}"
     environment:
+      DEV_PORT: ${DEV_PORT:-3000}
       PORT: ${DEV_PORT:-3000}
       # Tenant#local_url_options only emits http://*.localhost when this is set.
       DEV_ORIGIN: localhost

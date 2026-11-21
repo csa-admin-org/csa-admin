@@ -2,6 +2,8 @@
 
 ENV["RAILS_ENV"] ||= "test"
 ENV["CAP_SKIP_VERIFY"] ||= "1"
+# Drop container DEV_ORIGIN; tests that need it set it themselves.
+ENV.delete("DEV_ORIGIN")
 require_relative "../config/environment"
 require "rails/test_help"
 

@@ -7,6 +7,8 @@ FROM ghcr.io/rails/devcontainer/images/ruby:$RUBY_VERSION
 # Ensure binding is always 0.0.0.0
 # Binds the server to all IP addresses of the container, so it can be accessed from outside the container.
 ENV BINDING="0.0.0.0"
+# mise shims first so non-login shells don't use the image Ruby.
+ENV PATH="/home/vscode/.local/share/mise/shims:${PATH}"
 
 # Prebake agent tooling and dependencies into the image.
 # Each layer is only rebuilt when the files it copies change (mise*.toml, Gemfile*, package.json/aube-lock.yaml).
@@ -29,10 +31,16 @@ RUN curl -fsS https://cursor.com/install | bash && mkdir -p ~/.config/cursor ~/.
 
 WORKDIR /tmp/deps
 COPY --chown=vscode:vscode mise*.toml ./
-RUN bash -lic 'mise trust && mise install && v=$(ruby -e "print RUBY_VERSION") && test "$v" = 4.0.10 || { echo "expected ruby 4.0.10, got $v"; exit 1; }'
+RUN ~/.local/bin/mise trust mise.toml && ~/.local/bin/mise trust mise.linux.toml \
+ && bash -lic 'mise install && v=$(ruby -e "print RUBY_VERSION") && test "$v" = 4.0.10 || { echo "expected ruby 4.0.10, got $v"; exit 1; }'
 
 COPY --chown=vscode:vscode Gemfile Gemfile.lock ./
-RUN bash -lic 'bundle install --jobs 8'
+# Don't bake Bundler's git cache: overlayfs later fails with "hardlink different from source".
+RUN bash -lic 'bundle install --jobs 8' \
+ && rm -rf \
+      ~/.bundle/cache/git \
+      ~/.local/share/mise/installs/ruby/*/lib/ruby/gems/*/cache/bundler/git \
+      ~/.local/share/mise/installs/ruby/*/lib/ruby/gems/*/bundler/gems/*/.git
 
 COPY --chown=vscode:vscode package.json aube-lock.yaml ./
 RUN bash -lic 'aube install --frozen-lockfile'
