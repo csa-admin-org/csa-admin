@@ -38,29 +38,38 @@ class DatabaseRakeTest < ActiveSupport::TestCase
   end
 
   test "ensure_tenant_databases_initialized loads schema into empty tenant db" do
-    Dir.mktmpdir do |dir|
-      path = File.join(dir, "empty.sqlite3")
-      create_empty_system_tables_sqlite(path)
-      db_config = sqlite_hash_config("ensure_tmp", path)
+    with_uninitialized_tenant do |path|
+      out, = capture_io { ensure_tenant_databases_initialized }
 
-      Tenant.stub(:all, [ "ensure_tmp" ]) do
-        # Use Rails' temporary pool so the original acme connection is restored —
-        # never clear_all_connections! (that poisons parallel workers).
-        ActiveRecord::Tasks::DatabaseTasks.stub(
-          :with_temporary_pool_for_each,
-          ->(env: nil, name: nil, clobber: false, &block) {
-            ActiveRecord::Tasks::DatabaseTasks.send(:with_temporary_pool, db_config, clobber: clobber, &block)
-          }
-        ) do
-          out, = capture_io { ensure_tenant_databases_initialized }
-
-          assert_includes out, "Loading schema for new tenant ensure_tmp..."
-        end
-      end
-
+      assert_includes out, "Loading schema for new tenant ensure_tmp..."
       tables = sqlite_table_names(path)
       assert_includes tables, "organizations"
       assert_includes tables, "shop_special_deliveries"
+    end
+  end
+
+  test "ensure_tenant_databases_initialized still loads a schema-dump shard by default" do
+    with_uninitialized_tenant(schema_dump: "schema.rb") do |path|
+      capture_io { ensure_tenant_databases_initialized }
+
+      assert_includes sqlite_table_names(path), "organizations"
+    end
+  end
+
+  test "ensure_tenant_databases_initialized skips schema-dump shards when asked" do
+    with_uninitialized_tenant(schema_dump: "schema.rb") do |path|
+      out, = capture_io { ensure_tenant_databases_initialized(except_schema_dump: true) }
+
+      assert_not_includes out, "Loading schema"
+      assert_not_includes sqlite_table_names(path), "organizations"
+    end
+  end
+
+  test "ensure_tenant_databases_initialized still loads shards without a schema dump when skipping dumps" do
+    with_uninitialized_tenant(schema_dump: false) do |path|
+      capture_io { ensure_tenant_databases_initialized(except_schema_dump: true) }
+
+      assert_includes sqlite_table_names(path), "organizations"
     end
   end
 
@@ -75,7 +84,28 @@ class DatabaseRakeTest < ActiveSupport::TestCase
     pool
   end
 
-  def sqlite_hash_config(name, path)
+  def with_uninitialized_tenant(schema_dump: false)
+    Dir.mktmpdir do |dir|
+      path = File.join(dir, "empty.sqlite3")
+      create_empty_system_tables_sqlite(path)
+      db_config = sqlite_hash_config("ensure_tmp", path, schema_dump:)
+
+      Tenant.stub(:all, [ "ensure_tmp" ]) do
+        # Use Rails' temporary pool so the original acme connection is restored —
+        # never clear_all_connections! (that poisons parallel workers).
+        ActiveRecord::Tasks::DatabaseTasks.stub(
+          :with_temporary_pool_for_each,
+          ->(env: nil, name: nil, clobber: false, &block) {
+            ActiveRecord::Tasks::DatabaseTasks.send(:with_temporary_pool, db_config, clobber: clobber, &block)
+          }
+        ) do
+          yield path
+        end
+      end
+    end
+  end
+
+  def sqlite_hash_config(name, path, schema_dump: false)
     ActiveRecord::DatabaseConfigurations::HashConfig.new(
       "test",
       name,
@@ -83,7 +113,7 @@ class DatabaseRakeTest < ActiveSupport::TestCase
         "adapter" => "sqlite3",
         "database" => path,
         "migrations_paths" => "db/migrate",
-        "schema_dump" => false
+        "schema_dump" => schema_dump
       })
   end
 

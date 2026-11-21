@@ -1,0 +1,27 @@
+name: csa-admin-${WORKTREE_NAME:-main}
+
+services:
+  rails-app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+
+    volumes:
+    - ..:/workspaces/app:cached
+    # A linked worktree's .git file points at the main checkout's .git (GIT_COMMON_DIR from initialize.sh).
+    - ${GIT_COMMON_DIR:?run .devcontainer/initialize.sh}:${GIT_COMMON_DIR}
+
+    # One port per worktree (DEV_PORT in .devcontainer/.env), published on the same
+    # number so http://admin.<tenant>.localhost:$DEV_PORT works from the host browser.
+    ports:
+    - "127.0.0.1:${DEV_PORT:-3000}:${DEV_PORT:-3000}"
+    environment:
+      PORT: ${DEV_PORT:-3000}
+      # Tenant#local_url_options only emits http://*.localhost when this is set.
+      DEV_ORIGIN: localhost
+      AUTOSTART_DEV: ${AUTOSTART_DEV:-0}
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    hostname: csa-admin-${WORKTREE_NAME:-main}

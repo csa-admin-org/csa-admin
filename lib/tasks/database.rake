@@ -23,11 +23,16 @@ rescue ActiveRecord::NoDatabaseError
   true
 end
 
-def ensure_tenant_databases_initialized
+# except_schema_dump: db:prepare already schema-loads shards whose schema_dump
+# is set (the first development tenant, and every test tenant). Preloading
+# those makes initialize_database skip them and then skip seeds. db:migrate
+# passes false and loads every empty shard, including the dump shard.
+def ensure_tenant_databases_initialized(except_schema_dump: false)
   schema_file = Rails.root.join("db/schema.rb").to_s
 
   Tenant.all.each do |tenant|
     ActiveRecord::Tasks::DatabaseTasks.with_temporary_pool_for_each(env: Rails.env, name: tenant) do |pool|
+      next if except_schema_dump && pool.db_config.schema_dump
       next unless uninitialized_tenant_database?(pool)
 
       puts "Loading schema for new tenant #{tenant}..."
@@ -65,6 +70,17 @@ namespace :db do
       end
     end
   end
+
+  # db:prepare only loads schema.rb into tenants with a schema dump (the first
+  # one in development) and migrates the others from scratch, which fails on the
+  # post-squash migrations. Load schema.rb into those first; Rails still creates,
+  # loads and seeds the first tenant itself.
+  namespace :prepare do
+    task tenants: :load_config do
+      ensure_tenant_databases_initialized(except_schema_dump: true)
+    end
+  end
+  Rake::Task["db:prepare"].enhance([ "db:prepare:tenants" ])
 
   # Override db:migrate so new / empty tenant DBs get schema.rb before migrate_all.
   # Skips seeds — Organization is created manually when onboarding a tenant.

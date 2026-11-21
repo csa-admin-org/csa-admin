@@ -5,7 +5,7 @@
 
 Tenant.switch_each do
   name = Tenant.current
-  domain = "#{name}.test"
+  domain = Tenant.domain # must match the tenant admin_host (email_default_from validation)
   email = "info@#{domain}"
   phone = "+41 76 765 43 21"
   street = "Street 123"
