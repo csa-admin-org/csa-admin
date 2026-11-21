@@ -25,7 +25,7 @@ Dev: `bin/dev`. Hosts and auth: `browser` skill. `acme` is test-only.
 
 ## Code
 
-Vanilla Rails, rich models. No service, query, or form objects. `Archspec.rb` enforces that. Model concerns: `app/models/member/billing.rb`; shared: `app/models/concerns/`.
+Vanilla Rails, rich models. No service, query, or form objects. `Archspec.rb` enforces that. The Query API under `app/models/query` is allowed; Archspec forbids query objects in `app/queries`. Model concerns: `app/models/member/billing.rb`; shared: `app/models/concerns/`.
 
 ActiveAdmin: `app/admin/`, DSL `lib/active_admin/`. Custom actions must authorize via `Ability`. UI: `DESIGN.md`.
 
