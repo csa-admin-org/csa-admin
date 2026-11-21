@@ -24,16 +24,14 @@
       background-color: color-mix(in oklab, var(--color-lime-100) 75%, transparent);
     }
   }
-  @media (prefers-color-scheme: dark) {
-    @keyframes anchor-highlight {
-      0%,
-      100% {
-        background-color: transparent;
-      }
-      25%,
-      75% {
-        background-color: color-mix(in oklab, var(--color-zinc-700) 75%, transparent);
-      }
+  @keyframes anchor-highlight-dark {
+    0%,
+    100% {
+      background-color: transparent;
+    }
+    25%,
+    75% {
+      background-color: color-mix(in oklab, var(--color-zinc-700) 75%, transparent);
     }
   }
   .animate-anchor-highlight {
@@ -41,10 +39,18 @@
     border-radius: 0.375rem;
     padding: 0 0.75rem;
     margin: 0 -0.75rem;
+
+    &:where(.dark, .dark *) {
+      animation-name: anchor-highlight-dark;
+    }
   }
 
   .animate-settings-anchor-highlight {
     animation: anchor-highlight 1.5s ease-in-out 1;
+
+    &:where(.dark, .dark *) {
+      animation-name: anchor-highlight-dark;
+    }
   }
 
   .animate-quantity-adjustment {
