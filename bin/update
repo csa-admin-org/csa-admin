@@ -216,8 +216,17 @@ FileUtils.chdir APP_ROOT do
   puts "\n== Syncing Dockerfile Ruby version =="
   sync_dockerfile_ruby!
 
+  puts "\n== Updating bundler =="
+  # First, so the gem update below runs on that version, not the one that started this script.
+  system! "bundle", "update", "--bundler"
+
   puts "\n== Updating gems (cooldown: #{cooldown} days) =="
   system! "bundle", "update", "--all", "--cooldown", cooldown
+
+  puts "\n== Updating brakeman (cooldown: 0) =="
+  # bin/brakeman passes --ensure-latest, which ignores the Gemfile cooldown.
+  # Last, so the cooldown on the update above cannot retract this version.
+  system! "bundle", "update", "brakeman", "--cooldown", "0"
 
   puts "\n== Updating JS packages =="
   system! "bin/aube", "update"
