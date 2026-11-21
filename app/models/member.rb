@@ -258,10 +258,6 @@ class Member < ApplicationRecord
     end
   end
 
-  def public_create_and_not_support?
-    public_create && !support?
-  end
-
   def public_create_or_new_record?
     new_record? || public_create
   end

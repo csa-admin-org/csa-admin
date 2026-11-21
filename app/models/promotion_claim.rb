@@ -83,10 +83,6 @@ class PromotionClaim < ApplicationRecord
     membership.present? && !membership.trial_only?
   end
 
-  def occupying?(on = Date.current)
-    !voided? && !expired?(on)
-  end
-
   # Campaign state and period are not consulted. A saved claim lowers the
   # membership amount until it is voided or expired, including a trial-only
   # membership. Commitment voids it later, if that membership ends in trial.

@@ -42,13 +42,6 @@ module MembersHelper
     "#{code.name} (#{promotion_banner_amount(code)})"
   end
 
-  def promotion_benefit_summary(code, short: false)
-    amount = cur(code.amount)
-    return amount if short
-
-    t("promotions.benefit.fixed", amount: amount)
-  end
-
   def promotion_banner_amount(code)
     amount = "-#{number_to_rounded(code.amount, precision: 2, strip_insignificant_zeros: true)}"
     "#{amount}#{NumbersHelper::NBSP}#{currency_symbol}"
@@ -252,10 +245,6 @@ module MembersHelper
       .order(Arel.sql("MAX(#{table}.created_at) DESC"))
       .limit(FEATURED_MEMBER_LIMIT)
       .pluck(:member_id)
-  end
-
-  def languages_collection
-    Current.org.languages.map { |l| [ t("languages.#{l}"), l ] }
   end
 
   def organization_billing_year_divisions_collection(data: {}, membership: nil)

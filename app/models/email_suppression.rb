@@ -75,10 +75,6 @@ class EmailSuppression < ApplicationRecord
     owners
   end
 
-  def broadcast?
-    stream_id == "broadcast"
-  end
-
   def manual_suppression?
     reason == "ManualSuppression"
   end

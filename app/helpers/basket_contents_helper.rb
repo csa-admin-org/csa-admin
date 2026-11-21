@@ -171,21 +171,6 @@ module BasketContentsHelper
     nil
   end
 
-  def depot_prices_list(depot_prices)
-    depot_prices.sort_by { |d, p| [ p, d.name ] }.map do |depot, price|
-      "#{depot.name}:#{cur(price, unit: false)}"
-    end.join("&#xa;").html_safe
-  end
-
-  def display_basket_price_with_diff(base_price, prices)
-    prices.map { |price|
-      content_tag(:div, class: "bc-price-wrap") {
-        (content_tag(:h4, cur(price, unit: false, format: "%n"), class: "bc-price") +
-          display_basket_price_diff(base_price, price - base_price))
-      }
-    }.join(content_tag(:span, "–", class: "bc-price-sep")).html_safe
-  end
-
   def basket_price_diff_color(base_price, diff)
     per = (diff / base_price * 100).round(1)
     if per.in?(-5..5)

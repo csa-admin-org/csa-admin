@@ -20,8 +20,4 @@ module Organization::SharesFeature
   def shares?
     feature?("shares")
   end
-
-  def share?
-    shares?
-  end
 end

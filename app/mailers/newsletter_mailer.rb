@@ -2,7 +2,6 @@
 
 class NewsletterMailer < ApplicationMailer
   include Templatable
-  EmailRender = Struct.new(:subject, :content)
 
   def newsletter_email
     set_unsubscribe_token
@@ -17,12 +16,6 @@ class NewsletterMailer < ApplicationMailer
         "List-Unsubscribe" => "<#{members_unsubscribe_newsletter_post_url}>"
       },
       **prepared_data)
-  end
-
-  def render_newsletter_email
-    render_template(params[:member], **prepared_data) do |subject, content|
-      EmailRender.new(subject, content)
-    end
   end
 
   private
