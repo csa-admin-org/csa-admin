@@ -48,6 +48,8 @@ A collapsible section labeled with the fiscal year shows the cumulative year-to-
 
 <%= BasketContent.model_name.human %> can optionally be displayed to your members on the deliveries page of their account. Each member sees only the products relevant to their specific <%= BasketSize.model_name.human.downcase %> and depot. Enable this in [the <%= BasketContent.model_name.human.downcase %> settings](/settings#basket_content).
 
+Once delivered, contents stay expanded in a "This week" section until the end of the week. They then remain on past deliveries, collapsed, for the last 12 months and across fiscal years. Members only see contents for <%= Basket.model_name.human(count: 2).downcase %> they received.
+
 ### Visibility Window
 
 To give you time to finalize the <%= BasketContent.model_name.human.downcase %> before they become visible, you can configure a number of hours before midnight on the delivery day when the contents become visible. For example, with the default value of 12 hours, contents for a Thursday delivery will become visible on Wednesday at noon.

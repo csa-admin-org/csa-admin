@@ -1708,6 +1708,12 @@ _:
           _de: Die letzten Lieferungen sind für Deine ungenutzten inbegriffenen Abwesenheiten provisorisch als abwesend markiert. Du kannst <a href="/absences">sie für Deine endgültigen Abwesenheiten nutzen</a>.
           _it: Le ultime consegne sono provvisoriamente marcate come assenti per le tue assenze incluse non utilizzate. Puoi <a href="/absences">utilizzarle per le tue assenze definitive</a>.
           _nl: De laatste leveringen zijn voorlopig als afwezig gemarkeerd voor je ongebruikte inbegrepen afwezigheden. Je kunt <a href="/absences">ze voor je definitieve afwezigheden gebruiken</a>.
+        this_week_delivery:
+          _en: This week
+          _fr: Cette semaine
+          _de: Diese Woche
+          _it: Questa settimana
+          _nl: Deze week
         today_delivery:
           _en: Today
           _fr: Aujourd'hui
