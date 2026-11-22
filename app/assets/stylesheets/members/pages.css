@@ -405,6 +405,47 @@
     color: var(--color-gray-400);
   }
 
+  .basket-contents-details {
+    margin-top: 0.25rem;
+  }
+
+  .basket-contents-summary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-inline-start: -0.125rem;
+    padding: 0;
+    cursor: pointer;
+    list-style: none;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    color: var(--color-ink-soft);
+
+    &::marker,
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::before {
+      content: "";
+      width: 0.4375rem;
+      height: 0.5rem;
+      flex: none;
+      margin-inline: 0.40625rem;
+      background-color: currentcolor;
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+    }
+  }
+
+  .basket-contents-details[open] > .basket-contents-summary::before {
+    transform: rotate(90deg);
+  }
+
+  .basket-contents-body {
+    margin-top: 0.25rem;
+  }
+
   .depot-note {
     margin-top: 1rem;
     border-radius: 0.25rem;

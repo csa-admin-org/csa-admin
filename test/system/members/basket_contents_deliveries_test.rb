@@ -185,4 +185,210 @@ class Members::BasketContentsDeliveriesTest < ApplicationSystemTestCase
 
     assert_text "What's in your basket"
   end
+
+  test "shows this week's delivery expanded, then collapsed in past" do
+    enable_basket_content_visibility
+    create_contents_for_thursday_1
+    login(members(:jane))
+    basket = baskets(:jane_1)
+    title = delivery_title(deliveries(:thursday_1))
+
+    travel_to "2024-04-05"
+    visit "/deliveries"
+
+    assert_selector "h2", text: "This week"
+    assert_selector "h2", text: "Next"
+    assert_no_selector "h2", text: "Today"
+    within "#this_week_deliveries" do
+      assert_text title
+      assert_text "Your basket contents"
+      assert_text "Carrots"
+      assert_selector ".basket-contents-item", count: 2
+      assert_no_selector "details"
+    end
+    within "#past_deliveries" do
+      assert_no_text title
+    end
+    assert_selector "#basket_#{basket.id}", count: 1
+
+    travel_to "2024-04-08"
+    visit "/deliveries"
+
+    assert_no_selector "#this_week_deliveries"
+    assert_selector "#basket_#{basket.id}", count: 1
+    within "#past_deliveries" do
+      assert_selector "details.basket-contents-details:not([open])", count: 1
+      assert_selector "summary", text: "Your basket contents"
+      assert_text title
+      assert_text "Carrots"
+    end
+  end
+
+  test "keeps today's basket in the today section" do
+    travel_to "2024-04-04 13:00"
+    enable_basket_content_visibility
+    create_contents_for_thursday_1
+    login(members(:jane))
+    basket = baskets(:jane_1)
+
+    visit "/deliveries"
+
+    assert_selector "h2", text: "Today"
+    assert_no_selector "#this_week_deliveries"
+    assert_selector "h3", text: "Your basket contents"
+    assert_text "Carrots"
+    assert_no_selector "details.basket-contents-details"
+    assert_no_selector "#past_deliveries #basket_#{basket.id}"
+  end
+
+  test "shows past baskets from a previous membership within 12 months" do
+    travel_to "2024-04-16"
+    enable_basket_content_visibility
+    create_basket_content(
+      delivery: deliveries(:monday_past_3),
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: { medium_id => 1000 },
+      depots: Depot.all,
+      unit: "kg")
+    login(members(:john))
+
+    visit "/deliveries"
+
+    within "#past_deliveries" do
+      assert_text delivery_title(deliveries(:monday_1))
+      assert_no_text "Carrots"
+      click_on "Show all"
+    end
+
+    within "#past_deliveries" do
+      assert_text delivery_title(deliveries(:monday_past_3))
+      assert_text "Carrots"
+      assert_selector "details.basket-contents-details:not([open])"
+      assert_no_text delivery_title(deliveries(:monday_past_1))
+      assert_no_text delivery_title(deliveries(:monday_past_2))
+    end
+  end
+
+  test "hides this week and past contents when member visibility is off" do
+    org(features: Current.org.features | [ :basket_content ])
+    create_contents_for_thursday_1
+    login(members(:jane))
+    title = delivery_title(deliveries(:thursday_1))
+
+    travel_to "2024-04-05"
+    visit "/deliveries"
+
+    within "#this_week_deliveries" do
+      assert_text title
+    end
+    assert_no_text "Your basket contents"
+    assert_no_text "Carrots"
+
+    travel_to "2024-04-08"
+    visit "/deliveries"
+
+    within "#past_deliveries" do
+      assert_text title
+    end
+    assert_no_text "Your basket contents"
+    assert_no_text "Carrots"
+    assert_no_selector "details.basket-contents-details"
+  end
+
+  test "respects depot and basket size for this week's contents" do
+    travel_to "2024-04-05"
+    enable_basket_content_visibility
+    create_basket_content(
+      delivery: deliveries(:thursday_1),
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: { large_id => 1000 },
+      depots: [ depots(:bakery) ],
+      unit: "kg")
+    create_basket_content(
+      delivery: deliveries(:thursday_1),
+      product: basket_content_products(:cucumbers),
+      basket_size_ids_quantities: { large_id => 3 },
+      depots: [ depots(:farm) ],
+      unit: "pc")
+    apples = BasketContent::Product.create!(names: { "en" => "Apples" }, unit: "pc")
+    create_basket_content(
+      delivery: deliveries(:thursday_1),
+      product: apples,
+      basket_size_ids_quantities: { small_id => 2 },
+      depots: Depot.all,
+      unit: "pc")
+    login(members(:jane))
+
+    visit "/deliveries"
+
+    within "#this_week_deliveries" do
+      assert_text "Carrots"
+      assert_no_text "Cucumbers"
+      assert_no_text "Apples"
+    end
+  end
+
+  test "does not show contents for an absent basket" do
+    travel_to "2024-05-03"
+    enable_basket_content_visibility
+    create_basket_content(
+      delivery: deliveries(:thursday_5),
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: { large_id => 1000 },
+      depots: Depot.all,
+      unit: "kg")
+    login(members(:jane))
+
+    visit "/deliveries"
+
+    within "#this_week_deliveries" do
+      assert_text delivery_title(deliveries(:thursday_5))
+      assert_no_text "Carrots"
+      assert_no_text "Your basket contents"
+      assert_no_selector "details"
+    end
+  end
+
+  test "respects the quantity setting on past contents" do
+    travel_to "2024-04-08"
+    enable_basket_content_visibility(basket_content_member_display_quantity: false)
+    create_contents_for_thursday_1
+    login(members(:jane))
+
+    visit "/deliveries"
+
+    within "#past_deliveries details" do
+      assert_text "Carrots"
+      assert_text "Cucumbers"
+      assert_no_text "kg"
+      assert_no_text "pc"
+    end
+  end
+
+  test "shows the basket content note inside each past details" do
+    travel_to "2024-04-16"
+    enable_basket_content_visibility
+    org(basket_content_member_notes: { "en" => "No guarantee, last-minute changes are possible" })
+    create_contents_for_thursday_1
+    create_basket_content(
+      delivery: deliveries(:thursday_2),
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: { large_id => 1000 },
+      depots: Depot.all,
+      unit: "kg")
+    login(members(:jane))
+
+    visit "/deliveries"
+
+    assert_no_selector "#this_week_deliveries"
+    assert_selector "#past_deliveries details.basket-contents-details", count: 2
+    assert_selector "#past_deliveries details .basket-contents-note", count: 2, visible: :all
+    assert_no_selector "#past_deliveries > .basket-contents-note", visible: :all
+  end
+
+  private
+
+  def delivery_title(delivery)
+    I18n.l(delivery.date, format: :long_no_year).titleize
+  end
 end

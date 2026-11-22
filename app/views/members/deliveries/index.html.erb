@@ -5,6 +5,28 @@
 
 <%= render "members/deliveries/absences_included_notice" %>
 
+<% if @this_week_baskets.any? %>
+  <section id="this_week_deliveries">
+    <h2><%= t(".this_week_delivery") %></h2>
+
+    <ul class="list">
+      <% @this_week_baskets.each do |basket| %>
+        <li class="list-item">
+          <%= render partial: "members/baskets/basket", object: basket %>
+
+          <% if (basket_contents = @basket_contents_by_basket_id[basket.id]).present? %>
+            <%= render "basket_contents", basket_contents:, basket_size: basket.basket_size, note: false %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+
+    <% if @this_week_baskets.any? { |basket| @basket_contents_by_basket_id[basket.id].present? } %>
+      <%= render "basket_contents_note" %>
+    <% end %>
+  </section>
+<% end %>
+
 <% if @next_basket %>
   <section>
     <h2>
@@ -49,5 +71,5 @@
 <section id="past_deliveries">
   <h2><%= t(".past_deliveries") %></h2>
 
-  <%= render "members/deliveries/baskets_list", baskets: @past_baskets, empty_text: t(".no_past_deliveries"), anchor: "past_deliveries" %>
+  <%= render "members/deliveries/baskets_list", baskets: @past_baskets, empty_text: t(".no_past_deliveries"), anchor: "past_deliveries", basket_contents_by_id: @basket_contents_by_basket_id %>
 </section>

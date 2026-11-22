@@ -1,13 +1,26 @@
-<%# locals: (baskets:, empty_text:, anchor:, home_delivery_cta_basket: nil) %>
+<%# locals: (baskets:, empty_text:, anchor:, home_delivery_cta_basket: nil, basket_contents_by_id: nil) %>
 
 <% if baskets.empty? %>
   <p class="nocontent"><%= empty_text %></p>
 <% else %>
   <% limit = params[:"all_#{anchor}"] ? 10_000 : 4 %>
+  <% visible_baskets = baskets.first(limit) %>
   <ul class="list">
-    <% baskets.first(limit).each do |basket| %>
+    <% visible_baskets.each do |basket| %>
       <li class="list-item">
         <%= render partial: "members/baskets/basket", object: basket, locals: { home_delivery_cta_basket: home_delivery_cta_basket } %>
+
+        <% if (basket_contents = basket_contents_by_id&.[](basket.id)).present? %>
+          <details class="basket-contents-details">
+            <summary class="basket-contents-summary">
+              <%= Current.org.basket_content_member_title %>
+            </summary>
+
+            <div class="basket-contents-body">
+              <%= render "basket_contents", basket_contents:, basket_size: basket.basket_size, heading: false %>
+            </div>
+          </details>
+        <% end %>
       </li>
     <% end %>
   </ul>

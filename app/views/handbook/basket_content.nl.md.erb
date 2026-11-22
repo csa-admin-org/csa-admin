@@ -48,6 +48,8 @@ Een inklapbaar gedeelte **Jaargemiddelde** toont het cumulatieve prijsverschil o
 
 De <%= BasketContent.model_name.human.downcase %> kan optioneel worden weergegeven aan je leden op de leveringspagina van hun account. Elk lid ziet alleen de producten die relevant zijn voor de specifieke <%= BasketSize.model_name.human.downcase %> en het depot van dat lid. Schakel dit in via [de instellingen voor <%= BasketContent.model_name.human.downcase %>](/settings#basket_content).
 
+Na de levering blijft de inhoud uitgeklapt in een sectie "Deze week" tot het einde van de week. Daarna blijft die bij eerdere leveringen, ingeklapt, voor de laatste 12 maanden en over de boekjaren heen. Leden zien de inhoud alleen van <%= Basket.model_name.human(count: 2).downcase %> die ze hebben ontvangen.
+
 ### Zichtbaarheidsvenster
 
 Om je de tijd te geven de <%= BasketContent.model_name.human.downcase %> af te ronden voordat deze zichtbaar wordt, kun je een aantal uren vóór middernacht op de leveringsdag configureren wanneer de inhoud zichtbaar wordt. Bijvoorbeeld, met de standaardwaarde van 12 uur, wordt de inhoud van een donderdaglevering zichtbaar op woensdag om 12:00 uur.

@@ -1,6 +1,10 @@
-<h3 class="heading-sm">
-  <%= Current.org.basket_content_member_title %>
-</h3>
+<%# locals: (basket_contents:, basket_size:, heading: true, note: true) %>
+
+<% if heading %>
+  <h3 class="heading-sm">
+    <%= Current.org.basket_content_member_title %>
+  </h3>
+<% end %>
 
 <ul class="basket-contents">
   <% basket_contents.each do |bc| %>
@@ -26,8 +30,4 @@
   <% end %>
 </ul>
 
-<% if Current.org.basket_content_member_note.present? %>
-  <p class="basket-contents-note">
-    * <%= Current.org.basket_content_member_note %>
-  </p>
-<% end %>
+<%= render "basket_contents_note" if note %>

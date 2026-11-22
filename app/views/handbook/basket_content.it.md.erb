@@ -48,6 +48,8 @@ Una sezione **Media annuale** pieghevole mostra la differenza di prezzo cumulata
 
 Il <%= BasketContent.model_name.human.downcase %> può opzionalmente essere visualizzato ai tuoi soci sulla pagina delle consegne del loro account. Ogni socio vede solo i prodotti pertinenti alla sua <%= BasketSize.model_name.human.downcase %> e al suo deposito. Questo deve essere attivato dalle [impostazioni del <%= BasketContent.model_name.human.downcase %>](/settings#basket_content).
 
+Dopo la consegna, il contenuto resta espanso in una sezione "Questa settimana" fino alla fine della settimana. Poi resta sulle consegne passate, chiuso, per gli ultimi 12 mesi e attraverso gli anni fiscali. I soci vedono il contenuto solo dei <%= Basket.model_name.human(count: 2).downcase %> che hanno ricevuto.
+
 ### Finestra di visibilità
 
 Per lasciarti il tempo di finalizzare il <%= BasketContent.model_name.human.downcase %> prima che diventi visibile, puoi configurare un numero di ore prima della mezzanotte del giorno di consegna a partire dal quale il contenuto diventa visibile. Ad esempio, con il valore predefinito di 12 ore, il contenuto di una consegna del giovedì diventerà visibile il mercoledì a mezzogiorno.
