@@ -58,7 +58,7 @@ hosts from the tenant slug. `acme` is test-only.
 already how the machine is running — do not require it on cloud agents.
 
 Admin and members portals are separate auth contexts. Cookies are
-host-scoped — keep one host for a given session.
+host-scoped, so the members tab does not replace the admin one.
 
 ## Auth
 
@@ -73,4 +73,7 @@ login form. Prefer this over typing passwords.
 
 Do not password-login as a member for QA. In admin, open the member, then
 use the become control (`become_member` / `become-member#open`, label like
-“open admin session”) to open a members-portal session in a new tab.
+“open admin session”). It opens a blank tab and then the members portal;
+the admin tab stays put. With `agent-browser`, stay in this session and
+switch once the new tab leaves `about:blank` (`agent-browser tab`, then
+`agent-browser tab t2`). A new session does not have that login.
