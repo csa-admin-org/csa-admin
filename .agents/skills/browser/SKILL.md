@@ -12,13 +12,25 @@ description: >
 This skill owns CSA Admin origins and auth shortcuts. Drive the UI with the
 environment’s built-in browser tools (Cursor Browser / computer use).
 
+## Local devcontainer workers
+
+A local devcontainer / My Machines worker has no Cursor Browser unless it
+was started with `--computer-use`. Use `agent-browser`. Run
+`agent-browser skills get core` for its usage guide before driving the UI.
+Do not run `agent-browser install`: Chrome for Testing has no Linux ARM64
+build, and these containers use Debian Chromium
+(`AGENT_BROWSER_EXECUTABLE_PATH=/usr/bin/chromium`). `*.localhost` hosts
+resolve in Chromium with no extra DNS setup.
+
 ## Prefer the launcher
 
-Open the tenant index first when picking a host:
+Open the tenant index first when picking a host. `$PORT` is the dev server
+port (`PORT`). `bin/dev` defaults it to `3000`; a devcontainer sets `PORT`
+from `DEV_PORT` (`.devcontainer/.env`).
 
 | Context | URL |
 | --- | --- |
-| Cloud Agent / self-hosted / Mac `bin/dev` | `http://127.0.0.1:3000` or `http://localhost:3000` (development only, no basic auth) |
+| Cloud Agent / self-hosted / Mac `bin/dev` | `http://127.0.0.1:$PORT` or `http://localhost:$PORT` (development only, no basic auth) |
 | Production ops | `https://mc.csa-admin.org` (HTTP basic) |
 | This Mac with puma-dev | `https://mc.csa-admin.test` (or `mc` + app domain on `.test`) |
 
@@ -36,10 +48,10 @@ hosts from the tenant slug. `acme` is test-only.
 
 **Default (Cloud Agent, self-hosted VM, and Mac with `bin/dev`):**
 
-- Admin: `http://admin.<sld>.localhost:3000`
-- Members: members host from tenant config, same `.localhost:3000` rewrite
-  (often `http://membres.<sld>.localhost:3000`)
-- Expect `bin/dev` (and forwarded port `3000` on VMs)
+- Admin: `http://admin.<sld>.localhost:$PORT`
+- Members: members host from tenant config, same `.localhost:$PORT` rewrite
+  (often `http://membres.<sld>.localhost:$PORT`)
+- Expect `bin/dev` (and forwarded port `$PORT` on VMs)
 
 **This Mac only (optional):** puma-dev with `https://admin.<sld>.test` /
 `https://membres.<sld>.test` (or the locale members host). Use when that is
