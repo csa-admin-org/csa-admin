@@ -72,7 +72,7 @@ accessories:
     cmd: "valkey-server --save 60 1 --loglevel warning --maxmemory-policy noeviction"
 
   cap:
-    image: tiago2/cap:4.0.14
+    image: tiago2/cap:4.0.18
     host: isle.thibaud.gg
     env:
       clear:

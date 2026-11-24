@@ -13,7 +13,7 @@ class Cap::ClientTest < ActiveSupport::TestCase
         body: {
           name: "Acme (acme)",
           instrumentation: true,
-          blockAutomatedBrowsers: true,
+          blockAutomatedBrowsers: false,
           corsOrigins: [ "https://admin.acme.test", "https://members.acme.test" ],
           protocol: "sha256-pow"
         }.to_json)
@@ -22,7 +22,7 @@ class Cap::ClientTest < ActiveSupport::TestCase
     result = Cap::Client.new(api_url: "https://cap.test", api_key: "api-key").create_key(
       name: "Acme (acme)",
       instrumentation: true,
-      block_automated_browsers: true,
+      block_automated_browsers: false,
       cors_origins: [ "https://admin.acme.test", "https://members.acme.test" ])
 
     assert_equal "site-key", result.fetch("siteKey")
@@ -42,7 +42,7 @@ class Cap::ClientTest < ActiveSupport::TestCase
           body: {
             name: "Acme (acme)",
             instrumentation: true,
-            blockAutomatedBrowsers: true,
+            blockAutomatedBrowsers: false,
             corsOrigins: [],
             protocol: "sha256-pow"
           }.to_json)
@@ -51,7 +51,7 @@ class Cap::ClientTest < ActiveSupport::TestCase
       result = Cap::Client.new(api_key: "api-key").create_key(
         name: "Acme (acme)",
         instrumentation: true,
-        block_automated_browsers: true,
+        block_automated_browsers: false,
         cors_origins: [])
 
       assert_equal "site-key", result.fetch("siteKey")
@@ -65,7 +65,7 @@ class Cap::ClientTest < ActiveSupport::TestCase
       client.create_key(
         name: "Acme (acme)",
         instrumentation: true,
-        block_automated_browsers: true,
+        block_automated_browsers: false,
         cors_origins: [])
     end
 

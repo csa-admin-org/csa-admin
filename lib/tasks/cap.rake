@@ -23,7 +23,7 @@ namespace :cap do
       result = client.create_key(
         name: tenant,
         instrumentation: true,
-        block_automated_browsers: true,
+        block_automated_browsers: false,
         cors_origins: cors_origins)
 
       Current.org.update!(
@@ -124,7 +124,7 @@ namespace :cap do
         client.update_key_config(
           site_key: Rails.app.creds.require(:cap_development_site_key),
           instrumentation: true,
-          block_automated_browsers: true,
+          block_automated_browsers: false,
           cors_origins: [])
 
         puts "Updated CAP_DEVELOPMENT_SITE_KEY CORS config for local development."
@@ -132,7 +132,7 @@ namespace :cap do
         result = client.create_key(
           name: "CSA Admin [development]",
           instrumentation: true,
-          block_automated_browsers: true,
+          block_automated_browsers: false,
           cors_origins: [])
 
         puts "Add these lines to .env:"
