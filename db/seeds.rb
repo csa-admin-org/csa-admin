@@ -4,6 +4,8 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 
 Tenant.switch_each do
+  next if Organization.exists?
+
   name = Tenant.current
   domain = Tenant.domain # must match the tenant admin_host (email_default_from validation)
   email = "info@#{domain}"
