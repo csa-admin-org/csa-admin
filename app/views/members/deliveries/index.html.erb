@@ -15,14 +15,14 @@
           <%= render partial: "members/baskets/basket", object: basket %>
 
           <% if (basket_contents = @basket_contents_by_basket_id[basket.id]).present? %>
-            <%= render "basket_contents", basket_contents:, basket_size: basket.basket_size, note: false %>
+            <%= render "members/deliveries/basket_contents", basket_contents:, basket_size: basket.basket_size, note: false %>
           <% end %>
         </li>
       <% end %>
     </ul>
 
     <% if @this_week_baskets.any? { |basket| @basket_contents_by_basket_id[basket.id].present? } %>
-      <%= render "basket_contents_note" %>
+      <%= render "members/deliveries/basket_contents_note" %>
     <% end %>
   </section>
 <% end %>
