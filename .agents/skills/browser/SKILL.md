@@ -12,21 +12,11 @@ description: >
 This skill owns CSA Admin origins and auth shortcuts. Drive the UI with the
 environment’s built-in browser tools (Cursor Browser / computer use).
 
-## Local devcontainer workers
-
-A local devcontainer / My Machines worker has no Cursor Browser unless it
-was started with `--computer-use`. Use `agent-browser`. Run
-`agent-browser skills get core` for its usage guide before driving the UI.
-Do not run `agent-browser install`: Chrome for Testing has no Linux ARM64
-build, and these containers use Debian Chromium
-(`AGENT_BROWSER_EXECUTABLE_PATH=/usr/bin/chromium`). `*.localhost` hosts
-resolve in Chromium with no extra DNS setup.
-
 ## Prefer the launcher
 
 Open the tenant index first when picking a host. `$PORT` is the dev server
-port (`PORT`). `bin/dev` defaults it to `3000`; a devcontainer sets `PORT`
-from `DEV_PORT` (`.devcontainer/.env`).
+port (`PORT`, default 3000). `bin/dev` defaults to 3000; worktrees can use
+other ports.
 
 | Context | URL |
 | --- | --- |

@@ -1,5 +1,0 @@
-# Per-worktree compose settings (DEV_PORT, AUTOSTART_DEV, WORKTREE_NAME, GIT_COMMON_DIR).
-.env
-# Personal overrides: compose.local.yaml (an empty stub otherwise),
-# initialize.local.sh (host) and post-start.local.sh (container).
-*.local.*

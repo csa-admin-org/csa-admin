@@ -5,8 +5,6 @@
 # docker build -t rails8 .
 # docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name rails8 rails8
 
-# For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
-
 # Keep RUBY_VERSION in sync with the Ruby version in mise.toml
 ARG RUBY_VERSION=4.0.10
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
