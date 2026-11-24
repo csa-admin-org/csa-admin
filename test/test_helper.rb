@@ -2,8 +2,9 @@
 
 ENV["RAILS_ENV"] ||= "test"
 ENV["CAP_SKIP_VERIFY"] ||= "1"
-# bin/dev sets DEV_ORIGIN=localhost; tests that need it set it themselves.
+# bin/dev and worktree mise.local.toml set these; tests that need them set them.
 ENV.delete("DEV_ORIGIN")
+ENV.delete("TENANT")
 require_relative "../config/environment"
 require "rails/test_help"
 
