@@ -30,7 +30,7 @@ pin_all_from "app/javascript/controllers/members", under: "controllers/members",
 # Mission Control launcher
 pin "mission_control", preload: false
 pin_all_from "app/javascript/controllers/mission_control", under: "controllers/mission_control", preload: false
-pin "vanilla-calendar-pro", preload: false # @3.4.1
+pin "vanilla-calendar-pro", preload: false # @3.4.2
 
 # Admin
 pin "admin", preload: false
