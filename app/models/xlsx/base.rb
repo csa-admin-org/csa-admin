@@ -3,6 +3,18 @@
 require "rubyXL"
 require "rubyXL/convenience_methods"
 
+# rubyXL 3.4.41 calls gsub on a raw-string cell that has no value.
+# https://github.com/weshatheleopard/rubyXL/issues/490 is fixed on master; drop this with that release.
+if RubyXL::VERSION == "3.4.41"
+  RubyXL::Cell.prepend(Module.new do
+    def value(args = {})
+      return if datatype == RubyXL::DataType::RAW_STRING && raw_value.nil?
+
+      super
+    end
+  end)
+end
+
 module XLSX
   class Base
     include ActionView::Helpers::NumberHelper
