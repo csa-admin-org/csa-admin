@@ -21,14 +21,14 @@ Read the target release notes and `capd/src/server.js` for that tag before chang
 ## Before the image switch
 
 1. App code can ship first. Leave the accessory on the running tag until the backup exists.
-2. Snapshot Valkey inside the running container. `bin/kamal accessory exec` starts a new container and cannot reach it.
+2. Snapshot Valkey inside the running container. `kamal accessory exec` starts a new container and cannot reach it.
 
    ```bash
    ssh isle.thibaud.gg 'docker exec csa-admin-cap-valkey valkey-cli SAVE'
    ```
 
    The dump is a bind mount, not a Docker volume: `/root/csa-admin-cap-valkey/cap-valkey-data/dump.rdb`. Copy it off isle and check the sha256. The hourly `--save 60 1` is not this backup. Rollback is that file plus the previous image tag.
-3. `bin/kamal accessory reboot cap`. Not `bin/kamal cap-boot`. That alias is `accessory boot`, which will not recreate a running container onto a new tag. Do not reboot `cap-valkey`. `cap-data` is already mounted.
+3. `kamal accessory reboot cap`. Not `kamal cap-boot`. That alias is `accessory boot`, which will not recreate a running container onto a new tag. Do not reboot `cap-valkey`. `cap-data` is already mounted.
 
 ## After boot
 
@@ -44,7 +44,7 @@ A v4 API key is `id_token` and must contain `_`. A key without `_` is 401, inclu
 
 Login is `POST /auth/login` with `{ admin_key }`. The session `Authorization` header is `Bearer` plus base64 of `{ token, hash }` from `session_token` and `hashed_token`. Create an unscoped write key (`siteKeys` omitted, `readonly` not set). The token is returned once. If a key was created and the token was not saved, delete that key and mint another. Do not keep two current keys.
 
-Write it as `cap_api_key` in `config/credentials.yml.enc`. Kamal builds from a git clone of the main checkout and ignores an uncommitted file, a worktree commit, and `deploy --version` pointing at a local-only SHA. Commit on `master`, push, then `bin/kamal deploy`. Deploying before the push lets the next CI deploy rebuild without the key and restore the 401.
+Write it as `cap_api_key` in `config/credentials.yml.enc`. Kamal builds from a git clone of the main checkout and ignores an uncommitted file, a worktree commit, and `deploy --version` pointing at a local-only SHA. Commit on `master`, push, then `kamal deploy`. Deploying before the push lets the next CI deploy rebuild without the key and restore the 401.
 
 Delete the old API key only after a rotate dry-run with the new key succeeds.
 
@@ -53,10 +53,10 @@ Delete the old API key only after a rotate dry-run with the new key succeeds.
 Both from the job container, so they use `CAP_INTERNAL_API_URL`. Protocol first. It does not cut `/siteverify`.
 
 ```bash
-bin/kamal app exec -r job "bin/rails cap:pin_sha256"
-bin/kamal app exec -r job "bin/rails cap:pin_sha256 CONFIRM=1"
-bin/kamal app exec -r job "bin/rails cap:rotate_secrets"
-bin/kamal app exec -r job "bin/rails cap:rotate_secrets CONFIRM=1"
+kamal app exec -r job "bin/rails cap:pin_sha256"
+kamal app exec -r job "bin/rails cap:pin_sha256 CONFIRM=1"
+kamal app exec -r job "bin/rails cap:rotate_secrets"
+kamal app exec -r job "bin/rails cap:rotate_secrets CONFIRM=1"
 ```
 
 `CONFIRM` is exact `1`. `true` and `yes` do not write.
