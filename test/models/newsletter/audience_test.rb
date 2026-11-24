@@ -178,6 +178,31 @@ class Newsletter::AudienceTest < ActiveSupport::TestCase
     assert_empty segment.members
   end
 
+  test "shop orders audience keeps the latest deliveries from the past month" do
+    travel_to "2024-06-07"
+    special = Shop::SpecialDelivery.create!(
+      date: Date.new(2024, 5, 24),
+      open: true,
+      products: [ shop_products(:oil) ])
+    candidates = [
+      deliveries(:thursday_6),
+      deliveries(:monday_7),
+      deliveries(:thursday_7),
+      deliveries(:monday_8),
+      deliveries(:thursday_8),
+      special,
+      deliveries(:monday_9),
+      deliveries(:thursday_9),
+      deliveries(:monday_10),
+      deliveries(:thursday_10)
+    ]
+    candidates.each { |delivery| create_shop_order(delivery: delivery) }
+
+    values = Newsletter::Audience.segments[:shop_delivery_gid].map(&:value)
+
+    assert_equal candidates.sort_by(&:date).last(8).map(&:gid), values
+  end
+
   test "excludes discarded members from audience" do
     travel_to "2024-01-01"
 

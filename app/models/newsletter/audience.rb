@@ -218,18 +218,20 @@ class Newsletter
       if Current.org.feature?("shop")
         base[:shop_delivery_gid] = (
           ::Delivery
-            .between(1.week.ago..)
+            .between(1.month.ago..)
             .joins(:shop_orders)
             .merge(Shop::Order.all_without_cart)
             .distinct
+            .reorder(date: :desc)
             .limit(8) +
           Shop::SpecialDelivery
-            .between(1.week.ago..)
+            .between(1.month.ago..)
             .joins(:shop_orders)
             .merge(Shop::Order.all_without_cart)
             .distinct
+            .reorder(date: :desc)
             .limit(8)
-        ).sort_by(&:date).first(8)
+        ).sort_by(&:date).last(8)
       end
       if Current.org.feature?("activity")
         base[:activity_state] = activity_state_records
