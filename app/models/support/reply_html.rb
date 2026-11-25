@@ -61,6 +61,7 @@ module Support
       return [ root.inner_html.to_s.strip.presence, nil ] if original.blank?
 
       unwrap_quoted!(original)
+      Support::MailSignature.strip_fragment!(original)
       collapse_breaks!(original)
       strip_styles!(original)
       original_html = original.inner_html.to_s.strip.presence

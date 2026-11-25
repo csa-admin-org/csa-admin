@@ -61,6 +61,47 @@ class Support::ReplyBodyTest < ActiveSupport::TestCase
     assert_equal "Hello", Support::ReplyBody.original(text)
   end
 
+  test "original drops a contact card after a french sign-off" do
+    text = <<~TEXT
+      Here is the answer
+
+      On Monday, Jane Doe <jane@example.test> wrote:
+      Bonjour,
+
+      Le panier de mardi n'est pas arrivé au point de dépôt.
+
+      Cordialement,
+
+      Camille Martin
+      Responsable
+      https://example.test
+      12 rue des Lilas
+      1200 Genève
+      +33 1 23 45 67 89
+      camille@example.test
+    TEXT
+
+    body = Support::ReplyBody.original(text)
+
+    assert_includes body, "Le panier de mardi"
+    assert_includes body, "Cordialement"
+    assert_not_includes body, "Camille Martin"
+    assert_not_includes body, "rue des Lilas"
+    assert_not_includes body, "camille@example.test"
+    assert_not_includes body, "23 45 67"
+  end
+
+  test "original keeps a phone number written in the message" do
+    text = <<~TEXT
+      Here is the answer
+
+      On Monday, Jane Doe <jane@example.test> wrote:
+      Pouvez-vous m'appeler au 01 23 45 67 89 demain?
+    TEXT
+
+    assert_includes Support::ReplyBody.original(text), "01 23 45 67 89"
+  end
+
   test "original_from reads an address after a german schrieb header" do
     text = "Antwort\n\nAm Montag schrieb Jane Doe <jane@org.ch>:\nHello"
     assert_equal "jane@org.ch", Support::ReplyBody.original_from(text)

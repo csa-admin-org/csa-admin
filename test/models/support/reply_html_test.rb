@@ -585,6 +585,110 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_equal shown, extracted
   end
 
+  test "drops a french contact card after the sign-off on a quoted original" do
+    html = <<~HTML
+      <html><body>
+        <div>Here is the answer</div>
+        <blockquote type="cite">
+          <div>On Monday, Jane Doe &lt;jane@example.test&gt; wrote:</div>
+          <div>Bonjour,</div>
+          <div><br></div>
+          <div>Le panier de mardi n'est pas arrivé au point de dépôt.</div>
+          <div><br></div>
+          <div>Cordialement,</div>
+          <div><br></div>
+          <div><b>Camille Martin</b></div>
+          <div>Responsable</div>
+          <div><a href="https://example.test">example.test</a></div>
+          <div>+33 1 23 45 67 89</div>
+          <div><a href="mailto:camille@example.test">camille@example.test</a></div>
+        </blockquote>
+      </body></html>
+    HTML
+
+    _reply, original = Support::ReplyHtml.split_cited(html)
+
+    assert_includes original, "Le panier de mardi"
+    assert_includes original, "Cordialement"
+    assert_not_includes original, "Camille Martin"
+    assert_not_includes original, "Responsable"
+    assert_not_includes original, "example.test"
+    assert_not_includes original, "23 45 67"
+    assert_not_includes original, "camille@example.test"
+  end
+
+  test "drops a contact card packed into one block after the sign-off" do
+    html = <<~HTML
+      <div>Bonjour,</div>
+      <div>Le panier de mardi n'est pas arrivé.</div>
+      <div>Cordialement,<br><b>Camille Martin</b><br>Responsable<br>
+        <a href="https://example.test">example.test</a><br>
+        12 rue des Lilas<br>1200 Genève<br>
+        +33 1 23 45 67 89<br>
+        <a href="mailto:camille@example.test">camille@example.test</a>
+      </div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+
+    assert_includes shown, "Le panier de mardi"
+    assert_includes shown, "Cordialement"
+    assert_not_includes shown, "Camille Martin"
+    assert_not_includes shown, "rue des Lilas"
+    assert_not_includes shown, "Genève"
+    assert_not_includes shown, "camille@example.test"
+  end
+
+  test "drops a contact card stored in a trailing table" do
+    html = <<~HTML
+      <div>Bonjour,</div>
+      <div>Le panier de mardi n'est pas arrivé au point de dépôt.</div>
+      <div>Cordialement,</div>
+      <table>
+        <tr><td>
+          <b>Camille Martin</b><br>Responsable<br>
+          <a href="https://example.test">example.test</a><br>
+          +33 1 23 45 67 89<br>
+          <a href="mailto:camille@example.test">camille@example.test</a>
+        </td></tr>
+      </table>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+
+    assert_includes shown, "Le panier de mardi"
+    assert_includes shown, "Cordialement"
+    assert_not_includes shown, "Camille Martin"
+    assert_not_includes shown, "<table"
+    assert_not_includes shown, "camille@example.test"
+  end
+
+  test "keeps prose that follows a sign-off" do
+    html = <<~HTML
+      <div>Le panier manque.</div>
+      <div>Cordialement, pouvez-vous regarder la livraison?</div>
+      <div>Cordialement,</div>
+      <div>Je serai absent la semaine prochaine et je voulais le signaler avant la livraison.</div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+
+    assert_includes shown, "pouvez-vous regarder"
+    assert_includes shown, "absent la semaine prochaine"
+  end
+
+  test "keeps a phone number that is part of the message" do
+    html = <<~HTML
+      <div>Pouvez-vous m'appeler au 01 23 45 67 89 demain matin?</div>
+      <div>Le panier manque.</div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+
+    assert_includes shown, "01 23 45 67 89"
+    assert_includes shown, "Le panier manque"
+  end
+
   test "keeps a reply image that is not a signature" do
     html = <<~HTML
       <div>See the invoice.</div>

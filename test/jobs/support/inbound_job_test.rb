@@ -467,6 +467,140 @@ class Support::InboundJobTest < ActiveJob::TestCase
     assert_equal admins(:external), original.admin
   end
 
+  test "strips a french contact card from the converted admin message" do
+    html = <<~HTML
+      <html><body>
+        <div>Here is the answer</div>
+        <blockquote type="cite">
+          <div>On Monday, Jane Doe &lt;#{admins(:external).email}&gt; wrote:</div>
+          <div>Bonjour,</div>
+          <div>Le panier de mardi n'est pas arrivé au point de dépôt.</div>
+          <div>Cordialement,</div>
+          <div><b>Camille Martin</b></div>
+          <div>Responsable</div>
+          <div><a href="https://example.test">example.test</a></div>
+          <div>+33 1 23 45 67 89</div>
+          <div><a href="mailto:camille@example.test">camille@example.test</a></div>
+        </blockquote>
+      </body></html>
+    HTML
+
+    with_env(
+      "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+      "SUPPORT_EMAIL" => "support@csa-admin.org") do
+      ingest(
+        "To" => "ticket-acme@support.csa-admin.org",
+        "From" => "support+high@csa-admin.org",
+        "Subject" => "Re: Informal help",
+        "TextBody" => <<~TEXT,
+          Here is the answer
+
+          On Monday, Jane Doe <#{admins(:external).email}> wrote:
+          Bonjour,
+
+          Le panier de mardi n'est pas arrivé au point de dépôt.
+
+          Cordialement,
+
+          Camille Martin
+          Responsable
+          https://example.test
+          +33 1 23 45 67 89
+          camille@example.test
+        TEXT
+        "HtmlBody" => html,
+        "Headers" => [ { "Name" => "Message-ID", "Value" => "<convert-signoff@mail>" } ])
+    end
+
+    ticket = Support::Ticket.order(:id).last
+    original, reply = ticket.messages.order(:id).to_a
+    assert_equal admins(:external), ticket.admin
+    assert_equal "admin", original.author
+    assert_includes original.body, "Le panier de mardi"
+    assert_includes original.body, "Cordialement"
+    assert_not_includes original.body, "Camille Martin"
+    assert_not_includes original.body, "camille@example.test"
+    assert_not_includes original.html.to_s, "Camille Martin"
+    assert_not_includes original.html.to_s, "23 45 67"
+    assert_includes reply.body, "Here is the answer"
+    assert_not_includes reply.body, "Camille Martin"
+  end
+
+  test "puts convert file attachments on the opening admin message" do
+    pdf = Base64.strict_encode64("fake-pdf")
+    png = Base64.strict_encode64("fake-png")
+    html = <<~HTML
+      <html><body>
+        <div>Here is the answer</div>
+        <div><img src="cid:reply@mail" alt="shot"></div>
+        <blockquote type="cite">
+          <div>On Monday, Jane Doe &lt;#{admins(:external).email}&gt; wrote:</div>
+          <div>Hello from the member</div>
+        </blockquote>
+      </body></html>
+    HTML
+
+    with_env(
+      "ULTRA_ADMIN_EMAIL" => "info@csa-admin.org",
+      "SUPPORT_EMAIL" => "support@csa-admin.org") do
+      assert_difference "Support::Ticket.count" => 1, "Support::Message.count" => 2 do
+        ingest(
+          "To" => "ticket-acme@support.csa-admin.org",
+          "From" => "support+high@csa-admin.org",
+          "Subject" => "Re: Informal help",
+          "TextBody" => "Here is the answer\n\nOn Monday, Jane Doe <#{admins(:external).email}> wrote:\nHello from the member",
+          "HtmlBody" => html,
+          "Headers" => [ { "Name" => "Message-ID", "Value" => "<convert-files@mail>" } ],
+          "Attachments" => [
+            {
+              "Name" => "note.pdf",
+              "ContentType" => "application/pdf",
+              "ContentLength" => 8,
+              "Content" => pdf
+            },
+            {
+              "Name" => "shot.png",
+              "ContentType" => "image/png",
+              "ContentID" => "reply@mail",
+              "ContentLength" => 8,
+              "Content" => png
+            }
+          ])
+      end
+    end
+
+    ticket = Support::Ticket.order(:id).last
+    original, reply = ticket.messages.order(:id).to_a
+    assert_equal "admin", original.author
+    assert_equal [ "note.pdf" ], original.attachments.map { |file| file.file.filename.to_s }
+    assert_equal 0, reply.attachments.count
+    assert reply.html.body.attachments.any?
+    assert_empty original.html.body.attachments
+  end
+
+  test "keeps a file attachment on a normal inbound reply" do
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Help", content: "Opening", admin: admins(:external))
+    pdf = Base64.strict_encode64("fake-pdf")
+
+    ingest(
+      "To" => ticket.inbound_email,
+      "From" => admins(:external).email,
+      "TextBody" => "See the note",
+      "MessageID" => "inbound-file",
+      "Headers" => [ { "Name" => "Message-ID", "Value" => "<inbound-file@mail>" } ],
+      "Attachments" => [ {
+        "Name" => "note.pdf",
+        "ContentType" => "application/pdf",
+        "ContentLength" => 8,
+        "Content" => pdf
+      } ])
+
+    message = ticket.messages.order(:id).last
+    assert_equal "admin", message.author
+    assert_equal [ "note.pdf" ], message.attachments.map { |file| file.file.filename.to_s }
+  end
+
   test "converts an apple mail html-only cite with a header blockquote and inline image" do
     png = Base64.strict_encode64("fake-png")
     html = <<~HTML

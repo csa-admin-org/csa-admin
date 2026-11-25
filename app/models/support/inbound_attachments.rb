@@ -30,15 +30,23 @@ module Support
       [ leftover, cid_blobs ]
     end
 
-    # Inline CID images referenced by +html+, return leftover raw parts for a
-    # later hop (convert original vs support reply).
-    def self.claim_cids(raw_attachments, html)
-      leftover, cid_blobs = split(raw_attachments, html: html)
-      rewritten = html
-      if html.present? && cid_blobs.any?
-        rewritten = rewrite_cids(html, cid_blobs)
+    # File parts, and images cited by the quoted original, belong on that
+    # message. An image cited only by the operator reply stays with the reply.
+    def self.split_convert(raw_attachments, original_html:, reply_html:, quoted:)
+      original_parts = []
+      reply_parts = []
+      Array(raw_attachments).each do |raw|
+        if quoted && cited_image?(raw, original_html)
+          original_parts << raw
+        elsif cited_image?(raw, reply_html)
+          reply_parts << raw
+        elsif quoted
+          original_parts << raw
+        else
+          reply_parts << raw
+        end
       end
-      [ leftover.map(&:last), rewritten ]
+      [ original_parts, reply_parts ]
     end
 
     def self.rewrite_cids(html, cid_blobs)
@@ -54,6 +62,14 @@ module Support
       end
       doc.to_html
     end
+
+    def self.cited_image?(raw, html)
+      return false if html.blank?
+
+      cid = content_id(raw)
+      cid.present? && image?(raw) && html.to_s.include?("cid:#{cid}")
+    end
+    private_class_method :cited_image?
 
     def self.decode(raw)
       content = raw["Content"].presence
