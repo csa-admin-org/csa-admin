@@ -26,6 +26,8 @@ class DeliveryCycle < ApplicationRecord
   include Visibility         # Visibility and ordering (depends on BillableDeliveries)
   include Auditing           # Must come after all other concerns
 
+  attribute :confirm_dropped_basket_shifts, :boolean, default: false
+
   enum :week_numbers, %i[all odd even], suffix: true
 
   has_many :memberships
@@ -121,6 +123,21 @@ class DeliveryCycle < ApplicationRecord
       && DeliveryCycle.where.not(id: id).exists?
   end
 
+  # Shifts the basket resync would drop for this unsaved configuration. No writes.
+  def displaced_basket_shifts
+    return @displaced_basket_shifts if defined?(@displaced_basket_shifts)
+
+    @displaced_basket_shifts =
+      if persisted? && pending_schedule_change?
+        memberships.current_or_future.unscope(:order).joins(:basket_shifts).distinct
+          .flat_map { |membership|
+            MembershipBasketsUpdater.new(membership, cycle: self).shifts_to_drop
+          }
+      else
+        []
+      end
+  end
+
   private
 
   def must_have_at_least_one_period
@@ -143,5 +160,12 @@ class DeliveryCycle < ApplicationRecord
   def configuration_or_periods_changed?
     config_changed = (CONFIGURATION_ATTRIBUTES & saved_changes.keys).any?
     config_changed || @periods_changed
+  end
+
+  def pending_schedule_change?
+    (CONFIGURATION_ATTRIBUTES & changes.keys).any? ||
+      periods.any? { |period|
+        period.new_record? || period.marked_for_destruction? || period.has_changes_to_save?
+      }
   end
 end

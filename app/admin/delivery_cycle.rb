@@ -296,11 +296,22 @@ ActiveAdmin.register DeliveryCycle do
       end
     end
 
+    shifts = f.object.displaced_basket_shifts
+    if shifts.any?
+      f.inputs class: "inputs is-danger", id: "dropped-basket-shifts", role: "alert" do
+        text_node displaced_basket_shifts_confirmation(shifts)
+        f.input :confirm_dropped_basket_shifts,
+          as: :boolean,
+          label: t("active_admin.resources.delivery_cycle.confirm_dropped_basket_shifts")
+      end
+    end
+
     f.actions
   end
 
   permit_params(
     :visible,
+    :confirm_dropped_basket_shifts,
     :member_order_priority,
     :price, :absences_included_annually,
     :week_numbers,
@@ -335,7 +346,35 @@ ActiveAdmin.register DeliveryCycle do
       super.kept
     end
 
+    def update
+      assign_attributes(resource, resource_params)
+      if needs_dropped_basket_shifts_confirmation?
+        render :edit, status: :unprocessable_entity
+      else
+        super
+      end
+    end
+
+    # Periods are already assigned. A second assign builds another new period,
+    # and the overlap validation then rejects the save.
+    def update_resource(object, *)
+      status = nil
+      ActiveRecord::Base.transaction do
+        run_update_callbacks object do
+          status = save_resource(object)
+          raise ActiveRecord::Rollback unless status
+        end
+      end
+      status
+    end
+
     private
+
+    def needs_dropped_basket_shifts_confirmation?
+      resource.valid? &&
+        resource.displaced_basket_shifts.any? &&
+        !resource.confirm_dropped_basket_shifts?
+    end
 
     def assign_attributes(resource, attributes)
       if attributes.first[:depot_ids]

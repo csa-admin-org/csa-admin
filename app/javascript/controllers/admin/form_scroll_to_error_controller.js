@@ -6,7 +6,10 @@ export default class extends Controller {
       this.element.querySelector("[role='alert']") ||
       this.element.querySelector(".field_with_errors")
     if (error) {
-      setTimeout(() => error.scrollIntoView({ behavior: "smooth", block: "center" }), 100)
+      setTimeout(
+        () => error.scrollIntoView({ behavior: "smooth", block: this.scrollBlock(error) }),
+        100
+      )
     }
   }
 
@@ -42,9 +45,14 @@ export default class extends Controller {
   }
 
   scroll(form) {
-    let error = form.querySelector(".field_with_errors")
+    const error =
+      form.querySelector(".field_with_errors") || form.querySelector("#dropped-basket-shifts")
     if (error) {
-      error.scrollIntoView({ behavior: "smooth", block: "center" })
+      error.scrollIntoView({ behavior: "smooth", block: this.scrollBlock(error) })
     }
+  }
+
+  scrollBlock(error) {
+    return error.id === "dropped-basket-shifts" ? "start" : "center"
   }
 }

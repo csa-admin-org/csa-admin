@@ -126,7 +126,7 @@ module DeliveryCycle::Deliveries
 
     base_deliveries = scoped.to_a
 
-    deliveries = periods.flat_map { |p| p.filter(base_deliveries) }
+    deliveries = periods.reject(&:marked_for_destruction?).flat_map { |p| p.filter(base_deliveries) }
     deliveries.uniq.sort_by(&:date)
   end
 end

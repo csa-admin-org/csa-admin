@@ -7,6 +7,12 @@ class MembershipBasketsUpdaterTest < ActiveSupport::TestCase
     membership.deliveries.map(&:date).map(&:to_s)
   end
 
+  def first_of_each_month_periods(cycle)
+    cycle.periods.map { |period| { id: period.id, _destroy: true } } + [
+      { from_fy_month: 1, to_fy_month: 12, results: :first_of_each_month }
+    ]
+  end
+
   def create_delivery_swap!(membership, source:, target:, **attributes)
     basket = membership.baskets.find_by!(delivery: source)
     basket.update!(attributes.merge(delivery: target))
@@ -237,16 +243,115 @@ class MembershipBasketsUpdaterTest < ActiveSupport::TestCase
     assert_equal 0, source_basket.reload.quantity
     assert_equal 2, target_basket.reload.quantity
 
-    cycle.update!(
-      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
-        { from_fy_month: 1, to_fy_month: 12, results: :first_of_each_month }
-      ]
-    )
+    cycle.assign_attributes(periods_attributes: first_of_each_month_periods(cycle))
+    assert_includes cycle.displaced_basket_shifts.map(&:id), shift.id
+    cycle.save!
     perform_enqueued_jobs
 
     assert_not BasketShift.exists?(shift.id)
     assert_not source_basket.reload.shifted?
     assert_equal 1, source_basket.quantity
+  end
+
+  test "keeps an off-cycle shift receptacle during an unrelated delivery change" do
+    travel_to "2024-04-01"
+    membership = memberships(:jane)
+    basket = baskets(:jane_1)
+    monday = deliveries(:monday_2)
+    basket.ensure_definite_absence!
+    target = membership.create_shift_receptacle!(monday)
+    shift = BasketShift.create!(
+      absence: basket.reload.absence,
+      membership: membership,
+      source_delivery: basket.delivery,
+      target_delivery: target.delivery)
+
+    assert_equal 0, basket.reload.quantity
+    assert_equal membership.basket_quantity, target.reload.quantity
+    assert_not membership.delivery_cycle.include_delivery?(monday)
+
+    deliveries(:monday_10).update!(date: "2024-06-11") # Tuesday
+    perform_enqueued_jobs
+
+    assert BasketShift.exists?(shift.id)
+    assert Basket.exists?(target.id)
+    assert_equal membership.basket_quantity, target.reload.quantity
+    assert_equal 0, basket.reload.quantity
+  end
+
+  test "keeps an off-cycle receptacle that holds two shifts" do
+    travel_to "2024-04-01"
+    membership = memberships(:jane)
+    sources = [ baskets(:jane_1), baskets(:jane_2) ]
+    monday = deliveries(:monday_2)
+    sources.each(&:ensure_definite_absence!)
+    target = membership.create_shift_receptacle!(monday)
+    shifts = sources.map { |basket|
+      BasketShift.create!(
+        absence: basket.reload.absence,
+        membership: membership,
+        source_delivery: basket.delivery,
+        target_delivery: target.delivery)
+    }
+
+    assert_equal membership.basket_quantity * 2, target.reload.quantity
+
+    deliveries(:monday_10).update!(date: "2024-06-11") # Tuesday
+    perform_enqueued_jobs
+
+    assert shifts.all? { |shift| BasketShift.exists?(shift.id) }
+    assert_equal membership.basket_quantity * 2, target.reload.quantity
+  end
+
+  test "a swap target the cycle drops is not warned and the shift stays" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    cycle = membership.delivery_cycle
+    kept = deliveries(:monday_1)
+    dropped = deliveries(:monday_7)
+    membership.baskets.find_by!(delivery: dropped).destroy!
+    create_delivery_swap!(membership, source: deliveries(:monday_6), target: dropped)
+
+    source_basket = membership.baskets.find_by!(delivery: kept)
+    source_basket.ensure_definite_absence!
+    shift = BasketShift.create!(
+      absence: source_basket.reload.absence,
+      membership: membership,
+      source_delivery: kept,
+      target_delivery: dropped)
+
+    cycle.assign_attributes(periods_attributes: first_of_each_month_periods(cycle))
+    assert_not_includes cycle.displaced_basket_shifts.map(&:id), shift.id
+    cycle.save!
+    perform_enqueued_jobs
+
+    assert BasketShift.exists?(shift.id)
+    assert membership.baskets.exists?(delivery: dropped)
+  end
+
+  test "a conflicting override keeps a doomed shift off the confirm list" do
+    travel_to "2024-01-01"
+    cycle = delivery_cycles(:thursdays)
+    membership = memberships(:jane)
+    shift = BasketShift.create!(
+      absence: absences(:jane_thursday_5),
+      membership: membership,
+      source_delivery: baskets(:jane_5).delivery,
+      target_delivery: baskets(:jane_8).delivery)
+    BasketOverride.insert_all!([ {
+      membership_id: membership.id,
+      delivery_id: deliveries(:thursday_1).id,
+      diff: { "override_delivery_id" => 999_999 },
+      created_at: Time.current,
+      updated_at: Time.current
+    } ])
+
+    cycle.assign_attributes(periods_attributes: first_of_each_month_periods(cycle))
+    assert_not_includes cycle.displaced_basket_shifts.map(&:id), shift.id
+    cycle.save!
+    perform_enqueued_jobs
+
+    assert BasketShift.exists?(shift.id)
   end
 
   test "leave untouched past baskets of ended membership" do
