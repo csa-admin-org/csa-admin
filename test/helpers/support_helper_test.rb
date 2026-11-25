@@ -204,6 +204,53 @@ class SupportHelperTest < ActionView::TestCase
     assert_empty spacers
   end
 
+  test "shows a pre-fix convert file on the opening message" do
+    ticket = convert_ticket
+    now = Time.current
+    opening = quiet_message(ticket, author: "admin", admin: admins(:external), body: "Le panier manque.")
+    reply = quiet_message(
+      ticket,
+      author: "support",
+      body: "Voici la réponse.",
+      html: '<div>Voici la photo.</div><div><img src="https://example.test/shot.png" alt="shot.png"></div>')
+    attach_support_file(reply, "invoice.pdf", "notes.pdf", "application/pdf")
+    attach_support_file(reply, "logo.png", "shot.png", "image/png")
+    later = quiet_message(ticket, author: "support", body: "Plus tard.")
+    attach_support_file(later, "invoice.pdf", "later.pdf", "application/pdf")
+    opening.update_columns(created_at: now, rfc_message_id: nil)
+    reply.update_columns(created_at: now + 0.2.seconds)
+    later.update_columns(created_at: now + 1.hour)
+
+    opening_images, opening_files = support_message_attachments(opening)
+    reply_images, reply_files = support_message_attachments(reply)
+    reply_html = view.support_message_html(reply)
+    opening_html = view.support_message_html(opening)
+
+    assert_equal [ "notes.pdf" ], filenames_of(opening_files)
+    assert_empty opening_images
+    assert_empty reply_files
+    assert_equal [ "shot.png" ], filenames_of(reply_images)
+    assert_equal [ "later.pdf" ], filenames_of(support_message_attachments(later).last)
+    assert_includes reply_html, "shot.png"
+    assert_not_includes opening_html, "shot.png"
+  end
+
+  test "keeps a later support file and a normal inbound file where they were stored" do
+    ticket = Support::Ticket.create!(
+      priority: :normal, subject: "Panier", content: "Ouverture", admin: admins(:external))
+    opening = ticket.messages.first
+    later = quiet_message(ticket, author: "support", body: "Réponse plus tard.")
+    inbound = quiet_message(ticket, author: "admin", admin: admins(:external), body: "Encore une pièce.")
+    attach_support_file(later, "invoice.pdf", "later.pdf", "application/pdf")
+    attach_support_file(inbound, "invoice.pdf", "inbound.pdf", "application/pdf")
+    later.update_columns(created_at: opening.created_at + 1.hour)
+    inbound.update_columns(created_at: opening.created_at + 2.hours)
+
+    assert_empty support_message_attachments(opening).last
+    assert_equal [ "later.pdf" ], filenames_of(support_message_attachments(later).last)
+    assert_equal [ "inbound.pdf" ], filenames_of(support_message_attachments(inbound).last)
+  end
+
   test "ticket_admins_collection only drops the ticket admin filter" do
     relation = Support::Ticket.joins(:messages).where(
       admin_id: admins(:ultra).id,
@@ -212,5 +259,36 @@ class SupportHelperTest < ActionView::TestCase
     assert_not_deprecated(ActiveRecord.deprecator) do
       ticket_admins_collection(relation).load
     end
+  end
+
+  def convert_ticket
+    ticket = Support::Ticket.new(
+      priority: :normal,
+      subject: "Panier",
+      content: "Ouverture",
+      admin: admins(:external),
+      skip_opening_message: true)
+    ticket.save!
+    ticket
+  end
+
+  def quiet_message(ticket, **attrs)
+    message = ticket.messages.build(**attrs)
+    message.skip_notify = true
+    message.save!
+    message
+  end
+
+  def attach_support_file(message, fixture, filename, content_type)
+    message.attachments.build.file.attach(
+      io: StringIO.new(file_fixture(fixture).binread),
+      filename: filename,
+      content_type: content_type)
+    message.save!
+    message
+  end
+
+  def filenames_of(attachments)
+    attachments.map { |attachment| attachment.file.filename.to_s }
   end
 end

@@ -34,7 +34,7 @@ module Support
         (?:freundliche|viele|liebe|herzliche)[[:space:]]+gr(?:ü|ue)(?:ss|ß)e |
         cordiali[[:space:]]+saluti |
         (?:met[[:space:]]+)?vriendelijke[[:space:]]+groet(?:en)? |
-        merci(?:[[:space:]]+(?:d'avance|beaucoup))? |
+        merci(?:[[:space:]]+(?:d'avance|beaucoup|pour[[:space:]]+(?:ton|votre)[[:space:]]+aide))? |
         (?:thanks|thank[[:space:]]+you)
       )
       [[:punct:][:space:]]*
@@ -42,6 +42,9 @@ module Support
     /ix
     EMAIL = /[\w.+\-]+@[\w.\-]+\.[A-Za-z]{2,}/
     URL = %r{https?://\S+|www\.\S+}i
+    BARE_DOMAIN = /\b(?:[a-z0-9](?:[a-z0-9-]{0,30}[a-z0-9])?\.)+[a-z]{2,}\b/i
+    ACRONYM = /\A(?=[\p{Lu}\d]{2,8}\z)(?=.*\p{Lu})(?=.*\d)[\p{Lu}\d]+\z/
+    PHONE = %r{(?:\+|00|0)(?:[\s()./–—-]*\d){7,14}}
     MAX_CARD_LINES = 8
 
     def self.strip_fragment!(root)
@@ -288,6 +291,7 @@ module Support
       return true if line.match?(/\A(?:--+|—+|–+|_+)\z/)
       return true if phone_line?(line) || url_line?(line) || email_line?(line)
       return true if postal_line?(line) || street_line?(line)
+      return true if phone_and_email_line?(line) || role_line?(line)
 
       name_line?(line)
     end
@@ -296,8 +300,8 @@ module Support
     def self.enough_signals?(texts, nodes)
       signals = 0
       signals += 1 if texts.any? { |text| text.match?(EMAIL) } || nodes.any? { |node| mailto_link?(node) }
-      signals += 1 if texts.any? { |text| phone_line?(text) }
-      signals += 1 if texts.any? { |text| url_line?(text) } || nodes.any? { |node| web_link?(node) }
+      signals += 1 if texts.any? { |text| phone_line?(text) || phone_and_email_line?(text) }
+      signals += 1 if texts.any? { |text| site_line?(text) } || nodes.any? { |node| web_link?(node) }
       signals >= 2
     end
     private_class_method :enough_signals?
@@ -314,9 +318,59 @@ module Support
     private_class_method :phone_line?
 
     def self.url_line?(text)
-      normalize_line(text).match?(%r{\A(?:https?://|www\.)\S+\z}i)
+      line = normalize_line(text)
+      line.match?(%r{\A(?:https?://|www\.)\S+\z}i) || line.match?(/\A#{BARE_DOMAIN.source}\z/i)
     end
     private_class_method :url_line?
+
+    def self.site_line?(text)
+      line = normalize_line(text)
+      return true if url_line?(line)
+
+      line.gsub(EMAIL, " ").match?(BARE_DOMAIN)
+    end
+    private_class_method :site_line?
+
+    # A short "phone - email" line. A sentence that mentions both stays.
+    def self.phone_and_email_line?(text)
+      line = normalize_line(text)
+      return false if line.length > 80 || line.match?(/\?/)
+      return false unless line.match?(EMAIL)
+
+      chunk = line.gsub(EMAIL, " ")[PHONE]
+      return false unless chunk.to_s.gsub(/\D/, "").length.between?(8, 15)
+
+      rest = line.gsub(EMAIL, " ").sub(chunk, " ")
+      rest = rest.gsub(
+        /\b(?:t[ée]l(?:[ée]phone)?|telephone|tel|phone|mobile|gsm|portable|courriel|e-?mail)\b/i,
+        " ")
+      rest.gsub(/[^\p{L}\p{N}]+/, " ").strip.blank?
+    end
+    private_class_method :phone_and_email_line?
+
+    def self.role_line?(text)
+      line = normalize_line(text)
+      return false if line.length > 80 || line.match?(EMAIL) || line.match?(/[?;:!]/)
+
+      had_site = line.match?(URL) || line.match?(BARE_DOMAIN)
+      words = line.gsub(URL, " ").gsub(BARE_DOMAIN, " ")
+      words = words.gsub(/[-–—|•·,\/]+/, " ").split(/[[:space:]]+/)
+      return false if words.empty? || words.size > 6
+      return false unless words.all? { |word| title_token?(word) }
+
+      had_site || words.any? { |word| acronym?(word) }
+    end
+    private_class_method :role_line?
+
+    def self.title_token?(word)
+      acronym?(word) || word.match?(/\A\p{L}[\p{L}'’.-]*\z/)
+    end
+    private_class_method :title_token?
+
+    def self.acronym?(word)
+      word.match?(ACRONYM)
+    end
+    private_class_method :acronym?
 
     def self.email_line?(text)
       line = normalize_line(text)
@@ -341,11 +395,13 @@ module Support
 
     def self.name_line?(text)
       line = normalize_line(text)
-      return false if line.match?(/\d/) || line.match?(EMAIL) || line.match?(URL)
+      return false if line.match?(EMAIL) || line.match?(URL)
       return false if line.match?(/[,:;!?]/)
 
       words = line.split(/[[:space:]]+/)
-      words.size.between?(1, 6)
+      return false unless words.size.between?(1, 6)
+
+      words.all? { |word| !word.match?(/\d/) || acronym?(word) }
     end
     private_class_method :name_line?
 

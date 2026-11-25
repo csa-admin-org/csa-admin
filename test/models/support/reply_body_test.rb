@@ -91,6 +91,32 @@ class Support::ReplyBodyTest < ActiveSupport::TestCase
     assert_not_includes body, "23 45 67"
   end
 
+  test "original drops a card after merci pour ton aide" do
+    text = <<~TEXT
+      Here is the answer
+
+      On Monday, Jane Doe <jane@example.test> wrote:
+      Bonjour,
+
+      Le panier de mardi n'est pas arrivé au point de dépôt.
+
+      Merci pour ton aide,
+
+      Camille Martin
+      Coordinatrice ACP2 example.test
+      +33 1 23 45 67 89 - camille@example.test
+    TEXT
+
+    body = Support::ReplyBody.original(text)
+
+    assert_includes body, "Le panier de mardi"
+    assert_includes body, "Merci pour ton aide"
+    assert_not_includes body, "Camille Martin"
+    assert_not_includes body, "ACP2"
+    assert_not_includes body, "example.test"
+    assert_not_includes body, "camille@example.test"
+  end
+
   test "original keeps a phone number written in the message" do
     text = <<~TEXT
       Here is the answer

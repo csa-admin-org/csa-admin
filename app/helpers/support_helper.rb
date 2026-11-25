@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module SupportHelper
+  CONVERT_PAIR_GAP = 30.seconds
+
   def ticket_admins_collection(relation = nil)
     collection = Admin.order_by_name
     if relation
@@ -36,9 +38,14 @@ module SupportHelper
   end
 
   def support_message_attachments(message)
-    message.attachments.partition { |attachment|
-      support_previewable_image?(attachment.file)
-    }
+    images, files = split_support_attachments(message.attachments)
+    opening, reply = convert_pair(message)
+    if opening && reply && message.id == opening.id
+      files += split_support_attachments(reply.attachments).last
+    elsif opening && reply && message.id == reply.id
+      files = []
+    end
+    [ images, files ]
   end
 
   def support_previewable_image?(file)
@@ -65,5 +72,24 @@ module SupportHelper
 
   def rendered_action_text(message)
     ActionTextHtml.unwrap_attachments(render_action_text_content(message.html.body))
+  end
+
+  def split_support_attachments(attachments)
+    attachments.partition { |attachment| support_previewable_image?(attachment.file) }
+  end
+
+  # Pre-fix converts stored the original email's files on the support reply
+  # that was inserted with the opening admin message.
+  def convert_pair(message)
+    ticket = message.ticket
+    return unless ticket
+
+    opening, reply = ticket.messages.to_a.select(&:persisted?).sort_by(&:id).first(2)
+    return unless opening&.author_admin? && reply&.author_support?
+    return unless opening.rfc_message_id.blank?
+    return unless opening.created_at && reply.created_at
+    return unless (reply.created_at - opening.created_at).abs <= CONVERT_PAIR_GAP
+
+    [ opening, reply ]
   end
 end

@@ -663,6 +663,68 @@ class Support::ReplyHtmlTest < ActiveSupport::TestCase
     assert_not_includes shown, "camille@example.test"
   end
 
+  test "drops a nested card after merci pour ton aide" do
+    html = <<~HTML
+      <div>
+        <div>Bonjour,</div>
+        <div>Le panier de mardi n'est pas arrivé au point de dépôt.</div>
+        <div>Peux-tu vérifier le planning de la tournée?</div>
+        <div>Merci pour ton aide,</div>
+        <div>
+          <div><b>Camille Martin</b></div>
+          <div>Coordinatrice ACP2 <a href="https://example.test" class="ik-text-editor__link">example.test</a></div>
+          <div>+33 1 23 45 67 89 - camille@example.test</div>
+        </div>
+      </div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+
+    assert_includes shown, "Le panier de mardi"
+    assert_includes shown, "planning de la tournée"
+    assert_includes shown, "Merci pour ton aide"
+    assert_not_includes shown, "Camille Martin"
+    assert_not_includes shown, "ACP2"
+    assert_not_includes shown, "example.test"
+    assert_not_includes shown, "23 45 67"
+    assert_not_includes shown, "camille@example.test"
+  end
+
+  test "drops a contact card after merci pour votre aide" do
+    html = <<~HTML
+      <div>Le panier manque.</div>
+      <div>Merci pour votre aide,</div>
+      <div><b>Camille Martin</b></div>
+      <div>Responsable</div>
+      <div><a href="https://example.test">example.test</a></div>
+      <div>+33 1 23 45 67 89</div>
+      <div>camille@example.test</div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+
+    assert_includes shown, "Le panier manque"
+    assert_includes shown, "Merci pour votre aide"
+    assert_not_includes shown, "Camille Martin"
+    assert_not_includes shown, "example.test"
+    assert_not_includes shown, "camille@example.test"
+  end
+
+  test "keeps a request that mentions a phone and an email after the sign-off" do
+    html = <<~HTML
+      <div>Le panier manque.</div>
+      <div>Cordialement,</div>
+      <div>Pouvez-vous m'écrire à camille@example.test ou m'appeler au 01 23 45 67 89 demain matin?</div>
+    HTML
+
+    shown = Support::ReplyHtml.present(html)
+
+    assert_includes shown, "Cordialement"
+    assert_includes shown, "camille@example.test"
+    assert_includes shown, "01 23 45 67 89"
+    assert_includes shown, "demain matin"
+  end
+
   test "keeps prose that follows a sign-off" do
     html = <<~HTML
       <div>Le panier manque.</div>
