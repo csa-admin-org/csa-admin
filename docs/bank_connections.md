@@ -86,6 +86,10 @@ advertised without a message version. Keep the same top-level
 }
 ```
 
+Payment downloads request version `08` when stored HTD or HAA capabilities
+advertise `08` for that BTF service. Otherwise the configured version is kept:
+`04` for the Swiss camt.054 preset, and no version for the German camt.053 preset.
+
 SEPA direct-debit upload example. Keep the same top-level
 `"protocol" => "H005"` setting:
 

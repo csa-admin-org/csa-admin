@@ -206,7 +206,8 @@ module Billing
           connection = Current.org.active_bank_connection
           raise UnsupportedOperation, "Tenant '#{name}' has no active EBICS bank connection" unless connection&.ebics?
 
-          operation = OperationConfig.new(connection.settings).payment_download
+          settings = Btf::PaymentDownload.effective_settings(connection)
+          operation = OperationConfig.new(settings).payment_download
           result = BtfClient
             .new(connection.credentials)
             .test_download(operation, from: from, to: to, acknowledge: acknowledge)

@@ -172,6 +172,77 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     assert_nil connection.last_error_class
   end
 
+  test "downloads camt.054 version 08 when stored capabilities advertise it" do
+    org(country_code: "CH")
+    BankConnection.delete_all
+    connection = bank_connection(settings: btf_settings)
+    connection.update!(capabilities: camt054_capabilities("08"))
+    client = BtfClientStub.new([ file_fixture("camt054_001_08.xml") ])
+
+    with_rails_env("production") do
+      assert Billing::EBICS
+        .new(credentials, settings: btf_settings, ebics_client: client, bank_connection: connection)
+        .process_payments!
+    end
+
+    operation = client.calls.first.second
+    assert_equal "08", operation.btf.fetch("version")
+    assert_equal "camt.054", operation.btf.fetch("message_name")
+    assert_equal "04", connection.reload.settings.dig("downloads", "payments", "btf", "version")
+  end
+
+  test "downloads camt.054 version 04 when version 08 is not advertised" do
+    org(country_code: "CH")
+    BankConnection.delete_all
+    connection = bank_connection(settings: btf_settings)
+    connection.update!(capabilities: camt054_capabilities("04", unversioned: true))
+    client = BtfClientStub.new([ file_fixture("camt054.xml") ])
+
+    with_rails_env("production") do
+      assert Billing::EBICS
+        .new(credentials, settings: btf_settings, ebics_client: client, bank_connection: connection)
+        .process_payments!
+    end
+
+    assert_equal "04", client.calls.first.second.btf.fetch("version")
+  end
+
+  test "downloads camt.053 version 08 when stored capabilities advertise it" do
+    org(country_code: "CH", features: [], sepa_creditor_identifier: nil)
+    BankConnection.delete_all
+    connection = bank_connection(settings: camt053_settings)
+    connection.update!(capabilities: camt053_capabilities("08"))
+    client = BtfClientStub.new([ file_fixture("camt054.xml") ])
+
+    with_rails_env("production") do
+      assert Billing::EBICS
+        .new(credentials, settings: camt053_settings, ebics_client: client, bank_connection: connection)
+        .process_payments!
+    end
+
+    operation = client.calls.first.second
+    assert_equal "08", operation.btf.fetch("version")
+    assert_equal "camt.053", operation.btf.fetch("message_name")
+    assert_equal "DE", operation.btf.fetch("scope")
+    assert_not connection.reload.settings.dig("downloads", "payments", "btf").key?("version")
+  end
+
+  test "omits the camt.053 version when version 08 is not advertised" do
+    org(country_code: "CH", features: [], sepa_creditor_identifier: nil)
+    BankConnection.delete_all
+    connection = bank_connection(settings: camt053_settings)
+    connection.update!(capabilities: camt053_capabilities("04", unversioned: true))
+    client = BtfClientStub.new([ file_fixture("camt054.xml") ])
+
+    with_rails_env("production") do
+      assert Billing::EBICS
+        .new(credentials, settings: camt053_settings, ebics_client: client, bank_connection: connection)
+        .process_payments!
+    end
+
+    assert_nil client.calls.first.second.btf["version"]
+  end
+
   test "still downloads payments when capabilities have not been checked" do
     org(country_code: "CH")
     BankConnection.delete_all
@@ -317,6 +388,47 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     @credentials ||= synthetic_ebics_credentials(
       user_id: "PARTICIPANTID",
       partner_id: "CLIENTID")
+  end
+
+  def camt053_settings
+    {
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE")
+        }
+      }
+    }
+  end
+
+  def camt053_capabilities(*versions, unversioned: false)
+    btf = Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE")
+    services = versions.map { |version| btf.merge("version" => version).except("order_type") }
+    services << btf.except("order_type") if unversioned
+    {
+      "h005" => {
+        "htd_btf_downloads" => services.map { |service|
+          { "admin_order_type" => "BTD", "service" => service }
+        }
+      }
+    }
+  end
+
+  def camt054_capabilities(*versions, unversioned: false)
+    services = versions.map { |version|
+      Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: version).except("order_type")
+    }
+    if unversioned
+      services << Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH").except("order_type")
+    end
+    {
+      "h005" => {
+        "htd_btf_downloads" => services.map { |service|
+          { "admin_order_type" => "BTD", "service" => service }
+        }
+      }
+    }
   end
 
   def btf_settings

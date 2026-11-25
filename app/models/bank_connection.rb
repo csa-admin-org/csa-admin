@@ -38,7 +38,7 @@ class BankConnection < ApplicationRecord
   def adapter
     case provider
     when "ebics"
-      Billing::EBICS.new(credentials, settings: settings, bank_connection: self)
+      Billing::EBICS.new(credentials, settings: ebics_payment_download_settings, bank_connection: self)
     when "bunq"
       Billing::Bunq.new(credentials)
     when "mock"
@@ -102,7 +102,9 @@ class BankConnection < ApplicationRecord
   def ebics_payment_download_missing?
     return false unless ebics?
 
-    operation = Billing::EBICS::OperationConfig.new(settings).payment_download
+    operation = Billing::EBICS::OperationConfig
+      .new(ebics_payment_download_settings)
+      .payment_download
     advertised = ebics_advertised_payment_downloads
     return false if advertised.empty?
 
@@ -112,6 +114,10 @@ class BankConnection < ApplicationRecord
     }
   rescue Billing::EBICS::UnsupportedOperation
     false
+  end
+
+  def ebics_payment_download_settings
+    Billing::EBICS::Btf::PaymentDownload.effective_settings(self)
   end
 
   def mark_import_attempted!(operation: nil)
@@ -400,9 +406,7 @@ class BankConnection < ApplicationRecord
   end
 
   def ebics_advertised_payment_downloads
-    h005 = capabilities.to_h.deep_stringify_keys.fetch("h005") { {} }
-    downloads = Array(h005["htd_btf_downloads"]).filter_map { |info| info.to_h.deep_stringify_keys["service"] }
-    downloads + Array(h005["haa_available_downloads"])
+    Billing::EBICS::Btf::PaymentDownload.advertised_services(capabilities)
   end
 
   def ebics_sepa_direct_debit_upload_advertised?(operation)

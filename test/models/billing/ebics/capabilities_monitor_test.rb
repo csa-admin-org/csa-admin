@@ -39,6 +39,7 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
     assert_empty error.reports
     assert_equal "healthy", connection.health_status
     assert_nil connection.last_error_class
+    assert_nil connection.settings.dig("downloads", "payments", "btf", "version")
   end
 
   test "reports newly advertised versions compared to previous capabilities" do
@@ -161,6 +162,22 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
     assert_equal "sepa_direct_debit_upload", context.fetch("operation_kind")
     assert_equal "BTU", context.dig("operation", "order_type")
     assert_equal :error, options.fetch(:severity)
+  end
+
+  test "does not warn that the payment download is missing when version 08 is advertised" do
+    error = ErrorRecorder.new
+    connection = swiss_connection
+
+    Billing::EBICS::CapabilitiesMonitor.new(
+      connection: connection,
+      report: swiss_capabilities("08"),
+      error_reporter: error).check!
+
+    connection.reload
+    assert_empty error.reports
+    assert_equal "healthy", connection.health_status
+    assert_equal "04", connection.settings.dig("downloads", "payments", "btf", "version")
+    assert_equal [], connection.status_details.dig("last_capabilities_check", "warnings")
   end
 
   private
@@ -287,5 +304,40 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
       host_id: "MULTIVIA",
       user_id: "PARTICIPANTID",
       partner_id: "CLIENTID")
+  end
+
+  def swiss_connection
+    org(country_code: "CH", features: [], sepa_creditor_identifier: nil)
+    create_connection(settings: {
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt054(
+            service_name: "REP",
+            scope: "CH",
+            version: "04")
+        }
+      }
+    })
+  end
+
+  def swiss_capabilities(version)
+    service = Billing::EBICS::Btf::Presets.camt054(
+      service_name: "REP",
+      scope: "CH",
+      version: version).except("order_type")
+    {
+      "country_code" => "CH",
+      "h005" => {
+        "admin_orders" => {
+          "HTD" => { "status" => "ok" },
+          "HAA" => { "status" => "ok" }
+        },
+        "htd_btf_downloads" => [ { "admin_order_type" => "BTD", "service" => service } ],
+        "htd_btf_uploads" => [],
+        "haa_available_downloads" => []
+      }
+    }
   end
 end

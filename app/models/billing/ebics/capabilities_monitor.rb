@@ -17,7 +17,7 @@ module Billing
         return unless connection&.ebics?
 
         report_admin_order_errors
-        check_operation("payment_download", settings.dig("downloads", "payments"), advertised_download_services)
+        check_operation("payment_download", payment_download_config, advertised_download_services)
         check_operation("sepa_direct_debit_upload", sepa_direct_debit_upload_settings, advertised_upload_services) if monitor_sepa_direct_debit_upload?
         connection.mark_capabilities_checked!(
           report: report,
@@ -166,6 +166,15 @@ module Billing
 
       def admin_order_return_code(result)
         result["return_code"].presence
+      end
+
+      def payment_download_config
+        config = settings.dig("downloads", "payments")
+        return config unless Btf::PaymentDownload.payment_config?(config)
+
+        resolved = config.deep_dup
+        Btf::PaymentDownload.apply_version!(resolved.fetch("btf"), advertised_download_services)
+        resolved
       end
 
       def configured_service_advertised?(service, advertised_services)

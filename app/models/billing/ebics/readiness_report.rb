@@ -89,7 +89,8 @@ module Billing
       end
 
       def current_payment_operation
-        Billing::EBICS::OperationConfig.new(ebics_settings).payment_download
+        operation_settings = Btf::PaymentDownload.effective_settings(connection)
+        Billing::EBICS::OperationConfig.new(operation_settings).payment_download
       rescue UnsupportedOperation => e
         {
           "error" => e.message

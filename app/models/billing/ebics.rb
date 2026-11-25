@@ -31,7 +31,7 @@ module Billing
       return unless Rails.env.production?
       return if @bank_connection&.ebics_payment_download_missing?
 
-      operation = operation_config.payment_download
+      operation = payment_download_operation
       process_btf_payments!(operation)
     rescue UnsupportedOperation => e
       report_configuration_error(e, operation: nil, operation_kind: "payment_download")
@@ -60,6 +60,12 @@ module Billing
     end
 
     private
+
+    def payment_download_operation
+      return operation_config.payment_download unless @bank_connection&.ebics?
+
+      OperationConfig.new(@bank_connection.ebics_payment_download_settings).payment_download
+    end
 
     def process_btf_payments!(operation)
       files_count = nil

@@ -38,6 +38,56 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
     assert_sanitized report
   end
 
+  test "reports camt.054 version 08 for the current download when it is advertised" do
+    org(country_code: "CH")
+    BankConnection.create!(
+      provider: "ebics",
+      name: "HOSTID",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: btf_payment_settings,
+      capabilities: {
+        "h005" => {
+          "htd_btf_downloads" => [
+            {
+              "admin_order_type" => "BTD",
+              "service" => Billing::EBICS::Btf::Presets.camt054(
+                service_name: "REP",
+                scope: "CH",
+                version: "08").except("order_type")
+            }
+          ]
+        }
+      })
+
+    report = Billing::EBICS::ReadinessReport.new(tenant: "acme").to_h
+
+    assert_equal "08", report.dig("ebics", "current_payment_operation", "version")
+    assert_equal "04", report.dig("ebics", "recommended_btf_payment_operation", "version")
+    assert_equal "04", report.dig("active_connection", "settings", "downloads", "payments", "btf", "version")
+  end
+
+  test "reports camt.053 version 08 for the current download when it is advertised" do
+    german_org(features: [], sepa_creditor_identifier: nil)
+    BankConnection.create!(
+      provider: "ebics",
+      name: "HOSTID",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: german_payment_settings,
+      capabilities: camt053_capabilities("08"))
+
+    report = Billing::EBICS::ReadinessReport.new(tenant: "acme").to_h
+
+    assert_equal "08", report.dig("ebics", "current_payment_operation", "version")
+    assert_equal "camt.053", report.dig("ebics", "current_payment_operation", "message_name")
+    assert_nil report.dig("ebics", "recommended_btf_payment_operation", "version")
+    assert_equal "camt.053", report.dig("ebics", "recommended_btf_payment_operation", "message_name")
+    assert_not report.dig("active_connection", "settings", "downloads", "payments", "btf").key?("version")
+  end
+
   test "reports non-EBICS tenants without EBICS details" do
     BankConnection.create!(
       provider: "bunq",
@@ -55,6 +105,30 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
 
   def ebics_credentials
     @ebics_credentials ||= synthetic_ebics_credentials(secret: "test-passphrase-value").symbolize_keys
+  end
+
+  def camt053_capabilities(*versions)
+    btf = Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE")
+    services = versions.map { |version| btf.merge("version" => version).except("order_type") }
+    {
+      "h005" => {
+        "htd_btf_downloads" => services.map { |service|
+          { "admin_order_type" => "BTD", "service" => service }
+        }
+      }
+    }
+  end
+
+  def german_payment_settings
+    {
+      "protocol" => "H005",
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE")
+        }
+      }
+    }
   end
 
   def btf_payment_settings
