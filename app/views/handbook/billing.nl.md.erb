@@ -250,28 +250,114 @@ Deze herverdelingsmodus is zeer handig en maakt het mogelijk om gevallen te behe
 
 ### Automatische import {#automatic_payments_processing}
 
-De meest efficiënte manier om je betalingen te verwerken is om je bank te vragen een [EBICS 3.0-verbinding](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) in te stellen. CSA Admin ondersteunt alleen EBICS 3.0 (H005/BTF); oudere EBICS 2.x/H003/H004-verbindingen met ordertypes worden niet meer ondersteund. Zo kan het systeem elke nacht automatisch betalingen van je leden importeren via ISO camt.053/camt.054-bestanden.
+De efficiëntste manier om je betalingen te verwerken is je bank te vragen een [EBICS 3.0-verbinding](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) in te stellen. CSA Admin ondersteunt alleen EBICS 3.0 (H005/BTF). Oudere EBICS 2.x-verbindingen (H003/H004) worden niet ondersteund. Het systeem kan de betalingen van je leden dan elke nacht importeren uit ISO camt.053/camt.054-bestanden.
 
-> Als je vragen hebt over ondersteuning voor een bepaalde bank of het instellen van EBICS, aarzel niet om [mij te vragen](/support).
+Het bankformulier en de stappen in CSA Admin staan bij [EBICS instellen](#ebics-setup).
+
+> Als je vragen hebt over een bepaalde bank, [vraag het mij](/support).
 
 ### EBICS instellen {#ebics-setup}
 
-Het instellen van een EBICS 3.0-verbinding (H005/BTF) met je bank omvat verschillende stappen en duurt doorgaans enkele dagen. Dit is het proces:
+Een EBICS 3.0-verbinding (H005/BTF) haalt de betalingen van je leden elke nacht op. De instelling duurt meestal een paar dagen, omdat de bank een ondertekende initialisatiebrief controleert voordat de verbinding gebruikt kan worden. Je vult het bankformulier zelf in en voert de identificatoren zelf in bij de [instellingen voor de bankverbinding](/settings#bank_connection).
 
-1. **Het EBICS-inschrijfformulier aanvragen bij je bank** — Neem contact op met je bank en vraag om een EBICS 3.0-verbinding (H005/BTF) voor je rekening te activeren met dagelijkse ophaling van betalingsbestanden (`BTD`) en ondersteuning van **camt.053/camt.054** (versies 2009/04 en 2019/08). Vraag de bank om de EBICS-URL, Host-ID, klant-/contract-/partner-ID en deelnemer-/gebruikers-ID.
-2. **De instelling starten in CSA Admin** — Open de [instellingen voor de bankverbinding](/settings#bank_connection), klik op **EBICS-instelling starten** en vul de identificatoren uit het bankcontract in. CSA Admin controleert eerst de URL en Host-ID en verstuurt daarna de EBICS-initialisatieorders.
-3. **Ondertekening van de INI-brief** — Download de initialisatiebrief, onderteken **elke pagina** en stuur hem naar je bank.
-4. **Afronding** — Zodra je bank de ondertekende INI-brief heeft ontvangen en gevalideerd, controleert CSA Admin eenmaal per dag en activeert de verbinding automatisch.
+1. [Vul het bankformulier in](#ebics-bank-form).
+2. [Voer de identificatoren in](#ebics-in-app) en klik op **EBICS-instelling starten**.
+3. [Onderteken de initialisatiebrief](#ebics-letter), elke pagina, en stuur hem naar de bank.
+4. De bank controleert de brief. CSA Admin controleert eenmaal per dag en [activeert de verbinding](#ebics-letter).
 
-> In de tussentijd kun je [handmatige import](#manual-import) gebruiken om je betalingen te verwerken. Als de bank de identificatoren weigert of de instelling support vereist, [vraag het mij](/support).
+Tot die tijd gebruik je [handmatige import](#manual-import). EBICS staat los van de e-bankingtoegang. De verbinding haalt alleen op wat het contract met de bank toestaat.
+
+#### Het bankformulier {#ebics-bank-form}
+
+Zeg tegen de bank dat je EBICS 3.0 (H005/BTF) wilt, zodat boekhoudsoftware de betalingsbestanden elke nacht ophaalt.
+
+Op de softwareregels van het formulier schrijf je:
+
+- Leverancier / fabrikant: `CSA Admin (Thibaud Guillaume-Gentil)`
+- Product, inclusief versie: `CSA Admin, EBICS 3.0 (H005)`
+
+<!-- country:CH -->
+Vraag:
+
+- een dagelijks QR-betalingsrapport en een crediteringsadvies, allebei als **camt.054** (CSA Admin haalt dit bestand elke nacht op)
+
+Elke camt-versie is goed: 2009/04 of 2019/08. Een formulier kan ook 2013 noemen. Dat is dezelfde familie als 2009/04. Als het formulier meer dan één versie toestaat, kun je beide aanvragen. Eén versie is genoeg voor CSA Admin.
+
+Vraag geen betaalopdrachten, geen LSV / Zwitserse automatische incasso, geen bewegingen tijdens de dag (camt.052) en geen pdf's.
+
+De gedistribueerde elektronische handtekening laat meerdere personen betalingen goedkeuren. Formulieren noemen die soms SED of VEU. Deze verbinding haalt alleen afschriften op. Laat die optie leeg, of antwoord nee.
+<!-- /country:CH -->
+
+<!-- country:DE -->
+Vraag een dagelijks rekeningafschrift aan het eind van de dag als **camt.053**. CSA Admin haalt dit bestand elke nacht op.
+
+Elke camt-versie is goed: 2009/04 of 2019/08. Een formulier kan ook 2013 noemen. Dat is dezelfde familie als 2009/04. Als het formulier meer dan één versie toestaat, kun je beide aanvragen. Eén versie is genoeg voor CSA Admin.
+
+Als SEPA-incasso wordt gebruikt en een incassant-ID staat in [de SEPA-instellingen](/settings#sepa), vraag de bank dan ook om een **pain.008**-upload toe te staan. Die upload bevat een technische handtekening. Het is niet de gedistribueerde elektronische handtekening van de bank, waarbij meerdere personen elke betaling goedkeuren (soms SED of VEU genoemd). Laat die bankoptie uit.
+
+Vraag geen betaalopdrachten, geen bewegingen tijdens de dag (camt.052) en geen pdf's.
+<!-- /country:DE -->
+
+In het rekeningdeel van het formulier vul je het IBAN van de rekening in.
+
+> EBICS is niet per se gratis bij elke bank. Vraag je bank naar haar voorwaarden.
+
+#### Identificatoren die de bank terugstuurt {#ebics-identifiers}
+
+Zodra de bank het contract heeft verwerkt, stuurt ze vier waarden. Die staan meestal op een parameterblad van het EBICS-contract:
+
+- **EBICS-URL**. Als de bank host en pad apart opgeeft, voeg je ze samen tot één https-adres en houd je het pad bij, bijvoorbeeld `https://ebics.example.ch/ebics.aspx`.
+- **Host-ID**
+- **Klant-/contract-/partner-ID**. De bank kan dit klant-ID, contract-ID, partner-ID of Client ID noemen.
+- **Deelnemer-/gebruikers-ID**. De bank kan dit deelnemer-ID, gebruikers-ID of Subscriber ID noemen.
+
+#### Invullen in CSA Admin {#ebics-in-app}
+
+Open de [instellingen voor de bankverbinding](/settings#bank_connection) en klik op **EBICS-instelling starten**. Vul de vier waarden in onder **EBICS-contractidentificatoren**. Vink **Bevestigen dat deze identificatoren uit het EBICS-contract van de bank komen.** aan en klik op **Starten**.
+
+CSA Admin controleert eerst de URL. Het adres moet https zijn, zonder gebruiker of wachtwoord, en de bank moet antwoorden als een EBICS 3.0-endpoint, pad inbegrepen. Daarna controleert het de Host-ID, en dan de klant- en deelnemeridentificator. Als een waarde wordt geweigerd, vergelijk je die met het parameterblad. Als de waarden kloppen met het contract en de fout blijft, [vraag het mij](/support).
+
+**Starten** maakt de initialisatiebrief klaar.
+
+#### Initialisatiebrief {#ebics-letter}
+
+Klik op **Initialisatiebrief downloaden**. Banken noemen dit vaak de INI-brief. Elke pagina heeft een eigen handtekeningenblok: de handtekeningsleutel, de authenticatiesleutel en de versleutelingssleutel. Onderteken **elke pagina** en stuur de brief meteen naar de bank. Een brief die te lang blijft liggen kan de toegang inactief laten, of de initialisatie kan verlopen.
+
+De bank heeft vaak een paar dagen nodig om de brief te controleren. De verbinding blijft op **Wachten op bank**. CSA Admin controleert eenmaal per dag. Als de bank de brief heeft aanvaard, activeert die controle de verbinding.
+
+Als die op **Wachten op bank** blijft, vraag je de bank of de ondertekende brief is verwerkt. Als dat zo is en de verbinding nog inactief is, [vraag het mij](/support).
+
+#### Tot de verbinding actief is {#ebics-meanwhile}
+
+Gebruik [handmatige import](#manual-import) voor betalingen die vóór de activatie binnenkomen, en voor eerdere betalingen die je nog moet vastleggen. Doe dat zolang **"Handmatige import"** op de betalingenpagina staat. Die sectie verdwijnt zodra de verbinding actief is, en CSA Admin haalt daarna elke nacht nieuwe bestanden op. Als de verbinding al actief is en oudere betalingen ontbreken, [vraag het mij](/support).
+
+Betalingen zonder referentienummer voer je nog steeds met de hand in.
+
+Bij de e-mail ["Betalingsherinnering factuur"](/mail_templates/invoice_overdue_notice) laat je **Verzenden** uit tot die eerdere betalingen zijn geïmporteerd. Herinneringen gaan alleen weg als automatische import actief is en **Verzenden** aan staat. Zie [Betalingsherinnering](#overdue_notice). **Verzenden** uit laten tot de import klaar is, voorkomt dat leden die al betaald hebben een herinnering krijgen.
+
+<!-- country:CH -->
+Je kunt de [QR-IBAN](#qr-iban) in [de factureringsinstellingen](/settings#invoice) invullen voordat EBICS klaar is, en beginnen met factureren. Als je van een oude rekening naar een nieuwe gaat, gebruiken nieuwe facturen de nieuwe QR-IBAN. Betalingen die nog op de oude rekening binnenkomen, moet je met de hand importeren tot die facturen gesloten zijn. Factureren op de nieuwe rekening en die import kunnen tegelijk lopen, zolang de EBICS-verbinding nog niet actief is.
+<!-- /country:CH -->
+
+<!-- country:!CH -->
+Je kunt het IBAN in [de factureringsinstellingen](/settings#invoice) invullen voordat EBICS klaar is, en beginnen met factureren. Als je van een oude rekening naar een nieuwe gaat, gebruiken nieuwe facturen het nieuwe IBAN. Betalingen die nog op de oude rekening binnenkomen, moet je met de hand importeren tot die facturen gesloten zijn. Beide kunnen tegelijk lopen, zolang de EBICS-verbinding nog niet actief is.
+<!-- /country:!CH -->
 
 ### Handmatige import {#manual-import}
 
-Wanneer automatische import via [EBICS](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) nog niet is geconfigureerd, kun je eenvoudig betalingen van facturen met referentienummers van je leden importeren door een bestand in camt.053, camt.054 of mt940 formaat te downloaden van je e-banking en dit te uploaden naar CSA Admin vanaf [de betalingenpagina](/payments), sectie "Import" in de rechterkolom. Vergeet niet om de bewerking regelmatig te herhalen (elke week) totdat de automatische import is ingevoerd.
+Als automatische import via [EBICS](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) nog niet actief is, download je een camt.053-, camt.054- of mt940-bestand uit je e-banking en upload je het vanaf [de betalingenpagina](/payments), sectie **"Handmatige import"** in de rechterkolom. Herhaal dit ongeveer eenmaal per week tot EBICS actief is. De sectie is verborgen zodra de verbinding actief is.
 
-Voor betalingen zonder referentienummer (contant geld of directe storting) hoef je alleen maar [handmatig een nieuwe betaling aan te maken](/payments/new). Het bedrag wordt automatisch herverdeeld naar bestaande openstaande facturen.
+<!-- country:CH -->
+Voor QR-facturen gebruik je bij voorkeur camt.054, of een camt.053 die nog elke QR-referentie bevat. Een sterk samengevoegd camt.053 kan bedragen tonen en de referenties weglaten, zodat de facturen open blijven.
+<!-- /country:CH -->
 
-> Probeer bij het importeren van betalingen alleen één formaat te gebruiken, anders kan dit leiden tot dubbele betalingen.
+<!-- country:DE -->
+Gebruik bij voorkeur een camt.053 van het eind van de dag. Dat is het bestand dat EBICS ophaalt zodra de verbinding actief is.
+<!-- /country:DE -->
+
+Voor betalingen zonder referentienummer, zoals contant geld of een overschrijving zonder referentie, [maak je een betaling met de hand](/payments/new). Het bedrag wordt verdeeld over openstaande facturen.
+
+> Houd het bij één formaat. Meer dan één formaat kan dezelfde betaling twee keer aanmaken.
 
 ### Terugbetaling {#refund}
 

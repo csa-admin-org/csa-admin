@@ -249,28 +249,114 @@ This redistribution mode is very convenient and thus allows managing cases where
 
 ### Automatic import {#automatic_payments_processing}
 
-The most efficient way to process your payments is to ask your bank to set up [an EBICS 3.0 connection](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics). CSA Admin supports EBICS 3.0 (H005/BTF) only; older EBICS 2.x/H003/H004 order-type connections are no longer supported. This allows the system to automatically import payments from your members each night via ISO camt.053/camt.054 files.
+The most efficient way to process your payments is to ask your bank to set up [an EBICS 3.0 connection](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics). CSA Admin supports EBICS 3.0 (H005/BTF) only. Older EBICS 2.x (H003/H004) connections are not supported. The system can then import your members' payments each night from ISO camt.053/camt.054 files.
 
-> If you have questions about support for a particular bank or setting up EBICS, don't hesitate to [ask me](/support).
+The bank form and the steps in CSA Admin are in [Setting up EBICS](#ebics-setup).
+
+> If you have questions about a particular bank, [ask me](/support).
 
 ### Setting up EBICS {#ebics-setup}
 
-Setting up an EBICS 3.0 (H005/BTF) connection with your bank involves several steps and typically takes a few days. Here is the process:
+An EBICS 3.0 (H005/BTF) connection lets CSA Admin fetch your members' payments every night. Setup usually takes a few days, because the bank validates a signed initialization letter before the connection can be used. You fill in the bank form and enter the identifiers yourself in [Bank connection settings](/settings#bank_connection).
 
-1. **Request the EBICS registration form from your bank** — Contact your bank to ask them to activate an EBICS 3.0 (H005/BTF) connection for your account with daily payment-file downloads (`BTD`) and **camt.053/camt.054** support (versions 2009/04 and 2019/08). Ask the bank for the EBICS URL, Host ID, Client/Contract/Partner ID, and Participant/User ID.
-2. **Start setup in CSA Admin** — In the [Bank connection settings](/settings#bank_connection), click **Start EBICS setup** and enter the identifiers from the bank contract. CSA Admin first checks the URL and Host ID, then submits the EBICS initialization orders.
-3. **INI letter signing** — Download the initialization letter, sign **each page**, and send it to your bank.
-4. **Finalization** — Once your bank has received and validated the signed INI letter, CSA Admin checks once per day and activates the connection automatically.
+1. [Fill in the bank form](#ebics-bank-form).
+2. [Enter the identifiers](#ebics-in-app) and click **Start EBICS setup**.
+3. [Sign the initialization letter](#ebics-letter), each page, and send it to the bank.
+4. The bank validates the letter. CSA Admin checks once a day and [activates the connection](#ebics-letter).
 
-> In the meantime, you can use [manual import](#manual-import) to process your payments. If the bank rejects the identifiers or the setup needs support, [contact me](/support).
+Until then, use [manual import](#manual-import). EBICS is separate from e-banking access. The connection only fetches what the contract with the bank allows.
+
+#### The bank form {#ebics-bank-form}
+
+Tell the bank you want EBICS 3.0 (H005/BTF), so accounting software can fetch the payment files every night.
+
+On the software lines of the form, write:
+
+- Vendor / manufacturer: `CSA Admin (Thibaud Guillaume-Gentil)`
+- Product, including version: `CSA Admin, EBICS 3.0 (H005)`
+
+<!-- country:CH -->
+Ask for:
+
+- a daily QR payment report and a credit advice, both in **camt.054** (CSA Admin fetches this file each night)
+
+Any camt version is fine: 2009/04 or 2019/08. A form may also say 2013, which is the same family as 2009/04. If the form allows more than one version, requesting both is fine. One version is enough for CSA Admin.
+
+Do not request payment orders, LSV / Swiss direct debit, intraday movements (camt.052), or PDF documents.
+
+The bank's distributed electronic signature lets several people approve payment orders. Forms sometimes call it SED or VEU. This connection only retrieves statements. Leave that option empty, or answer no.
+<!-- /country:CH -->
+
+<!-- country:DE -->
+Ask for a daily end-of-day account statement in **camt.053**. CSA Admin fetches this file each night.
+
+Any camt version is fine: 2009/04 or 2019/08. A form may also say 2013, which is the same family as 2009/04. If the form allows more than one version, requesting both is fine. One version is enough for CSA Admin.
+
+If SEPA direct debit is used and a creditor identifier is set in [the SEPA settings](/settings#sepa), also ask the bank to allow a **pain.008** upload. That upload includes a technical signature. It is not the bank's distributed electronic signature, where several people approve each payment (sometimes called SED or VEU). Leave that bank option off.
+
+Do not request payment orders, intraday movements (camt.052), or PDF documents.
+<!-- /country:DE -->
+
+In the account section of the form, enter the account IBAN.
+
+> EBICS is not necessarily free at every bank. Ask your bank about its conditions.
+
+#### Identifiers the bank sends back {#ebics-identifiers}
+
+Once the bank has processed the contract, it sends four values. They usually arrive on a parameter sheet for the EBICS contract:
+
+- **EBICS URL**. If the bank gives the host and the path separately, join them into one https address and keep the path, for example `https://ebics.example.ch/ebics.aspx`.
+- **Host ID**
+- **Client/Contract/Partner ID**. The bank may call this Client ID, Contract ID, Partner ID, or Customer ID.
+- **Participant/User ID**. The bank may call this Participant ID, User ID, or Subscriber ID.
+
+#### Enter them in CSA Admin {#ebics-in-app}
+
+Open [Bank connection settings](/settings#bank_connection) and click **Start EBICS setup**. Enter the four values under **EBICS contract identifiers**. Tick **I confirm that these identifiers come from the bank EBICS contract.** and click **Start**.
+
+CSA Admin checks the URL first. The address must be https, with no user or password in it, and the bank must answer as an EBICS 3.0 endpoint, path included. It then checks the Host ID, then the client and participant identifiers. If one value is rejected, compare it with the parameter sheet. If the values match the contract and the error remains, [contact me](/support).
+
+**Start** prepares the initialization letter.
+
+#### Initialization letter {#ebics-letter}
+
+Click **Download initialization letter**. Banks often call this the INI letter. Each page has its own signature block: the signature key, the authentication key, and the encryption key. Sign **each page** and send the letter to the bank promptly. A letter that sits too long can leave the access inactive, or the initialization can go stale.
+
+The bank often needs a few days to validate the letter. The connection stays on **Waiting for bank**. CSA Admin checks once a day. When the bank has accepted the letter, that check activates the connection.
+
+If it stays on **Waiting for bank**, ask the bank whether the signed letter was processed. If it was, and the connection is still inactive, [contact me](/support).
+
+#### Until the connection is active {#ebics-meanwhile}
+
+Use [manual import](#manual-import) for payments that arrive before go-live, and for any earlier payments you still need to record. Do that while **"Manual Import"** is still on the payments page. That section is hidden once the connection is active, and CSA Admin then fetches new files each night. If the connection is already active and older payments are missing, [contact me](/support).
+
+Payments with no reference number are still entered by hand.
+
+On the ["Invoice overdue notice" email](/mail_templates/invoice_overdue_notice), leave **Send** unchecked until those earlier payments are imported. Notices go out only when automatic import is active and **Send** is checked. See [Overdue notice](#overdue_notice). Leaving **Send** off until the import is done avoids reminding members who have already paid.
+
+<!-- country:CH -->
+You can enter the [QR-IBAN](#qr-iban) in [the invoice settings](/settings#invoice) before EBICS is ready, and start invoicing. If you are moving from an old account to a new one, new invoices use the new QR-IBAN. Payments that still arrive on the old account have to be imported manually until those invoices are closed. Invoicing on the new account and that import can run at the same time, while the EBICS connection is not yet active.
+<!-- /country:CH -->
+
+<!-- country:!CH -->
+You can enter the IBAN in [the invoice settings](/settings#invoice) before EBICS is ready, and start invoicing. If you are moving from an old account to a new one, new invoices use the new IBAN. Payments that still arrive on the old account have to be imported manually until those invoices are closed. Both can run at the same time, while the EBICS connection is not yet active.
+<!-- /country:!CH -->
 
 ### Manual import {#manual-import}
 
-When automatic import via [EBICS](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) is not yet configured, you can easily import payments of invoices with reference numbers from your members by downloading a file in camt.053, camt.054, or mt940 format from your e-banking and uploading it to CSA Admin from [the payments page](/payments), "Import" section in the right column. Don't forget to repeat the operation regularly (every week) until the automatic import is in place.
+When automatic import via [EBICS](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) is not active yet, download a camt.053, camt.054, or mt940 file from your e-banking and upload it from [the payments page](/payments), section **"Manual Import"** in the right column. Repeat this about once a week until EBICS is active. The section is hidden once the connection is active.
 
-For payments without a reference number, such as cash or direct deposits, [create a payment manually](/payments/new). Its amount is automatically redistributed to open invoices.
+<!-- country:CH -->
+For QR invoices, prefer camt.054, or a camt.053 that still contains each QR reference. A highly aggregated camt.053 statement can list amounts and leave out the references, so the invoices stay open.
+<!-- /country:CH -->
 
-> Please try to only stick to a single format when importing payments, doing otherwise may lead to double payments creation.
+<!-- country:DE -->
+Prefer an end-of-day camt.053. That is the file EBICS fetches once the connection is active.
+<!-- /country:DE -->
+
+For payments without a reference number, such as cash or a transfer that does not include one, [create a payment manually](/payments/new). Its amount is redistributed to open invoices.
+
+> Stick to a single format. Using more than one can create the same payment twice.
 
 ### Refund {#refund}
 
@@ -287,7 +373,7 @@ See the dedicated [SEPA handbook page](/handbook/sepa) for the full setup.
 ## Overdue notice {#overdue_notice}
 
 <% overdue_notice_days = MailTemplate.delay_in_days_for("invoice_overdue_notice") %>
-When payments are imported automatically, the system sends a reminder to every member with an unpaid invoice every <%= overdue_notice_days %> days after the invoice is sent, then again after the last notice, until it is paid (1st reminder after <%= overdue_notice_days %> days, 2nd after <%= overdue_notice_days * 2 %> days, and so on). SEPA invoices are not reminded. The delay and the text are set on [the "Invoice reminder" email](/mail_templates/invoice_overdue_notice).
+When payments are imported automatically, the system sends a reminder to every member with an unpaid invoice every <%= overdue_notice_days %> days after the invoice is sent, then again after the last notice, until it is paid (1st reminder after <%= overdue_notice_days %> days, 2nd after <%= overdue_notice_days * 2 %> days, and so on). SEPA invoices are not reminded. The delay and the text are set on [the "Invoice overdue notice" email](/mail_templates/invoice_overdue_notice).
 
 > You can be notified by email when the 3rd reminder of an invoice is sent. Manage your notifications from [your admin account](/admins/<%= current_admin.id %>/edit).
 

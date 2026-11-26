@@ -250,26 +250,114 @@ Questa modalità di ridistribuzione è molto comoda e permette così di gestire 
 
 ### Importazione automatica {#automatic_payments_processing}
 
-Il modo più efficiente per elaborare i tuoi pagamenti è chiedere alla tua banca di impostare [una connessione EBICS 3.0](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics). CSA Admin supporta solo EBICS 3.0 (H005/BTF); le vecchie connessioni EBICS 2.x/H003/H004 con tipi d'ordine non sono più supportate. Questo permette al sistema di importare automaticamente ogni notte i pagamenti dei tuoi soci tramite file ISO camt.053/camt.054.
+Il modo più efficiente per elaborare i tuoi pagamenti è chiedere alla tua banca di impostare [una connessione EBICS 3.0](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics). CSA Admin supporta solo EBICS 3.0 (H005/BTF). Le vecchie connessioni EBICS 2.x (H003/H004) non sono supportate. Il sistema può allora importare automaticamente ogni notte i pagamenti dei tuoi soci da file ISO camt.053/camt.054.
 
-> Se hai domande riguardanti il supporto di una banca in particolare o l'impostazione di EBICS, non esitare a [chiedermelo](/support).
+Il modulo della banca e i passaggi in CSA Admin sono in [Impostazione di EBICS](#ebics-setup).
+
+> Se hai domande su una banca in particolare, [chiedimelo](/support).
 
 ### Impostazione di EBICS {#ebics-setup}
 
-L'impostazione di una connessione EBICS 3.0 (H005/BTF) con la tua banca comprende diverse fasi e richiede generalmente alcuni giorni. Ecco il processo:
+Una connessione EBICS 3.0 (H005/BTF) permette a CSA Admin di recuperare ogni notte i pagamenti dei tuoi soci. L'impostazione richiede in genere alcuni giorni, perché la banca convalida una lettera di inizializzazione firmata prima di autorizzare la connessione. Compili il modulo della banca e inserisci tu gli identificativi nelle [impostazioni della connessione bancaria](/settings#bank_connection).
 
-1. **Richiedere il modulo di iscrizione EBICS alla tua banca** — Contatta la tua banca per chiedere di attivare una connessione EBICS 3.0 (H005/BTF) per il tuo conto con recupero giornaliero dei file di pagamento (`BTD`) e supporto dei formati **camt.053/camt.054** (versioni 2009/04 e 2019/08). Chiedi alla banca l'URL EBICS, l'ID host, l'ID cliente/contratto/partner e l'ID partecipante/utente.
-2. **Avviare la configurazione in CSA Admin** — Apri le [impostazioni della connessione bancaria](/settings#bank_connection), clicca su **Avviare la configurazione EBICS** e inserisci gli identificativi del contratto bancario. CSA Admin verifica prima l'URL e l'ID host, poi invia gli ordini di inizializzazione EBICS.
-3. **Firma della lettera INI** — Scarica la lettera di inizializzazione, firma **ogni pagina** e inviala alla tua banca.
-4. **Finalizzazione** — Una volta che la tua banca ha ricevuto e convalidato la lettera INI firmata, CSA Admin verifica una volta al giorno e attiva automaticamente la connessione.
+1. [Compila il modulo della banca](#ebics-bank-form).
+2. [Inserisci gli identificativi](#ebics-in-app) e clicca su **Avviare la configurazione EBICS**.
+3. [Firma la lettera di inizializzazione](#ebics-letter), ogni pagina, e inviala alla banca.
+4. La banca convalida la lettera. CSA Admin controlla una volta al giorno e [attiva la connessione](#ebics-letter).
 
-> Nel frattempo, puoi utilizzare [l'importazione manuale](#manual-import) per elaborare i tuoi pagamenti. Se la banca rifiuta gli identificativi o la configurazione richiede supporto, [chiedimelo](/support).
+Fino ad allora usa [l'importazione manuale](#manual-import). EBICS non c'entra con l'accesso e-banking. La connessione accede solo a ciò che il contratto con la banca autorizza.
+
+#### Il modulo della banca {#ebics-bank-form}
+
+Di' alla banca che vuoi EBICS 3.0 (H005/BTF), così un software di contabilità recupera i file di pagamento ogni notte.
+
+Nelle righe del software sul modulo scrivi:
+
+- Fornitore / produttore: `CSA Admin (Thibaud Guillaume-Gentil)`
+- Prodotto, versione inclusa: `CSA Admin, EBICS 3.0 (H005)`
+
+<!-- country:CH -->
+Chiedi:
+
+- un rendiconto QR giornaliero e un avviso di accredito, entrambi in **camt.054** (CSA Admin recupera questo file ogni notte)
+
+Qualsiasi versione camt va bene: 2009/04 o 2019/08. Un modulo può anche indicare 2013, la stessa famiglia di 2009/04. Se il modulo permette più di una versione, chiederle entrambe va bene. Per CSA Admin ne basta una.
+
+Non chiedere ordini di pagamento, LSV / addebito diretto svizzero, movimenti durante la giornata (camt.052) né PDF.
+
+La firma elettronica distribuita fa approvare i pagamenti da più persone. I moduli la chiamano a volte SED o VEU. Questa connessione recupera solo gli estratti. Lascia l'opzione vuota, oppure rispondi no.
+<!-- /country:CH -->
+
+<!-- country:DE -->
+Chiedi un estratto conto giornaliero di fine giornata in **camt.053**. CSA Admin recupera questo file ogni notte.
+
+Qualsiasi versione camt va bene: 2009/04 o 2019/08. Un modulo può anche indicare 2013, la stessa famiglia di 2009/04. Se il modulo permette più di una versione, chiederle entrambe va bene. Per CSA Admin ne basta una.
+
+Se usi l'addebito diretto SEPA e un identificativo creditore è indicato nelle [impostazioni SEPA](/settings#sepa), chiedi anche alla banca di consentire un invio **pain.008**. Questo invio include una firma tecnica. Non è la firma elettronica distribuita della banca, in cui più persone approvano ogni pagamento (a volte chiamata SED o VEU). Lascia disattivata questa opzione della banca.
+
+Non chiedere ordini di pagamento, movimenti durante la giornata (camt.052) né PDF.
+<!-- /country:DE -->
+
+Nella parte conto del modulo inserisci l'IBAN del conto.
+
+> EBICS non è per forza gratuito in ogni banca. Chiedi alla tua banca le sue condizioni.
+
+#### Identificativi che la banca rimanda {#ebics-identifiers}
+
+Una volta che la banca ha elaborato il contratto, invia quattro valori. Di solito arrivano su una scheda parametri del contratto EBICS:
+
+- **URL EBICS**. Se la banca indica host e percorso separatamente, uniscili in un indirizzo https e conserva il percorso, per esempio `https://ebics.example.ch/ebics.aspx`.
+- **ID host**
+- **ID cliente/contratto/partner**. La banca può chiamarlo ID cliente, ID contratto, ID partner o Customer ID.
+- **ID partecipante/utente**. La banca può chiamarlo ID partecipante, ID utente o Subscriber ID.
+
+#### Inserirli in CSA Admin {#ebics-in-app}
+
+Apri le [impostazioni della connessione bancaria](/settings#bank_connection) e clicca su **Avviare la configurazione EBICS**. Inserisci i quattro valori sotto **Identificativi del contratto EBICS**. Spunta **Confermo che questi identificativi provengono dal contratto EBICS della banca.** e clicca su **Avviare**.
+
+CSA Admin controlla prima l'URL. L'indirizzo deve essere https, senza utente né password, e la banca deve rispondere come un endpoint EBICS 3.0, percorso compreso. Poi controlla l'ID host, poi gli identificativi cliente e partecipante. Se un valore viene rifiutato, confrontalo con la scheda parametri. Se i valori corrispondono al contratto e l'errore resta, [chiedimelo](/support).
+
+**Avviare** prepara la lettera di inizializzazione.
+
+#### Lettera di inizializzazione {#ebics-letter}
+
+Clicca su **Scaricare la lettera di inizializzazione**. Le banche la chiamano spesso lettera INI. Ogni pagina ha il proprio blocco firma: chiave di firma, chiave di autenticazione e chiave di cifratura. Firma **ogni pagina** e invia la lettera alla banca subito. Una lettera che aspetta troppo può lasciare l'accesso inattivo, oppure l'inizializzazione può diventare obsoleta.
+
+La banca ha spesso bisogno di qualche giorno per convalidare la lettera. La connessione resta su **In attesa della banca**. CSA Admin controlla una volta al giorno. Quando la banca ha accettato la lettera, questo controllo attiva la connessione.
+
+Se resta su **In attesa della banca**, chiedi alla banca se la lettera firmata è stata elaborata. Se lo è stata e la connessione è ancora inattiva, [chiedimelo](/support).
+
+#### Finché la connessione non è attiva {#ebics-meanwhile}
+
+Usa [l'importazione manuale](#manual-import) per i pagamenti che arrivano prima dell'attivazione e per i pagamenti precedenti ancora da registrare. Fallo finché **"Importazione manuale"** è visibile sulla pagina dei pagamenti. Questa sezione sparisce quando la connessione è attiva, e CSA Admin recupera poi i nuovi file ogni notte. Se la connessione è già attiva e mancano pagamenti più vecchi, [chiedimelo](/support).
+
+I pagamenti senza numero di riferimento si inseriscono comunque a mano.
+
+Nell'e-mail ["Promemoria fattura"](/mail_templates/invoice_overdue_notice) lascia **Invio** deselezionato finché quei pagamenti precedenti non sono importati. I promemoria partono solo quando l'importazione automatica è attiva e **Invio** è selezionato. Vedi [Promemoria](#overdue_notice). Lasciare **Invio** disattivato fino alla fine dell'importazione evita di sollecitare soci che hanno già pagato.
+
+<!-- country:CH -->
+Puoi inserire il [QR-IBAN](#qr-iban) nelle [impostazioni di fatturazione](/settings#invoice) prima che EBICS sia pronto, e iniziare a fatturare. Se passi da un vecchio conto a uno nuovo, le nuove fatture usano il nuovo QR-IBAN. I pagamenti che arrivano ancora sul vecchio conto vanno importati a mano finché quelle fatture non sono chiuse. La fatturazione sul nuovo conto e questa importazione possono procedere insieme, finché la connessione EBICS non è ancora attiva.
+<!-- /country:CH -->
+
+<!-- country:!CH -->
+Puoi inserire l'IBAN nelle [impostazioni di fatturazione](/settings#invoice) prima che EBICS sia pronto, e iniziare a fatturare. Se passi da un vecchio conto a uno nuovo, le nuove fatture usano il nuovo IBAN. I pagamenti che arrivano ancora sul vecchio conto vanno importati a mano finché quelle fatture non sono chiuse. Le due cose possono procedere insieme, finché la connessione EBICS non è ancora attiva.
+<!-- /country:!CH -->
 
 ### Importazione manuale {#manual-import}
 
-Quando l'importazione automatica tramite [EBICS](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics) non è ancora configurata, puoi facilmente importare i pagamenti delle fatture con numero di riferimento dei tuoi soci scaricando un file in formato camt.053, camt.054 o mt940 dal tuo e-banking e caricandolo in CSA Admin dalla [pagina dei pagamenti](/payments), sezione "Importazione" nella colonna di destra. Non dimenticare di ripetere l'operazione regolarmente (ogni settimana) fino a quando l'''importazione automatica non sarà in atto.
+Quando l'importazione automatica tramite [EBICS](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics) non è ancora attiva, scarica un file camt.053, camt.054 o mt940 dal tuo e-banking e caricalo dalla [pagina dei pagamenti](/payments), sezione **"Importazione manuale"** nella colonna di destra. Ripeti l'operazione circa una volta alla settimana finché EBICS non è attivo. La sezione è nascosta quando la connessione è attiva.
 
-Per i pagamenti senza numero di riferimento (contanti o versamento diretto), è sufficiente [creare un nuovo pagamento manualmente](/payments/new). L'importo di questo sarà automaticamente ridistribuito alle fatture aperte esistenti.
+<!-- country:CH -->
+Per le fatture QR preferisci un camt.054, o un camt.053 che contiene ancora ogni riferimento QR. Un camt.053 molto aggregato può elencare gli importi senza i riferimenti, e le fatture restano aperte.
+<!-- /country:CH -->
+
+<!-- country:DE -->
+Preferisci un camt.053 di fine giornata. È il file che EBICS recupera quando la connessione è attiva.
+<!-- /country:DE -->
+
+Per i pagamenti senza numero di riferimento, come il contante o un versamento che non lo riporta, [crea un pagamento a mano](/payments/new). L'importo viene ridistribuito sulle fatture aperte.
+
+> Tieniti a un solo formato. Usarne più di uno può creare due volte lo stesso pagamento.
 
 ### Rimborso {#refund}
 
