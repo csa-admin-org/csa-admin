@@ -51,9 +51,21 @@ class TenantTest < ActiveSupport::TestCase
 
   test "configured? ignores ENV TENANT" do
     with_env("TENANT" => "unknown") do
-      assert Tenant.exists?("unknown")
+      assert_not Tenant.exists?("unknown")
       assert_not Tenant.configured?("unknown")
       assert Tenant.configured?("acme")
+      assert Tenant.exists?("acme")
+    end
+  end
+
+  test "all ignores unknown TENANT names so Rails can boot after a tenant is removed" do
+    with_env("TENANT" => "retired") do
+      assert_not_includes Tenant.all, "retired"
+      assert_includes Tenant.all, "acme"
+    end
+
+    with_env("TENANT" => "acme") do
+      assert_equal %w[acme], Tenant.all
     end
   end
 

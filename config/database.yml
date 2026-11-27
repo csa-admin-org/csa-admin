@@ -11,7 +11,10 @@ default: &default
 
 tenants: &tenants
   <% tenants = YAML.load_file(Rails.root.join("config", "tenant.yml"), aliases: true)[Rails.env].keys %>
-  <% tenants &= ENV["TENANT"].split(",") if Rails.env.development? && ENV["TENANT"] %>
+  <% if Rails.env.development? && ENV["TENANT"] %>
+    <% requested = tenants & ENV["TENANT"].split(",") %>
+    <% tenants = requested if requested.any? %>
+  <% end %>
   <% tenants.each_with_index do |tenant, index| %>
   <%= tenant %>:
     <<: *default

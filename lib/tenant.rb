@@ -6,11 +6,11 @@ module Tenant
   extend self
 
   def all
-    if ENV["TENANT"]
-      ENV["TENANT"].split(",")
-    else
-      @all ||= config.keys.map(&:to_s)
-    end
+    configured = (@all ||= config.keys.map(&:to_s))
+    return configured unless ENV["TENANT"]
+
+    requested = configured & ENV["TENANT"].split(",")
+    requested.any? ? requested : configured
   end
 
   def all_with_aliases

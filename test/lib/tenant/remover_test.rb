@@ -55,6 +55,7 @@ class Tenant::RemoverTest < ActiveSupport::TestCase
     assert_includes output, "dry-run Cap: would delete site key site-123 (acme)"
     assert_includes output, "Postmark: delete server 4242 and domain acme.test manually at https://account.postmarkapp.com/servers"
     assert_includes output, "Re-run with CONFIRM=acme to execute Phase 1."
+    assert_includes output, "rm -rf /storage/csa-admin/.production_acme.sqlite3-litestream"
     assert_not_includes output, "would delete custom hostname"
     assert_not_includes output, "would delete server"
     assert_not_includes output, "would delete domain"

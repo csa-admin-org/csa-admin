@@ -294,7 +294,8 @@ class Tenant::Remover
     say "  6. Delete DB files on isle:"
     say "     ssh isle \"rm -f /storage/csa-admin/production_#{@tenant}.sqlite3 " \
       "/storage/csa-admin/production_#{@tenant}.sqlite3-wal " \
-      "/storage/csa-admin/production_#{@tenant}.sqlite3-shm\""
+      "/storage/csa-admin/production_#{@tenant}.sqlite3-shm && " \
+      "rm -rf /storage/csa-admin/.production_#{@tenant}.sqlite3-litestream\""
     say "  7. Run Phase 2 locally to clear object storage and Litestream replicas:"
     say "     bin/rails tenant:remove TENANT=#{@tenant}"
     say "     bin/rails tenant:remove TENANT=#{@tenant} CONFIRM=#{@tenant}"
