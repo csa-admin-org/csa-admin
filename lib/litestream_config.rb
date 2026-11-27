@@ -26,11 +26,12 @@ module LitestreamConfig
   # rclone mirror (S3 layout) vs materialized restore tree (file layout)
   MIRROR_DIR = "litestream"
   RESTORE_DIR = "litestream-restore"
+  DEFAULT_BUCKET = "csa-admin-litestream"
 
   module_function
 
   def server(volume_path:, db_names:, access_key_id:, secret_access_key:, endpoint:,
-    bucket: "csa-admin-litestream")
+    bucket: DEFAULT_BUCKET)
     replica_defaults = {
       "type" => "s3",
       "bucket" => bucket,

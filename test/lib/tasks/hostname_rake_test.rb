@@ -162,6 +162,16 @@ class HostnameRakeTest < ActiveSupport::TestCase
     assert_equal "1.0 (default)", row[6]
   end
 
+  test "cloudflare clear rejects unconfigured tenant even when TENANT env is set" do
+    Rake::Task["hostname:cloudflare:clear"].reenable
+
+    error = with_env("TENANT" => "unknown") do
+      assert_raises(RuntimeError) { Rake::Task["hostname:cloudflare:clear"].invoke }
+    end
+
+    assert_equal "Tenant 'unknown' does not exist", error.message
+  end
+
   private
 
   def custom_hostname_stub(

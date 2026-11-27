@@ -147,6 +147,32 @@ module Tenant
     all.include?(tenant)
   end
 
+  # Reads config, not all, so ENV["TENANT"] does not mask whether a tenant is in tenant.yml.
+  def configured?(tenant)
+    config.key?(tenant.to_s)
+  end
+
+  def configured_hostnames(tenant)
+    attrs = config[tenant.to_s]
+    return [] unless attrs
+
+    [ attrs["admin_host"], attrs["members_host"] ].compact
+  end
+
+  def configured_domain(tenant)
+    admin_host = config.dig(tenant.to_s, "admin_host")
+    PublicSuffix.parse(admin_host).domain if admin_host
+  end
+
+  def domain_shared?(domain, except:)
+    config.any? do |name, attrs|
+      next false if name.to_s == except.to_s
+      next false unless attrs["admin_host"]
+
+      PublicSuffix.parse(attrs["admin_host"]).domain == domain
+    end
+  end
+
   def current
     Thread.current[:current_tenant]
   end

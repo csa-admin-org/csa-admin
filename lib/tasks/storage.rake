@@ -89,7 +89,9 @@ namespace :storage do
       endpoint: creds[:endpoint],
       access_key_id: creds[:access_key_id],
       secret_access_key: creds[:secret_access_key],
-      region: creds[:region] || "auto"
+      region: creds[:region] || "auto",
+      request_checksum_calculation: "when_required",
+      response_checksum_validation: "when_required"
     )
     bucket = Aws::S3::Bucket.new("csa-admin-storage", client: client)
     object_keys = bucket.objects(prefix: "#{tenant_name}/").map(&:key)

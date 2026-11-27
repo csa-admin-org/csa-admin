@@ -42,7 +42,7 @@ namespace :hostname do
 
       tenant_name = ENV["TENANT"]
       raise "TENANT environment variable is required" if tenant_name.blank?
-      raise "Tenant '#{tenant_name}' does not exist" unless Tenant.exists?(tenant_name)
+      raise "Tenant '#{tenant_name}' does not exist" unless Tenant.configured?(tenant_name)
 
       email = Rails.app.creds.require(:cloudflare_email)
       key = Rails.app.creds.require(:cloudflare_api_key)
@@ -50,14 +50,16 @@ namespace :hostname do
       Tenant.config_each([ tenant_name ]) do
         hostnames = Tenant.hostnames
 
-        puts "WARNING: This will permanently delete #{hostnames.size} custom hostname(s) from Cloudflare:"
-        hostnames.each { |h| puts "  - #{h}" }
-        puts "\nType the tenant name '#{tenant_name}' to confirm:"
-        confirmation = $stdin.gets.chomp
+        unless ENV["CONFIRM"] == tenant_name
+          puts "WARNING: This will permanently delete #{hostnames.size} custom hostname(s) from Cloudflare:"
+          hostnames.each { |h| puts "  - #{h}" }
+          puts "\nType the tenant name '#{tenant_name}' to confirm:"
+          confirmation = $stdin.gets.chomp
 
-        unless confirmation == tenant_name
-          puts "Confirmation failed. Aborting."
-          exit 1
+          unless confirmation == tenant_name
+            puts "Confirmation failed. Aborting."
+            exit 1
+          end
         end
 
         Cloudflare.connect(email: email, key: key) do |cf|

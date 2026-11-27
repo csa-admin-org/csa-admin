@@ -110,4 +110,11 @@ namespace :litestream do
 
     puts "Litestream backups restored successfully."
   end
+
+  desc "Clear Litestream S3 replica prefix for a removed tenant (TENANT=x, dry-run unless CONFIRM=x)"
+  task clear: :environment do
+    remover = Tenant::Remover.new(ENV["TENANT"], confirm: ENV["CONFIRM"])
+    remover.clear_litestream_replica
+    puts "Re-run with CONFIRM=#{remover.tenant} to delete." unless remover.confirmed?
+  end
 end

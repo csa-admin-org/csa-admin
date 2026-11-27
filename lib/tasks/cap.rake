@@ -35,6 +35,13 @@ namespace :cap do
     end
   end
 
+  desc "Delete Cap site key for a tenant (TENANT=x, dry-run unless CONFIRM=x)"
+  task delete: :environment do
+    remover = Tenant::Remover.new(ENV["TENANT"], confirm: ENV["CONFIRM"])
+    remover.delete_cap_keys
+    puts "Re-run with CONFIRM=#{remover.tenant} to delete." unless remover.confirmed?
+  end
+
   desc "Rotate v3 Cap secrets that capd 4 rejects. Dry-run unless CONFIRM=1"
   task rotate_secrets: :environment do
     client = Cap::Client.new

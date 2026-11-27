@@ -137,4 +137,29 @@ class Cap::ClientTest < ActiveSupport::TestCase
 
     assert result.fetch("success")
   end
+
+  test "deletes a site key" do
+    stub_request(:delete, "https://cap.test/server/keys/site-key")
+      .with(
+        headers: {
+          "Authorization" => "Bot api-key",
+          "Content-Type" => "application/json"
+        })
+      .to_return(status: 200, body: { success: true }.to_json)
+
+    result = Cap::Client.new(api_url: "https://cap.test", api_key: "api-key").delete_key("site-key")
+
+    assert result.fetch("success")
+  end
+
+  test "raises NotFoundError when deleting a missing site key" do
+    stub_request(:delete, "https://cap.test/server/keys/missing-key")
+      .to_return(status: 404, body: { success: false, error: "Key not found" }.to_json)
+
+    error = assert_raises(Cap::Client::NotFoundError) do
+      Cap::Client.new(api_url: "https://cap.test", api_key: "api-key").delete_key("missing-key")
+    end
+
+    assert_equal "Cap API request failed (404): Key not found", error.message
+  end
 end

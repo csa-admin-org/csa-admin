@@ -49,6 +49,34 @@ class TenantTest < ActiveSupport::TestCase
     assert_not Tenant.exists?("unknown")
   end
 
+  test "configured? ignores ENV TENANT" do
+    with_env("TENANT" => "unknown") do
+      assert Tenant.exists?("unknown")
+      assert_not Tenant.configured?("unknown")
+      assert Tenant.configured?("acme")
+    end
+  end
+
+  test "configured_hostnames and configured_domain read tenant config" do
+    assert_equal %w[admin.acme.test members.acme.test], Tenant.configured_hostnames("acme")
+    assert_equal "acme.test", Tenant.configured_domain("acme")
+    assert_equal [], Tenant.configured_hostnames("unknown")
+    assert_nil Tenant.configured_domain("unknown")
+  end
+
+  test "domain_shared? detects another tenant on the same domain" do
+    config = {
+      "acme" => { "admin_host" => "admin.shared.test" },
+      "beta" => { "admin_host" => "other.shared.test" },
+      "gamma" => { "admin_host" => "admin.gamma.test" }
+    }
+
+    Tenant.stub(:config, config) do
+      assert Tenant.domain_shared?("shared.test", except: "acme")
+      assert_not Tenant.domain_shared?("gamma.test", except: "gamma")
+    end
+  end
+
   test "find_with_aliases" do
     assert_equal "acme", Tenant.find_with_aliases("ac")
   end

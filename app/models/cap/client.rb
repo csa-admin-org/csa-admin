@@ -3,6 +3,8 @@
 require "net/http"
 
 class Cap::Client
+  class NotFoundError < RuntimeError; end
+
   def initialize(api_url: Cap.internal_api_url, api_key: :default)
     @api_url = api_url.delete_suffix("/")
     @api_key = api_key == :default ? default_api_key : api_key
@@ -40,6 +42,10 @@ class Cap::Client
     request(:put, "/server/keys/#{site_key}/config", protocol: "sha256-pow")
   end
 
+  def delete_key(site_key)
+    request(:delete, "/server/keys/#{site_key}")
+  end
+
   private
 
   def default_api_key
@@ -70,6 +76,7 @@ class Cap::Client
     when :get then Net::HTTP::Get
     when :post then Net::HTTP::Post
     when :put then Net::HTTP::Put
+    when :delete then Net::HTTP::Delete
     else raise ArgumentError, "Unsupported HTTP method: #{method}"
     end
   end
@@ -79,7 +86,8 @@ class Cap::Client
     return body if response.is_a?(Net::HTTPSuccess)
 
     error = body.fetch("error", response.body)
-    raise "Cap API request failed (#{response.code}): #{error}"
+    error_class = response.is_a?(Net::HTTPNotFound) ? NotFoundError : RuntimeError
+    raise error_class, "Cap API request failed (#{response.code}): #{error}"
   rescue JSON::ParserError
     raise "Cap API request failed (#{response.code}): #{response.body}"
   end
