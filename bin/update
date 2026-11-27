@@ -50,19 +50,20 @@ end
 
 def sync_dockerfile_ruby!
   ruby = mise_ruby_version
-  path = "Dockerfile"
-  contents = File.read(path)
+  %w[Dockerfile hotcell/Dockerfile].each do |path|
+    contents = File.read(path)
 
-  unless contents.match?(/^ARG RUBY_VERSION=/)
-    abort "Could not find ARG RUBY_VERSION in Dockerfile"
-  end
+    unless contents.match?(/^ARG RUBY_VERSION=/)
+      abort "Could not find ARG RUBY_VERSION in #{path}"
+    end
 
-  updated = contents.sub(/^ARG RUBY_VERSION=.*$/, "ARG RUBY_VERSION=#{ruby}")
-  if updated == contents
-    puts "Dockerfile RUBY_VERSION already #{ruby}"
-  else
-    File.write(path, updated)
-    puts "Synced Dockerfile RUBY_VERSION → #{ruby}"
+    updated = contents.sub(/^ARG RUBY_VERSION=.*$/, "ARG RUBY_VERSION=#{ruby}")
+    if updated == contents
+      puts "#{path} RUBY_VERSION already #{ruby}"
+    else
+      File.write(path, updated)
+      puts "Synced #{path} RUBY_VERSION → #{ruby}"
+    end
   end
 end
 

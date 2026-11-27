@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Variant generation raises Vips::Error when a blob is labeled as an image
-# but the bytes are not a format libvips can load (AppSignal #458).
+# Variant generation raises CSAAdmin::UnprocessableUpload when a blob is labeled
+# as an image but the bytes are not a format libvips can load (AppSignal #458).
 # Preview/variant processing raises FileNotFoundError when the blob record
 # exists but the object is missing from storage (AppSignal #370).
 # after_initialize: the gem controller is not loaded while initializers run.
@@ -11,7 +11,9 @@ Rails.application.config.after_initialize do
 
     def set_representation
       @representation = @blob.representation(params[:variation_key]).processed
-    rescue ActiveSupport::MessageVerifier::InvalidSignature, ActiveStorage::FileNotFoundError, Vips::Error, ImageProcessing::Error
+    rescue ActiveSupport::MessageVerifier::InvalidSignature,
+      ActiveStorage::FileNotFoundError,
+      CSAAdmin::UnprocessableUpload
       head :not_found
     end
   end

@@ -7,6 +7,11 @@ module Organization::Logo
   MIN_DIMENSION = 512
   CONTENT_TYPES = %w[image/png image/jpeg].freeze
 
+  class Processor < HotCell::Client
+    hotcell "active_storage"
+    operation "organization.logo.process"
+  end
+
   included do
     validate :validate_logo, if: -> { logo.attached? && logo.blob&.new_record? }
   end
@@ -19,7 +24,7 @@ module Organization::Logo
 
     validate_logo_size
     validate_logo_dimensions
-  rescue Vips::Error
+  rescue CSAAdmin::UnprocessableUpload
     errors.add(:logo, :logo_content_type_invalid)
   end
 
@@ -36,29 +41,61 @@ module Organization::Logo
   end
 
   def validate_logo_dimensions
-    image = logo_image
-    if image.width != image.height
+    result, optimized = process_logo(optimize: errors[:logo].none?)
+    width = result[:width]
+    height = result[:height]
+    unless width.is_a?(Integer) && height.is_a?(Integer) && width.positive? && height.positive?
+      errors.add(:logo, :logo_content_type_invalid)
+      return
+    end
+
+    if width != height
       errors.add(:logo, :logo_not_square)
-    elsif image.width < MIN_DIMENSION
+    elsif width < MIN_DIMENSION
       errors.add(:logo, :logo_too_small)
-    elsif errors[:logo].none?
-      optimize_logo!(image)
+    elsif optimized
+      replace_logo_attachable(optimized)
     end
   end
 
-  def optimize_logo!(image)
-    optimized =
-      if logo.blob.content_type == "image/png"
-        image.pngsave_buffer(compression: 9, palette: true, strip: true)
-      else
-        image.jpegsave_buffer(Q: 85, strip: true, optimize_coding: true)
+  def process_logo(optimize:)
+    @logo_data = logo_attachable_io.read
+    Tempfile.create([ "logo-in", ".bin" ], binmode: true) do |in_tmp|
+      in_tmp.write(@logo_data)
+      in_tmp.flush
+
+      File.open(in_tmp.path, "rb") do |source|
+        if optimize
+          process_logo_with_output(source)
+        else
+          result = Processor.perform_in_hotcell(
+            source,
+            [],
+            content_type: logo.blob.content_type,
+            min_dimension: MIN_DIMENSION,
+            optimize: false)
+          [ result, nil ]
+        end
       end
+    end
+  end
 
-    return if optimized.bytesize >= @logo_data.bytesize
-
-    replace_logo_attachable(optimized)
-  rescue Vips::Error
-    nil # keep original if optimization fails
+  def process_logo_with_output(source)
+    Tempfile.create([ "logo-out", ".bin" ], binmode: true) do |out_tmp|
+      result = File.open(out_tmp.path, "wb") do |destination|
+        Processor.perform_in_hotcell(
+          source,
+          destination,
+          content_type: logo.blob.content_type,
+          min_dimension: MIN_DIMENSION,
+          optimize: true)
+      end
+      optimized =
+        if result[:optimized] && File.size(out_tmp.path) < @logo_data.bytesize
+          File.binread(out_tmp.path)
+        end
+      [ result, optimized ]
+    end
   end
 
   def replace_logo_attachable(data)
@@ -70,11 +107,6 @@ module Organization::Logo
     logo.blob.assign_attributes(
       byte_size: data.bytesize,
       checksum: Digest::MD5.base64digest(data))
-  end
-
-  def logo_image
-    @logo_data = logo_attachable_io.read
-    Vips::Image.new_from_buffer(@logo_data, "")
   end
 
   def logo_attachable_io

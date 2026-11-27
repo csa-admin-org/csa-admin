@@ -126,6 +126,9 @@ GEM
       kaminari (>= 1.2.1)
       railties (>= 7.2)
       ransack (>= 4.0)
+    activestorage-hotcell-client (1.2.0)
+      activestorage (>= 8.2.0.alpha)
+      hotcell-client (= 1.2.0)
     acts_as_list (1.2.6)
       activerecord (>= 6.1)
       activesupport (>= 6.1)
@@ -310,6 +313,10 @@ GEM
       geom2d (~> 0.4, >= 0.4.1)
       openssl (>= 2.2.1)
       strscan (>= 3.1.2)
+    hotcell-client (1.2.0)
+      activesupport (>= 7.1)
+      hotcell-core (= 1.2.0)
+    hotcell-core (1.2.0)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     i18n-backend-side_by_side (1.3.0)
@@ -724,6 +731,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin (~> 4.0.0.beta23)
+  activestorage-hotcell-client (= 1.2.0)
   acts_as_list
   appsignal
   archspec
@@ -818,6 +826,7 @@ CHECKSUMS
   activemodel (8.2.0.alpha)
   activerecord (8.2.0.alpha)
   activestorage (8.2.0.alpha)
+  activestorage-hotcell-client (1.2.0) sha256=36c782e41e9de6e549bf5f2688913914604fb462fb0dc3e360f2b17e5747fc31
   activesupport (8.2.0.alpha)
   acts_as_list (1.2.6) sha256=8345380900b7bee620c07ad00991ccee59af3d8c9e8574f426e321da2865fdc8
   addressable (2.9.2) sha256=9117c7e7d6ee07230e75ce41fb9401ae55354dc654fcd0e862ba41d539e9a610
@@ -910,6 +919,8 @@ CHECKSUMS
   herb (0.11.2-x86_64-linux-gnu) sha256=2627fe909e7e6b0548926573d87a2e12b6d65bc85964832d34abf5ba165bfc37
   herb (0.11.2-x86_64-linux-musl) sha256=aa6e7aa38d44de757d3076e331234f55ed2f392c2bd0203a3aa4ceea0b6bdd3e
   hexapdf (1.11.2) sha256=c69ea394cc1c4b291ee17cbf2707956ad975948db4f9cf7b9d9d3bfca87b5f1c
+  hotcell-client (1.2.0) sha256=f32f56892ee0eef5e96613f67038558df55f6bf0b6198d53483ccd72a1c75bda
+  hotcell-core (1.2.0) sha256=7a1653522bcb0ae0a5583c3111709f0008188cc34f79505b057331de1b2d68ac
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
   i18n-backend-side_by_side (1.3.0) sha256=9a48d06549d4d5e4e6640ab66c560ffa4a73883f29a881818810bd30e49f95d8
   iban-tools (1.2.1) sha256=099962fc60fc8eff0674e1ce3d387a29cfa89d578cf5f08554ec7c6020ac631c

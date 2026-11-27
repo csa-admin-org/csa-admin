@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+FORCE=false
+for arg in "$@"; do
+  case "$arg" in
+    --force) FORCE=true ;;
+    *)
+      echo "Usage: bin/hotcell-release [--force]" >&2
+      exit 1
+      ;;
+  esac
+done
+
+HOST="root@isle.thibaud.gg"
+ACCESSORY="activestorage-hotcell"
+CONTAINER="csa-admin-${ACCESSORY}"
+PORT="5555"
+
+TAG="$(bin/hotcell-image-tag)"
+if [ -z "$TAG" ]; then
+  echo "Failed to compute Hot Cell image tag" >&2
+  exit 1
+fi
+IMAGE="localhost:${PORT}/csa-admin-hotcell:${TAG}"
+
+WORK_DIR="$(mktemp -d /tmp/hotcell-release.XXXXXX)"
+CONTROL_SOCKET=""
+
+cleanup() {
+  if [ -n "$CONTROL_SOCKET" ] && [ -S "$CONTROL_SOCKET" ]; then
+    ssh -S "$CONTROL_SOCKET" -O exit "$HOST" >/dev/null 2>&1 || true
+  fi
+  if [ -d "$WORK_DIR" ]; then
+    rm -rf "$WORK_DIR"
+  fi
+}
+
+trap cleanup EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+inspect_container() {
+  local out err_file rc
+  err_file="${WORK_DIR}/inspect.err"
+  if out="$(ssh "$HOST" docker inspect --format "'{{.Config.Image}} {{.State.Running}}'" "$CONTAINER" 2>"$err_file")"; then
+    printf '%s' "$out"
+    return 0
+  else
+    rc=$?
+  fi
+
+  if [ "$rc" -eq 1 ] && grep -qi 'no such' "$err_file"; then
+    return 2
+  fi
+
+  cat "$err_file" >&2
+  return "$rc"
+}
+
+EXISTS=false
+CURRENT_IMAGE=""
+CURRENT_RUNNING=""
+
+if STATE="$(inspect_container)"; then
+  EXISTS=true
+  read -r CURRENT_IMAGE CURRENT_RUNNING <<< "$STATE"
+else
+  rc=$?
+  if [ "$rc" -ne 2 ]; then
+    exit "$rc"
+  fi
+fi
+
+if [ "$FORCE" = false ] && [ "$CURRENT_IMAGE" = "$IMAGE" ] && [ "$CURRENT_RUNNING" = "true" ]; then
+  echo "Hot Cell ${CONTAINER} is up to date (${IMAGE})."
+  exit 0
+fi
+
+if ! command -v docker >/dev/null 2>&1; then
+  echo "docker is not installed or not in PATH" >&2
+  exit 1
+fi
+
+if ! docker info >/dev/null 2>&1; then
+  echo "docker daemon is not reachable" >&2
+  exit 1
+fi
+
+echo "Ensuring local Kamal registry on localhost:${PORT}..."
+bundle exec kamal registry setup
+
+echo "Building ${IMAGE} (linux/arm64)..."
+docker build --pull --platform linux/arm64 -t "$IMAGE" hotcell/
+
+echo "Pushing ${IMAGE}..."
+docker push "$IMAGE"
+
+CONTROL_SOCKET="${WORK_DIR}/ssh.sock"
+echo "Opening reverse SSH forward to ${HOST} (127.0.0.1:${PORT})..."
+ssh -M -S "$CONTROL_SOCKET" -f -N \
+  -o ExitOnForwardFailure=yes \
+  -o ForwardAgent=no \
+  -o ForwardX11=no \
+  -R "127.0.0.1:${PORT}:127.0.0.1:${PORT}" \
+  "$HOST"
+
+if [ "$EXISTS" = true ]; then
+  echo "Rebooting ${ACCESSORY} accessory..."
+  bundle exec kamal accessory reboot "$ACCESSORY"
+else
+  echo "Booting ${ACCESSORY} accessory..."
+  bundle exec kamal accessory boot "$ACCESSORY"
+fi
+
+STATE="$(inspect_container)"
+read -r RUNNING_IMAGE IS_RUNNING <<< "$STATE"
+if [ "$RUNNING_IMAGE" != "$IMAGE" ] || [ "$IS_RUNNING" != "true" ]; then
+  echo "Expected ${CONTAINER} to run ${IMAGE}, got ${RUNNING_IMAGE:-<none>} (running=${IS_RUNNING:-false})" >&2
+  exit 1
+fi
+
+echo "Hot Cell ${CONTAINER} is running ${IMAGE}."

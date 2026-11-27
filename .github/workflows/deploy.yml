@@ -77,6 +77,9 @@ jobs:
           } > ~/.ssh/config
           chmod 600 ~/.ssh/config
 
+      - name: Hot Cell
+        run: bin/hotcell-release
+
       - name: Deploy
         run: |
           echo "Deploying $(git rev-parse HEAD)"

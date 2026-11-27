@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+if command -v sha256sum >/dev/null 2>&1; then
+  HASH_CMD=(sha256sum)
+else
+  HASH_CMD=(shasum -a 256)
+fi
+
+required=(
+  hotcell/Dockerfile
+  hotcell/.dockerignore
+  hotcell/Gemfile
+  hotcell/Gemfile.lock
+  hotcell/config.rb
+)
+
+for file in "${required[@]}"; do
+  if [ ! -f "$file" ]; then
+    echo "Missing Hot Cell build input: ${file}" >&2
+    exit 1
+  fi
+done
+
+if [ ! -d hotcell/operations ]; then
+  echo "Missing Hot Cell operations directory: hotcell/operations" >&2
+  exit 1
+fi
+
+op_files="$(find hotcell/operations -type f | LC_ALL=C sort)"
+if [ -z "$op_files" ]; then
+  echo "No operation files found under hotcell/operations" >&2
+  exit 1
+fi
+
+all_files="$(
+  {
+    printf '%s\n' "${required[@]}"
+    printf '%s\n' "$op_files"
+  } | LC_ALL=C sort
+)"
+
+while IFS= read -r file; do
+  file_hash="$("${HASH_CMD[@]}" < "$file" | cut -c1-64)"
+  printf '%s  %s\n' "$file_hash" "$file"
+done <<< "$all_files" | "${HASH_CMD[@]}" | cut -c1-12

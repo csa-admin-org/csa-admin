@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require "bundler"
 require "fileutils"
 
 APP_ROOT = File.expand_path("..", __dir__)
@@ -16,6 +17,10 @@ FileUtils.chdir APP_ROOT do
 
   puts "== Installing dependencies =="
   system("bundle check") || system!("bundle install")
+  Bundler.with_unbundled_env do
+    hotcell_env = { "BUNDLE_GEMFILE" => File.join(APP_ROOT, "hotcell/Gemfile") }
+    system(hotcell_env, "bundle check") || system!(hotcell_env, "bundle install")
+  end
   system!("bin/aube", ENV["CI"] ? "ci" : "install")
 
   next if ARGV.include?("--dependencies-only")

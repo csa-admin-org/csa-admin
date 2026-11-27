@@ -89,6 +89,32 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     assert_not_includes other_draws, reduction_logo
   end
 
+  test "footer skips corrupt invoice logo on permanent Hot Cell failure" do
+    Current.org.invoice_logos.attach(
+      io: StringIO.new("not a valid png"),
+      filename: "corrupt.png",
+      content_type: "image/png")
+
+    assert_nothing_raised { render_invoice_pdf(invoices(:annual_fee)) }
+  end
+
+  test "footer propagates transient Hot Cell failures" do
+    Current.org.invoice_logos.attach(
+      io: file_fixture("logo.png").open,
+      filename: "org.png",
+      content_type: "image/png")
+
+    previous_root = HotCell.root
+    Dir.mktmpdir("hc-down", "/tmp") do |empty_root|
+      HotCell.root = empty_root
+      assert_raises(CSAAdmin::ConversionTemporarilyUnavailable) do
+        render_invoice_pdf(invoices(:annual_fee))
+      end
+    end
+  ensure
+    HotCell.root = previous_root
+  end
+
   test "simple invoice full layout" do
     invoice = invoices(:annual_fee)
     pdf_strings = save_pdf_and_return_strings(invoice)

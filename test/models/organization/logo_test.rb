@@ -72,6 +72,31 @@ class Organization::LogoTest < ActiveSupport::TestCase
     assert Current.org.logo.blob.byte_size <= original_data.bytesize
   end
 
+  test "rejects corrupt image bytes labeled as PNG" do
+    Current.org.logo.attach(
+      io: StringIO.new("not a valid png"),
+      filename: "broken.png",
+      content_type: "image/png")
+
+    assert_not Current.org.valid?
+    assert_includes Current.org.errors[:logo], "must be a PNG or JPEG image"
+  end
+
+  test "propagates transient Hot Cell failures instead of reporting invalid format" do
+    previous_root = HotCell.root
+    Dir.mktmpdir("hc-down", "/tmp") do |empty_root|
+      HotCell.root = empty_root
+      assert_raises(CSAAdmin::ConversionTemporarilyUnavailable) do
+        Current.org.logo.attach(
+          io: file_fixture("logo-valid.png").open,
+          filename: "logo.png",
+          content_type: "image/png")
+      end
+    end
+  ensure
+    HotCell.root = previous_root
+  end
+
   test "does not validate logo when no new blob is attached" do
     assert Current.org.valid?
   end

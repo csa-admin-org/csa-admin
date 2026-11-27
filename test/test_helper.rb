@@ -59,10 +59,19 @@ module ActiveSupport
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
+    parallelize_setup do |worker|
+      TestHotCellServer.start(worker: worker)
+    end
+
+    parallelize_teardown do
+      TestHotCellServer.stop
+    end
+
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
 
     setup do
+      TestHotCellServer.ensure_started!
       Tenant.connect("acme")
       skip_invoice_pdf
       skip_sepa_mandate_pdf

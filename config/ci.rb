@@ -27,13 +27,16 @@ CI.run do
     step "Style: Jactionlint", "bin/jactionlint"
     step "Style: Shellcheck", "bin/shellcheck",
       ".kamal/hooks/pre-deploy",
-      "bin/docker-entrypoint"
+      "bin/docker-entrypoint",
+      "bin/hotcell-image-tag",
+      "bin/hotcell-release"
     step "Style: Solid Queue", "bin/jobs", "check"
     step "Style: Archspec", "bin/archspec", "check"
   end
 
   group "Security", parallel: 4 do
-    step "Security: Bundler audit", "bin/bundler-audit", "check", "--update"
+    step "Security: Bundler audit", "sh", "-c",
+      "bin/bundler-audit check --update && bin/bundler-audit check hotcell --no-update"
     step "Security: Importmap", "bin/importmap", "audit"
     step "Security: Brakeman", "bin/brakeman", "--quiet", "--no-pager", "--exit-on-warn", "--exit-on-error"
   end

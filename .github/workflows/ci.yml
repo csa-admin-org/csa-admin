@@ -31,7 +31,7 @@ jobs:
         uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5.3.0
         with:
           bootstrap: true
-          cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
+          cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'hotcell/Gemfile.lock', 'aube-lock.yaml') }}"
 
       - name: Prism
         run: bin/prism check
@@ -67,6 +67,8 @@ jobs:
           bin/shellcheck
           .kamal/hooks/pre-deploy
           bin/docker-entrypoint
+          bin/hotcell-image-tag
+          bin/hotcell-release
 
       - name: Solid Queue
         run: bin/jobs check
@@ -98,10 +100,12 @@ jobs:
         uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5.3.0
         with:
           bootstrap: true
-          cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
+          cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'hotcell/Gemfile.lock', 'aube-lock.yaml') }}"
 
       - name: Bundler audit
-        run: bin/bundler-audit check --update
+        run: |
+          bin/bundler-audit check --update
+          bin/bundler-audit check hotcell --no-update
 
       - name: Importmap
         run: bin/importmap audit
@@ -133,7 +137,7 @@ jobs:
         uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5.3.0
         with:
           bootstrap: true
-          cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'aube-lock.yaml') }}"
+          cache_key: "{{default}}-${{ hashFiles('Gemfile.lock', 'hotcell/Gemfile.lock', 'aube-lock.yaml') }}"
 
       - name: Set timezone
         run: echo "TZ=Europe/Zurich" >> "$GITHUB_ENV"
@@ -161,3 +165,30 @@ jobs:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: bin/rails db:seed:replant
+
+  hotcell:
+    name: Hot Cell
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Checkout Hot Cell conformance suite
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: basecamp/hotcell
+          ref: cc7fe80fdf3287f9f15cf6ac1951787d31ece500 # v1.2.0
+          path: tmp/hotcell-upstream
+          persist-credentials: false
+
+      - name: Build cell image
+        run: docker build --pull -t csa-admin-hotcell:ci hotcell/
+
+      - name: Conformance
+        run: tmp/hotcell-upstream/bin/conformance csa-admin-hotcell:ci

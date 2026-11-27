@@ -59,8 +59,8 @@ gem "solid_queue"
 gem "mission_control-jobs"
 
 # File and Document Processing
+gem "activestorage-hotcell-client", "1.2.0"
 gem "icalendar", require: false
-gem "image_processing"
 # https://github.com/prawnpdf/ttfunk/issues/102
 gem "prawn", "2.4.0"
 gem "ttfunk", "1.7.0", require: false
@@ -69,7 +69,6 @@ gem "prawn-svg", require: false
 gem "hexapdf", require: false
 gem "public_suffix", require: false
 gem "rubyXL", require: false
-gem "ruby-vips"
 gem "rexml"
 gem "rubyzip", require: false
 gem "parallel", require: false
@@ -114,6 +113,10 @@ group :development do
   # Security
   gem "brakeman", require: false
   gem "bundler-audit", require: false
+
+  # Asset Generation (lib/tasks/simpleicons.rake)
+  gem "image_processing", require: false
+  gem "ruby-vips", require: false
 end
 
 group :test do

@@ -7,11 +7,16 @@ image: csa-admin
 # Deploy to these servers.
 servers:
   web:
-    - isle.thibaud.gg
+    hosts:
+      - isle.thibaud.gg
+    options:
+      group-add: 10001
   job:
     hosts:
       - isle.thibaud.gg
     cmd: bin/jobs
+    options:
+      group-add: 10001
 
 # Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
 # Remove this section when using multiple web servers and ensure you terminate SSL at your load balancer.
@@ -62,8 +67,34 @@ env:
     LOG_REQUESTS: false
     CAP_API_URL: https://cap.csa-admin.org
     CAP_INTERNAL_API_URL: http://csa-admin-cap:3000
+    HOTCELL_ROOT: /run/hotcell
+    HOTCELL_GROUP: 10001
 
 accessories:
+  activestorage-hotcell:
+    <%
+      hotcell_tag = IO.popen([ "#{Dir.pwd}/bin/hotcell-image-tag" ], &:read).strip
+      raise "Failed to compute Hot Cell image tag" unless $?.success? && hotcell_tag.match?(/\A[0-9a-f]{12}\z/)
+    %>
+    image: localhost:5555/csa-admin-hotcell:<%= hotcell_tag %>
+    roles: [ web, job ]
+    network: none
+    volumes:
+      - hotcell-sockets:/run/hotcell/cell
+    options:
+      cpus: 2
+      memory: 2g
+      memory-swap: 2g
+      read-only: true
+      cap-drop: ALL
+      security-opt: no-new-privileges:true
+      user: 10001:10001
+      pids-limit: 512
+      tmpfs: /tmp:rw,nosuid,nodev,noexec,size=512m
+    env:
+      clear:
+        HOTCELL_DIR: /run/hotcell/cell
+
   cap-valkey:
     image: valkey/valkey:9-alpine
     host: isle.thibaud.gg
@@ -92,8 +123,8 @@ accessories:
       healthcheck:
         path: /health
 
-# Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
-# "bin/kamal logs -r job" will tail logs from the first server in the job section.
+# Aliases are triggered with "bundle exec kamal <alias>". You can overwrite arguments on invocation:
+# "bundle exec kamal logs -r job" will tail logs from the first server in the job section.
 aliases:
   console: app exec --interactive --reuse "bin/rails console"
   shell: app exec --interactive --reuse "bash"
@@ -103,11 +134,15 @@ aliases:
   cap-valkey-boot: accessory boot cap-valkey
   cap-boot: accessory boot cap
   cap-logs: accessory logs cap -f
+  hotcell-boot: accessory boot activestorage-hotcell
+  hotcell-reboot: accessory reboot activestorage-hotcell
+  hotcell-logs: accessory logs activestorage-hotcell -f
 
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 # Recommended to change this to a mounted volume path that is backed up off server.
 volumes:
   - "/storage/csa-admin:/rails/storage"
+  - "hotcell-sockets:/run/hotcell/active_storage"
 
 # Bridge fingerprinted assets, like JS and CSS, between versions to avoid
 # hitting 404 on in-flight requests. Combines all files from new and old

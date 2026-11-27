@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "chunky_png"
 
 class FaviconsControllerTest < ActionDispatch::IntegrationTest
   setup do
@@ -37,7 +38,7 @@ class FaviconsControllerTest < ActionDispatch::IntegrationTest
 
     get "/favicon"
 
-    image = Vips::Image.new_from_buffer(response.body, "")
+    image = ChunkyPNG::Image.from_blob(response.body)
     assert_response :success
     assert_equal "image/png", response.media_type
     assert_equal 32, image.width
@@ -49,7 +50,7 @@ class FaviconsControllerTest < ActionDispatch::IntegrationTest
 
     get "/favicon.ico"
 
-    image = Vips::Image.new_from_buffer(response.body, "")
+    image = ChunkyPNG::Image.from_blob(response.body)
     assert_response :success
     assert_equal "image/png", response.media_type
     assert_equal 32, image.width
@@ -62,7 +63,7 @@ class FaviconsControllerTest < ActionDispatch::IntegrationTest
 
     get "/favicon.ico"
 
-    image = Vips::Image.new_from_buffer(response.body, "")
+    image = ChunkyPNG::Image.from_blob(response.body)
     assert_response :success
     assert_equal "image/png", response.media_type
     assert_equal 32, image.width

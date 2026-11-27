@@ -491,14 +491,14 @@ module PDF
       invoice_footer_logos.each do |invoice_logo|
         begin
           logo = invoice_logo.variant(resize_to_limit: [ 135, 135 ]).processed.download
-          image_info = Vips::Image.new_from_buffer(logo, "")
+          image_info = Prawn.image_handler.find(logo).new(logo)
           logo_io = StringIO.new(logo)
           aspect_ratio = image_info.width.to_f / image_info.height
           target_height = 45
           target_width = target_height * aspect_ratio
           image logo_io, at: [ x_position, y + 65 ], width: target_width, height: target_height
           x_position += target_width + 15 # Move to next logo with spacing
-        rescue Vips::Error => e
+        rescue CSAAdmin::UnprocessableUpload, Prawn::Errors::UnsupportedImageType => e
           Rails.logger.error "Failed to process logo ID #{invoice_logo.id}: #{e.message}"
           next
         end

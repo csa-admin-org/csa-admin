@@ -3,4 +3,4 @@
 
 ENV["DEV_ORIGIN"] ||= "localhost"
 ENV["PORT"] ||= "3000"
-exec "./bin/rails", "server", *ARGV
+exec "./bin/hotcell-dev", "./bin/rails", "server", *ARGV

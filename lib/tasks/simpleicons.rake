@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-require "image_processing/vips"
-
 namespace :simpleicons do
   desc "Convert SVG icons to PNG with specific color fill and ensure minimum size"
   task svg_to_png: :environment do
     require "fileutils"
+    require "image_processing/vips"
 
     dir = Rails.root.join("app/assets/images/simpleicons")
     FileUtils.mkdir_p(dir.to_s)

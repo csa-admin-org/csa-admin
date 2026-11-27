@@ -1,0 +1,108 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler"
+require "digest"
+require "fileutils"
+require "socket"
+
+abort "Usage: #{$PROGRAM_NAME} <command> [args...]" if ARGV.empty?
+
+APP_ROOT = File.expand_path("..", __dir__)
+DEFAULT_HOTCELL_ROOT = File.join(APP_ROOT, "tmp/hotcell-sockets")
+HOTCELL_ROOT = ENV["HOTCELL_ROOT"] || (
+  if File.join(DEFAULT_HOTCELL_ROOT, "active_storage", "control.sock").bytesize > 100
+    "/tmp/csa-admin-hc-#{Digest::SHA256.hexdigest(APP_ROOT)[0, 8]}"
+  else
+    DEFAULT_HOTCELL_ROOT
+  end
+)
+HOTCELL_DIR = File.join(HOTCELL_ROOT, "active_storage")
+WORK_SOCK = File.join(HOTCELL_DIR, "work.sock")
+CONTROL_SOCK = File.join(HOTCELL_DIR, "control.sock")
+
+ENV["HOTCELL_ROOT"] = HOTCELL_ROOT
+
+FileUtils.mkdir_p(HOTCELL_DIR)
+
+if File.socket?(WORK_SOCK)
+  begin
+    UNIXSocket.open(WORK_SOCK, &:close)
+    abort "Hot Cell is already running at #{WORK_SOCK}"
+  rescue Errno::ECONNREFUSED, Errno::ENOENT
+    FileUtils.rm_f([ WORK_SOCK, CONTROL_SOCK ])
+  end
+else
+  FileUtils.rm_f(CONTROL_SOCK)
+end
+
+cell_env = {
+  "BUNDLE_GEMFILE" => File.join(APP_ROOT, "hotcell/Gemfile"),
+  "HOTCELL_CONFIG" => File.join(APP_ROOT, "hotcell/config.rb"),
+  "HOTCELL_OPERATIONS" => File.join(APP_ROOT, "hotcell/operations"),
+  "HOTCELL_DIR" => HOTCELL_DIR
+}
+
+cell_pid = Bundler.with_unbundled_env do
+  Process.spawn(cell_env, "bundle", "exec", "hotcell", "--development", pgroup: true)
+end
+
+child_pid = nil
+stopping = false
+
+trap("INT") do
+  stopping = true
+end
+
+trap("TERM") do
+  stopping = true
+  if child_pid
+    begin
+      Process.kill("TERM", child_pid)
+    rescue Errno::ESRCH
+      nil
+    end
+  end
+end
+
+shutdown = lambda do
+  next unless cell_pid
+
+  begin
+    Process.kill("TERM", cell_pid)
+    deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + 5
+    loop do
+      break if Process.waitpid(cell_pid, Process::WNOHANG)
+
+      if Process.clock_gettime(Process::CLOCK_MONOTONIC) > deadline
+        Process.kill("KILL", -cell_pid)
+        Process.waitpid(cell_pid)
+        break
+      end
+      sleep 0.05
+    end
+  rescue Errno::ESRCH, Errno::ECHILD
+    nil
+  end
+  cell_pid = nil
+end
+
+begin
+  deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + 10
+  until File.socket?(WORK_SOCK) && File.socket?(CONTROL_SOCK)
+    exit(130) if stopping
+    abort "Hot Cell failed to boot" if Process.waitpid(cell_pid, Process::WNOHANG)
+    if Process.clock_gettime(Process::CLOCK_MONOTONIC) > deadline
+      abort "Timed out waiting for Hot Cell sockets in #{HOTCELL_DIR}"
+    end
+    sleep 0.05
+  end
+
+  exit(130) if stopping
+  child_pid = Process.spawn([ ARGV.first, ARGV.first ], *ARGV[1..])
+  _, status = Process.wait2(child_pid)
+  child_pid = nil
+  exit(status.exitstatus || 1) unless status.success?
+ensure
+  shutdown.call
+end

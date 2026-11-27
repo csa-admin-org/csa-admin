@@ -67,5 +67,9 @@ module CSAAdmin
     initializer "action_text.sanitizer", after: "lexxy.sanitization" do |app|
       app.config.after_initialize { ActionTextHighlightColors.install }
     end
+
+    config.active_storage.variant_processor = ActiveStorage::HotCell::Client::Transformers::Image::Vips
+    config.active_storage.analyzers = [ ActiveStorage::HotCell::Client::Analyzers::Image::Vips ]
+    config.active_storage.previewers = []
   end
 end
