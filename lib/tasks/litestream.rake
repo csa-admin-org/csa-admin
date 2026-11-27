@@ -27,7 +27,7 @@ namespace :litestream do
         endpoint: s3_credentials.endpoint)
 
       host = SSHKit::Host.new(
-        hostname: kamal.raw_config.dig("servers", "web").first,
+        hostname: kamal.primary_host,
         user: kamal.ssh.user)
 
       on host do

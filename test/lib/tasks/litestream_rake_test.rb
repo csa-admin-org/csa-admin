@@ -48,6 +48,13 @@ class LitestreamRakeTest < ActiveSupport::TestCase
     end
   end
 
+  test "server task uses Kamal primary_host, not the raw servers.web hash key" do
+    kamal = Kamal::Configuration.create_from(config_file: Rails.root.join("config/deploy.yml"))
+
+    assert_equal [ "hosts", [ "isle.thibaud.gg" ] ], kamal.raw_config.dig("servers", "web").first
+    assert_equal "isle.thibaud.gg", kamal.primary_host
+  end
+
   test "server config builder is litestream 0.5 shaped" do
     config = LitestreamConfig.server(
       volume_path: "/storage/csa-admin",
