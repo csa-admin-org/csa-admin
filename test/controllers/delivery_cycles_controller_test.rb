@@ -16,6 +16,39 @@ class DeliveryCyclesControllerTest < ActionDispatch::IntegrationTest
     get "/sessions/#{session.generate_token_for(:redeem)}"
   end
 
+  test "index aligns year columns when deliveries only exist in the next fiscal year" do
+    travel_to "2022-11-27"
+    Current.reset
+    DeliveryCycle.reset_cache!
+    login admins(:super)
+    cycle = delivery_cycles(:mondays)
+    assert_equal({ "2023" => 10 }, cycle.deliveries_counts)
+
+    get delivery_cycles_path
+
+    assert_response :success
+    row = index_row_by_header(cycle)
+    assert_equal "0", row["2022"]
+    assert_equal "10", row["2023"]
+  end
+
+  test "index aligns year columns for a non-January fiscal year when deliveries only exist next year" do
+    org(fiscal_year_start_month: 4)
+    travel_to "2023-02-15"
+    Current.reset
+    DeliveryCycle.reset_cache!
+    login admins(:super)
+    cycle = delivery_cycles(:mondays)
+    assert_equal({ "2023" => 10 }, cycle.deliveries_counts)
+
+    get delivery_cycles_path
+
+    assert_response :success
+    row = index_row_by_header(cycle)
+    assert_equal "0", row["2022-23"]
+    assert_equal "10", row["2023-24"]
+  end
+
   test "edit shows the default form details placeholder" do
     login admins(:super)
     cycle = delivery_cycles(:mondays)
@@ -146,6 +179,13 @@ class DeliveryCyclesControllerTest < ActionDispatch::IntegrationTest
   end
 
   private
+
+  def index_row_by_header(cycle)
+    headers = css_select("table.data-table thead th").map { |th| th.text.strip }
+    cells = css_select("tr#delivery_cycle_#{cycle.id} td").map { |td| td.text.strip }
+    assert_equal headers.size, cells.size
+    headers.zip(cells).to_h
+  end
 
   def shift_jane_may!
     BasketShift.create!(

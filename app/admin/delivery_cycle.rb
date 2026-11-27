@@ -27,11 +27,13 @@ ActiveAdmin.register DeliveryCycle do
       column :price, ->(d) { cur(d.price) }, class: "text-right tabular-nums is-nowrap"
     end
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }, class: "text-right is-nowrap"
-    column Current.org.current_fiscal_year, ->(dc) {
-      deliveries_count_range_with_absences(dc.current_deliveries_count, dc.absences_included_annually)
+    current_fy = Current.org.current_fiscal_year
+    next_fy = Current.org.next_fiscal_year
+    column current_fy, ->(dc) {
+      deliveries_count_range_with_absences(dc.deliveries_count_for(current_fy.year), dc.absences_included_annually)
     }, class: "text-right is-nowrap"
-    column Current.org.fiscal_year_for(1.year.from_now), ->(dc) {
-      deliveries_count_range_with_absences(dc.future_deliveries_count, dc.absences_included_annually)
+    column next_fy, ->(dc) {
+      deliveries_count_range_with_absences(dc.deliveries_count_for(next_fy.year), dc.absences_included_annually)
     }, class: "text-right is-nowrap"
     if DeliveryCycle.visible?
       column :visible, ->(dc) { aligned_status_tag(dc.visible?) }, class: "text-right"
