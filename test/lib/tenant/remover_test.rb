@@ -23,7 +23,7 @@ class Tenant::RemoverTest < ActiveSupport::TestCase
     assert Tenant::Remover.new("acme", confirm: "acme").confirmed?
   end
 
-  test "phase 1 dry-run inspects services without deleting or mutating org" do
+  test "phase 1 dry-run inspects Cap without deleting or mutating org" do
     Current.org.update!(
       cap_site_key: "site-123",
       cap_secret_key: "secret-123",
@@ -32,48 +32,35 @@ class Tenant::RemoverTest < ActiveSupport::TestCase
 
     cap_list = stub_request(:get, "https://cap.test/server/keys")
       .to_return(status: 200, body: [ { siteKey: "site-123", name: "acme" } ].to_json)
-    pm_server = stub_request(:get, "https://api.postmarkapp.com/servers/4242")
-      .to_return(status: 200, body: { ID: 4242, Name: "Acme" }.to_json)
-    pm_domains = stub_request(:get, "https://api.postmarkapp.com/domains?count=500&offset=0")
-      .to_return(status: 200, body: {
-        TotalCount: 1,
-        Domains: [ { ID: 77, Name: "acme.test" } ]
-      }.to_json)
-
-    deleted_hosts = []
-    zone = fake_cloudflare_zone(%w[admin.acme.test members.acme.test], deleted_hosts)
     out = StringIO.new
 
     remover = Tenant::Remover.new(
       "acme",
       out: out,
-      cap_client: Cap::Client.new(api_url: "https://cap.test", api_key: "api-key"),
-      postmark_client: Postmark::AccountApiClient.new("account-token"),
-      cloudflare_zone: zone)
+      cap_client: Cap::Client.new(api_url: "https://cap.test", api_key: "api-key"))
     remover.run
 
     assert_requested cap_list
-    assert_requested pm_server
-    assert_requested pm_domains
-    assert_empty deleted_hosts
 
     Current.org.reload
     assert_equal "site-123", Current.org.cap_site_key
     assert_equal "4242", Current.org.postmark_server_id
+    assert_equal "pm-token", Current.org.postmark_server_token
 
     output = out.string
     assert_includes output, "DRY RUN"
     assert_includes output, "Phase 1"
     assert_includes output, "production_acme.sqlite3"
-    assert_includes output, "dry-run Cloudflare: would delete custom hostname admin.acme.test"
-    assert_includes output, "dry-run Cloudflare: would delete custom hostname members.acme.test"
+    assert_includes output, "bin/rails hostname:cloudflare:clear TENANT=acme CONFIRM=acme"
     assert_includes output, "dry-run Cap: would delete site key site-123 (acme)"
-    assert_includes output, "dry-run Postmark: would delete server 4242 (Acme)"
-    assert_includes output, "dry-run Postmark: would delete domain 77 (acme.test)"
+    assert_includes output, "Postmark: delete server 4242 and domain acme.test manually at https://account.postmarkapp.com/servers"
     assert_includes output, "Re-run with CONFIRM=acme to execute Phase 1."
+    assert_not_includes output, "would delete custom hostname"
+    assert_not_includes output, "would delete server"
+    assert_not_includes output, "would delete domain"
   end
 
-  test "phase 1 confirmed deletes Cloudflare hostnames, Cap key, and Postmark server and domain" do
+  test "phase 1 confirmed deletes Cap key and leaves Postmark credentials untouched" do
     Current.org.update!(
       cap_site_key: "site-123",
       cap_secret_key: "secret-123",
@@ -84,51 +71,35 @@ class Tenant::RemoverTest < ActiveSupport::TestCase
       .to_return(status: 200, body: [ { siteKey: "site-123", name: "acme" } ].to_json)
     cap_delete = stub_request(:delete, "https://cap.test/server/keys/site-123")
       .to_return(status: 200, body: { success: true }.to_json)
-    stub_request(:get, "https://api.postmarkapp.com/servers/4242")
-      .to_return(status: 200, body: { ID: 4242, Name: "Acme" }.to_json)
-    pm_delete_server = stub_request(:delete, "https://api.postmarkapp.com/servers/4242")
-      .to_return(status: 200, body: { ErrorCode: 0, Message: "Server deleted." }.to_json)
-    stub_request(:get, "https://api.postmarkapp.com/domains?count=500&offset=0")
-      .to_return(status: 200, body: {
-        TotalCount: 1,
-        Domains: [ { ID: 77, Name: "acme.test" } ]
-      }.to_json)
-    pm_delete_domain = stub_request(:delete, "https://api.postmarkapp.com/domains/77")
-      .to_return(status: 200, body: { ErrorCode: 0, Message: "Domain deleted." }.to_json)
-
-    deleted_hosts = []
-    zone = fake_cloudflare_zone(%w[admin.acme.test members.acme.test], deleted_hosts)
     out = StringIO.new
 
     remover = Tenant::Remover.new(
       "acme",
       confirm: "acme",
       out: out,
-      cap_client: Cap::Client.new(api_url: "https://cap.test", api_key: "api-key"),
-      postmark_client: Postmark::AccountApiClient.new("account-token"),
-      cloudflare_zone: zone)
+      cap_client: Cap::Client.new(api_url: "https://cap.test", api_key: "api-key"))
     remover.run
 
     assert_requested cap_delete
-    assert_requested pm_delete_server
-    assert_requested pm_delete_domain
-    assert_equal %w[admin.acme.test members.acme.test], deleted_hosts
 
     Current.org.reload
     assert_nil Current.org.cap_site_key
     assert_nil Current.org.cap_secret_key
-    assert_nil Current.org.postmark_server_id
-    assert_nil Current.org.postmark_server_token
+    assert_equal "4242", Current.org.postmark_server_id
+    assert_equal "pm-token", Current.org.postmark_server_token
 
     output = out.string
     assert_includes output, "LIVE"
-    assert_includes output, "deleted custom hostname admin.acme.test"
     assert_includes output, "deleted site key site-123"
-    assert_includes output, "deleted server 4242"
-    assert_includes output, "deleted domain 77"
+    assert_includes output, "bin/rails hostname:cloudflare:clear TENANT=acme CONFIRM=acme"
+    assert_includes output, "Postmark: delete server 4242 and domain acme.test manually at https://account.postmarkapp.com/servers"
+    assert_includes output, "After that deploy, delete the Postmark server"
+    assert_not_includes output, "deleted custom hostname"
+    assert_not_includes output, "deleted server"
+    assert_not_includes output, "deleted domain"
   end
 
-  test "phase 1 is idempotent when resources were already deleted" do
+  test "phase 1 is idempotent when the Cap key was already deleted" do
     Current.org.update!(
       cap_site_key: "gone-site-key",
       cap_secret_key: "gone-secret",
@@ -137,60 +108,37 @@ class Tenant::RemoverTest < ActiveSupport::TestCase
 
     stub_request(:get, "https://cap.test/server/keys")
       .to_return(status: 200, body: [].to_json)
-    stub_request(:get, "https://api.postmarkapp.com/servers/9999")
-      .to_return(status: 422, body: { ErrorCode: 601, Message: "Server does not exist." }.to_json)
-    stub_request(:get, "https://api.postmarkapp.com/domains?count=500&offset=0")
-      .to_return(status: 200, body: { TotalCount: 0, Domains: [] }.to_json)
-
-    zone = fake_cloudflare_zone([], [])
     out = StringIO.new
 
     remover = Tenant::Remover.new(
       "acme",
       confirm: "acme",
       out: out,
-      cap_client: Cap::Client.new(api_url: "https://cap.test", api_key: "api-key"),
-      postmark_client: Postmark::AccountApiClient.new("account-token"),
-      cloudflare_zone: zone)
+      cap_client: Cap::Client.new(api_url: "https://cap.test", api_key: "api-key"))
     remover.run
 
     Current.org.reload
     assert_nil Current.org.cap_site_key
-    assert_nil Current.org.postmark_server_id
+    assert_equal "9999", Current.org.postmark_server_id
+    assert_equal "gone-token", Current.org.postmark_server_token
 
     output = out.string
-    assert_includes output, "Cloudflare: admin.acme.test not found (skipped)"
     assert_includes output, "Cap: site key gone-site-key not found (already deleted)"
-    assert_includes output, "Postmark: server 9999 not found (already deleted)"
-    assert_includes output, "Postmark: domain acme.test not found (skipped)"
+    assert_includes output, "Postmark: delete server 9999 and domain acme.test manually at https://account.postmarkapp.com/servers"
   end
 
-  test "skips Cloudflare cleanly when credentials are missing in environment" do
-    out = StringIO.new
-
-    with_env("CLOUDFLARE_EMAIL" => nil, "CLOUDFLARE_API_KEY" => nil) do
-      remover = Tenant::Remover.new("acme", confirm: "acme", out: out)
-      remover.clear_cloudflare_hostnames
-    end
-
-    assert_includes out.string, "Cloudflare: credentials not set"
-    assert_includes out.string, "bin/rails hostname:cloudflare:clear TENANT=acme CONFIRM=acme"
-  end
-
-  test "skips Postmark domain deletion when domain is shared or app domain" do
-    Current.org.update!(postmark_server_id: nil, postmark_server_token: nil)
+  test "notes that a shared Postmark domain should be kept" do
+    Current.org.update!(postmark_server_id: 4242, postmark_server_token: "pm-token")
     out = StringIO.new
 
     with_env("APP_DOMAIN" => "acme.test") do
-      remover = Tenant::Remover.new(
-        "acme",
-        confirm: "acme",
-        out: out,
-        postmark_client: Postmark::AccountApiClient.new("account-token"))
-      remover.delete_postmark
+      Tenant::Remover.new("acme", confirm: "acme", out: out).print_postmark_manual_step
     end
 
-    assert_includes out.string, "Postmark: domain acme.test is shared (skipped)"
+    output = out.string
+    assert_includes output, "Postmark: delete server 4242 manually at https://account.postmarkapp.com/servers"
+    assert_includes output, "Postmark: domain acme.test is shared (keep it)"
+    assert_not_includes output, "delete server 4242 and domain"
   end
 
   test "falls back to Cap key name lookup when local database is absent" do
@@ -218,25 +166,23 @@ class Tenant::RemoverTest < ActiveSupport::TestCase
   test "handles a tenant database with no organization row" do
     stub_request(:get, "https://cap.test/server/keys")
       .to_return(status: 200, body: [].to_json)
-    stub_request(:get, "https://api.postmarkapp.com/domains?count=500&offset=0")
-      .to_return(status: 200, body: { TotalCount: 0, Domains: [] }.to_json)
 
     out = StringIO.new
     remover = Tenant::Remover.new(
       "acme",
       confirm: "acme",
       out: out,
-      cap_client: Cap::Client.new(api_url: "https://cap.test", api_key: "api-key"),
-      postmark_client: Postmark::AccountApiClient.new("account-token"))
+      cap_client: Cap::Client.new(api_url: "https://cap.test", api_key: "api-key"))
 
     Organization.stub(:first, nil) do
       remover.delete_cap_keys
-      remover.delete_postmark
+      remover.print_postmark_manual_step
     end
 
-    assert_includes out.string, "Cap: no site key found for 'acme' (skipped)"
-    assert_includes out.string, "Postmark: no server configured for 'acme' (skipped)"
-    assert_includes out.string, "Postmark: domain acme.test not found (skipped)"
+    output = out.string
+    assert_includes output, "Cap: no site key found for 'acme' (skipped)"
+    assert_includes output, "Postmark: no server configured for 'acme' (skipped)"
+    assert_includes output, "Postmark: delete domain acme.test manually at https://account.postmarkapp.com/servers"
   end
 
   test "refuses to clear object storage or litestream while tenant is in tenant.yml" do
@@ -359,19 +305,6 @@ class Tenant::RemoverTest < ActiveSupport::TestCase
   end
 
   private
-
-  def fake_cloudflare_zone(hostnames, deleted_hosts)
-    custom_hostnames = hostnames.map do |host|
-      Object.new.tap do |ch|
-        ch.define_singleton_method(:hostname) { host }
-        ch.define_singleton_method(:delete) { deleted_hosts << host }
-      end
-    end
-
-    Object.new.tap do |zone|
-      zone.define_singleton_method(:custom_hostnames) { custom_hostnames }
-    end
-  end
 
   def stub_s3_client(objects:)
     Aws::S3::Client.new(

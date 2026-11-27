@@ -1,30 +1,24 @@
 # frozen_string_literal: true
 
 require "aws-sdk-s3"
-require "cloudflare"
 
 class Tenant::Remover
   RESERVED_NAMES = %w[queue].freeze
   TENANT_NAME_FORMAT = /\A[a-z0-9][a-z0-9_-]*\z/
   STORAGE_BUCKET = "csa-admin-storage"
   LITESTREAM_BUCKET = LitestreamConfig::DEFAULT_BUCKET
-  CLOUDFLARE_ZONE = "csa-admin.org"
-  POSTMARK_SERVER_NOT_FOUND = 601
-  POSTMARK_DOMAIN_NOT_FOUND = 510
 
   attr_reader :tenant
 
   def initialize(tenant, confirm: nil, out: $stdout,
-    cap_client: nil, postmark_client: nil, storage_client: nil,
-    litestream_client: nil, cloudflare_zone: nil)
+    cap_client: nil, storage_client: nil,
+    litestream_client: nil)
     @tenant = validate_tenant!(tenant)
     @confirm = confirm.to_s
     @out = out
     @cap_client = cap_client
-    @postmark_client = postmark_client
     @storage_client = storage_client
     @litestream_client = litestream_client
-    @cloudflare_zone = cloudflare_zone
   end
 
   def confirmed?
@@ -42,9 +36,9 @@ class Tenant::Remover
       say ""
       print_backup_command
       say ""
-      clear_cloudflare_hostnames
+      print_cloudflare_manual_step
       delete_cap_keys
-      delete_postmark
+      print_postmark_manual_step
       say ""
       print_phase_1_next_steps
     else
@@ -70,39 +64,9 @@ class Tenant::Remover
     say "    ssh isle \"rm -f #{remote_tmp}\""
   end
 
-  def clear_cloudflare_hostnames
-    unless configured?
-      raise "Tenant '#{@tenant}' is not in config/tenant.yml"
-    end
-
-    hostnames = Tenant.configured_hostnames(@tenant)
-    if hostnames.empty?
-      say "⏭️  Cloudflare: no hostnames configured for '#{@tenant}' (skipped)"
-      return
-    end
-
-    with_cloudflare_zone do |zone|
-      unless zone
-        say "⏭️  Cloudflare: credentials not set in this environment; run locally:"
-        say "    bin/rails hostname:cloudflare:clear TENANT=#{@tenant} CONFIRM=#{@tenant}"
-        return
-      end
-
-      hostnames.each do |hostname|
-        custom_hostname = zone.custom_hostnames.find { |ch| ch.hostname == hostname }
-
-        if custom_hostname
-          if confirmed?
-            custom_hostname.delete
-            say "🗑️  Cloudflare: deleted custom hostname #{hostname}"
-          else
-            say "dry-run Cloudflare: would delete custom hostname #{hostname}"
-          end
-        else
-          say "⏭️  Cloudflare: #{hostname} not found (skipped)"
-        end
-      end
-    end
+  def print_cloudflare_manual_step
+    say "Cloudflare: run locally:"
+    say "    bin/rails hostname:cloudflare:clear TENANT=#{@tenant} CONFIRM=#{@tenant}"
   end
 
   def delete_cap_keys
@@ -150,14 +114,32 @@ class Tenant::Remover
     end
   end
 
-  def delete_postmark
-    client = postmark_client
+  def print_postmark_manual_step
+    domain = Tenant.configured_domain(@tenant)
+    shared_domain = domain.present? && (
+      domain == Rails.app.creds.option(:app_domain) ||
+      Tenant.domain_shared?(domain, except: @tenant)
+    )
 
     with_tenant_org(service: "Postmark") do |org|
-      delete_postmark_server(client, org)
+      server_id = org&.postmark_server_id.presence
+      if server_id
+        parts = [ "server #{server_id}" ]
+        parts << "domain #{domain}" if domain.present? && !shared_domain
+        say "Postmark: delete #{parts.join(" and ")} manually at " \
+          "https://account.postmarkapp.com/servers"
+      else
+        say "⏭️  Postmark: no server configured for '#{@tenant}' (skipped)"
+        if domain.present? && !shared_domain
+          say "Postmark: delete domain #{domain} manually at " \
+            "https://account.postmarkapp.com/servers"
+        end
+      end
     end
 
-    delete_postmark_domain(client)
+    if shared_domain
+      say "⏭️  Postmark: domain #{domain} is shared (keep it)"
+    end
   end
 
   def clear_object_storage
@@ -193,25 +175,6 @@ class Tenant::Remover
     value
   end
 
-  def with_cloudflare_zone
-    if @cloudflare_zone
-      yield @cloudflare_zone
-      return
-    end
-
-    email = Rails.app.creds.option(:cloudflare_email)
-    key = Rails.app.creds.option(:cloudflare_api_key)
-    if email.blank? || key.blank?
-      yield nil
-      return
-    end
-
-    Warning[:experimental] = false
-    Cloudflare.connect(email: email, key: key) do |cf|
-      yield cf.zones.find_by_name(CLOUDFLARE_ZONE)
-    end
-  end
-
   def with_tenant_org(service:)
     unless configured?
       yield nil
@@ -236,84 +199,6 @@ class Tenant::Remover
     return false unless db_config
 
     Pathname.new(db_config.database).expand_path(Rails.root).exist?
-  end
-
-  def delete_postmark_server(client, org)
-    server_id = org&.postmark_server_id.presence
-    unless server_id
-      say "⏭️  Postmark: no server configured for '#{@tenant}' (skipped)"
-      return
-    end
-
-    server = fetch_postmark_server(client, server_id)
-    unless server
-      if confirmed?
-        org.update!(postmark_server_id: nil, postmark_server_token: nil)
-        say "⏭️  Postmark: server #{server_id} not found (already deleted); cleared org columns"
-      else
-        say "dry-run Postmark: server #{server_id} already missing; would clear org columns"
-      end
-      return
-    end
-
-    label = "#{server[:id]} (#{server[:name]})"
-    if confirmed?
-      begin
-        client.delete_server(server[:id])
-        say "🗑️  Postmark: deleted server #{label}"
-      rescue Postmark::HttpServerError => e
-        raise unless postmark_not_found?(e, code: POSTMARK_SERVER_NOT_FOUND)
-
-        say "⏭️  Postmark: server #{label} not found (already deleted)"
-      end
-      org.update!(postmark_server_id: nil, postmark_server_token: nil)
-    else
-      say "dry-run Postmark: would delete server #{label}"
-    end
-  end
-
-  def delete_postmark_domain(client)
-    domain = Tenant.configured_domain(@tenant)
-    return if domain.blank?
-
-    app_domain = Rails.app.creds.option(:app_domain)
-    if domain == app_domain || Tenant.domain_shared?(domain, except: @tenant)
-      say "⏭️  Postmark: domain #{domain} is shared (skipped)"
-      return
-    end
-
-    pm_domain = client.get_domains(count: 500).find { |d| d[:name] == domain }
-    unless pm_domain
-      say "⏭️  Postmark: domain #{domain} not found (skipped)"
-      return
-    end
-
-    label = "#{pm_domain[:id]} (#{domain})"
-    if confirmed?
-      begin
-        client.delete_domain(pm_domain[:id])
-        say "🗑️  Postmark: deleted domain #{label}"
-      rescue Postmark::HttpServerError => e
-        raise unless postmark_not_found?(e, code: POSTMARK_DOMAIN_NOT_FOUND)
-
-        say "⏭️  Postmark: domain #{label} not found (already deleted)"
-      end
-    else
-      say "dry-run Postmark: would delete domain #{label}"
-    end
-  end
-
-  def fetch_postmark_server(client, server_id)
-    client.get_server(server_id)
-  rescue Postmark::HttpServerError => e
-    raise unless postmark_not_found?(e, code: POSTMARK_SERVER_NOT_FOUND)
-
-    nil
-  end
-
-  def postmark_not_found?(error, code:)
-    (error.is_a?(Postmark::ApiInputError) && error.error_code == code) ||
-      (error.is_a?(Postmark::UnexpectedHttpResponseError) && error.status_code == 404)
   end
 
   def clear_s3_prefix(client:, bucket:, label:)
@@ -350,15 +235,6 @@ class Tenant::Remover
 
   def cap_client
     @cap_client ||= Cap::Client.new
-  end
-
-  def postmark_client
-    @postmark_client ||= begin
-      token = Rails.application.credentials.postmark_account_token
-      raise "Missing postmark_account_token in credentials" if token.blank?
-
-      Postmark::AccountApiClient.new(token)
-    end
   end
 
   def storage_client
@@ -409,13 +285,17 @@ class Tenant::Remover
 
     say "Next manual steps after Phase 1:"
     say "  1. Confirm the final DB backup is saved locally."
-    say "  2. Remove '#{@tenant}' from config/tenant.yml, commit, push, and deploy."
-    say "  3. Run `bin/rails litestream:config` locally."
-    say "  4. Delete DB files on isle:"
+    say "  2. Clear Cloudflare custom hostnames locally:"
+    say "     bin/rails hostname:cloudflare:clear TENANT=#{@tenant} CONFIRM=#{@tenant}"
+    say "  3. Remove '#{@tenant}' from config/tenant.yml, commit, push, and deploy."
+    say "  4. After that deploy, delete the Postmark server " \
+      "(and unshared domain) at https://account.postmarkapp.com/servers"
+    say "  5. Run `bin/rails litestream:config` locally."
+    say "  6. Delete DB files on isle:"
     say "     ssh isle \"rm -f /storage/csa-admin/production_#{@tenant}.sqlite3 " \
       "/storage/csa-admin/production_#{@tenant}.sqlite3-wal " \
       "/storage/csa-admin/production_#{@tenant}.sqlite3-shm\""
-    say "  5. Run Phase 2 locally to clear object storage and Litestream replicas:"
+    say "  7. Run Phase 2 locally to clear object storage and Litestream replicas:"
     say "     bin/rails tenant:remove TENANT=#{@tenant}"
     say "     bin/rails tenant:remove TENANT=#{@tenant} CONFIRM=#{@tenant}"
   end

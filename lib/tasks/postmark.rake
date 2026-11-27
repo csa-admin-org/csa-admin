@@ -138,13 +138,6 @@ namespace :postmark do
     Rake::Task["postmark:webhook"].invoke
   end
 
-  desc "Delete Postmark server and unshared domain for a tenant (TENANT=x, dry-run unless CONFIRM=x)"
-  task delete: :environment do
-    remover = Tenant::Remover.new(ENV["TENANT"], confirm: ENV["CONFIRM"])
-    remover.delete_postmark
-    puts "Re-run with CONFIRM=#{remover.tenant} to delete." unless remover.confirmed?
-  end
-
   desc "Create/update message streams"
   task message_streams: :environment do
     Tenant.switch_each do
