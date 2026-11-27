@@ -4,7 +4,7 @@ source "https://rubygems.org", cooldown: 3
 
 # 8.2 is unreleased. Pin the revision so `bundle update` does not float main.
 # Bump this ref to upgrade.
-gem "rails", github: "rails/rails", ref: "227bca4"
+gem "rails", github: "rails/rails", ref: "088fc0c"
 
 # Core Framework
 gem "bootsnap", require: false
