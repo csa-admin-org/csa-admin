@@ -153,6 +153,29 @@ class InvoicesControllerTest < ActionDispatch::IntegrationTest
     assert_equal invoice.pdf_file.download, response.body
   end
 
+  test "index shows the missing IBAN warning in the admin warning pane" do
+    org(iban: nil)
+    login admins(:ultra)
+
+    get invoices_path
+
+    assert_response :success
+    assert_select ".admin-page-warning > .admin-warning-pane", count: 1
+    assert_select ".admin-warning-pane > .admin-warning-pane-icon", count: 1
+    assert_select ".admin-warning-pane a[href=?]", edit_organization_path(:invoice)
+    assert_select ".admin-warning-pane", text: /QR-IBAN/
+    assert_select ".pane--warning", count: 0
+  end
+
+  test "index omits the IBAN warning when it is configured" do
+    login admins(:ultra)
+
+    get invoices_path
+
+    assert_response :success
+    assert_select ".admin-warning-pane", count: 0
+  end
+
   test "shop order filter includes a group invoice and does not add a second object" do
     travel_to "2024-04-10"
     members(:jane).update!(shop_invoice_period: "month")
