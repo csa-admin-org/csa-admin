@@ -46,6 +46,29 @@ class Members::DeliveriesControllerTest < ActionDispatch::IntegrationTest
     assert_operator queries["basket_contents_depots"].size, :<, past_baskets
   end
 
+  test "past zero-quantity basket does not show contents" do
+    travel_to "2024-04-08"
+    org(
+      features: Current.org.features | [ :basket_content ],
+      basket_content_member_visible: true,
+      basket_content_member_visible_hours_before: 12)
+    basket = baskets(:jane_1)
+    basket.update_columns(quantity: 0)
+    create_basket_content(
+      delivery: basket.delivery,
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: { large_id => 1000 },
+      depots: Depot.all,
+      unit: "kg")
+    login(members(:jane))
+
+    get members_deliveries_path
+
+    assert_response :success
+    assert_select "#past_deliveries #basket_#{basket.id}"
+    assert_select "#past_deliveries details.basket-contents-details", count: 0
+  end
+
   private
 
   def login(member)

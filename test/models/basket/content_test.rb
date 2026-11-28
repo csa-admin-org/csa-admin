@@ -129,4 +129,140 @@ class Basket::ContentTest < ActiveSupport::TestCase
 
     assert_empty basket.contents
   end
+
+  test "returns matching contents for a visible basket" do
+    travel_to "2024-04-05"
+    enable_member_basket_contents
+    basket = baskets(:jane_1)
+
+    create_basket_content(
+      delivery: basket.delivery,
+      product: basket_content_products(:cucumbers),
+      basket_size_ids_quantities: { large_id => 3 },
+      depots: Depot.all,
+      unit: "pc")
+    create_basket_content(
+      delivery: basket.delivery,
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: { large_id => 1000 },
+      depots: Depot.all,
+      unit: "kg")
+
+    contents = Basket.contents_by_id([ basket ])[basket.id]
+
+    assert_equal [ "Carrots", "Cucumbers" ], contents.map { |content| content.product.name }
+  end
+
+  test "returns no contents for a zero-quantity basket" do
+    travel_to "2024-04-05"
+    enable_member_basket_contents
+    basket = baskets(:jane_1)
+    basket.update_columns(quantity: 0)
+    create_basket_content(
+      delivery: basket.delivery,
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: { large_id => 1000 },
+      depots: Depot.all,
+      unit: "kg")
+
+    assert_not_predicate basket, :empty?
+    assert_nil Basket.contents_by_id([ basket ])[basket.id]
+  end
+
+  test "returns no contents for an absent basket" do
+    travel_to "2024-05-03"
+    enable_member_basket_contents
+    basket = baskets(:jane_5)
+    create_basket_content(
+      delivery: basket.delivery,
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: { large_id => 1000 },
+      depots: Depot.all,
+      unit: "kg")
+
+    assert_predicate basket, :absent?
+    assert basket.quantity.positive?
+    assert_nil Basket.contents_by_id([ basket ])[basket.id]
+  end
+
+  test "returns no contents for a shifted basket" do
+    travel_to "2024-04-05"
+    enable_member_basket_contents
+    basket = baskets(:jane_1)
+    create_basket_content(
+      delivery: basket.delivery,
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: { large_id => 1000 },
+      depots: Depot.all,
+      unit: "kg")
+    BasketShift.insert_all!([ {
+      membership_id: basket.membership_id,
+      source_delivery_id: basket.delivery_id,
+      target_delivery_id: baskets(:jane_8).delivery_id,
+      quantities: {},
+      created_at: Time.current,
+      updated_at: Time.current
+    } ])
+    basket.reload
+
+    assert_predicate basket, :shifted?
+    assert_not_predicate basket, :absent?
+    assert basket.quantity.positive?
+    assert_nil Basket.contents_by_id([ basket ])[basket.id]
+  end
+
+  test "returns no contents before the visibility window" do
+    travel_to "2024-04-03 11:00"
+    enable_member_basket_contents
+    basket = baskets(:jane_1)
+    create_basket_content(
+      delivery: basket.delivery,
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: { large_id => 1000 },
+      depots: Depot.all,
+      unit: "kg")
+
+    assert_nil Basket.contents_by_id([ basket ])[basket.id]
+  end
+
+  test "excludes contents for another depot or with no quantity for the basket size" do
+    travel_to "2024-04-02"
+    enable_member_basket_contents
+    anna = baskets(:anna_1) # large, bakery, monday_1
+    bob = baskets(:bob_1) # small, home, monday_1
+    create_basket_content(
+      delivery: deliveries(:monday_1),
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: { large_id => 1000 },
+      depots: [ depots(:bakery) ],
+      unit: "kg")
+    create_basket_content(
+      delivery: deliveries(:monday_1),
+      product: basket_content_products(:cucumbers),
+      basket_size_ids_quantities: { small_id => 2 },
+      depots: [ depots(:home) ],
+      unit: "pc")
+    apples = BasketContent::Product.create!(names: { "en" => "Apples" }, unit: "pc")
+    zero = create_basket_content(
+      delivery: deliveries(:monday_1),
+      product: apples,
+      basket_size_ids_quantities: { large_id => 1 },
+      depots: [ depots(:bakery) ],
+      unit: "pc")
+    zero.update_columns(basket_quantities: { large_id.to_s => 0 })
+
+    contents = Basket.contents_by_id([ anna, bob ])
+
+    assert_equal [ "Carrots" ], contents[anna.id].map { |content| content.product.name }
+    assert_equal [ "Cucumbers" ], contents[bob.id].map { |content| content.product.name }
+  end
+
+  private
+
+  def enable_member_basket_contents
+    org(
+      features: Current.org.features | [ :basket_content ],
+      basket_content_member_visible: true,
+      basket_content_member_visible_hours_before: 12)
+  end
 end
