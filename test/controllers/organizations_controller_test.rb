@@ -623,7 +623,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "#disabled-features #member_information .panel-title",
-      text: I18n.t("active_admin.resource.form.member_information_page", locale: locale)
+      text: I18n.t("features.member_information", locale: locale)
     assert_select "#disabled-features #member_information", text: /#{Regexp.escape(I18n.t("features.member_information_hint", locale: locale))}/
     assert_select "#disabled-features #member_information a[href='#{edit_organization_path(:member_information, activate: true)}']"
   end
@@ -640,7 +640,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "#member_information .panel-title",
-      text: I18n.t("active_admin.resource.form.member_information_page", locale: locale)
+      text: I18n.t("features.member_information", locale: locale)
     assert_select "#member_information", text: /#{Regexp.escape(I18n.t("features.member_information_hint", locale: locale))}/
     assert_select "#member_information tr[data-row='member_information_title']", text: /Member News/
     assert_select "#member_information tr[data-row='member_information_text']", false

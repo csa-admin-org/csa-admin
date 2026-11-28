@@ -271,12 +271,6 @@ _:
           _de: Auf Warteliste setzen
           _it: Mettere in lista d'attesa
           _nl: Wachtlijst
-      link:
-        _en: Create a
-        _fr: Créer un
-        _de: Erstellen eines
-        _it: Creare un
-        _nl: Maak een
       selection_toggle_explanation:
         _en: "(Invert selection)"
         _fr: "(Inverser la sélection)"
@@ -365,24 +359,12 @@ _:
         _de: Ressourcentyp
         _it: Tipo di risorsa
         _nl: Brontype
-      title:
-        _en: Comment
-        _fr: Commentaire
-        _de: Kommentar
-        _it: Commento
-        _nl: Commentaar
       title_content:
         _en: Comments
         _fr: Commentaires
         _de: Kommentare
         _it: Commenti
         _nl: Commentaren
-    create_model:
-      _en: New %{model}
-      _fr: Nouveau %{model}
-      _de: Neu %{model}
-      _it: Nuovo %{model}
-      _nl: Nieuw %{model}
     dashboard:
       _en: Dashboard
       _fr: Tableau de bord
@@ -485,54 +467,12 @@ _:
           _it: Posizione GPS
           _nl: GPS-locatie
       predicates:
-        contains:
-          _en: Contains
-          _fr: Contient
-          _de: Enthält
-          _it: Contiene
-          _nl: Bevat
-        ends_with:
-          _en: Ends with
-          _fr: Se termine par
-          _de: Endet mit
-          _it: Finisce con
-          _nl: Eindigt met
-        equals:
-          _en: Equals
-          _fr: Egal à
-          _de: Gleich
-          _it: Uguale a
-          _nl: Gelijk aan
         from:
           _en: From
           _fr: De
           _de: Von
           _it: Da
           _nl: Van
-        greater_than:
-          _en: Greater than
-          _fr: Plus grand que
-          _de: Grösser als
-          _it: Maggiore di
-          _nl: Groter dan
-        less_than:
-          _en: Less than
-          _fr: Plus petit que
-          _de: Kleiner als
-          _it: Minore di
-          _nl: Kleiner dan
-        q_including_date:
-          _en: Including date
-          _fr: Incluant
-          _de: Enthält
-          _it: Compreso
-          _nl: Inclusief datum
-        starts_with:
-          _en: Starts with
-          _fr: Commence par
-          _de: Beginnt mit
-          _it: Comincia con
-          _nl: Begint met
         to:
           _en: To
           _fr: À
@@ -780,12 +720,6 @@ _:
           _de: Rechnungsstellung
           _it: Fatturazione
           _nl: Facturering
-        billing_year:
-          _en: Billing %{fiscal_year}
-          _fr: Facturation %{fiscal_year}
-          _de: Rechnungsstellung %{fiscal_year}
-          _it: Fatturazione %{fiscal_year}
-          _nl: Facturering %{fiscal_year}
         calendar:
           _en: Calendar
           _fr: Calendrier
@@ -925,30 +859,12 @@ _:
           _de: Quartalsschnappschüsse
           _it: Panoramica trimestrale
           _nl: Kwartaaloverzichten
-        sheets:
-          _en: Sheets
-          _fr: Fiches
-          _de: Blätter
-          _it: Fogli
-          _nl: Bladen
-        submit_delivery_note:
-          _en: Update note
-          _fr: Mettre à jour la note
-          _de: Notiz aktualisieren
-          _it: Aggiornare la nota
-          _nl: Notitie bijwerken
         total:
           _en: Total %{number}
           _fr: Total %{number}
           _de: Gesamt %{number}
           _it: Totale %{number}
           _nl: Totaal %{number}
-        totals:
-          _en: Totals %{numbers}
-          _fr: Totaux %{numbers}
-          _de: Gesamtsummen %{numbers}
-          _it: Totali %{numbers}
-          _nl: Totalen %{numbers}
         updates_explanation_html:
           _en: Here is a list of the latest updates to CSA Admin. Feel free to <a href="/support">contact me</a> with any questions or comments, thank you!
           _fr: Voici une liste des dernières mises à jour de CSA Admin. N'hésitez pas à <a href="/support">me contacter</a> si vous avez des questions ou des remarques, merci!
@@ -1654,12 +1570,6 @@ _:
           _de: Hier kann der Text angepasst werden, der Mitgliedern angezeigt wird, wenn sie eine Abwesenheit von ihrem Konto melden.
           _it: Personalizza il testo visualizzato ai soci quando annunciano un'assenza dal loro account.
           _nl: Hier kan de tekst worden aangepast die aan leden wordt getoond wanneer ze een afwezigheid melden vanuit hun account.
-        member_information_page:
-          _en: Information Page
-          _fr: Page d'information
-          _de: Informationsseite
-          _it: Pagina d'informazione
-          _nl: Informatiepagina
         members_participation:
           _en: Members' participation
           _fr: Participation des membres
@@ -2000,42 +1910,6 @@ _:
           _it: ⚠ <b>%{count}</b> parole — il testo si sta allungando. Considerate di spostare i dettagli sul vostro sito web e di inserire un link qui. <a href="%{handbook_path}">Consultate i consigli</a>.
           _nl: ⚠ <b>%{count}</b> woorden — dit wordt vrij lang. Overweeg om details naar de website te verplaatsen en hier een link te plaatsen. <a href="%{handbook_path}">Zie tips</a>.
       index:
-        basket_prices/bag:
-          _en: Bag value (%{currency})
-          _fr: Valeur des sacs (%{currency})
-          _de: Taschenwert (%{currency})
-          _it: Valore delle borse (%{currency})
-          _nl: Taswaarde (%{currency})
-        basket_prices/basket:
-          _en: Basket value (%{currency})
-          _fr: Valeur des paniers (%{currency})
-          _de: Korbwert (%{currency})
-          _it: Valore delle ceste (%{currency})
-          _nl: Mandwaarde (%{currency})
-        basket_prices/cone:
-          _en: Cone value (%{currency})
-          _fr: Valeur des cornets (%{currency})
-          _de: Tütenwert (%{currency})
-          _it: Valore dei coni (%{currency})
-          _nl: Zakwaarde (%{currency})
-        basket_prices/crate:
-          _en: Crate value (%{currency})
-          _fr: Valeur des cagettes (%{currency})
-          _de: Kistenwert (%{currency})
-          _it: Valore delle cassette (%{currency})
-          _nl: Kratwaarde (%{currency})
-        basket_prices/package:
-          _en: Package value (%{currency})
-          _fr: Valeur des colis (%{currency})
-          _de: Paketwert (%{currency})
-          _it: Valore dei pacchi (%{currency})
-          _nl: Pakketwaarde (%{currency})
-        basket_prices/share:
-          _en: Share value (%{currency})
-          _fr: Valeur des parts (%{currency})
-          _de: Anteilswert (%{currency})
-          _it: Valore delle parti (%{currency})
-          _nl: Deelwaarde (%{currency})
         duplicate:
           _en: Duplicate
           _fr: Dupliquer
@@ -2043,84 +1917,6 @@ _:
           _it: Duplicare
           _nl: Dupliceren
       new:
-        absences_included_logic:
-          _en: Final included absences, after the calculation logic is applied.
-          _fr: Nombre d'absences incluses final, une fois la logique de calcul appliquée.
-          _de: Endgültige Anzahl enthaltener Abwesenheiten, nach Anwendung der Berechnungslogik.
-          _it: Numero finale di assenze incluse, dopo l'applicazione della logica di calcolo.
-          _nl: Uiteindelijk aantal inbegrepen afwezigheden, na toepassing van de berekeningslogica.
-        activity_participations_demanded_annually:
-          _en: Demanded count (full year)
-          _fr: Nombre demandé (année complète)
-          _de: Geforderte Anzahl (ganzes Jahr)
-          _it: Numero richiesto (anno completo)
-          _nl: Geëist aantal (volledig jaar)
-        activity_participations_demanded_logic:
-          _en: Final demanded count, after the calculation logic is applied.
-          _fr: Nombre demandé final, une fois la logique de calcul appliquée.
-          _de: Endgültige geforderte Anzahl, nach Anwendung der Berechnungslogik.
-          _it: Numero richiesto finale, dopo l'applicazione della logica di calcolo.
-          _nl: Uiteindelijk geëist aantal, na toepassing van de berekeningslogica.
-        availability:
-          _en: Availability
-          _fr: Disponibilité
-          _de: Verfügbarkeit
-          _it: Disponibilità
-          _nl: Beschikbaarheid
-        basket_price_extra_dynamic_pricing:
-          _en: Billed extra per delivery, after the dynamic price formula is applied.
-          _fr: Supplément facturé à chaque livraison, une fois la formule de prix dynamique appliquée.
-          _de: Pro Lieferung fakturierter Zuschlag, nach Anwendung der dynamischen Preisformel.
-          _it: Supplemento fatturato a ogni consegna, dopo l'applicazione della formula di prezzo dinamico.
-          _nl: Toeslag gefactureerd per levering, na toepassing van de dynamische prijsformule.
-        billing:
-          _en: Billing
-          _fr: Facturation
-          _de: Rechnungsstellung
-          _it: Fatturazione
-          _nl: Facturering
-        config:
-          _en: Configuration
-          _fr: Configuration
-          _de: Konfiguration
-          _it: Configurazione
-          _nl: Configuratie
-        content:
-          _en: Content
-          _fr: Contenu
-          _de: Inhalt
-          _it: Contenuto
-          _nl: Inhoud
-        details:
-          _en: Details
-          _fr: Détails
-          _de: Details
-          _it: Dettagli
-          _nl: Details
-        email:
-          _en: Email
-          _fr: Email
-          _de: E-Mail
-          _it: E-mail
-          _nl: E-mail
-        full_year:
-          _en: Full year
-          _fr: année complète
-          _de: ganzes Jahr
-          _it: anno completo
-          _nl: volledig jaar
-        has_many_new_invoice_item:
-          _en: Add an item
-          _fr: Ajouter un article
-          _de: Einen Artikel hinzufügen
-          _it: Aggiungere un articolo
-          _nl: Een artikel toevoegen
-        preview:
-          _en: Preview
-          _fr: Prévisualisation
-          _de: Vorschau
-          _it: Anteprima
-          _nl: Voorbeeld
         refused_activity_participation:
           _en: Refused activity participation from %{date}
           _fr: Participation refusée du %{date}
@@ -4176,12 +3972,6 @@ _:
             _de: Der automatische Zahlungsimport ist noch nicht eingerichtet.
             _it: L'importazione automatica dei pagamenti non è ancora configurata.
             _nl: Automatische betalingsimport is nog niet ingesteld.
-          not_supported:
-            _en: Not supported
-            _fr: Non pris en charge
-            _de: Nicht unterstützt
-            _it: Non supportato
-            _nl: Niet ondersteund
           onboarding_state:
             errored:
               _en: Support needed
@@ -4860,12 +4650,6 @@ _:
       _de: Einstellungen
       _it: Impostazioni
       _nl: Instellingen
-    settings_emails:
-      _en: Email settings
-      _fr: Paramètres E-Mails
-      _de: E-Mail-Einstellungen
-      _it: Impostazioni dell 'email
-      _nl: E-mailinstellingen
     shared:
       action_items:
         activate:
@@ -5067,12 +4851,6 @@ _:
           _de: Die %{iban_type} ist nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
           _it: Configurare %{iban_type} prima di creare fatture.
           _nl: De %{iban_type} is niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
-        link_confirm:
-          _en: Continue with this action? Review its consequences before proceeding.
-          _fr: Poursuivre avec cette action? Vérifiez ses conséquences avant de continuer.
-          _de: Mit dieser Aktion fortfahren? Die Folgen vorher prüfen.
-          _it: Procedere con questa azione? Verificatene le conseguenze prima di continuare.
-          _nl: Doorgaan met deze actie? Controleer eerst de gevolgen.
         mark_as_sent:
           _en: Mark as sent
           _fr: Marquer comme envoyée
@@ -5691,12 +5469,6 @@ _:
           _de: Handbuch durchsuchen…
           _it: Cercare nel manuale…
           _nl: Handboek doorzoeken…
-        search_status:
-          _en: Search results
-          _fr: Résultats de la recherche
-          _de: Resultate der Suche
-          _it: Risultati della ricerca
-          _nl: Zoekresultaten
         send_overdue_notices:
           _en: Send overdue notices
           _fr: Envoyer les rappels

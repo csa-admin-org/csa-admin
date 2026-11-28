@@ -78,12 +78,6 @@ _:
           _de: Rechnungsstellung
           _it: Fatturazione
           _nl: Facturering
-        contact:
-          _en: Contact
-          _fr: Contact
-          _de: Kontakt
-          _it: Contatti
-          _nl: Contact
         delivery:
           _en: "⤷ %{date}"
           _fr: "⤷ %{date}"

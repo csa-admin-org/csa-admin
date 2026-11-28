@@ -27,12 +27,6 @@ _:
           _de: Entwurf aktualisieren
           _it: Aggiorna bozza
           _nl: Concept bijwerken
-    cancel:
-      _en: Cancel
-      _fr: Annuler
-      _de: Abbrechen
-      _it: Annullare
-      _nl: Annuleren
     create:
       _en: Create %{model}
       _fr: Créer %{model}
@@ -221,12 +215,6 @@ _:
           _it: Selezionate "No" se il supplemento non è disponibile durante la registrazione.
           _nl: '"Nee" selecteren als de aanvulling niet beschikbaar is tijdens registratie.'
       basket_content:
-        basket_size_ids_quantities:
-          _en: g or pieces.
-          _fr: En g ou en pièce.
-          _de: In g oder Stück.
-          _it: g o pezzi.
-          _nl: g of stuks.
         depots/bag:
           _en: Depots without delivered bags are automatically ignored.
           _fr: Les dépôts sans sacs livrés sont automatiquement ignorés.
@@ -3197,12 +3185,6 @@ _:
       _de: obligatorisch
       _it: obbligatorio
       _nl: verplicht
-    reset:
-      _en: Reset %{model}
-      _fr: Réinitialiser %{model}
-      _de: "%{model} zurücksetzen"
-      _it: Ripristina %{model}
-      _nl: "%{model} resetten"
     submit:
       _en: Submit %{model}
       _fr: Soumettre %{model}

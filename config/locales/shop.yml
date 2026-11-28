@@ -131,25 +131,6 @@ _:
       _de: Offenes
       _it: Aperto
       _nl: Open
-    orders:
-      one:
-        _en: 1 order
-        _fr: 1 commande
-        _de: 1 Bestellung
-        _it: 1 ordine
-        _nl: 1 bestelling
-      other:
-        _en: "%{count} orders"
-        _fr: "%{count} commandes"
-        _de: "%{count} Bestellungen"
-        _it: "%{count} ordini"
-        _nl: "%{count} bestellingen"
-      zero:
-        _en: no order
-        _fr: aucune commande
-        _de: keine Bestellung
-        _it: nessun ordine
-        _nl: geen bestelling
     orders_automatic_invoicing:
       _en: Orders to be prepared will be automatically invoiced during the night starting from %{date}.
       _fr: Les commandes à préparer seront automatiquement facturées, durant la nuit, à partir du %{date}.
@@ -175,12 +156,6 @@ _:
         _de: Rabatt %{percentage}%
         _it: Sconto %{percentage}%
         _nl: Korting %{percentage}%
-      none:
-        _en: None
-        _fr: Aucun
-        _de: Kein
-        _it: Nessuno
-        _nl: Geen
       positive:
         _en: Support +%{percentage}%
         _fr: Soutien +%{percentage}%

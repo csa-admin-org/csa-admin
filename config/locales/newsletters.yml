@@ -51,12 +51,6 @@ _:
         _de: Mit Zielgruppensegmenten lassen sich wiederverwendbare Empfängerregeln für Newsletter definieren. Sie kommen zum Einsatz, wenn die Standardoptionen nicht präzise genug sind, etwa für Mitglieder einer bestimmten Stadt, mit einem bestimmten Abrechnungsintervall oder auf einer benutzerdefinierten Liste.
         _it: I segmenti di destinatari consentono di definire regole di selezione riutilizzabili per le newsletter. Sono utili quando le opzioni standard non sono abbastanza precise, ad esempio per raggiungere soci di una città specifica, con un particolare intervallo di fatturazione o presenti in un elenco personalizzato.
         _nl: Met doelgroepssegmenten kunnen herbruikbare selectiecriteria voor nieuwsbrieven worden ingesteld. Ze zijn nuttig wanneer de standaardopties niet precies genoeg zijn, bijvoorbeeld voor leden uit een specifieke stad, met een bepaald factureringsinterval of op een aangepaste lijst.
-      members_tab:
-        _en: Members
-        _fr: Membres
-        _de: Mitglieder
-        _it: Soci
-        _nl: Leden
       membership_scope:
         current:
           _en: Current only
@@ -76,12 +70,6 @@ _:
           _de: Nur zukünftig
           _it: Solo futuro
           _nl: Alleen toekomstig
-      memberships_tab:
-        _en: Memberships
-        _fr: Abonnements
-        _de: Abonnements
-        _it: Abbonamenti
-        _nl: Lidmaatschappen
       title:
         _en: Segment
         _fr: Segment

@@ -6,19 +6,6 @@ _:
       _de: Betrag (%{currency})
       _it: Importo (%{currency})
       _nl: Bedrag (%{currency})
-    benefit:
-      amount:
-        _en: "%{amount}"
-        _fr: "%{amount}"
-        _de: "%{amount}"
-        _it: "%{amount}"
-        _nl: "%{amount}"
-      fixed:
-        _en: "%{amount} off the membership amount"
-        _fr: "%{amount} de réduction sur le montant de l'abonnement"
-        _de: "%{amount} Rabatt auf den Abonnementbetrag"
-        _it: "%{amount} di sconto sull'importo dell'abbonamento"
-        _nl: "%{amount} korting op het abonnementsbedrag"
     copied:
       _en: Copied
       _fr: Copié
