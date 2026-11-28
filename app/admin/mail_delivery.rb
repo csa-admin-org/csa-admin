@@ -171,7 +171,7 @@ ActiveAdmin.register MailDelivery do
         end
         if delivery.newsletter?
           nl = delivery.source
-          panel link_to(Newsletter.model_name.human, nl), icon: "mail", action: handbook_icon_link("newsletters", anchor: "subscribe") do
+          panel link_to(Newsletter.model_name.human, nl), icon: "megaphone", action: handbook_icon_link("newsletters", anchor: "subscribe") do
             attributes_table do
               row(:from) { nl.from || Current.org.email_default_from }
               row(:audience) { nl.audience_name }

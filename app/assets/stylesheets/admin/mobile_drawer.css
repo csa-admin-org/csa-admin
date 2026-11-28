@@ -82,7 +82,7 @@
   }
 
   /* Hide the sidebar pages panel on mobile (it's in the drawer instead) */
-  @media (width <= 1023px) {
+  @media (width < 64rem) {
     #pages_sidebar_section {
       display: none;
     }

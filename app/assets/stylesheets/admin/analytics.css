@@ -57,7 +57,7 @@
     height: 100% !important;
   }
 
-  @media (width >= 768px) {
+  @media (width >= 48rem) {
     .analytics-chart {
       height: 22rem;
       padding-inline: 0 0.5rem;

@@ -271,7 +271,7 @@ ActiveAdmin.register DeliveryCycle do
       end
     end
 
-    f.inputs DeliveryCycle::Period.model_name.human(count: 2), icon: "calendar-days",
+    f.inputs DeliveryCycle::Period.model_name.human(count: 2), icon: "calendar-range",
       action: handbook_icon_link("deliveries", anchor: "periods") do
       para t("formtastic.hints.delivery_cycle.periods_intro"), class: "description is-tight"
       f.semantic_errors :periods
