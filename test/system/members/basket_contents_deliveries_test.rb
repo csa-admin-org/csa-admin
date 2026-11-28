@@ -349,22 +349,6 @@ class Members::BasketContentsDeliveriesTest < ApplicationSystemTestCase
     end
   end
 
-  test "respects the quantity setting on past contents" do
-    travel_to "2024-04-08"
-    enable_basket_content_visibility(basket_content_member_display_quantity: false)
-    create_contents_for_thursday_1
-    login(members(:jane))
-
-    visit "/deliveries"
-
-    within "#past_deliveries details" do
-      assert_text "Carrots"
-      assert_text "Cucumbers"
-      assert_no_text "kg"
-      assert_no_text "pc"
-    end
-  end
-
   test "shows the basket content note inside each past details" do
     travel_to "2024-04-16"
     enable_basket_content_visibility

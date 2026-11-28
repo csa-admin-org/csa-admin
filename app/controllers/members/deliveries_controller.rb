@@ -23,7 +23,7 @@ class Members::DeliveriesController < Members::BaseController
         .reorder(deliveries: { date: :desc })
         .to_a
     @basket_contents_by_basket_id =
-      basket_contents_by_basket_id(@this_week_baskets + @past_baskets)
+      Basket.contents_by_id(@this_week_baskets + @past_baskets)
     @home_delivery_overlays_by_delivery_id =
       HomeDeliveryAddress.by_delivery_id_for_member(current_member)
     @home_delivery_cta_basket = home_delivery_cta_basket
@@ -41,38 +41,6 @@ class Members::DeliveriesController < Members::BaseController
     Basket
       .where(membership_id: current_member.memberships)
       .includes(:basket_size, :absence, :depot, :shift_as_source, delivery: :basket_complements, baskets_basket_complements: :basket_complement)
-  end
-
-  def basket_contents_by_basket_id(baskets)
-    return {} unless Current.org.basket_content_member_visible?
-
-    visible = baskets.select { |basket| show_basket_contents?(basket) }
-    return {} if visible.empty?
-
-    contents = BasketContent
-      .where(delivery_id: visible.map(&:delivery_id).uniq)
-      .joins(:product).merge(BasketContent::Product.ordered)
-      .includes(:depots, product: :producer)
-    by_delivery = contents.group_by(&:delivery_id)
-
-    visible.each_with_object({}) { |basket, grouped|
-      matched = by_delivery.fetch(basket.delivery_id, []).select { |content|
-        content_for_basket?(content, basket)
-      }
-      grouped[basket.id] = matched if matched.any?
-    }
-  end
-
-  def show_basket_contents?(basket)
-    Current.org.basket_content_visible_for_delivery?(basket.delivery) &&
-      !basket.absent? &&
-      !basket.content_forfeited? &&
-      !basket.shifted?
-  end
-
-  def content_for_basket?(content, basket)
-    content.basket_quantity(basket.basket_size).positive? &&
-      content.depots.any? { |depot| depot.id == basket.depot_id }
   end
 
   def home_delivery_cta_basket
