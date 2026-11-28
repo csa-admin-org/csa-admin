@@ -736,47 +736,6 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
     assert_equal "New (Small)", mary_entry.description
   end
 
-  test "formatted_description for new entry bolds only label" do
-    travel_to "2024-01-01"
-    delivery = deliveries(:monday_2)
-
-    create_membership(
-      member: members(:mary),
-      basket_size: basket_sizes(:small),
-      depot: depots(:farm),
-      delivery_cycle: delivery_cycles(:mondays),
-      started_on: "2024-04-08",
-      ended_on: "2024-12-31"
-    )
-
-    changes = Delivery::Changes.new(delivery)
-    mary_entry = changes.entries.find { |e| e.member == members(:mary) }
-
-    assert_equal "<b>New</b> (Small)", mary_entry.formatted_description
-  end
-
-  test "formatted_description for ended entry includes basket description in parentheses" do
-    travel_to "2024-01-01"
-    delivery = deliveries(:monday_2)
-
-    changes = Delivery::Changes.new(delivery)
-    bob_entry = entries_with_change_type(changes, :ended).find { |e| e.member == members(:bob) }
-
-    assert_equal "Ended (Small)", bob_entry.formatted_description
-  end
-
-  test "formatted_description for absent entry includes basket description in parentheses" do
-    travel_to "2024-01-01"
-    delivery = deliveries(:monday_2)
-
-    baskets(:john_2).update_columns(state: "absent")
-
-    changes = Delivery::Changes.new(delivery)
-    john_entry = entries_with_change_type(changes, :absent).find { |e| e.member == members(:john) }
-
-    assert_equal "<color rgb='666666'>#{Basket.human_attribute_name(:absent).capitalize} (Medium)</color>", john_entry.formatted_description
-  end
-
   test "shift target shows basket description with shift date annotation" do
     travel_to "2024-01-01"
     delivery = deliveries(:monday_3) # 2024-04-15

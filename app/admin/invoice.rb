@@ -666,7 +666,10 @@ ActiveAdmin.register Invoice do
           pdf.render_file(file.path)
           PDF::InvoiceCancellationStamp.stamp!(file.path) if resource.canceled?
         end
-        resource.pdf_file.attach io: file, filename: "invoice-#{resource.id}.pdf"
+        resource.pdf_file.attach(
+          io: file,
+          filename: resource.pdf_filename,
+          content_type: "application/pdf")
       end
     end
   end

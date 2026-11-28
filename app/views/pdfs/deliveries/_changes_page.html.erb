@@ -1,0 +1,42 @@
+<div class="delivery-flow-page delivery-changes-page">
+  <%= render "pdfs/deliveries/header",
+    logo_data_uri: logo_data_uri,
+    title: t("delivery.changes"),
+    delivery_date: delivery_date %>
+
+  <div class="delivery-changes-body">
+    <table class="delivery-changes-table">
+      <thead>
+        <tr>
+          <th class="delivery-changes-member-col">
+            <%= Member.model_name.human %>
+          </th>
+
+          <th class="delivery-changes-desc-col">
+            <%= t("delivery.changes") %>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% groups.each do |group| %>
+          <tr class="delivery-changes-depot-row">
+            <td colspan="2"><%= group.depot_name %></td>
+          </tr>
+
+          <% group.entries.each do |entry| %>
+            <tr class="delivery-changes-entry-row<%= " is-dimmed" if entry.dimmed %>">
+              <td class="delivery-changes-member-col">
+                <%= entry.member_name %>
+              </td>
+
+              <td class="delivery-changes-desc-col">
+                <%= render "pdfs/deliveries/change_description", changes: entry.changes %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

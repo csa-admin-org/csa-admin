@@ -1,0 +1,15 @@
+<footer class="invoice-footer">
+  <% if footer_logos.any? %>
+    <div class="invoice-footer-logos">
+      <% footer_logos.each do |logo_uri| %>
+        <%= image_tag logo_uri, class: "invoice-footer-logo", alt: "" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if footer_text.present? %>
+    <div class="invoice-footer-text">
+      <%= sanitize_invoice_footer(footer_text) %>
+    </div>
+  <% end %>
+</footer>

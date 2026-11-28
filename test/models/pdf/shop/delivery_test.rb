@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "tempfile"
 
 class PDF::Shop::DeliveryTest < ActiveSupport::TestCase
   def save_pdf_and_return_strings(delivery, order: nil)
@@ -76,5 +77,52 @@ class PDF::Shop::DeliveryTest < ActiveSupport::TestCase
     assert_includes pdf_strings, "Jane Doe"
     assert_includes pdf_strings, "5 April 2024"
     assert_includes pdf_strings, "Bakery"
+  end
+
+  test "filters by depot, caches org logo once across pages, and writes PDF to file" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:thursday_1)
+
+    product = shop_products(:oil)
+    product.update(variants_attributes: 27.times.map { |i|
+      [ i.to_s, { name: "Variant #{i}", price: i } ]
+    }.to_h)
+    variants = product.variants.to_a
+
+    order = create_shop_order(
+      depot: depots(:bakery),
+      items_attributes: 27.times.map { |i|
+        [
+          i.to_s,
+          { product_id: product.id, product_variant_id: variants[i].id, quantity: 1 }
+        ]
+      }.to_h)
+    create_shop_order(
+      member: members(:john),
+      depot: depots(:farm))
+
+    pdf = PDF::Shop::Delivery.new(delivery, depot: depots(:bakery))
+    logo_encode_calls = 0
+    original_bytes_data_uri = pdf.method(:bytes_data_uri)
+    pdf.define_singleton_method(:bytes_data_uri) do |*args, **kwargs|
+      logo_encode_calls += 1
+      original_bytes_data_uri.call(*args, **kwargs)
+    end
+
+    assert_equal "application/pdf", pdf.content_type
+    assert_equal "farm-shop-delivery-#2-20240404.pdf", pdf.filename
+    assert_equal delivery, pdf.delivery
+
+    Tempfile.create([ "shop_delivery", ".pdf" ]) do |file|
+      pdf.render_file(file.path)
+      bytes = File.binread(file.path)
+      assert bytes.start_with?("%PDF-")
+      assert_equal 2, PDF::Inspector::Page.analyze(bytes).pages.size
+      text = PDF::Inspector::Text.analyze(bytes).strings.join("\n")
+      assert_includes text, order.member.name
+      assert_not_includes text, members(:john).name
+    end
+
+    assert_equal 1, logo_encode_calls
   end
 end

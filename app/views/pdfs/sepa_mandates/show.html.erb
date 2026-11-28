@@ -1,0 +1,22 @@
+<div class="pdf-page sepa-page">
+  <img
+    class="sepa-logo"
+    src="<%= @logo_data_uri %>"
+    alt="<%= Current.org.name %>"
+  >
+
+  <h1 class="sepa-title"><%= t("sepa_mandate.pdf.title") %></h1>
+
+  <div class="sepa-body">
+    <%= render "pdfs/sepa_mandates/summary_table", rows: @summary_rows %>
+
+    <div class="sepa-mandate-text">
+      <p><%= @authorisation %></p>
+      <p><%= @refund_notice %></p>
+    </div>
+  </div>
+
+  <p class="sepa-evidence-footer">
+    <%= t("sepa_mandate.pdf.evidence_footer") %>
+  </p>
+</div>

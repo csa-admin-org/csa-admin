@@ -1,0 +1,9 @@
+<div class="invoice-footnotes">
+  <% footnotes.each do |group| %>
+    <div class="<%= group[:css_class] %>">
+      <% group[:lines].each do |line| %>
+        <p class="invoice-footnote-line"><%= line %></p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

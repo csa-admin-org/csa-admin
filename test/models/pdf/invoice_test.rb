@@ -14,12 +14,11 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
   end
 
   def invoice_image_draws(invoice)
-    draws = []
-    stub = Class.new(PDF::Invoice) do
-      define_method(:image) { |io, **| draws << (io.respond_to?(:string) ? io.string : io) }
+    html = I18n.with_locale(invoice.member.language) { PDF::Invoice.new(invoice).render_html }
+    doc = Nokogiri::HTML5.parse(html)
+    doc.css("img.invoice-footer-logo").map do |img|
+      Base64.decode64(img["src"].sub(/\Adata:[^;]+;base64,/, ""))
     end
-    I18n.with_locale(invoice.member.language) { stub.new(invoice) }
-    draws
   end
 
   test "membership invoice includes the reduction name and a negative amount" do
@@ -358,7 +357,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     assert_contains pdf_strings, [
       "Description", "Amount (CHF)",
       "Basket: Medium basket 10x 20.00", "200.00",
-      "Reduction for 2 additional ", "½ ", "days", "-120.00",
+      "Reduction for 2 additional ½ days", "-120.00",
       "Annual amount", "80.00",
       "Annual amount", "80.00"
     ]
@@ -715,14 +714,14 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Martha",
       "Nowhere 46", "1234 City",
       "N° membre: #{invoice.member_id}",
-      "Description", "Montant (", "€", ")",
+      "Description", "Montant (€)",
       "Cotisation annuelle", "30.00",
       "Total", "30.00",
       "Paiement",
       "Montant", "EUR 30.00",
       "Payable à",
       "Jardin Réunis", "1 rue de la Paix", "75000 Paris",
-      "IBAN: ", "FR14 2004 1010 0505 0001 3M02 606",
+      "IBAN:", "FR14 2004 1010 0505 0001 3M02 606",
       "Numéro de référence / Motif du paiement", invoice.reference.formatted,
       "Payable par",
       "Martha", "Nowhere 46", "1234 City"
@@ -749,7 +748,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Martha",
       "Grosse Marktgasse 28", "30952 Ronnenberg",
       "Mitgliedsnummer: #{invoice.member_id}",
-      "Beschreibung", "Betrag (", "€", ")",
+      "Beschreibung", "Betrag (€)",
       "Jahresbeitrag", "30.00",
       "Gesamt", "30.00",
       "Zahlbar innerhalb der nächsten zwei Wochen",
@@ -793,21 +792,21 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Anna Doe",
       "Grosse Marktgasse 28", "30952 Ronnenberg",
       "Mitgliedsnummer: #{member.id}",
-      "Beschreibung", "Betrag (", "€", ")",
+      "Beschreibung", "Betrag (€)",
       "Jahresbeitrag", "30.00",
       "Gesamt", "30.00",
-      "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.",
+      "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt", "ist.",
       "SEPA-Lastschriftverfahren",
       "Betrag", "EUR 30.00",
       "Zahlbar an",
       "Gläubiger GmbH", "Sonnenallee 1", "30159 Hannover",
-      "IBAN: ", "DE87 2005 0000 1234 5678 90",
-      "Gläubiger-ID: ", "DE98ZZZ09999999999",
+      "IBAN:", "DE87 2005 0000 1234 5678 90",
+      "Gläubiger-ID:", "DE98ZZZ09999999999",
       "Referenznummer / Verwendungszweck", invoice.reference.formatted,
       "Zahlbar durch",
       "Anna Doe", "Grosse Marktgasse 28", "30952 Ronnenberg",
-      "IBAN: ", "DE21 5005 0000 9876 5432 10",
-      "SEPA Mandatsreferenz: ", "123456", " (24. Dez 23)"
+      "IBAN:", "DE21 5005 0000 9876 5432 10",
+      "SEPA Mandatsreferenz:", "123456", "(24. Dez 23)"
     ], pdf_strings
   end
 
@@ -859,5 +858,61 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
 
     assert_includes save_pdf_and_return_strings(i3),
       "This corrective invoice replaces the canceled invoices no. #{i1.id} and #{i2.id}."
+  end
+
+  test "footer sanitizes invoice_footer and stacks footer logos above footer text" do
+    Current.org.update!(
+      invoice_footer: "<b>Acme</b><script>alert(1)</script>\n<a href=\"https://example.com\">Link</a> <i>Italic</i>")
+    Current.org.invoice_logos.attach(
+      io: file_fixture("logo.png").open,
+      filename: "org.png",
+      content_type: "image/png")
+
+    html = I18n.with_locale(invoices(:annual_fee).member.language) do
+      PDF::Invoice.new(invoices(:annual_fee)).render_html
+    end
+    doc = Nokogiri::HTML5.parse(html)
+
+    footer_children = doc.at_css(".invoice-footer").element_children.map { |el| el["class"] }
+    assert_equal %w[invoice-footer-logos invoice-footer-text], footer_children
+
+    footer_text = doc.at_css(".invoice-footer-text")
+    assert_nil footer_text.at_css("script")
+    assert_nil footer_text.at_css("a")
+    assert_equal "Acme", footer_text.at_css("b").text
+    assert_equal "Italic", footer_text.at_css("i").text
+    assert_not_nil footer_text.at_css("br")
+  end
+
+  test "renders historical canceled membership invoice when membership entity was deleted" do
+    invoice = invoices(:bob_membership)
+    invoice.update_columns(state: "canceled", canceled_at: Time.current, entity_id: -1)
+    invoice.reload
+
+    assert_nil invoice.entity
+    strings = save_pdf_and_return_strings(invoice)
+    assert_includes strings, "Invoice No.\u00A0#{invoice.id}"
+    assert_includes strings, "Description"
+  end
+
+  test "render_file writes a valid PDF that can be stamped with InvoiceCancellationStamp" do
+    invoice = invoices(:annual_fee)
+    Tempfile.create([ "invoice", ".pdf" ]) do |file|
+      I18n.with_locale(invoice.member.language) do
+        pdf = PDF::Invoice.new(invoice)
+        assert_equal invoice.pdf_filename, pdf.filename
+        assert_equal "application/pdf", pdf.content_type
+        pdf.render_file(file.path)
+        unstamped_size = File.size(file.path)
+        assert_operator unstamped_size, :>, 0
+
+        PDF::InvoiceCancellationStamp.stamp!(file.path)
+        assert_operator File.size(file.path), :>, unstamped_size
+
+        strings = PDF::Inspector::Text.analyze(File.binread(file.path)).strings
+        assert_includes strings, "Invoice No.\u00A0#{invoice.id}"
+        assert_includes strings, "Annual fee"
+      end
+    end
   end
 end

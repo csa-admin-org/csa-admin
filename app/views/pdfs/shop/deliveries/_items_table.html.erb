@@ -1,0 +1,24 @@
+<div class="shop-delivery-content">
+  <table class="shop-delivery-table">
+    <thead>
+      <tr>
+        <th class="shop-delivery-header-quantity">
+          <%= Shop::OrderItem.human_attribute_name(:quantity) %>
+        </th>
+
+        <th class="shop-delivery-header-product">
+          <%= Shop::Product.model_name.human %>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% items.each do |item| %>
+        <tr>
+          <td class="shop-delivery-quantity"><%= item.quantity %></td>
+          <td class="shop-delivery-product"><%= item.description %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

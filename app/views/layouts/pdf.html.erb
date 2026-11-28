@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<html lang="<%= I18n.locale %>">
+  <head>
+    <meta charset="utf-8">
+    <title><%= @title %></title>
+    <%= pdf_stylesheet_tags(*@stylesheets) %>
+  </head>
+
+  <body><%= yield %></body>
+</html>

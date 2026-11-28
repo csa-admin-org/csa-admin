@@ -1,0 +1,25 @@
+<% changes.each_with_index do |change, idx| %>
+  <% if idx.positive? %>
+    <br>
+  <% end %>
+
+  <% case change.type %>
+  <% when :new %>
+    <strong><%= change.label %></strong>
+    <% if change.details %>
+      (<%= format_delivery_change_details(change.details) %>)
+    <% end %>
+  <% when :absent %>
+    <span class="delivery-change-label"><%= change.label %><% if change.details %> (<%= format_delivery_change_details(change.details) %>)<% end %></span>
+  <% when :ended %>
+    <%= change.label %>
+    <% if change.details %>
+      (<%= format_delivery_change_details(change.details) %>)
+    <% end %>
+  <% else %>
+    <span class="delivery-change-label"><%= change.label %>:</span>
+    <% if change.details %>
+      <%= format_delivery_change_details(change.details) %>
+    <% end %>
+  <% end %>
+<% end %>

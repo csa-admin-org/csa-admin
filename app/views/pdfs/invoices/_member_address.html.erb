@@ -1,0 +1,9 @@
+<% member_address[:lines].each do |line| %>
+  <p class="invoice-member-line"><%= line %></p>
+<% end %>
+
+<p class="invoice-member-id"><%= member_address[:member_id_line] %></p>
+
+<% if member_address[:shares_info_line] %>
+  <p class="invoice-member-shares"><%= member_address[:shares_info_line] %></p>
+<% end %>

@@ -465,7 +465,6 @@ GEM
     parser (3.3.14.0)
       ast (~> 2.4.1)
       racc
-    pdf-core (0.9.0)
     pdf-inspector (1.3.0)
       pdf-reader (>= 1.0, < 3.0.a)
     pdf-reader (2.16.0)
@@ -484,18 +483,6 @@ GEM
       postmark (>= 1.21.3, < 2.0)
     pp (0.6.4)
       prettyprint
-    prawn (2.4.0)
-      pdf-core (~> 0.9.0)
-      ttfunk (~> 1.7)
-    prawn-svg (1.0.0)
-      addressable (>= 2.9.1, < 3)
-      css_parser (>= 1.17.1, < 4)
-      matrix (~> 0.4.2)
-      prawn (>= 2.3.0, < 3)
-      rexml (>= 3.4.2, < 4)
-      ssrf_filter (~> 1.6)
-    prawn-table (0.2.2)
-      prawn (>= 1.3.0, < 3.0.0)
     premailer (1.33.0)
       addressable
       css_parser (>= 3.1.0)
@@ -639,6 +626,11 @@ GEM
       bigdecimal
       nokogiri
       time
+    sghtmltopdf (0.8.0)
+    sghtmltopdf (0.8.0-aarch64-linux)
+    sghtmltopdf (0.8.0-arm64-darwin)
+    sghtmltopdf (0.8.0-x86_64-linux)
+    sghtmltopdf (0.8.0-x86_64-linux-musl)
     simple_form (5.4.1)
       actionpack (>= 7.0)
       activemodel (>= 7.0)
@@ -719,6 +711,7 @@ GEM
 PLATFORMS
   aarch64-linux
   aarch64-linux-gnu
+  arm64-darwin
   arm64-darwin-25
   arm64-darwin-27
   x86_64-linux
@@ -772,9 +765,6 @@ DEPENDENCIES
   pdf-inspector
   phony_rails
   postmark-rails
-  prawn (= 2.4.0)
-  prawn-svg
-  prawn-table
   premailer-rails
   propshaft
   public_suffix
@@ -793,6 +783,7 @@ DEPENDENCIES
   rubyXL
   rubyzip
   sepa_file_parser
+  sghtmltopdf
   simple_form
   solid_queue
   sqlean
@@ -802,7 +793,6 @@ DEPENDENCIES
   thruster
   tod
   truemail
-  ttfunk (= 1.7.0)
   turbo-rails
   user_agent_parser
   web-console
@@ -975,7 +965,6 @@ CHECKSUMS
   ostruct (0.6.3) sha256=95a2ed4a4bd1d190784e666b47b2d3f078e4a9efda2fccf18f84ddc6538ed912
   parallel (2.3.0) sha256=f75a3e904101ce6a1ccb6b8dc800cbafd42166d83330192438dcf29395167a6f
   parser (3.3.14.0) sha256=62f8f76af7b919425ee2d811880e9dcb8011ab40bfd59970dfb583141697e58f
-  pdf-core (0.9.0) sha256=4f368b2f12b57ec979872d4bf4bd1a67e8648e0c81ab89801431d2fc89f4e0bb
   pdf-inspector (1.3.0) sha256=fc107579d6f29b636e2da3d6743479b2624d9e390bf2d84beef8fd4ebe1a05bd
   pdf-reader (2.16.0) sha256=bf1b5564c085264d8279bde3cf1467778b75841494d20c0fe7da3dad475f3732
   phony (3.0.8) sha256=d00757d8919dd5c344d5b813bd1b88d4c5d7d0c9456a50a958c57afa0d43b2d5
@@ -983,9 +972,6 @@ CHECKSUMS
   postmark (1.25.1) sha256=2ac110fa1b4f85a62996fdc63167922eea1c4284a9a7ceb9e007f2758d9e17be
   postmark-rails (0.22.1) sha256=fcea27dda4f7418123d7723622ec5447df4dacacc10a20a40add0f6789135d8f
   pp (0.6.4) sha256=dfcb0fce700c41456265922884f9fe195d7fbb0674a3578e6c0f69588e82b570
-  prawn (2.4.0) sha256=82062744f7126c2d77501da253a154271790254dfa8c309b8e52e79bc5de2abd
-  prawn-svg (1.0.0) sha256=d2d83b4fc7993bc3e852af0a004feded1cca0073b9639ddbd6edb17f1c125ca8
-  prawn-table (0.2.2) sha256=336d46e39e003f77bf973337a958af6a68300b941c85cb22288872dc2b36addb
   premailer (1.33.0) sha256=1a0c6320fc482e97fd1ce05f0f25d96e1dc766520ea64db9e7637efd0c510daa
   premailer-rails (1.12.0) sha256=c13815d161b9bc7f7d3d81396b0bb0a61a90fa9bd89931548bf4e537c7710400
   pretty_please (0.2.0) sha256=1f00296f946ae8ffd53db25803ed3998d615b9cc07526517dc75fcca6af3a0d3
@@ -1045,6 +1031,11 @@ CHECKSUMS
   rubyzip (3.7.0) sha256=65c19294da75297a939006f3516deacc33185fbd721ff1954f7a231db6d3e121
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   sepa_file_parser (0.12.1) sha256=2d845ad63551af388526a1da42ff01b2a0ca72b26f2b49fe38778cd41974cc98
+  sghtmltopdf (0.8.0) sha256=3ccd7f297dedd64d8c64a358113810867c6acece68e4923867421b9db226dff9
+  sghtmltopdf (0.8.0-aarch64-linux) sha256=13356da9157bd3a1cb488e80e69345367a533550fcd69a7c67830226a9a1670c
+  sghtmltopdf (0.8.0-arm64-darwin) sha256=c33a6892afaefe7eed69c164d66505e205c1b7b7b4dd05d2d3682cbcd3f2fe86
+  sghtmltopdf (0.8.0-x86_64-linux) sha256=8547041d85cbcff1c2d402977e96f7be841c7511d32301787e518f4e7833da12
+  sghtmltopdf (0.8.0-x86_64-linux-musl) sha256=2ef011acd28fce8f93d5093392f29c6e364877698e2ecf31367faa9973e8d7f5
   simple_form (5.4.1) sha256=58c3d229034c7e5545035c3271b6f030ef730c340b9d7d8eb730e0a385b20808
   simpleidn (0.2.3) sha256=08ce96f03fa1605286be22651ba0fc9c0b2d6272c9b27a260bc88be05b0d2c29
   solid_queue (1.7.2) sha256=a22685e1d2ee14ce7b4e5d4592c9d8e837951884c51555609dee58679ed03325

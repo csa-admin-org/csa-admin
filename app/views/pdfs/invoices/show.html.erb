@@ -1,0 +1,51 @@
+<% @pages.each do |page| %>
+  <% page_modifier =
+       if !page[:last_page]
+         "invoice-page--continuation"
+       elsif @payment_mode == :swiss_qr
+         "invoice-page--swiss-qr"
+       else
+         "invoice-page--payment-box"
+       end %>
+
+  <section class="pdf-page invoice-page <%= page_modifier %>">
+    <div class="invoice-upper">
+      <div class="invoice-upper-body">
+        <%= render "pdfs/invoices/header",
+              org_logo_uri: @org_logo_uri,
+              header_meta: @header_meta,
+              member_address: @member_address,
+              page_number: page[:page_number],
+              total_pages: page[:total_pages] %>
+
+        <div class="invoice-content">
+          <%= render "pdfs/invoices/items_table",
+                rows: page[:rows],
+                amount_header: @amount_header,
+                extra_credit: page[:last_page] ? @extra_credit : nil %>
+
+          <% if page[:last_page] && @footnotes.any? %>
+            <%= render "pdfs/invoices/footnotes", footnotes: @footnotes %>
+          <% end %>
+        </div>
+      </div>
+
+      <%= render "pdfs/invoices/footer",
+            footer_logos: @footer_logos,
+            footer_text: @footer_text %>
+    </div>
+
+    <% if page[:last_page] %>
+      <% case @payment_mode %>
+      <% when :swiss_qr %>
+        <%= render "pdfs/invoices/payment/swiss_qr", payment: @payment %>
+      <% when :epc_qr %>
+        <%= render "pdfs/invoices/payment/epc_qr", payment: @payment %>
+      <% when :local_currency_qr %>
+        <%= render "pdfs/invoices/payment/local_currency_qr", payment: @payment %>
+      <% else %>
+        <%= render "pdfs/invoices/payment/payment_info", payment: @payment %>
+      <% end %>
+    <% end %>
+  </section>
+<% end %>

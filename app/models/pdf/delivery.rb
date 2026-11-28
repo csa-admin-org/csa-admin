@@ -2,16 +2,78 @@
 
 module PDF
   class Delivery < Base
+    include ActionView::Helpers::NumberHelper
+    include ApplicationHelper
+    include NumbersHelper
+
+    PAGE_WIDTH = 595.28
+    PAGE_HEIGHT = 841.89
+
+    RotatedHeader = Data.define(:label, :left, :width, :color, :font_size)
+    Column = Data.define(:width, :align, :shaded, :total, :bold)
+    SummarySection = Data.define(:rows, :has_bottom_rule)
+    SummaryTable = Data.define(
+      :width,
+      :depot_name_width,
+      :tier,
+      :has_right_rule,
+      :rotated_headers,
+      :columns,
+      :header_values,
+      :main_section,
+      :extra_sections
+    )
+    BasketContentCell = Data.define(:text, :align)
+    BasketContentTable = Data.define(
+      :page_border,
+      :width,
+      :tier,
+      :variant,
+      :has_right_rule,
+      :has_bottom_rule,
+      :rotated_headers,
+      :columns,
+      :header_cells,
+      :rows
+    )
+    SummaryPage = Data.define(:summary_table, :basket_content_table, :delivery_note)
+    ChangesGroup = Data.define(:depot_name, :entries)
+    ChangesEntry = Data.define(:member_name, :dimmed, :changes)
+    DepotHeaderCell = Data.define(:text, :align, :shaded, :left_border)
+    DepotCounterCell = Data.define(:text, :shaded, :absent)
+    DepotMemberRow = Data.define(
+      :name,
+      :info,
+      :absent,
+      :address_lines,
+      :address_overlay,
+      :counters,
+      :extra_text,
+      :extra_overlay
+    )
+    DepotSheetTable = Data.define(
+      :width,
+      :name_col_width,
+      :address_col_width,
+      :home_delivery,
+      :show_last_col_left_border,
+      :has_bottom_rule,
+      :rotated_headers,
+      :column_widths,
+      :header_cells,
+      :rows
+    )
+    DepotPage = Data.define(:depot_name, :announcement, :page, :total_pages, :sheet_table, :basket_content_table)
+
     attr_reader :delivery, :current_time
 
     def initialize(delivery, depot = nil)
       @delivery = delivery
-      super
+      @target_depot = depot
       @current_time = Time.current
       @baskets = delivery.baskets
       @shop_orders = @delivery.shop_orders.all_without_cart
       @depots = Depot.where(id: (@baskets.pluck(:depot_id) + @shop_orders.pluck(:depot_id)).uniq)
-      @org_logo_io = org_logo_io(size: 110)
 
       precompute_basket_sums
       precompute_complement_counts
@@ -19,38 +81,6 @@ module PDF
       preload_home_delivery_addresses
       preload_basket_sizes_and_complements
       preload_basket_contents
-
-      unless depot
-        summary_page
-        changes_page
-        start_new_page
-      end
-
-      @baskets = @baskets.joins(:member).merge(Member.order_by_name)
-
-      depots = Array(depot || @depots)
-      depots.each do |depot|
-        baskets = @baskets.where(depot: depot)
-        shop_orders = @shop_orders.where(depot: depot)
-        basket_sizes = basket_sizes_for(baskets)
-        member_ids = (baskets.filled.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
-        members_per_page =
-          if Current.org.delivery_pdf_member_info == "phones" || depot.delivery_sheets_mode == "home_delivery"
-            16
-          elsif Current.org.delivery_pdf_member_info == "food_note"
-            19
-          else
-            22
-          end
-        total_pages = (member_ids.count / members_per_page.to_f).ceil
-        members = depot.sort_delivery_sheet_members(Member.where(id: member_ids), baskets)
-        members.each_slice(members_per_page).with_index do |slice, i|
-          page_n = i + 1
-          page(depot, slice, baskets, basket_sizes, shop_orders, page: page_n, total_pages: total_pages)
-          start_new_page unless page_n == total_pages
-        end
-        start_new_page unless depots.last == depot
-      end
     end
 
     def filename
@@ -63,6 +93,34 @@ module PDF
     end
 
     private
+
+    def template_path
+      "pdfs/deliveries/show"
+    end
+
+    def stylesheets
+      %w[pdf/delivery]
+    end
+
+    def title
+      "#{::Delivery.human_attribute_name(:sheets)} #{delivery.date}"
+    end
+
+    def creation_date
+      current_time
+    end
+
+    def view_assigns
+      {
+        logo_data_uri: org_logo_data_uri(size: 110),
+        delivery_date: I18n.l(delivery.date),
+        footer_text: Current.org.delivery_pdf_footer.presence,
+        generated_at_label: "– #{I18n.l(current_time, format: :short)} –",
+        summary_pages: @target_depot ? [] : build_summary_pages,
+        changes_groups: @target_depot ? [] : build_changes_groups,
+        depot_pages: build_depot_pages
+      }
+    end
 
     def precompute_basket_sums
       counted = counted_baskets
@@ -175,11 +233,12 @@ module PDF
     end
 
     def preload_basket_contents
-      if Current.org.feature?(:basket_content) && Current.org.basket_content_delivery_pdf_visible?
-        @basket_contents = delivery.basket_contents.includes(:product, :depots).to_a
-      else
-        @basket_contents = []
-      end
+      @basket_contents =
+        if Current.org.feature?(:basket_content) && Current.org.basket_content_delivery_pdf_visible?
+          delivery.basket_contents.includes(:product, :depots).to_a
+        else
+          []
+        end
     end
 
     def basket_sizes_for(baskets)
@@ -204,254 +263,196 @@ module PDF
       @all_shop_products.select { |p| product_ids.include?(p.id) }
     end
 
-    def org_logo
-      StringIO.new(@org_logo_io.string)
-    end
-
-    def summary_page
-      summary_header
-      summary_content
-      summary_basket_content
-      delivery_note
-    end
-
-    def summary_header
-      image org_logo, at: [ 15, bounds.height - 20 ], width: 110
-      bounding_box [ bounds.width - 370, bounds.height - 20 ], width: 350, height: 120 do
-        text I18n.t("delivery.summary"), size: 24, align: :right
-        move_down 5
-        text I18n.l(delivery.date), size: 24, align: :right
+    def summary_density_tier
+      case @depots.size
+      when 0..30 then :normal
+      when 31..37 then :medium
+      else :compact
       end
     end
 
-    def summary_content
+    def summary_tier_row_height(tier)
+      case tier
+      when :normal then 18
+      when :medium then 16
+      else 12
+      end
+    end
+
+    def build_summary_pages
+      summary_table = build_summary_table
+      basket_content_table = build_summary_basket_content_table
+      note = delivery.note? ? delivery.note.truncate(300) : nil
+
+      return [ SummaryPage.new(summary_table: summary_table, basket_content_table: nil, delivery_note: note) ] unless basket_content_table
+
+      summary_used = estimate_summary_table_height(summary_table)
+      available_space = PAGE_HEIGHT - 182.0 - summary_used - 100
+      rows_needed = 3 + @depots.size
+      if rows_needed * 18 > available_space
+        [
+          SummaryPage.new(summary_table: summary_table, basket_content_table: nil, delivery_note: nil),
+          SummaryPage.new(summary_table: nil, basket_content_table: basket_content_table, delivery_note: note)
+        ]
+      else
+        [
+          SummaryPage.new(
+            summary_table: summary_table,
+            basket_content_table: basket_content_table,
+            delivery_note: note
+          )
+        ]
+      end
+    end
+
+    def estimate_summary_table_height(summary_table)
+      row_h = summary_tier_row_height(summary_table.tier)
+      main_h = 22 + summary_table.main_section.rows.size * row_h
+      extra_h = summary_table.extra_sections.sum { |sec| (row_h + 4) + sec.rows.size * row_h }
+      main_h + extra_h
+    end
+
+    def build_summary_table
       basket_sizes = BasketSize.for(@baskets)
       basket_complements = BasketComplement.for(@baskets, @shop_orders)
       shop_products = @shop_orders.products_displayed_in_delivery_sheets
 
-      font_size 9
-      move_down 1.cm
-
       bs_size = basket_sizes.size + 1
       bc_size = basket_complements.size
-      sp_size = 0
-      sp_size += 1 if @shop_orders.any?
-      sp_size += shop_products.size
+      sp_size = (@shop_orders.any? ? 1 : 0) + shop_products.size
+      number_columns = bs_size + bc_size + sp_size
 
-      page_border, width, number_width, depot_name_width, _extra_width =
-        fitted_table_geometry(bs_size + bc_size + sp_size)
-      total_rotate = 45
+      _page_border, width, number_width, depot_name_width, _extra_width =
+        fitted_table_geometry(number_columns)
+
+      rotated_headers = build_summary_rotated_headers(
+        basket_sizes: basket_sizes,
+        basket_complements: basket_complements,
+        shop_products: shop_products,
+        depot_name_width: depot_name_width,
+        number_width: number_width)
+
+      columns = [
+        Column.new(width: depot_name_width, align: :right, shaded: false, total: false, bold: false)
+      ]
+      number_columns.times do |i|
+        col_idx = i + 1
+        columns << Column.new(
+          width: number_width,
+          align: :center,
+          shaded: col_idx.odd? && col_idx != bs_size,
+          total: col_idx == bs_size,
+          bold: col_idx == bs_size
+        )
+      end
+
+      header_values = build_summary_totals_values(basket_sizes, basket_complements, shop_products)
+
+      depot_rows = @depots.map do |depot|
+        build_summary_baskets_values(
+          depot,
+          basket_sizes: basket_sizes,
+          basket_complements: basket_complements,
+          shop_products: shop_products)
+      end
+      extra_sections = @delivery.basket_summary_sections(depots: @depots).map do |section|
+        rows = section.rows.map do |row|
+          build_summary_baskets_values(
+            row.depot_ids,
+            title: row.title,
+            basket_sizes: basket_sizes,
+            basket_complements: basket_complements,
+            shop_products: shop_products)
+        end
+        SummarySection.new(rows: rows, has_bottom_rule: rows.size.odd?)
+      end
+
+      main_has_bottom_rule = extra_sections.any? || depot_rows.size.odd?
+
+      SummaryTable.new(
+        width: width,
+        depot_name_width: depot_name_width,
+        tier: summary_density_tier,
+        has_right_rule: columns.size.odd?,
+        rotated_headers: rotated_headers,
+        columns: columns,
+        header_values: header_values,
+        main_section: SummarySection.new(rows: depot_rows, has_bottom_rule: main_has_bottom_rule),
+        extra_sections: extra_sections
+      )
+    end
+
+    def build_summary_rotated_headers(basket_sizes:, basket_complements:, shop_products:, depot_name_width:, number_width:)
       offset_x = 8
-      offset_y = 12
-
-      # Headers Basket Sizes and Complements
-      header_index = 0
-      bounding_box [ page_border, cursor ], width: width, height: 25, position: :bottom do
-        text_box "", width: depot_name_width, at: [ 0, cursor ]
-        bs_names = basket_sizes.map(&:public_name)
-        bs_names << if Current.org.delivery_basket_count_scope == :all
+      bs_total_label =
+        if Current.org.delivery_basket_count_scope == :all
           Current.org.delivery_total_label
         else
           I18n.t("delivery.basket_sizes_total")
         end
-        bs_names.each_with_index do |name, i|
-          fill_color header_index.even? ? "666666" : "000000"
-          text_box name,
-            rotate: total_rotate,
-            at: [ depot_name_width + i * number_width + offset_x, cursor + offset_y ],
-            valign: :center,
-            size: name == bs_names.last ? 9 : 8,
-            style: :bold,
-            width: 150
-          header_index += 1
-        end
-        basket_complements.each_with_index do |bc, i|
-          fill_color header_index.even? ? "666666" : "000000"
-          text_box bc.public_name,
-            rotate: total_rotate,
-            at: [ depot_name_width + (bs_size + i) * number_width + offset_x, cursor + offset_y ],
-            valign: :center,
-            overflow: :expand,
-            size: 8,
-            style: :bold,
-            width: 150
-          header_index += 1
-        end
-        if @shop_orders.any?
-          fill_color header_index.even? ? "666666" : "000000"
-          text_box I18n.t("shop.title_orders", count: 1),
-            rotate: total_rotate,
-            at: [ depot_name_width + (bs_size + bc_size) * number_width + offset_x, cursor + offset_y ],
-            valign: :center,
-            size: 8,
-            style: :bold,
-            width: 100
-          header_index += 1
-        end
-        shop_products.each_with_index do |product, i|
-          fill_color header_index.even? ? "666666" : "000000"
-          text_box product.delivery_sheet_name,
-            rotate: total_rotate,
-            at: [ depot_name_width + (bs_size + bc_size + 1 + i) * number_width + offset_x, cursor + offset_y ],
-            valign: :center,
-            size: 8,
-            style: :bold,
-            width: 100
-          header_index += 1
-        end
-      end
-      fill_color "000000"
 
-      move_up 0.4.cm
-      data = []
+      items = []
+      basket_sizes.each { |bs| items << [ bs.public_name, 8, 150 ] }
+      items << [ bs_total_label, 9, 150 ]
+      basket_complements.each { |bc| items << [ bc.public_name, 8, 150 ] }
+      items << [ I18n.t("shop.title_orders", count: 1), 8, 100 ] if @shop_orders.any?
+      shop_products.each { |product| items << [ product.delivery_sheet_name, 8, 100 ] }
 
-      # Totals
-      total_line = [
-        content: Depot.model_name.human,
-        width: depot_name_width,
-        align: :right
-      ]
-      basket_sizes.each do |bs|
-        total_line << {
-          content: (@basket_sums_by_size[bs.id] || 0).to_s,
-          width: number_width,
-          align: :center
-        }
-      end
-      total_line << {
-        content: @total_basket_sum.to_s,
-        width: number_width,
-        align: :center
-      }
-      basket_complements.each do |c|
-        total_line << {
-          content: shop_quantity(cached_total_complement_count(c.id)),
-          width: number_width,
-          align: :center
-        }
-      end
-      if @shop_orders.any?
-        total_line << {
-          content: @shop_orders.count.to_s,
-          width: number_width,
-          align: :center
-        }
-      end
-      shop_products.each do |p|
-        total_line << {
-          content: shop_quantity(@shop_orders.quantity_for(p)),
-          width: number_width,
-          align: :center
-        }
-      end
-      data << total_line
-
-      summary_section_break_rows = []
-
-      # Depots
-      @depots.each do |depot|
-        data << summary_baskets_line(depot, width: depot_name_width, basket_sizes: basket_sizes, basket_complements: basket_complements, shop_products: shop_products)
-      end
-
-      @delivery.basket_summary_sections(depots: @depots).each do |section|
-        summary_section_break_rows << data.size
-        data << [ "" ]
-        section.rows.each do |row|
-          data << summary_baskets_line(row.depot_ids, title: row.title, width: depot_name_width, basket_sizes: basket_sizes, basket_complements: basket_complements, shop_products: shop_products)
-        end
-      end
-
-      cell_style =
-        case @depots.size
-        when 1..30
-          { size: 10, height: 18, padding: 3 }
-        when 30..37
-          { size: 10, height: 16, padding: 2 }
-        else
-          { size: 9, height: 12, padding: 0.5 }
-        end
-
-      table(
-        data,
-        row_colors: %w[DDDDDD FFFFFF],
-        cell_style: {
-          border_width: 0,
-          border_color: "FFFFFF",
-          inline_format: true,
-          overflow: :shrink_to_fit,
-          min_font_size: 6
-        }.merge(cell_style),
-        position: :center) do |t|
-        t.cells.borders = []
-
-        (bs_size + bc_size + sp_size).times do |i|
-          t.column(1 + i).width = number_width
-          t.column(1 + i).align = :center
-          t.column(1 + i).font_style = :light # Ensure number is well centered in the cell!
-        end
-        t.column(bs_size).font_style = :bold
-        t.column(bs_size).padding_top = cell_style[:padding] + 1  # Ensure number is well centered in the cell!
-        t.column(0).padding_top = cell_style[:padding] + 1  # Ensure number is well centered in the cell!
-
-        t.row(0).height = 22
-        t.row(0).size = 10
-        t.row(0).font_style = :bold
-        t.row(0).padding = [ 6, 2, 6, 2 ]
-        t.row(0).background_color = "FFFFFF"
-
-        t.column(0).padding_right = depot_name_width < 120 ? 4 : 10
-
-        t.cells.column_count.times do |i|
-          if i%2 == 1
-            t.column(i).background_color = "CCCCCC"
-          end
-        end
-
-        if t.cells.row_count%2 == 0
-          t.row(-1).borders = %i[bottom right]
-          t.row(-1).border_bottom_width = 1
-          t.row(-1).border_bottom_color = "CCCCCC"
-        end
-        if t.cells.column_count%2 == 1
-          t.column(-1).borders = %i[bottom right]
-          t.column(-1).border_right_width = 1
-          t.column(-1).border_right_color = "CCCCCC"
-        end
-
-        t.row(0).borders = %i[bottom right]
-        t.row(0).border_bottom_width = 1
-        t.row(0).border_bottom_color = "000000"
-
-        t.column(bs_size).background_color = "999999"
-
-        summary_section_break_rows.each do |row_index|
-          t.row(row_index).height = cell_style[:height] + 4
-          t.row(row_index).background_color = "FFFFFF"
-
-          if row_index.positive?
-            t.row(row_index - 1).borders = %i[bottom right]
-            t.row(row_index - 1).border_bottom_width = 1
-            t.row(row_index - 1).border_bottom_color = "CCCCCC"
-          end
-
-          next unless row_index + 1 < t.cells.row_count
-
-          t.row(row_index + 1).borders = %i[top right]
-          t.row(row_index + 1).border_top_width = 1
-          t.row(row_index + 1).border_top_color = "CCCCCC"
-        end
+      items.each_with_index.map do |(label, size, width), i|
+        RotatedHeader.new(
+          label: label,
+          left: depot_name_width + i * number_width + offset_x,
+          width: width,
+          color: i.even? ? "#666666" : "#000000",
+          font_size: size
+        )
       end
     end
 
-    def fitted_table_geometry(number_columns, extra_width: 0, preferred_page_border: 65, min_name_width: 80)
+    def build_summary_totals_values(basket_sizes, basket_complements, shop_products)
+      values = [ Depot.model_name.human ]
+      basket_sizes.each { |bs| values << (@basket_sums_by_size[bs.id] || 0).to_s }
+      values << @total_basket_sum.to_s
+      basket_complements.each { |c| values << shop_quantity(cached_total_complement_count(c.id)) }
+      values << @shop_orders.count.to_s if @shop_orders.any?
+      shop_products.each { |p| values << shop_quantity(@shop_orders.quantity_for(p)) }
+      values
+    end
+
+    def build_summary_baskets_values(depot, title: nil, basket_sizes:, basket_complements:, shop_products:)
+      depot_ids = summary_depot_ids(depot)
+      shop_orders = @shop_orders.where(depot_id: depot_ids)
+
+      values = [ title || depot.name ]
+      basket_sizes.each do |bs|
+        values << display_quantity(depot_ids.sum { |depot_id| cached_basket_sum(depot_id, bs.id) })
+      end
+      values << display_quantity(depot_ids.sum { |depot_id| cached_depot_basket_sum(depot_id) })
+      basket_complements.each do |c|
+        values << display_quantity(depot_ids.sum { |depot_id| cached_complement_count(depot_id, c.id) })
+      end
+      values << display_quantity(shop_orders.count) if @shop_orders.any?
+      shop_products.each do |p|
+        values << display_quantity(shop_orders.quantity_for(p))
+      end
+      values
+    end
+
+    def summary_depot_ids(depot)
+      return depot.ids if depot.respond_to?(:ids)
+
+      Array(depot).map { |value| value.is_a?(Depot) ? value.id : value }
+    end
+
+    def fitted_table_geometry(number_columns, extra_width: 0, preferred_page_border: 65, min_name_width: 80, preferred_number_width: 25)
       min_page_border = 20
-      number_width = 25
+      number_width = preferred_number_width
       page_border = preferred_page_border
-      width = bounds.width - 2 * page_border
+      width = PAGE_WIDTH - 2 * page_border
 
       if min_name_width + extra_width + number_columns * number_width > width
         page_border = [ page_border, min_page_border ].min
-        width = bounds.width - 2 * page_border
+        width = PAGE_WIDTH - 2 * page_border
       end
 
       leftover = width - min_name_width
@@ -467,538 +468,466 @@ module PDF
       [ page_border, width, number_width, width - extra_width - number_columns * number_width, extra_width ]
     end
 
-    def summary_baskets_line(depot, title: nil, width:, basket_sizes:, basket_complements:, shop_products:)
-      column_content = title || depot.name
-      depot_ids = summary_depot_ids(depot)
-      shop_orders = @shop_orders.where(depot_id: depot_ids)
+    def build_changes_groups
+      changes = ::Delivery::Changes.new(delivery)
+      return [] unless changes.any?
 
-      line = [
-        content: column_content,
-        width: width,
-        align: :right
-      ]
-      basket_sizes.each do |bs|
-        sum = depot_ids.sum { |depot_id| cached_basket_sum(depot_id, bs.id) }
-        line << display_quantity(sum)
-      end
-      total = depot_ids.sum { |depot_id| cached_depot_basket_sum(depot_id) }
-      line << display_quantity(total)
-      basket_complements.each do |c|
-        count = depot_ids.sum { |depot_id| cached_complement_count(depot_id, c.id) }
-        line << display_quantity(count)
-      end
-      if @shop_orders.any?
-        line << display_quantity(shop_orders.count)
-      end
-      shop_products.each do |p|
-        line << display_quantity(shop_orders.quantity_for(p))
-      end
-      line
-    end
-
-    def summary_depot_ids(depot)
-      return depot.ids if depot.respond_to?(:ids)
-
-      Array(depot).map { |value| value.is_a?(Depot) ? value.id : value }
-    end
-
-    def delivery_note
-      return unless delivery.note?
-
-      move_down 1.cm
-      box_border = 70
-      bg_color = "FFEDD5"
-      padding = 5
-
-      text = delivery.note.truncate(300)
-      text_color = "9A3413"
-      text_options = {
-        size: 10,
-        leading: 4,
-        valign: :center,
-        align: :center
-      }
-
-      box_height = height_of_formatted([ text: text ], text_options)
-
-      bounding_box [ box_border, cursor ], width: (bounds.width - 2*box_border), height: box_height + padding do
-        fill_color   bg_color
-        stroke_color bg_color
-        fill_and_stroke_rounded_rectangle(
-          [ bounds.left - padding, cursor ],
-          bounds.left + bounds.right + padding*2,
-          box_height + padding*2,
-          padding)
-        fill_color   text_color
-        stroke_color text_color
-
-        pad padding do
-          formatted_text([ text: text ], text_options)
-        end
+      changes.entries_by_depot.map do |depot_name, entries|
+        ChangesGroup.new(
+          depot_name: depot_name.to_s.upcase,
+          entries: entries.map do |entry|
+            ChangesEntry.new(
+              member_name: entry.member.name,
+              dimmed: entry.ended? || entry.absent?,
+              changes: entry.changes
+            )
+          end
+        )
       end
     end
 
-    def info
-      super.merge(Title: "#{::Delivery.human_attribute_name(:sheets)} #{delivery.date}")
+    def build_depot_pages
+      ordered_baskets = @baskets.joins(:member).merge(Member.order_by_name)
+      depots = Array(@target_depot || @depots)
+
+      depots.flat_map { |depot| build_pages_for_depot(depot, ordered_baskets) }
     end
 
-    def page(depot, members, baskets, basket_sizes, shop_orders, page:, total_pages:)
-      header(depot, page: page, total_pages: total_pages)
-      content(depot, members, baskets, basket_sizes, shop_orders)
-      depot_basket_content(depot, baskets, basket_sizes)
-      footer
-    end
+    def build_pages_for_depot(depot, ordered_baskets)
+      baskets = ordered_baskets.where(depot: depot)
+      shop_orders = @shop_orders.where(depot: depot)
+      basket_sizes = basket_sizes_for(baskets)
+      member_ids = (baskets.filled.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
+      members_per_page = members_per_page_for(depot)
+      members = depot.sort_delivery_sheet_members(Member.where(id: member_ids), baskets)
+      slices = members.each_slice(members_per_page).to_a
+      return [] if slices.empty?
 
-    def header(depot, page:, total_pages:)
-      image org_logo, at: [ 15, bounds.height - 20 ], width: 110
-      if announcement = announcement_for(depot)
-        bounding_box [ 20, bounds.height - 130 ], width: 290, height: 70 do
-          text announcement.text,
-            size: 13,
-            style: :bold,
-            leading: 4,
-            valign: :center
-        end
-      end
-      bounding_box [ bounds.width - 370, bounds.height - 20 ], width: 350, height: 120 do
-        text depot.public_name, size: 24, align: :right
-        move_down 5
-        text I18n.l(delivery.date), size: 24, align: :right
-        if total_pages > 1
-          move_down 5
-          text "#{page} / #{total_pages}", size: 24, align: :right
-        end
-      end
-    end
-
-    def content(depot, members, baskets, basket_sizes, shop_orders)
+      preloaded_baskets = baskets.includes(:membership, :baskets_basket_complements).to_a
+      preloaded_shop_orders = shop_orders.includes(items: [ :product, { product_variant: :basket_complement } ]).to_a
       basket_complements = basket_complements_for(baskets, shop_orders)
       shop_products = shop_products_for(shop_orders)
+      announcement = announcement_for(depot)&.text
+      basket_content_table = build_depot_basket_content_table(depot, basket_sizes)
 
-      font_size 11
-      move_down 2.cm
+      raw_pages = []
+      slices.each_with_index do |slice, slice_idx|
+        sheet_table = build_depot_sheet_table(
+          depot: depot,
+          members: slice,
+          baskets: preloaded_baskets,
+          basket_sizes: basket_sizes,
+          basket_complements: basket_complements,
+          shop_orders: shop_orders,
+          preloaded_shop_orders: preloaded_shop_orders,
+          shop_products: shop_products)
 
+        if basket_content_table && slice_idx == slices.size - 1
+          if depot_basket_content_overflows?(depot, slice.size, basket_content_table.rows.size)
+            raw_pages << [ sheet_table, nil ]
+            raw_pages << [ nil, basket_content_table ]
+          else
+            raw_pages << [ sheet_table, basket_content_table ]
+          end
+        else
+          raw_pages << [ sheet_table, nil ]
+        end
+      end
+
+      total_pages = raw_pages.size
+      raw_pages.each_with_index.map do |(sheet_table, bc_table), idx|
+        DepotPage.new(
+          depot_name: depot.public_name,
+          announcement: announcement,
+          page: idx + 1,
+          total_pages: total_pages,
+          sheet_table: sheet_table,
+          basket_content_table: bc_table
+        )
+      end
+    end
+
+    def members_per_page_for(depot)
+      if Current.org.delivery_pdf_member_info == "phones" || depot.delivery_sheets_mode == "home_delivery"
+        16
+      elsif Current.org.delivery_pdf_member_info == "food_note"
+        19
+      else
+        22
+      end
+    end
+
+    def depot_basket_content_overflows?(depot, member_count, product_count)
+      row_h =
+        if Current.org.delivery_pdf_member_info == "phones" || depot.delivery_sheets_mode == "home_delivery"
+          36
+        elsif Current.org.delivery_pdf_member_info == "food_note"
+          30
+        else
+          26
+        end
+      cursor = PAGE_HEIGHT - 210.36 - 28 - member_count * row_h
+      available_space = cursor - 100
+      80 + product_count * 20 > available_space
+    end
+
+    def build_depot_sheet_table(depot:, members:, baskets:, basket_sizes:, basket_complements:, shop_orders:, preloaded_shop_orders:, shop_products:)
+      home_delivery = depot.delivery_sheets_mode == "home_delivery"
       bs_size = basket_sizes.size
       bc_size = basket_complements.size
-      sp_size = 0
-      sp_size += 1 if shop_orders.any?
-      sp_size += shop_products.size
+      has_shop_orders = shop_orders.any?
+      sp_size = (has_shop_orders ? 1 : 0) + shop_products.size
+      number_columns = bs_size + bc_size + sp_size
 
-      page_border, width, number_width, member_name_width, extra_width =
+      _page_border, width, number_width, member_name_width, extra_width =
         fitted_table_geometry(
-          bs_size + bc_size + sp_size,
+          number_columns,
           extra_width: 110,
           preferred_page_border: 20)
-      address_width = depot.delivery_sheets_mode == "home_delivery" ? (member_name_width / 2) : 0
-      offset_x = 6
-      offset_y = 12
+      address_width = home_delivery ? (member_name_width / 2.0) : 0
+      name_col_width = member_name_width - address_width
 
-      # Headers Basket Sizes and Complements
-      numbers_width_offset = member_name_width
-      header_index = 0
-      bounding_box [ page_border, cursor ], width: width, height: 25, position: :bottom do
-        text_box "", width: numbers_width_offset, at: [ 0, cursor ]
-        basket_sizes.each_with_index do |bs, i|
-          fill_color header_index.even? ? "666666" : "000000"
-          text_box bs.public_name,
-            rotate: 45,
-            at: [ numbers_width_offset + i * number_width + offset_x, cursor + offset_y ],
-            valign: :center,
-            size: 10,
-            style: :bold,
-            width: 150
-          header_index += 1
-        end
-        basket_complements.each_with_index do |bc, i|
-          fill_color header_index.even? ? "666666" : "000000"
-          text_box bc.public_name,
-            rotate: 45,
-            at: [ numbers_width_offset + (bs_size + i) * number_width + offset_x, cursor + offset_y ],
-            valign: :center,
-            overflow: :expand,
-            size: 10,
-            style: :bold,
-            width: 150
-          header_index += 1
-        end
-        if shop_orders.any?
-          fill_color header_index.even? ? "666666" : "000000"
-          text_box I18n.t("shop.title_orders", count: 1),
-            rotate: 45,
-            at: [ numbers_width_offset + (bs_size + bc_size) * number_width + offset_x, cursor + offset_y ],
-            valign: :center,
-            size: 10,
-            style: :bold,
-            width: 150
-          header_index += 1
-        end
-        shop_products.each_with_index do |product, i|
-          fill_color header_index.even? ? "666666" : "000000"
-          text_box product.delivery_sheet_name,
-            rotate: 45,
-            at: [ numbers_width_offset + (bs_size + bc_size + 1 + i) * number_width + offset_x, cursor + offset_y ],
-            valign: :center,
-            overflow: :expand,
-            size: 10,
-            style: :bold,
-            width: 150
-          header_index += 1
-        end
-      end
-      fill_color "000000"
+      rotated_headers = build_depot_rotated_headers(
+        basket_sizes: basket_sizes,
+        basket_complements: basket_complements,
+        has_shop_orders: has_shop_orders,
+        shop_products: shop_products,
+        offset_base: member_name_width,
+        number_width: number_width)
 
-      move_up 0.4.cm
-      font_size 12
-      data = []
+      colors_offset = home_delivery ? 1 : 0
+      column_count = (home_delivery ? 2 : 1) + number_columns + 1
+      show_last_col_left_border = (column_count % 2) == colors_offset
 
-      # Depot Totals
-      total_line = [
-        content: Member.model_name.human,
-        width: (member_name_width - address_width),
-        height: 28,
-        align: depot.delivery_sheets_mode == "home_delivery" ? :left : :right
-      ]
-      if depot.delivery_sheets_mode == "home_delivery"
-        total_line << {
-          content: ::Delivery.human_attribute_name(:address),
-          width: address_width,
-          align: :left
-        }
-      end
-      basket_sizes.each do |bs|
-        total_line << {
-          content: cached_basket_sum(depot.id, bs.id).to_s,
-          width: number_width,
-          align: :center
-        }
-      end
-      basket_complements.each do |c|
-        total_line << {
-          content: shop_quantity(cached_complement_count(depot.id, c.id)),
-          width: number_width,
-          align: :center
-        }
-      end
-      if shop_orders.any?
-        total_line << {
-          content: shop_orders.count.to_s,
-          width: number_width,
-          align: :center
-        }
-      end
-      shop_products.each do |p|
-        total_line << {
-          content: shop_quantity(shop_orders.quantity_for(p)),
-          width: number_width,
-          align: :center
-        }
-      end
-      extra_content =
-        case depot.delivery_sheets_mode
-        when "signature"; ::Delivery.human_attribute_name(:signature)
-        when "home_delivery"; ::Member.human_attribute_name(:note)
-        end
-      total_line << {
-        content: extra_content,
-        align: :right,
-        width: extra_width
-      }
-      data << total_line
+      column_widths = [ name_col_width ]
+      column_widths << address_width if home_delivery
+      number_columns.times { column_widths << number_width }
+      column_widths << extra_width
 
-      # Members
-      baskets = baskets.includes(:membership, :baskets_basket_complements).to_a
-      shop_orders = shop_orders.includes(items: [ :product, { product_variant: :basket_complement } ]).to_a
-      members.each do |member|
-        column_content =
-          if depot.delivery_sheets_mode == "home_delivery"
-            member.name
-          else
-            Current.org.format_member_name_for_pdf(member.name)
-          end
+      header_cells = build_depot_header_cells(
+        depot: depot,
+        home_delivery: home_delivery,
+        basket_sizes: basket_sizes,
+        basket_complements: basket_complements,
+        shop_orders: shop_orders,
+        has_shop_orders: has_shop_orders,
+        shop_products: shop_products,
+        show_last_col_left_border: show_last_col_left_border)
+
+      rows = members.map do |member|
         basket = baskets.find { |b| b.membership.member_id == member.id }
-        shop_order = shop_orders.find { |so| so.member_id == member.id }
+        shop_order = preloaded_shop_orders.find { |so| so.member_id == member.id }
+        absent = basket&.absent? == true
+        overlay = absent ? nil : @home_delivery_addresses_by_member_id[member.id]
 
-        case Current.org.delivery_pdf_member_info
-        when "phones"
-          phones = member.phones_array
-          if phones.any?
-            info_txt = phones.map { |p| display_phone(p) }.join(", ")
-          end
-        when "food_note"
-          if member.food_note?
-            info_txt = member.food_note.truncate(90)
-          end
-        end
-        if info_txt
-          column_content += "<font size='3'>\n\n</font>"
-          column_content += "<font size='9'><i><color rgb='777777'>#{info_txt}</color></i></font>"
-        end
+        name_text = home_delivery ? member.name : Current.org.format_member_name_for_pdf(member.name)
+        info_text = member_info_text(member)
 
-        line = [
-          content: column_content,
-          width: (member_name_width - address_width),
-          align: depot.delivery_sheets_mode == "home_delivery" ? :left : :right,
-          size: depot.delivery_sheets_mode == "home_delivery" ? 11 : 12,
-          padding: [ 4, 5, 8, 5 ],
-          font_style: basket&.absent? ? :italic : nil,
-          text_color: basket&.absent? ? "999999" : nil
-        ]
-        if depot.delivery_sheets_mode == "home_delivery"
-          overlay = basket&.absent? ? nil : @home_delivery_addresses_by_member_id[member.id]
-          address =
+        address_lines =
+          if home_delivery
             if overlay
-              overlay.sheet_address
+              overlay.sheet_address.to_s.split("\n")
             else
-              "#{member.street}\n#{member.zip} #{member.city}"
+              [ member.street, "#{member.zip} #{member.city}" ]
             end
-          address_cell = {
-            content: address,
-            align: :left,
-            valign: :center,
-            width: address_width,
-            padding_top: 1,
-            size: 10,
-            font_style: basket&.absent? ? :italic : (overlay ? :bold : nil),
-            text_color: basket&.absent? ? "999999" : nil
-          }
-          address_cell[:background_color] = "BBBBBB" if overlay
-          line << address_cell
-        end
-        basket_sizes.each do |bs|
-          content = (basket && basket.basket_size_id == bs.id) ? display_quantity(basket.quantity) : ""
-          line << counter_line(content, basket)
-        end
-        basket_complements.each do |c|
-          quantity = basket&.baskets_basket_complements&.find { |bbc| bbc.basket_complement_id == c.id }&.quantity || 0
-          if shop_order
-            quantity += shop_order.items
-              .select { |item| item.product_variant.basket_complement_id == c.id }
-              .sum(&:quantity)
           end
-          content = display_quantity(quantity)
-          line << counter_line(content, basket)
-        end
-        if shop_orders.any?
-          content =
-            if basket&.absent?
-              "–"
-            else
-              shop_order ? "X" : ""
-            end
-          line << counter_line(content, basket)
-        end
-        shop_products.each do |p|
-          content =
-            if basket&.absent?
-              "–"
-            elsif shop_order
-              shop_order_item = shop_order.items.find { |i| i.product_id == p.id }
-              display_quantity(shop_order_item&.quantity || 0)
-            else
-              ""
-            end
-          line << counter_line(content, basket)
-        end
-        overlay = basket&.absent? ? nil : @home_delivery_addresses_by_member_id[member.id]
-        extra_content =
-          if basket&.absent?
+
+        counters = build_depot_member_counters(
+          basket: basket,
+          shop_order: shop_order,
+          absent: absent,
+          basket_sizes: basket_sizes,
+          basket_complements: basket_complements,
+          has_shop_orders: has_shop_orders,
+          shop_products: shop_products)
+
+        extra_text =
+          if absent
             Basket.human_attribute_name(:absent).upcase
-          elsif depot.delivery_sheets_mode == "home_delivery"
+          elsif home_delivery
             overlay ? overlay.sheet_note : member.delivery_note
           else
             ""
           end
-        extra_cell = {
-          content: extra_content,
-          width: extra_width,
-          align: :right,
-          valign: :center,
-          size: depot.delivery_sheets_mode == "home_delivery" ? 9 : 10,
-          padding_top: depot.delivery_sheets_mode == "home_delivery" ? 1 : 2,
-          font_style: (depot.delivery_sheets_mode == "home_delivery" || basket&.absent?) ? :italic : nil,
-          text_color: basket&.absent? ? "999999" : nil
-        }
-        extra_cell[:background_color] = "BBBBBB" if overlay&.note.present? && !basket&.absent?
-        extra_cell[:font_style] = :bold if overlay&.note.present? && !basket&.absent?
-        line << extra_cell
-        data << line
+
+        DepotMemberRow.new(
+          name: name_text,
+          info: info_text,
+          absent: absent,
+          address_lines: address_lines,
+          address_overlay: home_delivery && overlay.present?,
+          counters: counters,
+          extra_text: extra_text.to_s,
+          extra_overlay: home_delivery && !absent && overlay&.note.present?
+        )
       end
 
-      table(
-        data,
-        row_colors: %w[DDDDDD FFFFFF],
-        cell_style: {
-          border_width: 0,
-          border_color: "FFFFFF",
-          inline_format: true,
-          valign: :center,
-          overflow: :shrink_to_fit,
-          min_font_size: 6
-        },
-        position: :center) do |t|
-        t.cells.borders = []
+      DepotSheetTable.new(
+        width: width,
+        name_col_width: name_col_width,
+        address_col_width: address_width,
+        home_delivery: home_delivery,
+        show_last_col_left_border: show_last_col_left_border,
+        has_bottom_rule: rows.size.odd?,
+        rotated_headers: rotated_headers,
+        column_widths: column_widths,
+        header_cells: header_cells,
+        rows: rows
+      )
+    end
 
-        numbers_column_offset = depot.delivery_sheets_mode == "home_delivery" ? 2 : 1
-        (bs_size + bc_size + sp_size).times do |i|
-          t.column(numbers_column_offset + i).width = number_width
-        end
+    def build_depot_rotated_headers(basket_sizes:, basket_complements:, has_shop_orders:, shop_products:, offset_base:, number_width:)
+      offset_x = 6
+      labels = []
+      basket_sizes.each { |bs| labels << bs.public_name }
+      basket_complements.each { |bc| labels << bc.public_name }
+      labels << I18n.t("shop.title_orders", count: 1) if has_shop_orders
+      shop_products.each { |product| labels << product.delivery_sheet_name }
 
-        t.row(0).size = 11
-        t.row(0).font_style = :bold
-        t.row(0).padding = [ 4, 5, 8, 5 ]
-        t.row(0).valign = :center
-        t.row(0).background_color = "FFFFFF"
-
-        t.column(0).padding_right = member_name_width < 120 ? 4 : 10
-
-        colors_offset = depot.delivery_sheets_mode == "home_delivery" ? 1 : 0
-        t.cells.column_count.times do |i|
-         if i%2 == 1 && i != (t.cells.column_count - 1 - colors_offset)
-           t.column(i + colors_offset).background_color = "CCCCCC"
-         end
-        end
-        if t.cells.row_count%2 == 0
-          t.row(-1).borders = %i[bottom left]
-          t.row(-1).border_bottom_width = 1
-          t.row(-1).border_bottom_color = "CCCCCC"
-        end
-        if t.cells.column_count%2 == colors_offset
-          t.column(-1).borders = %i[bottom left]
-          t.column(-1).border_left_width = 1
-          t.column(-1).border_left_color = "CCCCCC"
-        end
-
-        t.row(0).borders = %i[bottom left]
-        t.row(0).border_bottom_width = 1
-        t.row(0).border_bottom_color = "000000"
+      labels.each_with_index.map do |label, i|
+        RotatedHeader.new(
+          label: label,
+          left: offset_base + i * number_width + offset_x,
+          width: 150,
+          color: i.even? ? "#666666" : "#000000",
+          font_size: 10
+        )
       end
     end
 
-    def counter_line(content, basket)
-      line = {
-        content: content,
-        align: :center,
-        padding_top: 1
-      }
-      if basket&.absent?
-        line[:font_style] = :italic
-        line[:text_color] = "999999"
-        line[:padding_top] = 2
-        line[:padding_left] = 0
-      end
-      line
-    end
-
-    def footer
-      bounding_box [ 20, 80 ], width: (bounds.width - 40) do
-        footer_text = Current.org.delivery_pdf_footer
-        if footer_text.present?
-          text_box footer_text,
-            at: [ 0, 0 ],
-            height: 50,
-            width: bounds.width,
-            valign: :center,
-            align: :center,
-            size: 11
-        end
-        text_box "– #{I18n.l(current_time, format: :short)} –",
-          at: [ 0, -60 ],
-          width: bounds.width,
-          inline_format: true,
-          align: :center,
-          size: 8
-      end
-    end
-
-    def changes_page
-      changes = ::Delivery::Changes.new(delivery)
-      return unless changes.any?
-
-      start_new_page
-
-      image org_logo, at: [ 15, bounds.height - 20 ], width: 110
-      bounding_box [ bounds.width - 370, bounds.height - 20 ], width: 350, height: 120 do
-        text t("changes"), size: 24, align: :right
-        move_down 5
-        text I18n.l(delivery.date), size: 24, align: :right
-      end
-
-      move_down 0.25.cm
-      font_size 10
-
-      page_border = 20
-      width = bounds.width - 2 * page_border
-      member_width = width * 0.50
-      changes_width = width * 0.50
-
-      data = []
-      depot_rows = []
-      member_rows = []
-
-      header_row = [
-        { content: Member.model_name.human, width: member_width },
-        { content: t("changes"), width: changes_width }
+    def build_depot_header_cells(depot:, home_delivery:, basket_sizes:, basket_complements:, shop_orders:, has_shop_orders:, shop_products:, show_last_col_left_border:)
+      cells = [
+        DepotHeaderCell.new(
+          text: Member.model_name.human,
+          align: home_delivery ? :left : :right,
+          shaded: false,
+          left_border: false
+        )
       ]
-      data << header_row
+      if home_delivery
+        cells << DepotHeaderCell.new(
+          text: ::Delivery.human_attribute_name(:address),
+          align: :left,
+          shaded: false,
+          left_border: false
+        )
+      end
 
-      changes.entries_by_depot.each do |depot_name, entries|
-        depot_rows << data.size
-        data << [
-          { content: depot_name.to_s.upcase, colspan: 2, font_style: :bold, text_color: "888888" }
-        ]
+      counter_idx = 0
+      append_counter = ->(text) {
+        cells << DepotHeaderCell.new(
+          text: text,
+          align: :center,
+          shaded: counter_idx.even?,
+          left_border: false
+        )
+        counter_idx += 1
+      }
 
-        entries.each do |entry|
-          dimmed = entry.ended? || entry.absent?
-          style = dimmed ? :italic : nil
-          color = dimmed ? "999999" : nil
+      basket_sizes.each { |bs| append_counter.call(cached_basket_sum(depot.id, bs.id).to_s) }
+      basket_complements.each { |c| append_counter.call(shop_quantity(cached_complement_count(depot.id, c.id))) }
+      append_counter.call(shop_orders.count.to_s) if has_shop_orders
+      shop_products.each { |p| append_counter.call(shop_quantity(shop_orders.quantity_for(p))) }
 
-          member_rows << data.size
-          data << [
-            { content: entry.member.name, font_style: style, text_color: color },
-            { content: entry.formatted_description, font_style: style, text_color: color, inline_format: true }
-          ]
+      extra_label =
+        case depot.delivery_sheets_mode
+        when "signature" then ::Delivery.human_attribute_name(:signature)
+        when "home_delivery" then ::Member.human_attribute_name(:note)
+        end
+      cells << DepotHeaderCell.new(
+        text: extra_label.to_s,
+        align: :right,
+        shaded: false,
+        left_border: show_last_col_left_border
+      )
+      cells
+    end
+
+    def build_depot_member_counters(basket:, shop_order:, absent:, basket_sizes:, basket_complements:, has_shop_orders:, shop_products:)
+      values = []
+      basket_sizes.each do |bs|
+        values << ((basket && basket.basket_size_id == bs.id) ? display_quantity(basket.quantity) : "")
+      end
+      basket_complements.each do |c|
+        quantity = basket&.baskets_basket_complements&.find { |bbc| bbc.basket_complement_id == c.id }&.quantity || 0
+        if shop_order
+          quantity += shop_order.items
+            .select { |item| item.product_variant.basket_complement_id == c.id }
+            .sum(&:quantity)
+        end
+        values << display_quantity(quantity)
+      end
+      if has_shop_orders
+        values << (absent ? "–" : (shop_order ? "X" : ""))
+      end
+      shop_products.each do |p|
+        values << if absent
+          "–"
+        elsif shop_order
+          shop_order_item = shop_order.items.find { |i| i.product_id == p.id }
+          display_quantity(shop_order_item&.quantity || 0)
+        else
+          ""
         end
       end
 
-      bounding_box [ page_border, cursor ], width: width do
-        table(
-          data,
-          header: true,
-          cell_style: {
-            border_width: 0,
-            border_color: "FFFFFF",
-            background_color: "FFFFFF",
-            size: 10,
-            padding: [ 3, 5, 6, 5 ],
-            valign: :center
-          }) do |t|
-          t.cells.borders = []
-
-          t.row(0).size = 11
-          t.row(0).font_style = :bold
-          t.row(0).padding = [ 6, 5, 12, 5 ]
-          t.row(0).background_color = "FFFFFF"
-
-          depot_rows.each do |i|
-            t.row(i).size = 8
-            t.row(i).background_color = "EEEEEE"
-            t.row(i).padding = [ 3, 5, 6, 5 ]
-            t.row(i).borders = %i[bottom top]
-            t.row(i).border_width = 0.5
-            t.row(i).border_color = "BBBBBB"
-          end
-
-          member_rows.each do |row_idx|
-            t.row(row_idx).borders = %i[bottom]
-            t.row(row_idx).border_width = 0.5
-            t.row(row_idx).border_color = "DDDDDD"
-          end
-        end
+      values.each_with_index.map do |text, i|
+        DepotCounterCell.new(
+          text: text,
+          shaded: i.even?,
+          absent: absent
+        )
       end
     end
 
-    def t(key, *args)
-      I18n.t("delivery.#{key}", *args)
+    def member_info_text(member)
+      case Current.org.delivery_pdf_member_info
+      when "phones"
+        phones = member.phones_array
+        phones.map { |p| display_phone(p) }.join(", ") if phones.any?
+      when "food_note"
+        member.food_note.truncate(90) if member.food_note?
+      end
+    end
+
+    def build_summary_basket_content_table
+      return if @basket_contents.empty?
+
+      products = @basket_contents.sort_by { |bc| bc.product.name }
+      page_border, width, number_width, depot_name_width, _extra =
+        fitted_table_geometry(
+          products.size,
+          preferred_page_border: 40,
+          min_name_width: 80,
+          preferred_number_width: 40)
+
+      offset_x = [ (number_width * 0.375).round(1), 15 ].min
+      rotated_headers = products.each_with_index.map do |bc, i|
+        RotatedHeader.new(
+          label: bc.product.name,
+          left: depot_name_width + i * number_width + offset_x,
+          width: 150,
+          color: i.even? ? "#666666" : "#000000",
+          font_size: 8
+        )
+      end
+
+      columns = [
+        Column.new(width: depot_name_width, align: :right, shaded: false, total: false, bold: false)
+      ]
+      products.size.times do |i|
+        col_idx = i + 1
+        columns << Column.new(width: number_width, align: :right, shaded: col_idx.odd?, total: false, bold: false)
+      end
+
+      header_cells = [ BasketContentCell.new(text: Depot.model_name.human, align: :right) ]
+      products.each do |bc|
+        total_qty = @depots.sum { |depot| basket_content_depot_total(bc, [ depot.id ]) }
+        header_cells << BasketContentCell.new(text: format_basket_content_quantity(total_qty, bc.unit), align: :right)
+      end
+
+      rows = @depots.map do |depot|
+        cells = [ BasketContentCell.new(text: depot.name, align: :right) ]
+        products.each do |bc|
+          qty = basket_content_depot_total(bc, [ depot.id ])
+          cells << BasketContentCell.new(
+            text: format_basket_content_quantity(qty, bc.unit),
+            align: qty.positive? ? :right : :center
+          )
+        end
+        cells
+      end
+
+      BasketContentTable.new(
+        page_border: page_border,
+        width: width,
+        tier: summary_density_tier,
+        variant: :summary,
+        has_right_rule: columns.size.odd?,
+        has_bottom_rule: rows.size.odd?,
+        rotated_headers: rotated_headers,
+        columns: columns,
+        header_cells: header_cells,
+        rows: rows
+      )
+    end
+
+    def build_depot_basket_content_table(depot, basket_sizes)
+      return if @basket_contents.empty?
+
+      depot_contents = basket_content_for_depot(depot)
+      return if depot_contents.empty?
+
+      products = depot_contents.sort_by { |bc| bc.product.name }
+      total_columns = basket_sizes.size + 1
+      page_border, width, number_width, product_name_width, _extra =
+        fitted_table_geometry(
+          total_columns,
+          preferred_page_border: 40,
+          min_name_width: 80,
+          preferred_number_width: 50)
+
+      offset_x = number_width / 2.0 - 3
+      rotated_headers = basket_sizes.each_with_index.map do |bs, i|
+        RotatedHeader.new(
+          label: bs.public_name,
+          left: product_name_width + i * number_width + offset_x,
+          width: 150,
+          color: i.even? ? "#666666" : "#000000",
+          font_size: 10
+        )
+      end
+      rotated_headers << RotatedHeader.new(
+        label: I18n.t("delivery.total"),
+        left: product_name_width + basket_sizes.size * number_width + offset_x,
+        width: 150,
+        color: "#000000",
+        font_size: 12
+      )
+
+      columns = [
+        Column.new(width: product_name_width, align: :right, shaded: false, total: false, bold: false)
+      ]
+      total_columns.times do |i|
+        col_idx = i + 1
+        columns << Column.new(
+          width: number_width,
+          align: :right,
+          shaded: col_idx.odd?,
+          total: false,
+          bold: col_idx == total_columns
+        )
+      end
+
+      rows = products.map do |bc|
+        cells = [ BasketContentCell.new(text: bc.product.name, align: :right) ]
+        basket_sizes.each do |bs|
+          qty = bc.basket_quantity(bs)
+          cells << BasketContentCell.new(
+            text: format_basket_content_quantity(qty, bc.unit),
+            align: qty.positive? ? :right : :center
+          )
+        end
+        total_qty = basket_content_depot_total(bc, [ depot.id ])
+        cells << BasketContentCell.new(
+          text: format_basket_content_quantity(total_qty, bc.unit),
+          align: total_qty.positive? ? :right : :center
+        )
+        cells
+      end
+
+      BasketContentTable.new(
+        page_border: page_border,
+        width: width,
+        tier: :normal,
+        variant: :depot,
+        has_right_rule: columns.size.odd?,
+        has_bottom_rule: rows.size.even?,
+        rotated_headers: rotated_headers,
+        columns: columns,
+        header_cells: nil,
+        rows: rows
+      )
     end
 
     def display_quantity(quantity)
@@ -1038,256 +967,6 @@ module PDF
         end
       when "pc"
         "#{quantity.to_i}#{sep}pc"
-      end
-    end
-
-    def basket_content_table_style(t)
-      t.cells.borders = []
-      t.column(0).padding_right = 10
-
-      t.cells.column_count.times do |i|
-        t.column(i).background_color = "CCCCCC" if i.odd?
-      end
-
-      if t.cells.row_count.even?
-        t.row(-1).borders = %i[bottom right]
-        t.row(-1).border_bottom_width = 1
-        t.row(-1).border_bottom_color = "CCCCCC"
-      end
-      if t.cells.column_count.odd?
-        t.column(-1).borders = %i[bottom right]
-        t.column(-1).border_right_width = 1
-        t.column(-1).border_right_color = "CCCCCC"
-      end
-    end
-
-    def summary_basket_content
-      return if @basket_contents.empty?
-
-      products = @basket_contents.sort_by { |bc| bc.product.name }
-
-      # Estimate if we need a page break
-      # Title + header row + total row + depot rows
-      rows_needed = 3 + @depots.size
-      row_height = 18
-      available_space = cursor - 100 # leave margin for delivery_note and footer
-      if rows_needed * row_height > available_space
-        start_new_page
-        summary_header
-      end
-
-      font_size 9
-      move_down 1.5.cm
-
-      # Title
-      page_border = 40
-      text BasketContent.model_name.human(count: 2), size: 20, align: :left, indent_paragraphs: page_border
-      move_down 1.cm
-      width = bounds.width - 2 * page_border
-      number_width = 40
-      depot_name_width = width - products.size * number_width
-      total_rotate = 45
-      offset_x = 15
-      offset_y = 12
-
-      # Headers: Product names
-      header_index = 0
-      bounding_box [ page_border, cursor ], width: width, height: 25, position: :bottom do
-        text_box "", width: depot_name_width, at: [ 0, cursor ]
-        products.each_with_index do |bc, i|
-          fill_color header_index.even? ? "666666" : "000000"
-          text_box bc.product.name,
-            rotate: total_rotate,
-            at: [ depot_name_width + i * number_width + offset_x, cursor + offset_y ],
-            valign: :center,
-            size: 8,
-            style: :bold,
-            width: 150
-          header_index += 1
-        end
-      end
-      fill_color "000000"
-
-      move_up 0.4.cm
-      data = []
-
-      # Totals row
-      total_line = [
-        content: Depot.model_name.human,
-        width: depot_name_width,
-        align: :right
-      ]
-      products.each do |bc|
-        total_qty = @depots.sum { |depot| basket_content_depot_total(bc, [ depot.id ]) }
-        total_line << {
-          content: format_basket_content_quantity(total_qty, bc.unit),
-          width: number_width,
-          align: :right
-        }
-      end
-      data << total_line
-
-      @depots.each do |depot|
-        line = [
-          content: depot.name,
-          width: depot_name_width,
-          align: :right
-        ]
-        products.each do |bc|
-          qty = basket_content_depot_total(bc, [ depot.id ])
-          line << {
-            content: format_basket_content_quantity(qty, bc.unit),
-            width: number_width,
-            align: qty.positive? ? :right : :center
-          }
-        end
-        data << line
-      end
-
-      cell_style =
-        case @depots.size
-        when 1..30
-          { size: 9, height: 18, padding: [ 4, 5, 0, 5 ] }
-        when 30..37
-          { size: 9, height: 16, padding: [ 3, 5, 0, 5 ] }
-        else
-          { size: 8, height: 12, padding: [ 2, 5, 0, 5 ] }
-        end
-
-      table(
-        data,
-        row_colors: %w[DDDDDD FFFFFF],
-        cell_style: {
-          border_width: 0,
-          border_color: "FFFFFF",
-          inline_format: true
-        }.merge(cell_style),
-        position: :center) do |t|
-        basket_content_table_style(t)
-
-        t.row(0).height = cell_style[:height]
-        t.row(0).size = cell_style[:size]
-        t.row(0).font_style = :bold
-        t.row(0).padding = cell_style[:padding]
-        t.row(0).background_color = "FFFFFF"
-
-        t.row(0).borders = %i[bottom right]
-        t.row(0).border_bottom_width = 1
-        t.row(0).border_bottom_color = "000000"
-      end
-    end
-
-    def depot_basket_content(depot, baskets, basket_sizes)
-      return if @basket_contents.empty?
-
-      depot_contents = basket_content_for_depot(depot)
-      return if depot_contents.empty?
-
-      products = depot_contents.sort_by { |bc| bc.product.name }
-
-      # Estimate if we need a page break
-      # Title + header space (with rotation) + product rows
-      title_and_header_height = 80
-      rows_needed = products.size
-      row_height = 20
-      available_space = cursor - 100 # leave margin for footer
-      if title_and_header_height + rows_needed * row_height > available_space
-        start_new_page
-        header(depot, page: 1, total_pages: 1)
-      end
-
-      font_size 10
-      move_down 2.5.cm
-
-      # Title
-      page_border = 40
-      text BasketContent.model_name.human(count: 2), size: 20, align: :left, indent_paragraphs: page_border
-      move_down 0.5.cm
-
-      width = bounds.width - 2 * page_border
-      number_width = 50
-      total_columns = basket_sizes.size + 1 # basket sizes + total
-      product_name_width = width - total_columns * number_width
-
-      # Headers: Basket size names + Total
-      offset_x = number_width / 2 - 3
-      offset_y = 12
-      header_index = 0
-      bounding_box [ page_border, cursor ], width: width, height: 30, position: :bottom do
-        text_box "", width: product_name_width, at: [ 0, cursor ]
-        basket_sizes.each_with_index do |bs, i|
-          fill_color header_index.even? ? "666666" : "000000"
-          text_box bs.public_name,
-            rotate: 45,
-            at: [ product_name_width + i * number_width + offset_x, cursor + offset_y ],
-            valign: :center,
-            size: 10,
-            style: :bold,
-            width: 150
-          header_index += 1
-        end
-        # Total header
-        fill_color "000000"
-        text_box I18n.t("delivery.total"),
-          rotate: 45,
-          at: [ product_name_width + basket_sizes.size * number_width + offset_x, cursor + offset_y ],
-          valign: :center,
-          size: 12,
-          style: :bold,
-          width: 150
-      end
-      fill_color "000000"
-
-      move_up 0.4.cm
-      data = []
-
-      # Product rows
-      products.each do |bc|
-        line = [
-          content: bc.product.name,
-          width: product_name_width,
-          align: :right
-        ]
-        basket_sizes.each do |bs|
-          qty = bc.basket_quantity(bs)
-          line << {
-            content: format_basket_content_quantity(qty, bc.unit),
-            width: number_width,
-            align: qty.positive? ? :right : :center
-          }
-        end
-        # Total column
-        total_qty = basket_content_depot_total(bc, [ depot.id ])
-        line << {
-          content: format_basket_content_quantity(total_qty, bc.unit),
-          width: number_width,
-          align: total_qty.positive? ? :right : :center,
-          font_style: :bold
-        }
-        data << line
-      end
-
-      table(
-        data,
-        row_colors: %w[DDDDDD FFFFFF],
-        cell_style: {
-          border_width: 0,
-          border_color: "FFFFFF",
-          inline_format: true,
-          valign: :center,
-          size: 11,
-          height: 20,
-          padding: [ 0, 2, 4, 2 ]
-        },
-        position: :center) do |t|
-        basket_content_table_style(t)
-
-        total_columns.times do |i|
-          t.column(1 + i).padding_left = 6
-          t.column(1 + i).padding_right = 6
-        end
-        # Bold total column
-        t.column(total_columns).font_style = :bold
       end
     end
   end

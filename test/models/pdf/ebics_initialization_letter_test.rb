@@ -2,6 +2,7 @@
 
 require "test_helper"
 require "openssl"
+require "tempfile"
 
 class PDF::EBICSInitializationLetterTest < ActiveSupport::TestCase
   setup do
@@ -11,14 +12,18 @@ class PDF::EBICSInitializationLetterTest < ActiveSupport::TestCase
 
   test "renders initialization letter without private key material" do
     connection = initialized_connection
+    letter = PDF::EBICSInitializationLetter.new(
+      connection,
+      generated_at: Time.utc(2026, 7, 5, 10, 0, 0))
 
-    strings = I18n.with_locale(:en) do
-      PDF::Inspector::Text.analyze(PDF::EBICSInitializationLetter.new(
-        connection,
-        generated_at: Time.utc(2026, 7, 5, 10, 0, 0)).render).strings
-    end
+    pdf_bytes = I18n.with_locale(:en) { letter.render }
+    strings = PDF::Inspector::Text.analyze(pdf_bytes).strings
+    pages = PDF::Inspector::Page.analyze(pdf_bytes).pages
     text = strings.join("\n")
 
+    assert_equal "application/pdf", letter.content_type
+    assert_equal "ebics_initialization_letter_hostid_2026-07-05.pdf", letter.filename
+    assert_equal 3, pages.size
     assert_includes text, "Initialization letter for SIGNATURE certificate (A006)"
     assert_includes text, "Initialization letter for AUTHENTICATION certificate (X002)"
     assert_includes text, "Initialization letter for ENCRYPTION certificate (E002)"
@@ -35,6 +40,31 @@ class PDF::EBICSInitializationLetterTest < ActiveSupport::TestCase
     assert_not_includes text, "PRIVATE KEY"
     assert_not_includes text, connection.credentials.fetch("secret")
     assert_not_includes text, connection.credentials.fetch("keys").first(80)
+  end
+
+  test "renders localized HTML and writes PDF to file across all locales" do
+    connection = initialized_connection
+    letter = PDF::EBICSInitializationLetter.new(
+      connection,
+      generated_at: Time.utc(2026, 7, 5, 10, 0, 0))
+
+    {
+      fr: "Page 1 / 3",
+      de: "Seite 2 / 3",
+      it: "Pagina 3 / 3",
+      nl: "Pagina 1 / 3"
+    }.each do |locale, expected_footer|
+      html = I18n.with_locale(locale) { letter.render_html }
+      assert_includes html, %(lang="#{locale}")
+      assert_includes html, expected_footer
+    end
+
+    Tempfile.create([ "ebics", ".pdf" ]) do |file|
+      I18n.with_locale(:en) { letter.render_file(file.path) }
+      bytes = File.binread(file.path)
+      assert bytes.start_with?("%PDF-")
+      assert_equal 3, PDF::Inspector::Page.analyze(bytes).pages.size
+    end
   end
 
   private

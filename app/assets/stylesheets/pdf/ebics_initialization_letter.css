@@ -1,0 +1,94 @@
+.ebics-page {
+  padding: 18mm;
+}
+
+.ebics-title {
+  margin: 0 0 10mm;
+  text-align: center;
+  font-size: 15pt;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ebics-summary {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 10mm;
+  font-size: 9pt;
+  line-height: 1.15;
+}
+
+.ebics-summary th,
+.ebics-summary td {
+  padding: 1.5pt 2pt 1.5pt 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.ebics-summary th {
+  width: 30mm;
+  font-weight: 700;
+}
+
+.ebics-summary td {
+  width: 57mm;
+  font-weight: 400;
+}
+
+.ebics-block-title {
+  margin: 0 0 2mm;
+  font-size: 10pt;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ebics-code-block {
+  margin: 0;
+  padding: 5pt 6pt;
+  background-color: #f7f8fa;
+  border: 0.75pt solid #999999;
+  font-family: "Liberation Mono", monospace;
+  font-size: 8.4pt;
+  white-space: pre;
+}
+
+.ebics-certificate-block {
+  margin-bottom: 5mm;
+  line-height: 1.03;
+}
+
+.ebics-fingerprint-block {
+  margin-bottom: 10mm;
+  padding: 5pt 6pt;
+  line-height: 1.15;
+}
+
+.ebics-confirmation {
+  margin: 0 0 15mm;
+  font-size: 9pt;
+  line-height: 1.25;
+}
+
+.ebics-signatures {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 9pt;
+}
+
+.ebics-signatures td {
+  width: 33.333%;
+  padding: 2pt 4pt;
+  text-align: center;
+  vertical-align: top;
+}
+
+.ebics-footer {
+  position: absolute;
+  top: 286.8mm;
+  left: 18mm;
+  right: 18mm;
+  text-align: center;
+  font-size: 8pt;
+}

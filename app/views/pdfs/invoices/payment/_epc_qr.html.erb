@@ -1,0 +1,41 @@
+<section class="payment-box">
+  <div class="payment-box-rule">
+    <h2 class="payment-qr-title"><%= payment[:title] %></h2>
+
+    <table class="payment-qr-layout">
+      <tbody>
+        <tr>
+          <td class="payment-qr-code-col">
+            <%= image_tag payment[:qr_data_uri], class: "payment-qr-img", alt: "" %>
+            <p class="payment-qr-caption"><%= payment[:caption] %></p>
+          </td>
+
+          <td class="payment-qr-details-col">
+            <div class="payment-qr-field">
+              <p class="payment-qr-heading"><%= payment[:iban_label] %></p>
+              <p class="payment-qr-value"><%= payment[:iban] %></p>
+            </div>
+
+            <div class="payment-qr-field">
+              <p class="payment-qr-heading">
+                <%= payment[:payable_to_label] %>
+              </p>
+
+              <p class="payment-qr-value"><%= payment[:creditor_name] %></p>
+            </div>
+
+            <div class="payment-qr-field">
+              <p class="payment-qr-heading"><%= payment[:reference_label] %></p>
+              <p class="payment-qr-value"><%= payment[:reference] %></p>
+            </div>
+
+            <div class="payment-qr-field">
+              <p class="payment-qr-heading"><%= payment[:amount_label] %></p>
+              <p class="payment-qr-value"><%= payment[:amount] %></p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

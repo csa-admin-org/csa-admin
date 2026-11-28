@@ -1,0 +1,65 @@
+@font-face {
+  font-family: "Liberation Sans";
+  src: url("LiberationSans-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Liberation Sans";
+  src: url("LiberationSans-Bold.ttf");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Liberation Sans";
+  src: url("LiberationSans-Italic.ttf");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Liberation Sans";
+  src: url("LiberationSans-BoldItalic.ttf");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Liberation Mono";
+  src: url("LiberationMono-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 210mm;
+  font-family: "Liberation Sans", sans-serif;
+  color: #000000;
+}
+
+.pdf-page {
+  position: relative;
+  width: 210mm;
+  height: 296.9mm;
+  break-after: page;
+}
+
+.pdf-page:last-child {
+  break-after: auto;
+}

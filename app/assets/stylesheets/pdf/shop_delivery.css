@@ -1,0 +1,115 @@
+.shop-delivery-page {
+  padding: 20pt 20pt 72pt;
+}
+
+.shop-delivery-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  min-height: 120pt;
+}
+
+.shop-delivery-logo {
+  width: 110pt;
+  height: auto;
+  margin-left: -5pt;
+}
+
+.shop-delivery-header {
+  max-width: 430pt;
+  padding-top: 5pt;
+  text-align: right;
+}
+
+.shop-delivery-member {
+  font-size: 22pt;
+  line-height: 1.05;
+  margin-bottom: 10pt;
+}
+
+.shop-delivery-depot {
+  font-size: 18pt;
+  line-height: 1.05;
+  margin-bottom: 5pt;
+}
+
+.shop-delivery-date {
+  font-size: 18pt;
+  line-height: 1.05;
+}
+
+.shop-delivery-page-number {
+  font-size: 22pt;
+  font-weight: 700;
+  line-height: 1.05;
+  margin-top: 15pt;
+}
+
+.shop-delivery-title {
+  margin: 20pt 0 14pt;
+  font-size: 11pt;
+  line-height: 1.15;
+}
+
+.shop-delivery-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 11pt;
+  line-height: 1.22;
+}
+
+.shop-delivery-table thead th {
+  padding: 0 0 6pt;
+  font-weight: 700;
+  text-align: left;
+  vertical-align: middle;
+  line-height: 1.15;
+}
+
+.shop-delivery-header-quantity {
+  width: 65pt;
+}
+
+.shop-delivery-table tbody tr:nth-child(odd) {
+  background-color: #dddddd;
+}
+
+.shop-delivery-table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.shop-delivery-quantity {
+  width: 65pt;
+  padding: 3.5pt 5pt 3.5pt 20pt;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.shop-delivery-product {
+  padding: 3.5pt 5pt 3.5pt 0;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.shop-delivery-footer {
+  position: absolute;
+  top: 782pt;
+  left: 20pt;
+  right: 20pt;
+  text-align: center;
+}
+
+.shop-delivery-footer-note {
+  margin: 0;
+  font-size: 11pt;
+  line-height: 1.15;
+  white-space: pre-line;
+}
+
+.shop-delivery-timestamp {
+  margin: 0;
+  padding-top: 25pt;
+  font-size: 8pt;
+  line-height: 1.15;
+}

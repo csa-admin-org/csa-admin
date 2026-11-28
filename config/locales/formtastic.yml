@@ -2378,11 +2378,11 @@ _:
           _it: Testo visualizzato in corsivo dopo l'importo della fattura.
           _nl: Tekst weergegeven in cursief na het factuurbedrag.
         invoice_logos:
-          _en: Optional label/certification logo(s) that is/are displayed at the bottom right of the invoice, above the footer. Useful, for example, for an "Organic" or "Demeter" label.
-          _fr: Image(s) optionnelle(s) d'un ou plusieurs logos d'étiquette ou de certification qui sont affichés en bas à droite de la facture, au-dessus du pied de page. Utile, par exemple, pour un label "Bio" ou "Demeter".
-          _de: Optionales Etikett oder Zertifikat Logo(s), das unten rechts auf der Rechnung angezeigt wird, über dem Fusszeile. Nützlich, zum Beispiel, für ein "Organisch" oder "Demeter" Etikett.
-          _it: Opzionale logo di etichetta o di certificazione che viene visualizzato in basso a destra della fattura, sopra il piè di pagina. Utile, ad esempio, per un "Bio" o un "Demeter".
-          _nl: Optioneel label/certificering logo('s) dat/die wordt/worden weergegeven rechtsonder op de factuur, boven de voettekst. Handig, bijvoorbeeld, voor een "Biologisch" of "Demeter" label.
+          _en: Optional label/certification logo(s) that is/are displayed at the bottom left of the invoice, above the footer. Useful, for example, for an "Organic" or "Demeter" label.
+          _fr: Image(s) optionnelle(s) d'un ou plusieurs logos d'étiquette ou de certification qui sont affichés en bas à gauche de la facture, au-dessus du pied de page. Utile, par exemple, pour un label "Bio" ou "Demeter".
+          _de: Optionales Etikett oder Zertifikat Logo(s), das unten links auf der Rechnung angezeigt wird, über dem Fusszeile. Nützlich, zum Beispiel, für ein "Organisch" oder "Demeter" Etikett.
+          _it: Opzionale logo di etichetta o di certificazione che viene visualizzato in basso a sinistra della fattura, sopra il piè di pagina. Utile, ad esempio, per un "Bio" o un "Demeter".
+          _nl: Optioneel label/certificering logo('s) dat/die wordt/worden weergegeven linksonder op de factuur, boven de voettekst. Handig, bijvoorbeeld, voor een "Biologisch" of "Demeter" label.
         invoice_membership_summary_only/bag:
           _en: When enabled, membership invoices will display a single "Annual overview" line instead of showing a detailed breakdown of bags, complements, and other items.
           _fr: Lorsque cette option est activée, les factures d'abonnement n'afficheront qu'une seule ligne "Récapitulatif annuel" au lieu de détailler les sacs, les compléments et les autres éléments.
@@ -2919,11 +2919,11 @@ _:
           _it: Mostrato sotto il nome nel modulo di iscrizione. Lasciare vuoto per usare il dettaglio generato predefinito.
           _nl: Staat onder de naam op het inschrijfformulier. Leeg laten om het standaard gegenereerde detail te gebruiken.
         invoice_logo:
-          _en: Optional logo displayed at the bottom right of membership invoices that benefit from this reduction, above the footer, alongside the organization logos.
-          _fr: Logo optionnel affiché en bas à droite des factures d'abonnement qui bénéficient de cette réduction, au-dessus du pied de page, avec les logos de l'organisation.
-          _de: Optionales Logo unten rechts auf Abonnementrechnungen, die von dieser Reduktion profitieren, über der Fusszeile, zusammen mit den Logos der Organisation.
-          _it: Logo facoltativo visualizzato in basso a destra delle fatture di abbonamento che beneficiano di questa riduzione, sopra il piè di pagina, insieme ai loghi dell'organizzazione.
-          _nl: Optioneel logo rechtsonder op lidmaatschapsfacturen die van deze reductie profiteren, boven de voettekst, samen met de logo's van de organisatie.
+          _en: Optional logo displayed at the bottom left of membership invoices that benefit from this reduction, above the footer, alongside the organization logos.
+          _fr: Logo optionnel affiché en bas à gauche des factures d'abonnement qui bénéficient de cette réduction, au-dessus du pied de page, avec les logos de l'organisation.
+          _de: Optionales Logo unten links auf Abonnementrechnungen, die von dieser Reduktion profitieren, über der Fusszeile, zusammen mit den Logos der Organisation.
+          _it: Logo facoltativo visualizzato in basso a sinistra delle fatture di abbonamento che beneficiano di questa riduzione, sopra il piè di pagina, insieme ai loghi dell'organizzazione.
+          _nl: Optioneel logo linksonder op lidmaatschapsfacturen die van deze reductie profiteren, boven de voettekst, samen met de logo's van de organisatie.
         renew_html:
           _en: When it still fits, copy this reduction when the membership is renewed.%{handbook}
           _fr: Si possible, copiez cette réduction lors du renouvellement de l'abonnement.%{handbook}

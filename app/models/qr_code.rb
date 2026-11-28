@@ -36,11 +36,9 @@ class QRCode
 
   def qr_png
     qrcode = RQRCode::QRCode.new(@payload, level: :m)
-    qrcode.as_png(
-      border_modules: 0,
-      module_px_size: 6,
-      size: 1024
-    )
+    qrcode
+      .as_png(border_modules: 0, module_px_size: 1)
+      .resample_nearest_neighbor(1024, 1024)
   end
 
   # Generating the QR code image is slow so we skip it for performance reasons

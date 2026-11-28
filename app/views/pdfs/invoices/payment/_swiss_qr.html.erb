@@ -1,0 +1,170 @@
+<section class="swiss-qr-slip">
+  <%= image_tag payment[:scissor_data_uri], class: "swiss-qr-scissor-h", alt: "" %>
+  <%= image_tag payment[:scissor_data_uri], class: "swiss-qr-scissor-v", alt: "" %>
+
+  <table class="swiss-qr-grid">
+    <tbody>
+      <tr>
+        <td class="swiss-qr-receipt-cell">
+          <div class="swiss-qr-receipt">
+            <h2 class="swiss-qr-main-title"><%= payment[:receipt_title] %></h2>
+
+            <div class="swiss-qr-receipt-info">
+              <div class="swiss-qr-block">
+                <div class="swiss-qr-heading">
+                  <%= payment[:payable_to_account_label] %>
+                </div>
+
+                <div class="swiss-qr-value"><%= payment[:iban] %></div>
+
+                <% payment[:creditor_lines].each do |line| %>
+                  <div class="swiss-qr-value"><%= line %></div>
+                <% end %>
+              </div>
+
+              <div class="swiss-qr-block">
+                <div class="swiss-qr-heading">
+                  <%= payment[:reference_label] %>
+                </div>
+
+                <div class="swiss-qr-value"><%= payment[:reference] %></div>
+              </div>
+
+              <div class="swiss-qr-block">
+                <div class="swiss-qr-heading">
+                  <%= payment[:payable_by_label] %>
+                </div>
+
+                <% payment[:debtor_lines].each do |line| %>
+                  <div class="swiss-qr-value"><%= line %></div>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="swiss-qr-receipt-amount">
+              <table class="swiss-qr-amount-table">
+                <tbody>
+                  <tr>
+                    <td class="swiss-qr-currency-col">
+                      <div class="swiss-qr-heading">
+                        <%= payment[:currency_label] %>
+                      </div>
+
+                      <div class="swiss-qr-value">
+                        <%= payment[:currency_code] %>
+                      </div>
+                    </td>
+
+                    <td class="swiss-qr-amount-col">
+                      <div class="swiss-qr-heading">
+                        <%= payment[:amount_label] %>
+                      </div>
+
+                      <div class="swiss-qr-value"><%= payment[:amount] %></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="swiss-qr-acceptance-point">
+              <%= payment[:acceptance_point_label] %>
+            </div>
+          </div>
+        </td>
+
+        <td class="swiss-qr-payment-cell">
+          <div class="swiss-qr-payment">
+            <table class="swiss-qr-payment-layout">
+              <tbody>
+                <tr>
+                  <td class="swiss-qr-payment-left">
+                    <h2 class="swiss-qr-main-title">
+                      <%= payment[:payment_part_title] %>
+                    </h2>
+
+                    <div class="swiss-qr-code-wrap">
+                      <%= image_tag payment[:qr_data_uri], class: "swiss-qr-code-img", alt: "" %>
+                    </div>
+
+                    <div class="swiss-qr-payment-amount">
+                      <table class="swiss-qr-amount-table">
+                        <tbody>
+                          <tr>
+                            <td class="swiss-qr-currency-col">
+                              <div class="swiss-qr-heading">
+                                <%= payment[:currency_label] %>
+                              </div>
+
+                              <div class="swiss-qr-value">
+                                <%= payment[:currency_code] %>
+                              </div>
+                            </td>
+
+                            <td class="swiss-qr-amount-col">
+                              <div class="swiss-qr-heading">
+                                <%= payment[:amount_label] %>
+                              </div>
+
+                              <div class="swiss-qr-value">
+                                <%= payment[:amount] %>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+
+                  <td class="swiss-qr-payment-right">
+                    <div class="swiss-qr-block">
+                      <div class="swiss-qr-heading">
+                        <%= payment[:payable_to_account_label] %>
+                      </div>
+
+                      <div class="swiss-qr-value"><%= payment[:iban] %></div>
+
+                      <% payment[:creditor_lines].each do |line| %>
+                        <div class="swiss-qr-value"><%= line %></div>
+                      <% end %>
+                    </div>
+
+                    <div class="swiss-qr-block">
+                      <div class="swiss-qr-heading">
+                        <%= payment[:reference_label] %>
+                      </div>
+
+                      <div class="swiss-qr-value">
+                        <%= payment[:reference] %>
+                      </div>
+                    </div>
+
+                    <div class="swiss-qr-block">
+                      <div class="swiss-qr-heading">
+                        <%= payment[:further_information_label] %>
+                      </div>
+
+                      <div class="swiss-qr-value">
+                        <%= payment[:further_information] %>
+                      </div>
+                    </div>
+
+                    <div class="swiss-qr-block">
+                      <div class="swiss-qr-heading">
+                        <%= payment[:payable_by_label] %>
+                      </div>
+
+                      <% payment[:debtor_lines].each do |line| %>
+                        <div class="swiss-qr-value"><%= line %></div>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

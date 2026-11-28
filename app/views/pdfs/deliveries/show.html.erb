@@ -1,0 +1,22 @@
+<%= render partial: "pdfs/deliveries/summary_page",
+  collection: @summary_pages,
+  locals: {
+    logo_data_uri: @logo_data_uri,
+    delivery_date: @delivery_date
+  } %>
+
+<% if @changes_groups.any? %>
+  <%= render "pdfs/deliveries/changes_page",
+    groups: @changes_groups,
+    logo_data_uri: @logo_data_uri,
+    delivery_date: @delivery_date %>
+<% end %>
+
+<%= render partial: "pdfs/deliveries/depot_page",
+  collection: @depot_pages,
+  locals: {
+    logo_data_uri: @logo_data_uri,
+    delivery_date: @delivery_date,
+    footer_text: @footer_text,
+    generated_at_label: @generated_at_label
+  } %>

@@ -2,7 +2,6 @@
 
 class Delivery::Changes
   Change = Data.define(:type, :label, :details)
-  LABEL_COLOR = "666666"
   EMPTY_LABEL = /⌀(.+?)⌀/
   ADDRESS_ATTRIBUTES = %w[street zip city].freeze
 
@@ -15,21 +14,6 @@ class Delivery::Changes
       format_changes("\n") do |c|
         details = c.details&.gsub(EMPTY_LABEL, '\1')&.gsub("\n=>\n", "\n#{UNICODE_ARROW.strip}\n")&.gsub(ARROW, UNICODE_ARROW)
         format_change(c.type, c.label, details)
-      end
-    end
-
-    def formatted_description
-      format_changes("\n") do |c|
-        details = c.details&.gsub(EMPTY_LABEL) { "<color rgb='999999'>#{$1}</color>" }
-        label = c.label
-        case c.type
-        when :new
-          format_change(c.type, "<b>#{label}</b>", details)
-        when :absent
-          "<color rgb='#{LABEL_COLOR}'>#{format_change(c.type, label, details)}</color>"
-        else
-          format_change(c.type, label, details, styled_label: "<color rgb='#{LABEL_COLOR}'>#{label}:</color>")
-        end
       end
     end
 

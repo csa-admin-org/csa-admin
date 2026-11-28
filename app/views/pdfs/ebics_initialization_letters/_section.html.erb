@@ -1,0 +1,27 @@
+<div class="pdf-page ebics-page">
+  <h1 class="ebics-title"><%= section.title %></h1>
+
+  <%= render "pdfs/ebics_initialization_letters/summary_table", section: section, summary: summary %>
+
+  <h2 class="ebics-block-title">
+    <%= t("ebics.initialization_letter.labels.certificate") %>
+  </h2>
+
+  <pre class="ebics-code-block ebics-certificate-block"><%= section.certificate_pem %></pre>
+
+  <h2 class="ebics-block-title">
+    <%= t("ebics.initialization_letter.labels.hash") %> (SHA-256)
+  </h2>
+
+  <pre class="ebics-code-block ebics-fingerprint-block"><%= section.fingerprint %></pre>
+
+  <p class="ebics-confirmation">
+    <%= t("ebics.initialization_letter.confirmation") %>
+  </p>
+
+  <%= render "pdfs/ebics_initialization_letters/signature_block" %>
+
+  <div class="ebics-footer">
+    <%= t("ebics.initialization_letter.page_footer", page: section.page, pages: section.total_pages) %>
+  </div>
+</div>

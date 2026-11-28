@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "tempfile"
 
 class PDF::DeliveryTest < ActiveSupport::TestCase
   def save_pdf_and_return_strings(delivery, depot = nil)
@@ -544,6 +545,79 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     depot.update!(member_ids_position: [ members(:john).id, members(:anna).id, members(:bob).id ])
     pdf_strings = save_pdf_and_return_strings(delivery, depot)
     assert_member_names_in_order(pdf_strings, "John Doe", "Anna Doe", "Bob Doe")
+  end
+
+  test "escapes markup-like characters in member name and food note" do
+    travel_to "2024-01-01"
+    Current.org.update!(delivery_pdf_member_info: "food_note")
+    delivery = deliveries(:monday_1)
+    members(:john).update!(
+      name: "John <Doe> & Co",
+      food_note: "No <b>peanuts</b> & <eggs>")
+
+    pdf = PDF::Delivery.new(delivery, depots(:farm))
+    html = pdf.render_html
+    assert_includes html, "John &lt;Doe&gt; &amp; Co"
+    assert_includes html, "No &lt;b&gt;peanuts&lt;/b&gt; &amp; &lt;eggs&gt;"
+
+    text = PDF::Inspector::Text.analyze(pdf.render).strings.join("\n")
+    assert_includes text, "John <Doe> & Co"
+    assert_includes text, "No <b>peanuts</b> & <eggs>"
+  end
+
+  test "summary basket content fits 15 products without negative column width" do
+    travel_to "2024-01-01"
+    Current.org.update!(basket_content_delivery_pdf_visible: true)
+    delivery = deliveries(:monday_1)
+
+    15.times do |i|
+      product = BasketContent::Product.create!(names: { en: "Crop #{i + 1}" }, unit: "kg")
+      create_basket_content(
+        delivery: delivery,
+        product: product,
+        basket_size_ids_quantities: { medium_id => 1000, large_id => 1500 },
+        depots: Depot.all,
+        unit: "kg")
+    end
+
+    pdf = PDF::Delivery.new(delivery)
+    text = PDF::Inspector::Text.analyze(pdf.render).strings.join("\n")
+    assert_includes text, "Crop 1"
+    assert_includes text, "Crop 15"
+    assert_includes text, "Farm"
+  end
+
+  test "depot basket content overflow includes page numbering and writes PDF file" do
+    travel_to "2024-01-01"
+    Current.org.update!(basket_content_delivery_pdf_visible: true)
+    delivery = deliveries(:monday_1)
+    depot = depots(:farm)
+
+    22.times do |i|
+      product = BasketContent::Product.create!(names: { en: "Produce #{i + 1}" }, unit: "kg")
+      create_basket_content(
+        delivery: delivery,
+        product: product,
+        basket_size_ids_quantities: { medium_id => 500 },
+        depots: [ depot ],
+        unit: "kg")
+    end
+
+    pdf = PDF::Delivery.new(delivery, depot)
+    assert_equal "application/pdf", pdf.content_type
+    assert_equal "sheets-delivery-#1-20240401.pdf", pdf.filename
+
+    Tempfile.create([ "delivery", ".pdf" ]) do |file|
+      pdf.render_file(file.path)
+      bytes = File.binread(file.path)
+      assert bytes.start_with?("%PDF-")
+      assert_equal 2, PDF::Inspector::Page.analyze(bytes).pages.size
+      text = PDF::Inspector::Text.analyze(bytes).strings.join("\n")
+      assert_includes text, "1 / 2"
+      assert_includes text, "2 / 2"
+      assert_includes text, "Produce 1"
+      assert_includes text, "Produce 22"
+    end
   end
 
   private

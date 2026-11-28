@@ -1,0 +1,69 @@
+.sepa-page {
+  padding: 15mm 25mm 25mm;
+}
+
+.sepa-logo {
+  display: block;
+  width: 40mm;
+  height: auto;
+  margin: 0 auto 8mm;
+}
+
+.sepa-title {
+  margin: 0 0 22mm;
+  text-align: center;
+  font-size: 18pt;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.sepa-summary {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 19mm;
+  font-size: 10pt;
+  line-height: 1.3;
+}
+
+.sepa-summary th,
+.sepa-summary td {
+  padding: 3.5pt 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.sepa-summary th {
+  width: 60mm;
+  font-weight: 700;
+}
+
+.sepa-summary td {
+  width: 100mm;
+  font-weight: 400;
+}
+
+.sepa-mandate-text {
+  font-size: 10pt;
+  line-height: 1.35;
+}
+
+.sepa-mandate-text p {
+  margin: 0 0 5mm;
+}
+
+.sepa-mandate-text p:last-child {
+  margin-bottom: 0;
+}
+
+.sepa-evidence-footer {
+  position: absolute;
+  top: 272mm;
+  left: 25mm;
+  right: 25mm;
+  margin: 0;
+  font-size: 8pt;
+  font-style: italic;
+  line-height: 1.4;
+  color: #777777;
+}

@@ -1,0 +1,48 @@
+<header class="invoice-header">
+  <% if total_pages > 1 %>
+    <div class="invoice-page-number">
+      <%= page_number %> / <%= total_pages %>
+    </div>
+  <% end %>
+
+  <table class="invoice-header-table">
+    <tbody>
+      <tr>
+        <td class="invoice-header-logo-cell">
+          <%= image_tag org_logo_uri, class: "invoice-org-logo", alt: "" %>
+        </td>
+
+        <td class="invoice-header-meta-cell">
+          <p class="invoice-title"><%= header_meta[:title] %></p>
+          <p class="invoice-date"><%= header_meta[:date] %></p>
+
+          <% if header_meta[:period] %>
+            <p class="invoice-period"><%= header_meta[:period] %></p>
+          <% end %>
+
+          <% if header_meta[:shop_order_title] %>
+            <p class="invoice-shop-order">
+              <%= header_meta[:shop_order_title] %>
+            </p>
+          <% end %>
+
+          <% if header_meta[:shop_order_delivery] %>
+            <p class="invoice-shop-delivery">
+              <%= header_meta[:shop_order_delivery] %>
+            </p>
+          <% end %>
+
+          <% if header_meta[:shop_order_group_period] %>
+            <p class="invoice-shop-order-group">
+              <%= header_meta[:shop_order_group_period] %>
+            </p>
+          <% end %>
+        </td>
+
+        <td class="invoice-member-address-cell">
+          <%= render "pdfs/invoices/member_address", member_address: member_address %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</header>

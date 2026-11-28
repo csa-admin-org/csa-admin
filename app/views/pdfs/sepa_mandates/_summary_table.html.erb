@@ -1,0 +1,10 @@
+<table class="sepa-summary">
+  <tbody>
+    <% rows.each do |row| %>
+      <tr>
+        <th><%= row.label %></th>
+        <td><%= safe_join(row.lines, tag.br) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

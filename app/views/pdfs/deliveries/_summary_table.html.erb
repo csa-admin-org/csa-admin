@@ -1,0 +1,117 @@
+<div class="delivery-summary-section">
+  <%= render "pdfs/deliveries/rotated_headers",
+    headers: table.rotated_headers,
+    width: table.width %>
+
+  <table
+    class="
+      <%= [
+      "delivery-table",
+      "delivery-summary-table",
+      "is-tier-#{table.tier}",
+      (table.depot_name_width < 120 ? "is-narrow-name" : nil),
+      (table.has_right_rule ? "has-right-rule" : nil),
+      (table.main_section.has_bottom_rule ? "has-bottom-rule" : nil)
+      ].compact.join(" ") %>
+    "
+    style="width: <%= table.width %>pt;"
+  >
+    <colgroup>
+      <% table.columns.each do |col| %>
+        <col style="width: <%= col.width %>pt;">
+      <% end %>
+    </colgroup>
+
+    <thead>
+      <tr>
+        <% table.header_values.each_with_index do |val, col_idx| %>
+          <% col = table.columns[col_idx] %>
+
+          <th
+            class="
+              <%= [
+              (col_idx.zero? ? "is-name-col" : "is-num-col"),
+              "is-align-#{col.align}",
+              (col.shaded ? "is-shaded" : nil),
+              (col.total ? "is-total" : nil)
+              ].compact.join(" ") %>
+            "
+          >
+            <%= val %>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% table.main_section.rows.each do |row_values| %>
+        <tr>
+          <% row_values.each_with_index do |val, col_idx| %>
+            <% col = table.columns[col_idx] %>
+
+            <td
+              class="
+                <%= [
+                (col_idx.zero? ? "is-name-col" : "is-num-col"),
+                "is-align-#{col.align}",
+                (col.shaded ? "is-shaded" : nil),
+                (col.total ? "is-total" : nil),
+                (col.bold ? "is-bold" : nil)
+                ].compact.join(" ") %>
+              "
+            >
+              <%= val %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% table.extra_sections.each do |section| %>
+    <table
+      class="
+        <%= [
+        "delivery-table",
+        "delivery-summary-table",
+        "delivery-summary-subtable",
+        "is-tier-#{table.tier}",
+        (table.depot_name_width < 120 ? "is-narrow-name" : nil),
+        (table.has_right_rule ? "has-right-rule" : nil),
+        (section.has_bottom_rule ? "has-bottom-rule" : nil)
+        ].compact.join(" ") %>
+      "
+      style="width: <%= table.width %>pt;"
+    >
+      <colgroup>
+        <% table.columns.each do |col| %>
+          <col style="width: <%= col.width %>pt;">
+        <% end %>
+      </colgroup>
+
+      <tbody>
+        <% section.rows.each do |row_values| %>
+          <tr>
+            <% row_values.each_with_index do |val, col_idx| %>
+              <% col = table.columns[col_idx] %>
+
+              <td
+                class="
+                  <%= [
+                  (col_idx.zero? ? "is-name-col" : "is-num-col"),
+                  "is-align-#{col.align}",
+                  (col.shaded ? "is-shaded" : nil),
+                  (col.total ? "is-total" : nil),
+                  (col.bold ? "is-bold" : nil)
+                  ].compact.join(" ") %>
+                "
+              >
+                <%= val %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>

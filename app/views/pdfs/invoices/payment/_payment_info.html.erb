@@ -1,0 +1,70 @@
+<section class="payment-box">
+  <div class="payment-box-rule">
+    <h2 class="payment-info-title"><%= payment[:title] %></h2>
+
+    <table class="payment-info-grid">
+      <tbody>
+        <tr>
+          <td class="payment-info-left">
+            <div class="payment-info-block">
+              <p class="payment-info-heading"><%= payment[:amount_label] %></p>
+              <p class="payment-info-amount"><%= payment[:amount] %></p>
+            </div>
+
+            <div class="payment-info-block">
+              <p class="payment-info-heading">
+                <%= payment[:payable_to_label] %>
+              </p>
+
+              <% payment[:creditor_lines].each do |line| %>
+                <p class="payment-info-line"><%= line %></p>
+              <% end %>
+
+              <p class="payment-info-line payment-info-line--spaced">
+                IBAN: <strong><%= payment[:creditor_iban] %></strong>
+              </p>
+
+              <% if payment[:sepa] %>
+                <p class="payment-info-line">
+                  <%= payment[:sepa_creditor_id_label] %>:
+                  <strong><%= payment[:sepa_creditor_id] %></strong>
+                </p>
+              <% end %>
+            </div>
+          </td>
+
+          <td class="payment-info-right">
+            <div class="payment-info-block">
+              <p class="payment-info-heading">
+                <%= payment[:reference_label] %>
+              </p>
+
+              <p class="payment-info-amount"><%= payment[:reference] %></p>
+            </div>
+
+            <div class="payment-info-block">
+              <p class="payment-info-heading">
+                <%= payment[:payable_by_label] %>
+              </p>
+
+              <% payment[:debtor_lines].each do |line| %>
+                <p class="payment-info-line"><%= line %></p>
+              <% end %>
+
+              <% if payment[:sepa] %>
+                <p class="payment-info-line payment-info-line--spaced">
+                  IBAN: <strong><%= payment[:debtor_iban] %></strong>
+                </p>
+                <p class="payment-info-line">
+                  <%= payment[:sepa_mandate_id_label] %>:
+                  <strong><%= payment[:sepa_mandate_umr] %></strong>
+                  (<%= payment[:sepa_mandate_signed_on] %>)
+                </p>
+              <% end %>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

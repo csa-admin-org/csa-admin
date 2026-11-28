@@ -1,0 +1,40 @@
+<table class="invoice-items">
+  <thead>
+    <tr>
+      <th class="invoice-items-desc">
+        <%= Invoice.human_attribute_name(:description) %>
+      </th>
+
+      <th class="invoice-items-amount"><%= amount_header %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% rows.each do |row| %>
+      <% classes = []
+         classes << "invoice-row--section" if row.kind == :section
+         classes << "invoice-row--subtotal" if row.kind == :subtotal
+         classes << "invoice-row--italic" if row.italic
+         classes << "invoice-row--bold" if row.bold
+         classes << "invoice-row--rule-top" if row.rule_top
+         classes << "invoice-row--gap-before" if row.gap_before
+         classes << "invoice-row--gap-after" if row.gap_after %>
+
+      <tr class="<%= classes.join(" ") %>">
+        <td class="invoice-items-desc"><%= row.description %></td>
+        <td class="invoice-items-amount"><%= row.amount %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if extra_credit %>
+  <table class="invoice-extra-credit">
+    <tbody>
+      <tr>
+        <td class="invoice-items-desc"><%= extra_credit[:label] %></td>
+        <td class="invoice-items-amount"><%= extra_credit[:amount] %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

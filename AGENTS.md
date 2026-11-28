@@ -31,6 +31,8 @@ ActiveAdmin: `app/admin/`, DSL `config/initializers/active_admin_*` and `app/adm
 
 Importmap, Turbo, Stimulus, Lucide, no-build CSS.
 
+PDFs: `PDF::Base` (`sghtmltopdf`), ERB views under `app/views/pdfs/`, CSS under `app/assets/stylesheets/pdf/`, Liberation fonts under `lib/assets/fonts/`; `PDF::InvoiceCancellationStamp` uses HexaPDF.
+
 Copy: `TRANSLATIONS.md` and the `translations` skill. Never overwrite tenant-customized mail or newsletter content when changing source defaults.
 
 ## Tests

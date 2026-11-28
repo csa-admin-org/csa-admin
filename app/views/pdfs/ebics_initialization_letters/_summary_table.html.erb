@@ -1,0 +1,31 @@
+<table class="ebics-summary">
+  <tbody>
+    <tr>
+      <th><%= t("ebics.initialization_letter.labels.date") %></th>
+      <td><%= I18n.l(summary.generated_at.to_date) %></td>
+      <th>Host-ID</th>
+      <td><%= summary.host_id %></td>
+    </tr>
+
+    <tr>
+      <th><%= t("ebics.initialization_letter.labels.time") %></th>
+      <td><%= summary.generated_at.strftime("%H:%M:%S") %></td>
+      <th>User-ID</th>
+      <td><%= summary.participant_id %></td>
+    </tr>
+
+    <tr>
+      <th><%= t("ebics.initialization_letter.labels.recipient") %></th>
+      <td><%= summary.recipient %></td>
+      <th>Partner-ID</th>
+      <td><%= summary.client_id %></td>
+    </tr>
+
+    <tr>
+      <th><%= t("ebics.initialization_letter.labels.organization") %></th>
+      <td><%= Current.org.name %></td>
+      <th><%= t("ebics.initialization_letter.labels.version") %></th>
+      <td><%= section.version %></td>
+    </tr>
+  </tbody>
+</table>

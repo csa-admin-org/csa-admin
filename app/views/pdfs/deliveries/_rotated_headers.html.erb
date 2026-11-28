@@ -1,0 +1,10 @@
+<div class="delivery-rotated-headers" style="width: <%= width %>pt;">
+  <% headers.each do |header| %>
+    <span
+      class="delivery-rotated-label"
+      style="left: <%= header.left %>pt; width: <%= header.width %>pt; color: <%= header.color %>; font-size: <%= header.font_size %>pt;"
+    >
+      <%= header.label %>
+    </span>
+  <% end %>
+</div>

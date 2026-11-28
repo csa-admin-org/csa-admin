@@ -1,0 +1,73 @@
+<div class="delivery-depot-section<%= " has-announcement" if local_assigns[:has_announcement] %>">
+  <%= render "pdfs/deliveries/rotated_headers",
+    headers: table.rotated_headers,
+    width: table.width %>
+
+  <table
+    class="
+      <%= [
+      "delivery-table",
+      "delivery-depot-table",
+      (table.home_delivery ? "is-home-delivery" : nil),
+      ((table.name_col_width + table.address_col_width) < 120 ? "is-narrow-name" : nil),
+      (table.has_bottom_rule ? "has-bottom-rule" : nil)
+      ].compact.join(" ") %>
+    "
+    style="width: <%= table.width %>pt;"
+  >
+    <colgroup>
+      <% table.column_widths.each do |col_width| %>
+        <col style="width: <%= col_width %>pt;">
+      <% end %>
+    </colgroup>
+
+    <thead>
+      <tr>
+        <% table.header_cells.each_with_index do |cell, col_idx| %>
+          <th
+            class="
+              <%= [
+              (col_idx.zero? ? "is-name-col" : nil),
+              "is-align-#{cell.align}",
+              (cell.shaded ? "is-shaded" : nil),
+              (cell.left_border ? "has-border-left" : nil)
+              ].compact.join(" ") %>
+            "
+          >
+            <%= cell.text %>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% table.rows.each do |row| %>
+        <tr>
+          <td class="is-name-col is-member-cell is-align-<%= table.home_delivery ? "left" : "right" %><%= " is-absent" if row.absent %>">
+            <div class="delivery-member-name"><%= row.name %></div>
+
+            <% if row.info.present? %>
+              <div class="delivery-member-info"><%= row.info %></div>
+            <% end %>
+          </td>
+
+          <% if table.home_delivery %>
+            <td class="is-address-cell is-align-left<%= " is-absent" if row.absent %><%= " is-overlay" if row.address_overlay %>">
+              <%= safe_join(row.address_lines, tag.br) %>
+            </td>
+          <% end %>
+
+          <% row.counters.each do |counter| %>
+            <td class="is-num-col is-align-center<%= " is-shaded" if counter.shaded %><%= " is-absent" if counter.absent %>">
+              <%= counter.text %>
+            </td>
+          <% end %>
+
+          <td class="is-extra-cell is-align-right<%= " is-absent" if row.absent %><%= " is-overlay" if row.extra_overlay %><%= " has-border-left" if table.show_last_col_left_border %>">
+            <%= row.extra_text %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,23 @@
+<div class="pdf-page delivery-page delivery-depot-page">
+  <%= render "pdfs/deliveries/header",
+    logo_data_uri: logo_data_uri,
+    title: depot_page.depot_name,
+    delivery_date: delivery_date,
+    announcement: depot_page.announcement,
+    page: depot_page.page,
+    total_pages: depot_page.total_pages %>
+
+  <% if depot_page.sheet_table %>
+    <%= render "pdfs/deliveries/depot_table",
+      table: depot_page.sheet_table,
+      has_announcement: depot_page.announcement.present? %>
+  <% end %>
+
+  <% if depot_page.basket_content_table %>
+    <%= render "pdfs/deliveries/basket_content_table", table: depot_page.basket_content_table %>
+  <% end %>
+
+  <%= render "pdfs/deliveries/footer",
+    footer_text: footer_text,
+    generated_at_label: generated_at_label %>
+</div>

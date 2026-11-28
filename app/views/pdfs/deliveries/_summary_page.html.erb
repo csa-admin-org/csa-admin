@@ -1,0 +1,18 @@
+<div class="pdf-page delivery-page delivery-summary-page">
+  <%= render "pdfs/deliveries/header",
+    logo_data_uri: logo_data_uri,
+    title: t("delivery.summary"),
+    delivery_date: delivery_date %>
+
+  <% if summary_page.summary_table %>
+    <%= render "pdfs/deliveries/summary_table", table: summary_page.summary_table %>
+  <% end %>
+
+  <% if summary_page.basket_content_table %>
+    <%= render "pdfs/deliveries/basket_content_table", table: summary_page.basket_content_table %>
+  <% end %>
+
+  <% if summary_page.delivery_note.present? %>
+    <%= render "pdfs/deliveries/delivery_note", note: summary_page.delivery_note %>
+  <% end %>
+</div>

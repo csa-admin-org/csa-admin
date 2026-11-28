@@ -1,0 +1,616 @@
+.invoice-page {
+  font-size: 10pt;
+  line-height: 1.25;
+}
+
+.invoice-upper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 210mm;
+}
+
+.invoice-page--continuation .invoice-upper {
+  height: 296.9mm;
+}
+
+.invoice-page--swiss-qr .invoice-upper {
+  height: 192mm;
+}
+
+.invoice-page--payment-box .invoice-upper {
+  height: 219.3mm;
+}
+
+.invoice-header {
+  position: relative;
+  width: 210mm;
+  height: 128pt;
+  padding: 42.5pt 25pt 0 15pt;
+}
+
+.invoice-header-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.invoice-header-table td {
+  vertical-align: top;
+  padding: 0;
+}
+
+.invoice-header-logo-cell {
+  width: 140pt;
+}
+
+.invoice-org-logo {
+  display: block;
+  width: 110pt;
+  height: auto;
+  margin-top: -22.5pt;
+}
+
+.invoice-header-meta-cell {
+  width: 184pt;
+}
+
+.invoice-title {
+  margin: 0 0 5pt;
+  font-size: 16pt;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.invoice-date {
+  margin: 0;
+  font-size: 12pt;
+  line-height: 1.2;
+}
+
+.invoice-period {
+  margin: 5pt 0 0;
+  font-size: 10pt;
+  line-height: 1.2;
+}
+
+.invoice-shop-order {
+  margin: 10pt 0 0;
+  font-size: 12pt;
+  line-height: 1.2;
+}
+
+.invoice-shop-delivery {
+  margin: 4pt 0 0;
+  font-size: 12pt;
+  line-height: 1.2;
+}
+
+.invoice-shop-order-group {
+  margin: 10pt 0 0;
+  font-size: 11pt;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.invoice-member-address-cell {
+  text-align: right;
+  font-size: 12pt;
+  line-height: 1.15;
+}
+
+.invoice-member-line {
+  margin: 0 0 1.6pt;
+}
+
+.invoice-member-id {
+  margin: 10pt 0 0;
+  font-size: 10pt;
+  line-height: 1.2;
+}
+
+.invoice-member-shares {
+  margin: 2pt 0 0;
+  font-size: 10pt;
+  line-height: 1.2;
+}
+
+.invoice-page-number {
+  position: absolute;
+  top: 20pt;
+  right: 25pt;
+  font-size: 16pt;
+  font-weight: 700;
+  line-height: 1;
+  text-align: right;
+}
+
+.invoice-content {
+  padding: 23pt 25pt 0;
+}
+
+.invoice-items {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 10pt;
+  line-height: 1.14;
+}
+
+.invoice-items thead th {
+  padding: 3pt 0;
+  font-weight: 700;
+  text-align: right;
+  vertical-align: bottom;
+  border-bottom: 1pt solid #000000;
+}
+
+.invoice-items td {
+  padding: 1.4pt 0;
+  text-align: right;
+  vertical-align: bottom;
+}
+
+.invoice-items tbody tr:first-child td {
+  padding-top: 4pt;
+}
+
+.invoice-items thead th.invoice-items-desc,
+.invoice-items tbody td.invoice-items-desc,
+.invoice-extra-credit td.invoice-items-desc {
+  padding-right: 15pt;
+}
+
+.invoice-items-amount {
+  width: 70pt;
+  white-space: nowrap;
+}
+
+.invoice-row--italic td {
+  font-style: italic;
+}
+
+.invoice-row--bold td {
+  font-weight: 700;
+}
+
+.invoice-row--gap-before td {
+  padding-top: 8pt;
+}
+
+.invoice-row--gap-after td {
+  padding-bottom: 12pt;
+}
+
+.invoice-row--rule-top td.invoice-items-amount {
+  border-top: 1pt solid #000000;
+  padding-top: 3pt;
+}
+
+.invoice-row--gap-before.invoice-row--rule-top td {
+  padding-top: 3pt;
+}
+
+.invoice-row--section td {
+  padding-top: 8pt;
+  padding-bottom: 3pt;
+  font-size: 9pt;
+  font-weight: 700;
+  border-bottom: 0.5pt solid #000000;
+}
+
+.invoice-row--section td.invoice-items-desc {
+  padding-left: 5pt;
+  text-align: left;
+}
+
+.invoice-row--subtotal td {
+  padding-top: 2pt;
+  padding-bottom: 5pt;
+}
+
+.invoice-row--subtotal td.invoice-items-amount {
+  border-top: 0.5pt solid #000000;
+  font-weight: 700;
+}
+
+.invoice-row--subtotal.invoice-row--gap-after td {
+  padding-bottom: 12pt;
+}
+
+.invoice-extra-credit {
+  width: 100%;
+  margin-top: 4pt;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 10pt;
+  font-style: italic;
+}
+
+.invoice-extra-credit td {
+  padding: 2pt 0;
+  text-align: right;
+}
+
+.invoice-footnotes {
+  padding-top: 14pt;
+  text-align: right;
+  font-size: 9pt;
+  font-style: italic;
+  line-height: 1.24;
+}
+
+.invoice-footnote-group {
+  margin: 0 0 6pt;
+}
+
+.invoice-footnote-group:last-child {
+  margin-bottom: 0;
+}
+
+.invoice-footnote-group--wide,
+.invoice-footnote-group--info {
+  margin-top: 10pt;
+}
+
+.invoice-footnote-line {
+  margin: 0 0 3pt;
+}
+
+.invoice-footnote-line:last-child {
+  margin-bottom: 0;
+}
+
+.invoice-footnote-group--info .invoice-footnote-line {
+  margin-bottom: 6pt;
+}
+
+.invoice-footnote-group--info .invoice-footnote-line:last-child {
+  margin-bottom: 0;
+}
+
+.invoice-footer {
+  padding: 4pt 0 6pt;
+}
+
+.invoice-page--continuation .invoice-footer {
+  padding-bottom: 14pt;
+}
+
+.invoice-footer-logos {
+  padding: 0 15pt 6pt;
+  text-align: left;
+}
+
+.invoice-footer-logo {
+  display: inline-block;
+  height: 45pt;
+  width: auto;
+  margin-right: 15pt;
+  vertical-align: bottom;
+}
+
+.invoice-footer-logo:last-child {
+  margin-right: 0;
+}
+
+.invoice-footer-text {
+  padding: 0 15pt;
+  text-align: center;
+  font-size: 10pt;
+  line-height: 1.3;
+}
+
+/* SIX Swiss QR-bill v2.3: 210x105 mm slip (62 mm receipt / 148 mm payment part,
+   46x46 mm QR code, 5 mm padding and quiet zone, Liberation Sans, black, non-italic) */
+.swiss-qr-slip {
+  position: relative;
+  width: 210mm;
+  height: 104.9mm;
+  border-top: 0.5pt dashed #000000;
+  font-family: "Liberation Sans", sans-serif;
+  font-style: normal;
+  color: #000000;
+}
+
+.swiss-qr-scissor-h {
+  position: absolute;
+  top: -1.4mm;
+  left: 196mm;
+  width: 4.2mm;
+  height: 2.52mm;
+  transform: rotate(180deg);
+}
+
+.swiss-qr-scissor-v {
+  position: absolute;
+  top: 93.5mm;
+  left: 59.8mm;
+  width: 4.2mm;
+  height: 2.52mm;
+  transform: rotate(-90deg);
+}
+
+.swiss-qr-grid {
+  width: 210mm;
+  height: 104.7mm;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.swiss-qr-grid > tbody > tr > td {
+  vertical-align: top;
+  padding: 0;
+}
+
+.swiss-qr-receipt-cell {
+  width: 62mm;
+  border-right: 0.5pt dashed #000000;
+}
+
+.swiss-qr-receipt {
+  width: 62mm;
+  height: 104.7mm;
+  padding: 5mm;
+}
+
+.swiss-qr-main-title {
+  margin: 0;
+  font-size: 11pt;
+  font-weight: 700;
+  line-height: 7mm;
+  height: 7mm;
+}
+
+.swiss-qr-receipt-info {
+  height: 56mm;
+}
+
+.swiss-qr-receipt .swiss-qr-heading {
+  font-size: 6pt;
+  font-weight: 700;
+  line-height: 9pt;
+}
+
+.swiss-qr-receipt .swiss-qr-value {
+  font-size: 8pt;
+  font-weight: 400;
+  line-height: 9pt;
+  overflow-wrap: break-word;
+}
+
+.swiss-qr-block {
+  margin-bottom: 2.6mm;
+}
+
+.swiss-qr-block:last-child {
+  margin-bottom: 0;
+}
+
+.swiss-qr-amount-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.swiss-qr-amount-table td {
+  vertical-align: top;
+  padding: 0;
+}
+
+.swiss-qr-receipt-amount {
+  height: 14mm;
+}
+
+.swiss-qr-receipt .swiss-qr-currency-col {
+  width: 16mm;
+}
+
+.swiss-qr-receipt .swiss-qr-amount-col {
+  width: 36mm;
+}
+
+.swiss-qr-acceptance-point {
+  height: 18mm;
+  padding-top: 2mm;
+  text-align: right;
+  font-size: 6pt;
+  font-weight: 700;
+}
+
+.swiss-qr-payment-cell {
+  width: 148mm;
+}
+
+.swiss-qr-payment {
+  width: 148mm;
+  height: 104.7mm;
+  padding: 5mm;
+}
+
+.swiss-qr-payment-layout {
+  width: 138mm;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.swiss-qr-payment-layout > tbody > tr > td {
+  vertical-align: top;
+  padding: 0;
+}
+
+.swiss-qr-payment-layout > tbody > tr > td.swiss-qr-payment-left {
+  width: 51mm;
+  padding-right: 5mm;
+}
+
+.swiss-qr-payment-layout > tbody > tr > td.swiss-qr-payment-right {
+  width: 87mm;
+}
+
+.swiss-qr-payment .swiss-qr-heading {
+  font-size: 8pt;
+  font-weight: 700;
+  line-height: 11pt;
+}
+
+.swiss-qr-payment .swiss-qr-value {
+  font-size: 10pt;
+  font-weight: 400;
+  line-height: 11pt;
+  overflow-wrap: break-word;
+}
+
+.swiss-qr-code-wrap {
+  margin: 5mm 0;
+  width: 46mm;
+  height: 46mm;
+}
+
+.swiss-qr-code-img {
+  display: block;
+  width: 46mm;
+  height: 46mm;
+}
+
+.swiss-qr-payment-amount {
+  height: 22mm;
+}
+
+.swiss-qr-payment .swiss-qr-currency-col {
+  width: 16mm;
+}
+
+.swiss-qr-payment .swiss-qr-amount-col {
+  width: 30mm;
+}
+
+/* Non-Swiss payment sections (EPC QR, Local Currency QR, SEPA / Payment Info) */
+.payment-box {
+  width: 210mm;
+  height: 77.6mm;
+  padding: 0 25pt;
+}
+
+.payment-box-rule {
+  border-top: 0.5pt dashed #000000;
+  padding-top: 14pt;
+}
+
+.payment-qr-title {
+  margin: 0 0 10pt;
+  font-size: 11pt;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.payment-qr-layout {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.payment-qr-layout td {
+  vertical-align: top;
+  padding: 0;
+}
+
+.payment-qr-layout td.payment-qr-code-col {
+  width: 110pt;
+}
+
+.payment-qr-img {
+  display: block;
+  width: 110pt;
+  height: 110pt;
+}
+
+.payment-qr-caption {
+  margin: 10pt 0 0;
+  font-size: 10pt;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.payment-qr-layout td.payment-qr-details-col {
+  padding-left: 16pt;
+}
+
+.payment-qr-field {
+  margin-bottom: 9pt;
+}
+
+.payment-qr-field:last-child {
+  margin-bottom: 0;
+}
+
+.payment-qr-heading {
+  margin: 0 0 2pt;
+  font-size: 8pt;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.payment-qr-value {
+  margin: 0;
+  font-size: 10pt;
+  line-height: 1.25;
+}
+
+.payment-info-title {
+  margin: 0 0 14pt;
+  font-size: 12pt;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.payment-info-grid {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.payment-info-grid td {
+  vertical-align: top;
+  padding: 0;
+}
+
+.payment-info-grid td.payment-info-left {
+  width: 50%;
+  padding-right: 24pt;
+}
+
+.payment-info-grid td.payment-info-right {
+  width: 50%;
+}
+
+.payment-info-block {
+  margin-bottom: 12pt;
+}
+
+.payment-info-block:last-child {
+  margin-bottom: 0;
+}
+
+.payment-info-heading {
+  margin: 0 0 5pt;
+  font-size: 9pt;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.payment-info-amount {
+  margin: 0;
+  font-size: 14pt;
+  line-height: 1.2;
+}
+
+.payment-info-line {
+  margin: 0 0 3pt;
+  font-size: 10pt;
+  line-height: 1.22;
+}
+
+.payment-info-line--spaced {
+  margin-top: 5pt;
+}

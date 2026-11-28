@@ -1,0 +1,445 @@
+.delivery-page {
+  padding-top: 20pt;
+}
+
+.delivery-flow-page {
+  position: relative;
+  width: 210mm;
+  min-height: 296.9mm;
+  padding: 20pt 0;
+  break-after: page;
+}
+
+.delivery-flow-page:last-child {
+  break-after: auto;
+}
+
+.delivery-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 20pt 0 15pt;
+  min-height: 110pt;
+}
+
+.delivery-logo {
+  width: 110pt;
+  height: auto;
+}
+
+.delivery-header {
+  max-width: 350pt;
+  text-align: right;
+}
+
+.delivery-header-title,
+.delivery-header-date,
+.delivery-header-page {
+  font-size: 24pt;
+  line-height: 1.05;
+}
+
+.delivery-header-date,
+.delivery-header-page {
+  margin-top: 4pt;
+}
+
+.delivery-announcement {
+  max-width: 290pt;
+  margin: 4pt 0 0 20pt;
+  font-size: 13pt;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.delivery-rotated-headers {
+  position: relative;
+  height: 14pt;
+  margin: 0 auto;
+}
+
+.delivery-rotated-label {
+  position: absolute;
+  bottom: 4pt;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  transform: rotate(-45deg);
+  transform-origin: left bottom;
+}
+
+.delivery-summary-section {
+  margin-top: 38pt;
+}
+
+.delivery-depot-section {
+  margin-top: 66pt;
+}
+
+.delivery-depot-section.has-announcement {
+  margin-top: 16pt;
+}
+
+.delivery-table {
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.delivery-table thead + tbody tr:first-child td {
+  border-top: 1pt solid #000000;
+}
+
+.delivery-table th,
+.delivery-table td {
+  vertical-align: middle;
+  border: 0;
+}
+
+.delivery-table th {
+  font-weight: 700;
+  background-color: #ffffff;
+}
+
+.delivery-table td {
+  font-weight: 400;
+}
+
+.delivery-table .is-align-left {
+  text-align: left;
+}
+
+.delivery-table .is-align-right {
+  text-align: right;
+}
+
+.delivery-table .is-align-center {
+  text-align: center;
+}
+
+.delivery-table .is-bold {
+  font-weight: 700;
+}
+
+.delivery-table tbody tr:nth-child(even) td {
+  background-color: #dddddd;
+}
+
+.delivery-table th.is-shaded,
+.delivery-table td.is-shaded,
+.delivery-table tbody tr:nth-child(even) td.is-shaded {
+  background-color: #cccccc;
+}
+
+.delivery-table th.is-total,
+.delivery-table td.is-total,
+.delivery-table tbody tr:nth-child(even) td.is-total {
+  background-color: #999999;
+  font-weight: 700;
+}
+
+.delivery-table.has-bottom-rule tbody tr:last-child td {
+  border-bottom: 1pt solid #cccccc;
+}
+
+.delivery-table.has-right-rule thead th:last-child,
+.delivery-table.has-right-rule tbody td:last-child {
+  border-right: 1pt solid #cccccc;
+}
+
+.delivery-table th.has-border-left,
+.delivery-table td.has-border-left {
+  border-left: 1pt solid #cccccc;
+}
+
+.delivery-table th.is-name-col,
+.delivery-table td.is-name-col {
+  overflow-wrap: break-word;
+}
+
+.delivery-summary-table thead th {
+  font-size: 10pt;
+  line-height: 1.15;
+  padding: 4.5pt 2pt;
+}
+
+.delivery-summary-table.is-tier-normal td {
+  font-size: 10pt;
+  line-height: 1.15;
+  padding: 3.5pt 2pt;
+}
+
+.delivery-summary-table.is-tier-medium td {
+  font-size: 9.5pt;
+  line-height: 1.1;
+  padding: 2.5pt 2pt;
+}
+
+.delivery-summary-table.is-tier-compact td {
+  font-size: 8.5pt;
+  line-height: 1.05;
+  padding: 1.2pt 1pt;
+}
+
+.delivery-summary-table th.is-name-col,
+.delivery-summary-table td.is-name-col {
+  padding-right: 10pt;
+}
+
+.delivery-summary-table.is-narrow-name th.is-name-col,
+.delivery-summary-table.is-narrow-name td.is-name-col {
+  padding-right: 4pt;
+}
+
+.delivery-summary-subtable {
+  margin-top: 14pt;
+}
+
+.delivery-summary-subtable tbody tr:first-child td {
+  border-top: 1pt solid #cccccc;
+}
+
+.delivery-depot-table thead th {
+  font-size: 11pt;
+  line-height: 1.15;
+  padding: 4.5pt 5pt;
+}
+
+.delivery-depot-table thead th.is-name-col,
+.delivery-depot-table td.is-member-cell {
+  padding-right: 10pt;
+}
+
+.delivery-depot-table.is-narrow-name thead th.is-name-col,
+.delivery-depot-table.is-narrow-name td.is-member-cell {
+  padding-right: 4pt;
+}
+
+.delivery-depot-table td.is-member-cell {
+  font-size: 12pt;
+  line-height: 1.15;
+  padding-top: 4.5pt;
+  padding-bottom: 4.5pt;
+  padding-left: 5pt;
+}
+
+.delivery-depot-table.is-home-delivery td.is-member-cell {
+  font-size: 11pt;
+  padding-top: 4pt;
+  padding-bottom: 4pt;
+}
+
+.delivery-member-info {
+  margin-top: 2pt;
+  font-size: 9pt;
+  font-style: italic;
+  color: #777777;
+  line-height: 1.15;
+}
+
+.delivery-depot-table td.is-address-cell {
+  font-size: 10pt;
+  line-height: 1.15;
+  padding: 3.5pt 4pt;
+}
+
+.delivery-depot-table td.is-num-col {
+  font-size: 12pt;
+  line-height: 1.15;
+  padding: 4.5pt 2pt;
+}
+
+.delivery-depot-table td.is-extra-cell {
+  font-size: 10pt;
+  line-height: 1.15;
+  padding: 4pt 5pt;
+}
+
+.delivery-depot-table.is-home-delivery td.is-extra-cell {
+  font-size: 9pt;
+  font-style: italic;
+}
+
+.delivery-depot-table td.is-overlay,
+.delivery-depot-table tbody tr:nth-child(even) td.is-overlay {
+  background-color: #bbbbbb;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.delivery-depot-table td.is-absent {
+  font-style: italic;
+  color: #999999;
+}
+
+.delivery-note {
+  margin: 24pt 65pt 0;
+  padding: 8pt 12pt;
+  background-color: #ffedd5;
+  color: #9a3413;
+  border-radius: 5pt;
+  font-size: 10pt;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.delivery-basket-content-section.is-variant-summary {
+  margin-top: 36pt;
+}
+
+.delivery-basket-content-section.is-variant-depot {
+  margin-top: 48pt;
+}
+
+.delivery-basket-content-title {
+  margin: 0 0 28pt;
+  font-size: 20pt;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.delivery-basket-content-section.is-variant-depot .delivery-basket-content-title {
+  margin-bottom: 18pt;
+}
+
+.delivery-basket-content-section.is-variant-depot .delivery-rotated-headers {
+  height: 18pt;
+}
+
+.delivery-basket-content-table.is-variant-summary thead th {
+  font-size: 9pt;
+  line-height: 1.15;
+  padding: 4pt 5pt;
+}
+
+.delivery-basket-content-table.is-variant-summary.is-tier-normal td {
+  font-size: 9pt;
+  line-height: 1.15;
+  padding: 3.5pt 5pt;
+}
+
+.delivery-basket-content-table.is-variant-summary.is-tier-medium td {
+  font-size: 9pt;
+  line-height: 1.1;
+  padding: 2.5pt 4pt;
+}
+
+.delivery-basket-content-table.is-variant-summary.is-tier-compact td {
+  font-size: 8pt;
+  line-height: 1.05;
+  padding: 1.2pt 3pt;
+}
+
+.delivery-basket-content-table.is-variant-depot tbody tr:nth-child(odd) td {
+  background-color: #dddddd;
+}
+
+.delivery-basket-content-table.is-variant-depot tbody tr:nth-child(even) td {
+  background-color: #ffffff;
+}
+
+.delivery-basket-content-table.is-variant-depot tbody tr:nth-child(odd) td.is-shaded,
+.delivery-basket-content-table.is-variant-depot tbody tr:nth-child(even) td.is-shaded {
+  background-color: #cccccc;
+}
+
+.delivery-basket-content-table.is-variant-depot td {
+  font-size: 11pt;
+  line-height: 1.15;
+  padding: 4pt 6pt;
+}
+
+.delivery-basket-content-table th.is-name-col,
+.delivery-basket-content-table td.is-name-col {
+  padding-right: 10pt;
+}
+
+.delivery-changes-body {
+  padding: 12pt 20pt 0;
+}
+
+.delivery-changes-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 10pt;
+  line-height: 1.25;
+}
+
+.delivery-changes-table thead {
+  display: table-header-group;
+}
+
+.delivery-changes-table th {
+  font-size: 11pt;
+  font-weight: 700;
+  text-align: left;
+  vertical-align: middle;
+  padding: 5pt 5pt 8pt;
+  background-color: #ffffff;
+}
+
+.delivery-changes-member-col,
+.delivery-changes-desc-col {
+  width: 50%;
+}
+
+.delivery-changes-depot-row td {
+  font-size: 8pt;
+  font-weight: 700;
+  color: #888888;
+  background-color: #eeeeee;
+  vertical-align: middle;
+  padding: 3.5pt 5pt;
+  border-top: 0.5pt solid #bbbbbb;
+  border-bottom: 0.5pt solid #bbbbbb;
+}
+
+.delivery-changes-entry-row {
+  break-inside: avoid;
+}
+
+.delivery-changes-entry-row td {
+  padding: 4pt 5pt;
+  vertical-align: middle;
+  background-color: #ffffff;
+  border-bottom: 0.5pt solid #dddddd;
+}
+
+.delivery-changes-entry-row.is-dimmed td {
+  font-style: italic;
+  color: #999999;
+}
+
+.delivery-change-label {
+  color: #666666;
+}
+
+.delivery-change-empty {
+  color: #999999;
+}
+
+.delivery-footer-note {
+  position: absolute;
+  top: 762pt;
+  left: 20pt;
+  right: 20pt;
+  height: 50pt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11pt;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.delivery-timestamp {
+  position: absolute;
+  top: 822pt;
+  left: 20pt;
+  right: 20pt;
+  font-size: 8pt;
+  line-height: 1.15;
+  text-align: center;
+}

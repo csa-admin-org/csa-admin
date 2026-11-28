@@ -1,0 +1,22 @@
+<div class="delivery-top">
+  <img
+    class="delivery-logo"
+    src="<%= logo_data_uri %>"
+    alt="<%= Current.org.name %>"
+  >
+
+  <div class="delivery-header">
+    <div class="delivery-header-title"><%= title %></div>
+    <div class="delivery-header-date"><%= delivery_date %></div>
+
+    <% if local_assigns[:total_pages].to_i > 1 %>
+      <div class="delivery-header-page">
+        <%= page %> / <%= total_pages %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if local_assigns[:announcement].present? %>
+  <div class="delivery-announcement"><%= announcement %></div>
+<% end %>

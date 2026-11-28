@@ -1,0 +1,74 @@
+<div class="delivery-basket-content-section is-variant-<%= table.variant %>">
+  <h2
+    class="delivery-basket-content-title"
+    style="margin-left: <%= table.page_border %>pt;"
+  >
+    <%= BasketContent.model_name.human(count: 2) %>
+  </h2>
+
+  <%= render "pdfs/deliveries/rotated_headers",
+    headers: table.rotated_headers,
+    width: table.width %>
+
+  <table
+    class="
+      <%= [
+      "delivery-table",
+      "delivery-basket-content-table",
+      "is-variant-#{table.variant}",
+      "is-tier-#{table.tier}",
+      (table.has_right_rule ? "has-right-rule" : nil),
+      (table.has_bottom_rule ? "has-bottom-rule" : nil)
+      ].compact.join(" ") %>
+    "
+    style="width: <%= table.width %>pt;"
+  >
+    <colgroup>
+      <% table.columns.each do |col| %>
+        <col style="width: <%= col.width %>pt;">
+      <% end %>
+    </colgroup>
+
+    <% if table.header_cells %>
+      <thead>
+        <tr>
+          <% table.header_cells.each_with_index do |cell, col_idx| %>
+            <th
+              class="
+                <%= [
+                (col_idx.zero? ? "is-name-col" : "is-num-col"),
+                "is-align-#{cell.align}"
+                ].compact.join(" ") %>
+              "
+            >
+              <%= cell.text %>
+            </th>
+          <% end %>
+        </tr>
+      </thead>
+    <% end %>
+
+    <tbody>
+      <% table.rows.each do |row_cells| %>
+        <tr>
+          <% row_cells.each_with_index do |cell, col_idx| %>
+            <% col = table.columns[col_idx] %>
+
+            <td
+              class="
+                <%= [
+                (col_idx.zero? ? "is-name-col" : "is-num-col"),
+                "is-align-#{cell.align}",
+                (col.shaded ? "is-shaded" : nil),
+                (col.bold ? "is-bold" : nil)
+                ].compact.join(" ") %>
+              "
+            >
+              <%= cell.text %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

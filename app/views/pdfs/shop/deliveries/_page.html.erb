@@ -1,0 +1,37 @@
+<div class="pdf-page shop-delivery-page">
+  <div class="shop-delivery-top">
+    <img
+      class="shop-delivery-logo"
+      src="<%= logo_data_uri %>"
+      alt="<%= Current.org.name %>"
+    >
+
+    <div class="shop-delivery-header">
+      <div class="shop-delivery-member"><%= page.member_name %></div>
+
+      <% if page.depot_name.present? %>
+        <div class="shop-delivery-depot"><%= page.depot_name %></div>
+      <% end %>
+
+      <div class="shop-delivery-date"><%= delivery_date %></div>
+
+      <% if page.total_pages > 1 %>
+        <div class="shop-delivery-page-number">
+          <%= page.page %> / <%= page.total_pages %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="shop-delivery-title"><%= t("shop.delivery.title") %></div>
+
+  <%= render "pdfs/shop/deliveries/items_table", items: page.items %>
+
+  <div class="shop-delivery-footer">
+    <% if footer_text.present? %>
+      <p class="shop-delivery-footer-note"><%= footer_text %></p>
+    <% end %>
+
+    <p class="shop-delivery-timestamp"><%= generated_at_label %></p>
+  </div>
+</div>
