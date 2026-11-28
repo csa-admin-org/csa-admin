@@ -11,6 +11,7 @@ class LitestreamRakeTest < ActiveSupport::TestCase
     Rails.application.load_tasks unless Rake::Task.task_defined?("litestream:restore")
     Rake::Task["litestream:restore"].reenable
     Rake::Task["litestream:config:local"].reenable if Rake::Task.task_defined?("litestream:config:local")
+    Rake::Task["litestream:config:server"].reenable if Rake::Task.task_defined?("litestream:config:server")
   end
 
   test "restore reports all tenants without listing them" do
@@ -62,11 +63,16 @@ class LitestreamRakeTest < ActiveSupport::TestCase
     end
   end
 
-  test "server task uses Kamal primary_host, not the raw servers.web hash key" do
-    kamal = Kamal::Configuration.create_from(config_file: Rails.root.join("config/deploy.yml"))
+  test "server task connects to the deploy host" do
+    hostnames = capture_server_hosts do
+      with_rails_env("development") do
+        with_litestream_credentials do
+          Rake::Task["litestream:config:server"].invoke
+        end
+      end
+    end
 
-    assert_equal [ "hosts", [ "isle.thibaud.gg" ] ], kamal.raw_config.dig("servers", "web").first
-    assert_equal "isle.thibaud.gg", kamal.primary_host
+    assert_equal [ "isle.thibaud.gg" ], hostnames
   end
 
   test "server config builder is litestream 0.5 shaped" do
@@ -195,6 +201,29 @@ class LitestreamRakeTest < ActiveSupport::TestCase
   end
 
   private
+
+  def capture_server_hosts
+    hostnames = []
+    each = SSHKit::Coordinator.instance_method(:each)
+    SSHKit::Coordinator.define_method(:each) do |*|
+      hostnames.replace(hosts.map(&:hostname))
+    end
+    yield
+    hostnames
+  ensure
+    SSHKit::Coordinator.define_method(:each, each) if each
+  end
+
+  def with_litestream_credentials
+    credentials = Rails.application.credentials
+    credentials.define_singleton_method(:litestream) do
+      Data.define(:access_key_id, :secret_access_key, :endpoint).new(
+        "key", "secret", "s3.example.com")
+    end
+    yield
+  ensure
+    credentials.singleton_class.remove_method(:litestream)
+  end
 
   def run_restore(tenant: nil, s3_layout: false)
     Dir.mktmpdir do |dir|

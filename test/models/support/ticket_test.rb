@@ -296,4 +296,64 @@ class Support::TicketTest < ActiveSupport::TestCase
 
     assert_equal [ admins(:external).email ], ticket.wrap_emails_for(jane)
   end
+
+  test "convert_pair is the opening and the support reply inserted together" do
+    ticket, opening, reply = convert_pair_messages
+    now = Time.current.change(usec: 0)
+    opening.update_columns(created_at: now, rfc_message_id: nil)
+    reply.update_columns(created_at: now + 30.seconds)
+
+    assert_equal [ opening, reply ], ticket.convert_pair
+  end
+
+  test "convert_pair ignores a support reply outside the gap" do
+    ticket, opening, reply = convert_pair_messages
+    now = Time.current.change(usec: 0)
+    opening.update_columns(created_at: now, rfc_message_id: nil)
+    reply.update_columns(created_at: now + 31.seconds)
+
+    assert_nil ticket.convert_pair
+  end
+
+  test "convert_pair ignores an opening that already has an rfc message id" do
+    ticket, opening, reply = convert_pair_messages
+    now = Time.current.change(usec: 0)
+    opening.update_columns(created_at: now, rfc_message_id: "<already@example.test>")
+    reply.update_columns(created_at: now + 1.second)
+
+    assert_nil ticket.convert_pair
+  end
+
+  test "convert_pair ignores a second message that is not from support" do
+    ticket = Support::Ticket.new(
+      priority: :normal, subject: "Wait", content: "Hello",
+      admin: admins(:external), skip_opening_message: true)
+    ticket.save!
+    now = Time.current.change(usec: 0)
+    opening = quiet_ticket_message(ticket, author: "admin", admin: admins(:external), body: "Hello")
+    follow_up = quiet_ticket_message(ticket, author: "admin", admin: admins(:external), body: "Again")
+    opening.update_columns(created_at: now, rfc_message_id: nil)
+    follow_up.update_columns(created_at: now + 1.second)
+
+    assert_nil ticket.convert_pair
+  end
+
+  private
+
+  def convert_pair_messages
+    ticket = Support::Ticket.new(
+      priority: :normal, subject: "Wait", content: "Hello",
+      admin: admins(:external), skip_opening_message: true)
+    ticket.save!
+    opening = quiet_ticket_message(ticket, author: "admin", admin: admins(:external), body: "Hello")
+    reply = quiet_ticket_message(ticket, author: "support", body: "Answer")
+    [ ticket, opening, reply ]
+  end
+
+  def quiet_ticket_message(ticket, **attrs)
+    message = ticket.messages.build(**attrs)
+    message.skip_notify = true
+    message.save!
+    message
+  end
 end

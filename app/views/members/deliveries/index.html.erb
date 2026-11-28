@@ -51,7 +51,7 @@
       </div>
     <% end %>
 
-    <%= render "basket_contents", basket_contents: @basket_contents, basket_size: @next_basket.basket_size if @basket_contents&.any? %>
+    <%= render "members/deliveries/basket_contents", basket_contents: @basket_contents, basket_size: @next_basket.basket_size if @basket_contents&.any? %>
   </section>
 <% end %>
 
