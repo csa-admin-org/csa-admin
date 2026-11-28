@@ -6,6 +6,7 @@ module Support
 
     PRIORITY_ICONS = { medium: "❗️", high: "‼️" }
     INBOUND_DOMAIN = "support.csa-admin.org"
+    CONVERT_PAIR_GAP = 30.seconds
 
     include HasAttachments
     has_rich_text :html
@@ -136,6 +137,18 @@ module Support
     def wrap_emails_for(message)
       participants.filter_map(&:email).map(&:downcase).uniq -
         Array(message.hop_email&.downcase)
+    end
+
+    # Pre-fix converts stored the original email's files on the support reply
+    # that was inserted with the opening admin message.
+    def convert_pair
+      opening, reply = messages.to_a.select(&:persisted?).sort_by(&:id).first(2)
+      return unless opening&.author_admin? && reply&.author_support?
+      return unless opening.rfc_message_id.blank?
+      return unless opening.created_at && reply.created_at
+      return unless (reply.created_at - opening.created_at).abs <= CONVERT_PAIR_GAP
+
+      [ opening, reply ]
     end
 
     def ping_address
