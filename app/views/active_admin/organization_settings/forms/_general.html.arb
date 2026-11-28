@@ -31,7 +31,7 @@ context.instance_eval do
     end
   end
 
-  f.inputs t("attributes.contact"), icon: "contact-round" do
+  f.inputs t("attributes.contact"), icon: "messages-square" do
     f.input :email, as: :email
     f.input :phone, as: :phone
     f.input :social_network_urls, as: :string

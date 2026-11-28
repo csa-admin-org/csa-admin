@@ -82,6 +82,7 @@ The panel icon for a concept **must** match the nav icon when one exists.
 | ------------------- | ------------------------ | --------------------------- |
 | Details             | `notebook-text`          | ID, dates, validation info  |
 | Contact             | `contact-round`          | Name, email, phone, address |
+| Org communication   | `messages-square`        | Org email, phone, social    |
 | Billing (panel)     | `banknotes`              | ⚠️ Custom Heroicon          |
 | Amount / Pricing    | `receipt-text`           | Monetary breakdown          |
 | Notes               | `notepad-text`           | Free-text notes             |
@@ -99,7 +100,7 @@ The panel icon for a concept **must** match the nav icon when one exists.
 | State / Status      | `circle-check-big`       | State/validation info       |
 | Address / Location  | `map`                    | Physical address            |
 | Overdue Notices     | `mail-warning`           | Overdue/reminder notices    |
-| Periods             | `calendar-days`          | Delivery cycle periods      |
+| Periods             | `calendar-range`         | Delivery cycle periods      |
 | Information         | `info`                   | Info/help text              |
 | Missing Deliveries  | `triangle-alert`         | Warning/missing data        |
 | Support             | `life-buoy`              | Help / support              |

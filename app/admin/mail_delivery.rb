@@ -180,7 +180,7 @@ ActiveAdmin.register MailDelivery do
           end
         elsif !delivery.session?
           mt = delivery.source
-          panel link_to(MailTemplate.model_name.human, mt), icon: "clipboard" do
+          panel link_to(MailTemplate.model_name.human, mt), icon: "mail" do
             div class: "panel-copy" do
               para mt.description, class: "text-base description"
             end
