@@ -109,7 +109,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
                   }
           end
         end
-        panel t(".opening"), icon: "clock" do
+        panel t(".opening"), icon: "calendar-clock" do
           attributes_table do
             row(:open) { aligned_status_tag(delivery.shop_open?) }
             if delivery.shop_open?

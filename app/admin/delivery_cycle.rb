@@ -53,7 +53,7 @@ ActiveAdmin.register DeliveryCycle do
     columns do
       column do
         deliveries_panel = ->(title, deliveries) {
-          panel title, icon: "calendar-days", count: deliveries.count do
+          panel title, icon: "calendar", count: deliveries.count do
             if deliveries.any?
               table_for deliveries, class: "table-auto" do
                 column "#", ->(d) { d.number }
@@ -146,7 +146,7 @@ ActiveAdmin.register DeliveryCycle do
           end
         end
 
-        panel DeliveryCycle::Period.model_name.human(count: 2), icon: "calendar-range" do
+        panel DeliveryCycle::Period.model_name.human(count: 2), icon: "calendar-days" do
           table_for dc.periods.order(:from_fy_month) do
             column t("delivery_cycle.period.fy_months"), ->(p) {
               from_month = fy_month_name(p.from_fy_month)
