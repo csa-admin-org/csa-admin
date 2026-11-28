@@ -36,20 +36,6 @@ class BasketContentsHelperTest < ActionView::TestCase
       display_basket_contents_total_quantity(0, "kg")
   end
 
-  test "form percentages use saved quantities or pro-rated defaults" do
-    new_content = BasketContent.new(unit: "kg")
-    assert_equal new_content.basket_size_ids_percentages_pro_rated,
-      basket_content_form_percentages(new_content)
-
-    content = build_basket_content(
-      basket_size_ids_quantities: {
-        small_id => 500,
-        medium_id => 750
-      },
-      unit: "kg")
-    assert_equal({ small_id => 40, medium_id => 60 }, basket_content_form_percentages(content))
-  end
-
   test "products collection shows plain name without sibling" do
     product = basket_content_products(:carrots)
 

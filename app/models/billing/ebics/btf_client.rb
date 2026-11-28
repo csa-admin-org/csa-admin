@@ -188,10 +188,6 @@ module Billing
         raise e
       end
 
-      def admin_order_data(order_type)
-        admin_order(order_type).order_data
-      end
-
       def admin_request_xml(order_type, **overrides)
         admin_request(order_type, **overrides).to_xml
       end
@@ -505,10 +501,6 @@ module Billing
           transaction_id: transaction_id,
           receipt_code: receipt_code,
           signer: request_options[:signer])
-      end
-
-      def setup_order_data_options
-        request_options.slice(:certificate_builder, :certificate_issued_at)
       end
 
       def setup_request_options
