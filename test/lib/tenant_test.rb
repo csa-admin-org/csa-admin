@@ -54,19 +54,73 @@ class TenantTest < ActiveSupport::TestCase
       assert_not Tenant.exists?("unknown")
       assert_not Tenant.configured?("unknown")
       assert Tenant.configured?("acme")
-      assert Tenant.exists?("acme")
+      assert_not Tenant.exists?("acme")
     end
   end
 
-  test "all ignores unknown TENANT names so Rails can boot after a tenant is removed" do
+  test "all is every configured tenant when TENANT is unset" do
+    with_env("TENANT" => nil) do
+      assert_equal %w[acme beta], Tenant.all
+    end
+  end
+
+  test "all is only the known names in TENANT" do
+    with_env("TENANT" => "beta") do
+      assert_equal %w[beta], Tenant.all
+    end
+  end
+
+  test "all is empty when TENANT is a typo" do
+    with_env("TENANT" => "acmee") do
+      assert_empty Tenant.all
+    end
+  end
+
+  test "all is empty when TENANT is only an unknown name" do
     with_env("TENANT" => "retired") do
-      assert_not_includes Tenant.all, "retired"
-      assert_includes Tenant.all, "acme"
+      assert_empty Tenant.all
+    end
+  end
+
+  test "all keeps known TENANT names and drops unknown ones" do
+    with_env("TENANT" => "retired,beta,acmee") do
+      assert_equal %w[beta], Tenant.all
+    end
+  end
+
+  test "database_names ignores TENANT outside development" do
+    with_env("TENANT" => "retired") do
+      assert_empty Tenant.all
+      assert_equal %w[acme beta], Tenant.database_names
+    end
+  end
+
+  test "database_names in development limits to known TENANT names" do
+    with_rails_env("development") do
+      with_env("TENANT" => "acme,retired") do
+        assert_equal %w[acme], Tenant.database_names
+        assert_equal %w[acme], Tenant.all
+      end
+    end
+  end
+
+  test "database_names in development keeps configured tenants when TENANT is unknown" do
+    with_rails_env("development") do
+      with_env("TENANT" => "retired") do
+        assert_empty Tenant.all
+        assert_equal %w[acme beta], Tenant.database_names
+      end
+    end
+  end
+
+  test "require_match! raises when TENANT matches nothing" do
+    with_env("TENANT" => "retired") do
+      error = assert_raises(RuntimeError) { Tenant.require_match! }
+      assert_equal "No configured tenant matches TENANT=retired", error.message
     end
 
-    with_env("TENANT" => "acme") do
-      assert_equal %w[acme], Tenant.all
-    end
+    with_env("TENANT" => "acme") { Tenant.require_match! }
+    with_env("TENANT" => nil) { Tenant.require_match! }
   end
 
   test "configured_hostnames and configured_domain read tenant config" do

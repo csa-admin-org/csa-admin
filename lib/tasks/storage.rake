@@ -9,6 +9,8 @@ namespace :storage do
   task restore: :environment do
     raise "Only run this task in dev!" unless Rails.env.development?
 
+    Tenant.require_match!
+
     tenants = Tenant.all
     if ENV["TENANT"].present?
       puts "Restoring storage for: #{tenants.join(", ")}"

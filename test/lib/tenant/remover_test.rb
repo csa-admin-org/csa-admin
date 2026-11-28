@@ -196,6 +196,23 @@ class Tenant::RemoverTest < ActiveSupport::TestCase
     assert_includes litestream_error.message, "litestream:config"
   end
 
+  test "phase 2 runs when TENANT names a tenant that has left the config" do
+    with_env("TENANT" => "retired") do
+      assert_empty Tenant.all
+      assert_not Tenant.configured?("retired")
+
+      out = StringIO.new
+      Tenant::Remover.new(
+        "retired",
+        out: out,
+        storage_client: stub_s3_client(objects: []),
+        litestream_client: stub_s3_client(objects: [])).run
+
+      assert_includes out.string, "Phase 2"
+      assert_not_includes out.string, "Phase 1"
+    end
+  end
+
   test "phase 2 dry-run lists storage and litestream objects without deleting" do
     storage_client = stub_s3_client(objects: %w[retired/blob1 retired/blob2])
     litestream_client = stub_s3_client(objects: %w[retired/0000/01.ltx retired/0009/01.ltx])

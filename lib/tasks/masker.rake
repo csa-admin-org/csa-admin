@@ -14,6 +14,8 @@ namespace :masker do
   task run: :environment do
     raise "Only run this task in dev!" unless Rails.env.development?
 
+    Tenant.require_match!
+
     Parallel.each(Tenant.all) do |tenant|
       Tenant.switch(tenant) do
         Faker::Config.locale = Current.org.default_locale

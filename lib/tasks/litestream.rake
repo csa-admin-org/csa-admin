@@ -16,6 +16,8 @@ namespace :litestream do
     task server: :environment do
       raise "Only run this task in dev!" unless Rails.env.development?
 
+      Tenant.require_match!
+
       kamal = Kamal::Configuration.create_from(config_file: Rails.root.join("config/deploy.yml"))
       volume_path = kamal.raw_config["volumes"].first.split(":").first
       s3_credentials = Rails.application.credentials.litestream
@@ -57,6 +59,8 @@ namespace :litestream do
     task local: :environment do
       raise "Only run this task in dev!" unless Rails.env.development?
 
+      Tenant.require_match!
+
       backup_path = Rails.app.creds.require(:backup_path)
       config = LitestreamConfig.local(backup_path: backup_path, db_names: Tenant.all)
       File.write("#{backup_path}/litestream.yml", config.to_yaml)
@@ -71,6 +75,8 @@ namespace :litestream do
   desc "Restore litestream backups to local storage (optional TENANT=name1,name2)"
   task restore: :environment do
     raise "Only run this task in dev!" unless Rails.env.development?
+
+    Tenant.require_match!
 
     tenants = Tenant.all
     if ENV["TENANT"].present?

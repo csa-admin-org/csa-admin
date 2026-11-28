@@ -82,6 +82,10 @@ namespace :db do
   end
   Rake::Task["db:prepare"].enhance([ "db:prepare:tenants" ])
 
+  Rake::Task["db:load_config"].enhance do
+    Tenant.require_match!
+  end
+
   # Override db:migrate so new / empty tenant DBs get schema.rb before migrate_all.
   # Skips seeds — Organization is created manually when onboarding a tenant.
   Rake::Task["db:migrate"].clear

@@ -26,6 +26,20 @@ class LitestreamRakeTest < ActiveSupport::TestCase
     assert_includes out, "Restoring litestream backups for: acme, demo"
   end
 
+  test "restore aborts when TENANT matches no configured tenant" do
+    Rake::Task["litestream:restore"].reenable
+    with_rails_env("development") do
+      with_env("TENANT" => "retired") do
+        error = assert_raises(RuntimeError) do
+          capture_io { Rake::Task["litestream:restore"].invoke }
+        end
+        assert_equal "No configured tenant matches TENANT=retired", error.message
+      end
+    end
+  ensure
+    Rake::Task["litestream:restore"].reenable
+  end
+
   test "local config points at litestream-restore file layout" do
     Dir.mktmpdir do |dir|
       with_env("BACKUP_PATH" => dir) do
