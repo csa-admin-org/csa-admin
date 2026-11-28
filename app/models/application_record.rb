@@ -3,7 +3,7 @@
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
-  connects_to shards: Tenant.all.map(&:to_sym).map { |tenant|
+  connects_to shards: Tenant.database_names.map(&:to_sym).map { |tenant|
     [ tenant, writing: tenant ]
   }.to_h
 

@@ -6,11 +6,28 @@ module Tenant
   extend self
 
   def all
-    configured = (@all ||= config.keys.map(&:to_s))
-    return configured unless ENV["TENANT"]
+    return configured_names unless ENV["TENANT"]
 
-    requested = configured & ENV["TENANT"].split(",")
-    requested.any? ? requested : configured
+    configured_names & ENV["TENANT"].split(",")
+  end
+
+  def configured_names
+    @configured_names ||= config.keys.map(&:to_s)
+  end
+
+  def database_names
+    names = configured_names
+    return names unless Rails.env.development? && ENV["TENANT"]
+
+    requested = names & ENV["TENANT"].split(",")
+    requested.any? ? requested : names
+  end
+
+  def require_match!
+    return unless ENV["TENANT"]
+    return if all.any?
+
+    raise "No configured tenant matches TENANT=#{ENV["TENANT"]}"
   end
 
   def all_with_aliases

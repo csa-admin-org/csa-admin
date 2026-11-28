@@ -5,6 +5,8 @@ require "ostruct"
 
 desc "Generate HTML bookmarks file for all tenants using ERB template"
 task bookmarks: :environment do
+  Tenant.require_match!
+
   file_path = Rails.app.creds.option(:bookmarks_path, default: Rails.root.join("tmp", "bookmarks.html"))
   template_path = Rails.root.join("lib", "templates", "bookmarks.html.erb")
   template = File.read(template_path)

@@ -12,13 +12,16 @@ class DatabaseYmlTest < ActiveSupport::TestCase
     assert_equal [ configured.first ], config.fetch("development").keys
   end
 
-  test "development TENANT filter keeps configured tenants when the name is unknown" do
+  test "unknown development TENANT still configures every tenant database" do
     configured = development_tenant_names
     config = render_database_yml(env: "development", tenant: "retired")
     dev = config.fetch("development")
 
     assert_equal configured, dev.keys
     assert_not_includes dev.keys, "retired"
+    configured.each do |name|
+      assert_equal "storage/development_#{name}.sqlite3", dev.dig(name, "database")
+    end
   end
 
   test "test environment ignores TENANT when building database config" do
