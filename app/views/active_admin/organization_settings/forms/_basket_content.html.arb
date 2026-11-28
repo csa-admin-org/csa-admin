@@ -21,6 +21,7 @@ context.instance_eval do
       required: true,
       input_html: { data: { form_checkbox_toggler_target: "input" } })
     translated_input(f, :basket_content_member_notes,
+      hint: t("formtastic.hints.organization.basket_content_member_note"),
       required: false,
       placeholder: ->(locale) {
         I18n.with_locale(locale) {

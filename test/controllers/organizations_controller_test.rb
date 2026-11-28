@@ -845,6 +845,19 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_includes settings_fieldset.to_html, "organization_membership_complements_update_allowed"
     assert_includes settings_fieldset.to_html, "organization_basket_update_limit_in_days"
     assert_includes settings_fieldset.to_html, "organization_membership_update_text_#{locale}"
+    assert_select "#organization_membership_update_text_#{locale}_input .inline-hints",
+      text: I18n.t("formtastic.hints.organization.membership_update_text", locale: locale)
+  end
+
+  test "basket content edit page shows the member note hint" do
+    locale = admins(:super).language
+    login admins(:super)
+
+    get edit_organization_path(:basket_content)
+
+    assert_response :success
+    assert_select "#organization_basket_content_member_note_#{locale}_input .inline-hints",
+      text: I18n.t("formtastic.hints.organization.basket_content_member_note", locale: locale)
   end
 
   test "delivery sheets overview uses full title and empty footer placeholder when missing" do
@@ -1201,6 +1214,8 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes registration_fieldset.to_html, "organization_member_form_extra_text_#{locale}"
     assert_includes content_fieldset.to_html, "organization_member_form_extra_text_#{locale}"
     assert_includes content_fieldset.to_html, "organization_member_form_complements_text_#{locale}"
+    assert_select "#organization_member_form_complements_text_#{locale}_input .inline-hints",
+      text: I18n.t("formtastic.hints.organization.member_form_complements_text", locale: locale)
     assert_not_includes content_fieldset.to_html, "organization_basket_sizes_member_order_mode"
     assert_includes member_form_fieldset.to_html, "organization_basket_sizes_member_order_mode"
     assert_includes member_form_fieldset.to_html, "organization_allow_alternative_depots"

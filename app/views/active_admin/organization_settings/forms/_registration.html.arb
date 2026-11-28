@@ -28,6 +28,7 @@ context.instance_eval do
     f.input :member_form_extra_text_only, as: :boolean
     word_count_wrapper(self, threshold: 120) do
       translated_input(f, :member_form_complements_texts,
+        hint: t("formtastic.hints.organization.member_form_complements_text"),
         required: false,
         as: :action_text,
         input_html: { rows: 5 })
