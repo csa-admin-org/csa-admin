@@ -27,7 +27,7 @@ Dev: `bin/dev`. Hosts and auth: `browser` skill. `acme` is test-only.
 
 Vanilla Rails, rich models. No service, query, or form objects. `Archspec.rb` enforces that. The Query API under `app/models/query` is allowed; Archspec forbids query objects in `app/queries`. Model concerns: `app/models/member/billing.rb`; shared: `app/models/concerns/`.
 
-ActiveAdmin: `app/admin/`, DSL `lib/active_admin/`. Custom actions must authorize via `Ability`. UI: `DESIGN.md`.
+ActiveAdmin: `app/admin/`, DSL `config/initializers/active_admin_*` and `app/admin/components`. Custom actions must authorize via `Ability`. UI: `DESIGN.md`.
 
 Importmap, Turbo, Stimulus, Lucide, no-build CSS.
 
@@ -45,6 +45,14 @@ Copy: `TRANSLATIONS.md` and the `translations` skill. Never overwrite tenant-cus
 Leave `db/schema.rb`, `db/queue_schema.rb`, applied migrations, tenant SQLite files, credentials, and `config/tenant.yml` hosts alone unless that is the task. Do not re-enable `db:prepare` in `bin/docker-entrypoint`.
 
 Production deploys from `master` after CI via `.github/workflows/deploy.yml`. Tenant and queue migrations run in `.kamal/hooks/pre-deploy` on the new image.
+
+## Hot Cell
+
+Active Storage image processing runs in the `activestorage-hotcell` Kamal accessory (`config/deploy.yml`). Cell image inputs: `hotcell/`.
+
+- Dev: `bin/dev` starts the local process through `bin/hotcell-dev`.
+- Tests: `TestHotCellServer` (`test/support/hot_cell_server.rb`), started from `test/test_helper.rb`.
+- Deploy: `.github/workflows/deploy.yml` runs `bin/hotcell-release` before `bundle exec kamal deploy`. The script exits when that accessory is already running the current image; otherwise it builds, pushes, and boots or reboots it. `--force` rebuilds and reboots even when the tag is unchanged.
 
 ## Banking
 
