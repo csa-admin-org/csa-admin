@@ -169,13 +169,6 @@ module Tenant
     config.key?(tenant.to_s)
   end
 
-  def configured_hostnames(tenant)
-    attrs = config[tenant.to_s]
-    return [] unless attrs
-
-    [ attrs["admin_host"], attrs["members_host"] ].compact
-  end
-
   def configured_domain(tenant)
     admin_host = config.dig(tenant.to_s, "admin_host")
     PublicSuffix.parse(admin_host).domain if admin_host

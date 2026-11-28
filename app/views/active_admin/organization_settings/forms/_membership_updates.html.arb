@@ -8,6 +8,7 @@ context.instance_eval do
     f.input :membership_complements_update_allowed
     f.input :basket_update_limit_in_days, step: 1
     translated_input(f, :membership_update_texts,
+      hint: t("formtastic.hints.organization.membership_update_text"),
       as: :action_text,
       required: false)
   end

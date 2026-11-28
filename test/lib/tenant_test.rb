@@ -123,10 +123,8 @@ class TenantTest < ActiveSupport::TestCase
     with_env("TENANT" => nil) { Tenant.require_match! }
   end
 
-  test "configured_hostnames and configured_domain read tenant config" do
-    assert_equal %w[admin.acme.test members.acme.test], Tenant.configured_hostnames("acme")
+  test "configured_domain reads tenant config" do
     assert_equal "acme.test", Tenant.configured_domain("acme")
-    assert_equal [], Tenant.configured_hostnames("unknown")
     assert_nil Tenant.configured_domain("unknown")
   end
 

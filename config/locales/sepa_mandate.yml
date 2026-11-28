@@ -6,24 +6,6 @@ _:
       _de: Ich ermächtige %{creditor_name}, wiederkehrende Zahlungen von meinem Konto mittels SEPA-Lastschrift einzuziehen. Zugleich weise ich mein Kreditinstitut an, die von %{creditor_name} auf mein Konto gezogenen Lastschriften einzulösen.
       _it: La sottoscrizione del presente mandato comporta l'autorizzazione a %{creditor_name} a richiedere alla banca del debitore l'addebito del suo conto e l'autorizzazione alla banca di procedere a tale addebito conformemente alle disposizioni impartite da %{creditor_name}.
       _nl: Door ondertekening van dit formulier geef je toestemming aan %{creditor_name} om doorlopend incasso-opdrachten te sturen naar je bank om een bedrag van je rekening af te schrijven en aan je bank om doorlopend een bedrag van je rekening af te schrijven overeenkomstig de opdracht van %{creditor_name}.
-    creditor_identifier_line:
-      _en: 'Creditor Identifier: %{sepa_creditor_identifier}'
-      _fr: 'Identifiant créancier SEPA (ICS): %{sepa_creditor_identifier}'
-      _de: 'Gläubiger-Identifikationsnummer: %{sepa_creditor_identifier}'
-      _it: 'Identificativo del creditore SEPA: %{sepa_creditor_identifier}'
-      _nl: 'Incassant ID: %{sepa_creditor_identifier}'
-    creditor_line:
-      _en: 'Creditor: %{creditor_name}, %{creditor_street}, %{creditor_zip} %{creditor_city}'
-      _fr: 'Créancier: %{creditor_name}, %{creditor_street}, %{creditor_zip} %{creditor_city}'
-      _de: 'Zahlungsempfänger: %{creditor_name}, %{creditor_street}, %{creditor_zip} %{creditor_city}'
-      _it: 'Creditore: %{creditor_name}, %{creditor_street}, %{creditor_zip} %{creditor_city}'
-      _nl: 'Incassant: %{creditor_name}, %{creditor_street}, %{creditor_zip} %{creditor_city}'
-    mandate_reference_line:
-      _en: 'Mandate reference (UMR): %{sepa_mandate_id}'
-      _fr: 'Référence unique du mandat (RUM): %{sepa_mandate_id}'
-      _de: 'Mandatsreferenz: %{sepa_mandate_id}'
-      _it: 'Riferimento del mandato (UMR): %{sepa_mandate_id}'
-      _nl: 'Kenmerk machtiging: %{sepa_mandate_id}'
     pdf:
       creditor:
         _en: 'Creditor:'

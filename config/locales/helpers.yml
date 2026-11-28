@@ -158,12 +158,6 @@ _:
       _de: Nur Anteilschein
       _it: Solo quota sociale cooperativa
       _nl: Alleen coöperatief aandeel
-    none:
-      _en: None
-      _fr: Aucun
-      _de: Kein
-      _it: Nessuno
-      _nl: Geen
     price_per_delivery:
       _en: "%{price}/delivery"
       _fr: "%{price}/livraison"

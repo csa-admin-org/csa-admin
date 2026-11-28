@@ -13,24 +13,12 @@ _:
       _it: Tutte
       _nl: Alle
     period:
-      from_fy_month:
-        _en: From month
-        _fr: Du mois
-        _de: Von Monat
-        _it: Dal mese
-        _nl: Vanaf maand
       fy_months:
         _en: Months
         _fr: Mois
         _de: Monate
         _it: Mesi
         _nl: Maanden
-      to_fy_month:
-        _en: To month
-        _fr: Au mois
-        _de: Bis Monat
-        _it: Al mese
-        _nl: Tot maand
     results:
       all:
         _en: All

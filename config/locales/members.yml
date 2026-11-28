@@ -154,84 +154,6 @@ _:
           _de: Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
           _it: Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
           _nl: Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
-        notice/bag:
-          one:
-            _en: Shift your bag delivery during your absence.
-            _fr: Déplacer la livraison d'un sac durant votre absence.
-            _de: Verschiebe die Lieferung Deiner Tasche während Deiner Abwesenheit.
-            _it: Sposta la consegna della tua borsa durante la tua assenza.
-            _nl: Verschuif je taslevering tijdens je afwezigheid.
-          other:
-            _en: Shift your bag deliveries during your absence.
-            _fr: Déplacer la livraison de vos sacs durant votre absence.
-            _de: Verschiebe die Lieferungen Deiner Tasche während Deiner Abwesenheit.
-            _it: Sposta la consegna delle tue borse durante la tua assenza.
-            _nl: Verschuif je tasleveringen tijdens je afwezigheid.
-        notice/basket:
-          one:
-            _en: Shift your basket delivery during your absence.
-            _fr: Déplacer la livraison d'un panier durant votre absence.
-            _de: Verschiebe die Lieferung Deines Korbs während Deiner Abwesenheit.
-            _it: Sposta la consegna del tuo cesto durante la tua assenza.
-            _nl: Verschuif je mandlevering tijdens je afwezigheid.
-          other:
-            _en: Shift your basket deliveries during your absence.
-            _fr: Déplacer la livraison de vos paniers durant votre absence.
-            _de: Verschiebe die Lieferungen Deines Korbs während Deiner Abwesenheit.
-            _it: Sposta la consegna dei tuoi cestini durante la tua assenza.
-            _nl: Verschuif je mandleveringen tijdens je afwezigheid.
-        notice/cone:
-          one:
-            _en: Shift your cone delivery during your absence.
-            _fr: Déplacer la livraison d'un cornet durant votre absence.
-            _de: Verschiebe die Lieferung Deiner Tüte während Deiner Abwesenheit.
-            _it: Sposta la consegna del tuo cono durante la tua assenza.
-            _nl: Verschuif je zaklevering tijdens je afwezigheid.
-          other:
-            _en: Shift your cone deliveries during your absence.
-            _fr: Déplacer la livraison de vos cornets durant votre absence.
-            _de: Verschiebe die Lieferungen Deiner Tüte während Deiner Abwesenheit.
-            _it: Sposta la consegna dei tuoi coni durante la tua assenza.
-            _nl: Verschuif je zakleveringen tijdens je afwezigheid.
-        notice/crate:
-          one:
-            _en: Shift your crate delivery during your absence.
-            _fr: Déplacer la livraison d'une cagette durant votre absence.
-            _de: Verschiebe die Lieferung Deiner Kiste während Deiner Abwesenheit.
-            _it: Sposta la consegna della tua cassetta durante la tua assenza.
-            _nl: Verschuif je kratlevering tijdens je afwezigheid.
-          other:
-            _en: Shift your crate deliveries during your absence.
-            _fr: Déplacer la livraison de vos cagettes durant votre absence.
-            _de: Verschiebe die Lieferungen Deiner Kisten während Deiner Abwesenheit.
-            _it: Sposta la consegna delle tue cassette durante la tua assenza.
-            _nl: Verschuif je kratleveringen tijdens je afwezigheid.
-        notice/package:
-          one:
-            _en: Shift your package delivery during your absence.
-            _fr: Déplacer la livraison d'un colis durant votre absence.
-            _de: Verschiebe die Lieferung Deines Pakets während Deiner Abwesenheit.
-            _it: Sposta la consegna del tuo pacco durante la tua assenza.
-            _nl: Verschuif je pakketlevering tijdens je afwezigheid.
-          other:
-            _en: Shift your package deliveries during your absence.
-            _fr: Déplacer la livraison de vos colis durant votre absence.
-            _de: Verschiebe die Lieferungen Deines Pakets während Deiner Abwesenheit.
-            _it: Sposta la consegna dei tuoi pacchi durante la tua assenza.
-            _nl: Verschuif je pakketleveringen tijdens je afwezigheid.
-        notice/share:
-          one:
-            _en: Shift your share delivery during your absence.
-            _fr: Déplacer la livraison d'un part durant votre absence.
-            _de: Verschiebe die Lieferung Deines Anteils während Deiner Abwesenheit.
-            _it: Sposta la consegna della tua parte durante la tua assenza.
-            _nl: Verschuif je deellevering tijdens je afwezigheid.
-          other:
-            _en: Shift your share deliveries during your absence.
-            _fr: Déplacer la livraison de vos parts durant votre absence.
-            _de: Verschiebe die Lieferungen Deines Anteils während Deiner Abwesenheit.
-            _it: Sposta la consegna delle tue parti durante la tua assenza.
-            _nl: Verschuif je deelleveringen tijdens je afwezigheid.
       create:
         flash:
           notice:
@@ -557,30 +479,6 @@ _:
           _de: Sorry, momentan gibt es keine freie Arbeitsstunde.
           _it: Spiacenti, nessuna ora di lavoro è disponibile al momento.
           _nl: Sorry, er zijn momenteel geen werkuren beschikbaar.
-        no_activities_this_month/basket_preparation:
-          _en: No basket preparation this month.
-          _fr: Aucune mise en panier ce mois.
-          _de: In diesem Monat findet keine Taschenbefüllung statt.
-          _it: Nessuna preparazione di ceste questo mese
-          _nl: Geen pakketvoorbereiding deze maand.
-        no_activities_this_month/day_work:
-          _en: No workday this month.
-          _fr: Aucune journée de travail ce mois.
-          _de: In diesem Monat findet kein Arbeitstag statt.
-          _it: Nessun giorno di lavoro pianificato questo mese.
-          _nl: Geen werkdag deze maand.
-        no_activities_this_month/halfday_work:
-          _en: No ½ day this month.
-          _fr: Aucune ½ journée ce mois.
-          _de: In diesem Monat findet kein ½ Tag statt.
-          _it: Nessuna ½ giornata di lavoro pianificata questo mese
-          _nl: Geen ½ dag deze maand.
-        no_activities_this_month/hour_work:
-          _en: No work hour this month.
-          _fr: Aucune heure de travail ce mois.
-          _de: In diesem Monat findet keine Arbeitsstunde statt.
-          _it: Nessuna ora di lavoro pianificata questo mese
-          _nl: Geen werkuur deze maand.
         no_coming_activity_participations/basket_preparation:
           _en: No basket preparation available at the moment.
           _fr: Aucune mises en panier disponible pour le moment.
@@ -977,12 +875,6 @@ _:
           _de: Während Deiner Abwesenheit hast Du die Möglichkeit, die Lieferung Deines Anteils auf ein anderes Datum zu verschieben.
           _it: Durante la tua assenza, hai la possibilità di spostare la consegna della tua parte a un'altra data.
           _nl: Tijdens je afwezigheid heb je de mogelijkheid om de levering van je deel naar een andere datum te verplaatsen.
-        title:
-          _en: Delivery of %{date}
-          _fr: Livraison du %{date}
-          _de: Lieferung am %{date}
-          _it: Consegna il %{date}
-          _nl: Levering van %{date}
         title_html:
           _en: Delivery of %{date}
           _fr: Livraison du %{date}
@@ -1082,12 +974,6 @@ _:
           _de: Bearbeiten
           _it: Modifica
           _nl: Bewerken
-        title:
-          _en: Delivery of %{date}
-          _fr: Livraison du %{date}
-          _de: Lieferung am %{date}
-          _it: Consegna il %{date}
-          _nl: Levering van %{date}
         title_html:
           _en: Delivery of %{date}
           _fr: Livraison du %{date}
@@ -1217,42 +1103,6 @@ _:
           _nl: Terugbetaling
     calendars:
       show:
-        description/bag:
-          _en: Bag delivery calendar.
-          _fr: Calendrier des livraisons de sacs.
-          _de: Taschenlieferungskalender.
-          _it: Calendario delle consegne di borse.
-          _nl: Kalender voor tasleveringen.
-        description/basket:
-          _en: Basket delivery calendar.
-          _fr: Calendrier des livraisons de paniers.
-          _de: Korblieferungskalender.
-          _it: Calendario delle consegne di ceste.
-          _nl: Kalender voor mandleveringen.
-        description/cone:
-          _en: Cone delivery calendar.
-          _fr: Calendrier des livraisons de cornets.
-          _de: Tütenlieferungskalender.
-          _it: Calendario delle consegne di coni.
-          _nl: Kalender voor zakleveringen.
-        description/crate:
-          _en: Crate delivery calendar.
-          _fr: Calendrier des livraisons de cagettes.
-          _de: Kistenlieferungskalender.
-          _it: Calendario delle consegne di cassette.
-          _nl: Kalender voor kratleveringen.
-        description/package:
-          _en: Package delivery calendar.
-          _fr: Calendrier des livraisons de colis.
-          _de: Paketlieferungskalender.
-          _it: Calendario delle consegne di pacchi.
-          _nl: Kalender voor pakketleveringen.
-        description/share:
-          _en: Share delivery calendar.
-          _fr: Calendrier des livraisons de parts.
-          _de: Anteilslieferungskalender.
-          _it: Calendario delle consegne di parti.
-          _nl: Kalender voor deelleveringen.
         event:
           summary/bag:
             _en: Bag %{org_name}
@@ -1596,12 +1446,6 @@ _:
             _de: Du hast ausstehende Hofladen-Bestellungen.
             _it: Hai ordini in sospeso.
             _nl: Je hebt lopende winkelbestellingen.
-        reasons_title:
-          _en: Reasons
-          _fr: Raisons
-          _de: Gründe
-          _it: Motivi
-          _nl: Redenen
         request_code:
           _en: Request confirmation code
           _fr: Demander le code de confirmation
@@ -2205,19 +2049,6 @@ _:
           _de: Diese Aktion gilt nicht für einen Lohn-Korb.
           _it: Questa promozione non si applica a una cesta-compenso.
           _nl: Deze actie geldt niet voor een salarismand.
-      welcome:
-        text:
-          _en: Your registration will be confirmed in the coming days. We are at your disposal for any questions.
-          _fr: Votre inscription sera validée dans les jours à venir. Nous restons à votre disposition en cas de questions.
-          _de: Deine Anmeldung wird in den nächsten Tagen bestätigt. Bei Fragen stehen wir gerne zur Verfügung.
-          _it: L'iscrizione sarà confermata nei prossimi giorni. Restiamo a disposizione per qualsiasi necessità.
-          _nl: Je inschrijving wordt de komende dagen bevestigd. Wij staan tot je beschikking voor eventuele vragen.
-        title:
-          _en: Thank you for your registration!
-          _fr: Merci pour votre inscription!
-          _de: Vielen Dank für Deine Anmeldung!
-          _it: Grazie per l'iscrizione!
-          _nl: Dank je voor je inschrijving!
     membership_renewals:
       create:
         flash:
@@ -2662,12 +2493,6 @@ _:
           _de: Ich habe das obenstehende Mandat gelesen und ermächtige den Lastschrifteinzug.
           _it: Ho letto il mandato qui sopra e autorizzo l'addebito diretto.
           _nl: Ik heb de bovenstaande machtiging gelezen en geef toestemming voor de incasso.
-        current_mandate:
-          _en: Current mandate
-          _fr: Mandat en cours
-          _de: Aktuelles Mandat
-          _it: Mandato attuale
-          _nl: Huidige machtiging
         download_pdf:
           _en: Download mandate PDF
           _fr: Télécharger le PDF du mandat
@@ -2692,18 +2517,6 @@ _:
           _de: Zukünftige Rechnungen automatisch per SEPA-Lastschrift bezahlen.
           _it: Paga automaticamente le fatture future tramite addebito diretto SEPA.
           _nl: Betaal toekomstige facturen automatisch via SEPA-incasso.
-        not_accepted:
-          _en: You must accept the mandate to continue.
-          _fr: Vous devez accepter le mandat pour continuer.
-          _de: Das Mandat muss akzeptiert werden, um fortzufahren.
-          _it: Per continuare è necessario accettare il mandato.
-          _nl: Om verder te gaan, moet de machtiging worden geaccepteerd.
-        replace_iban_title:
-          _en: Replace IBAN
-          _fr: Remplacer l'IBAN
-          _de: IBAN ersetzen
-          _it: Sostituire l'IBAN
-          _nl: IBAN vervangen
         setup_link:
           _en: Set up SEPA direct debit
           _fr: Configurer le prélèvement SEPA
@@ -2743,12 +2556,6 @@ _:
           _de: Zurück zum Konto
           _it: Torna all'account
           _nl: Terug naar je account
-        email_input:
-          _en: Your email
-          _fr: Votre email
-          _de: Deine E-Mail
-          _it: La tua e-mail
-          _nl: Je e-mail
         email_placeholder:
           _en: your@email.com
           _fr: votre@email.com

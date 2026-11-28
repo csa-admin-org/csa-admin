@@ -297,14 +297,6 @@ module BasketContentsHelper
     unit == "pc" ? basket_content_unit_suffix(unit) : "kg"
   end
 
-  def basket_content_form_percentages(basket_content)
-    if basket_content.basket_size_ids.any?
-      basket_content.basket_size_ids_percentages
-    else
-      basket_content.basket_size_ids_percentages_pro_rated
-    end
-  end
-
   FEATURED_PRODUCT_LIMIT = 8
 
   def basket_content_products_collection(featured: false)

@@ -1010,12 +1010,6 @@ _:
         _de: 'Hier sind die Details Deines Abonnements:'
         _it: 'Ecco i dettagli del tuo abbonamento:'
         _nl: 'Hier zijn de details van je lidmaatschap:'
-      sepa_mandate_button:
-        _en: Sign SEPA mandate
-        _fr: Signer le mandat SEPA
-        _de: SEPA-Mandat unterzeichnen
-        _it: Firma il mandato SEPA
-        _nl: SEPA-machtiging ondertekenen
       sepa_mandate_paragraph:
         _en: If you wish to pay your invoices via SEPA direct debit, please <a href="{{ member.new_sepa_mandate_url }}">sign the mandate on the dedicated page</a>.
         _fr: Si vous souhaitez payer vos factures par prélèvement SEPA, merci de <a href="{{ member.new_sepa_mandate_url }}">signer le mandat depuis la page dédiée</a>.
@@ -1120,12 +1114,6 @@ _:
         _de: Deine Anmeldung wurde erhalten und bestätigt.
         _it: La tua iscrizione è stata ricevuta e confermata.
         _nl: Je registratie is ontvangen en bevestigd.
-      sepa_mandate_button:
-        _en: Sign SEPA mandate
-        _fr: Signer le mandat SEPA
-        _de: SEPA-Mandat unterzeichnen
-        _it: Firma il mandato SEPA
-        _nl: SEPA-machtiging ondertekenen
       sepa_mandate_paragraph:
         _en: If you wish to pay your invoices via SEPA direct debit, please <a href="{{ member.new_sepa_mandate_url }}">sign the mandate on the dedicated page</a>.
         _fr: Si vous souhaitez payer vos factures par prélèvement SEPA, merci de <a href="{{ member.new_sepa_mandate_url }}">signer le mandat depuis la page dédiée</a>.

@@ -45,10 +45,6 @@ module Billing
           h005? && profile == :standard
         end
 
-        def key_management_h005?
-          h005? && profile == :key_management
-        end
-
         def schema_valid?
           return false unless h005?
 
